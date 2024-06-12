@@ -1020,9 +1020,15 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   }
 
-  function submitMarkingCriteriaFeedback(question, markingCriteriaRequest) {
-    if (markingCriteriaFeedback.id) {
-      updateFeedback(submission.id, markingCriteriaFeedback.id, {
+  function submitMarkingCriteriaFeedback(
+    question,
+    markingCriteriaRequest,
+    QuestionIndex
+  ) {
+    console.log('markingCriteriaFeedback.id:', markingCriteriaFeedback);
+    if (markingCriteriaFeedback[QuestionIndex]?.id) {
+      console.log('Update', markingCriteriaFeedback[QuestionIndex].id);
+      updateFeedback(submission.id, markingCriteriaFeedback[QuestionIndex].id, {
         questionSerialNumber: question.serialNumber,
         feedback: 'Marking Criteria Feedback',
         range: { from: 0, to: 0 },
@@ -1030,9 +1036,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         replies: [],
         markingCriteria: markingCriteriaRequest,
         sharedWithStudents: [],
-      }).then((response) => {
-        console.log('response', response);
-      });
+      })
+        .then((response) => {
+          console.log('response', response);
+        })
+        .catch((error) => {
+          console.error('Error in updateFeedback:', error);
+        });
     }
     return addFeedback(submission.id, {
       questionSerialNumber: question.serialNumber,
@@ -1422,40 +1432,43 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }
 
-  function handleMarkingCriteriaLevelFeedback(
-    questionSerialNumber,
-    criteriaSerialNumber,
-    selectedLevel
-  ) {
-    const updatedSubmission = {
-      ...submission,
-      assignment: {
-        ...submission.assignment,
-        questions: submission.assignment.questions.map((question, index) => {
-          if (index === questionSerialNumber - 1) {
-            return {
-              ...question,
-              markingCriteria: {
-                ...question.markingCriteria,
-                criterias: question.markingCriteria.criterias.map(
-                  (criteria, criteriaIndex) => {
-                    if (criteriaIndex === criteriaSerialNumber) {
-                      return {
-                        ...criteria,
-                        selectedLevel: selectedLevel,
-                      };
-                    }
-                    return criteria;
-                  }
-                ),
-              },
-            };
-          }
-          return question;
-        }),
-      },
-    };
-    setSubmission(updatedSubmission);
+  function handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria) {
+    // const updatedSubmission = {
+    //   ...submission,
+    //   assignment: {
+    //     ...submission.assignment,
+    //     questions: submission.assignment.questions.map((question, index) => {
+    //       if (index === questionSerialNumber - 1) {
+    //         return {
+    //           ...question,
+    //           markingCriteria: {
+    //             ...question.markingCriteria,
+    //             criterias: question.markingCriteria.criterias.map(
+    //               (criteria, criteriaIndex) => {
+    //                 if (criteriaIndex === criteriaSerialNumber) {
+    //                   return {
+    //                     ...criteria,
+    //                     selectedLevel: selectedLevel,
+    //                   };
+    //                 }
+    //                 return criteria;
+    //               }
+    //             ),
+    //           },
+    //         };
+    //       }
+    //       return question;
+    //     }),
+    //   },
+    // };
+    // setSubmission(updatedSubmission);
+    const currentQuestion = submission.assignment.questions[QuestionIndex];
+
+    submitMarkingCriteriaFeedback(
+      currentQuestion,
+      markingCriteria,
+      QuestionIndex
+    );
   }
 
   const handleStrengthsTargetsFeedback = (
@@ -1494,7 +1507,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     //   }
     //   return newState;
     // });
-    submitMarkingCriteriaFeedback(currentQuestion, markingCriteriaRequest);
+    submitMarkingCriteriaFeedback(
+      currentQuestion,
+      markingCriteriaRequest,
+      QuestionIndex
+    );
   };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);

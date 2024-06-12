@@ -23,13 +23,15 @@ export default function MarkingCriteriaFeedback(props) {
   const {
     markingCriteria,
     questionSerialNumber,
-    handleMarkingCriteriaLevelFeedback,
+    // handleMarkingCriteriaLevelFeedback,
+    handleRubricsChange,
     pageMode,
   } = props;
 
   return rubricMarkingCriteriaComponent(
     markingCriteria,
-    handleMarkingCriteriaLevelFeedback,
+    // handleMarkingCriteriaLevelFeedback,
+    handleRubricsChange,
     questionSerialNumber,
     pageMode
   );
@@ -43,7 +45,8 @@ const createRubricsHeading = (criterias) => {
 
 const createRubricsLevels = (
   criterias,
-  handleMarkingCriteriaLevelFeedback,
+  // handleMarkingCriteriaLevelFeedback,
+  handleRubricsChange,
   questionSerialNumber,
   pageMode
 ) => {
@@ -74,7 +77,8 @@ const createRubricsLevels = (
       <MarkingCriteriaBody>
         {createRows(
           rowItems,
-          handleMarkingCriteriaLevelFeedback,
+          // handleMarkingCriteriaLevelFeedback,
+          handleRubricsChange,
           questionSerialNumber,
           pageMode
         )}
@@ -85,7 +89,8 @@ const createRubricsLevels = (
 
 const createRows = (
   items,
-  handleMarkingCriteriaLevelFeedback,
+  // handleMarkingCriteriaLevelFeedback,
+  handleRubricsChange,
   questionSerialNumber,
   pageMode
 ) => {
@@ -97,8 +102,7 @@ const createRows = (
       onClick={
         isAllowGiveMarkingCriteriaFeedback(pageMode)
           ? () =>
-              handleMarkingCriteriaLevelFeedback(
-                questionSerialNumber,
+              handleRubricsChange(
                 item.criteriaIndex,
                 item.levelName
               )
@@ -120,7 +124,8 @@ const createRows = (
 
 const rubricMarkingCriteriaComponent = (
   markingCriteria,
-  handleMarkingCriteriaLevelFeedback,
+  // handleMarkingCriteriaLevelFeedback,
+  handleRubricsChange,
   questionSerialNumber,
   pageMode
 ) => {
@@ -142,7 +147,8 @@ const rubricMarkingCriteriaComponent = (
           </CriteriaHeadingContainer>
           {createRubricsLevels(
             markingCriteria.criterias,
-            handleMarkingCriteriaLevelFeedback,
+            // handleMarkingCriteriaLevelFeedback,
+            handleRubricsChange,
             questionSerialNumber,
             pageMode
           )}

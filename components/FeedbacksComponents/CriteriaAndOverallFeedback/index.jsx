@@ -106,7 +106,7 @@ const CriteriaAndOverallFeedback = ({
     const markingCriteria =
       submission?.assignment?.questions[QuestionIndex].markingCriteria;
     setMarkingCriteria(markingCriteria);
-    if (markingCriteriaFeedback) {
+    if (markingCriteriaFeedback[QuestionIndex]?.id) {
       setMarkingCriteria(
         markingCriteriaFeedback[QuestionIndex]?.markingCriteria
       );
@@ -124,6 +124,25 @@ const CriteriaAndOverallFeedback = ({
     if (allowedChars.test(event.target.value)) {
       setInputValue(event.target.value);
     }
+  };
+
+  const handleRubricsChange = (criteriaSerialNumber, selectedLevel) => {
+    console.log('markingCriteria', markingCriteria);
+    setMarkingCriteria((prevMarkingCriteria) => ({
+      ...prevMarkingCriteria,
+      criterias: prevMarkingCriteria.criterias.map(
+        (criteria, criteriaIndex) => {
+          if (criteriaIndex === criteriaSerialNumber) {
+            return {
+              ...criteria,
+              selectedLevel: selectedLevel,
+            };
+          }
+          return criteria;
+        }
+      ),
+    }));
+    console.log('markingCriteria', markingCriteria);
   };
 
   const handleStrengthndTargetChange = (strengthsAndTargets, index, type) => {
@@ -176,6 +195,16 @@ const CriteriaAndOverallFeedback = ({
 
   const saveMarkingCrieria = () => {
     if (isMarkingCriteriaTypeRubric(markingCriteria?.type)) {
+      const allCriteriaHaveLevels = markingCriteria.criterias.every(
+        (criteria) =>
+          criteria.selectedLevel !== null &&
+          criteria.selectedLevel !== undefined
+      );
+      if (!allCriteriaHaveLevels) {
+        console.log('Please ensure all criteria have a selected level.');
+        return;
+      }
+      handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria);
     } else {
       if (selectedStrengths.length === 0) {
         console.log('please select at least one strength');
@@ -230,9 +259,7 @@ const CriteriaAndOverallFeedback = ({
             {isMarkingCriteriaTypeRubric(markingCriteria?.type) ? (
               <MarkingCriteriaFeedback
                 markingCriteria={markingCriteria}
-                handleMarkingCriteriaLevelFeedback={
-                  handleMarkingCriteriaLevelFeedback
-                }
+                handleRubricsChange={handleRubricsChange}
                 questionSerialNumber={questionSerialNumber}
                 pageMode={pageMode}
               />
@@ -316,7 +343,9 @@ const CriteriaAndOverallFeedback = ({
                   <RubricButton
                     onClick={() => setShowMarkingCrteriaPopUp(true)}
                   >
-                    Expand
+                    {markingCriteriaFeedback[QuestionIndex]?.id
+                      ? 'Update'
+                      : 'Expand'}
                   </RubricButton>
                 </MarkingCriteriaHeadingContainer>
               </MarkingCriteriaContainer>

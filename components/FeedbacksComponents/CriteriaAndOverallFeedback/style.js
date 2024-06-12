@@ -488,6 +488,7 @@ export const SaveButton = styled.div`
   padding: 8px 12px;
   border-radius: 32px;
   background: var(--color-purple-300, #7200e0);
+  cursor: pointer;
 `;
 export const SaveButtonText = styled.p`
   font-family: IBM Plex Sans;

@@ -15,6 +15,7 @@ const FeedbackRightSidebar = ({
   pageMode,
   isTeacher,
   submission,
+  QuestionIndex
 }) => {
   const { overallComments, markingCriteriaFeedback } =
     useContext(FeedbackContext);
@@ -36,7 +37,7 @@ const FeedbackRightSidebar = ({
             />
           </Button>
         )}
-        {isShowMarkingCriteriaButton(isTeacher, submission.type, submission.status, overallComments, markingCriteriaFeedback) && (
+        {isShowMarkingCriteriaButton(isTeacher, submission.type, submission.status, overallComments, QuestionIndex, markingCriteriaFeedback) && (
           <Button
             isActive={openRightPanel === 'tab2'}
             onClick={() => handleClick('tab2')}

@@ -175,6 +175,7 @@ const CriteriaAndOverallFeedback = ({
   };
 
   console.log('the marking criteria is', markingCriteriaFeedback)
+  console.log('the overall feedback', overallComments)
 
   const MarkingCriteriaPopContainer = ({
     markingCriteria,

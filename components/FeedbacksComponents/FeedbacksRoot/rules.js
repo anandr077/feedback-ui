@@ -75,7 +75,7 @@ export const isShowOverallFeedbackHeadline = (pageMode, overallComment, reviewer
   if(markingCriteriaFeedback?.length === 0){
     return false
   }
-  if (overallComment === null || overallComment === undefined) {
+  if ((overallComment === null || overallComment === undefined) && pageMode !== 'REVIEW') {
     return false;
   }
   if (pageMode === "CLOSED" && reviewer !== userId) {
@@ -96,9 +96,13 @@ export const isShowMarkingCriteriaButton = (
   submissionType,
   submissionStatus,
   overallComments, 
+  QuestionIndex,
   markingCriteriaFeedback
 ) => {
-  const areCommentsAndFeedbackEmpty = overallComments.length === 0 && markingCriteriaFeedback.length === 0;
+  const areCommentsAndFeedbackEmpty = 
+    ((!overallComments[QuestionIndex]?.audio && 
+    !overallComments[QuestionIndex]?.video)) && 
+    markingCriteriaFeedback?.length === 0;
 
   if ((submissionStatus === 'REVIEWED' || submissionStatus === 'CLOSED') && areCommentsAndFeedbackEmpty) {
     return false;

@@ -652,6 +652,7 @@ function answersAndFeedbacks(
               pageMode={pageMode}
               isTeacher={isTeacher}
               submission={submission}
+              QuestionIndex={QuestionIndex}
             />
           </>
       </FeedbackBody>

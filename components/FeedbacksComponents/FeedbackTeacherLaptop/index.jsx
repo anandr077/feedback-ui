@@ -101,9 +101,9 @@ function FeedbackTeacherLaptop(props) {
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 219;
-  const { countWords, showNewComment, newCommentSerialNumber, overallComments, markingCriteriaFeedback } =
+  const { countWords, showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
-  const [openRightPanel, SetOpenRightPanel] = React.useState(overallComments?.length !== 0 || markingCriteriaFeedback?.length !== 0 ? 'tab2' : 'tab1');
+  const [openRightPanel, SetOpenRightPanel] = React.useState('');
 
   React.useEffect(() => {
     let dataToUse = submission.otherDrafts || [];
@@ -208,17 +208,12 @@ function FeedbackTeacherLaptop(props) {
 
   React.useEffect(() => {
     const documentsRoute = location.pathname.includes('documents');
-    const submissionsRoute = location.pathname.includes('submissions');
     const documentReviewRoute = location.pathname.includes('documentsReview');
     const role = getUserRole();
 
-    const isOpen =
-      (role === 'TEACHER' && submissionsRoute) ||
-      (role === 'STUDENT' && documentsRoute);
-
     const isStudentReviewRoute = documentReviewRoute && role === 'STUDENT';
 
-    setOpenLefPanel(!isStudentReviewRoute && isOpen);
+    setOpenLefPanel(!isStudentReviewRoute && documentsRoute);
   }, [location.pathname]);
 
   const handleCheckboxChange = (serialNumber, focusAreaId) => {
@@ -599,7 +594,8 @@ function answersAndFeedbacks(
             newCommentFrameRef,
             share,
             isFeedback,
-            isFocusAreas
+            isFocusAreas,
+            openLeftPanel
           )}
 
           {/* {!isMobile && (
@@ -652,6 +648,7 @@ function answersAndFeedbacks(
               pageMode={pageMode}
               isTeacher={isTeacher}
               submission={submission}
+              QuestionIndex={QuestionIndex}
             />
           </>
       </FeedbackBody>

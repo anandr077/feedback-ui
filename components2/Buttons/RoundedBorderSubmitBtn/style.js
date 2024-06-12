@@ -16,10 +16,15 @@ export const ButtonContainer = styled.button`
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  gap: 5px;
+  gap: 7px;
   cursor: pointer;
 
   :hover {
     background-color: rgba(80, 0, 157, 1);
   }
+`;
+
+export const LeftImage = styled.img`
+  width: 25px;
+  height: 25px;
 `;

@@ -904,8 +904,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     let valid = true;
 
     submission.assignment.questions.some((question, index) => {
-      console.log('question', question);
-
       if (question?.markingCriteria?.criterias) {
         let criterias = question.markingCriteria.criterias;
         if (markingCriteriaFeedback.length !== 0) {
@@ -917,20 +915,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
             criterias = submitedMarkingCriteria?.markingCriteria?.criterias;
           }
         }
-        // const allCriteriaHaveLevels = criterias.every(
-        //   (criteria) =>
-        //     criteria.selectedLevel !== null &&
-        //     criteria.selectedLevel !== undefined
-        // );
 
         if (!allCriteriaHaveSelectedLevels(criterias)) {
           valid = false;
-          // showSnackbar(
-          //   'Please Select Marking Criteria for ' + question.serialNumber
-          // );
-          console.log(
+          showSnackbar(
             'Please Select Marking Criteria for ' + question.serialNumber
           );
+
           return true;
         }
       }
@@ -961,10 +952,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedSAndT.selectedTargets.length === 0
         ) {
           valid = false;
-          // showSnackbar(
-          //   'Please Select Marking Criteria for ' + question.serialNumber
-          // );
-          console.log(
+          showSnackbar(
             'Please Select Marking Criteria for ' + question.serialNumber
           );
           return true;
@@ -1005,32 +993,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }
 
-  function submitMarkingCriteriaInputs(question) {
-    console.log('first SubmitMarkingCriteria', question);
-    if (question.markingCriteria?.title != '') {
-      if (question.markingCriteria?.criterias) {
-        const markingCriteriaRequest = question.markingCriteria;
-        // return submitMarkingCriteriaFeedback(question, markingCriteriaRequest);
-      }
-      if (question.markingCriteria?.strengthsTargetsCriterias) {
-        const markingCriteriaRequest = question.markingCriteria;
-        console.log('first parameter', markingCriteriaRequest);
-        const selectedStrengths = get(
-          newMarkingCriterias,
-          `${question.serialNumber}.selectedStrengths`
-        );
-        const selectedTargets = get(
-          newMarkingCriterias,
-          `${question.serialNumber}.selectedTargets`
-        );
-        // markingCriteriaRequest.selectedStrengths =
-        //   convertToSelectedAttribute(selectedStrengths);
-        // markingCriteriaRequest.selectedTargets =
-        //   convertToSelectedAttribute(selectedTargets);
-        // submitMarkingCriteriaFeedback(question, markingCriteriaRequest);
-      }
-    }
-  }
   function submitReview() {
     markSubmsissionReviewed(submission.id).then((_) => {
       queryClient.invalidateQueries(['notifications']);
@@ -1093,34 +1055,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setMethodToCall(null);
     setPopupText('');
     if (validateMarkingCriteria()) {
-      // submission.assignment.questions.map((question) => {
-      //   if (
-      //     question.markingCriteria?.title != '' &&
-      //     question.markingCriteria.criterias
-      //   ) {
-      //     const markingCriteriaRequest = question.markingCriteria;
-      //     addFeedback(submission.id, {
-      //       questionSerialNumber: question.serialNumber,
-      //       feedback: 'Marking Criteria Feedback',
-      //       range: { from: 0, to: 0 },
-      //       type: 'MARKING_CRITERIA',
-      //       replies: [],
-      //       markingCriteria: markingCriteriaRequest,
-      //       sharedWithStudents: [],
-      //     }).then((response) => {
-      //       queryClient.invalidateQueries(['notifications']);
-      //       queryClient.invalidateQueries(['tasks']);
-      //       queryClient.invalidateQueries(['assignments']);
-      //       queryClient.invalidateQueries((queryKey) => {
-      //         return queryKey.includes('class');
-      //       });
-      //       showSnackbar('Resubmission requested...', window.location.href);
-      //       window.location.href = '/#';
-      //       setShowLoader(false);
-      //     });
-      //   }
-      // });
-
       markSubmissionRequestSubmission(submission.id).then((_) => {
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
@@ -1502,17 +1436,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     selectedStrengths,
     selectedTargets
   ) => {
-    console.log(
-      'selectedArray',
-      QuestionIndex,
-      selectedStrengths,
-      selectedTargets
-    );
     const currentQuestion = submission.assignment.questions[QuestionIndex];
-    console.log('firstQuestion', currentQuestion);
 
     const markingCriteriaRequest = currentQuestion.markingCriteria;
-    console.log('first parameter', markingCriteriaRequest);
+
     markingCriteriaRequest.selectedStrengths =
       convertToSelectedAttribute(selectedStrengths);
     markingCriteriaRequest.selectedTargets =
@@ -1532,22 +1459,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
       return updatedMarkingCriterias;
     });
-    console.log('markingCriteriaRequest', markingCriteriaRequest);
-    // const criteriaType = index === 2 ? 'target' : 'strength';
-    // const criteriaIndex = index === 2 ? 0 : index;
-    // setNewMarkingCriterias((prevState) => {
-    //   const label = value.heading;
-    //   let newState = cloneDeep(prevState);
-    //   let path = `${questionSerialNumber}.${
-    //     criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'
-    //   }[${value.name}]`;
-    //   if (has(newState, path)) {
-    //     newState = unset(newState, path);
-    //   } else {
-    //     newState = set(newState, path, { label, value });
-    //   }
-    //   return newState;
-    // });
+
     submitMarkingCriteriaFeedback(
       currentQuestion,
       markingCriteriaRequest,

@@ -206,13 +206,9 @@ const CriteriaAndOverallFeedback = ({
 
   const saveMarkingCrieria = () => {
     if (isMarkingCriteriaTypeRubric(markingCriteria?.type)) {
-      // const allCriteriaHaveLevels = markingCriteria.criterias.every(
-      //   (criteria) =>
-      //     criteria.selectedLevel !== null &&
-      //     criteria.selectedLevel !== undefined
-      // );
       if (!allCriteriaHaveSelectedLevels(markingCriteria?.criterias)) {
         console.log('Please ensure all criteria have a selected level.');
+        showSnackbar('Please ensure all criteria have a selected level.');
         return;
       }
       setShowMarkingCrteriaPopUp(false);
@@ -221,10 +217,12 @@ const CriteriaAndOverallFeedback = ({
     } else {
       if (selectedStrengths.length === 0) {
         console.log('please select at least one strength');
+        showSnackbar('please select at least one strength');
         return;
       }
       if (selectedTargets.length === 0) {
         console.log('please select at least one target');
+        showSnackbar('please select at least one target ');
         return;
       }
       setShowMarkingCrteriaPopUp(false);

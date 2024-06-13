@@ -81,7 +81,10 @@ export const isShowOverallFeedbackHeadline = (
   if (markingCriteriaFeedback?.length === 0) {
     return false;
   }
-  if (overallComment === null || overallComment === undefined) {
+  if (
+    (overallComment === null || overallComment === undefined) &&
+    pageMode !== 'REVIEW'
+  ) {
     return false;
   }
   if (pageMode === 'CLOSED' && reviewer !== userId) {
@@ -106,10 +109,13 @@ export const isShowMarkingCriteriaButton = (
   submissionType,
   submissionStatus,
   overallComments,
+  QuestionIndex,
   markingCriteriaFeedback
 ) => {
   const areCommentsAndFeedbackEmpty =
-    overallComments.length === 0 && markingCriteriaFeedback.length === 0;
+    !overallComments[QuestionIndex]?.audio &&
+    !overallComments[QuestionIndex]?.video &&
+    markingCriteriaFeedback?.length === 0;
 
   if (
     (submissionStatus === 'REVIEWED' || submissionStatus === 'CLOSED') &&
@@ -135,8 +141,11 @@ export const isShowClosedReviewOverallTextInputBox = (pageMode) => {
   return pageMode === 'REVIEW';
 };
 
-export const isShowMarkingCriteriaSection = (markingCriteriaFeedback) => {
-  return markingCriteriaFeedback?.length !== 0;
+export const isShowMarkingCriteriaSection = (
+  markingCriteriaFeedback,
+  pageMode
+) => {
+  return markingCriteriaFeedback?.length !== 0 || pageMode === 'REVIEW';
 };
 
 export const isShowClosedReviewOverallComment = (

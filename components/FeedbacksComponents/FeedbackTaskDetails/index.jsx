@@ -51,7 +51,7 @@ const FeedbackTaskDetails = ({
             {isMarkingCriteriaType(question?.markingCriteria?.type)}
           </div>
         )}
-        {isShowFeedbackBy(submission?.assignment.teacherName) && (
+        {isShowFeedbackBy(submission?.reviewerName) && (
           <div>
             <span>Feedback By : </span>
             {submission?.reviewerName}

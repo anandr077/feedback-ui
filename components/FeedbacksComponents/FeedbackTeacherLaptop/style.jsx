@@ -450,10 +450,13 @@ export const Frame1367 = styled.div`
   position: absolute;
   left: 50%;
   transform: ${(props) =>
-    props.moveToLeft
-      ? 'translateX(calc(-50% - 350px))'
-      : 'translateX(calc(-50% - 210px))'};
-  transition: transform 0.3s ease;
+    props.moveRight
+      ? 'translateX(-545px)'
+      : props.moveToLeft
+        ? 'translateX(calc(-50% - 350px))'
+        : 'translateX(calc(-50% - 210px))'
+  };
+  transition: transform 0.3s ease-in;
   height: 100%;
   width: 650px;
   margin: 20px;

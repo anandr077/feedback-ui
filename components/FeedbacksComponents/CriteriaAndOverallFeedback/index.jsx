@@ -241,6 +241,9 @@ const CriteriaAndOverallFeedback = ({
     handleMarkingCriteriaLevelFeedback(QuestionIndex + 1, index, name);
   };
 
+  console.log('the marking criteria is', markingCriteriaFeedback)
+  console.log('the overall feedback', overallComments)
+
   const MarkingCriteriaPopContainer = ({
     markingCriteria,
     setShowMarkingCrteriaPopUp,
@@ -317,7 +320,7 @@ const CriteriaAndOverallFeedback = ({
       )}
       <MainContainer openRightPanel={openRightPanel}>
         <Heading>
-          {isShowMarkingCriteriaSection(markingCriteria) ? (
+            {isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) ? (
             <HeadingTitle>
               Assessment Criteria
               <img src={QuestionIcon} />
@@ -336,7 +339,7 @@ const CriteriaAndOverallFeedback = ({
           )}
         </Heading>
         <Body>
-          {isShowMarkingCriteriaSection(markingCriteria) && (
+          {isShowMarkingCriteriaSection(markingCriteria, pageMode) && (
             <>
               <MarkingCriteriaMainHeadingContainer>
                 <MarkingCriteriaMainHeading>
@@ -394,9 +397,9 @@ const CriteriaAndOverallFeedback = ({
                 <img src={TickMark} />
               </HeadingDropdown>
               {openRightPanel === 'tab2' &&
-                !isShowMarkingCriteriaSection(markingCriteriaFeedback) && (
-                  <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
-                )}
+              !isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) && (
+                <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
+              )}
             </Heading>
           )}
           <OverallFeedbackContainer>

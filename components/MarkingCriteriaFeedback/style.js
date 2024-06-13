@@ -34,7 +34,7 @@ export const MarkingCriteriaBody = styled.tr`
 
 export const MarkingCriteriaBodyRow = styled.td`
   display: flex;
-  flex: 1 1 0;
+  flex: 0 0 50%;
   padding: 8px;
   flex-direction: column;
   align-self: stretch;

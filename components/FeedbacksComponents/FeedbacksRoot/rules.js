@@ -71,17 +71,23 @@ export const isShowFullCommentBankText = (comment, selectedComment) => {
   return false;
 };
 
-export const isShowOverallFeedbackHeadline = (pageMode, overallComment, reviewer, userId, markingCriteriaFeedback) => {
-  if(markingCriteriaFeedback?.length === 0){
-    return false
+export const isShowOverallFeedbackHeadline = (
+  pageMode,
+  overallComment,
+  reviewer,
+  userId,
+  markingCriteriaFeedback
+) => {
+  if (markingCriteriaFeedback?.length === 0) {
+    return false;
   }
   if (overallComment === null || overallComment === undefined) {
     return false;
   }
-  if (pageMode === "CLOSED" && reviewer !== userId) {
+  if (pageMode === 'CLOSED' && reviewer !== userId) {
     return false;
   }
-  if (pageMode === "DRAFT") {
+  if (pageMode === 'DRAFT') {
     return false;
   }
   return true;
@@ -99,12 +105,16 @@ export const isShowMarkingCriteriaButton = (
   isTeacher,
   submissionType,
   submissionStatus,
-  overallComments, 
+  overallComments,
   markingCriteriaFeedback
 ) => {
-  const areCommentsAndFeedbackEmpty = overallComments.length === 0 && markingCriteriaFeedback.length === 0;
+  const areCommentsAndFeedbackEmpty =
+    overallComments.length === 0 && markingCriteriaFeedback.length === 0;
 
-  if ((submissionStatus === 'REVIEWED' || submissionStatus === 'CLOSED') && areCommentsAndFeedbackEmpty) {
+  if (
+    (submissionStatus === 'REVIEWED' || submissionStatus === 'CLOSED') &&
+    areCommentsAndFeedbackEmpty
+  ) {
     return false;
   }
 
@@ -121,37 +131,53 @@ export const isShowOverAllTextFeedback = (pageMode, overallComment) => {
   return pageMode === 'REVIEW' || overallComment != null;
 };
 
+export const isShowClosedReviewOverallTextInputBox = (pageMode) => {
+  return pageMode === 'REVIEW';
+};
 
-export const isShowClosedReviewOverallTextInputBox = (pageMode) =>{
-  return pageMode === "REVIEW";
-}
+export const isShowMarkingCriteriaSection = (markingCriteriaFeedback) => {
+  return markingCriteriaFeedback?.length !== 0;
+};
 
-export const isShowMarkingCriteriaSection = (markingCriteriaFeedback) =>{
-   return markingCriteriaFeedback?.length !== 0;
-}
-
-export const isShowClosedReviewOverallComment = (pageMode, overallComment, reviewer, user) =>{
+export const isShowClosedReviewOverallComment = (
+  pageMode,
+  overallComment,
+  reviewer,
+  user
+) => {
   if (overallComment === null || overallComment === undefined) {
     return false;
   }
-  if (pageMode === "REVISE") {
+  if (pageMode === 'REVISE') {
     return true;
   }
-  if (pageMode === "CLOSED" && reviewer !== user) {
+  if (pageMode === 'CLOSED' && reviewer !== user) {
     return false;
   }
   return true;
-}
+};
 
-export const isShowClosedReviewAudioComment = (pageMode, audio, reviewer, user) =>{
+export const isShowClosedReviewAudioComment = (
+  pageMode,
+  audio,
+  reviewer,
+  user
+) => {
   if (audio === null || audio === undefined) {
     return false;
   }
-  if (pageMode === "REVISE") {
+  if (pageMode === 'REVISE') {
     return true;
   }
-  if (pageMode === "CLOSED" && reviewer !== user) {
+  if (pageMode === 'CLOSED' && reviewer !== user) {
     return false;
   }
   return true;
-}
+};
+
+export const allCriteriaHaveSelectedLevels = (criterias) => {
+  return criterias?.every(
+    (criteria) =>
+      criteria.selectedLevel !== null && criteria.selectedLevel !== undefined
+  );
+};

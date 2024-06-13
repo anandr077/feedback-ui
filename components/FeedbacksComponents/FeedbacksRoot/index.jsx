@@ -72,6 +72,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
 import { isNullOrEmpty } from '../../../utils/arrays.js';
 import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
 import isJeddAIUser from './JeddAi.js';
+import { allCriteriaHaveSelectedLevels } from './rules.js';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -110,7 +111,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
-  const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
+  const [newMarkingCriterias, setNewMarkingCriterias] = useState([]);
   const [overallComments, setOverallComments] = useState([]);
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
@@ -900,27 +901,78 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   const validateMarkingCriteria = () => {
-    let invalid = true;
-    if (
-      submission.assignment.questions.markingCriteria === undefined ||
-      submission.assignment.questions.markingCriteria === null
-    ) {
-      return true;
-    }
-    submission.assignment.questions.map((question) => {
-      if (
-        (question?.markingCriteria?.title != '' &&
-          question?.markingCriteria?.criterias) ||
-        question.markingCriteria?.strengthsTargetsCriterias
-      ) {
-        question.markingCriteria?.criterias?.map((criteria) => {
-          if (!criteria.selectedLevel) {
-            criteria.selectedLevel = criteria.levels[0].name;
+    let valid = true;
+
+    submission.assignment.questions.some((question, index) => {
+      console.log('question', question);
+
+      if (question?.markingCriteria?.criterias) {
+        let criterias = question.markingCriteria.criterias;
+        if (markingCriteriaFeedback.length !== 0) {
+          let submitedMarkingCriteria = markingCriteriaFeedback.find(
+            (markingCriteria) =>
+              markingCriteria?.questionSerialNumber === index + 1
+          );
+          if (submitedMarkingCriteria) {
+            criterias = submitedMarkingCriteria?.markingCriteria?.criterias;
           }
-        });
+        }
+        // const allCriteriaHaveLevels = criterias.every(
+        //   (criteria) =>
+        //     criteria.selectedLevel !== null &&
+        //     criteria.selectedLevel !== undefined
+        // );
+
+        if (!allCriteriaHaveSelectedLevels(criterias)) {
+          valid = false;
+          // showSnackbar(
+          //   'Please Select Marking Criteria for ' + question.serialNumber
+          // );
+          console.log(
+            'Please Select Marking Criteria for ' + question.serialNumber
+          );
+          return true;
+        }
       }
+      if (question.markingCriteria?.strengthsTargetsCriterias) {
+        let selectedSAndT = {
+          selectedStrengths: [],
+          selectedTargets: [],
+        };
+        if (newMarkingCriterias[index])
+          selectedSAndT = newMarkingCriterias[index];
+
+        if (markingCriteriaFeedback.length != 0) {
+          let submitedMarkingCriteria = markingCriteriaFeedback?.find(
+            (markingCriteria) =>
+              markingCriteria?.questionSerialNumber === index + 1
+          );
+          if (submitedMarkingCriteria) {
+            selectedSAndT.selectedStrengths =
+              submitedMarkingCriteria?.markingCriteria?.selectedStrengths;
+            selectedSAndT.selectedTargets =
+              submitedMarkingCriteria?.markingCriteria?.selectedTargets;
+          }
+        }
+        console.log('selectedSAndT', selectedSAndT);
+        if (
+          !selectedSAndT ||
+          selectedSAndT.selectedStrengths.length === 0 ||
+          selectedSAndT.selectedTargets.length === 0
+        ) {
+          valid = false;
+          // showSnackbar(
+          //   'Please Select Marking Criteria for ' + question.serialNumber
+          // );
+          console.log(
+            'Please Select Marking Criteria for ' + question.serialNumber
+          );
+          return true;
+        }
+      }
+      return false;
     });
-    return invalid;
+    return valid;
   };
 
   function hasDuplicateAttributes(arr) {
@@ -936,8 +988,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return false;
   }
   function convertToSelectedAttribute(selectedArray) {
-    console.log('attribute');
-
     return selectedArray?.map((item, index) => ({
       index,
       criteria: item.criteria,
@@ -949,31 +999,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
-    let isDuplicate = false;
     if (validateMarkingCriteria()) {
-      submission.assignment.questions.map((question) => {
-        console.log('question', question);
-        submitMarkingCriteriaInputs(question);
-      });
-    }
-    submission.assignment.questions.map((question) => {
-      if (
-        submission.assignment.questions.markingCriteria === undefined ||
-        submission.assignment.questions.markingCriteria === null
-      ) {
-        return true;
-      }
-      if (hasDuplicateAttributes(question.markingCriteria?.selectedStrengths)) {
-        showSnackbar(
-          'Please select different strength in question number ' +
-            question.serialNumber
-        );
-        setShowSubmitPopup(false);
-        isDuplicate = true;
-      }
-    });
-    if (!isDuplicate) {
-      // submitReview();
+      console.log('submit Review');
+      submitReview();
     }
   }
 
@@ -1026,9 +1054,14 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     QuestionIndex
   ) {
     console.log('markingCriteriaFeedback.id:', markingCriteriaFeedback);
-    if (markingCriteriaFeedback[QuestionIndex]?.id) {
-      console.log('Update', markingCriteriaFeedback[QuestionIndex].id);
-      updateFeedback(submission.id, markingCriteriaFeedback[QuestionIndex].id, {
+
+    let submitedMarkingCriteria = markingCriteriaFeedback?.find(
+      (markingCriteria) =>
+        markingCriteria?.questionSerialNumber === question.serialNumber
+    );
+    if (submitedMarkingCriteria?.id) {
+      console.log('Update', submitedMarkingCriteria?.id);
+      updateFeedback(submission.id, submitedMarkingCriteria.id, {
         questionSerialNumber: question.serialNumber,
         feedback: 'Marking Criteria Feedback',
         range: { from: 0, to: 0 },
@@ -1060,35 +1093,41 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setMethodToCall(null);
     setPopupText('');
     if (validateMarkingCriteria()) {
-      submission.assignment.questions.map((question) => {
-        if (
-          question.markingCriteria?.title != '' &&
-          question.markingCriteria.criterias
-        ) {
-          const markingCriteriaRequest = question.markingCriteria;
-          addFeedback(submission.id, {
-            questionSerialNumber: question.serialNumber,
-            feedback: 'Marking Criteria Feedback',
-            range: { from: 0, to: 0 },
-            type: 'MARKING_CRITERIA',
-            replies: [],
-            markingCriteria: markingCriteriaRequest,
-            sharedWithStudents: [],
-          }).then((response) => {
-            queryClient.invalidateQueries(['notifications']);
-            queryClient.invalidateQueries(['tasks']);
-            queryClient.invalidateQueries(['assignments']);
-            queryClient.invalidateQueries((queryKey) => {
-              return queryKey.includes('class');
-            });
-            showSnackbar('Resubmission requested...', window.location.href);
-            window.location.href = '/#';
-            setShowLoader(false);
-          });
-        }
-      });
+      // submission.assignment.questions.map((question) => {
+      //   if (
+      //     question.markingCriteria?.title != '' &&
+      //     question.markingCriteria.criterias
+      //   ) {
+      //     const markingCriteriaRequest = question.markingCriteria;
+      //     addFeedback(submission.id, {
+      //       questionSerialNumber: question.serialNumber,
+      //       feedback: 'Marking Criteria Feedback',
+      //       range: { from: 0, to: 0 },
+      //       type: 'MARKING_CRITERIA',
+      //       replies: [],
+      //       markingCriteria: markingCriteriaRequest,
+      //       sharedWithStudents: [],
+      //     }).then((response) => {
+      //       queryClient.invalidateQueries(['notifications']);
+      //       queryClient.invalidateQueries(['tasks']);
+      //       queryClient.invalidateQueries(['assignments']);
+      //       queryClient.invalidateQueries((queryKey) => {
+      //         return queryKey.includes('class');
+      //       });
+      //       showSnackbar('Resubmission requested...', window.location.href);
+      //       window.location.href = '/#';
+      //       setShowLoader(false);
+      //     });
+      //   }
+      // });
 
       markSubmissionRequestSubmission(submission.id).then((_) => {
+        queryClient.invalidateQueries(['notifications']);
+        queryClient.invalidateQueries(['tasks']);
+        queryClient.invalidateQueries(['assignments']);
+        queryClient.invalidateQueries((queryKey) => {
+          return queryKey.includes('class');
+        });
         showSnackbar('Resubmission requested...', window.location.href);
         if (isTeacher) {
           window.location.href = nextUrl === '/' ? '/#' : nextUrl;
@@ -1433,35 +1472,22 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   function handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria) {
-    // const updatedSubmission = {
-    //   ...submission,
-    //   assignment: {
-    //     ...submission.assignment,
-    //     questions: submission.assignment.questions.map((question, index) => {
-    //       if (index === questionSerialNumber - 1) {
-    //         return {
-    //           ...question,
-    //           markingCriteria: {
-    //             ...question.markingCriteria,
-    //             criterias: question.markingCriteria.criterias.map(
-    //               (criteria, criteriaIndex) => {
-    //                 if (criteriaIndex === criteriaSerialNumber) {
-    //                   return {
-    //                     ...criteria,
-    //                     selectedLevel: selectedLevel,
-    //                   };
-    //                 }
-    //                 return criteria;
-    //               }
-    //             ),
-    //           },
-    //         };
-    //       }
-    //       return question;
-    //     }),
-    //   },
-    // };
-    // setSubmission(updatedSubmission);
+    const updatedSubmission = {
+      ...submission,
+      assignment: {
+        ...submission.assignment,
+        questions: submission.assignment.questions.map((question, index) => {
+          if (index === QuestionIndex) {
+            return {
+              ...question,
+              markingCriteria: markingCriteria,
+            };
+          }
+          return question;
+        }),
+      },
+    };
+    setSubmission(updatedSubmission);
     const currentQuestion = submission.assignment.questions[QuestionIndex];
 
     submitMarkingCriteriaFeedback(
@@ -1491,6 +1517,21 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       convertToSelectedAttribute(selectedStrengths);
     markingCriteriaRequest.selectedTargets =
       convertToSelectedAttribute(selectedTargets);
+
+    setNewMarkingCriterias((previousState) => {
+      const updatedMarkingCriterias = [...previousState];
+
+      if (!updatedMarkingCriterias[QuestionIndex]) {
+        updatedMarkingCriterias[QuestionIndex] = {};
+      }
+      updatedMarkingCriterias[QuestionIndex] = {
+        ...updatedMarkingCriterias[QuestionIndex],
+        selectedStrengths: markingCriteriaRequest.selectedStrengths,
+        selectedTargets: markingCriteriaRequest.selectedTargets,
+      };
+
+      return updatedMarkingCriterias;
+    });
     console.log('markingCriteriaRequest', markingCriteriaRequest);
     // const criteriaType = index === 2 ? 'target' : 'strength';
     // const criteriaIndex = index === 2 ? 0 : index;

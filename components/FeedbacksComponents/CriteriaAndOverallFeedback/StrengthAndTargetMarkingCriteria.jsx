@@ -99,12 +99,15 @@ function StrengthAndTargetMarkingCriteria({
                         )}
                         {strengthsAndTargets.targets[index] && (
                           <TargetContainer
-                            onClick={() =>
-                              handleStrengthndTargetChange(
-                                strengthsAndTargets,
-                                index,
-                                'targets'
-                              )
+                            onClick={
+                              isAllowGiveMarkingCriteriaFeedback(pageMode)
+                                ? () =>
+                                    handleStrengthndTargetChange(
+                                      strengthsAndTargets,
+                                      index,
+                                      'targets'
+                                    )
+                                : () => {}
                             }
                             bgColor={isStringPresent(
                               selectedTargets,

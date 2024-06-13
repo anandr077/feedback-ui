@@ -95,31 +95,31 @@ const createRows = (
   pageMode
 ) => {
   console.log('items', items);
-  return items.map((item) => (
-    <MarkingCriteriaBodyRow
-      selected={item?.selectedLevel}
-      key={item?.levelName}
-      onClick={
-        isAllowGiveMarkingCriteriaFeedback(pageMode)
-          ? () =>
-              handleRubricsChange(
-                item.criteriaIndex,
-                item.levelName
-              )
-          : () => {}
-      }
-      style={{
-        cursor: isAllowGiveMarkingCriteriaFeedback(pageMode) ? 'pointer' : '',
-      }}
-    >
-      <MarkingCriteriaBodyRowHeading selected={item?.selectedLevel}>
-        {item?.levelName}
-      </MarkingCriteriaBodyRowHeading>
-      <MarkingCriteriaBodyRowContent selected={item?.selectedLevel}>
-        {item?.levelDescription}
-      </MarkingCriteriaBodyRowContent>
-    </MarkingCriteriaBodyRow>
-  ));
+  return items.map((item) => {
+    if (item === null) return null;
+
+    return (
+      <MarkingCriteriaBodyRow
+        selected={item?.selectedLevel}
+        key={item?.levelName}
+        onClick={
+          isAllowGiveMarkingCriteriaFeedback(pageMode)
+            ? () => handleRubricsChange(item.criteriaIndex, item.levelName)
+            : () => {}
+        }
+        style={{
+          cursor: isAllowGiveMarkingCriteriaFeedback(pageMode) ? 'pointer' : '',
+        }}
+      >
+        <MarkingCriteriaBodyRowHeading selected={item?.selectedLevel}>
+          {item?.levelName}
+        </MarkingCriteriaBodyRowHeading>
+        <MarkingCriteriaBodyRowContent selected={item?.selectedLevel}>
+          {item?.levelDescription}
+        </MarkingCriteriaBodyRowContent>
+      </MarkingCriteriaBodyRow>
+    );
+  });
 };
 
 const rubricMarkingCriteriaComponent = (
@@ -173,6 +173,7 @@ const MarkingCriteriaContainer1 = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
 `;
 
 const MarkingCriteriaCardLabel = styled.div`

@@ -64,6 +64,7 @@ import { getUserId, getUserRole } from '../../../userLocalDetails';
 import closecircle from '../../../static/img/closecircle.svg';
 import MarkingCriteriaFeedback from '../../MarkingCriteriaFeedback';
 import {
+  allCriteriaHaveSelectedLevels,
   isAllowGiveMarkingCriteriaFeedback,
   isMarkingCriteriaTypeRubric,
   isShowMarkingCriteriaSection,
@@ -91,13 +92,14 @@ const CriteriaAndOverallFeedback = ({
   const isTeacher = getUserRole() === 'TEACHER';
   const userId = getUserId();
   const [selectedMarkingCriteria, setSelectedMarkingCriteria] = useState();
-  // const [selectedStrengthId, setSelectedStrengthId] = useState(0);
   const [selectedStrengths, setSelectedStrengths] = useState([]);
   const [selectedTargets, setSelectedTargets] = useState([]);
   const [isShowMarkingCrteriaPopUp, setShowMarkingCrteriaPopUp] =
     useState(false);
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
   useEffect(() => {
+    setIsSubmitted(false);
     const commentObject = (
       overallComments.length != 0 ? overallComments : null
     )?.find((comment) => comment?.questionSerialNumber === QuestionIndex + 1);
@@ -106,17 +108,26 @@ const CriteriaAndOverallFeedback = ({
     const markingCriteria =
       submission?.assignment?.questions[QuestionIndex].markingCriteria;
     setMarkingCriteria(markingCriteria);
-    if (markingCriteriaFeedback[QuestionIndex]?.id) {
-      setMarkingCriteria(
-        markingCriteriaFeedback[QuestionIndex]?.markingCriteria
+    if (markingCriteriaFeedback.length != 0) {
+      let submitedMarkingCriteria = markingCriteriaFeedback?.find(
+        (markingCriteria) =>
+          markingCriteria?.questionSerialNumber === QuestionIndex + 1
       );
-      setSelectedStrengths(
-        markingCriteriaFeedback[QuestionIndex]?.markingCriteria
-          ?.selectedStrengths
-      );
-      setSelectedTargets(
-        markingCriteriaFeedback[QuestionIndex]?.markingCriteria?.selectedTargets
-      );
+      if (submitedMarkingCriteria) {
+        if (submitedMarkingCriteria?.markingCriteria?.criterias) {
+          setIsSubmitted(true);
+          setMarkingCriteria(submitedMarkingCriteria?.markingCriteria);
+        }
+        if (submitedMarkingCriteria?.markingCriteria?.selectedStrengths) {
+          setIsSubmitted(true);
+          setSelectedStrengths(
+            submitedMarkingCriteria?.markingCriteria?.selectedStrengths
+          );
+          setSelectedTargets(
+            submitedMarkingCriteria?.markingCriteria?.selectedTargets
+          );
+        }
+      }
     }
   }, [overallComments, QuestionIndex, comments, submission]);
   const handleInputChange = (event) => {
@@ -195,15 +206,17 @@ const CriteriaAndOverallFeedback = ({
 
   const saveMarkingCrieria = () => {
     if (isMarkingCriteriaTypeRubric(markingCriteria?.type)) {
-      const allCriteriaHaveLevels = markingCriteria.criterias.every(
-        (criteria) =>
-          criteria.selectedLevel !== null &&
-          criteria.selectedLevel !== undefined
-      );
-      if (!allCriteriaHaveLevels) {
+      // const allCriteriaHaveLevels = markingCriteria.criterias.every(
+      //   (criteria) =>
+      //     criteria.selectedLevel !== null &&
+      //     criteria.selectedLevel !== undefined
+      // );
+      if (!allCriteriaHaveSelectedLevels(markingCriteria?.criterias)) {
         console.log('Please ensure all criteria have a selected level.');
         return;
       }
+      setShowMarkingCrteriaPopUp(false);
+      setIsSubmitted(true);
       handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria);
     } else {
       if (selectedStrengths.length === 0) {
@@ -214,6 +227,8 @@ const CriteriaAndOverallFeedback = ({
         console.log('please select at least one target');
         return;
       }
+      setShowMarkingCrteriaPopUp(false);
+      setIsSubmitted(true);
       handleStrengthsTargetsFeedback(
         QuestionIndex,
         selectedStrengths,
@@ -273,11 +288,17 @@ const CriteriaAndOverallFeedback = ({
               />
             )}
           </PopupDialogContentBox>
-          <SaveButtonContainer>
-            <SaveButton onClick={() => saveMarkingCrieria()}>
-              <SaveButtonText>Save Criteria</SaveButtonText>
-            </SaveButton>
-          </SaveButtonContainer>
+          {isAllowGiveMarkingCriteriaFeedback(pageMode) && (
+            <SaveButtonContainer>
+              <SaveButton
+                onClick={() => {
+                  saveMarkingCrieria();
+                }}
+              >
+                <SaveButtonText>Save Criteria</SaveButtonText>
+              </SaveButton>
+            </SaveButtonContainer>
+          )}
         </PopupContainer>
       </PopupBackground>
     );
@@ -343,7 +364,15 @@ const CriteriaAndOverallFeedback = ({
                   <RubricButton
                     onClick={() => setShowMarkingCrteriaPopUp(true)}
                   >
-                    {markingCriteriaFeedback[QuestionIndex]?.id
+                    {!isAllowGiveMarkingCriteriaFeedback(pageMode)
+                      ? 'Expand'
+                      : isSubmitted ||
+                        (isMarkingCriteriaTypeRubric(markingCriteria?.type)
+                          ? allCriteriaHaveSelectedLevels(
+                              markingCriteria?.criterias
+                            )
+                          : selectedTargets.length !== 0 ||
+                            selectedStrengths.length !== 0)
                       ? 'Update'
                       : 'Expand'}
                   </RubricButton>

@@ -70,8 +70,8 @@ import {
   isShowMarkingCriteriaSection,
   isShowOverallFeedbackHeadline,
 } from '../FeedbacksRoot/rules';
-import StrengthAndTargetMarkingCriteria from './StrengthAndTargetMarkingCriteria';
-// import MemoizedAudioRecorder from '../../AudioRecorder';
+import StrengthAndTargetMarkingCriteria from '../StrengthAndTargetMarkingCriteria';
+import { isNullOrEmpty } from '../../../utils/arrays';
 
 const CriteriaAndOverallFeedback = ({
   handleClick,
@@ -104,12 +104,12 @@ const CriteriaAndOverallFeedback = ({
       overallComments.length != 0 ? overallComments : null
     )?.find((comment) => comment?.questionSerialNumber === QuestionIndex + 1);
     setOverallComment(commentObject);
-    console.log('markingCriteriaFeedback', markingCriteriaFeedback);
+   
     const markingCriteria =
       submission?.assignment?.questions[QuestionIndex].markingCriteria;
     setMarkingCriteria(markingCriteria);
-    if (markingCriteriaFeedback.length != 0) {
-      let submitedMarkingCriteria = markingCriteriaFeedback?.find(
+    if (!isNullOrEmpty(markingCriteriaFeedback)) {
+      const submitedMarkingCriteria = markingCriteriaFeedback?.find(
         (markingCriteria) =>
           markingCriteria?.questionSerialNumber === QuestionIndex + 1
       );
@@ -130,12 +130,6 @@ const CriteriaAndOverallFeedback = ({
       }
     }
   }, [overallComments, QuestionIndex, comments, submission]);
-  const handleInputChange = (event) => {
-    const allowedChars = /^[0-9]$|^$/;
-    if (allowedChars.test(event.target.value)) {
-      setInputValue(event.target.value);
-    }
-  };
 
   const handleRubricsChange = (criteriaSerialNumber, selectedLevel) => {
     console.log('markingCriteria', markingCriteria);
@@ -157,10 +151,10 @@ const CriteriaAndOverallFeedback = ({
   };
 
   const handleStrengthndTargetChange = (strengthsAndTargets, index, type) => {
-    let seletedItem = strengthsAndTargets[type][index];
+    const seletedItem = strengthsAndTargets[type][index];
 
     if (type === 'strengths') {
-      let selectedStrengthNew = {
+      const selectedStrengthNew = {
         id: selectedStrengths.length + 1,
         attribute: seletedItem,
         criteria: strengthsAndTargets.title,
@@ -234,20 +228,10 @@ const CriteriaAndOverallFeedback = ({
       );
     }
   };
-  const isStringPresent = (array, key, string) => {
-    return array?.some((object) => object[key] === string);
-  };
-  const handleMarkingCriteria = (index, name) => {
-    handleMarkingCriteriaLevelFeedback(QuestionIndex + 1, index, name);
-  };
-
-  console.log('the marking criteria is', markingCriteriaFeedback)
-  console.log('the overall feedback', overallComments)
 
   const MarkingCriteriaPopContainer = ({
     markingCriteria,
     setShowMarkingCrteriaPopUp,
-    handleMarkingCriteriaLevelFeedback,
     questionSerialNumber,
   }) => {
     return (
@@ -320,7 +304,7 @@ const CriteriaAndOverallFeedback = ({
       )}
       <MainContainer openRightPanel={openRightPanel}>
         <Heading>
-            {isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) ? (
+          {isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) ? (
             <HeadingTitle>
               Assessment Criteria
               <img src={QuestionIcon} />
@@ -372,8 +356,8 @@ const CriteriaAndOverallFeedback = ({
                           ? allCriteriaHaveSelectedLevels(
                               markingCriteria?.criterias
                             )
-                          : selectedTargets.length !== 0 ||
-                            selectedStrengths.length !== 0)
+                          : !isNullOrEmpty(selectedTargets) ||
+                            !isNullOrEmpty(selectedStrengths))
                       ? 'Update'
                       : 'Expand'}
                   </RubricButton>
@@ -397,9 +381,12 @@ const CriteriaAndOverallFeedback = ({
                 <img src={TickMark} />
               </HeadingDropdown>
               {openRightPanel === 'tab2' &&
-              !isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) && (
-                <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
-              )}
+                !isShowMarkingCriteriaSection(
+                  markingCriteriaFeedback,
+                  pageMode
+                ) && (
+                  <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
+                )}
             </Heading>
           )}
           <OverallFeedbackContainer>

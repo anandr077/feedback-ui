@@ -906,7 +906,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     submission.assignment.questions.some((question, index) => {
       if (question?.markingCriteria?.criterias) {
         let criterias = question.markingCriteria.criterias;
-        if (markingCriteriaFeedback.length !== 0) {
+        if (!isNullOrEmpty(markingCriteriaFeedback)) {
           let submitedMarkingCriteria = markingCriteriaFeedback.find(
             (markingCriteria) =>
               markingCriteria?.questionSerialNumber === index + 1
@@ -933,7 +933,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         if (newMarkingCriterias[index])
           selectedSAndT = newMarkingCriterias[index];
 
-        if (markingCriteriaFeedback.length != 0) {
+        if (!isNullOrEmpty(markingCriteriaFeedback)) {
           let submitedMarkingCriteria = markingCriteriaFeedback?.find(
             (markingCriteria) =>
               markingCriteria?.questionSerialNumber === index + 1
@@ -948,8 +948,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         console.log('selectedSAndT', selectedSAndT);
         if (
           !selectedSAndT ||
-          selectedSAndT.selectedStrengths.length === 0 ||
-          selectedSAndT.selectedTargets.length === 0
+          isNullOrEmpty(selectedSAndT.selectedStrengths) ||
+          isNullOrEmpty(selectedSAndT.selectedTargets)
         ) {
           valid = false;
           showSnackbar(
@@ -963,18 +963,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return valid;
   };
 
-  function hasDuplicateAttributes(arr) {
-    const attributeSet = new Set();
-
-    for (const item of arr) {
-      if (attributeSet.has(item.attribute)) {
-        return true;
-      }
-      attributeSet.add(item.attribute);
-    }
-
-    return false;
-  }
   function convertToSelectedAttribute(selectedArray) {
     return selectedArray?.map((item, index) => ({
       index,
@@ -988,7 +976,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setMethodToCall(null);
     setPopupText('');
     if (validateMarkingCriteria()) {
-      console.log('submit Review');
       submitReview();
     }
   }

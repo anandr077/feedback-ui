@@ -23,14 +23,12 @@ export default function MarkingCriteriaFeedback(props) {
   const {
     markingCriteria,
     questionSerialNumber,
-    // handleMarkingCriteriaLevelFeedback,
     handleRubricsChange,
     pageMode,
   } = props;
 
   return rubricMarkingCriteriaComponent(
     markingCriteria,
-    // handleMarkingCriteriaLevelFeedback,
     handleRubricsChange,
     questionSerialNumber,
     pageMode
@@ -45,7 +43,6 @@ const createRubricsHeading = (criterias) => {
 
 const createRubricsLevels = (
   criterias,
-  // handleMarkingCriteriaLevelFeedback,
   handleRubricsChange,
   questionSerialNumber,
   pageMode
@@ -77,7 +74,6 @@ const createRubricsLevels = (
       <MarkingCriteriaBody>
         {createRows(
           rowItems,
-          // handleMarkingCriteriaLevelFeedback,
           handleRubricsChange,
           questionSerialNumber,
           pageMode
@@ -89,7 +85,6 @@ const createRubricsLevels = (
 
 const createRows = (
   items,
-  // handleMarkingCriteriaLevelFeedback,
   handleRubricsChange,
   questionSerialNumber,
   pageMode
@@ -124,7 +119,6 @@ const createRows = (
 
 const rubricMarkingCriteriaComponent = (
   markingCriteria,
-  // handleMarkingCriteriaLevelFeedback,
   handleRubricsChange,
   questionSerialNumber,
   pageMode
@@ -147,7 +141,6 @@ const rubricMarkingCriteriaComponent = (
           </CriteriaHeadingContainer>
           {createRubricsLevels(
             markingCriteria.criterias,
-            // handleMarkingCriteriaLevelFeedback,
             handleRubricsChange,
             questionSerialNumber,
             pageMode

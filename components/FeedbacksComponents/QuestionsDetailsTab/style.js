@@ -67,4 +67,9 @@ export const Question = styled.p`
   line-height: 16px;
   color: rgba(75, 70, 79, 1);
   margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;

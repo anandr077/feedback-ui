@@ -7,7 +7,6 @@ import {
   feedbacksIbmplexsansMediumBlack16px,
 } from '../../../styledMixins';
 import { textAreaAutoResize } from '../../../components2/textAreaAutoResize';
-import { truncateString } from '../../../components2/truncateString';
 import { isShowFullCommentBankText } from '../FeedbacksRoot/rules';
 import { isShowReplyInput } from './rule';
 

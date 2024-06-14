@@ -96,6 +96,10 @@ export const isShowOverallFeedbackHeadline = (
   return true;
 };
 
+export const isMarkingCriteriaTypeRubric = (type) => {
+  return type === 'RUBRICS';
+};
+
 export const isShowTaskDetailsButton = (submissionType) => {
   return submissionType !== 'DOCUMENT';
 };
@@ -185,4 +189,10 @@ export const isStringNull = (String) => {
     return true;
   }
   return false;
+};
+export const allCriteriaHaveSelectedLevels = (criterias) => {
+  return criterias?.every(
+    (criteria) =>
+      criteria.selectedLevel !== null && criteria.selectedLevel !== undefined
+  );
 };

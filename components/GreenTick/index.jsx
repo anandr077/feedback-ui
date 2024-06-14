@@ -9,10 +9,10 @@ import GreenSmallTick from '../../static/img/GreenSmallTick.svg';
 import TickMark from '../../static/img/Ticklightcolor.svg';
 import GreenTick from '../../static/img/GreenTick.svg';
 
-export function GreenTickText({ text }) {
+export function GreenTickText({ text, margin }) {
   return (
     <>
-      <StatusSection>
+      <StatusSection margin={margin}>
         <StatusSmallTick src={GreenSmallTick} />
         <StatusText>{text}</StatusText>
       </StatusSection>

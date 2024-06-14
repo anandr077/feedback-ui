@@ -11,7 +11,6 @@ import RightSidebarHeading from '../RightSidebarHeading';
 import GrayTick from '../../../static/img/Ticklightcolor.svg';
 import PurpleTick from '../../../static/img/16purplebgtick.svg';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
-import { truncateString } from '../../../components2/truncateString';
 
 const QuestionsDetailsTab = ({
   handleClose,
@@ -38,7 +37,7 @@ const QuestionsDetailsTab = ({
                 <SerialNumber>Question {question.serialNumber}</SerialNumber>
                 <img src={QuestionIndex === idx ? PurpleTick : GrayTick} />
               </Heading>
-              <Question>{truncateString(question.question, 75)}</Question>
+              <Question>{question.question}</Question>
             </QuestionBody>
           );
         })}

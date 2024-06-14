@@ -27,7 +27,7 @@ export const Heading = styled.div`
   align-items: center;
   gap: 4px;
   padding: 16px;
-  background-color: #f2f1f3; 
+  background-color: #f2f1f3;
   color: #4b464f;
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
@@ -165,11 +165,10 @@ export const MarkingCriteriaContainer = styled.div`
   margin: 0 16px;
 `;
 export const MarkingCriteriaMainHeadingContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin: 16px;
+  margin: 16px 16px 0px 16px;
 `;
 export const MarkingCriteriaMainHeading = styled.p`
   width: 100%;
@@ -467,10 +466,34 @@ export const PopupTitleImg = styled.img`
 export const PopupDialogContentBox = styled(DialogContent)`
   display: flex;
   flex-direction: row;
-  padding: 12px 12px 22px 12px !important;
+  padding: 12px 12px 12px 12px !important;
 
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
   }
+`;
+
+export const SaveButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 0px 12px 12px 12px;
+`;
+export const SaveButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 32px;
+  background: var(--color-purple-300, #7200e0);
+  cursor: pointer;
+`;
+export const SaveButtonText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 17px;
+  text-align: left;
+  color: var(--color-neutral-white, #ffffff);
 `;

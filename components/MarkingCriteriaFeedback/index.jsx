@@ -23,67 +23,16 @@ export default function MarkingCriteriaFeedback(props) {
   const {
     markingCriteria,
     questionSerialNumber,
-    handleMarkingCriteriaLevelFeedback,
-    handleStrengthsTargetsFeedback,
+    handleRubricsChange,
     pageMode,
   } = props;
 
-  const strengthAndTargetCriterias = markingCriteria?.strengthsTargetsCriterias;
-  const selectedStrengthsAndTargets = {
-    strength: [],
-    target: [],
-  };
-
-  const [strengthAndTargetSelection, setStrengthAndTargetSelection] =
-    React.useState(selectedStrengthsAndTargets);
-
-  const handleSelect = (e, index, cIndex, sIndex, criteriatype) => {
-    setStrengthAndTargetSelection((prevState) => {
-      const newState = { ...prevState };
-      newState[criteriatype][index] = [cIndex, sIndex];
-      return newState;
-    });
-  };
-
-  const strengthAndTargetsCardComponent = () => [
-    singleStrengthTargetsContainer('strengths', 'Strength', 0),
-    singleStrengthTargetsContainer('strengths', 'Strength', 1),
-    singleStrengthTargetsContainer('targets', 'Target', 2),
-  ];
-  return (
-    <>
-      {markingCriteria.type === 'RUBRICS' ? (
-        rubricMarkingCriteriaComponent(
-          markingCriteria,
-          handleMarkingCriteriaLevelFeedback,
-          questionSerialNumber,
-          pageMode
-        )
-      ) : (
-        <MarkingCriteriaContainer>
-          {strengthAndTargetsCardComponent()}
-        </MarkingCriteriaContainer>
-      )}
-    </>
+  return rubricMarkingCriteriaComponent(
+    markingCriteria,
+    handleRubricsChange,
+    questionSerialNumber,
+    pageMode
   );
-
-  function singleStrengthTargetsContainer(type, heading, index) {
-    return (
-      <SingleMarkingCriteriaContainer>
-        <MarkingCriteriaCardLabel>{heading}</MarkingCriteriaCardLabel>
-
-        <DropdownMenu
-          menuItems={createMenuItems(strengthAndTargetCriterias, type)}
-          onItemSelected={(item) => {
-            if (item) {
-              handleStrengthsTargetsFeedback(index)(item);
-            }
-          }}
-          noDefaultSelected={index === 1 ? true : false}
-        ></DropdownMenu>
-      </SingleMarkingCriteriaContainer>
-    );
-  }
 }
 
 const createRubricsHeading = (criterias) => {
@@ -94,7 +43,7 @@ const createRubricsHeading = (criterias) => {
 
 const createRubricsLevels = (
   criterias,
-  handleMarkingCriteriaLevelFeedback,
+  handleRubricsChange,
   questionSerialNumber,
   pageMode
 ) => {
@@ -125,7 +74,7 @@ const createRubricsLevels = (
       <MarkingCriteriaBody>
         {createRows(
           rowItems,
-          handleMarkingCriteriaLevelFeedback,
+          handleRubricsChange,
           questionSerialNumber,
           pageMode
         )}
@@ -136,42 +85,41 @@ const createRubricsLevels = (
 
 const createRows = (
   items,
-  handleMarkingCriteriaLevelFeedback,
+  handleRubricsChange,
   questionSerialNumber,
   pageMode
 ) => {
   console.log('items', items);
-  return items.map((item) => (
-    <MarkingCriteriaBodyRow
-      selected={item?.selectedLevel}
-      key={item?.levelName}
-      onClick={
-        isAllowGiveMarkingCriteriaFeedback(pageMode)
-          ? () =>
-              handleMarkingCriteriaLevelFeedback(
-                questionSerialNumber,
-                item.criteriaIndex,
-                item.levelName
-              )
-          : () => {}
-      }
-      style={{
-        cursor: isAllowGiveMarkingCriteriaFeedback(pageMode) ? 'pointer' : '',
-      }}
-    >
-      <MarkingCriteriaBodyRowHeading selected={item?.selectedLevel}>
-        {item?.levelName}
-      </MarkingCriteriaBodyRowHeading>
-      <MarkingCriteriaBodyRowContent selected={item?.selectedLevel}>
-        {item?.levelDescription}
-      </MarkingCriteriaBodyRowContent>
-    </MarkingCriteriaBodyRow>
-  ));
+  return items.map((item) => {
+    if (item === null) return null;
+
+    return (
+      <MarkingCriteriaBodyRow
+        selected={item?.selectedLevel}
+        key={item?.levelName}
+        onClick={
+          isAllowGiveMarkingCriteriaFeedback(pageMode)
+            ? () => handleRubricsChange(item.criteriaIndex, item.levelName)
+            : () => {}
+        }
+        style={{
+          cursor: isAllowGiveMarkingCriteriaFeedback(pageMode) ? 'pointer' : '',
+        }}
+      >
+        <MarkingCriteriaBodyRowHeading selected={item?.selectedLevel}>
+          {item?.levelName}
+        </MarkingCriteriaBodyRowHeading>
+        <MarkingCriteriaBodyRowContent selected={item?.selectedLevel}>
+          {item?.levelDescription}
+        </MarkingCriteriaBodyRowContent>
+      </MarkingCriteriaBodyRow>
+    );
+  });
 };
 
 const rubricMarkingCriteriaComponent = (
   markingCriteria,
-  handleMarkingCriteriaLevelFeedback,
+  handleRubricsChange,
   questionSerialNumber,
   pageMode
 ) => {
@@ -193,7 +141,7 @@ const rubricMarkingCriteriaComponent = (
           </CriteriaHeadingContainer>
           {createRubricsLevels(
             markingCriteria.criterias,
-            handleMarkingCriteriaLevelFeedback,
+            handleRubricsChange,
             questionSerialNumber,
             pageMode
           )}
@@ -218,6 +166,7 @@ const MarkingCriteriaContainer1 = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
 `;
 
 const MarkingCriteriaCardLabel = styled.div`

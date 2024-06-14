@@ -7,7 +7,6 @@ import {
   feedbacksIbmplexsansMediumBlack16px,
 } from '../../../styledMixins';
 import { textAreaAutoResize } from '../../../components2/textAreaAutoResize';
-import { truncateString } from '../../../components2/truncateString';
 import { isShowFullCommentBankText } from '../FeedbacksRoot/rules';
 import { isShowReplyInput } from './rule';
 
@@ -37,7 +36,6 @@ function CommentCard32(props) {
   const [editCommentType, setEditCommentType] = React.useState('');
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
-  const [showFullComment, setShowFullComment] = React.useState(false);
   const inputRef = useRef();
   
   const isReplyClicked = selectedComment?.id === comment.id 
@@ -215,39 +213,33 @@ function CommentCard32(props) {
   );
 
   function showComment() {
-    
-    
     if (editButtonActive && editCommentType === 'parent_comment') {
       return inputComment();
     } else {
       if (comment?.comment?.includes('\n\n')) {
         const commentArray = comment.comment.split('\n\n');
-        const commentBankTextLength = isShowFullCommentBankText(comment, selectedComment) ? commentArray[1]?.length : 70;
+        const isFullComment = isShowFullCommentBankText(comment, selectedComment);
+
         return (
           <>
             <p>
               <BoldText>{commentArray[0]}</BoldText>
             </p>
-            <NewlineText text={truncateString(commentArray[1], commentBankTextLength)} />
+            <StyledNewlineText isFull={isFullComment}>
+              <NewlineText text={commentArray[1]} />
+            </StyledNewlineText>
           </>
         );
       } else {
-        const commentTextLength = isShowFullCommentBankText(comment, selectedComment) ? comment.comment?.length : 70;
-        if (!showFullComment && comment.comment?.length > 70) {
-          return (
-            <>
-              <p>
-                <>{truncateString(comment.comment, commentTextLength)}</>
-              </p>
-            </>
-          );
-        } else {
-          return (
-              <p>
-              {comment.comment}
-              </p>
-          );
-        }
+        return (
+          <>
+            {isShowFullCommentBankText(comment, selectedComment) ? (
+              <FullCommentBox>{comment.comment}</FullCommentBox>
+            ) : (
+              <TruncatedCommentBox>{comment.comment}</TruncatedCommentBox>
+            )}
+          </>
+        );
       }
     }
   }
@@ -266,6 +258,51 @@ function NewlineText({ text }) {
 
   return <>{newText}</>;
 }
+
+const StyledNewlineText = styled.p`
+  ${({ isFull }) =>
+    isFull
+      ? `
+        font-family: var(--font-family-ibm_plex_sans);
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 17px;
+        color: rgba(75, 70, 79, 1);
+      `
+      : `
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: var(--font-family-ibm_plex_sans);
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 17px;
+        color: rgba(75, 70, 79, 1);
+      `}
+`;
+
+const TruncatedCommentBox = styled.p`
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400px;
+  font-size: 13px;
+  line-height: 17px;
+  color: rgba(75, 70, 79, 1);
+`;
+
+const FullCommentBox = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 17px;
+  color: rgba(75, 70, 79, 1);
+`;
 
 const BoldText = styled.div`
   font-weight: bold;

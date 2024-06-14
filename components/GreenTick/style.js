@@ -5,6 +5,7 @@ export const StatusSection = styled.div`
   flex-direction: row;
   gap: 4px;
   justify-content: flex-start;
+  margin: ${(props) => (props.margin ? '0px 16px' : '0px 0px')};
 `;
 
 export const StatusSmallTick = styled.img`

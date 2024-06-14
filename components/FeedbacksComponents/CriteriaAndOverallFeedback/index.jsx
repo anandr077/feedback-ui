@@ -39,6 +39,9 @@ import {
   PopupSubTitle,
   StrengthsAndTargetsHeadingContainer,
   StrengthsAndTargetsHeadingContainerDummy,
+  SaveButtonContainer,
+  SaveButton,
+  SaveButtonText,
 } from './style';
 import CloseIcon from '../../../static/img/close.svg';
 import QuestionIcon from '../../../static/img/question-mark.svg';
@@ -61,11 +64,14 @@ import { getUserId, getUserRole } from '../../../userLocalDetails';
 import closecircle from '../../../static/img/closecircle.svg';
 import MarkingCriteriaFeedback from '../../MarkingCriteriaFeedback';
 import {
+  allCriteriaHaveSelectedLevels,
   isAllowGiveMarkingCriteriaFeedback,
+  isMarkingCriteriaTypeRubric,
   isShowMarkingCriteriaSection,
   isShowOverallFeedbackHeadline,
 } from '../FeedbacksRoot/rules';
-// import MemoizedAudioRecorder from '../../AudioRecorder';
+import StrengthAndTargetMarkingCriteria from '../StrengthAndTargetMarkingCriteria';
+import { isNullOrEmpty } from '../../../utils/arrays';
 
 const CriteriaAndOverallFeedback = ({
   handleClick,
@@ -86,101 +92,146 @@ const CriteriaAndOverallFeedback = ({
   const isTeacher = getUserRole() === 'TEACHER';
   const userId = getUserId();
   const [selectedMarkingCriteria, setSelectedMarkingCriteria] = useState();
-  const [selectedStrengthId, setSelectedStrengthId] = useState(0);
-  const [selectedStrengths, setSelectedStrengths] = useState([{}]);
-  const [selectedTargets, setSelectedTargets] = useState([{}]);
+  const [selectedStrengths, setSelectedStrengths] = useState([]);
+  const [selectedTargets, setSelectedTargets] = useState([]);
   const [isShowMarkingCrteriaPopUp, setShowMarkingCrteriaPopUp] =
     useState(false);
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
   useEffect(() => {
+    setIsSubmitted(false);
     const commentObject = (
       overallComments.length != 0 ? overallComments : null
     )?.find((comment) => comment?.questionSerialNumber === QuestionIndex + 1);
     setOverallComment(commentObject);
-
+   
     const markingCriteria =
       submission?.assignment?.questions[QuestionIndex].markingCriteria;
     setMarkingCriteria(markingCriteria);
-    if (!isAllowGiveMarkingCriteriaFeedback(pageMode)) {
-      setMarkingCriteria(
-        markingCriteriaFeedback[QuestionIndex]?.markingCriteria
+    if (!isNullOrEmpty(markingCriteriaFeedback)) {
+      const submitedMarkingCriteria = markingCriteriaFeedback?.find(
+        (markingCriteria) =>
+          markingCriteria?.questionSerialNumber === QuestionIndex + 1
       );
-      setSelectedStrengths(
-        markingCriteriaFeedback[QuestionIndex]?.markingCriteria
-          ?.selectedStrengths
-      );
-      setSelectedTargets(
-        markingCriteriaFeedback[QuestionIndex]?.markingCriteria?.selectedTargets
-      );
+      if (submitedMarkingCriteria) {
+        if (submitedMarkingCriteria?.markingCriteria?.criterias) {
+          setIsSubmitted(true);
+          setMarkingCriteria(submitedMarkingCriteria?.markingCriteria);
+        }
+        if (submitedMarkingCriteria?.markingCriteria?.selectedStrengths) {
+          setIsSubmitted(true);
+          setSelectedStrengths(
+            submitedMarkingCriteria?.markingCriteria?.selectedStrengths
+          );
+          setSelectedTargets(
+            submitedMarkingCriteria?.markingCriteria?.selectedTargets
+          );
+        }
+      }
     }
   }, [overallComments, QuestionIndex, comments, submission]);
-  const handleInputChange = (event) => {
-    const allowedChars = /^[0-9]$|^$/;
-    if (allowedChars.test(event.target.value)) {
-      setInputValue(event.target.value);
-    }
+
+  const handleRubricsChange = (criteriaSerialNumber, selectedLevel) => {
+    console.log('markingCriteria', markingCriteria);
+    setMarkingCriteria((prevMarkingCriteria) => ({
+      ...prevMarkingCriteria,
+      criterias: prevMarkingCriteria.criterias.map(
+        (criteria, criteriaIndex) => {
+          if (criteriaIndex === criteriaSerialNumber) {
+            return {
+              ...criteria,
+              selectedLevel: selectedLevel,
+            };
+          }
+          return criteria;
+        }
+      ),
+    }));
+    console.log('markingCriteria', markingCriteria);
   };
 
   const handleStrengthndTargetChange = (strengthsAndTargets, index, type) => {
-    let seletedItem = strengthsAndTargets[type][index];
+    const seletedItem = strengthsAndTargets[type][index];
 
     if (type === 'strengths') {
-      let selectedStrengthNew = {
+      const selectedStrengthNew = {
         id: selectedStrengths.length + 1,
-        name: seletedItem,
-        type: 'strengths',
-        heading: strengthsAndTargets.title,
+        attribute: seletedItem,
+        criteria: strengthsAndTargets.title,
       };
       if (
-        selectedStrengths.find((stre) => stre.name === selectedStrengthNew.name)
+        selectedStrengths.find(
+          (stre) => stre.attribute === selectedStrengthNew.attribute
+        )
       ) {
         setSelectedStrengths([
           ...selectedStrengths.filter(
             (selectedStrength) =>
-              selectedStrength.name != selectedStrengthNew.name
+              selectedStrength.attribute != selectedStrengthNew.attribute
           ),
         ]);
       } else {
         setSelectedStrengths([...selectedStrengths, selectedStrengthNew]);
       }
-      handleStrengthsTargetsFeedback(QuestionIndex + 1, 1, selectedStrengthNew);
     }
     if (type === 'targets') {
       let selectedTargetNew = {
-        id: selectedStrengthId,
-        name: seletedItem,
-        type: 'targets',
-        heading: strengthsAndTargets.title,
+        id: selectedTargets.length + 1,
+        attribute: seletedItem,
+        criteria: strengthsAndTargets.title,
       };
 
       if (
-        selectedTargets.find((target) => target.name === selectedTargetNew.name)
+        selectedTargets.find(
+          (target) => target.attribute === selectedTargetNew.attribute
+        )
       ) {
         setSelectedTargets([
           ...selectedTargets.filter(
-            (selectedTarget) => selectedTarget.name != selectedTargetNew.name
+            (selectedTarget) =>
+              selectedTarget.attribute != selectedTargetNew.attribute
           ),
         ]);
       } else {
         setSelectedTargets([...selectedTargets, selectedTargetNew]);
       }
-      handleStrengthsTargetsFeedback(QuestionIndex + 1, 2, selectedTargetNew);
     }
   };
-  const isStringPresent = (array, key, string) => {
-    return array?.some((object) => object[key] === string);
-  };
-  const handleMarkingCriteria = (index, name) => {
-    handleMarkingCriteriaLevelFeedback(QuestionIndex + 1, index, name);
-  };
 
-  console.log('the marking criteria is', markingCriteriaFeedback)
-  console.log('the overall feedback', overallComments)
+  const saveMarkingCrieria = () => {
+    if (isMarkingCriteriaTypeRubric(markingCriteria?.type)) {
+      if (!allCriteriaHaveSelectedLevels(markingCriteria?.criterias)) {
+        console.log('Please ensure all criteria have a selected level.');
+        showSnackbar('Please ensure all criteria have a selected level.');
+        return;
+      }
+      setShowMarkingCrteriaPopUp(false);
+      setIsSubmitted(true);
+      handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria);
+    } else {
+      if (selectedStrengths.length === 0) {
+        console.log('please select at least one strength');
+        showSnackbar('please select at least one strength');
+        return;
+      }
+      if (selectedTargets.length === 0) {
+        console.log('please select at least one target');
+        showSnackbar('please select at least one target ');
+        return;
+      }
+      setShowMarkingCrteriaPopUp(false);
+      setIsSubmitted(true);
+      handleStrengthsTargetsFeedback(
+        QuestionIndex,
+        selectedStrengths,
+        selectedTargets
+      );
+    }
+  };
 
   const MarkingCriteriaPopContainer = ({
     markingCriteria,
     setShowMarkingCrteriaPopUp,
-    handleMarkingCriteriaLevelFeedback,
     questionSerialNumber,
   }) => {
     return (
@@ -188,12 +239,12 @@ const CriteriaAndOverallFeedback = ({
         <PopupContainer>
           <PopupTitleContainer>
             <PopupTitle>
-              {markingCriteria?.type === 'RUBRICS'
+              {isMarkingCriteriaTypeRubric(markingCriteria?.type)
                 ? 'Rubric'
                 : 'Strengths & Targets'}
               {isAllowGiveMarkingCriteriaFeedback(pageMode) && (
                 <PopupSubTitle>
-                  {markingCriteria?.type === 'RUBRICS'
+                  {isMarkingCriteriaTypeRubric(markingCriteria?.type)
                     ? 'Mark the rubric for every criteria. Only one value can be selected in each criteria'
                     : 'Mark the Strengths and Targets for every criteria. Multiple strength and target values can be selected for each criteria'}
                 </PopupSubTitle>
@@ -205,226 +256,38 @@ const CriteriaAndOverallFeedback = ({
             />
           </PopupTitleContainer>
           <PopupDialogContentBox>
-            {markingCriteria?.type === 'RUBRICS' ? (
+            {isMarkingCriteriaTypeRubric(markingCriteria?.type) ? (
               <MarkingCriteriaFeedback
                 markingCriteria={markingCriteria}
-                handleMarkingCriteriaLevelFeedback={
-                  handleMarkingCriteriaLevelFeedback
-                }
+                handleRubricsChange={handleRubricsChange}
                 questionSerialNumber={questionSerialNumber}
                 pageMode={pageMode}
               />
             ) : (
-              <>
-                {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
-                  <MarkStrengthContainer>
-                    <StrengthsAndTargetsHeadingContainer>
-                      <StrengthsAndTargetsHeadingContainerDummy></StrengthsAndTargetsHeadingContainerDummy>
-                      <StrengthsAndTargetsContainerHeading>
-                        <TargetHeadingContainer>
-                          <TargetHeading>Strengths</TargetHeading>
-                        </TargetHeadingContainer>
-                        <TargetHeadingContainer>
-                          <TargetHeading>Targets</TargetHeading>
-                        </TargetHeadingContainer>
-                      </StrengthsAndTargetsContainerHeading>
-                    </StrengthsAndTargetsHeadingContainer>
-                    {markingCriteria?.strengthsTargetsCriterias?.map(
-                      (strengthsAndTargets) => {
-                        const maxLen = Math.max(
-                          strengthsAndTargets.strengths.length,
-                          strengthsAndTargets.targets.length
-                        );
-                        return (
-                          <MarkRubricContainer key={strengthsAndTargets.title}>
-                            <MarkRubricTitleContainer>
-                              <MarkRubricTitle>
-                                {strengthsAndTargets.title}
-                              </MarkRubricTitle>
-                            </MarkRubricTitleContainer>
-                            <StrengthsAndTargetsContainer>
-                              <StrengthsAndTargetsContainerBody>
-                                {Array.from({ length: maxLen }).map(
-                                  (_, index) => (
-                                    <StrengthsAndTargetsPart key={index}>
-                                      {strengthsAndTargets.strengths[index] && (
-                                        <StrengthContainer
-                                          onClick={() =>
-                                            handleStrengthndTargetChange(
-                                              strengthsAndTargets,
-                                              index,
-                                              'strengths'
-                                            )
-                                          }
-                                          bgColor={isStringPresent(
-                                            selectedStrengths,
-                                            'name',
-                                            strengthsAndTargets.strengths[index]
-                                          )}
-                                          style={{
-                                            cursor:
-                                              isAllowGiveMarkingCriteriaFeedback(
-                                                pageMode
-                                              )
-                                                ? 'pointer'
-                                                : '',
-                                          }}
-                                        >
-                                          <Strength
-                                            bgColor={isStringPresent(
-                                              selectedStrengths,
-                                              'name',
-                                              strengthsAndTargets.strengths[
-                                                index
-                                              ]
-                                            )}
-                                          >
-                                            {
-                                              strengthsAndTargets.strengths[
-                                                index
-                                              ]
-                                            }
-                                          </Strength>
-                                        </StrengthContainer>
-                                      )}
-                                      {strengthsAndTargets.targets[index] && (
-                                        <TargetContainer
-                                          onClick={() =>
-                                            handleStrengthndTargetChange(
-                                              strengthsAndTargets,
-                                              index,
-                                              'targets'
-                                            )
-                                          }
-                                          bgColor={isStringPresent(
-                                            selectedTargets,
-                                            'name',
-                                            strengthsAndTargets.targets[index]
-                                          )}
-                                          style={{
-                                            cursor:
-                                              isAllowGiveMarkingCriteriaFeedback(
-                                                pageMode
-                                              )
-                                                ? 'pointer'
-                                                : '',
-                                          }}
-                                        >
-                                          <Target
-                                            bgColor={isStringPresent(
-                                              selectedTargets,
-                                              'name',
-                                              strengthsAndTargets.targets[index]
-                                            )}
-                                          >
-                                            {strengthsAndTargets.targets[index]}
-                                          </Target>
-                                        </TargetContainer>
-                                      )}
-                                    </StrengthsAndTargetsPart>
-                                  )
-                                )}
-                              </StrengthsAndTargetsContainerBody>
-                            </StrengthsAndTargetsContainer>
-                          </MarkRubricContainer>
-                        );
-                      }
-                    )}
-                  </MarkStrengthContainer>
-                ) : (
-                  <MarkStrengthContainer>
-                    <StrengthsAndTargetsHeadingContainer>
-                      <StrengthsAndTargetsHeadingContainerDummy></StrengthsAndTargetsHeadingContainerDummy>
-                      <StrengthsAndTargetsContainerHeading>
-                        <TargetHeadingContainer>
-                          <TargetHeading>Strengths</TargetHeading>
-                        </TargetHeadingContainer>
-                        <TargetHeadingContainer>
-                          <TargetHeading>Targets</TargetHeading>
-                        </TargetHeadingContainer>
-                      </StrengthsAndTargetsContainerHeading>
-                    </StrengthsAndTargetsHeadingContainer>
-                    {markingCriteria?.strengthsTargetsCriterias?.map(
-                      (strengthsAndTargets) => {
-                        const maxLen = Math.max(
-                          strengthsAndTargets.strengths.length,
-                          strengthsAndTargets.targets.length
-                        );
-                        return (
-                          <MarkRubricContainer key={strengthsAndTargets.title}>
-                            <MarkRubricTitleContainer>
-                              <MarkRubricTitle>
-                                {strengthsAndTargets.title}
-                              </MarkRubricTitle>
-                            </MarkRubricTitleContainer>
-                            <StrengthsAndTargetsContainer>
-                              <StrengthsAndTargetsContainerBody>
-                                {Array.from({ length: maxLen }).map(
-                                  (_, index) => (
-                                    <StrengthsAndTargetsPart key={index}>
-                                      {strengthsAndTargets.strengths[index] && (
-                                        <StrengthContainer
-                                          bgColor={isStringPresent(
-                                            selectedStrengths,
-                                            'attribute',
-                                            strengthsAndTargets.strengths[index]
-                                          )}
-                                        >
-                                          <Strength
-                                            bgColor={isStringPresent(
-                                              selectedStrengths,
-                                              'attribute',
-                                              strengthsAndTargets.strengths[
-                                                index
-                                              ]
-                                            )}
-                                          >
-                                            {
-                                              strengthsAndTargets.strengths[
-                                                index
-                                              ]
-                                            }
-                                          </Strength>
-                                        </StrengthContainer>
-                                      )}
-                                      {strengthsAndTargets.targets[index] && (
-                                        <TargetContainer
-                                          bgColor={isStringPresent(
-                                            selectedTargets,
-                                            'attribute',
-                                            strengthsAndTargets.targets[index]
-                                          )}
-                                        >
-                                          <Target
-                                            bgColor={isStringPresent(
-                                              selectedTargets,
-                                              'attribute',
-                                              strengthsAndTargets.targets[index]
-                                            )}
-                                          >
-                                            {strengthsAndTargets.targets[index]}
-                                          </Target>
-                                        </TargetContainer>
-                                      )}
-                                    </StrengthsAndTargetsPart>
-                                  )
-                                )}
-                              </StrengthsAndTargetsContainerBody>
-                            </StrengthsAndTargetsContainer>
-                          </MarkRubricContainer>
-                        );
-                      }
-                    )}
-                  </MarkStrengthContainer>
-                )}
-              </>
+              <StrengthAndTargetMarkingCriteria
+                markingCriteria={markingCriteria}
+                handleStrengthndTargetChange={handleStrengthndTargetChange}
+                pageMode={pageMode}
+                selectedStrengths={selectedStrengths}
+                selectedTargets={selectedTargets}
+              />
             )}
           </PopupDialogContentBox>
+          {isAllowGiveMarkingCriteriaFeedback(pageMode) && (
+            <SaveButtonContainer>
+              <SaveButton
+                onClick={() => {
+                  saveMarkingCrieria();
+                }}
+              >
+                <SaveButtonText>Save Criteria</SaveButtonText>
+              </SaveButton>
+            </SaveButtonContainer>
+          )}
         </PopupContainer>
       </PopupBackground>
     );
   };
-
 
   return (
     <>
@@ -441,26 +304,26 @@ const CriteriaAndOverallFeedback = ({
       )}
       <MainContainer openRightPanel={openRightPanel}>
         <Heading>
-            {isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) ? (
+          {isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) ? (
             <HeadingTitle>
               Assessment Criteria
               <img src={QuestionIcon} />
             </HeadingTitle>
-            ) : (
+          ) : (
             <HeadingTitle>
               Overall Feedback
               <img src={QuestionIcon} />
             </HeadingTitle>
-            )}
-            <HeadingDropdown>
-              <img src={TickMark} />
-            </HeadingDropdown>
-            {openRightPanel === 'tab2' && (
-              <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
-            )}
+          )}
+          <HeadingDropdown>
+            <img src={TickMark} />
+          </HeadingDropdown>
+          {openRightPanel === 'tab2' && (
+            <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
+          )}
         </Heading>
         <Body>
-          {isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) && (
+          {isShowMarkingCriteriaSection(markingCriteria, pageMode) && (
             <>
               <MarkingCriteriaMainHeadingContainer>
                 <MarkingCriteriaMainHeading>
@@ -479,20 +342,36 @@ const CriteriaAndOverallFeedback = ({
               <MarkingCriteriaContainer>
                 <MarkingCriteriaHeadingContainer>
                   <MarkingCriteriaHeading>
-                    {markingCriteria?.type === 'RUBRICS'
+                    {isMarkingCriteriaTypeRubric(markingCriteria?.type)
                       ? 'Rubric'
                       : 'Strengths and Targets'}
                   </MarkingCriteriaHeading>
                   <RubricButton
                     onClick={() => setShowMarkingCrteriaPopUp(true)}
                   >
-                    Expand
+                    {!isAllowGiveMarkingCriteriaFeedback(pageMode)
+                      ? 'Expand'
+                      : isSubmitted ||
+                        (isMarkingCriteriaTypeRubric(markingCriteria?.type)
+                          ? allCriteriaHaveSelectedLevels(
+                              markingCriteria?.criterias
+                            )
+                          : !isNullOrEmpty(selectedTargets) ||
+                            !isNullOrEmpty(selectedStrengths))
+                      ? 'Update'
+                      : 'Expand'}
                   </RubricButton>
                 </MarkingCriteriaHeadingContainer>
               </MarkingCriteriaContainer>
             </>
           )}
-          {isShowOverallFeedbackHeadline(pageMode, overallComment, submission.reviewerId, userId, markingCriteriaFeedback) && (
+          {isShowOverallFeedbackHeadline(
+            pageMode,
+            overallComment,
+            submission.reviewerId,
+            userId,
+            markingCriteriaFeedback
+          ) && (
             <Heading>
               <HeadingTitle>
                 Overall Feedback
@@ -502,9 +381,12 @@ const CriteriaAndOverallFeedback = ({
                 <img src={TickMark} />
               </HeadingDropdown>
               {openRightPanel === 'tab2' &&
-              !isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) && (
-                <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
-              )}
+                !isShowMarkingCriteriaSection(
+                  markingCriteriaFeedback,
+                  pageMode
+                ) && (
+                  <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
+                )}
             </Heading>
           )}
           <OverallFeedbackContainer>

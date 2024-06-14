@@ -1,11 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TextFeedback } from './style';
+import {
+  Button,
+  ButtonContainer,
+  CheckedContainer,
+  CheckedContainerInput,
+  CheckedContainerLable,
+  OverallFeedbackSection,
+  TextFeedback,
+} from './style';
 import { base64ToBlob, blobToBase64 } from '../../utils/blobs';
 import AudioRecorder from '../AudioRecorder';
-import NonEditableFeedback from '../../components2/NonEditableFeedback';
 import AudioPlayer from '../AudioPlayer';
 import { textAreaAutoResize } from '../../components2/textAreaAutoResize';
-import { isShowClosedReviewAudioComment, isShowClosedReviewOverallComment, isShowClosedReviewOverallTextInputBox, isShowOverAllTextFeedback } from '../FeedbacksComponents/FeedbacksRoot/rules';
+import {
+  isShowClosedReviewAudioComment,
+  isShowClosedReviewOverallComment,
+  isShowClosedReviewOverallTextInputBox,
+  isShowOverAllTextFeedback,
+  isStringNull,
+} from '../FeedbacksComponents/FeedbacksRoot/rules';
+import GreenTick, { GreenTickText } from '../GreenTick';
 
 const NewOverallFeedback = ({
   pageMode,
@@ -14,9 +28,11 @@ const NewOverallFeedback = ({
   overallComment,
   updateOverAllFeedback,
   reviewer,
-  userId
+  userId,
 }) => {
   const [audioComment, setAudioComment] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const inputRef = useRef();
 
   useEffect(() => {
@@ -27,10 +43,11 @@ const NewOverallFeedback = ({
         inputRef.current.value = '';
       }
     }
-  
+
     if (overallComment?.questionSerialNumber === serialNumber) {
       setAudioComment(overallComment.audio);
     }
+    if (isEditing) setIsEditing(false);
     const textarea = inputRef.current;
     if (textarea) {
       const adjustHeight = () => {
@@ -43,7 +60,7 @@ const NewOverallFeedback = ({
         textarea.removeEventListener('input', adjustHeight);
       };
     }
-  }, [overallComment, serialNumber, inputRef]);
+  }, [overallComment, serialNumber]);
 
   const onSave = () => {
     let value = inputRef.current.value;
@@ -59,6 +76,17 @@ const NewOverallFeedback = ({
       overallComment.comment,
       null
     );
+  };
+
+  const handleCheckboxChange = (event) => {
+    const checked = event.target.checked;
+    setIsChecked(checked);
+    if (
+      checked &&
+      (overallComment?.comment != null || overallComment?.audio != null)
+    ) {
+      updateOverAllFeedback(overallComment.id, '', null);
+    }
   };
 
   const handleAudioFeedbackRecorded = (audioFeedback) => {
@@ -82,10 +110,18 @@ const NewOverallFeedback = ({
             ref={inputRef}
             readOnly={true}
             placeholder="Give feedback here..."
+            style={{
+              height: 'auto',
+            }}
             read={true}
           />
         )}
-        {isShowClosedReviewOverallComment(pageMode, overallComment?.comment, reviewer, userId) ? (
+        {isShowClosedReviewOverallComment(
+          pageMode,
+          overallComment?.comment,
+          reviewer,
+          userId
+        ) ? (
           <TextFeedback
             ref={inputRef}
             readOnly={true}
@@ -95,30 +131,47 @@ const NewOverallFeedback = ({
             }}
           />
         ) : null}
-        {isShowClosedReviewAudioComment(pageMode, overallComment?.audio, reviewer, userId) && (
+        {isShowClosedReviewAudioComment(
+          pageMode,
+          overallComment?.audio,
+          reviewer,
+          userId
+        ) && (
           <AudioPlayer
-            generatedAudioFeedback={base64ToBlob(overallComment.audio, 'audio/webm')}
+            generatedAudioFeedback={base64ToBlob(
+              overallComment.audio,
+              'audio/webm'
+            )}
           />
         )}
       </>
     );
   }
 
-  return (
-    <>
-     {isShowOverAllTextFeedback(pageMode, overallComment?.comment) && (
-      <TextFeedback
-        ref={inputRef}
-        placeholder="Give feedback here..."
-        style={{
-          height: `${inputRef.current ? inputRef.current.scrollHeight : 104}px`,
-        }}
-        onBlur={pageMode === 'REVIEW' ? () => onSave() : undefined}
-        onChange={(e) => {
-          textAreaAutoResize(e, inputRef);
-        }}
-      ></TextFeedback>
-     )}
+  return isChecked ? (
+    <CheckedContainer>
+      <CheckedContainerInput
+        type="checkbox"
+        checked={isChecked}
+        onChange={handleCheckboxChange}
+      />
+      <CheckedContainerLable>Give Overall Feedback</CheckedContainerLable>
+    </CheckedContainer>
+  ) : (
+    <OverallFeedbackSection>
+      {isShowOverAllTextFeedback(pageMode, overallComment?.comment) && (
+        <TextFeedback
+          ref={inputRef}
+          placeholder="Give feedback here..."
+          style={{
+            minHeight: '160px',
+          }}
+          onChange={(e) => {
+            setIsEditing(true);
+            textAreaAutoResize(e, inputRef);
+          }}
+        ></TextFeedback>
+      )}
 
       {overallComment?.audio ? (
         <AudioRecorder
@@ -131,7 +184,28 @@ const NewOverallFeedback = ({
           handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
         />
       )}
-    </>
+      <ButtonContainer>
+        <Button
+          onClick={() => {
+            onSave();
+          }}
+          disabled={!isEditing}
+        >
+          {!isStringNull(overallComment?.comment) ? 'Update' : 'Save Feedback'}
+        </Button>
+      </ButtonContainer>
+      {!isStringNull(overallComment?.comment) && (
+        <GreenTickText text={'Overall feedback saved'} />
+      )}
+      <CheckedContainer>
+        <CheckedContainerInput
+          type="checkbox"
+          checked={isChecked}
+          onChange={handleCheckboxChange}
+        />
+        <CheckedContainerLable>Skip this section</CheckedContainerLable>
+      </CheckedContainer>
+    </OverallFeedbackSection>
   );
 };
 

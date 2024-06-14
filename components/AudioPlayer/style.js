@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const AudioContainer = styled.div`
   width: 250px;
-  margin-top: 10px;
 `;
 
 export const Audio = styled.audio`

@@ -42,7 +42,8 @@ import {
 } from './style';
 import CloseIcon from '../../../static/img/close.svg';
 import QuestionIcon from '../../../static/img/question-mark.svg';
-import TickMark from '../../../static/img/Ticklightcolor.svg';
+// import TickMark from '../../../static/img/Ticklightcolor.svg';
+// import GreenTick from '../../../static/img/GreenTick.svg';
 import ArrowDownIcon from '../../../static/img/gray-arrow-down.svg';
 import Microphone from '../../../static/img/Microphone.svg';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
@@ -64,7 +65,9 @@ import {
   isAllowGiveMarkingCriteriaFeedback,
   isShowMarkingCriteriaSection,
   isShowOverallFeedbackHeadline,
+  isStringNull,
 } from '../FeedbacksRoot/rules';
+import { GreenTickComponent } from '../../GreenTick';
 // import MemoizedAudioRecorder from '../../AudioRecorder';
 
 const CriteriaAndOverallFeedback = ({
@@ -174,8 +177,8 @@ const CriteriaAndOverallFeedback = ({
     handleMarkingCriteriaLevelFeedback(QuestionIndex + 1, index, name);
   };
 
-  console.log('the marking criteria is', markingCriteriaFeedback)
-  console.log('the overall feedback', overallComments)
+  console.log('the marking criteria is', markingCriteriaFeedback);
+  console.log('the overall feedback', overallComments);
 
   const MarkingCriteriaPopContainer = ({
     markingCriteria,
@@ -425,7 +428,6 @@ const CriteriaAndOverallFeedback = ({
     );
   };
 
-
   return (
     <>
       {isShowMarkingCrteriaPopUp && (
@@ -441,23 +443,35 @@ const CriteriaAndOverallFeedback = ({
       )}
       <MainContainer openRightPanel={openRightPanel}>
         <Heading>
-            {isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) ? (
+          {isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) ? (
             <HeadingTitle>
               Assessment Criteria
               <img src={QuestionIcon} />
             </HeadingTitle>
-            ) : (
-            <HeadingTitle>
-              Overall Feedback
-              <img src={QuestionIcon} />
-            </HeadingTitle>
-            )}
+          ) : (
+            <>
+              <HeadingTitle>
+                Overall Feedback
+                <img src={QuestionIcon} />
+              </HeadingTitle>
+              <GreenTickComponent
+                ShowGreen={!isStringNull(overallComment?.comment)}
+              />
+            </>
+          )}
+
+          {/* {overallComment?.comment != null ? (
+            <HeadingDropdown>
+              <img src={GreenTick} />
+            </HeadingDropdown>
+          ) : (
             <HeadingDropdown>
               <img src={TickMark} />
             </HeadingDropdown>
-            {openRightPanel === 'tab2' && (
-              <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
-            )}
+          )} */}
+          {openRightPanel === 'tab2' && (
+            <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
+          )}
         </Heading>
         <Body>
           {isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) && (
@@ -492,19 +506,28 @@ const CriteriaAndOverallFeedback = ({
               </MarkingCriteriaContainer>
             </>
           )}
-          {isShowOverallFeedbackHeadline(pageMode, overallComment, submission.reviewerId, userId, markingCriteriaFeedback) && (
+          {isShowOverallFeedbackHeadline(
+            pageMode,
+            overallComment,
+            submission.reviewerId,
+            userId,
+            markingCriteriaFeedback
+          ) && (
             <Heading>
               <HeadingTitle>
                 Overall Feedback
                 <img src={QuestionIcon} />
               </HeadingTitle>
-              <HeadingDropdown>
-                <img src={TickMark} />
-              </HeadingDropdown>
+              <GreenTickComponent
+                ShowGreen={!isStringNull(overallComment?.comment)}
+              />
               {openRightPanel === 'tab2' &&
-              !isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) && (
-                <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
-              )}
+                !isShowMarkingCriteriaSection(
+                  markingCriteriaFeedback,
+                  pageMode
+                ) && (
+                  <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
+                )}
             </Heading>
           )}
           <OverallFeedbackContainer>

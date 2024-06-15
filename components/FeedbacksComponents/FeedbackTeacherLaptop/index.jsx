@@ -519,7 +519,19 @@ function answersAndFeedbacks(
     SetOpenRightPanel(tab);
   };
 
+  const focusAreaComments = comments?.filter(
+    (comment) => comment.type === 'FOCUS_AREA'
+  );
+  
+  const focusAreaCommentIds = focusAreaComments
+    ?.filter((f) => f.questionSerialNumber === QuestionIndex + 1)
+    .map((comment) => comment.focusAreaId);
+
   const question = submission.assignment.questions[QuestionIndex];
+
+  const matchingFocusAreas = question?.focusAreas?.filter((focusArea) =>
+    focusAreaCommentIds.includes(focusArea.id)
+  );
 
   return (
     <Frame1386 id="content">
@@ -582,7 +594,7 @@ function answersAndFeedbacks(
             handleCheckboxChange={handleCheckboxChange}
             groupedFocusAreaIds={groupedFocusAreaIds}
             serialNumber={question?.serialNumber}
-            focusAreas={question?.focusAreas}
+            focusAreas={matchingFocusAreas}
           />
         )}
         <Frame1368 id="assignmentData">

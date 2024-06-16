@@ -60,74 +60,66 @@ const CommentBox = ({
   question,
   isFeedback,
 }) => {
+  console.log("Rerendering CommentBox");
   const { showNewComment, newCommentSerialNumber, isTeacher, setSelectedComment } =
     useContext(FeedbackContext);
-  const [commentHeights, setCommentHeights] = useState([]);
   const [openCommentBox, setOpenCommentbox] = useState(false);
+  const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
   const role = getUserRole();
   const commentRepositionRef = useRef(null);
-
-  useOutsideAlerter(commentRepositionRef, ()=> setSelectedComment(null))
+  const resizeObserver = useRef(null);
 
   let commentBankIds = submission.assignment.questions
     .filter((item) => item.serialNumber === newCommentSerialNumber)
     .map((item) => item.commentBankId);
 
-  const measureHeights = () => {
-    const newHeights = comments?.map((comment, index) => {
-      const element = document.getElementById(`comment-${comment.id}`);
-
-      const height = element ? element.clientHeight : 0;
-
-      return { ...comment, height: height };
-    });
-    setCommentHeights(newHeights);
-  };
-
-  useEffect(() => {
-    measureHeights();
-
-    window.addEventListener('resize', measureHeights);
-
-    return () => {
-      window.removeEventListener('resize', measureHeights);
-    };
-  }, []);
-  useEffect(() => {
-    comments.forEach((comment) => {
-      const element = document.getElementById(`comment-${comment.id}`);
-      if (!element) return;
-      const resizeObserver = new ResizeObserver((_) => {
-        measureHeights();
-      });
-
-      resizeObserver.observe(element);
-
-      return () => {
-        resizeObserver.unobserve(element);
-      };
-    });
-  }, [comments]);
   const flattenComments = (nestedComments) => {
     return nestedComments.reduce((acc, group) => acc.concat(group), []);
   };
+
   const visibleComments = comments.filter((comment) => !comment.isHidden);
 
-  const groupedComments = getBounds(
-    editor,
-    withHeights(visibleComments),
-    selectedComment?.id
-  );
-  const groupedCommentsWithGap = adjustPositionsForSelectedComment(
-    editor,
-    flattenComments(groupedComments),
-    selectedComment?.id
-  );
+  const calculateBounds = () => {
+    const groupedComments = getBounds(
+      editor,
+      withHeights(visibleComments),
+      selectedComment?.id
+    );
+    const newGroupedCommentsWithGap = adjustPositionsForSelectedComment(
+      editor,
+      flattenComments(groupedComments),
+      selectedComment?.id
+    );
 
-  const totalHeightAllComments = commentHeights.reduce((acc, cur) => {
-    return acc + cur.height;
+    // Only update state if bounds have changed
+    if (JSON.stringify(newGroupedCommentsWithGap) !== JSON.stringify(groupedCommentsWithGap)) {
+      setGroupedCommentsWithGap(newGroupedCommentsWithGap);
+    }
+  };
+
+  useEffect(() => {
+    calculateBounds();
+  }, [visibleComments, selectedComment, editor, groupedCommentsWithGap]);
+
+  useEffect(() => {
+    resizeObserver.current = new ResizeObserver(() => {
+      calculateBounds();
+    });
+
+    const commentElement = document.getElementById(`comment-${selectedComment?.id}`);
+    if (commentElement) {
+      resizeObserver.current.observe(commentElement);
+    }
+    return () => {
+      if (resizeObserver.current) {
+        resizeObserver.current.disconnect();
+      }
+    };
+  }, [selectedComment]);
+
+  const totalHeightAllComments = visibleComments.reduce((acc, cur) => {
+    return acc + (cur.height || 0);
   }, 0);
-
 
   return (
     <>
@@ -149,13 +141,6 @@ const CommentBox = ({
                 <img src={ShareIcon} />
               </Option>
             )}
-
-            {/* <Option>
-              <img src={AlphabetIcon} />
-            </Option>
-            <Option>
-              <img src={ThumbsupIcon} />
-            </Option> */}
           </OptionContainer>
           {openCommentBox &&
             newCommentFrame(
@@ -355,9 +340,6 @@ function reviewerNewComment(
                 />
               </CommentBoxContainer>
             )}
-            {/* <ShortcutList>
-                {shortcutList(methods, smartAnnotations, commentBankIds)}
-            </ShortcutList> */}
           </SmartAnnotationsComponent>
         </Frame1406>
       </Frame1329>
@@ -378,7 +360,6 @@ function shortcutList(methods, smartAnnotations, commentBankIds) {
       ))
   );
 }
-
 
 function selectFocusArea(methods, submission, newCommentSerialNumber) {
   const allFocusAreas = flatMap(submission.assignment.questions, (question) =>

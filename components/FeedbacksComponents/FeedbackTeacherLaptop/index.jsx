@@ -110,7 +110,12 @@ function FeedbackTeacherLaptop(props) {
   const { countWords, showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
   const [openRightPanel, SetOpenRightPanel] = React.useState('');
-
+  useEffect(() => {
+    if (showNewComment) {
+      setFeedback(true);
+      setFocusAreas(false);
+    }
+  }, [showNewComment]);
   React.useEffect(() => {
     let dataToUse = submission.otherDrafts || [];
 

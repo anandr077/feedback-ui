@@ -112,7 +112,7 @@ const QuillEditor = React.forwardRef(
         quillInstance.root.style.fontWeight = '400';
         quillInstance.root.style.color = '#181718';
 
-        const delta = quillInstance.clipboard.convert(value);
+        const delta = quillInstance.clipboard.convert({html:value});
         quillInstance.setContents(delta);
         setEditor(quillInstance);
 
@@ -412,13 +412,14 @@ function scrollToHighlight(commentId) {
     const commentIds = span.getAttribute('data-comment-ids');
     return commentIds && commentIds.split(',').includes(commentId);
   });
+  console.log("targetSpan", targetSpan)
   if (targetSpan) {
     setTimeout(
       () =>
         targetSpan.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
-          inline: 'nearest',
+          inline: 'center',
         }),
       100
     );

@@ -32,7 +32,7 @@ const FocusAreasLabel = ({
           onClick={() => handleCheckboxChange(serialNumber, fa.id)}
         >
           <Ellipse141 style={{ backgroundColor: fa.color }}></Ellipse141>
-          <Label>{fa.title}</Label>
+          <Label selected={isHighlighted(groupedFocusAreaIds, serialNumber, fa.id)}>{fa.title}</Label>
         </MainFocusBox>
       </>
     );

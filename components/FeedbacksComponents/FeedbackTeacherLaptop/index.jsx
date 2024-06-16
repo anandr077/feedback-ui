@@ -85,8 +85,6 @@ function FeedbackTeacherLaptop(props) {
     classesAndStudents,
     teachers,
     selectedComment,
-    overallComments,
-    markingCriteriaFeedback,
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
@@ -111,12 +109,13 @@ function FeedbackTeacherLaptop(props) {
   const drawerWidth = 219;
   const { countWords, showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
-  const [openRightPanel, SetOpenRightPanel] = React.useState(
-    overallComments?.length !== 0 || markingCriteriaFeedback?.length !== 0
-      ? 'tab2'
-      : 'tab1'
-  );
-
+  const [openRightPanel, SetOpenRightPanel] = React.useState('');
+  useEffect(() => {
+    if (showNewComment) {
+      setFeedback(true);
+      setFocusAreas(false);
+    }
+  }, [showNewComment]);
   React.useEffect(() => {
     let dataToUse = submission.otherDrafts || [];
 
@@ -519,7 +518,19 @@ function answersAndFeedbacks(
     SetOpenRightPanel(tab);
   };
 
+  const focusAreaComments = comments?.filter(
+    (comment) => comment.type === 'FOCUS_AREA'
+  );
+  
+  const focusAreaCommentIds = focusAreaComments
+    ?.filter((f) => f.questionSerialNumber === QuestionIndex + 1)
+    .map((comment) => comment.focusAreaId);
+
   const question = submission.assignment.questions[QuestionIndex];
+
+  const matchingFocusAreas = question?.focusAreas?.filter((focusArea) =>
+    focusAreaCommentIds.includes(focusArea.id)
+  );
 
   return (
     <Frame1386 id="content">
@@ -582,7 +593,7 @@ function answersAndFeedbacks(
             handleCheckboxChange={handleCheckboxChange}
             groupedFocusAreaIds={groupedFocusAreaIds}
             serialNumber={question?.serialNumber}
-            focusAreas={question?.focusAreas}
+            focusAreas={matchingFocusAreas}
           />
         )}
         <Frame1368 id="assignmentData">

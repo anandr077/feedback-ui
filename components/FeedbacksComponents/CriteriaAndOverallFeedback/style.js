@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 export const MainContainer = styled.div`
   position: absolute;
-  right: ${(props) => (props.openRightPanel === 'tab2' ? '48px' : '-287px')};
+  right: ${(props) => (props.openRightPanel === 'tab2' ? '48px' : '-460px')};
   top: 0;
   bottom: 0;
-  width: 287px;
+  width: 460px;
   height: calc(100% - 25px);
   padding: 0;
   border: solid 1px rgba(201, 198, 204, 0.5);

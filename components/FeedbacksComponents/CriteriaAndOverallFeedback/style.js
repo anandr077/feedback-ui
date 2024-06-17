@@ -165,11 +165,10 @@ export const MarkingCriteriaContainer = styled.div`
   margin: 0 16px;
 `;
 export const MarkingCriteriaMainHeadingContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin: 16px;
+  margin: 16px 16px 0px 16px;
 `;
 export const MarkingCriteriaMainHeading = styled.p`
   width: 100%;

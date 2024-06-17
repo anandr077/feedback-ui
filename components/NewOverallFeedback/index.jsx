@@ -17,9 +17,12 @@ import {
   isShowClosedReviewOverallComment,
   isShowClosedReviewOverallTextInputBox,
   isShowOverAllTextFeedback,
-  isStringNull,
+  isShowOverallFeedbackSavedLabel,
+  isShowSaveCommentLabel,
+  isShowUpdateCommentLabel,
 } from '../FeedbacksComponents/FeedbacksRoot/rules';
 import GreenTick, { GreenTickText } from '../GreenTick';
+import { isStringNull } from '../../utils/strings';
 
 const NewOverallFeedback = ({
   pageMode,
@@ -191,10 +194,12 @@ const NewOverallFeedback = ({
           }}
           disabled={!isEditing}
         >
-          {!isStringNull(overallComment?.comment) ? 'Update' : 'Save Feedback'}
+          {!isStringNull(overallComment?.comment)
+            ? isShowUpdateCommentLabel()
+            : isShowSaveCommentLabel()}
         </Button>
       </ButtonContainer>
-      {!isStringNull(overallComment?.comment) && (
+      {isShowOverallFeedbackSavedLabel(overallComment?.comment) && (
         <GreenTickText text={'Overall feedback saved'} />
       )}
       <CheckedContainer>

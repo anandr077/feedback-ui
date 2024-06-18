@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 export const MainContainer = styled.div`
   position: absolute;
-  right: ${(props) => (props.openRightPanel === 'tab4' ? '48px' : '-287px')};
+  right: ${(props) => (props.openRightPanel === 'tab4' ? '48px' : '-460px')};
   top: 0;
   bottom: 0;
-  width: 287px;
+  width: 460px;
   height: 100%;
   padding: 0;
   border: solid 1px rgba(201, 198, 204, 0.5);
@@ -44,7 +44,8 @@ export const Submission = styled.div`
   width: 100%;
   border-radius: 6px;
   border: 1px solid rgba(201, 198, 204, 0.5);
-  background-color: ${props => props.active ? 'rgba(241, 230, 252, 1)' : 'white'};
+  background-color: ${(props) =>
+    props.active ? 'rgba(241, 230, 252, 1)' : 'white'};
   padding: 8px;
   box-shadow: 0px 2.04px 4px 0px rgba(112, 112, 112, 0.1);
 `;
@@ -65,7 +66,8 @@ export const Date = styled.h3`
   font-weight: 500;
   font-size: var(--font-size-l);
   line-height: 24px;
-  color:  ${props => props.active ? 'rgba(114, 0, 224, 1)' : 'rgba(75, 70, 79, 1)'};
+  color: ${(props) =>
+    props.active ? 'rgba(114, 0, 224, 1)' : 'rgba(75, 70, 79, 1)'};
 `;
 
 export const Time = styled.p`
@@ -73,5 +75,6 @@ export const Time = styled.p`
   font-weight: 500;
   font-size: var(--font-size-s);
   line-height: 17px;
-  color: ${props => props.active ? 'rgba(173, 107, 237, 1)' : 'rgba(145, 139, 151, 1)'};
+  color: ${(props) =>
+    props.active ? 'rgba(173, 107, 237, 1)' : 'rgba(145, 139, 151, 1)'};
 `;

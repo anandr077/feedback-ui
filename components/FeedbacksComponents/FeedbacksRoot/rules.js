@@ -1,3 +1,5 @@
+import { isNullOrEmpty } from '../../../utils/arrays';
+
 export const isShowCommentInstructions = (
   pageMode,
   nbComments,
@@ -189,4 +191,31 @@ export const allCriteriaHaveSelectedLevels = (criterias) => {
     (criteria) =>
       criteria.selectedLevel !== null && criteria.selectedLevel !== undefined
   );
+};
+
+export const isShowGreenTick = (
+  markingCriteria,
+  selectedTargets,
+  selectedStrengths,
+  isSubmitted
+) => {
+  return (
+    isSubmitted ||
+    (isMarkingCriteriaTypeRubric(markingCriteria?.type)
+      ? allCriteriaHaveSelectedLevels(markingCriteria?.criterias)
+      : !isNullOrEmpty(selectedTargets) || !isNullOrEmpty(selectedStrengths))
+  );
+};
+
+export const isShowUpdateCommentLabel = () => {
+  return 'Update';
+};
+export const isShowSaveCommentLabel = () => {
+  return 'Save Feedback';
+};
+export const isShowOverallFeedbackSavedLabel = (String) => {
+  if (String === null || String === undefined) {
+    return false;
+  }
+  return true;
 };

@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
 export const AudioContainer = styled.div`
-  width: 250px;
+  width: 100%;
+  margin-top: 10px;
 `;
 
 export const Audio = styled.audio`
-  width: 250px !important;
   height: 45px;
-  width: ${(props) => (props.isTablet ? '150px' : '300px')};
+  width: 100%;
 
   &::-webkit-media-controls-panel {
     background-color: var(--blue-chalk);

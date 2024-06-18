@@ -19,7 +19,7 @@ export const AudioFeedbackTitle = styled.h2`
 
 export const Audio = styled.audio`
   height: 45px;
-  width: ${(props) => (props.isTablet ? '150px' : '300px')};
+  width: 100%;
 
   &::-webkit-media-controls-panel {
     background-color: var(--blue-chalk);
@@ -67,7 +67,7 @@ export const GeneratedAudio = styled.div`
   display: flex;
   align-items: center;
   background-color: var(--blue-chalk);
-  width: 250px;
+  width: 100%;
   border-radius: 25px;
 `;
 

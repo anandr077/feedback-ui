@@ -126,6 +126,5 @@ export const FeedbackBtn = styled.div`
   font-size: var(--font-size-l);
   line-height: 24px;
   color: rgba(114, 0, 224, 1);
-  margin-top: 14px;
   cursor: pointer;
 `;

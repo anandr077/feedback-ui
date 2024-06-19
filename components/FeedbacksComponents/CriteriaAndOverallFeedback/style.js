@@ -122,8 +122,7 @@ export const RubricButton = styled.button`
 `;
 
 export const OverallFeedbackContainer = styled.div`
-  padding: 0 16px;
-  margin-bottom: 65px;
+  padding: 16px 16px;
 `;
 
 export const TextFeedback = styled.textarea`

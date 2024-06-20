@@ -1,3 +1,4 @@
+import { Checkbox } from '@mui/material';
 import styled from 'styled-components';
 
 export const OverallFeedbackSection = styled.div`
@@ -46,11 +47,9 @@ export const Button = styled.button`
   border: none;
 `;
 
-
 export const CheckedContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 8px;
   justify-content: flex-start;
   align-items: center;
 `;
@@ -64,4 +63,31 @@ export const CheckedContainerLable = styled.label`
   line-height: 24px;
   text-align: left;
   color: var(--color-neutral-400, #56515b);
+`;
+
+const StyledCheckbox = styled(Checkbox)`
+  &.MuiCheckbox-root {
+    color: var(--light-mode-purple);
+    padding: 0px 5px;
+    border-radius: 50% !important;
+
+    &.Mui-checked {
+      color: var(--light-mode-purple);
+      background-color: var(--light-mode-purple);
+      border-radius: 50%;
+    }
+    &.Mui-checked:not(:hover) {
+      color: var(--light-mode-purple);
+      background-color: transparent;
+    }
+    &:hover:not(.Mui-disabled) {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+    }
+    & .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
+      font-size: 1.2rem;
+    }
+    & .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium path {
+      fill: var(--light-mode-purple);
+    }
+  }
 `;

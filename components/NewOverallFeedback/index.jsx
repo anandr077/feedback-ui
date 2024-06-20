@@ -23,6 +23,7 @@ import {
 } from '../FeedbacksComponents/FeedbacksRoot/rules';
 import GreenTick, { GreenTickText } from '../GreenTick';
 import { isStringNull } from '../../utils/strings';
+import CheckboxBordered from '../CheckboxBordered';
 
 const NewOverallFeedback = ({
   pageMode,
@@ -153,12 +154,8 @@ const NewOverallFeedback = ({
 
   return isChecked ? (
     <CheckedContainer>
-      <CheckedContainerInput
-        type="checkbox"
-        checked={isChecked}
-        onChange={handleCheckboxChange}
-      />
-      <CheckedContainerLable>Give Overall Feedback</CheckedContainerLable>
+      <CheckboxBordered checked={isChecked} onChange={handleCheckboxChange} />
+      <CheckedContainerLable>Skip this section</CheckedContainerLable>
     </CheckedContainer>
   ) : (
     <OverallFeedbackSection>
@@ -167,25 +164,13 @@ const NewOverallFeedback = ({
           ref={inputRef}
           placeholder="Give feedback here..."
           style={{
-            minHeight: '160px',
+            minHeight: '104px',
           }}
           onChange={(e) => {
             setIsEditing(true);
             textAreaAutoResize(e, inputRef);
           }}
         ></TextFeedback>
-      )}
-
-      {overallComment?.audio ? (
-        <AudioRecorder
-          handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
-          handleDelete={handleDeleteAudioFeedback}
-          initialAudio={base64ToBlob(overallComment?.audio, 'audio/webm')}
-        />
-      ) : (
-        <AudioRecorder
-          handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
-        />
       )}
       <ButtonContainer>
         <Button
@@ -202,12 +187,21 @@ const NewOverallFeedback = ({
       {isShowOverallFeedbackSavedLabel(overallComment?.comment) && (
         <GreenTickText text={'Overall feedback saved'} />
       )}
-      <CheckedContainer>
-        <CheckedContainerInput
-          type="checkbox"
-          checked={isChecked}
-          onChange={handleCheckboxChange}
+      {overallComment?.audio ? (
+        <AudioRecorder
+          handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
+          handleDelete={handleDeleteAudioFeedback}
+          initialAudio={base64ToBlob(overallComment?.audio, 'audio/webm')}
         />
+      ) : (
+        <AudioRecorder
+          handleAudioFeedbackRecorded={handleAudioFeedbackRecorded}
+        />
+      )}
+
+      <CheckedContainer>
+        <CheckboxBordered checked={isChecked} onChange={handleCheckboxChange} />
+
         <CheckedContainerLable>Skip this section</CheckedContainerLable>
       </CheckedContainer>
     </OverallFeedbackSection>

@@ -41,6 +41,7 @@ import { acceptFeedbackRequest, declineFeedbackRequest } from '../../service';
 import arrowRight from '../../static/img/arrowright.svg';
 import { requestedTime } from '../../utils/requestedTime';
 import SnackbarContext from '../SnackbarContext';
+import { Avatar } from '@boringer-avatars/react';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
   const { showSnackbar } = React.useContext(SnackbarContext);
@@ -84,7 +85,12 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
     if (showFullText) {
       return title;
     } else {
-      return title.length > 120 ? title.slice(0, 120) + '...' : title;
+      if (title.length > 120) {
+        const sliceIndex = title.lastIndexOf(' ', 120);
+        return title.slice(0, sliceIndex) + '...';
+      } else {
+        return title;
+      }
     }
   };
 
@@ -99,8 +105,16 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
           <CardContainer>
             <TagsAndTextContainer>
               <UserNameBox>
-                <UserImage></UserImage>
-                Username
+                <UserImage>
+                  <Avatar
+                    title={false}
+                    size={24}
+                    variant="beam"
+                    name={text?.authorName}
+                    square={false}
+                  />
+                </UserImage>
+                {text?.authorName}
               </UserNameBox>
               <RequestedText>
                 {pathName.includes('/feedbackHistory')

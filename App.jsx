@@ -29,7 +29,6 @@ import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getUserName, getUserRole } from './userLocalDetails';
-
 import Cookies from 'js-cookie';
 import GiveFeedback from './components/GiveFeedback';
 import MainPage from './components/MainPage';
@@ -47,6 +46,8 @@ import Header from './components/Header2';
 import MainSidebar from './components/MainSidebar';
 import CommentBanks from './components/CommentBanks';
 import { getLocalClasses } from './service';
+import { isMobileView } from './components/ReactiveRender';
+import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
 
 function App() {
   const role = getUserRole();
@@ -55,6 +56,7 @@ function App() {
   const [showFooter, setShowFooter] = useState(true);
   const { snackbarOpen, snackbarMessage, snackbarLink, closeSnackbar } =
     React.useContext(SnackbarContext);
+  const mobileView = isMobileView();
 
   const linkButton = snackbarLink ? (
     <Button
@@ -163,70 +165,75 @@ function App() {
             <MainSidebar />
             <div className="route-container">
               <Header />
-              <Switch>
-                <Route path="/docs">
-                  <ProtectedDocRoot />
-                </Route>
-                <Route path="/main">
-                  <MainPage />
-                </Route>
-                <Route path="/settings">
-                  <ProtectedSettings />
-                </Route>
-                <Route path="/markingTemplates/rubrics/:markingCriteriaId">
-                  <ProtectedMarkingCriteria />
-                </Route>
-                <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
-                  <ProtectedStrengthAndTarget />
-                </Route>
-                <Route path="/getFeedback">
-                  <ProtectedDocRoot />
-                </Route>
-                <Route path="/giveFeedback">
-                  <ProtectedGiveFeedback />
-                </Route>
-                <Route path="/completed">
-                  <ProtectedCompletedRoot />
-                </Route>
-                <Route path="/feedbackHistory">
-                  <ProtectedGiveFeedback />
-                </Route>
-                <Route path="/classes/:classIdFromUrl?">
-                  <ProtectedTeacherClassesRoot />
-                </Route>
-                <Route path="/tasks/:assignmentId/start">
-                  <ProtectedTaskDetail />
-                </Route>
-                <Route path="/tasks/:assignmentId">
-                  <ProtectedCreateAssignment />
-                </Route>
-                <Route path="/tasks">{Tasks({ role })}</Route>
-                <Route path="/sharedresponses">
-                  <ProtectedExemplarResponsesPage />
-                </Route>
-                <Route path="/submissions/:id">
-                  <ProtectedFeedbacksRoot isAssignmentPage={false} />
-                </Route>
-                <Route path="/docs">
-                  <ProtectedDocumentRoot />
-                </Route>
-                <Route path="/documents/:id">
-                  <ProtectedDocumentRoot />
-                </Route>
-                <Route path="/documentsReview/:id">
-                  <ProtectedDocumentRoot />
-                </Route>
-                <Route path="/commentbanks">
-                  <ProtectedCommentbanks />
-                </Route>
-                <Route path="/404">
-                  <PageNotFound />
-                </Route>
-                <Route exact path="/">
-                  {Dashboard({ role })}
-                </Route>
-                <Redirect to="/404" />
-              </Switch>
+              {mobileView ? (
+                <WelcomeOverlayMobile />
+              ) : (
+                <Switch>
+                  <Route path="/docs">
+                    <ProtectedDocRoot />
+                  </Route>
+                  <Route path="/main">
+                    <MainPage />
+                  </Route>
+                  <Route path="/settings">
+                    <ProtectedSettings />
+                  </Route>
+                  <Route path="/markingTemplates/rubrics/:markingCriteriaId">
+                    <ProtectedMarkingCriteria />
+                  </Route>
+                  <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
+                    <ProtectedStrengthAndTarget />
+                  </Route>
+                  <Route path="/getFeedback">
+                    <ProtectedDocRoot />
+                  </Route>
+                  <Route path="/giveFeedback">
+                    <ProtectedGiveFeedback />
+                  </Route>
+                  <Route path="/completed">
+                    <ProtectedCompletedRoot />
+                  </Route>
+                  <Route path="/feedbackHistory">
+                    <ProtectedGiveFeedback />
+                  </Route>
+                  <Route path="/classes/:classIdFromUrl?">
+                    <ProtectedTeacherClassesRoot />
+                  </Route>
+                  <Route path="/tasks/:assignmentId/start">
+                    <ProtectedTaskDetail />
+                  </Route>
+                  <Route path="/tasks/:assignmentId">
+                    <ProtectedCreateAssignment />
+                  </Route>
+                  <Route path="/tasks">{Tasks({ role })}</Route>
+                  <Route path="/sharedresponses">
+                    <ProtectedExemplarResponsesPage />
+                  </Route>
+                  <Route path="/submissions/:id">
+                    <ProtectedFeedbacksRoot isAssignmentPage={false} />
+                  </Route>
+                  <Route path="/docs">
+                    <ProtectedDocumentRoot />
+                  </Route>
+                  <Route path="/documents/:id">
+                    <ProtectedDocumentRoot />
+                  </Route>
+                  <Route path="/documentsReview/:id">
+                    <ProtectedDocumentRoot />
+                  </Route>
+                  <Route path="/commentbanks">
+                    <ProtectedCommentbanks />
+                  </Route>
+                  <Route path="/404">
+                    <PageNotFound />
+                  </Route>
+                  <Route exact path="/">
+                    {Dashboard({ role })}
+                  </Route>
+                  <Redirect to="/404" />
+                </Switch>
+              )}
+
               {showFooter && <ResponsiveFooter />}
             </div>
           </div>

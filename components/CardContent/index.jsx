@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { formattedDate } from '../../dates';
 import {
   RemarkText,
@@ -18,10 +18,14 @@ import {
   Line,
   DeclineText,
   AcceptText,
+  TeacherComment,
+  ReadMoreButton,
 } from './style';
 
 function CardContent(props) {
   const { task, small, onAccept, onDecline } = props;
+  const [showFullPara, setShowFullPara] = useState(false);
+  const [showFullSubPara, setShowFullSubPera] = useState(false);
 
   function createTitle(small, title) {
     if (!title) return <></>;
@@ -35,13 +39,31 @@ function CardContent(props) {
   function createPara(small, para) {
     if (!para) return <></>;
     return (
-      <>
+      <div>
         {small ? (
-          <SmallTaskTitle>{para}</SmallTaskTitle>
+          <SmallTaskTitle>
+            {showFullPara
+              ? para
+              : para.slice(0, 180) + (para.length > 180 ? '...' : '')}
+          </SmallTaskTitle>
         ) : (
-          <TaskTitle>{para}</TaskTitle>
+          <TaskTitle>
+            {showFullPara
+              ? para
+              : para.slice(0, 180) + (para.length > 180 ? '...' : '')}{' '}
+          </TaskTitle>
         )}
-      </>
+        {para.length > 180 && !showFullPara && (
+          <ReadMoreButton onClick={() => setShowFullPara(true)}>
+            Read more
+          </ReadMoreButton>
+        )}
+        {para.length > 180 && showFullPara && (
+          <ReadMoreButton onClick={() => setShowFullPara(false)}>
+            Show less
+          </ReadMoreButton>
+        )}
+      </div>
     );
   }
 
@@ -52,7 +74,25 @@ function CardContent(props) {
 
   function createSubPara(subPara) {
     if (!subPara) return <></>;
-    return <Remark>{subPara}</Remark>;
+    return (
+      <div>
+        <Remark>
+          {showFullSubPara
+            ? subPara
+            : subPara.slice(0, 180) + (subPara.length > 180 ? '...' : '')}{' '}
+        </Remark>
+        {subPara.length > 180 && !showFullSubPara && (
+          <ReadMoreButton onClick={() => setShowFullSubPera(true)}>
+            Read more
+          </ReadMoreButton>
+        )}
+        {subPara.length > 180 && showFullSubPara && (
+          <ReadMoreButton onClick={() => setShowFullSubPera(false)}>
+            Show less
+          </ReadMoreButton>
+        )}
+      </div>
+    );
   }
 
   function date(small, date) {
@@ -102,16 +142,19 @@ function CardContent(props) {
       <Content>
         {createTitle(small, task.title)}
         {createPara(small, task.para)}
-        {createSubtitle(task.subTitle)}
-        {createSubPara(task.subPara)}
+        {task.subTitle && task.subPara && (
+          <TeacherComment>
+            {createSubtitle(task.subTitle)}
+            {createSubPara(task.subPara)}
+          </TeacherComment>
+        )}
         {!onAccept && date(small, task.date)}
         {(task.status1 || task.status2) && (
-            <StatusContainer>
-              {createStatus(small, task.status1)}
-              {createStatus(small, task.status2)}
-            </StatusContainer>
-          )
-        }
+          <StatusContainer>
+            {createStatus(small, task.status1)}
+            {createStatus(small, task.status2)}
+          </StatusContainer>
+        )}
         {createAcceptDecline()}
       </Content>
     </>

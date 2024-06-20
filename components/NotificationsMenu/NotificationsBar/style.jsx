@@ -10,7 +10,7 @@ export const NavbarDiv = styled.div`
   position: relative;
   align-self: stretch;
   background-color: var(--white);
-  z-index: 1;
+  z-index: 10000;
 `;
 
 export const NotificationHead = styled.div`
@@ -55,13 +55,13 @@ export const MaskGroup = styled.img`
 
 export const Frame15 = styled.div`
   display: flex;
-  width: 420px;
+  width: 380px;
   align-items: flex-start;
   gap: 10px;
   padding: 20px;
   position: relative;
   align-self: stretch;
-  z-index: 10;
+  z-index: 100;
   height: 100%;
   flex-direction: column;
   overflow: scroll;

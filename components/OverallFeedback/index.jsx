@@ -150,10 +150,10 @@ const OverallFeedback = ({
 
   return (
     <FeedbackContainer>
-      <div style={{borderTop: '1px solid #F1E6FC', paddingTop: '40px'}}>
+      <div style={{ borderTop: '1px solid #F1E6FC', paddingTop: '40px' }}>
         <OverAllCommentTitle>General Feedback</OverAllCommentTitle>
-        {audioOverallComment(pageMode, overallComment)}
-        {showOverallComment(pageMode, overallComment)}
+        {/* {audioOverallComment(pageMode, overallComment)} */}
+        {/* {showOverallComment(pageMode, overallComment)} */}
       </div>
     </FeedbackContainer>
   );

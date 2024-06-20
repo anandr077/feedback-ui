@@ -17,7 +17,7 @@ export default AntSwitch = styled((props) => (
       transform: 'translateX(16px)',
       color: '#fff',
       '& + .MuiSwitch-track': {
-        backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff',
+        backgroundColor: theme.palette.mode === 'dark' ? '#7200e0' : '#7200e0',
         opacity: 1,
         border: 0,
       },

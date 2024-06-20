@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
-export const AudioContainer = styled.div``;
+export const AudioContainer = styled.div`
+  width: 100%;
+  margin-top: 10px;
+`;
 
 export const Audio = styled.audio`
   height: 45px;
-  width: ${(props) => (props.isTablet ? '150px' : '300px')};
+  width: 100%;
 
   &::-webkit-media-controls-panel {
     background-color: var(--blue-chalk);
@@ -30,14 +33,4 @@ export const Audio = styled.audio`
   &::-webkit-media-controls-download-button {
     display: none;
   }
-`;
-
-export const AudioFeedbackTitle = styled.h2`
-  color: var(--text, #1e252a);
-  font-size: 14px;
-  font-family: IBM Plex Sans;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  margin-bottom: 15px;
 `;

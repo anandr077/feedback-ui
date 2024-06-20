@@ -11,11 +11,11 @@ import {
 } from '../../../service';
 
 
-export const createDebounceFunction = (submission, pageMode, comments, setComments) => (answer) => {
+export const createDebounceFunction = (submission, setSubmission, pageMode, comments, setComments) => (answer) => {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return {
       debounceTime: 2000,
-      onDebounce: handleDebounce(comments, setComments, submission, answer),
+      onDebounce: handleDebounce(comments, setComments, submission, setSubmission, answer),
     };
   }
   return {
@@ -23,11 +23,12 @@ export const createDebounceFunction = (submission, pageMode, comments, setCommen
     onDebounce: console.log,
   };
 };
-const handleDebounce = (comments, setComments, submission, answer) => (contents, highlights) => {
+const handleDebounce = (comments, setComments, submission, setSubmission, answer) => (contents, highlights) => {
   handleChangeText('Saving...', false);
   saveAnswer(submission.id, answer.serialNumber, {
     answer: contents,
   }).then((updatedSubmission) => {
+    setSubmission(updatedSubmission);
     return updateCommentsRange(submission, comments, setComments)(answer, highlights);
   });
 };

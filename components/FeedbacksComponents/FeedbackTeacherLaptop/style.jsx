@@ -33,15 +33,7 @@ export const ButtonsContainer = styled.div`
     align-items: flex-start;
   }
 `;
-export const FocusAreasLabelContainer = styled.div`
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin: 0 48px;
-  padding-top: 20px;
-  border-top: 1px solid #f1e6fc;
-`;
+
 export const Ellipse141 = styled.div`
   position: relative;
   min-width: 15px;
@@ -63,6 +55,32 @@ export const Label = styled.div`
   letter-spacing: 0;
   line-height: 26px;
 `;
+
+export const OptionContainer = styled.button`
+  min-width: 112px;
+  min-height: 33px;
+  border-radius: 22px;
+  border: 1px solid rgba(201, 198, 204, 0.5);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  text-align: start;
+  gap: 8px;
+  background-color: white;
+  cursor: pointer;
+
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: var(--font-size-s);
+  line-height: 16px;
+  color: #7B7382;
+
+  &:hover{
+    background-color: rgba(201, 198, 204, 0.5);
+  }
+`;
+
+
 export const TitleWrapper = styled.div`
   width: 880px;
   display: flex;
@@ -164,7 +182,7 @@ export const PageContainer = styled.div`
   ::-webkit-scrollbar {
     width: 0;
   }
-  background: #FAF7FC;
+  background: #faf7fc;
   position: relative;
 `;
 
@@ -180,25 +198,23 @@ export const Main = styled.div`
   position: fixed;
   top: 70px;
   left: 0;
-  background-color: #f0f0f0; // Example background color
+  background-color: #f0f0f0;
 `;
 
 export const Main2 = styled.div`
-  width: 300px; // Adjust width as needed
+  width: 300px;
   height: 100vh;
   overflow-y: auto;
   position: fixed;
   top: 70px;
   left: 0;
-  background-color: #f0f0f0; // Example background color
+  background-color: #f0f0f0;
 `;
 
 export const Frame1388 = styled.div`
   flex: 1;
   width: 100vw;
   position: relative;
-  transform: ${(props) =>
-    props.open ? 'translateX(170px)' : 'translateX(0px)'};
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -206,27 +222,24 @@ export const Frame1388 = styled.div`
   align-self: stretch;
   transition: transform 0.3s ease-in;
   height: ${(props) => (props.mobileView ? '0px' : 'auto')};
-  max-width: ${(props) => (props.open ? '1100px' : '1300px')};
   overflow: auto;
   &::-webkit-scrollbar {
     display: none;
   }
   scrollbar-width: none;
-  background: #FAF7FC;
+  background: #faf7fc;
 
-  @media (min-width: 1600px) {
+  /* @media (min-width: 1600px) {
     max-width: 1300px;
-  }
+  }  */
 `;
 
 export const CountZoomContainer = styled.div`
-  position: fixed; 
+  position: fixed;
   bottom: 0px;
   display: flex;
   justify-content: space-between;
-  transform: ${(props) =>
-    props.open ? 'translateX(310px)' : 'translateX(0px)'};
-  display: ${props => props.mobileView ? 'none' : ''};
+  display: ${(props) => (props.mobileView ? 'none' : '')};
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
   font-size: var(--font-size-l);
@@ -235,8 +248,9 @@ export const CountZoomContainer = styled.div`
   transition: transform 0.3s ease-in, width 0.3s ease-in;
   background-color: var(--white);
   padding: 12px 30px;
-  width: ${(props) => props.open ? `calc(100vw - 310px)` : '100vw'};
+  width: calc(100% - 80px);
   box-shadow: 0 -3px 12px 0 rgba(48, 27, 114, 0.06);
+  z-index: 2;
 `;
 
 export const ZoomContianer = styled.div`
@@ -261,7 +275,7 @@ export const ZoomInput = styled.input`
   background-color: transparent;
 
   &::-webkit-slider-runnable-track {
-    background-color: #8F8F8F;
+    background-color: #8f8f8f;
     border-radius: 5px;
     height: 1px;
   }
@@ -274,7 +288,7 @@ export const ZoomInput = styled.input`
     border-radius: 50%;
     background-color: var(--light-mode-purple);
     cursor: pointer;
-    margin-top: -10px; 
+    margin-top: -10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
 `;
@@ -284,9 +298,9 @@ export const DrawerArrowContainer = styled.div`
   /* width: 300px;  */
   height: 100vh;
   overflow-x: hidden;
-  transition: width 0.3s; 
-  background-color: #f0f0f0; 
-  position: fixed; 
+  transition: width 0.3s;
+  background-color: #f0f0f0;
+  position: fixed;
   align-self: stretch;
   top: 70px;
   overflow-y: scroll;
@@ -294,42 +308,33 @@ export const DrawerArrowContainer = styled.div`
 
 export const DrawerArrow = styled.div`
   cursor: pointer;
-  //margin-left:0px
-  //margin-left: ${(props) => (props.open ? props.drawerWidth + 'px' : '0')};
-
-  /* margin-left: ${(props) => (props.open ? '35px' : '0')}; */
-  /* transform: ${(props) =>
-    props.open
-      ? 'translateX(0)'
-      : `translateX(-${props.drawerWidth + 35}px)`}; */
   padding: 6px 2px;
   height: 100vh;
   position: fixed;
-
-  /* position: ${(props) => (props.open ? 'relative' : 'fixed')}; */
-  /* top: ${(props) => (!props.open ? '0' : '50%')}; */
-  top: '50%';
   transform: ${(props) =>
-    props.open ? `translateX(${props.drawerWidth}px)` : '10px'};
-  /* transform: ${(props) => (!props.open ? 'none' : 'none')}; */
+    props.open ? `translateX(${props.drawerWidth - 10}px)` : '10px'};
   transition: transform 0.3s ease-in;
   display: flex;
   align-items: center;
-  z-index: 4;
+  z-index: 5;
 `;
 
 export const ArrowImg = styled.img`
-  width: 25px;
-  height: 25px;
+  width: 8px;
+  height: 8px;
   transform: ${(props) => (!props.open ? 'rotate(180deg)' : '0')};
   transition: transform 0.3s ease-in;
 `;
 
 export const ImgContainer = styled.div`
   padding: 5px 1px;
+  width: 24px;
+  height: 24px;
   background-color: white;
-  border: 1px solid var(--fog);
-  border-radius: 5px;
+  border: 1px solid rgba(201, 198, 204, 1);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
 `;
 
 export const Frame1387 = styled.div`
@@ -351,54 +356,9 @@ export const Frame1315 = styled.div`
 export const Frame1386 = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  gap: 32px;
-  padding: 60px 0px;
-  /* gap: 40px;
-  padding-top: 30px; */
-
   align-self: stretch;
-  width: ${({ onMobileView }) => (onMobileView ? '100%' : '90%')};
-  max-width: 1321px;
-`;
-
-export const GoBackBtn = styled.button`
-  width: fit-content;
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 23px;
-  color: var(--light-mode-purple);
-  background-color: transparent;
-  border-radius: 24px;
-  border: 1px solid var(--light-mode-purple);
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: 0.3s ease-in;
-  margin-bottom: 8px;
-  cursor: pointer;
-
-  .arrowImg {
-    width: 17px;
-    height: 12px;
-  }
-  .hoveredImg {
-    width: 17px;
-    height: 12px;
-    display: none;
-  }
-  &:hover {
-    color: var(--white);
-    background-color: var(--light-mode-purple);
-    .arrowImg {
-      display: none;
-    }
-    .hoveredImg {
-      display: block;
-    }
-  }
+  width: '100%';
+  overflow-x: hidden;
 `;
 
 export const Frame1371 = styled.div`
@@ -407,7 +367,7 @@ export const Frame1371 = styled.div`
   justify-content: space-between;
   gap: 32px;
   z-index: 2;
-  background-color: #FAF7FC;
+  background-color: #faf7fc;
   width: 100%;
 
   @media screen and (max-width: 1024px) and (min-width: 766px) {
@@ -452,15 +412,22 @@ export const Crown = styled.img`
   height: 20px;
 `;
 
+export const FeedbackBody = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
 export const Frame1368 = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   gap: 32px;
   align-self: stretch;
   position: sticky;
   top: 75px;
-  height: calc(100vh - 140px);
+  height: 100vh;
   overflow-y: scroll;
+  width: 100%;
 
   &::-webkit-scrollbar {
     width: 0;
@@ -473,26 +440,85 @@ export const Group1225 = styled.div`
   position: relative;
   display: flex;
   flex: 1;
-  flex-direction: column;
-  width: 880px;
   min-height: 650px;
+  width: calc(100vw - 48px);
 `;
 export const Frame1367 = styled.div`
   display: flex;
-  position: relative;
   flex-direction: column;
   align-items: flex-start;
-  gap: 50px;
+  position: absolute;
+  left: 50%;
+  transform: ${(props) =>
+    props.moveRight
+      ? 'translateX(-545px)'
+      : props.moveToLeft
+        ? 'translateX(calc(-50% - 350px))'
+        : 'translateX(calc(-50% - 210px))'
+  };
+  transition: transform 0.3s ease-in;
   height: 100%;
+  width: 650px;
+  margin: 20px;
+  border-radius: 10px;
 `;
+
+export const AddCommentFocusAreaDiv = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: ${(props) =>
+    props.moveToLeft
+      ? 'translateX(calc(-50% + 170px))'
+      : 'translateX(calc(-50% + 310px))'};
+  transition: transform 0.3s ease;
+  width: 314px;
+  z-index: -10;
+`;
+
 export const Frame1366 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 32px;
   position: relative;
   align-self: stretch;
+  gap: 16px;
   height: 100%;
+`;
+
+export const QuestionContainer = styled.div`
+  background-color: var(--white);
+  border-radius: 8px;
+  border: 1px solid rgba(178, 174, 183, 0.5);
+  box-shadow: 0px 4px 9px 0px rgba(133, 133, 133, 0.25);
+  width: 100%;
+`;
+
+export const QuestionTitleBox = styled.div`
+  background-color: rgba(40, 31, 69, 1);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 600;
+  line-height: 24px;
+  color: rgba(251, 247, 254, 1);
+  padding: 8px 20px;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    background-color: transparent;
+    border: none;
+    font-family: var(--font-family-ibm_plex_sans);
+    font-weight: 600;
+    line-height: 24px;
+    color: rgba(251, 247, 254, 1);
+    cursor: pointer;
+  }
 `;
 
 export const Line = styled.img`
@@ -504,27 +530,38 @@ export const AnswerContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  background-color: var(--white);
+  border: 1px solid rgba(201, 198, 204, 0.5);
+  box-shadow: 0px 4px 9px 0px rgba(133, 133, 133, 0.25);
   border-radius: 8px;
-  padding-bottom: 20px;
-  box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
 `;
 
 export const QuestionText = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-l);
-  font-weight: 500;
-  position: relative;
-  align-self: stretch;
-  letter-spacing: 0;
-  line-height: 26px;
+  line-height: 24px;
+  color: #181718;
+  font-size: 16px;
+  font-weight: 400;
   width: 100%;
-  padding: 20px 30px;
-  background-color: var(--white);
-  border-radius: 8px;
-  box-shadow: 0px 3px 12px 0px rgba(48, 27, 114, 0.06);
+  display: ${(props) => (props.slide ? 'auto' : 'none')};
+  padding: 20px 80px;
+  overflow: hidden;
 `;
+
+export const QuestionInputBox = styled.textarea`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 16px;
+  color: rgba(24, 23, 24, 1);
+  font-weight: 400;
+  line-height: 24px;
+  border: none;
+  outline: none;
+  resize: none;
+  width: 100%;
+  padding: 20px 80px;
+  display: ${(props) => (props.slide ? 'auto' : 'none')};
+  overflow: hidden;
+`;
+
 export const QuillContainer = styled.p`
   ${feedbacksIbmplexsansNormalShark20px}
   position: relative;
@@ -534,6 +571,7 @@ export const QuillContainer = styled.p`
   width: 100%;
   height: 100%;
   z-index: 1;
+  display: flex;
 `;
 
 export const Frame1331 = styled.div`
@@ -543,14 +581,14 @@ export const Frame1331 = styled.div`
   align-items: flex-start;
   gap: 20px;
   padding: 20px 20px;
-  
+
   position: sticky;
   top: 0px;
-  background-color: var(--white);
+  //background-color: var(--white);
   border-radius: 16px;
   height: calc(100vh - 130px);
   overflow-y: scroll;
-  box-shadow: 0px 4px 22px #2f1a720a;
+  //box-shadow: 0px 4px 22px #2f1a720a;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -692,52 +730,6 @@ export const ButtonWithImageBeforeText = styled.button`
   gap: 5px;
 `;
 
-export const Label16pxSmall = styled.div`
-  font-size: 16px;
-  font-weight: 400;
-  font-family: var(--font-family-ibm_plex_sans);
-  line-height: 20px;
-  color: var(--text);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-
-  div{
-    display: flex;
-    gap: 5px;
-
-    span{
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background-color: var(--light-mode-purple);
-    transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    animation: wave 0.5s cubic-bezier(0.22, 0.68, 0.78, 0.94) infinite;
-
-    @keyframes wave {
-      0%, 100% {
-          transform: translateY(0);
-      }
-      50% {
-          transform: translateY(-5px);
-      }
-    }
-    }
-    span:nth-child(1) {
-      animation-delay: 0s;
-    }
-
-    span:nth-child(2) {
-      animation-delay: 100ms;
-    }
-
-    span:nth-child(3) {
-      animation-delay: 200ms;
-    }
-  }
-`;
 
 export const RequestFeedbackStatusFrame = styled.div`
   cursor: pointer;
@@ -868,44 +860,6 @@ export const ShortcutList = styled.div`
   gap: 8px;
 `;
 
-export const SubjectSelectionContainer = styled.div`
-  display: flex;
-  justify-content: start;
-  gap: 30px;
-`;
-
-export const SubjectSelectBox = styled.div`
-  border-right: 1px solid #d6d6d6;
-  padding-right: 30px;
-  display: flex;
-  align-items: center;
-  /* flex-direction: row; */
-  &:last-child {
-    border-right: none;
-  }
-
-  label {
-    font-family: var(--font-family-ibm_plex_sans);
-    font-weight: 400;
-    font-size:  var(--font-size-xl);
-    line-height: 26px;
-    color: #6f6f6f;
-    padding-right: 10px;
-  }
-
-  select {
-    width: 200px;
-    border-radius: 8px;
-    border: 1px solid #d6d6d6;
-    padding: 8px 12px;
-    font-size: var(--font-size-l);
-    font-weight: 400;
-    line-height: 26px;
-    color: var(--text);
-    outline: none;
-    cursor: pointer;
-  }
-`;
 export const PopupContainer = styled.div`
   display: flex;
   flex-direction: column;

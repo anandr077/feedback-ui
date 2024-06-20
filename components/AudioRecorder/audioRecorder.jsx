@@ -4,7 +4,6 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 export const AudioContainer = styled.main`
   border-radius: 25px;
-  margin-top: 20px;
   width: 100%;
 `;
 
@@ -20,7 +19,7 @@ export const AudioFeedbackTitle = styled.h2`
 
 export const Audio = styled.audio`
   height: 45px;
-  width: ${(props) => (props.isTablet ? '150px' : '300px')};
+  width: 100%;
 
   &::-webkit-media-controls-panel {
     background-color: var(--blue-chalk);
@@ -68,7 +67,7 @@ export const GeneratedAudio = styled.div`
   display: flex;
   align-items: center;
   background-color: var(--blue-chalk);
-  width: fit-content;
+  width: 100%;
   border-radius: 25px;
 `;
 
@@ -116,4 +115,16 @@ export const RecordingIndicator = styled.div`
 
 export const AudioIcon = styled(VolumeUpIcon)`
   font-size: 18px !important;
+`;
+
+export const FeedbackBtn = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: rgba(114, 0, 224, 1);
+  cursor: pointer;
 `;

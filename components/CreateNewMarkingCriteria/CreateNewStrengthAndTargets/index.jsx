@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './style.css';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
@@ -12,6 +12,61 @@ import {
 } from '../../../service';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import Loader from '../../Loader';
+
+import React, { useState } from 'react';
+import {
+  AddNewCriteria,
+  AddNewCriteriaButton,
+  ButtonsContainer,
+  CriteriaPart,
+  EditIcon,
+  EditIconHover,
+  Heading,
+  HeadingContainer,
+  InnerContainer,
+  LeftContainer,
+  MainContainer,
+  MinusContainer,
+  MinusImg,
+  OptionContainer,
+  OptionIcon,
+  OptionText,
+  OptionsContainer,
+  PlusContainer,
+  PlusImg,
+  PlusMinusContainer,
+  PreviewButton,
+  PreviewButtonIcon,
+  PreviewButtonText,
+  RightContainer,
+  SaveButton,
+  SaveButtonText,
+  Strength,
+  StrengthPart,
+  TableBodyPart,
+  TableBodyParts,
+  TableContainer,
+  TableHeading,
+  TableHeadingPart,
+  TableRowButton,
+  TableRowButtonIcon,
+  TableRowButtoncont,
+  TableRowText,
+  TargetPart,
+  TargetsPart,
+  TextArea,
+  TextInput,
+} from './style';
+
+import Eye from '../../../static/icons/Eye.svg';
+import Plus from '../../../static/icons/Plus.svg';
+import pluswhite from '../../../static/icons/pluswhite.svg';
+import grayEdit from '../../../static/icons/edit_gray.svg';
+import EditHover from '../../../static/img/EditHover.svg';
+import SecondSidebar from '../../SecondSidebar';
+import { isMobileView } from '../../ReactiveRender';
+import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
+import MinusCircle from '../../../static/img/MinusCircle.svg';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 
@@ -26,12 +81,18 @@ const Strengths_And_Traget_Data = {
 export default function CreateNewStrengthAndTargets() {
   const { markingMethodologyId } = useParams();
   const [markingMethodology, setMarkingMethodology] = useState({
-    title: '',
+    title: 'New Marking Template',
     type: 'STRENGTHS_TARGETS',
     strengthsTargetsCriterias: [{ ...Strengths_And_Traget_Data }],
   });
 
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const history = useHistory();
+  const mobileView = isMobileView();
+
+  const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
+    useState(false);
 
   useEffect(() => {
     Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(
@@ -41,6 +102,7 @@ export default function CreateNewStrengthAndTargets() {
       }
     );
   }, []);
+
   if (isLoading) {
     return (
       <>
@@ -96,6 +158,25 @@ export default function CreateNewStrengthAndTargets() {
     if (type === TARGETS) {
       updatedData.strengthsTargetsCriterias[index].targets.push('');
     }
+    setMarkingMethodology(updatedData);
+  };
+  const handleAddOptionInBetween = (childIndex, index, type) => {
+    const updatedData = { ...markingMethodology };
+
+    if (type === STRENGTHS) {
+      const strengths = [
+        ...updatedData.strengthsTargetsCriterias[index].strengths,
+      ];
+      strengths.splice(childIndex + 1, 0, '');
+      updatedData.strengthsTargetsCriterias[index].strengths = strengths;
+    }
+
+    if (type === TARGETS) {
+      const targets = [...updatedData.strengthsTargetsCriterias[index].targets];
+      targets.splice(childIndex + 1, 0, '');
+      updatedData.strengthsTargetsCriterias[index].targets = targets;
+    }
+
     setMarkingMethodology(updatedData);
   };
 
@@ -319,7 +400,8 @@ export default function CreateNewStrengthAndTargets() {
             }
           />
         );
-        window.location.href = '/#/settings';
+
+        history.push('/settings');
       });
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
@@ -332,22 +414,245 @@ export default function CreateNewStrengthAndTargets() {
               }
             />
           );
-          window.location.href = '/#/settings';
+          history.push('/settings');
         }
       );
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      setIsEditing(false);
+    }
+  };
+  const handleOnBlur = () => {
+    setIsEditing(false);
+  };
+
+  const handleKeyPressInput = (e, maxLines, text) => {
+    const lines = text.split('\n');
+    if (e.key === 'Enter' && lines.length >= maxLines) {
+      e.preventDefault();
+    }
+  };
+
   return (
-    <div className="parent-container">
-      <div className="child-container">
-        {createBreadcrumb(markingMethodologyId)}
-        <GoBack />
-        {titleAndSaveButton(saveData, markingMethodologyId)}
-        {inputTitle(markingMethodology?.title, handleTitleChange)}
-        {allCriteriaFrames()}
-      </div>
-    </div>
+    <>
+      {mobileView ? (
+        <div className="parent-container">
+          <div className="child-container">
+            {createBreadcrumb(markingMethodologyId)}
+            <GoBack />
+            {titleAndSaveButton(saveData, markingMethodologyId)}
+            {inputTitle(markingMethodology?.title, handleTitleChange)}
+            {allCriteriaFrames()}
+          </div>
+        </div>
+      ) : (
+        <MainContainer>
+          <InnerContainer>
+            <SecondSidebar id={markingMethodologyId} />
+            <RightContainer>
+              <HeadingContainer>
+                {isEditing ? (
+                  <Heading>
+                    <TextInput
+                      placeholder="Name a marking template"
+                      value={markingMethodology?.title}
+                      onChange={handleTitleChange}
+                      onBlur={() => handleOnBlur()}
+                      onKeyPress={handleKeyPress}
+                      maxLength="100"
+                    ></TextInput>
+                  </Heading>
+                ) : (
+                  <Heading onClick={() => setIsEditing(true)}>
+                    {markingMethodology?.title}
+                    <EditIcon src={grayEdit} />
+                    <EditIconHover src={EditHover} />
+                  </Heading>
+                )}
+                <ButtonsContainer>
+                  <PreviewButton
+                    onClick={() => setMarkingCriteriaPreviewDialog(true)}
+                  >
+                    <PreviewButtonIcon src={Eye} />
+                    <PreviewButtonText>Preview</PreviewButtonText>
+                  </PreviewButton>
+                  <SaveButton onClick={() => saveData()}>
+                    <SaveButtonText>
+                      {markingMethodologyId === 'new'
+                        ? 'Save Template'
+                        : 'Update Template'}
+                    </SaveButtonText>
+                  </SaveButton>
+                </ButtonsContainer>
+              </HeadingContainer>
+              <TableContainer>
+                <TableHeadingPart>
+                  <TableHeading>Criteria</TableHeading>
+                  <TableHeading>Strengths</TableHeading>
+                  <TableHeading>Targets</TableHeading>
+                </TableHeadingPart>
+                <TableBodyParts>
+                  {markingMethodology.strengthsTargetsCriterias.map(
+                    (markingtemplate, templateIndex) => (
+                      <TableBodyPart key={templateIndex}>
+                        <CriteriaPart>
+                          <TextArea
+                            type="text"
+                            placeholder="Enter an evaluation area for this set of strengths and targets"
+                            value={markingtemplate.title}
+                            onChange={(e) =>
+                              handleCriteriaChange(e, templateIndex)
+                            }
+                            rows="1"
+                            onKeyPress={(e) =>
+                              handleKeyPressInput(e, 1, markingtemplate.title)
+                            }
+                          />
+                        </CriteriaPart>
+                        <StrengthPart>
+                          {markingtemplate.strengths.map((strength, index) => (
+                            <Strength>
+                              <TextArea
+                                key={index}
+                                type="text"
+                                placeholder="You have effectively..."
+                                value={strength}
+                                rows="5"
+                                onChange={(e) =>
+                                  handleCriteriaOptionChange(
+                                    e,
+                                    index,
+                                    templateIndex,
+                                    STRENGTHS
+                                  )
+                                }
+                                onKeyPress={(e) =>
+                                  handleKeyPressInput(e, 5, strength)
+                                }
+                              />
+                              <PlusMinusContainer>
+                                <PlusContainer
+                                  onClick={() =>
+                                    handleAddOptionInBetween(
+                                      index,
+                                      templateIndex,
+                                      STRENGTHS
+                                    )
+                                  }
+                                >
+                                  <PlusImg src={Plus} />
+                                </PlusContainer>
+                                <MinusContainer
+                                  onClick={() =>
+                                    removeAddOption(
+                                      index,
+                                      templateIndex,
+                                      STRENGTHS
+                                    )
+                                  }
+                                >
+                                  <MinusImg src={MinusCircle} />
+                                </MinusContainer>
+                              </PlusMinusContainer>
+                            </Strength>
+                          ))}
+                          <TableRowButtoncont
+                            onClick={() =>
+                              handleAddOption(templateIndex, STRENGTHS)
+                            }
+                          >
+                            <TableRowButton>
+                              <TableRowButtonIcon src={Plus} />
+                              <TableRowText>New Strength</TableRowText>
+                            </TableRowButton>
+                          </TableRowButtoncont>
+                        </StrengthPart>
+                        <TargetPart>
+                          {markingtemplate.targets.map((target, index) => (
+                            <Strength>
+                              <TextArea
+                                key={index}
+                                type="text"
+                                placeholder="You need to..."
+                                value={target}
+                                rows="5"
+                                onChange={(e) =>
+                                  handleCriteriaOptionChange(
+                                    e,
+                                    index,
+                                    templateIndex,
+                                    TARGETS
+                                  )
+                                }
+                                onKeyPress={(e) =>
+                                  handleKeyPressInput(e, 5, target)
+                                }
+                              />
+                              <PlusMinusContainer>
+                                <PlusContainer
+                                  onClick={() =>
+                                    handleAddOptionInBetween(
+                                      index,
+                                      templateIndex,
+                                      TARGETS
+                                    )
+                                  }
+                                >
+                                  <PlusImg src={Plus} />
+                                </PlusContainer>
+                                <MinusContainer
+                                  onClick={() =>
+                                    removeAddOption(
+                                      index,
+                                      templateIndex,
+                                      TARGETS
+                                    )
+                                  }
+                                >
+                                  <MinusImg src={MinusCircle} />
+                                </MinusContainer>
+                              </PlusMinusContainer>
+                            </Strength>
+                          ))}
+                          <TableRowButtoncont
+                            onClick={() =>
+                              handleAddOption(templateIndex, TARGETS)
+                            }
+                          >
+                            <TableRowButton>
+                              <TableRowButtonIcon src={Plus} />
+                              <TableRowText>New Target</TableRowText>
+                            </TableRowButton>
+                          </TableRowButtoncont>
+                        </TargetPart>
+                      </TableBodyPart>
+                    )
+                  )}
+                </TableBodyParts>
+              </TableContainer>
+              <AddNewCriteria>
+                <AddNewCriteriaButton onClick={() => handleAddCriteria()}>
+                  <TableRowButtonIcon src={pluswhite}></TableRowButtonIcon>
+                  <SaveButtonText>Add New Criteria</SaveButtonText>
+                </AddNewCriteriaButton>
+              </AddNewCriteria>
+            </RightContainer>
+          </InnerContainer>
+        </MainContainer>
+      )}
+      {openMarkingCriteriaPreviewDialog && (
+        <PreviewDialog
+          setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
+          markingCriterias={{
+            ...markingMethodology,
+            type: 'STRENGTHS_TARGETS',
+          }}
+        />
+      )}
+    </>
   );
 }
 
@@ -419,7 +724,7 @@ const getMarkingMethodologyForId = async (id) => {
   if (id === 'new') {
     return [
       {
-        title: '',
+        title: 'New Marking Template',
         type: 'STRENGTHS_TARGETS',
         strengthsTargetsCriterias: [{ ...Strengths_And_Traget_Data }],
       },

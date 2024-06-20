@@ -1,6 +1,7 @@
 import { Route, Switch, useHistory } from 'react-router-dom';
 import {
   exchangeCodeForToken,
+  logout,
   redirectToExternalIDP,
 } from '../../service';
 import {
@@ -20,7 +21,7 @@ const withAuth = (WrappedComponent) => {
 
   const WithAuth = (props) => {
     const [isLoading, setIsLoading] = useState(true);
-
+    // alert('withAuth' + WrappedComponent);
 
     useEffect(() => {
       // Check if the user is logged in

@@ -1,18 +1,21 @@
 import styled from 'styled-components';
 
+export const GiveFeedbackContainer = styled.div`
+  display: flex;
+`;
+
 export const MainContainer = styled.div`
+  width: 100%;
   align-items: center;
-  background-color: var(--white-pointer);
+  background-color: var(--white);
   border: 1px none;
   display: flex;
   flex-direction: column;
   gap: 60px;
   position: relative;
   min-height: 595px;
-  padding: 60px 0px;
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    min-width: 1025px;
-  }
+  border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
+
   @media (min-width: 766px) and (max-width: 1024px) {
     min-width: 766px;
   }
@@ -24,19 +27,8 @@ export const InnerContainer = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  gap: 40px;
   position: relative;
-  max-width: 1440px;
-  padding: 0px 60px;
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    padding: 0px 60px;
-  }
-  @media (min-width: 766px) and (max-width: 1024px) {
-    padding: 0px 60px;
-  }
-  @media (max-width: 765px) {
-    padding: 0px 20px;
-  }
+  // max-width: 1440px;
 `;
 export const HeadingAndFilterCon = styled.div`
   display: flex;
@@ -45,38 +37,17 @@ export const HeadingAndFilterCon = styled.div`
   gap: 20px;
   width: 100%;
 `;
-export const TopContainer = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
-`;
-export const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  text-decoration: none;
-  @media (max-width: 765px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-  a {
-    text-decoration: none;
-  }
-`;
-export const ConnectContainer = styled.div``;
+
 
 export const FilterAndSortContainer = styled.div`
   display: flex;
-  padding: 16px 0px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
   align-items: center;
   gap: 16px;
   align-self: stretch;
-  border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
+  border-bottom: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
+  border-left: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
   @media (max-width: 1024px) and (min-width: 765px) {
     flex-direction: column;
     align-items: flex-start;
@@ -88,7 +59,7 @@ export const FilterContainer = styled.div`
 `;
 export const SortContainer = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 8px;
 `;
 export const SortButton = styled.div`
   display: flex;
@@ -100,38 +71,12 @@ export const SortButton = styled.div`
 `;
 export const SortButtonText = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 13px;
+  font-weight: 500;
   letter-spacing: 0em;
   text-align: left;
   color: #6f6f6f;
   text-align: center;
-`;
-
-export const HeadingLine = styled.p`
-  color: var(--Foundation-Grey-grey-500, #7a7a7a);
-  font-family: IBM Plex Sans;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
-`;
-
-export const Title = styled.h1`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--Dark-Purple, #25222a);
-  font-family: IBM Plex Sans;
-  font-size: 36px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.9px;
-  @media (max-width: 765px) {
-    font-size: 32px;
-    letter-spacing: -0.8px;
-  }
 `;
 
 export const TitleImage = styled.img`
@@ -145,7 +90,6 @@ export const TitleImage = styled.img`
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 32px;
   width: 100%;
   @media (max-width: 1024px) {
     flex-direction: column;
@@ -154,11 +98,10 @@ export const ContentContainer = styled.div`
 export const LeftContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 65%;
-  border-radius: 8px;
-  border: 1px solid var(--Foundation-Grey-grey-50, #f2f2f2);
+  // width: ${(fullWidth) => (fullWidth ? '100%' : '65%')};
+  flex: ${({ fullWidth }) => (fullWidth ? '1' : '0 0 65%')};
+  border-right: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
   background: #fff;
-  box-shadow: 0px 3px 8px 0px rgba(48, 27, 114, 0.04);
   @media (max-width: 1024px) {
     width: 100%;
   }
@@ -168,11 +111,10 @@ export const RightContentContainer = styled.div`
   flex-direction: column;
   padding: 10px;
   gap: 20px;
-  width: 35%;
-  border-radius: 12px;
-  border: 1px solid var(--Foundation-Grey-grey-50, #f2f2f2);
+  // width: 35%;
+  flex: 0 0 35%;
+  border: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
   background: #fff;
-  box-shadow: 0px 4px 8px 0px rgba(48, 27, 114, 0.04);
   height: fit-content;
   @media (max-width: 1024px) {
     width: 100%;
@@ -195,8 +137,8 @@ export const CardContainer = styled.div`
   border: 0px 0px 1px 0px;
   gap: 16px;
   border-bottom: 1px solid #d6d6d6;
-
-  padding: 30px;
+  width: 100%;
+  padding: 20px;
 `;
 export const TextContainer1 = styled.div`
   color: var(--Text, #1e252a);
@@ -410,12 +352,12 @@ export const Frame5086Img = styled.img`
 `;
 export const Frame5086Text = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: var(--royal-purple);
+  color: #918b97;
 `;
 
 export const Frame5051 = styled.div`
@@ -428,11 +370,31 @@ export const Frame5051 = styled.div`
 export const TagsAndTextContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   @media (max-width: 765px) {
     flex-direction: column-reverse;
     gap: 16px;
   }
 `;
+
+export const UserNameBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 24px;
+  color: rgba(30, 37, 42, 1);
+`;
+
+export const UserImage = styled.div`
+  width: 24px;
+  height: 24px;
+  background-color: rgba(241, 230, 252, 1);
+  border-radius: 50%;
+`;
+
 export const TagsContainer = styled.div`
   display: flex;
   gap: 8px;
@@ -450,18 +412,17 @@ export const TagText = styled.div`
   font-size: 13px;
   font-weight: 500;
   line-height: 17px;
-  letter-spacing: 0em;
   text-align: center;
-  color: #9b4be8;
+  color: rgba(173, 107, 237, 1);
 `;
 export const RequestedText = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  line-height: 18px;
+  line-height: 17px;
   letter-spacing: 0em;
   text-align: left;
-  color: #a6a6a6;
+  color: rgba(178, 174, 183, 1);
 `;
 export const DataText = styled.div`
   font-family: IBM Plex Sans;
@@ -470,20 +431,47 @@ export const DataText = styled.div`
   line-height: 26px;
   letter-spacing: 0em;
   text-align: left;
+
+  span{
+    cursor: pointer;
+    color: rgba(114, 0, 224, 1);
+    text-decoration: underline;
+  }
 `;
 export const WordsCountContainer = styled.div`
   display: flex;
+  align-items: center;
   gap: 12px;
+  margin-top: 6px;
 `;
 export const WordsCount = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 500;
-  line-height: 21px;
+  line-height: 16px;
   letter-spacing: 0em;
-  text-align: left;
-  color: #7a7a7a;
+  color: rgba(178, 174, 183, 1);
+  padding: 0 8px;
+  border-right: 1px solid rgba(214, 214, 214, 1);
+  border-left: 1px solid rgba(214, 214, 214, 1);
 `;
+
+export const MarkedLiked = styled.div`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: rgba(178, 174, 183, 1);
+  display: flex;
+  align-items: center;
+  gap: 1px;
+
+  img{
+    height: 16px;
+    width: 16px;
+  }
+`;
+
 export const ButtonsContainer = styled.div`
   display: flex;
   gap: 12px;

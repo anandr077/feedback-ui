@@ -31,7 +31,7 @@ export const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 `;
 
 export const Buttons = styled.div`
@@ -43,19 +43,13 @@ export const Buttons = styled.div`
   padding: 6px 7px;
   position: relative;
   border-radius: 6px;
-  border: 1px solid;
-  border-color: var(--light-mode-purple);
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  &:hover {
-    transform: scale(1.1);
-  }
 `;
 
 export const Arrowright = styled.img`
   position: relative;
-  min-width: 12px;
-  height: 12px;
+  min-width: 15px;
+  height: 15px;
 `;
 
 export const DeleteButtonContainer = styled.div`
@@ -63,18 +57,4 @@ export const DeleteButtonContainer = styled.div`
   padding: 6px 7px;
   align-items: flex-start;
   gap: 10px;
-  border-radius: 6px;
-  border: 1px solid #979797;
-  background: #fff;
-  transition: all 0.2s ease-in-out;
-
-  ${(props) =>
-    props.isHovered &&
-    css`
-      &:hover {
-        transform: scale(1.1);
-      }
-      border: 1px solid #de2b2b;
-      cursor: pointer;
-    `}
 `;

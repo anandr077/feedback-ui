@@ -11,7 +11,6 @@ import {
 } from '../../styledMixins';
 import { taskHeaderProps } from '../../utils/headerProps.js';
 import FooterSmall from '../FooterSmall';
-import './TasksStudentTablet.css';
 import Group1205 from '../TeacherDashboard/Group1205';
 import LinkButton from '../../components2/LinkButton/index.jsx';
 import arrowRight from '../../static/img/arrowright.svg';
@@ -20,7 +19,16 @@ import questionMark from '../../static/img/question-mark.svg';
 import share from '../../static/img/share.svg';
 import shareColor from '../../static/img/share-color.svg';
 import {
+  Frame1211,
+  Frame1362,
+  Frame1363,
+  Frame1364,
+  Frame1365,
+  LinkAndFilter,
+  Number,
+  Outstanding,
   SubtitleCon,
+  TaskScreenMainContainer,
   Title,
   TitleAndFilterContainer,
   TitleAndSubtitleContainer,
@@ -28,6 +36,7 @@ import {
   TitleImage,
 } from './style.js';
 import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
+import { isMobileView } from '../ReactiveRender/index.jsx';
 
 function TasksStudentTablet(props) {
   const {
@@ -48,6 +57,7 @@ function TasksStudentTablet(props) {
   const [isInReview, setIsInReview] = useState(false);
   const [task, setTask] = useState(assignmedTasks);
   const [title, setTittle] = useState('Not Started');
+  const mobileView = isMobileView();
 
   const [taskFrame, setTasksFrame] = useState(
     createTasksFrame('Not Started', assignmedTasks, true, false, false)
@@ -65,14 +75,14 @@ function TasksStudentTablet(props) {
   }, [title, task, isAssigned, isInProgress, isInReview, menuItems]);
 
   return (
-    <div className="tasks-student-tablet screen">
+    <TaskScreenMainContainer className="screen">
       <Frame1365>
         <TitleAndFilterContainer>
           <TitleAndSubtitleContainer>
             <TitleContainer>
               <Title>
                 Homework
-                <QuestionTooltip 
+                <QuestionTooltip
                   text="View all of your current tasks from school"
                   img={questionMark}
                 />
@@ -92,15 +102,17 @@ function TasksStudentTablet(props) {
                 />
               </LinkAndFilter>
             </TitleContainer>
-            <SubtitleCon>
-              Click on a task bubble to complete or review your work
-            </SubtitleCon>
+            {!mobileView && (
+              <SubtitleCon>
+                Click on a task bubble to complete or review your work
+              </SubtitleCon>
+            )}
           </TitleAndSubtitleContainer>
-          <>{FilterSortAndCal}</>
+          {!mobileView && <>{FilterSortAndCal}</>}
         </TitleAndFilterContainer>
-        {tasksSelected ? (<>{taskFrame}</>) : MyCalendarFile}
+        {tasksSelected ? <>{taskFrame}</> : MyCalendarFile}
       </Frame1365>
-    </div>
+    </TaskScreenMainContainer>
   );
 
   function createTasksFrame(
@@ -110,17 +122,17 @@ function TasksStudentTablet(props) {
     isInProgress,
     isOverdue
   ) {
-    const tooltipText = () =>{
-      if(title === "Assigned"){
-        return "New tasks that you haven't opened yet"
+    const tooltipText = () => {
+      if (title === 'Assigned') {
+        return "New tasks that you haven't opened yet";
       }
-      if(title === "In Draft"){
-        return "Tasks that you have started but not yet submitted"
+      if (title === 'In Draft') {
+        return 'Tasks that you have started but not yet submitted';
       }
-      if(title === "In Review"){
-        return "Completed tasks that are either awaiting feedback or pending your review"
+      if (title === 'In Review') {
+        return 'Completed tasks that are either awaiting feedback or pending your review';
       }
-    }
+    };
     return (
       <>
         <Frame1364>
@@ -163,10 +175,7 @@ function TasksStudentTablet(props) {
             <Frame1362>
               <Outstanding>
                 {title}
-                <QuestionTooltip 
-                  text={tooltipText()}
-                  img={questionMark}
-                />
+                <QuestionTooltip text={tooltipText()} img={questionMark} />
               </Outstanding>
               <Number>{tasks.length}</Number>
             </Frame1362>
@@ -178,123 +187,78 @@ function TasksStudentTablet(props) {
   }
 }
 
-const Frame1365 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 30px;
-  padding: 0px 60px;
-  position: relative;
-  align-self: stretch;
-`;
+// const Frame1365 = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: flex-start;
+//   gap: 30px;
+//   padding: 0px 60px;
+//   position: relative;
+//   align-self: stretch;
+// `;
 
-const HeaderContainer = styled.div`
-  width: 100%;
-`;
+// const Frame1364 = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   gap: 20px;
+//   position: relative;
+//   align-self: stretch;
+//   min-height: 600px;
+// `;
 
-const FilterContainer = styled.div`
-  margin-top: 20px;
-`;
+// const Frame1211 = styled.div`
+//   display: flex;
+//   width: 442px;
+//   align-items: flex-start;
+//   justify-content: space-between;
+//   padding: 8px;
+//   position: relative;
+//   background-color: var(--blue-chalk);
+//   border-radius: 24px;
+// `;
 
-const Frame1307 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
+// const Frame1363 = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: flex-start;
+//   gap: 20px;
+//   position: relative;
+//   align-self: stretch;
+// `;
 
-const Heading = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
+// const Frame1362 = styled.div`
+//   ${IbmplexsansSemiBoldRiverBed24px}
+//   display: flex;
+//   align-items: flex-start;
+//   gap: 20px;
+//   position: relative;
+//   align-self: stretch;
+// `;
 
-const KeepOrganizedWitho = styled.h1`
-  ${IbmplexsansBoldShark36px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -0.72px;
-  line-height: 43.2px;
-  white-space: nowrap;
-  color: var(--royal-purple);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
+// const Outstanding = styled.div`
+//   position: relative;
+//   flex: 1;
+//   margin-top: -1px;
+//   letter-spacing: 0;
+//   line-height: normal;
+//   display: flex;
+//   gap: 8px;
+// `;
 
-const HeadingMessage = styled.p`
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 400;
-  font-size: var(--font-size-l);
-  line-height: 24px;
-  color: #333333;
-`;
-
-const Frame1364 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-  min-height: 600px;
-`;
-
-const Frame1211 = styled.div`
-  display: flex;
-  width: 442px;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 8px;
-  position: relative;
-  background-color: var(--blue-chalk);
-  border-radius: 24px;
-`;
-
-const Frame1363 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Frame1362 = styled.div`
-  ${IbmplexsansSemiBoldRiverBed24px}
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  position: relative;
-  align-self: stretch;
-`;
-
-const Outstanding = styled.div`
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-  display: flex;
-  gap: 8px;
-`;
-
-const Number = styled.div`
-  position: relative;
-  width: fit-content;
-  margin-top: -1px;
-  text-align: right;
-  letter-spacing: 0;
-  line-height: normal;
-`;
-const LinkAndFilter = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-`;
+// const Number = styled.div`
+//   position: relative;
+//   width: fit-content;
+//   margin-top: -1px;
+//   text-align: right;
+//   letter-spacing: 0;
+//   line-height: normal;
+// `;
+// const LinkAndFilter = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 20px;
+// `;
 
 export default TasksStudentTablet;

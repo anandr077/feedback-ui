@@ -10,3 +10,12 @@ export function limitParagraph(text, size) {
     return text;
   }
 }
+
+
+
+export const isStringNull = (String) => {
+  if (String === null || String === undefined) {
+    return true;
+  }
+  return false;
+};

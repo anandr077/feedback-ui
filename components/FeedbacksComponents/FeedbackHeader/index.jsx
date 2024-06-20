@@ -37,7 +37,6 @@ import { getUserRole } from '../../../userLocalDetails';
 import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
 import SelectReviewType from './SelectReviewType';
 import { cancelFeedbackRequest } from '../../../service';
-import SnackbarContext from '../../SnackbarContext';
 import { useHistory, useLocation } from 'react-router-dom';
 import { isShowCommentsAndFocusAreasTab } from '../FeedbacksRoot/rules';
 import {
@@ -79,7 +78,6 @@ const FeedbackHeader = ({
   const isTeacher = getUserRole() === 'TEACHER';
   const [isShowSelectType, setShowSelectType] = useState();
   const [openEditDialogue, setOpenEditDialogue] = useState();
-  const { showSnackbar } = useContext(SnackbarContext);
   const { methods, isResetEditorTextSelection } = useContext(FeedbackContext);
   const history = useHistory();
   const location = useLocation();

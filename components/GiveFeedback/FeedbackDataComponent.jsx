@@ -44,7 +44,6 @@ import { toast } from 'react-toastify';
 import Toast from '../Toast';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
   const [showFullText, setShowFullText] = useState(false);
 
   const queryClient = useQueryClient();

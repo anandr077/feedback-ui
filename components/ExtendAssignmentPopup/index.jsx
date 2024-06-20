@@ -2,7 +2,6 @@ import React from 'react';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import { extendDueAtAssignment } from '../../service';
-import SnackbarContext from '../SnackbarContext';
 import { isMobileView } from '../ReactiveRender';
 import DateSelector from '../DateSelector';
 import {
@@ -10,9 +9,10 @@ import {
   IbmplexsansSemiBoldWhite16px,
 } from '../../styledMixins';
 import { DialogContent, Dialog } from '@mui/material';
+import Toast from '../Toast';
+import { toast } from 'react-toastify';
 
 export default function ExtendAssignmentPopup(props) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const { assignment, hideDateExtendPopup } = props;
 
@@ -26,7 +26,7 @@ export default function ExtendAssignmentPopup(props) {
       window.location.reload();
     });
     hideDateExtendPopup();
-    showSnackbar('Task due time changed');
+    toast(<Toast message={'Task due time changed'} />);
   };
 
   const dateSelectorFrame = (

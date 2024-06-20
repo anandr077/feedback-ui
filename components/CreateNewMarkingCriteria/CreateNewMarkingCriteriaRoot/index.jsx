@@ -13,8 +13,9 @@ import {
   getNewCriteria,
 } from '../../../service';
 import Loader from '../../Loader';
-import SnackbarContext from '../../SnackbarContext';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Toast from '../../Toast';
 
 export default function CreateNewMarkingCriteriaRoot(props) {
   const { markingCriteriaId } = useParams();
@@ -22,7 +23,6 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isUpdating, setIsUpdating] = React.useState(false);
 
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria);
   const history = useHistory();
@@ -114,33 +114,45 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   const validateMarkingCriteria = () => {
     let isValid = true;
     if (markingCriterias.title === '' || markingCriterias.title === undefined) {
-      showSnackbar('Please enter a title for the marking criteria');
+      toast(
+        <Toast message={'Please enter a title for the marking criteria'} />
+      );
       isValid = false;
     }
     if (markingCriterias.criterias.length === 0) {
-      showSnackbar('Please add at least one criteria');
+      toast(<Toast message={'Please add at least one criteria'} />);
       isValid = false;
     }
 
     markingCriterias.criterias.forEach((criteria, indexout) => {
       if (criteria.title === undefined || criteria.title === '') {
-        showSnackbar(`Please enter a title for criteria ${indexout + 1}`);
+        toast(
+          <Toast
+            message={`Please enter a title for criteria ${indexout + 1}`}
+          />
+        );
         isValid = false;
       }
       criteria.levels.forEach((level) => {
         if (level.name == undefined || level.name === '') {
-          showSnackbar(
-            `Please enter a name for all level in criteria ${indexout + 1}`
+          toast(
+            <Toast
+              message={`Please enter a name for all level in criteria ${
+                indexout + 1
+              }`}
+            />
           );
           isValid = false;
         }
       });
       criteria.levels.forEach((level) => {
         if (level.description == undefined || level.description === '') {
-          showSnackbar(
-            `Please enter a description for all level in criteria ${
-              indexout + 1
-            }`
+          toast(
+            <Toast
+              message={`Please enter a description for all level in criteria ${
+                indexout + 1
+              }`}
+            />
           );
           isValid = false;
         }
@@ -170,8 +182,13 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       isUpdating
         ? updateMarkingCriteria(markingCriteria, markingCriteriaId)
         : createNewMarkingCriteria(markingCriteria);
-      showSnackbar(
-        isUpdating ? 'Marking criteria updated' : 'Marking criteria created'
+
+      toast(
+        <Toast
+          message={
+            isUpdating ? 'Marking criteria updated' : 'Marking criteria created'
+          }
+        />
       );
       window.localStorage.setItem('markingCriteria', 'true');
       history.push('/settings');
@@ -183,12 +200,14 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   const deleteMarkingCriteriaMethod = () => {
     deleteMarkingCriteria(markingCriteriaId)
       .then(() => {
-        showSnackbar('Marking criteria deleted');
+        toast(<Toast message={'Marking criteria deleted'} />);
         window.localStorage.setItem('markingCriteria', 'true');
         history.push('/settings');
       })
       .catch((error) => {
-        showSnackbar('An error occured while deleting marking criteria');
+        toast(
+          <Toast message={'An error occured while deleting marking criteria'} />
+        );
       });
   };
 

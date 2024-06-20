@@ -73,7 +73,6 @@ import {
 import { GreenTickComponent, GreenTickText } from '../../GreenTick';
 import StrengthAndTargetMarkingCriteria from '../StrengthAndTargetMarkingCriteria';
 import { isNullOrEmpty } from '../../../utils/arrays';
-import SnackbarContext from '../../SnackbarContext';
 import { isStringNull } from '../../../utils/strings';
 
 const CriteriaAndOverallFeedback = ({
@@ -99,7 +98,6 @@ const CriteriaAndOverallFeedback = ({
   const [selectedTargets, setSelectedTargets] = useState([]);
   const [isShowMarkingCrteriaPopUp, setShowMarkingCrteriaPopUp] =
     useState(false);
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   useEffect(() => {

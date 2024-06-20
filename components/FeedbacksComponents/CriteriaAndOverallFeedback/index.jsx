@@ -308,39 +308,49 @@ const CriteriaAndOverallFeedback = ({
       )}
       <MainContainer openRightPanel={openRightPanel}>
         <Heading>
-          {isShowMarkingCriteriaSection(markingCriteriaFeedback, pageMode) ? (
-            <>
-              <HeadingTitle>
-                Assessment Criteria
-                <img src={QuestionIcon} />
-              </HeadingTitle>
-              <GreenTickComponent
-                ShowGreen={isShowGreenTick(
-                  markingCriteria,
-                  selectedTargets,
-                  selectedStrengths,
-                  isSubmitted
-                )}
-              />
-            </>
-          ) : (
-            <>
-              <HeadingTitle>
-                Overall Feedback
-                <img src={QuestionIcon} />
-              </HeadingTitle>
-              <GreenTickComponent
-                ShowGreen={!isStringNull(overallComment?.comment)}
-              />
-            </>
-          )}
+          <>
+            <HeadingTitle>
+              Overall Feedback
+              <img src={QuestionIcon} />
+            </HeadingTitle>
+            <GreenTickComponent
+              ShowGreen={!isStringNull(overallComment?.comment)}
+            />
+          </>
+
           {openRightPanel === 'tab2' && (
             <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
           )}
         </Heading>
         <Body>
+          <OverallFeedbackContainer>
+            <NewOverallFeedback
+              pageMode={pageMode}
+              addOverallFeedback={addOverallFeedback}
+              serialNumber={QuestionIndex + 1}
+              overallComment={overallComment}
+              updateOverAllFeedback={updateOverAllFeedback}
+              reviewer={submission.reviewerId}
+              userId={userId}
+            />
+          </OverallFeedbackContainer>
+
           {isShowMarkingCriteriaSection(markingCriteria, pageMode) && (
             <>
+              <Heading>
+                <HeadingTitle>
+                  Assessment
+                  <img src={QuestionIcon} />
+                </HeadingTitle>
+                <GreenTickComponent
+                  ShowGreen={isShowGreenTick(
+                    markingCriteria,
+                    selectedTargets,
+                    selectedStrengths,
+                    isSubmitted
+                  )}
+                />
+              </Heading>
               <MarkingCriteriaMainHeadingContainer>
                 <MarkingCriteriaMainHeading>
                   Marking Criteria
@@ -392,41 +402,6 @@ const CriteriaAndOverallFeedback = ({
                 )}
             </>
           )}
-          {isShowOverallFeedbackHeadline(
-            pageMode,
-            overallComment,
-            submission.reviewerId,
-            userId,
-            markingCriteriaFeedback
-          ) && (
-            <Heading>
-              <HeadingTitle>
-                Overall Feedback
-                <img src={QuestionIcon} />
-              </HeadingTitle>
-              <GreenTickComponent
-                ShowGreen={!isStringNull(overallComment?.comment)}
-              />
-              {openRightPanel === 'tab2' &&
-                !isShowMarkingCriteriaSection(
-                  markingCriteriaFeedback,
-                  pageMode
-                ) && (
-                  <CloseBtn src={CloseIcon} onClick={() => handleClick('')} />
-                )}
-            </Heading>
-          )}
-          <OverallFeedbackContainer>
-            <NewOverallFeedback
-              pageMode={pageMode}
-              addOverallFeedback={addOverallFeedback}
-              serialNumber={QuestionIndex + 1}
-              overallComment={overallComment}
-              updateOverAllFeedback={updateOverAllFeedback}
-              reviewer={submission.reviewerId}
-              userId={userId}
-            />
-          </OverallFeedbackContainer>
         </Body>
       </MainContainer>
     </>

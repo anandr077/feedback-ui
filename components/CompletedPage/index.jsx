@@ -38,7 +38,7 @@ import arrowLeft from '../../static/img/arrowleft.svg';
 import questionMark from '../../static/img/question-mark.svg';
 import LinkButton from '../../components2/LinkButton/index.jsx';
 import TaskHistoryDataComponent from './TaskHistoryDataComponent.jsx';
-
+import { useQuery } from '@tanstack/react-query';
 import SortSquare from '../../static/img/sort-square.svg';
 import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf.js';
 import FilterSquare from '../../static/img/filter-square.svg';
@@ -60,17 +60,24 @@ export default function CompletedPage() {
   const [classes, setClasses] = React.useState([]);
   const [selectedClass, setSelectedClass] = React.useState('');
 
-  React.useEffect(() => {
-    getCompletedTasks().then((result) => {
-      if (result) {
-        setTasks(result);
-        setFilteredTasks(result);
-        setIsLoading(false);
-      }
-    });
-  }, []);
 
-  if (isLoading) {
+  const completedTasksQuery = useQuery({
+    queryKey: ['completedTasks'],
+    queryFn: async () => {
+      const result = await getCompletedTasks();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
+  React.useEffect(() => {
+    if (completedTasksQuery.data) {
+      setTasks(completedTasksQuery.data);
+      setFilteredTasks(completedTasksQuery.data);
+    }
+  }, [completedTasksQuery.data]);
+
+  if (completedTasksQuery.isLoading) {
     return <Loader />;
   }
   const groups = groupBy(filteredTasks, (task) => dateOnly(task.completedAt));

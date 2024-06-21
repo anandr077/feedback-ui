@@ -50,6 +50,8 @@ import DropdownWithRoundedTick from '../../../components2/DropdownWithRoundedTic
 import ToggleSwitchWithTwoOptions from '../../../components2/ToggleSwitchWithTwoOptions';
 import ToggleSwitchWithOneOption from '../../../components2/ToggleSwitchWithOneOption';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
+import { toast } from 'react-toastify';
+import Toast from '../../Toast';
 
 const FeedbackHeader = ({
   submission,
@@ -210,7 +212,6 @@ const FeedbackHeader = ({
         )}
         {submission.type === 'DOCUMENT'
           ? submitButtonOnDocument(
-              showSnackbar,
               isTeacher,
               setShowSelectType,
               methods,
@@ -245,7 +246,6 @@ const FeedbackHeader = ({
 export default FeedbackHeader;
 
 function submitButtonOnDocument(
-  showSnackbar,
   isTeacher,
   setShowSelectType,
   methods,
@@ -318,7 +318,6 @@ function submitButtonOnDocument(
           onClick={() =>
             handleCancelFeedbackRequest(
               setShowFeedbackButtons,
-              showSnackbar,
               submission,
               setSubmission
             )
@@ -438,13 +437,12 @@ function submitButton(methods, pageMode, submission, isTeacher) {
 
 function handleCancelFeedbackRequest(
   setShowFeedbackButtons,
-  showSnackbar,
   submission,
   setSubmission
 ) {
   cancelFeedbackRequest(submission.id)
     .then((response) => {
-      showSnackbar('Feedback request cancelled');
+      toast(<Toast message={'Feedback request cancelled'} />);
 
       setSubmission((old) => ({
         ...old,
@@ -456,7 +454,7 @@ function handleCancelFeedbackRequest(
       }));
     })
     .catch((error) => {
-      showSnackbar(error.message);
+      toast(<Toast message={error.message} />);
       setSubmission(error.submission);
     })
     .finally(() => {

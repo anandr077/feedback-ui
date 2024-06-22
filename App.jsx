@@ -36,7 +36,6 @@ import NewDocPage from './components/NewDocRoot';
 import withAuth from './components/WithAuth';
 import withOnboarding from './components/WithOnboarding';
 
-import SnackbarContext from './components/SnackbarContext';
 import { Snackbar } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
@@ -46,6 +45,8 @@ import Header from './components/Header2';
 import MainSidebar from './components/MainSidebar';
 import CommentBanks from './components/CommentBanks';
 import { getLocalClasses } from './service';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { isMobileView } from './components/ReactiveRender';
 import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
 
@@ -133,12 +134,12 @@ function App() {
   const Dashboard = ({ role }) => {
     const dashboard =
       role === 'TEACHER' ? (
-      getLocalClasses() ? (
-        <ProtectedTeacherTaskRoot />
-      ) : (
-        <ProtectedGiveFeedback />
-      )
-    ) : getLocalClasses() ? (
+        getLocalClasses() ? (
+          <ProtectedTeacherTaskRoot />
+        ) : (
+          <ProtectedGiveFeedback />
+        )
+      ) : getLocalClasses() ? (
         <ProtectedStudentTaskRoot />
       ) : (
         <ProtectedDocRoot />
@@ -237,12 +238,17 @@ function App() {
               {showFooter && <ResponsiveFooter />}
             </div>
           </div>
-          <Snackbar
-            open={snackbarOpen}
-            message={snackbarMessage}
-            onClose={closeSnackbar}
-            autoHideDuration={6000}
-            action={action}
+          <ToastContainer
+            position="bottom-left"
+            autoClose={6000}
+            hideProgressBar={true}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable={false}
+            pauseOnHover
+            theme="dark"
           />
         </Router>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}

@@ -10,11 +10,7 @@ import {
   getMarkingMethodology,
   updateMarkingCriteria,
 } from '../../../service';
-import {
-  useHistory,
-  useParams,
-} from 'react-router-dom/cjs/react-router-dom.min';
-import SnackbarContext from '../../SnackbarContext';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import Loader from '../../Loader';
 
 import React, { useState } from 'react';
@@ -71,6 +67,8 @@ import SecondSidebar from '../../SecondSidebar';
 import { isMobileView } from '../../ReactiveRender';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
 import MinusCircle from '../../../static/img/MinusCircle.svg';
+import { toast } from 'react-toastify';
+import Toast from '../../Toast';
 
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
@@ -82,7 +80,6 @@ const Strengths_And_Traget_Data = {
 
 export default function CreateNewStrengthAndTargets() {
   const { markingMethodologyId } = useParams();
-  const { showSnackbar } = React.useContext(SnackbarContext);
   const [markingMethodology, setMarkingMethodology] = useState({
     title: 'New Marking Template',
     type: 'STRENGTHS_TARGETS',
@@ -358,17 +355,21 @@ export default function CreateNewStrengthAndTargets() {
 
   function validateStrengthsTargets(strengthAndTargetdata) {
     if (!strengthAndTargetdata.title.trim()) {
-      showSnackbar('Please Enter Title for Marking Criteria');
+      toast(<Toast message={'Please Enter Title for Marking Criteria'} />);
       return false;
     }
     for (const criteria of strengthAndTargetdata.strengthsTargetsCriterias) {
       if (!criteria.title.trim()) {
-        showSnackbar('Please Enter criteria title');
+        toast(<Toast message={'Please Enter criteria title'} />);
         return false;
       }
 
       if (criteria.strengths.length < 1 || criteria.targets.length < 1) {
-        showSnackbar('You have to enter at least two option for each category');
+        toast(
+          <Toast
+            message={'You have to enter at least two option for each category'}
+          />
+        );
         return false;
       }
 
@@ -376,7 +377,9 @@ export default function CreateNewStrengthAndTargets() {
         criteria.strengths.some((strength) => !strength.trim()) ||
         criteria.targets.some((target) => !target.trim())
       ) {
-        showSnackbar('Strength or Target option field cannot be empty');
+        toast(
+          <Toast message={'Strength or Target option field cannot be empty'} />
+        );
         return false;
       }
     }
@@ -389,9 +392,13 @@ export default function CreateNewStrengthAndTargets() {
     }
     if (markingMethodologyId === 'new') {
       createNewMarkingCriteria(markingMethodology).then((response) => {
-        showSnackbar(
-          'Strengths and Targets Created',
-          '/#/markingTemplates/strengths-and-targets/' + response.id.value
+        toast(
+          <Toast
+            message={'Strengths and Targets Created'}
+            link={
+              '/markingTemplates/strengths-and-targets/' + response.id.value
+            }
+          />
         );
 
         history.push('/settings');
@@ -399,9 +406,13 @@ export default function CreateNewStrengthAndTargets() {
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
         (response) => {
-          showSnackbar(
-            'Strengths and Targets Updated',
-            '/#/markingTemplates/strengths-and-targets/' + response.id.value
+          toast(
+            <Toast
+              message={'Strengths and Targets Updated'}
+              link={
+                '/markingTemplates/strengths-and-targets/' + response.id.value
+              }
+            />
           );
           history.push('/settings');
         }

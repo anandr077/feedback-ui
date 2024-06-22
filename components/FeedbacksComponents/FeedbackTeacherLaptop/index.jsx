@@ -261,7 +261,7 @@ function FeedbackTeacherLaptop(props) {
       {loader(showLoader)}
       <PageContainer>
         <>
-          {isMobile && <WelcomeOverlayMobile />}
+          
           {sharewithclassdialog}
           {(submission.otherDrafts || submission.studentsSubmissions) &&
             sidebar()}

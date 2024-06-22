@@ -134,15 +134,6 @@ function IndependentUser() {
   const isMobile = useMediaQuery({ maxWidth: 765 });
 
   return (
-    <>
-      {isMobile ? (
-        <Container style={{ flexDirection: 'column' }}>
-          <Heading>Welcome to Jeddle.</Heading>
-          <ParaContainer>
-            Open our web app in desktop or tablet to get feedback{' '}
-          </ParaContainer>
-        </Container>
-      ) : (
         <Container>
           <IndepentdentUserSidebar
             open={open}
@@ -381,8 +372,6 @@ function IndependentUser() {
             </UserContainer>
           </Main>
         </Container>
-      )}
-    </>
   );
 }
 

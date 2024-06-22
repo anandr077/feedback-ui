@@ -67,6 +67,8 @@ import PlusBlue from '../../static/img/Plus-blue.svg';
 import Doc from '../../static/img/doc.svg';
 import PreviewIcon from '../../static/img/preview.svg';
 import FeedbackArea from './FeedbackArea';
+import Toast from '../Toast';
+import { toast } from 'react-toastify';
 
 const CommentBanks = () => {
   const [smartAnnotations, setSmartAnnotations] = useState();
@@ -132,10 +134,10 @@ const CommentBanks = () => {
         }
 
         setSmartAnnotations(newSmartAnnotations);
-        // showSnackbar('Feedback bank Deleted');
+         toast(<Toast message={'Feedback bank Deleted'} />);
       })
       .catch(() => {
-        // showSnackbar('Error deleting bank');
+         toast(<Toast message={'Error deleting bank'} />);
       });
   };
 
@@ -150,11 +152,11 @@ const CommentBanks = () => {
     createNewFeedbackBank(newObject)
       .then(() => {
         queryClient.invalidateQueries(['feedbackBank']);
-        // showSnackbar('feedback bank cloned');
+        toast(<Toast message={'feedback bank cloned'} />);
         setFeedbackBankCreated(true);
       })
       .catch((error) => {
-        // showSnackbar('Cloning failed');
+        toast(<Toast message={'Cloning failed'} />);
       });
   };
 
@@ -178,10 +180,10 @@ const CommentBanks = () => {
         queryClient.invalidateQueries(['feedbackBank']);
         setShowNewBankPopUp(false);
         setFeedbackBankCreated(true);
-        // showSnackbar('New feedback bank created');
+        toast(<Toast message={'New feedback bank created'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error creating new feedback bank');
+        toast(<Toast message={'Error creating new feedback bank'} />);
       });
   };
 
@@ -195,13 +197,13 @@ const CommentBanks = () => {
       .then(() => {
         // setSmartAnnotations([...smartAnnotations, newBank]);
         setShowNewBankPopUp(false);
-        // showSnackbar('New feedback bank created');
+        toast(<Toast message={'New feedback bank created'} />);
         queryClient.invalidateQueries(['feedbackBank']);
         setFeedbackBankCreated(true);
       })
       .catch((error) => {
         console.log('first error', error);
-        // showSnackbar('Error creating new feedback bank');
+        toast(<Toast message={'Error creating new feedback bank'} />);
       });
   };
 
@@ -238,10 +240,10 @@ const CommentBanks = () => {
     createNewSmartAnnotation(newObject, feedbackBankId)
       .then((result) => {
         setSmartAnnotations(newSmartAnnotations);
-        // showSnackbar('Smart annotation created');
+        toast(<Toast message={'Smart annotation created'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error updating Feedback bank');
+        toast(<Toast message={'Error updating Feedback bank'} />);
       });
   };
 
@@ -267,16 +269,15 @@ const CommentBanks = () => {
     updateSmartAnnotation(newObject, smartAnnotationIndex)
       .then(() => {
         setSmartAnnotations(newSmartAnnotations);
-        // showSnackbar('Feedback bank title updated');
+        toast(<Toast message={'Feedback bank title updated'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error updating smart annotation');
+        toast(<Toast message={'Error updating smart annotation'} />);
       });
   };
 
   const UpdateSmartAnotationHandler = (
     newSmartComment,
-    // smartAnnotationIndex,
     index
   ) => {
     setSmartAnnotationeditIndex(index);
@@ -305,10 +306,10 @@ const CommentBanks = () => {
     updateSmartAnnotation(newObject, feedbackBankId)
       .then(() => {
         setSmartAnnotations(newSmartAnnotations);
-        // showSnackbar('Smart annotation updated');
+        toast(<Toast message={'Smart annotation updated'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error updating smart annotation');
+        toast(<Toast message={'Error updating smart annotation'} />);
       });
   };
 
@@ -335,10 +336,10 @@ const CommentBanks = () => {
     updateSmartAnnotation(newObject, feedbackBankId)
       .then(() => {
         setSmartAnnotations(NewSmartAnnotations);
-        // showSnackbar('Smart commit deleted');
+        toast(<Toast message={'Smart commit deleted'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error deleting Smart commit');
+        toast(<Toast message={'Error deleting Smart commit'} />);
       });
   };
 

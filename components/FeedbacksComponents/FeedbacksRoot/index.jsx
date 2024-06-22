@@ -917,8 +917,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
         if (!allCriteriaHaveSelectedLevels(criterias)) {
           valid = false;
-          showSnackbar(
-            'Please Select Marking Criteria for ' + question.serialNumber
+
+          toast(
+            <Toast
+              message={
+                'Please Select Marking Criteria for ' + question.serialNumber
+              }
+            />
           );
 
           return true;
@@ -951,8 +956,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           isNullOrEmpty(selectedSAndT.selectedTargets)
         ) {
           valid = false;
-          showSnackbar(
-            'Please Select Marking Criteria for ' + question.serialNumber
+
+          toast(
+            <Toast
+              message={
+                'Please Select Marking Criteria for ' + question.serialNumber
+              }
+            />
           );
           return true;
         }

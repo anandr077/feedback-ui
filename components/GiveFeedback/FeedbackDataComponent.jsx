@@ -40,11 +40,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { acceptFeedbackRequest, declineFeedbackRequest } from '../../service';
 import arrowRight from '../../static/img/arrowright.svg';
 import { requestedTime } from '../../utils/requestedTime';
-import SnackbarContext from '../SnackbarContext';
+import { toast } from 'react-toastify';
+import Toast from '../Toast';
 import { Avatar } from '@boringer-avatars/react';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
   const [showFullText, setShowFullText] = useState(false);
 
   const queryClient = useQueryClient();
@@ -77,7 +77,8 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
 
     onSettled: () => {
       queryClient.refetchQueries({ queryKey: ['communityTasks'] });
-      showSnackbar('Feedback request dismissed');
+
+      toast(<Toast message={'Feedback request dismissed'} />);
     },
   });
 
@@ -129,9 +130,10 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
             </TagsAndTextContainer>
             <TextContainer>
               <DataText>
-                {showMoreText(text.title)} {' '} 
+                {showMoreText(text.title)}{' '}
                 <span onClick={toggleShowText}>
-                  {text.title.length > 120 && (!showFullText ? 'Show more' : 'Show less')}
+                  {text.title.length > 120 &&
+                    (!showFullText ? 'Show more' : 'Show less')}
                 </span>
               </DataText>
               <WordsCountContainer>

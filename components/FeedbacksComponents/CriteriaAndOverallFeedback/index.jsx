@@ -73,8 +73,9 @@ import {
 import { GreenTickComponent, GreenTickText } from '../../GreenTick';
 import StrengthAndTargetMarkingCriteria from '../StrengthAndTargetMarkingCriteria';
 import { isNullOrEmpty } from '../../../utils/arrays';
-import SnackbarContext from '../../SnackbarContext';
 import { isStringNull } from '../../../utils/strings';
+import { toast } from 'react-toastify';
+import Toast from '../../Toast';
 
 const CriteriaAndOverallFeedback = ({
   handleClick,
@@ -99,7 +100,6 @@ const CriteriaAndOverallFeedback = ({
   const [selectedTargets, setSelectedTargets] = useState([]);
   const [isShowMarkingCrteriaPopUp, setShowMarkingCrteriaPopUp] =
     useState(false);
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   useEffect(() => {
@@ -205,8 +205,11 @@ const CriteriaAndOverallFeedback = ({
   const saveMarkingCrieria = () => {
     if (isMarkingCriteriaTypeRubric(markingCriteria?.type)) {
       if (!allCriteriaHaveSelectedLevels(markingCriteria?.criterias)) {
-        console.log('Please ensure all criteria have a selected level.');
-        showSnackbar('Please ensure all criteria have a selected level.');
+        toast(
+          <Toast
+            message={'Please ensure all criteria have a selected level'}
+          />
+        );
         return;
       }
       setShowMarkingCrteriaPopUp(false);
@@ -214,13 +217,11 @@ const CriteriaAndOverallFeedback = ({
       handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria);
     } else {
       if (selectedStrengths.length === 0) {
-        console.log('please select at least one strength');
-        showSnackbar('please select at least one strength');
+        toast(<Toast message={'please select at least one strength'} />);
         return;
       }
       if (selectedTargets.length === 0) {
-        console.log('please select at least one target');
-        showSnackbar('please select at least one target ');
+        toast(<Toast message={'please select at least one target'} />);
         return;
       }
       setShowMarkingCrteriaPopUp(false);

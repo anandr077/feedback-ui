@@ -17,7 +17,6 @@ import {
   CloseImg,
 } from './stateYearDialogueStyle';
 import { profileStateYear } from '../../service';
-import SnackbarContext from '../../components/SnackbarContext';
 import StyledDropDown from '../StyledDropDown';
 import countriesData from './countries.json';
 
@@ -31,7 +30,6 @@ const yearOptions = [
 ];
 
 const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
-  const { showSnackbar } = useContext(SnackbarContext);
   const defaultCountry = Object.keys(countriesData)[0] || 'Australia';
   const [country, setCountry] = useState({ title: defaultCountry });
   const defaultState =
@@ -81,7 +79,7 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
         Cookies.set('year', year);
         onClose();
         if (editStateYear) {
-          showSnackbar('Setting successfully updated');
+          toast(<Toast message={'Setting successfully updated'} />);
         }
       });
     }

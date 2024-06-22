@@ -11,7 +11,7 @@ const WelcomeOverlayMobile = () => {
     <MainContainer>
       <Content>
         <Headline>Welcome to Jeddle.</Headline>
-        <Para>Open our web app in desktop or tablet to get feedback</Para>
+        <Para>Open our web app in desktop or tablet</Para>
       </Content>
     </MainContainer>
   );

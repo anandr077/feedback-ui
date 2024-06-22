@@ -38,7 +38,6 @@ export const HeadingAndFilterCon = styled.div`
   width: 100%;
 `;
 
-
 export const FilterAndSortContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -391,8 +390,6 @@ export const UserNameBox = styled.div`
 export const UserImage = styled.div`
   width: 24px;
   height: 24px;
-  background-color: rgba(241, 230, 252, 1);
-  border-radius: 50%;
 `;
 
 export const TagsContainer = styled.div`
@@ -432,7 +429,7 @@ export const DataText = styled.div`
   letter-spacing: 0em;
   text-align: left;
 
-  span{
+  span {
     cursor: pointer;
     color: rgba(114, 0, 224, 1);
     text-decoration: underline;
@@ -466,7 +463,7 @@ export const MarkedLiked = styled.div`
   align-items: center;
   gap: 1px;
 
-  img{
+  img {
     height: 16px;
     width: 16px;
   }

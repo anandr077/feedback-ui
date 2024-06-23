@@ -1653,6 +1653,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           classesAndStudents,
           teachers,
           selectedComment,
+          overallComments,
+          markingCriteriaFeedback,
         }}
       />
     </FeedbackContext.Provider>

@@ -223,3 +223,7 @@ export const isShowOverallFeedbackSavedLabel = (String) => {
   }
   return true;
 };
+
+export const isShowMarkingCriteriaSidebar = (overallComments, markingCriteriaFeedback) =>{
+  return overallComments?.length !== 0 || markingCriteriaFeedback?.length !== 0
+}

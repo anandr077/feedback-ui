@@ -6,19 +6,13 @@ export const GiveFeedbackContainer = styled.div`
 
 export const MainContainer = styled.div`
   width: 100%;
-  align-items: center;
-  background-color: var(--white);
-  border: 1px none;
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
   position: relative;
-  min-height: 595px;
-  border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
-
-  @media (min-width: 766px) and (max-width: 1024px) {
-    min-width: 766px;
-  }
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  
 `;
 
 export const InnerContainer = styled.div`
@@ -32,21 +26,21 @@ export const InnerContainer = styled.div`
 `;
 export const HeadingAndFilterCon = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px 20px;
   width: 100%;
+  border-bottom: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
 `;
 
 export const FilterAndSortContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  padding: 16px 20px;
+  padding: 20px 0px;
   align-items: center;
   gap: 16px;
   align-self: stretch;
-  border-bottom: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
-  border-left: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
+
   @media (max-width: 1024px) and (min-width: 765px) {
     flex-direction: column;
     align-items: flex-start;

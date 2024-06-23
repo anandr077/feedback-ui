@@ -31,3 +31,7 @@ export const Button = styled.button`
   gap: 8px;
   cursor: pointer;
 `;
+export const CloseImg = styled.img`
+  width: 24px;
+  height: 24px;
+`;

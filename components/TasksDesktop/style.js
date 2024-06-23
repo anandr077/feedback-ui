@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const TaskScreenMainContainer = styled.div`
   background-color: var(--white-pointer);
   border: 1px none;
+  position: relative;
   display: flex;
   overflow-y: scroll;
   &::-webkit-scrollbar {
@@ -19,7 +20,8 @@ export const TaskScreenMainContainer = styled.div`
 export const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(100vw - 305px);
+  width: 100%;
+  position: relative;
   align-items: center;
   justify-content: flex-start;
   position: relative;

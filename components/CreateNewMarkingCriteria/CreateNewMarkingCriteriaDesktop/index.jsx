@@ -21,6 +21,7 @@ import {
   MinusImg,
   PlusContainer,
   MinusContainer,
+  HeadingAndFilterContainer,
 } from './style';
 import Eye from '../../../static/icons/Eye.svg';
 import Plus from '../../../static/icons/Plus.svg';
@@ -63,6 +64,9 @@ import {
 } from './style';
 import SecondSidebar from '../../SecondSidebar';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
+import { isTabletView } from '../../ReactiveRender';
+import MenuButton from '../../MenuButton';
+import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar';
 
 function CreateNewMarkingCriteriaDesktop(props) {
   const {
@@ -83,11 +87,11 @@ function CreateNewMarkingCriteriaDesktop(props) {
     markingCriteriaId,
   } = props;
 
- 
-
   const [isEditing, setIsEditing] = useState(false);
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
+  const [isShowMenu, setShowMenu] = React.useState(false);
+  const tabletView = isTabletView();
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
@@ -108,8 +112,17 @@ function CreateNewMarkingCriteriaDesktop(props) {
   return (
     <>
       <MainContainer>
+        <ImprovedSecondarySideBar
+          isShowMenu={isShowMenu}
+          setShowMenu={setShowMenu}
+          id={markingCriteriaId}
+        />
         <InnerContainer>
-          <SecondSidebar id={markingCriteriaId} />
+          {tabletView && (
+            <HeadingAndFilterContainer>
+              <MenuButton setShowMenu={setShowMenu} />
+            </HeadingAndFilterContainer>
+          )}
           <RightContainer>
             <HeadingContainer>
               {isEditing ? (

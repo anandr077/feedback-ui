@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactiveRender from '../../ReactiveRender';
 import CompletedDesktop from '../CompletedDesktop';
-import CompletedLaptop from '../CompletedLaptop';
-import CompletedMobile from '../CompletedMobile';
-import CompletedTablet from '../CompletedTablet';
 import LinkButton from '../../../components2/LinkButton/index.jsx';
 import whiteArrowleft from '../../../static/img/arrowleftwhite.svg';
 import arrowLeft from '../../../static/img/arrowleft.svg';
@@ -102,105 +99,27 @@ export default function CompletedRoot(props) {
   );
 
   return (
-    <ReactiveRender
-      mobile={
-        <CompletedMobile
-          {...{
-            menuItems,
-            filterTasks,
-            title,
-            groups: filterAndSortData(
-              groups,
-              selectedClass,
-              sortData,
-              favouriteResponse
-            ),
-            exemplar,
-            id,
-            headingPart,
-            setPublishActionCompleted,
-            onAccept,
-            onDecline,
-            onAddToBookmark,
-            onRemoveFromBookmark,
-            ...completedMobileData,
-          }}
-        />
-      }
-      tablet={
-        <CompletedTablet
-          {...{
-            menuItems,
-            filterTasks,
-            title,
-            groups: filterAndSortData(
-              groups,
-              selectedClass,
-              sortData,
-              favouriteResponse
-            ),
-            exemplar,
-            id,
-
-            setPublishActionCompleted,
-            headingPart,
-            onAccept,
-            onDecline,
-            onAddToBookmark,
-            onRemoveFromBookmark,
-            ...completedTabletData,
-          }}
-        />
-      }
-      laptop={
-        <CompletedLaptop
-          {...{
-            menuItems,
-            filterTasks,
-            title,
-            groups: filterAndSortData(
-              groups,
-              selectedClass,
-              sortData,
-              favouriteResponse
-            ),
-            exemplar,
-            id,
-
-            headingPart,
-            setPublishActionCompleted,
-            onAccept,
-            onDecline,
-            onAddToBookmark,
-            onRemoveFromBookmark,
-            ...completedLaptopData,
-          }}
-        />
-      }
-      desktop={
-        <CompletedDesktop
-          {...{
-            menuItems,
-            filterTasks,
-            title,
-            groups: filterAndSortData(
-              groups,
-              selectedClass,
-              sortData,
-              favouriteResponse
-            ),
-            exemplar,
-            id,
-            headingPart,
-            setPublishActionCompleted,
-            onAccept,
-            onDecline,
-            onAddToBookmark,
-            onRemoveFromBookmark,
-            ...completedDesktopData,
-          }}
-        />
-      }
+    <CompletedDesktop
+      {...{
+        menuItems,
+        filterTasks,
+        title,
+        groups: filterAndSortData(
+          groups,
+          selectedClass,
+          sortData,
+          favouriteResponse
+        ),
+        exemplar,
+        id,
+        headingPart,
+        setPublishActionCompleted,
+        onAccept,
+        onDecline,
+        onAddToBookmark,
+        onRemoveFromBookmark,
+        ...completedDesktopData,
+      }}
     />
   );
 }
@@ -280,25 +199,7 @@ const frame14102Data = {
   cards6Props: cards64Data,
 };
 
-const completedMobileData = {
-  frame1349: '/img/frame-1349@2x.png',
-  frame5: '/img/frame-5@2x.png',
-  subject: 'Subject',
-  frame1284: '/img/frame-1284@2x.png',
-  line18: '/img/line-18@2x.png',
-  line19: '/img/line-18@2x.png',
-  line20: '/img/line-18@2x.png',
-  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
-  mainWebsite: 'Main Website',
-  terms: 'Terms',
-  privacy: 'Privacy',
-  notificationsProps: notifications2Data,
-  frame14101Props: frame14101Data,
-  frame1308Props: frame13082Data,
-  cards61Props: cards62Data,
-  cards62Props: cards63Data,
-  frame14102Props: frame14102Data,
-};
+
 
 const notifications3Data = {
   src: '/img/notificationbing@2x.png',
@@ -374,25 +275,7 @@ const frame141023Data = {
   cards8Props: cards84Data,
 };
 
-const completedTabletData = {
-  frame1349: '/img/frame-1349-1.png',
-  frame5: '/img/frame-5@2x.png',
-  subject: 'Subject',
-  frame1284: '/img/frame-1284@2x.png',
-  line18: '/img/line-17-14.png',
-  line19: '/img/line-17-14.png',
-  line20: '/img/line-17-14.png',
-  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
-  mainWebsite: 'Main Website',
-  terms: 'Terms',
-  privacy: 'Privacy',
-  notificationsProps: notifications3Data,
-  frame141021Props: frame141022Data,
-  frame1308Props: frame13085Data,
-  cards81Props: cards82Data,
-  cards82Props: cards83Data,
-  frame141022Props: frame141023Data,
-};
+
 
 const navElement23Data = {
   tasksquare: '/img/home3-1@2x.png',
@@ -632,16 +515,4 @@ const frame65Data = {
   className: 'frame-6-6',
 };
 
-const completedLaptopData = {
-  subject: 'Subject',
-  frame1284: '/img/frame-1284@2x.png',
-  line18: '/img/line-18-3.png',
-  line19: '/img/line-18-3.png',
-  line20: '/img/line-18-3.png',
-  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
-  teacherDashboardHeaderProps: teacherDashboardHeader2Data,
-  frame141031Props: frame141033Data,
-  frame1412Props: frame14122Data,
-  frame141032Props: frame141034Data,
-  frame6Props: frame65Data,
-};
+

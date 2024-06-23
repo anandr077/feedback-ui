@@ -38,14 +38,6 @@ export default function ExemplarResponsesPage(props) {
       }
     });
   }, []);
-  React.useEffect(() => {
-    getModelResponses().then((result) => {
-      if (result) {
-        setExemplarResponses(result);
-        setIsLoading(false);
-      }
-    });
-  }, []);
 
   React.useEffect(() => {
     const createGroup = groupBy(exemplarResponses, (task) =>

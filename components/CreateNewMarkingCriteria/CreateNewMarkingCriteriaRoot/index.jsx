@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CreateNewMarkingCriteriaDesktop from '../CreateNewMarkingCriteriaDesktop';
-import CreateNewMarkingCriteriaMobile from '../CreateNewMarkingCriteriaMobile';
 import  { isMobileView } from '../../ReactiveRender';
 import CriteriaContainer from '../CriteriaContainer';
 import {
@@ -299,21 +298,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   return (
     <>
-      {mobileView ? (
-        <CreateNewMarkingCriteriaMobile
-          {...{
-            ...accountSettingsMarkingCriteriaCreat2Data,
-            criterias,
-            addCriteria,
-            addLevel,
-            saveMarkingCriteria,
-            deleteMarkingCriteriaMethod,
-            handleTitleChange,
-            isUpdating,
-            markingCriterias,
-          }}
-        />
-      ) : (
+     
         <CreateNewMarkingCriteriaDesktop
           {...{
             ...accountSettingsMarkingCriteriaCreat4Data,
@@ -334,7 +319,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
             markingCriteriaId,
           }}
         />
-      )}
+    
     </>
   );
 }

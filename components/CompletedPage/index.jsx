@@ -51,6 +51,10 @@ import {
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
 import SecondSidebar from '../SecondSidebar/index.js';
+import { isTabletView } from '../ReactiveRender/index.jsx';
+import ClickOutsideHandler from '../ClickOutsideHandler/index.jsx';
+import MenuButton from '../MenuButton/index.jsx';
+import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
@@ -59,7 +63,8 @@ export default function CompletedPage() {
   const [sortData, setSortData] = React.useState(true);
   const [classes, setClasses] = React.useState([]);
   const [selectedClass, setSelectedClass] = React.useState('');
-
+  const [isShowMenu, setShowMenu] = React.useState(false);
+  const tabletView = isTabletView();
 
   const completedTasksQuery = useQuery({
     queryKey: ['completedTasks'],
@@ -132,10 +137,14 @@ export default function CompletedPage() {
 
   return (
     <CompletedPageContainer>
-      <SecondSidebar />
       <MainContainer>
+        <ImprovedSecondarySideBar
+          isShowMenu={isShowMenu}
+          setShowMenu={setShowMenu}
+        />
         <InnerContainer>
           <HeadingAndFilterCon>
+            {tabletView && <MenuButton setShowMenu={setShowMenu} />}
             <FilterAndSortContainer>
               <FilterContainer>
                 <Frame5086>

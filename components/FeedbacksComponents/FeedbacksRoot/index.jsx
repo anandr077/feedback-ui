@@ -1442,8 +1442,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       }
 
       setTimeout(() => {
-        interval = setInterval(getAndUpdateSubmission, 30000);
-      }, 30000);
+        interval = setInterval(getAndUpdateSubmission, 10000);
+      }, 10000);
     });
   };
 

@@ -6,12 +6,11 @@ export const CompletedPageContainer = styled.div`
 
 export const MainContainer = styled.div`
   width: 100%;
-  align-items: center;
+  display: relative;
+  align-items: flex-start;
   background-color: var(--white);
-  border-top: 1px solid rgba(201, 198, 204, 0.5);
   display: flex;
-  flex-direction: column;
-  gap: 60px;
+  flex-direction: row;
   position: relative;
   @media (min-width: 1025px) and (max-width: 1440px) {
     min-width: 1025px;
@@ -31,15 +30,10 @@ export const InnerContainer = styled.div`
 `;
 export const HeadingAndFilterCon = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px 20px;
   width: 100%;
-  //padding: 0px 0px;
-  //border-bottom: 1px solid #c9c6cc80;
-
-  @media (max-width: 765px) {
-    padding: 0px 10px;
-  }
 `;
 export const TopContainer = styled.div`
   display: flex;

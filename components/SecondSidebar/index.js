@@ -3,9 +3,15 @@ import {
   useLocation,
   useHistory,
 } from 'react-router-dom/cjs/react-router-dom.min';
-import { MainContainer, Button } from './style';
+import { MainContainer, Button, CloseImg } from './style';
 import { useQuery } from '@tanstack/react-query';
-import { getCommunityTasks, getCompletedTasks, getTasks, getAssignments, getLocalClasses } from '../../service';
+import {
+  getCommunityTasks,
+  getCompletedTasks,
+  getTasks,
+  getAssignments,
+  getLocalClasses,
+} from '../../service';
 import settings from '../../static/icons/settings.svg';
 import banks from '../../static/icons/banks.svg';
 import marking from '../../static/icons/marking.svg';
@@ -13,11 +19,14 @@ import commentSelected from '../../static/img/commentSelected.svg';
 import commentUnSelected from '../../static/img/commentUnSelected.svg';
 import markSelected from '../../static/img/markSelected.svg';
 import markUnSelected from '../../static/img/markUnSelected.svg';
+import closeicon from '../../static/img/closecircle.svg';
+
 import { getUserRole } from '../../userLocalDetails';
 import { isActiveButton, isTeacherWithoutClass } from './rules';
 import { useQuery } from '@tanstack/react-query';
+import { isTabletView } from '../ReactiveRender';
 
-const SecondSidebar = ({ id }) => {
+const SecondSidebar = ({ id, setShowMenu }) => {
   const [containerHeight, setContainerHeight] = useState(0);
   const [feedbackRequestsLength, setFeedbackRequestsLength] = useState(0);
   const [completedTaskLength, setCompletedTaskLength] = useState(0);
@@ -28,6 +37,7 @@ const SecondSidebar = ({ id }) => {
   const role = getUserRole();
   const localClasses = getLocalClasses();
   const isTeacherNoClass = isTeacherWithoutClass(role, localClasses);
+  const tabletView = isTabletView();
 
   const completedTasksQuery = useQuery({
     queryKey: ['completedTasks'],
@@ -101,6 +111,9 @@ const SecondSidebar = ({ id }) => {
   }, []);
 
   const handleButtonClick = (link) => {
+    if (setShowMenu) {
+      setShowMenu(false);
+    }
     history.push(link);
   };
 
@@ -108,14 +121,18 @@ const SecondSidebar = ({ id }) => {
     {
       icon: '',
       selectedIcon: '',
-      title: `Current Tasks ${role === 'STUDENT' ? `(${allStudentTasks})` : `(${allTeacherTasks})`}`,
+      title: `Current Tasks ${
+        role === 'STUDENT' ? `(${allStudentTasks})` : `(${allTeacherTasks})`
+      }`,
       link: '/',
       matchLink: '/',
     },
     {
       icon: '',
       selectedIcon: '',
-      title: `Current Tasks ${role === 'STUDENT' ? `(${allStudentTasks})` : `(${allTeacherTasks})`}`,
+      title: `Current Tasks ${
+        role === 'STUDENT' ? `(${allStudentTasks})` : `(${allTeacherTasks})`
+      }`,
       link: '/tasks',
       matchLink: '/tasks',
     },
@@ -147,11 +164,7 @@ const SecondSidebar = ({ id }) => {
     {
       icon: '',
       selectedIcon: '',
-      title: `${
-        role === 'STUDENT'
-          ? `Feedback From Me`
-          : `Feedback History`
-      }`,
+      title: `${role === 'STUDENT' ? `Feedback From Me` : `Feedback History`}`,
       link: `/feedbackHistory`,
       matchLink: `/feedbackHistory`,
     },
@@ -185,120 +198,128 @@ const SecondSidebar = ({ id }) => {
     },
   ];
 
-  const subRoutes = isTeacherNoClass ? [
-    {
-      link: '/giveFeedback',
-      subLinks: [subLinks[3], subLinks[5]],
-    },
-    {
-      link: '/feedbackHistory',
-      subLinks: [subLinks[3], subLinks[5]], 
-    },
-    {
-      link: '/',
-      subLinks: [subLinks[3], subLinks[5]], 
-    },
-    {
-      link: '/settings',
-      subLinks: [subLinks[6], subLinks[7]],
-    },
-    {
-      link: '/commentbanks',
-      subLinks: [subLinks[6], subLinks[7]],
-    },
-  ] : [
-    {
-      link: '/',
-      subLinks: [
-        subLinks[0],
-        subLinks[2],
-        subLinks[3],
-        subLinks[4],
-        subLinks[5],
-      ],
-    },
-    {
-      link: '/tasks',
-      subLinks: [
-        subLinks[1],
-        subLinks[2],
-        subLinks[3],
-        subLinks[4],
-        subLinks[5],
-      ],
-    },
-    {
-      link: '/giveFeedback',
-      subLinks: [
-        subLinks[1],
-        subLinks[2],
-        subLinks[3],
-        subLinks[4],
-        subLinks[5],
-      ],
-    },
-    {
-      link: '/feedbackHistory',
-      subLinks: [
-        subLinks[1],
-        subLinks[2],
-        subLinks[3],
-        subLinks[4],
-        subLinks[5],
-      ],
-    },
-    {
-      link: '/sharedresponses',
-      subLinks: [
-        subLinks[1],
-        subLinks[2],
-        subLinks[3],
-        subLinks[4],
-        subLinks[5],
-      ],
-    },
-    {
-      link: '/settings',
-      subLinks: [subLinks[6], subLinks[7]],
-    },
-    {
-      link: `/markingTemplates/rubrics/${id}`,
-      subLinks: [subLinks[8], subLinks[7]],
-    },
-    {
-      link: `/markingTemplates/strengths-and-targets/${id}`,
-      subLinks: [subLinks[9], subLinks[7]],
-    },
-    {
-      link: '/commentbanks',
-      subLinks: [subLinks[6], subLinks[7]],
-    },
-    {
-      link: '/completed',
-      subLinks: [
-        subLinks[1],
-        subLinks[2],
-        subLinks[3],
-        subLinks[4],
-        subLinks[5],
-      ],
-    },
-  ];
+  const subRoutes = isTeacherNoClass
+    ? [
+        {
+          link: '/giveFeedback',
+          subLinks: [subLinks[3], subLinks[5]],
+        },
+        {
+          link: '/feedbackHistory',
+          subLinks: [subLinks[3], subLinks[5]],
+        },
+        {
+          link: '/',
+          subLinks: [subLinks[3], subLinks[5]],
+        },
+        {
+          link: '/settings',
+          subLinks: [subLinks[6], subLinks[7]],
+        },
+        {
+          link: '/commentbanks',
+          subLinks: [subLinks[6], subLinks[7]],
+        },
+      ]
+    : [
+        {
+          link: '/',
+          subLinks: [
+            subLinks[0],
+            subLinks[2],
+            subLinks[3],
+            subLinks[4],
+            subLinks[5],
+          ],
+        },
+        {
+          link: '/tasks',
+          subLinks: [
+            subLinks[1],
+            subLinks[2],
+            subLinks[3],
+            subLinks[4],
+            subLinks[5],
+          ],
+        },
+        {
+          link: '/giveFeedback',
+          subLinks: [
+            subLinks[1],
+            subLinks[2],
+            subLinks[3],
+            subLinks[4],
+            subLinks[5],
+          ],
+        },
+        {
+          link: '/feedbackHistory',
+          subLinks: [
+            subLinks[1],
+            subLinks[2],
+            subLinks[3],
+            subLinks[4],
+            subLinks[5],
+          ],
+        },
+        {
+          link: '/sharedresponses',
+          subLinks: [
+            subLinks[1],
+            subLinks[2],
+            subLinks[3],
+            subLinks[4],
+            subLinks[5],
+          ],
+        },
+        {
+          link: '/settings',
+          subLinks: [subLinks[6], subLinks[7]],
+        },
+        {
+          link: `/markingTemplates/rubrics/${id}`,
+          subLinks: [subLinks[8], subLinks[7]],
+        },
+        {
+          link: `/markingTemplates/strengths-and-targets/${id}`,
+          subLinks: [subLinks[9], subLinks[7]],
+        },
+        {
+          link: '/commentbanks',
+          subLinks: [subLinks[6], subLinks[7]],
+        },
+        {
+          link: '/completed',
+          subLinks: [
+            subLinks[1],
+            subLinks[2],
+            subLinks[3],
+            subLinks[4],
+            subLinks[5],
+          ],
+        },
+      ];
   return (
     <MainContainer height={containerHeight}>
       {subRoutes.map((route, idx) => {
         if (route.link === location.pathname) {
           return (
             <React.Fragment key={idx}>
+              {tabletView && setShowMenu && (
+                <Button onClick={() => setShowMenu(false)}>
+                  <CloseImg src={closeicon} />
+                </Button>
+              )}
               {route.subLinks.map((subLink, subIdx) => {
-                if (
-                  (subLink.link === '/sharedresponses') &&
-                  role === 'TEACHER'
-                ) {
+                if (subLink.link === '/sharedresponses' && role === 'TEACHER') {
                   return null;
                 }
 
-                const isActive = isActiveButton(subLink, location.pathname, isTeacherNoClass);
+                const isActive = isActiveButton(
+                  subLink,
+                  location.pathname,
+                  isTeacherNoClass
+                );
 
                 return (
                   <Button

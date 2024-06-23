@@ -51,6 +51,8 @@ import {
   PopUpCard,
   PopUpCardText,
   PlusIconHover,
+  HeadingAndFilterCon,
+  HeadingAndFilterContainer,
 } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 import questionMark from '../../../static/img/question-mark.svg';
@@ -73,10 +75,15 @@ import { getUserId } from '../../../userLocalDetails';
 import TabTitleContainer from './TabTitleContainer';
 import SecondSidebar from '../../SecondSidebar';
 import { useHistory } from 'react-router-dom';
+import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar';
+import MenuButton from '../../MenuButton';
+import { isTabletView } from '../../ReactiveRender';
 
 function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList }) {
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
+  const [isShowMenu, setShowMenu] = React.useState(false);
+  const tabletView = isTabletView();
   const divRef = useRef(null);
   const history = useHistory();
 
@@ -95,8 +102,16 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList }) {
 
   return (
     <MainContainer>
+      <ImprovedSecondarySideBar
+        isShowMenu={isShowMenu}
+        setShowMenu={setShowMenu}
+      />
       <InnerContainer>
-        <SecondSidebar />
+        {tabletView && (
+          <HeadingAndFilterContainer>
+            <MenuButton setShowMenu={setShowMenu} />
+          </HeadingAndFilterContainer>
+        )}
         <RightContainer>
           <Frame1302>
             <CreateButtonCont

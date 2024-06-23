@@ -10,7 +10,7 @@ import {
   getMarkingMethodology,
   updateMarkingCriteria,
 } from '../../../service';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import Loader from '../../Loader';
 
 import React, { useState } from 'react';

@@ -386,15 +386,13 @@ export const TabsPlusText = styled.div`
 `;
 
 export const MainContainer = styled.div`
-  align-items: center;
-  background-color: var(--white-pointer);
-  border: 1px none;
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
+  width: 100%;
   position: relative;
-  width: calc(100vw - 90px);
-  border-top: 1px solid #73737340;
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: row;
+  position: relative;
   @media (min-width: 1025px) and (max-width: 1440px) {
     min-width: 1025px;
   }
@@ -405,7 +403,7 @@ export const MainContainer = styled.div`
 
 export const InnerContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
   min-height: 90vh;
@@ -515,4 +513,12 @@ export const PopUpCardText = styled.p`
   line-height: 24px;
   text-align: left;
   color: #4b464f;
+`;
+export const HeadingAndFilterContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 20px;
+  width: 100%;
+  border-bottom: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
 `;

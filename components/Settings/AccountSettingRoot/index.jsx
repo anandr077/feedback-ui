@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactiveRender, { isMobileView } from '../../ReactiveRender';
 import AccountSettingsMarkingCriteriaDeskt from '../AccountSettingsMarkingCriteriaDeskt';
-import AccountSettingsMarkingCriteriaTable from '../AccountSettingsMarkingCriteriaTable';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import MarkingCriteriaCard from '../MarkingCriteriaCard';
 import {
@@ -448,7 +447,7 @@ export default function AccountSettingsRoot(props) {
       .then((res) => {
         createdMarkingCriteria.id = res.id.value;
         createdMarkingCriteria.teacherId = res.teacherId.value;
-        
+
         toast(
           <Toast
             message={'Copied marking template'}
@@ -475,9 +474,6 @@ export default function AccountSettingsRoot(props) {
     )
   );
 
-  const [showMarkingCriteria, setShowMarkingCriteria] = React.useState(true);
-  const [showShortcuts, setShowShortcuts] = React.useState(false);
-
   if (
     feedbackBankQuery.isLoading ||
     shortCutsQuery.isLoading ||
@@ -490,127 +486,13 @@ export default function AccountSettingsRoot(props) {
     );
   }
 
-  const NewBankPopContainer = ({ setShowNewBankPopUp }) => {
-    return (
-      <PopupBackground>
-        <PopupContainer>
-          <PopupTitleContainer>
-            <PopupTitle>Create New Bank</PopupTitle>
-            <PopupTitleImg
-              onClick={() => setShowNewBankPopUp(false)}
-              src={closecircle}
-            />
-          </PopupTitleContainer>
-          <PopupDialogContentBox>
-            <PopupDialogContentBoxLeft>
-              <Card onClick={() => createFeedbackBank()}>
-                <CardImgCont>
-                  <CardImg src={PlusBlue} />
-                </CardImgCont>
-                <CardTitle>New Bank</CardTitle>
-              </Card>
-              {systemSmartAnnotations?.map((bank) => {
-                return (
-                  <Card
-                    onClick={() => setSelectedBank(bank)}
-                    style={{
-                      backgroundColor:
-                        bank.id === selectedBank.id ? ' #F1E6FC' : '#ffffff',
-                    }}
-                  >
-                    <CardImgDoc src={Doc} />
-
-                    <CardTitle>{bank.title}</CardTitle>
-                  </Card>
-                );
-              })}
-            </PopupDialogContentBoxLeft>
-            <PopupDialogContentBoxRight>
-              <PreviewContainer>
-                <PrevieImg src={PreviewIcon} />
-                <Previewpara>Preview</Previewpara>
-              </PreviewContainer>
-
-              {selectedBank?.smartComments.map((comment) => {
-                return (
-                  <div key={comment.title}>
-                    <BankCommentTitle>{comment.title}</BankCommentTitle>
-                    {comment?.suggestions?.map((suggestion) => (
-                      <Commentsuggestion key={suggestion}>
-                        {suggestion}
-                      </Commentsuggestion>
-                    ))}
-                  </div>
-                );
-              })}
-            </PopupDialogContentBoxRight>
-          </PopupDialogContentBox>
-          <ButtonConatiner>
-            <CreateButton
-              onClick={() => createSystemFeedbackBank(selectedBank.id)}
-            >
-              <ButtonText>Create</ButtonText>
-            </CreateButton>
-          </ButtonConatiner>
-        </PopupContainer>
-      </PopupBackground>
-    );
-  };
-
-  const emptyFeedbackBank = () => {
-    return (
-      <EmptyBankContainer>
-        <EmptyBankIconCont src={EmptyBankIcon} />
-        <EmptyBankHeading>No comment banks created yet</EmptyBankHeading>
-        <EmptyBankSubHeading>
-          To start using comment banks, click below.
-        </EmptyBankSubHeading>
-        <EmptyBankContainerButton onClick={() => setShowNewBankPopUp(true)}>
-          <TabsPlus src={Plus} />
-          <TabsPlusText>New Bank</TabsPlusText>
-        </EmptyBankContainerButton>
-      </EmptyBankContainer>
-    );
-  };
-
   return (
     <>
-      {isShowNewBankPopUp && (
-        <NewBankPopContainer setShowNewBankPopUp={setShowNewBankPopUp} />
-      )}
-      {mobileView ? (
-        <AccountSettingsMarkingCriteriaTable
-          {...{
-            ...accountSettingsMarkingCriteriaTableData,
-            markingCriteriaList,
-            smartAnnotationsFrame,
-            createSmartAnnotationHandler,
-            setShowMarkingCriteria,
-            setShowShortcuts,
-            showMarkingCriteria,
-            showShortcuts,
-            setOpenMarkingMethodologyDialog,
-            smartAnnotations,
-            setFeedbackBankId,
-            feedbackBankId,
-            setOpenMarkingMethodologyDialog,
-            UpdateSmartBankTitleHandler,
-            deteteFeedbackBank,
-            createCloneFeedbankBank,
-            setShowNewBankPopUp,
-            feedbackBankCreated,
-            setFeedbackBankCreated,
-            emptyFeedbackBank,
-            setSmartAnnotationeditIndex,
-          }}
-        />
-      ) : (
-        <AccountSettingsMarkingCriteriaDeskt
-          {...{
-            markingCriteriaList,
-          }}
-        />
-      )}
+      <AccountSettingsMarkingCriteriaDeskt
+        {...{
+          markingCriteriaList,
+        }}
+      />
       {openMarkingMethodologyDialog && (
         <MarkingMethodologyDialog
           setOpenMarkingMethodologyDialog={setOpenMarkingMethodologyDialog}
@@ -752,32 +634,6 @@ const cards26Data = {
   className: 'cards-5',
 };
 
-const accountSettingsMarkingCriteriaTableData = {
-  frame1349: '/img/frame-1349@2x.png',
-  notifications: '/img/notifications@2x.png',
-  frame5: '/img/frame-5@2x.png',
-  title: 'Account Settings',
-  userSettings: 'User Settings',
-  frame12841: '/img/frame-1284@2x.png',
-  markingCriteria: 'Marking Criteria',
-  frame12842: '/img/frame-1284-1@2x.png',
-  line14: '/img/line-14@2x.png',
-  shortcuts: 'Smart Annotations',
-  frame12843: '/img/frame-1284@2x.png',
-  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
-  mainWebsite: 'Main Website',
-  terms: 'Terms',
-  privacy: 'Privacy',
-  breadcrumbProps: breadcrumb3Data,
-  breadcrumb2Props: breadcrumb22Data,
-  buttonsProps: buttons3Data,
-  cards21Props: cards22Data,
-  cards22Props: cards23Data,
-  cards23Props: cards24Data,
-  cards24Props: cards25Data,
-  cards25Props: cards26Data,
-};
-
 const breadcrumb4Data = {
   children: 'Account Settings',
 };
@@ -828,28 +684,6 @@ const cards35Data = {
 
 const cards36Data = {
   systemDefault: 'Physics friction theroy',
-};
-
-const accountSettingsMarkingCriteriaTable3Data = {
-  frame1349: '/img/frame-1349-1.png',
-  notifications: '/img/notifications@2x.png',
-  frame5: '/img/frame-5@2x.png',
-  title: 'Account Settings',
-  markingCriteria: 'Marking Criteria',
-  line14: '/img/line-14-1.png',
-  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
-  mainWebsite: 'Main Website',
-  terms: 'Terms',
-  privacy: 'Privacy',
-  breadcrumbProps: breadcrumb4Data,
-  breadcrumb2Props: breadcrumb23Data,
-  frame1322Props: frame13222Data,
-  buttonsProps: buttons4Data,
-  cards31Props: cards32Data,
-  cards32Props: cards33Data,
-  cards33Props: cards34Data,
-  cards34Props: cards35Data,
-  cards35Props: cards36Data,
 };
 
 const navElement4Data = {

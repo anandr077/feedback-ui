@@ -299,21 +299,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   return (
     <>
-      {mobileView ? (
-        <CreateNewMarkingCriteriaMobile
-          {...{
-            ...accountSettingsMarkingCriteriaCreat2Data,
-            criterias,
-            addCriteria,
-            addLevel,
-            saveMarkingCriteria,
-            deleteMarkingCriteriaMethod,
-            handleTitleChange,
-            isUpdating,
-            markingCriterias,
-          }}
-        />
-      ) : (
+     
         <CreateNewMarkingCriteriaDesktop
           {...{
             ...accountSettingsMarkingCriteriaCreat4Data,
@@ -334,7 +320,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
             markingCriteriaId,
           }}
         />
-      )}
+    
     </>
   );
 }

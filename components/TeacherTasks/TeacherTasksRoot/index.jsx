@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   getAssignments,
   getClasses,
@@ -8,9 +8,6 @@ import ReactiveRender, {
   isMobileView,
   isTabletView,
 } from '../../ReactiveRender';
-import TeacherTasksStudentMobile from '../TeacherTasksStudentMobile';
-import TeacherTasksStudentTablet from '../TeacherTasksStudentTablet';
-import TeacherTasksLaptop from '../TeacherTasksLaptop';
 import TeacherTasksDesktop from '../TeacherTasksDesktop';
 import { Dialog } from '@mui/material';
 import {
@@ -40,6 +37,7 @@ import Closecircle from '../../../static/img/closecircle.svg';
 import TaskUnSelected from '../../../static/img/taskunselected.svg';
 import CalSelected from '../../../static/img/Calendar-new.svg';
 import CalNotSelected from '../../../static/img/Calendar-new-purple.svg';
+import MenuNavIcon from '../../../static/icons/Menu-nav-icon.svg';
 import CalUnSelected from '../../../static/img/calunselected.svg';
 import moment from 'moment';
 import MyCalendar from '../../../components2/Calender/index.js';
@@ -65,6 +63,7 @@ import {
   SortContainer,
   Frame5086PopUpBody,
 } from '../../GiveFeedback/style.js';
+import MenuButton from '../../MenuButton/index.jsx';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -77,8 +76,7 @@ export default function TeacherTaskRoot() {
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [tasksSelected, setTasksSelected] = React.useState(true);
-  const [isShowFilterPopUp, setShowFilterPopUp] = React.useState(false);
-  const [isShowSortPopUp, setShowSortPopUp] = React.useState(false);
+  const [isShowMenu, setShowMenu] = React.useState(false);
   const mobileView = isMobileView();
   const tabletView = isTabletView();
 
@@ -272,82 +270,11 @@ export default function TeacherTaskRoot() {
     setShowDateExtendPopup(false);
   };
 
-  const FilterPopContainer = ({ isShowFilterPopUp, setShowFilterPopUp }) => {
-    return (
-      <Dialog open={isShowFilterPopUp}>
-        {isShowFilterPopUp && (
-          <PopupContainer>
-            <Frame5086PopUp>
-              <Frame5086PopUpTitle>
-                <Frame5086Img src={FilterSquare} />
-                <Frame5086Text>Filters:</Frame5086Text>
-              </Frame5086PopUpTitle>
-              <FeedbackButtonArrow
-                style={{ cursor: 'pointer' }}
-                src={Closecircle}
-                onClick={() => setShowFilterPopUp(false)}
-              />
-            </Frame5086PopUp>
-            <Frame5086PopUpBody>
-              <RoundedDropDown
-                search={false}
-                type={'classes'}
-                selectedIndex={setSelectedValue}
-                menuItems={classNames}
-                defaultValue={selectedClass}
-                width={110}
-              />
-            </Frame5086PopUpBody>
-          </PopupContainer>
-        )}
-      </Dialog>
-    );
-  };
-
-  const SortPopContainer = ({ isShowSortPopUp, setShowSortPopUp }) => {
-    return (
-      <Dialog open={isShowSortPopUp}>
-        {isShowSortPopUp && (
-          <PopupContainer>
-            <Frame5086PopUp>
-              <Frame5086PopUpTitle>
-                <Frame5086Img src={SortSquare} />
-                <Frame5086Text>Sort by:</Frame5086Text>
-              </Frame5086PopUpTitle>
-              <FeedbackButtonArrow
-                style={{ cursor: 'pointer' }}
-                src={Closecircle}
-                onClick={() => setShowSortPopUp(false)}
-              />
-            </Frame5086PopUp>
-            <SortPopUpBody>
-              <SortButton
-                style={{ backgroundColor: sortData ? '#51009F' : '' }}
-                onClick={() => setSortData(true)}
-              >
-                <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
-                  New to Old
-                </SortButtonText>
-              </SortButton>
-              <SortButton
-                style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-                onClick={() => setSortData(false)}
-              >
-                <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
-                  Old to New
-                </SortButtonText>
-              </SortButton>
-            </SortPopUpBody>
-          </PopupContainer>
-        )}
-      </Dialog>
-    );
-  };
-
   const FilterSortAndCal = (
     <>
       <MainContainer>
         <CalenderContainer>
+          {tabletView && <MenuButton setShowMenu={setShowMenu} />}
           <TitleHeading
             style={tasksSelected ? { color: '#7200E0' } : { color: '#7B7382' }}
             className={tasksSelected ? 'active' : ''}
@@ -359,100 +286,66 @@ export default function TeacherTaskRoot() {
             />
             Column
           </TitleHeading>
-          {!mobileView && (
-            <TitleHeading
-              style={
-                tasksSelected ? { color: '#7B7382' } : { color: '#7200E0' }
-              }
-              className={!tasksSelected ? 'active' : ''}
-              onClick={() => setTasksSelected(false)}
-            >
-              <TasksImgCal
-                src={!tasksSelected ? CalNotSelected : CalSelected}
-                selected={!tasksSelected}
-              />
-              Calendar
-            </TitleHeading>
-          )}
+
+          <TitleHeading
+            style={tasksSelected ? { color: '#7B7382' } : { color: '#7200E0' }}
+            className={!tasksSelected ? 'active' : ''}
+            onClick={() => setTasksSelected(false)}
+          >
+            <TasksImgCal
+              src={!tasksSelected ? CalNotSelected : CalSelected}
+              selected={!tasksSelected}
+            />
+            Calendar
+          </TitleHeading>
         </CalenderContainer>
         <FilterAndSortContainer>
           <FilterContainer>
-            <Filter
-              onClick={
-                mobileView
-                  ? () => setShowFilterPopUp(!isShowFilterPopUp)
-                  : undefined
-              }
-            >
+            <Filter>
               <FilterImg src={FilterSquare} />
-              <FilterText>Filter {!mobileView && ':'}</FilterText>
+              <FilterText>Filter :</FilterText>
             </Filter>
 
-            {!mobileView ? (
-              <>
-                <RoundedDropDown
-                  search={false}
-                  type={'classes'}
-                  selectedIndex={setSelectedValue}
-                  menuItems={classNames}
-                  defaultValue={selectedClass}
-                  width={110}
-                />
-              </>
-            ) : (
-              <></>
-            )}
-            <FilterPopContainer
-              isShowFilterPopUp={isShowFilterPopUp}
-              setShowFilterPopUp={setShowFilterPopUp}
-            />
+            <>
+              <RoundedDropDown
+                search={false}
+                type={'classes'}
+                selectedIndex={setSelectedValue}
+                menuItems={classNames}
+                defaultValue={selectedClass}
+                width={110}
+              />
+            </>
           </FilterContainer>
           {!tabletView && <FilterLine />}
           {tasksSelected && (
             <SortContainer>
-              <SortHeading
-                onClick={
-                  mobileView
-                    ? () => setShowSortPopUp(!isShowSortPopUp)
-                    : undefined
-                }
-              >
+              <SortHeading>
                 <SortImg src={SortSquare} />
-                <SortText>Sort by {!mobileView && ':'}</SortText>
+                <SortText>Sort by :</SortText>
               </SortHeading>
-              {!mobileView ? (
-                <>
-                  <SortButton
-                    style={{
-                      backgroundColor: sortData ? '#51009F' : '',
-                      border: '1px solid #8E33E6',
-                    }}
-                    onClick={() => setSortData(true)}
-                  >
-                    <SortButtonText
-                      style={{ color: sortData ? '#FFFFFF' : '' }}
-                    >
-                      New to Old
-                    </SortButtonText>
-                  </SortButton>
-                  <SortButton
-                    style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-                    onClick={() => setSortData(false)}
-                  >
-                    <SortButtonText
-                      style={{ color: !sortData ? '#FFFFFF' : '' }}
-                    >
-                      Old to New
-                    </SortButtonText>
-                  </SortButton>
-                </>
-              ) : (
-                <></>
-              )}
-              <SortPopContainer
-                isShowSortPopUp={isShowSortPopUp}
-                setShowSortPopUp={setShowSortPopUp}
-              />
+
+              <>
+                <SortButton
+                  style={{
+                    backgroundColor: sortData ? '#51009F' : '',
+                    border: '1px solid #8E33E6',
+                  }}
+                  onClick={() => setSortData(true)}
+                >
+                  <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
+                    New to Old
+                  </SortButtonText>
+                </SortButton>
+                <SortButton
+                  style={{ backgroundColor: !sortData ? '#51009F' : '' }}
+                  onClick={() => setSortData(false)}
+                >
+                  <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
+                    Old to New
+                  </SortButtonText>
+                </SortButton>
+              </>
             </SortContainer>
           )}
         </FilterAndSortContainer>
@@ -505,75 +398,22 @@ export default function TeacherTaskRoot() {
         />
       )}
 
-      <ReactiveRender
-        mobile={
-          <TeacherTasksStudentTablet
-            {...{
-              menuItems,
-              filterTasks,
-              drafts,
-              awaitingSubmissions,
-              showDeletePopuphandler,
-              showDateExtendPopuphandler,
-              feedbacks,
-              FilterSortAndCal,
-              tasksSelected,
-              MyCalendarFile,
-              ...tasksStudentTabletData,
-            }}
-          />
-        }
-        tablet={
-          <TeacherTasksStudentTablet
-            {...{
-              menuItems,
-              filterTasks,
-              drafts,
-              awaitingSubmissions,
-              showDeletePopuphandler,
-              showDateExtendPopuphandler,
-              feedbacks,
-              FilterSortAndCal,
-              tasksSelected,
-              MyCalendarFile,
-              ...tasksStudentTabletData,
-            }}
-          />
-        }
-        laptop={
-          <TeacherTasksDesktop
-            {...{
-              menuItems,
-              filterTasks,
-              drafts,
-              awaitingSubmissions,
-              feedbacks,
-              showDeletePopuphandler,
-              showDateExtendPopuphandler,
-              FilterSortAndCal,
-              tasksSelected,
-              MyCalendarFile,
-              ...tasksDesktopData,
-            }}
-          />
-        }
-        desktop={
-          <TeacherTasksDesktop
-            {...{
-              menuItems,
-              filterTasks,
-              drafts,
-              awaitingSubmissions,
-              feedbacks,
-              showDeletePopuphandler,
-              showDateExtendPopuphandler,
-              FilterSortAndCal,
-              tasksSelected,
-              MyCalendarFile,
-              ...tasksDesktopData,
-            }}
-          />
-        }
+      <TeacherTasksDesktop
+        {...{
+          menuItems,
+          filterTasks,
+          drafts,
+          awaitingSubmissions,
+          feedbacks,
+          showDeletePopuphandler,
+          showDateExtendPopuphandler,
+          FilterSortAndCal,
+          tasksSelected,
+          MyCalendarFile,
+          isShowMenu,
+          setShowMenu,
+          ...tasksDesktopData,
+        }}
       />
     </>
   );

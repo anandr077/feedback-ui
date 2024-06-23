@@ -300,7 +300,6 @@ export const MenuItems = styled.div`
   padding-top: 5px;
   justify-content: space-between;
   border-top: 1px solid transparent;
-  width: 235px;
   //transition: 0.7s ease-in;
 
   background: ${(props) =>

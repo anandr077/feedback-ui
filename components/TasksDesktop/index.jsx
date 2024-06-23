@@ -22,6 +22,7 @@ import {
 } from './style.js';
 import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
 import SecondSidebar from '../SecondSidebar/index.js';
+import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
 
 function TasksDesktop(props) {
   const {
@@ -35,11 +36,16 @@ function TasksDesktop(props) {
     arrowright,
     FilterSortAndCal,
     tasksSelected,
+    isShowMenu,
+    setShowMenu,
     MyCalendarFile,
   } = props;
   return (
     <TaskScreenMainContainer>
-      <SecondSidebar />
+      <ImprovedSecondarySideBar
+        isShowMenu={isShowMenu}
+        setShowMenu={setShowMenu}
+      />
       <Frame1361>
         <TitleAndFilterContainer>
           <>{FilterSortAndCal}</>

@@ -15,13 +15,7 @@ export const MainContainer = styled.div`
   align-items: center !important;
   background-color: #fff;
   position: relative;
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    min-width: 1025px;
-  }
-
-  @media (min-width: 766px) and (max-width: 1024px) {
-    min-width: 766px;
-  }
+  width:100%;
 `;
 export const TitleAndLinkContainer = styled.div`
   display: flex;

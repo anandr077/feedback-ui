@@ -36,7 +36,6 @@ function TeacherTasksDesktop(props) {
     setShowMenu,
     MyCalendarFile,
   } = props;
-  const tabletView = isTabletView();
 
   return (
     <TaskScreenMainContainer>

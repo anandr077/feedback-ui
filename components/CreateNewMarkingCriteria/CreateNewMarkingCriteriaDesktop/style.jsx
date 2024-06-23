@@ -9,12 +9,7 @@ export const MainContainer = styled.div`
   display: flex;
   flex-direction: row;
   position: relative;
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    min-width: 1025px;
-  }
-  @media (min-width: 766px) and (max-width: 1024px) {
-    min-width: 766px;
-  }
+ 
 `;
 export const TextInput = styled.input`
   ${IbmplexsansNormalStack20px}

@@ -14,4 +14,6 @@ export const TitleHeading = styled.div`
 export const TasksImg = styled.img`
   width: 24px;
   height: 24px;
+  gap: 0px;
+  opacity: 0px;
 `;

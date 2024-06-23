@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CreateNewMarkingCriteriaDesktop from '../CreateNewMarkingCriteriaDesktop';
-import CreateNewMarkingCriteriaMobile from '../CreateNewMarkingCriteriaMobile';
 import  { isMobileView } from '../../ReactiveRender';
 import CriteriaContainer from '../CriteriaContainer';
 import {

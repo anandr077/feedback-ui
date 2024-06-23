@@ -538,13 +538,7 @@ const frame192Data = {
   cards5Props: cards52Data,
 };
 
-const tasksStudentMobileData = {
-  headerProps: assignmentsHeaderProps,
-  frame1304Props: frame13041Data,
-  tabs21Props: tabs23Data,
-  tabs22Props: tabs24Data,
-  frame19Props: frame192Data,
-};
+
 
 const frame13042Data = {
   iconsaxLinearSort: '/img/iconsax-linear-sort@2x.png',
@@ -660,27 +654,7 @@ const cards10Data = {
 const notifications3Data = {
   src: '/img/notificationbing@2x.png',
 };
-const tasksStudentTabletData = {
-  frame1349: '/img/frame-1349-1.png',
-  frame5: '/img/frame-5@2x.png',
-  keepOrganizedWitho: 'Tasks',
-  outstanding: 'Outstanding',
-  number: '5',
-  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
-  mainWebsite: 'Main Website',
-  terms: 'Terms',
-  privacy: 'Privacy',
-  notificationsProps: notifications3Data,
-  frame1304Props: frame13042Data,
-  tabs21Props: tabs25Data,
-  tabs22Props: tabs26Data,
-  cards6Props: cards62Data,
-  cards7Props: cards7Data,
-  cards8Props: cards8Data,
-  cards9Props: cards9Data,
-  cards10Props: cards10Data,
-  frame19Props: frame192Data,
-};
+
 
 const statusBubbles21Data = {
   children: 'Theory',
@@ -788,10 +762,7 @@ const frame191Data = {
   cards5Props: cards51Data,
 };
 
-const tasksLaptopData = {
-  frame19Props: frame191Data,
-  headerProps: taskHeaderProps,
-};
+
 
 const frame13043Data = {
   iconsaxLinearSort: '/img/iconsax-linear-sort-2@2x.png',

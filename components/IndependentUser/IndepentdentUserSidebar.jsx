@@ -45,6 +45,7 @@ import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf';
 import { deleteSubmissionById } from '../../service';
 import Loader from '../Loader';
 import DeleteGetFeedbackPopup from '../DeleteGetFeedbackPopUp';
+import { deleteCookie } from '../../userLocalDetails';
 const drawerWidth = 219;
 
 function IndepentdentUserSidebar({
@@ -107,6 +108,7 @@ function IndepentdentUserSidebar({
 
   const handleSubjectClick = (subject) => {
     const newUrl = `/documents/${subject.id}`;
+    deleteCookie('documentName');
     history.push(newUrl);
   };
 
@@ -200,9 +202,7 @@ function IndepentdentUserSidebar({
                             handleSubjectClick(question);
                           }}
                         >
-                          <QuestionTitle>
-                            {question.title}
-                          </QuestionTitle>
+                          <QuestionTitle>{question.title}</QuestionTitle>
                           <MenuItems
                             studentStyle={question.id === currentSubmissionId}
                           >
@@ -213,9 +213,7 @@ function IndepentdentUserSidebar({
                                   downloadFunction(question.id);
                                 }}
                               >
-                                <EachMenuItemImg
-                                  src={Download}
-                                />
+                                <EachMenuItemImg src={Download} />
                                 <EachMenuItemText
                                   purpleColor={
                                     //question.id === currentSubmissionId

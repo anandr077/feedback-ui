@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SidebarContainer, SideNavbar, SideBottom, Logo } from './style';
-import { getUserRole } from '../../userLocalDetails';
+import { deleteCookie, getUserRole } from '../../userLocalDetails';
 import taskIcon from '../../static/img/Task2.svg';
 import activetaskIcon from '../../static/img/activetask.svg';
 import classIcon from '../../static/img/insights.svg';
@@ -46,6 +46,7 @@ const MainSidebar = () => {
         '/giveFeedback',
         '/feedbackHistory',
         '/sharedresponses',
+        '/documentsReview',
       ],
     },
     isTeacherWithClass(role, localClasses) && {
@@ -80,6 +81,8 @@ const MainSidebar = () => {
 
   const handlePageRoute = (navLink) => {
     history.push(navLink);
+    deleteCookie('documentName');
+    deleteCookie('documentStatus');
     updateIsActive();
   };
   const updateIsActive = () => {

@@ -11,7 +11,14 @@ export function limitParagraph(text, size) {
   }
 }
 
-
+export function getFirstFourWords(text) {
+  const words = text?.split(' ');
+  if (words?.length <= 4) {
+    return text;
+  } else {
+    return words?.slice(0, 4).join(' ') + '...';
+  }
+}
 
 export const isStringNull = (String) => {
   if (String === null || String === undefined) {

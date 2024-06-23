@@ -41,6 +41,7 @@ import {
   getUserId,
   getUserName,
   getUserRole,
+  setCookie,
 } from '../../../userLocalDetails.js';
 import Loader from '../../Loader';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
@@ -141,6 +142,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           overAllCommentsResult,
         ]) => {
           setSubmission(submissionsResult);
+          console.log('documentName', submissionsResult);
+          setCookie('documentName', submissionsResult.assignment.title);
+          setCookie('documentstatus', submissionsResult.status);
           const allComments = commentsResult?.map((c) => {
             return { ...c };
           });

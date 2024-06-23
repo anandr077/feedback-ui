@@ -21,7 +21,7 @@ import markSelected from '../../static/img/markSelected.svg';
 import markUnSelected from '../../static/img/markUnSelected.svg';
 import closeicon from '../../static/img/closecircle.svg';
 
-import { getUserRole } from '../../userLocalDetails';
+import { deleteCookie, getUserRole } from '../../userLocalDetails';
 import { isActiveButton, isTeacherWithoutClass } from './rules';
 import { useQuery } from '@tanstack/react-query';
 import { isTabletView } from '../ReactiveRender';
@@ -114,6 +114,8 @@ const SecondSidebar = ({ id, setShowMenu }) => {
     if (setShowMenu) {
       setShowMenu(false);
     }
+    deleteCookie('documentStatus');
+    deleteCookie('documentName');
     history.push(link);
   };
 

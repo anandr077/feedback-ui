@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import ReviewsFrame132532 from '../ReviewsFrame132532';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ import {
 import { textAreaAutoResize } from '../../../components2/textAreaAutoResize';
 import { isShowFullCommentBankText } from '../FeedbacksRoot/rules';
 import { isShowReplyInput } from './rule';
+import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 function CommentCard32(props) {
   const {
@@ -32,6 +33,7 @@ function CommentCard32(props) {
     updateExemplarComment,
     selectedComment
   } = props;
+  const { setSelectedComment } = useContext(FeedbackContext);
   const [inputValue, setInputValue] = React.useState('');
   const [editCommentType, setEditCommentType] = React.useState('');
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
@@ -89,6 +91,7 @@ function CommentCard32(props) {
     setEditButtonActive(false);
     setInputValue('');
     handleEditingComment(false);
+    setSelectedComment(null);
   }
 
   function showReply() {
@@ -143,7 +146,7 @@ function CommentCard32(props) {
           }}
           type="text"
           placeholder="Type here..."
-          defaultValue={inputValue}
+          value={inputValue}
           onChange={handleInputChange}
         />
         <ButtonWrapper>

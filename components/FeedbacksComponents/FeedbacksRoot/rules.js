@@ -135,6 +135,10 @@ export const isShowMarkingCriteriaButton = (
   );
 };
 
+export const isShowQuestionsTab = (submissionType) =>{
+  return submissionType !== 'DOCUMENT'
+}
+
 export const isShowOverAllTextFeedback = (pageMode, overallComment) => {
   return pageMode === 'REVIEW' || overallComment != null;
 };

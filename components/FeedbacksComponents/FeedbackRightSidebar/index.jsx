@@ -6,7 +6,7 @@ import CommentsIcon from '../../../static/img/gray_message_2.svg';
 import PurpleCommentsIcon from '../../../static/img/purplemessage.svg';
 import ClockIcon from '../../../static/img/clock_2.svg';
 import TasksIcon from '../../../static/img/task.svg';
-import { isShowMarkingCriteriaButton, isShowTaskDetailsButton } from '../FeedbacksRoot/rules';
+import { isShowMarkingCriteriaButton, isShowQuestionsTab, isShowTaskDetailsButton } from '../FeedbacksRoot/rules';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 const FeedbackRightSidebar = ({
@@ -50,12 +50,14 @@ const FeedbackRightSidebar = ({
           </Button>
         )}
 
-        <Button
-          isActive={openRightPanel === 'tab3'}
-          onClick={() => handleClick('tab3')}
-        >
-          <img src={openRightPanel === 'tab3' ? TasksIcon : TasksIcon} />
-        </Button>
+        {isShowQuestionsTab(submission.type) && (
+          <Button
+            isActive={openRightPanel === 'tab3'}
+            onClick={() => handleClick('tab3')}
+          >
+            <img src={openRightPanel === 'tab3' ? TasksIcon : TasksIcon} />
+          </Button>
+        )}
         {/* <Button isActive={openRightPanel === 'tab4'} onClick={() => handleClick('tab4')}>
           <img src={ClockIcon} />
         </Button> */}

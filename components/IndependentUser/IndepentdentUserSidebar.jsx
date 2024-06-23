@@ -233,13 +233,7 @@ function IndepentdentUserSidebar({
                                 setShowDeletePopup(true);
                               }}
                             >
-                              <EachMenuItemImg
-                                src={
-                                  question.id === currentSubmissionId
-                                    ? deleteIcon
-                                    : deletered
-                                }
-                              />
+                              <EachMenuItemImg src={deletered} />
                             </RightPart>
                           </MenuItems>
                         </DrawerQuestion>

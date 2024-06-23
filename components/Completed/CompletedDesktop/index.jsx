@@ -13,6 +13,9 @@ import {
   SharedResponseMainContainer,
 } from './style.js';
 import SecondSidebar from '../../SecondSidebar/index.js';
+import MenuButton from '../../MenuButton/index.jsx';
+import { isTabletView } from '../../ReactiveRender/index.jsx';
+import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar/index.jsx';
 
 function CompletedDesktop(props) {
   const {
@@ -34,11 +37,21 @@ function CompletedDesktop(props) {
   } = props;
 
   const [showHelpPeerSlide, setShowHelpPeerSlide] = useState(true);
+  const [isShowMenu, setShowMenu] = React.useState(false);
+  const tabletView = isTabletView();
   return (
     <SharedResponseMainContainer>
-      <SecondSidebar />
+      <ImprovedSecondarySideBar
+        isShowMenu={isShowMenu}
+        setShowMenu={setShowMenu}
+      />
       <Frame1425>
-        {exemplar && <HeadingAndFilterCon>{headingPart}</HeadingAndFilterCon>}
+        {exemplar && (
+          <HeadingAndFilterCon>
+            {tabletView && <MenuButton setShowMenu={setShowMenu} />}
+            {headingPart}
+          </HeadingAndFilterCon>
+        )}
         {createFilter() && <Frame1424>{createFilter()}</Frame1424>}
         <SharedResponseContainer>
           <Frame1413 secondDivEmpty={showHelpPeerSlide}>

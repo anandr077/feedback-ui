@@ -17,6 +17,7 @@ import {
   EmptyBankSubHeading,
   FeedbackBankHeading,
   Frame1302,
+  HeadingAndFilterContainer,
   InnerContainer,
   MainContainer,
   MarkingCriteriaList,
@@ -69,6 +70,9 @@ import PreviewIcon from '../../static/img/preview.svg';
 import FeedbackArea from './FeedbackArea';
 import Toast from '../Toast';
 import { toast } from 'react-toastify';
+import { isTabletView } from '../ReactiveRender';
+import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
+import MenuButton from '../MenuButton';
 
 const CommentBanks = () => {
   const [smartAnnotations, setSmartAnnotations] = useState();
@@ -79,6 +83,8 @@ const CommentBanks = () => {
   const [feedbackBankCreated, setFeedbackBankCreated] = useState(false);
 
   const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] = useState(0);
+  const [isShowMenu, setShowMenu] = React.useState(false);
+  const tabletView = isTabletView();
   const selectedRef = useRef(null);
   const queryClient = useQueryClient();
 
@@ -134,10 +140,10 @@ const CommentBanks = () => {
         }
 
         setSmartAnnotations(newSmartAnnotations);
-         toast(<Toast message={'Feedback bank Deleted'} />);
+        toast(<Toast message={'Feedback bank Deleted'} />);
       })
       .catch(() => {
-         toast(<Toast message={'Error deleting bank'} />);
+        toast(<Toast message={'Error deleting bank'} />);
       });
   };
 
@@ -276,10 +282,7 @@ const CommentBanks = () => {
       });
   };
 
-  const UpdateSmartAnotationHandler = (
-    newSmartComment,
-    index
-  ) => {
+  const UpdateSmartAnotationHandler = (newSmartComment, index) => {
     setSmartAnnotationeditIndex(index);
     const newSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
       if (smartAnnotation.id === feedbackBankId) {
@@ -467,8 +470,16 @@ const CommentBanks = () => {
         <NewBankPopContainer setShowNewBankPopUp={setShowNewBankPopUp} />
       )}
       <MainContainer>
+        <ImprovedSecondarySideBar
+          isShowMenu={isShowMenu}
+          setShowMenu={setShowMenu}
+        />
         <InnerContainer>
-          <SecondSidebar />
+          {tabletView && (
+            <HeadingAndFilterContainer>
+              <MenuButton setShowMenu={setShowMenu} />
+            </HeadingAndFilterContainer>
+          )}
           <RightContainer>
             {!(smartAnnotations?.length > 0) ? (
               emptyFeedbackBank()

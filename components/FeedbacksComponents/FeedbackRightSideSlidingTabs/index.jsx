@@ -13,7 +13,7 @@ const FeedbackRightSideSlidingTabs = ({
   setQuestionIndex,
   pageMode
 }) => {
- 
+  
   return (
     <>
       <FeedbackTaskDetails

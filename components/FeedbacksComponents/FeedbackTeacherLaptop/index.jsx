@@ -52,6 +52,7 @@ import FeedbackQuestionSlider from '../FeedbackQuestionSlider';
 import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
 import FocusAreasLabel from '../../../components2/FocusAreasLabel';
+import { isShowMarkingCriteriaSidebar } from '../FeedbacksRoot/rules';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -85,6 +86,8 @@ function FeedbackTeacherLaptop(props) {
     classesAndStudents,
     teachers,
     selectedComment,
+    overallComments,
+    markingCriteriaFeedback,
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
@@ -109,7 +112,9 @@ function FeedbackTeacherLaptop(props) {
   const drawerWidth = 219;
   const { countWords, showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
-  const [openRightPanel, SetOpenRightPanel] = React.useState('');
+  const [openRightPanel, SetOpenRightPanel] = React.useState(
+    isShowMarkingCriteriaSidebar(overallComments, markingCriteriaFeedback) ? 'tab2' : null
+  );
   useEffect(() => {
     if (showNewComment) {
       setFeedback(true);

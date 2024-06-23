@@ -4,6 +4,7 @@ export const TaskScreenMainContainer = styled.div`
   background-color: var(--white-pointer);
   border: 1px none;
   display: flex;
+  position: relative;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -19,7 +20,7 @@ export const TaskScreenMainContainer = styled.div`
 export const Frame1361 = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(100vw - 305px);
+  width: 100%;
   align-items: center;
   justify-content: flex-start;
   position: relative;
@@ -87,3 +88,4 @@ export const Frame1358 = styled.div`
   background-color: rgba(242, 241, 243, 0.9);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
+

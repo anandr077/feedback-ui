@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import Buttons from '../../Classes/Buttons';
 import TaskCardContainer from '../../TaskCardContainer';
@@ -8,7 +8,7 @@ import {
   TitleAndFilterContainer,
   TitleAndSubtitleContainer,
 } from '../../TasksDesktop/style';
-import questionMark from '../../../static/img/question-mark.svg';
+import closeicon from '../../../static/img/closecircle.svg';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 import SecondSidebar from '../../SecondSidebar';
 import {
@@ -19,6 +19,9 @@ import {
   Frame1361,
   TaskScreenMainContainer,
 } from './style';
+import { isTabletView } from '../../ReactiveRender';
+import ClickOutsideHandler from '../../ClickOutsideHandler';
+import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar';
 
 function TeacherTasksDesktop(props) {
   const {
@@ -29,12 +32,17 @@ function TeacherTasksDesktop(props) {
     showDateExtendPopuphandler,
     FilterSortAndCal,
     tasksSelected,
+    isShowMenu,
+    setShowMenu,
     MyCalendarFile,
   } = props;
 
   return (
     <TaskScreenMainContainer>
-      <SecondSidebar />
+      <ImprovedSecondarySideBar
+        isShowMenu={isShowMenu}
+        setShowMenu={setShowMenu}
+      />
       <Frame1361>
         <TitleAndFilterContainer>
           <>{FilterSortAndCal}</>
@@ -61,14 +69,14 @@ function TeacherTasksDesktop(props) {
                   showDateExtendPopuphandler={showDateExtendPopuphandler}
                 />
               </Frame1354>
-              <Frame1358>
+              <Frame1354>
                 <TaskFrame1353 outstanding="Closed" number={feedbacks.length} />
                 <TaskCardContainer
                   allTasks={feedbacks}
                   showDeletePopuphandler={showDeletePopuphandler}
                   showDateExtendPopuphandler={showDateExtendPopuphandler}
                 />
-              </Frame1358>
+              </Frame1354>
             </Frame1359>
           ) : (
             MyCalendarFile

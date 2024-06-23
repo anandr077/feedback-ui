@@ -2,23 +2,15 @@ import styled from 'styled-components';
 import { IbmplexsansNormalStack20px } from '../../../styledMixins';
 
 export const MainContainer = styled.div`
-  align-items: center;
-  background-color: var(--white-pointer);
-  border: 1px none;
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
+  width: 100%;
   position: relative;
-  width: calc(100vw - 90px);
-  border-top: 1px solid #73737340;
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    min-width: 1025px;
-  }
-  @media (min-width: 766px) and (max-width: 1024px) {
-    min-width: 766px;
-  }
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: row;
+  position: relative;
+ 
 `;
-
 export const TextInput = styled.input`
   ${IbmplexsansNormalStack20px}
   position: relative;
@@ -275,7 +267,7 @@ export const Heading = styled.p`
 
 export const InnerContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
   min-height: 90vh;
@@ -419,4 +411,13 @@ export const TextArea = styled.textarea`
   ::-webkit-scrollbar {
     width: 0;
   }
+`;
+
+export const HeadingAndFilterContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 20px;
+  width: 100%;
+  border-bottom: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
 `;

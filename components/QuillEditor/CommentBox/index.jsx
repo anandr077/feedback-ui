@@ -60,8 +60,7 @@ const CommentBox = ({
   question,
   isFeedback,
 }) => {
-  console.log("Rerendering CommentBox");
-  const { showNewComment, newCommentSerialNumber, isTeacher, setSelectedComment } =
+  const { showNewComment, newCommentSerialNumber, isTeacher } =
     useContext(FeedbackContext);
   const [openCommentBox, setOpenCommentbox] = useState(false);
   const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
@@ -91,7 +90,6 @@ const CommentBox = ({
       selectedComment?.id
     );
 
-    // Only update state if bounds have changed
     if (JSON.stringify(newGroupedCommentsWithGap) !== JSON.stringify(groupedCommentsWithGap)) {
       setGroupedCommentsWithGap(newGroupedCommentsWithGap);
     }
@@ -315,7 +313,6 @@ function reviewerNewComment(
                 <TypeHere>
                   <FocussedInput
                     id="newCommentInput"
-                    //ref={newCommentFrameRef}
                     placeholder="Start typing here..."
                   ></FocussedInput>
                 </TypeHere>

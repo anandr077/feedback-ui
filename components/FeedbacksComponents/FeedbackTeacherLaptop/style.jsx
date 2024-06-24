@@ -73,13 +73,12 @@ export const OptionContainer = styled.button`
   font-weight: 500;
   font-size: var(--font-size-s);
   line-height: 16px;
-  color: #7B7382;
+  color: #7b7382;
 
-  &:hover{
+  &:hover {
     background-color: rgba(201, 198, 204, 0.5);
   }
 `;
-
 
 export const TitleWrapper = styled.div`
   width: 880px;
@@ -428,6 +427,9 @@ export const Frame1368 = styled.div`
   height: 100vh;
   overflow-y: scroll;
   width: 100%;
+  @media (min-width: 766px) and (max-width: 1024px) {
+    width: 92%;
+  }
 
   &::-webkit-scrollbar {
     width: 0;
@@ -448,14 +450,29 @@ export const Frame1367 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   position: absolute;
-  left: 50%;
-  transform: ${(props) =>
-    props.moveRight
-      ? 'translateX(-545px)'
-      : props.moveToLeft
+
+  @media (min-width: 1441px) {
+    left: 50%;
+    transform: ${(props) =>
+      props.moveRight
+        ? 'translateX(-545px)'
+        : props.moveToLeft
         ? 'translateX(calc(-50% - 350px))'
-        : 'translateX(calc(-50% - 210px))'
-  };
+        : 'translateX(calc(-50% - 210px))'};
+  }
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    left: 29%;
+    transform: ${(props) =>
+      props.moveRight
+        ? 'translateX(-360px)'
+        : props.moveToLeft
+        ? 'translateX(calc(-29% - 160px))'
+        : 'translateX(calc(-29% - 120px))'};
+  }
+
+  @media (min-width: 766px) and (max-width: 1024px) {
+    width: 85%;
+  }
   transition: transform 0.3s ease-in;
   height: 100%;
   width: 650px;
@@ -470,7 +487,12 @@ export const AddCommentFocusAreaDiv = styled.div`
     props.moveToLeft
       ? 'translateX(calc(-50% + 170px))'
       : 'translateX(calc(-50% + 310px))'};
+
   transition: transform 0.3s ease;
+  @media (min-width: 766px) and (max-width: 1024px) {
+    left: 90%;
+    transform: none;
+  }
   width: 314px;
   z-index: -10;
 `;
@@ -729,7 +751,6 @@ export const ButtonWithImageBeforeText = styled.button`
   align-items: center;
   gap: 5px;
 `;
-
 
 export const RequestFeedbackStatusFrame = styled.div`
   cursor: pointer;

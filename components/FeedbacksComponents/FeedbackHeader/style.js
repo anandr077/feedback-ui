@@ -16,7 +16,11 @@ export const LeftSection = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-  transform: ${props => props.moveToRight ? 'translateX(230px)' : 'translateX(0)'};
+  transform: ${(props) =>
+    props.moveToRight ? 'translateX(230px)' : 'translateX(0)'};
+  @media (min-width: 766px) and (max-width: 1024px) {
+    transform: none;
+  }
   transition: transform 0.3s ease-in;
 `;
 
@@ -41,7 +45,7 @@ export const UpdateButton = styled.button`
   font-weight: 500;
   font-size: var(--font-size-s);
   line-height: 20px;
-  color: #8A2BE5;
+  color: #8a2be5;
   cursor: pointer;
 `;
 
@@ -132,7 +136,7 @@ export const Label16pxSmall = styled.div`
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  color: #4B464F;
+  color: #4b464f;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -188,7 +192,7 @@ export const JeddAiAnimatedTextContainer = styled.div`
   gap: 10px;
   border-radius: 32px;
   padding: 8px 12px;
-  border: 1px solid #C9C6CC;
+  border: 1px solid #c9c6cc;
 `;
 
 export const JeddAiImageForAnimation = styled.img`

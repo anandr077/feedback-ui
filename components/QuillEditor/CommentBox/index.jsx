@@ -119,6 +119,11 @@ const CommentBox = ({
     return acc + (cur.height || 0);
   }, 0);
 
+  const onShareWithClassClick = () =>{
+    methods.handleShareWithClass();
+    setOpenCommentbox(false)
+  }
+
   return (
     <>
       {showNewComment && isFeedback && pageMode !== 'DRAFT' ? (
@@ -129,13 +134,13 @@ const CommentBox = ({
             height: '100%',
           }}
         >
-          <Screen onClick={methods.hideNewCommentDiv}></Screen>
+          <Screen onClick={()=> {methods.hideNewCommentDiv(); setOpenCommentbox(false)}}></Screen>
           <OptionContainer>
             <Option onClick={() => setOpenCommentbox(!openCommentBox)}>
               <img src={CommentIcon} />
             </Option>
             {isShareWithClass(role) && (
-              <Option onClick={methods.handleShareWithClass}>
+              <Option onClick={onShareWithClassClick}>
                 <img src={ShareIcon} />
               </Option>
             )}

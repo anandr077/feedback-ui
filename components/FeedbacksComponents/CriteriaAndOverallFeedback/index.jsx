@@ -336,7 +336,7 @@ const CriteriaAndOverallFeedback = ({
             />
           </OverallFeedbackContainer>
 
-          {isShowMarkingCriteriaSection(markingCriteria, pageMode) && (
+          {isShowMarkingCriteriaSection(markingCriteria) && (
             <>
               <Heading>
                 <HeadingTitle>

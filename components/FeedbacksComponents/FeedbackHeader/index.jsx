@@ -281,7 +281,7 @@ function submitButtonOnDocument(
           setShowTeacherPopUp={setShowTeacherPopUp}
         />
         <RoundedBorderSubmitBtn
-          leftIcon={'/img/ai.svg'}
+          leftIcon={isTeacher ? '/img/ai.svg' : null}
           text={isTeacher ? 'Use JeddAI' : 'Request Feedback'}
           onClickFn={
             isTeacher

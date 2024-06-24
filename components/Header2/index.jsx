@@ -105,7 +105,7 @@ const Header = () => {
     const updateHeight = () => {
       const fullHeight = document.documentElement.scrollHeight;
       if (fullHeight !== pageHeight) {
-        setPageHeight(fullHeight - 170);
+        setPageHeight(fullHeight - 120);
       }
     };
 

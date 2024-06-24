@@ -52,7 +52,8 @@ import ToggleSwitchWithOneOption from '../../../components2/ToggleSwitchWithOneO
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
-import { isShowReassignBtn } from './rules';
+import { isShowJeddAiIcon, isShowReassignBtn } from './rules';
+
 
 const FeedbackHeader = ({
   submission,
@@ -282,7 +283,7 @@ function submitButtonOnDocument(
           setShowTeacherPopUp={setShowTeacherPopUp}
         />
         <RoundedBorderSubmitBtn
-          leftIcon={'/img/ai.svg'}
+          leftIcon={isShowJeddAiIcon(isTeacher) && '/img/ai.svg'}
           text={isTeacher ? 'Use JeddAI' : 'Request Feedback'}
           onClickFn={
             isTeacher

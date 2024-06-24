@@ -361,12 +361,12 @@ export default function CreateNewStrengthAndTargets() {
 
   function validateStrengthsTargets(strengthAndTargetdata) {
     if (!strengthAndTargetdata.title.trim()) {
-      toast(<Toast message={'Please Enter Title for Marking Criteria'} />);
+      toast(<Toast message={'Please enter title for marking criteria'} />);
       return false;
     }
     for (const criteria of strengthAndTargetdata.strengthsTargetsCriterias) {
       if (!criteria.title.trim()) {
-        toast(<Toast message={'Please Enter criteria title'} />);
+        toast(<Toast message={'Please enter criteria title'} />);
         return false;
       }
 
@@ -384,7 +384,7 @@ export default function CreateNewStrengthAndTargets() {
         criteria.targets.some((target) => !target.trim())
       ) {
         toast(
-          <Toast message={'Strength or Target option field cannot be empty'} />
+          <Toast message={'Strength or target option field cannot be empty'} />
         );
         return false;
       }
@@ -400,7 +400,7 @@ export default function CreateNewStrengthAndTargets() {
       createNewMarkingCriteria(markingMethodology).then((response) => {
         toast(
           <Toast
-            message={'Strengths and Targets Created'}
+            message={'Strengths and targets created'}
             link={
               '/markingTemplates/strengths-and-targets/' + response.id.value
             }

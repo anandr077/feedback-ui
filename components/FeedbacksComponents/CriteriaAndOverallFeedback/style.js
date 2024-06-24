@@ -11,7 +11,7 @@ export const MainContainer = styled.div`
     right: ${(props) => (props.openRightPanel === 'tab2' ? '48px' : '-290px')};
     width: 290px;
   }
-  height: calc(100% - 25px);
+  height: calc(100vh - 48px);
   padding: 0;
   border: solid 1px rgba(201, 198, 204, 0.5);
   background-color: #fff;

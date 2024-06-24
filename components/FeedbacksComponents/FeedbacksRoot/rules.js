@@ -148,10 +148,9 @@ export const isShowClosedReviewOverallTextInputBox = (pageMode) => {
 };
 
 export const isShowMarkingCriteriaSection = (
-  markingCriteriaFeedback,
-  pageMode
+  markingCriteriaFeedback
 ) => {
-  return markingCriteriaFeedback?.length !== 0 || pageMode === 'REVIEW';
+  return markingCriteriaFeedback !== undefined;
 };
 
 export const isShowClosedReviewOverallComment = (

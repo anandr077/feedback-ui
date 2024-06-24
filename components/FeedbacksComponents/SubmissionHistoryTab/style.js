@@ -6,6 +6,10 @@ export const MainContainer = styled.div`
   top: 0;
   bottom: 0;
   width: 460px;
+  @media (min-width: 766px) and (max-width: 1024px) {
+    right: ${(props) => (props.openRightPanel === 'tab4' ? '48px' : '-290px')};
+    width: 290px;
+  }
   height: 100%;
   padding: 0;
   border: solid 1px rgba(201, 198, 204, 0.5);

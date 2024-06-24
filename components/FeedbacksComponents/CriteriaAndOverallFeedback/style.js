@@ -7,7 +7,7 @@ export const MainContainer = styled.div`
   top: 0;
   bottom: 0;
   width: 460px;
-  height: calc(100% - 25px);
+  height: calc(100vh - 48px);
   padding: 0;
   border: solid 1px rgba(201, 198, 204, 0.5);
   background-color: #fff;

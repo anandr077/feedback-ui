@@ -151,7 +151,7 @@ export const isShowMarkingCriteriaSection = (
   markingCriteriaFeedback,
   pageMode
 ) => {
-  return markingCriteriaFeedback?.length !== 0 || pageMode === 'REVIEW';
+  return markingCriteriaFeedback !== undefined && pageMode === 'REVIEW';
 };
 
 export const isShowClosedReviewOverallComment = (

@@ -49,58 +49,6 @@ const QuillEditor = React.forwardRef(
       showFloatingDialogue,
       setShowFloatingDialogue,
     } = useContext(FeedbackContext);
-    const manipulatePastedHTML = (pastedHTML) => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(pastedHTML, 'text/html');
-
-      const removeStyles = (element) => {
-        element.removeAttribute('style');
-        element.style.backgroundColor = '';
-      };
-
-      const traverseAndRemoveStyles = (node) => {
-        if (node.nodeType === 1) {
-          removeStyles(node);
-          for (let i = 0; i < node.children.length; i++) {
-            traverseAndRemoveStyles(node.children[i]);
-          }
-        } else if (node.nodeType === 3) {
-          // Do nothing with text nodes for this example
-        }
-      };
-
-      traverseAndRemoveStyles(doc.body);
-
-      const serializer = new XMLSerializer();
-      const modifiedHTML = serializer.serializeToString(doc);
-
-      return modifiedHTML;
-    };
-
-    const handlePaste = (event) => {
-      event.preventDefault();
-
-      const clipboardData = event.clipboardData || window.clipboardData;
-
-      const pastedHTML = clipboardData.getData('text/html');
-
-      const modifiedHTML = manipulatePastedHTML(pastedHTML);
-
-      const cursorPosition = editor.getSelection(true);
-
-      const currentText = editor.getText();
-
-      editor.clipboard.dangerouslyPasteHTML(cursorPosition.index, modifiedHTML);
-
-      const pastedLength = editor.getText().length - currentText.length;
-
-      const newCursorPosition = cursorPosition.index + pastedLength;
-
-      setTimeout(() => {
-        editor.setSelection(newCursorPosition, 0, 'silent');
-        editor.focus();
-      }, 10);
-    };
 
     useEffect(() => {
       if (editorRef.current && !editor) {
@@ -203,7 +151,6 @@ const QuillEditor = React.forwardRef(
         const debouncedAction = debounce(handleDebounce, debounceTime);
         editor.root.addEventListener('paste', (event) => {
           debouncedAction();
-          handlePaste(event);
         });
       }
     }, [editor]);

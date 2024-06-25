@@ -7,7 +7,7 @@ import {
   TitleConatiner,
   TitleMain,
 } from './HeaderStyle';
-import { isTeacherWithoutClass } from './rules';
+import { isTeacher, isTeacherWithoutClass } from './rules';
 import React, { useEffect, useState } from 'react';
 import arrowRightMini from '../../static/img/arrowRightMini.svg';
 import QuestionTooltip from '../../components2/QuestionTooltip';
@@ -69,7 +69,7 @@ function HeaderTitle() {
     },
     {
       link: '/giveFeedback',
-      title: 'Give Feedback',
+      title: isTeacher(role) ? 'Feedback From Me' : 'Help a Friend',
       teacherTooltip: 'Provide personalized feedback',
       studentTooltip:
         'Help other students who have requested feedback from the community',

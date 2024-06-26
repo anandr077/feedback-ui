@@ -140,7 +140,7 @@ const CommentBanks = () => {
         }
 
         setSmartAnnotations(newSmartAnnotations);
-        toast(<Toast message={'Feedback bank Deleted'} />);
+        toast(<Toast message={'Feedback bank deleted'} />);
       })
       .catch(() => {
         toast(<Toast message={'Error deleting bank'} />);
@@ -342,7 +342,7 @@ const CommentBanks = () => {
         toast(<Toast message={'Smart commit deleted'} />);
       })
       .catch((error) => {
-        toast(<Toast message={'Error deleting Smart commit'} />);
+        toast(<Toast message={'Error deleting smart commit'} />);
       });
   };
 

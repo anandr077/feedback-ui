@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { capitalizeFirstLetter } from '../../utils/strings';
 
 function Toast({ message, link }) {
   const history = useHistory();
@@ -14,7 +15,7 @@ function Toast({ message, link }) {
         alignItems: 'center',
       }}
     >
-      <div>{message}</div>
+      <div>{capitalizeFirstLetter(message)}</div>
       {link && (
         <Button
           color="secondary"

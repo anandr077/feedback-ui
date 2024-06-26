@@ -1,11 +1,6 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useRef } from 'react';
 import ReviewsFrame132532 from '../ReviewsFrame132532';
 import styled from 'styled-components';
-import {
-  IbmplexsansNormalBlack16px,
-  feedbacksIbmplexsansMediumBlack16px,
-} from '../../../styledMixins';
 import { textAreaAutoResize } from '../../../components2/textAreaAutoResize';
 import { isShowFullCommentBankText } from '../FeedbacksRoot/rules';
 import { isShowReplyInput } from './rule';
@@ -341,7 +336,11 @@ const CommentCard = styled.article`
 `;
 
 const CommentText = styled.div`
-  ${IbmplexsansNormalBlack16px}
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 17px;
+  color: #4B464F;
   position: relative;
   align-self: stretch;
   letter-spacing: 0;

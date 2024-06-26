@@ -100,7 +100,7 @@ function HeaderTitle() {
       link: '/documentsReview',
       title:
         documentStatus === 'FEEDBACK_ACCEPTED'
-          ? 'Give Feedback'
+          ? 'Feedback From Me'
           : 'Feedback History',
       teacherTooltip: '',
       studentTooltip:

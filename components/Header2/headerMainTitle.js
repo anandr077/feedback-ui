@@ -40,12 +40,12 @@ export const headerMainTitle = [
   {
     link: '/documentsReview',
     title: role === 'TEACHER' ? 'Tasks' : 'School Work',
-    homeLink: '/tasks',
+    homeLink: isTeacherWithoutClass(role, localClasses) ? '/giveFeedback' : '/tasks',
     documentName: 'documentName',
   },
   {
     link: '/documents',
-    title: role === 'TEACHER' ? 'JeddAI' : 'Get Feedback',
+    title: role === 'TEACHER' ? 'Use JeddAI' : 'Get Feedback',
     documentName: 'documentName',
   },
   {

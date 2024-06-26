@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SidebarContainer, SideNavbar, SideBottom, Logo } from './style';
 import { deleteCookie, getUserRole } from '../../userLocalDetails';
 import taskIcon from '../../static/img/Task2.svg';
@@ -20,87 +20,31 @@ import { getLocalClasses } from '../../service';
 import {
   isNonSchoolStudent,
   isShowSetting,
-  isTeacherWithClass,
+  isShowClassItems,
   isTeacherWithoutClass,
+  checkIsActive,
 } from './rules';
 
 const MainSidebar = () => {
   const history = useHistory();
   const location = useLocation();
   const role = getUserRole();
-  const [isActive, setIsActive] = useState(() => (obj) => false);
   const localClasses = getLocalClasses();
   const isExpert = isTeacherWithoutClass(role, localClasses);
   const homePageLink = isExpert ? '/giveFeedback' : '/tasks'
 
   const sideNavItems = [
-    !isNonSchoolStudent(role, localClasses) && {
-      icon: taskIcon,
-      activeIcon: activetaskIcon,
-      name: `${role === 'STUDENT' ? 'School Work' : 'Tasks'}`,
-      link: homePageLink,
-      linksContainer: [
-        '/tasks',
-        '/completed',
-        '/submissions/',
-        '/giveFeedback',
-        '/feedbackHistory',
-        '/sharedresponses',
-        '/documentsReview',
-      ],
-    },
-    isTeacherWithClass(role, localClasses) && {
-      icon: classIcon,
-      activeIcon: activeClassIcon,
-      name: 'Class Insights',
-      link: '/classes',
-      linksContainer: ['/classes'],
-    },
-    !isTeacherWithoutClass(role, localClasses) && {
-      icon: `${role === 'STUDENT' ? getfeedbackIcon : jeddaiIcon}`,
-      activeIcon: `${
-        role === 'STUDENT' ? activeGetfeedbackIcon : jeddaiIconIcon
-      }`,
-      name: `${role === 'STUDENT' ? 'Get Feedback' : 'Use JeddAI'}`,
-      link: '/getFeedback',
-      linksContainer: ['/getFeedback', '/documents'],
-    },
-    isShowSetting(role) && {
-      icon: settingIcon,
-      activeIcon: activesettingIcon,
-      name: 'Feedback Tools',
-      link: '/settings',
-      linksContainer: [
-        '/settings',
-        '/markingTemplates/strengths-and-targets',
-        '/markingTemplates/rubrics',
-        '/commentbanks',
-      ],
-    },
+    !isNonSchoolStudent(role, localClasses) && isTaskItems(role, homePageLink, location, checkIsActive),
+    isShowClassItems(role, localClasses) && isClassItems(location, checkIsActive),
+    !isTeacherWithoutClass(role, localClasses) && isGetFeedbackItems(role, location, checkIsActive),
+    isShowSetting(role) && isSettingItems(role, location, checkIsActive),
   ].filter(Boolean);
 
   const handlePageRoute = (navLink) => {
     history.push(navLink);
     deleteCookie('documentName');
     deleteCookie('documentStatus');
-    updateIsActive();
   };
-  const updateIsActive = () => {
-    const checkIsActive = (obj) => {
-      if (location.pathname === '/' && (obj.link === '/tasks' || (isExpert && obj.linksContainer.includes('/tasks')))) {
-        return true;
-      }
-      return obj.linksContainer.some((item) =>
-        new RegExp(`${item}`).test(location.pathname)
-      );
-    };
-
-    setIsActive(() => checkIsActive);
-  };
-
-  useEffect(() => {
-    updateIsActive();
-  }, [location]);
 
   return (
     <SidebarContainer>
@@ -110,7 +54,8 @@ const MainSidebar = () => {
         </a>
         <ul>
           {sideNavItems.map((navItem) => {
-            const active = isActive(navItem);
+            const active = navItem.isActive;
+            console.log('the is active', active)
               return (
                 <li
                   key={navItem.link}
@@ -136,3 +81,69 @@ const MainSidebar = () => {
 };
 
 export default MainSidebar;
+
+
+function isTaskItems(role, homePageLink, location, checkIsActive){
+  const paths = [
+    '/',
+    '/tasks',
+    '/completed',
+    '/submissions/',
+    '/giveFeedback',
+    '/feedbackHistory',
+    '/sharedresponses',
+    '/documentsReview',
+    '/submissions'
+  ];
+
+  return{
+    icon: taskIcon,
+    activeIcon: activetaskIcon,
+    isActive: checkIsActive(location, paths), 
+    name: `${role === 'STUDENT' ? 'School Work' : 'Tasks'}`,
+    link: homePageLink,
+  }
+}
+
+function isClassItems(location, checkIsActive){
+  const paths = ['/classes'];
+
+  return{
+    icon: classIcon,
+    activeIcon: activeClassIcon,
+    isActive: checkIsActive(location, paths),
+    name: 'Class Insights',
+    link: '/classes',
+  }
+}
+
+function isGetFeedbackItems(role, location, checkIsActive){
+  const paths = ['/getFeedback', '/documents'];
+
+  return {
+    icon: `${role === 'STUDENT' ? getfeedbackIcon : jeddaiIcon}`,
+    activeIcon: `${
+      role === 'STUDENT' ? activeGetfeedbackIcon : jeddaiIconIcon
+    }`,
+    isActive: checkIsActive(location, paths),
+    name: `${role === 'STUDENT' ? 'Get Feedback' : 'Use JeddAI'}`,
+    link: '/getFeedback',
+  }
+}
+
+function isSettingItems(role, location, checkIsActive){
+  const paths = [
+    '/settings',
+    '/markingTemplates/strengths-and-targets',
+    '/markingTemplates/rubrics',
+    '/commentbanks',
+  ];
+
+  return{
+    icon: settingIcon,
+    activeIcon: activesettingIcon,
+    name: 'Feedback Tools',
+    isActive: checkIsActive(location, paths),
+    link: '/settings',
+  }
+}

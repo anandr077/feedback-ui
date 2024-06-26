@@ -498,7 +498,7 @@ export default function CreateAssignment(props) {
           invalidQuestion = true;
 
           toast(
-            <Toast message={'Please enter Question ' + question.serialNumber} />
+            <Toast message={'Please enter question ' + question.serialNumber} />
           );
           return false;
         }
@@ -521,7 +521,7 @@ export default function CreateAssignment(props) {
             toast(
               <Toast
                 message={
-                  'Please enter options for Question ' + question.serialNumber
+                  'Please enter options for question ' + question.serialNumber
                 }
               />
             );
@@ -538,7 +538,7 @@ export default function CreateAssignment(props) {
             toast(
               <Toast
                 message={
-                  'Please select atleast one correct option for Question ' +
+                  'Please select atleast one correct option for question ' +
                   question.serialNumber
                 }
               />
@@ -558,7 +558,7 @@ export default function CreateAssignment(props) {
         invalidQuestion = true;
 
         toast(
-          <Toast message={'Please enter Question ' + question.serialNumber} />
+          <Toast message={'Please enter question ' + question.serialNumber} />
         );
         return false;
       }

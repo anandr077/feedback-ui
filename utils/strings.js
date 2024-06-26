@@ -11,6 +11,10 @@ export function limitParagraph(text, size) {
   }
 }
 
+export function capitalizeFirstLetter(sentence) {
+  if (!sentence) return sentence;
+  return sentence.charAt(0).toUpperCase() + sentence.slice(1).toLowerCase();
+}
 
 
 export const isStringNull = (String) => {

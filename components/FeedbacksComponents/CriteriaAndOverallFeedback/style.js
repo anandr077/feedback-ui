@@ -58,6 +58,10 @@ export const CloseBtn = styled.img`
   cursor: pointer;
 `;
 
+export const HideArrow = styled.img`
+  cursor: pointer;
+`;
+
 export const HeadingTitle = styled.div`
   display: flex;
   gap: 4px;
@@ -67,6 +71,13 @@ export const HeadingTitle = styled.div`
     height: 16px;
     width: 16px;
   }
+`;
+
+export const HeaderRightSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 `;
 
 export const HeadingDropdown = styled.div`
@@ -127,6 +138,7 @@ export const RubricButton = styled.button`
 
 export const OverallFeedbackContainer = styled.div`
   padding: 16px 16px;
+  display: block;
 `;
 
 export const TextFeedback = styled.textarea`
@@ -173,6 +185,11 @@ export const MarkingCriteriaMainHeadingContainer = styled.div`
   gap: 4px;
   margin: 16px 16px 0px 16px;
 `;
+
+export const MarkingCriteriaSection = styled.div`
+  display: block;
+`;
+
 export const MarkingCriteriaMainHeading = styled.p`
   width: 100%;
   font-family: IBM Plex Sans;

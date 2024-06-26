@@ -4,7 +4,9 @@ import {
   Heading,
   Body,
   HeadingTitle,
+  HeaderRightSection,
   CloseBtn,
+  HideArrow,
   HeadingDropdown,
   Text,
   RubricContainer,
@@ -35,6 +37,7 @@ import {
   StrengthsAndTargetsContainerHeading,
   MarkingCriteriaHeadingContainer,
   MarkingCriteriaMainHeadingContainer,
+  MarkingCriteriaSection,
   TargetContainer,
   PopupSubTitle,
   StrengthsAndTargetsHeadingContainer,
@@ -100,8 +103,19 @@ const CriteriaAndOverallFeedback = ({
   const [selectedTargets, setSelectedTargets] = useState([]);
   const [isShowMarkingCrteriaPopUp, setShowMarkingCrteriaPopUp] =
     useState(false);
-
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const overallFeedbackRef = useRef(null);
+  const markingCriteriaSectionRef = useRef(null);
+
+  const showOverAllFeedback = (ref) => {
+    const container = ref.current;
+    if (container.style.display === 'none') {
+      container.style.display = 'block';
+    } else {
+      container.style.display = 'none';
+    }
+  };
+
   useEffect(() => {
     setIsSubmitted(false);
     const commentObject = (
@@ -314,9 +328,12 @@ const CriteriaAndOverallFeedback = ({
               Overall Feedback
               <img src={QuestionIcon} />
             </HeadingTitle>
-            <GreenTickComponent
-              ShowGreen={!isStringNull(overallComment?.comment)}
-            />
+            <HeaderRightSection>
+              <GreenTickComponent
+                ShowGreen={!isStringNull(overallComment?.comment)}
+              />
+              <HideArrow src={ArrowDownIcon} onClick={()=> showOverAllFeedback(overallFeedbackRef)}/>
+            </HeaderRightSection>
           </>
 
           {openRightPanel === 'tab2' && (
@@ -324,7 +341,7 @@ const CriteriaAndOverallFeedback = ({
           )}
         </Heading>
         <Body>
-          <OverallFeedbackContainer>
+          <OverallFeedbackContainer ref={overallFeedbackRef}>
             <NewOverallFeedback
               pageMode={pageMode}
               addOverallFeedback={addOverallFeedback}
@@ -343,52 +360,56 @@ const CriteriaAndOverallFeedback = ({
                   Assessment
                   <img src={QuestionIcon} />
                 </HeadingTitle>
-                <GreenTickComponent
-                  ShowGreen={isShowGreenTick(
-                    markingCriteria,
-                    selectedTargets,
-                    selectedStrengths,
-                    isSubmitted
-                  )}
-                />
+                <HeaderRightSection>
+                  <GreenTickComponent
+                    ShowGreen={isShowGreenTick(
+                      markingCriteria,
+                      selectedTargets,
+                      selectedStrengths,
+                      isSubmitted
+                    )}
+                  />
+                  <HideArrow src={ArrowDownIcon} onClick={()=> showOverAllFeedback(markingCriteriaSectionRef)}/>
+                </HeaderRightSection>
               </Heading>
-              <MarkingCriteriaMainHeadingContainer>
-                <MarkingCriteriaMainHeading>
-                  Marking Criteria
-                </MarkingCriteriaMainHeading>
-                {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
-                  <Text>
-                    Click 'Expand' to provide Marking Criteria based feedback
-                  </Text>
-                ) : (
-                  <Text>
-                    Click 'Expand' to see Marking Criteria based feedback
-                  </Text>
-                )}
-              </MarkingCriteriaMainHeadingContainer>
-              <MarkingCriteriaContainer>
-                <MarkingCriteriaHeadingContainer>
-                  <MarkingCriteriaHeading>
-                    {isMarkingCriteriaTypeRubric(markingCriteria?.type)
-                      ? 'Rubric'
-                      : 'Strengths and Targets'}
-                  </MarkingCriteriaHeading>
-                  <RubricButton
-                    onClick={() => setShowMarkingCrteriaPopUp(true)}
-                  >
-                    {!isAllowGiveMarkingCriteriaFeedback(pageMode)
-                      ? 'Expand'
-                      : isShowGreenTick(
-                          markingCriteria,
-                          selectedTargets,
-                          selectedStrengths,
-                          isSubmitted
-                        )
-                      ? 'Update'
-                      : 'Expand'}
-                  </RubricButton>
-                </MarkingCriteriaHeadingContainer>
-              </MarkingCriteriaContainer>
+              <MarkingCriteriaSection ref={markingCriteriaSectionRef}>
+                <MarkingCriteriaMainHeadingContainer>
+                  <MarkingCriteriaMainHeading>
+                    Marking Criteria
+                  </MarkingCriteriaMainHeading>
+                  {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
+                    <Text>
+                      Click 'Expand' to provide Marking Criteria based feedback
+                    </Text>
+                  ) : (
+                    <Text>
+                      Click 'Expand' to see Marking Criteria based feedback
+                    </Text>
+                  )}
+                </MarkingCriteriaMainHeadingContainer>
+                <MarkingCriteriaContainer>
+                  <MarkingCriteriaHeadingContainer>
+                    <MarkingCriteriaHeading>
+                      {isMarkingCriteriaTypeRubric(markingCriteria?.type)
+                        ? 'Rubric'
+                        : 'Strengths and Targets'}
+                    </MarkingCriteriaHeading>
+                    <RubricButton
+                      onClick={() => setShowMarkingCrteriaPopUp(true)}
+                    >
+                      {!isAllowGiveMarkingCriteriaFeedback(pageMode)
+                        ? 'Expand'
+                        : isShowGreenTick(
+                            markingCriteria,
+                            selectedTargets,
+                            selectedStrengths,
+                            isSubmitted
+                          )
+                        ? 'Update'
+                        : 'Expand'}
+                    </RubricButton>
+                  </MarkingCriteriaHeadingContainer>
+                </MarkingCriteriaContainer>
               {isAllowGiveMarkingCriteriaFeedback(pageMode) &&
                 isShowGreenTick(
                   markingCriteria,
@@ -401,6 +422,7 @@ const CriteriaAndOverallFeedback = ({
                     text="Marking Criteria complete"
                   />
                 )}
+              </MarkingCriteriaSection>
             </>
           )}
         </Body>

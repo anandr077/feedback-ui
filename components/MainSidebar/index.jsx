@@ -47,8 +47,6 @@ const MainSidebar = () => {
 
   const handlePageRoute = (navLink) => {
     history.push(navLink);
-    deleteCookie('documentName');
-    deleteCookie('documentStatus');
   };
 
   return (

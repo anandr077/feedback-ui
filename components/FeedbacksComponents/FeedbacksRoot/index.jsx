@@ -74,6 +74,7 @@ import isJeddAIUser from './JeddAi.js';
 import { allCriteriaHaveSelectedLevels } from './rules.js';
 import Toast from '../../Toast/index.js';
 import { toast } from 'react-toastify';
+import Header from '../../Header2/index.jsx';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -143,8 +144,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         ]) => {
           setSubmission(submissionsResult);
           console.log('documentName', submissionsResult);
-          setCookie('documentName', submissionsResult.assignment.title);
-          setCookie('documentstatus', submissionsResult.status);
           const allComments = commentsResult?.map((c) => {
             return { ...c };
           });
@@ -1638,6 +1637,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           confirmButtonAction={saveDraftPage}
         />
       )}
+      <Header
+        breadcrumbs={[submission.assignment.title, submission.status]}
+        
+      />
 
       <FeedbackTeacherLaptop
         {...{

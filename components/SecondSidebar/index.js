@@ -114,8 +114,6 @@ const SecondSidebar = ({ id, setShowMenu }) => {
     if (setShowMenu) {
       setShowMenu(false);
     }
-    deleteCookie('documentStatus');
-    deleteCookie('documentName');
     history.push(link);
   };
 

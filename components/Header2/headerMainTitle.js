@@ -11,6 +11,7 @@ export const headerMainTitle = [
     link: '/tasks',
     title: role === 'TEACHER' ? 'Tasks' : 'School Work',
     homeLink: homeLink,
+    documentName: 'documentName',
   },
   {
     link: '/giveFeedback',

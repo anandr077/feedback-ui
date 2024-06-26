@@ -30,10 +30,8 @@ export const headerTitleSub = [
   },
 ];
 
-function HeaderTitle() {
-  const documentName = getFirstFourWords(getCookie('documentName') || '');
-  const documentStatus = getCookie('documentstatus') || '';
-
+function HeaderTitle({ breadcrumbs }) {
+  console.log('breadcrumbs', breadcrumbs);
   const headerTitleArray = [
     {
       link: '/tasks/new',
@@ -80,7 +78,7 @@ function HeaderTitle() {
     {
       link: '/documentsReview',
       title:
-        documentStatus === 'FEEDBACK_ACCEPTED'
+        breadcrumbs && breadcrumbs[1] === 'FEEDBACK_ACCEPTED'
           ? 'Feedback From Me'
           : 'Feedback History',
       teacherTooltip: '',
@@ -147,12 +145,11 @@ function HeaderTitle() {
   const pageHeaderSub = headerTitleSub.find((item) =>
     new RegExp(`${item.link}`).test(location.pathname)
   );
-  
 
   const pageMainHeader = headerMainTitle.find((item) =>
     currentPathname.startsWith(item.link)
   );
-  
+
   return (
     <TitleConatiner>
       <TitleMain
@@ -171,11 +168,11 @@ function HeaderTitle() {
 
         {pageHeaderSub && <ArrowRightImg src={arrowRightMini} />}
         {pageHeaderSub && pageHeaderSub.title}
-        {pageMainHeader?.documentName && documentName && (
+        {pageMainHeader?.documentName && breadcrumbs && (
           <ArrowRightImg src={arrowRightMini} />
         )}
-        {pageMainHeader?.documentName && (
-          <DocumentName>{documentName}</DocumentName>
+        {pageMainHeader?.documentName && breadcrumbs && (
+          <DocumentName>{getFirstFourWords(breadcrumbs[0])}</DocumentName>
         )}
         <QuestionTooltip
           img={questionMark}

@@ -108,7 +108,6 @@ function IndepentdentUserSidebar({
 
   const handleSubjectClick = (subject) => {
     const newUrl = `/documents/${subject.id}`;
-    deleteCookie('documentName');
     history.push(newUrl);
   };
 

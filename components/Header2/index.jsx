@@ -41,7 +41,7 @@ import { isTeacher, isTeacherWithClass } from './rules.js';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
 import { getFirstFourWords } from '../../utils/strings.js';
 
-const Header = () => {
+const Header = ({ breadcrumbs }) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [slideNotificationBar, setSlideNotificationBar] = useState(false);
   const [isHelpBarOpen, setIsHelpBarOpen] = useState(false);
@@ -55,7 +55,6 @@ const Header = () => {
   const role = getUserRole();
   const name = getUserName();
   const localClasses = getLocalClasses();
-
 
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],
@@ -136,8 +135,6 @@ const Header = () => {
     return () => observer.disconnect();
   }, []);
 
-
-
   return (
     <div
       ref={notificationBarRef}
@@ -151,8 +148,7 @@ const Header = () => {
     >
       <MainContainer>
         <LeftSide>
-          
-          <HeaderTitle />
+          <HeaderTitle breadcrumbs={breadcrumbs} />
         </LeftSide>
         <RightSide>
           {isTeacherWithClass(role, localClasses) && (

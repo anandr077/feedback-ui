@@ -49,30 +49,33 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isMobileView } from './components/ReactiveRender';
 import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
+import { shouldShowComponent } from './rules';
 
 function App() {
   const role = getUserRole();
   const userName = getUserName();
   userName && (document.title = 'Jeddle - ' + userName);
   const [showFooter, setShowFooter] = useState(true);
+  const [showHeader, setShowHeader] = useState(true);
 
   const mobileView = isMobileView();
 
-
-
-
   useEffect(() => {
     const handleRouteChange = () => {
-      const currentHash = window.location.hash.split('?')[0];
       const hideFooterRoutes = [
         '#/submissions/',
         '#/documents/',
         '#/documentsReview/',
       ];
-      const shouldShowFooter = !hideFooterRoutes.some((route) =>
-        currentHash.startsWith(route)
-      );
-      setShowFooter(shouldShowFooter);
+      const hideHeaderPaths = [
+        '#/submissions/',
+        '#/documents/',
+        '#/documentsReview/',
+        '#/tasks/',
+      ];
+
+      setShowHeader(shouldShowComponent(hideHeaderPaths));
+      setShowFooter(shouldShowComponent(hideFooterRoutes));
     };
     handleRouteChange();
     window.addEventListener('hashchange', handleRouteChange);
@@ -137,7 +140,7 @@ function App() {
           <div className="app-container">
             <MainSidebar />
             <div className="route-container">
-              <Header />
+              {showHeader && <Header />}
               {mobileView ? (
                 <WelcomeOverlayMobile />
               ) : (

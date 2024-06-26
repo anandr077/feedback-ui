@@ -20,7 +20,7 @@ import { getLocalClasses } from '../../service';
 import {
   isNonSchoolStudent,
   isShowSetting,
-  isShowClassItems,
+  isClassItems,
   isTeacherWithoutClass,
   checkIsActive,
 } from './rules';
@@ -31,13 +31,18 @@ const MainSidebar = () => {
   const role = getUserRole();
   const localClasses = getLocalClasses();
   const isExpert = isTeacherWithoutClass(role, localClasses);
-  const homePageLink = isExpert ? '/giveFeedback' : '/tasks'
+  const homePageLink = isExpert ? '/giveFeedback' : '/tasks';
+
+  const isShowTaskItems = !isNonSchoolStudent(role, localClasses);
+  const isShowClassItems = isClassItems(role, localClasses);
+  const isShowGetFeedbackItems = !isTeacherWithoutClass(role, localClasses);
+  const isShowSettingItems = isShowSetting(role);
 
   const sideNavItems = [
-    !isNonSchoolStudent(role, localClasses) && isTaskItems(role, homePageLink, location, checkIsActive),
-    isShowClassItems(role, localClasses) && isClassItems(location, checkIsActive),
-    !isTeacherWithoutClass(role, localClasses) && isGetFeedbackItems(role, location, checkIsActive),
-    isShowSetting(role) && isSettingItems(role, location, checkIsActive),
+    isShowTaskItems && taskItems(role, homePageLink, location, checkIsActive),
+    isShowClassItems && classItems(location, checkIsActive),
+    isShowGetFeedbackItems && getFeedbackItems(role, location, checkIsActive),
+    isShowSettingItems && isSettingItems(role, location, checkIsActive),
   ].filter(Boolean);
 
   const handlePageRoute = (navLink) => {
@@ -83,7 +88,7 @@ const MainSidebar = () => {
 export default MainSidebar;
 
 
-function isTaskItems(role, homePageLink, location, checkIsActive){
+function taskItems(role, homePageLink, location, checkIsActive){
   const paths = [
     '/',
     '/tasks',
@@ -105,7 +110,7 @@ function isTaskItems(role, homePageLink, location, checkIsActive){
   }
 }
 
-function isClassItems(location, checkIsActive){
+function classItems(location, checkIsActive){
   const paths = ['/classes'];
 
   return{
@@ -117,7 +122,7 @@ function isClassItems(location, checkIsActive){
   }
 }
 
-function isGetFeedbackItems(role, location, checkIsActive){
+function getFeedbackItems(role, location, checkIsActive){
   const paths = ['/getFeedback', '/documents'];
 
   return {

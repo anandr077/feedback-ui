@@ -1,4 +1,4 @@
-export const isShowClassItems = (role, localClasses) =>{
+export const isClassItems = (role, localClasses) =>{
     return role === 'TEACHER' && localClasses
   }
   

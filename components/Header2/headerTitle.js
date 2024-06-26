@@ -8,7 +8,7 @@ import {
   TitleMain,
 } from './HeaderStyle';
 import { isTeacher, isTeacherWithoutClass } from './rules';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import arrowRightMini from '../../static/img/arrowRightMini.svg';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/24questionbordered.svg';
@@ -31,27 +31,8 @@ export const headerTitleSub = [
 ];
 
 function HeaderTitle() {
-  const [documentName, setDocumentName] = useState('');
-  const [documentStatus, setDocumenStatus] = useState('');
-
-  useEffect(() => {
-    const fetchDocumentData = () => {
-      const title = getCookie('documentName');
-      const status = getCookie('documentstatus');
-      if (title) setDocumentName(getFirstFourWords(title));
-      if (status) setDocumenStatus(status);
-    };
-    fetchDocumentData();
-    const handleCookieChange = () => {
-      fetchDocumentData();
-    };
-
-    const cookieInterval = setInterval(handleCookieChange, 1000);
-
-    return () => {
-      clearInterval(cookieInterval);
-    };
-  }, []);
+  const documentName = getFirstFourWords(getCookie('documentName') || '');
+  const documentStatus = getCookie('documentstatus') || '';
 
   const headerTitleArray = [
     {

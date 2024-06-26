@@ -11,6 +11,7 @@ export const headerMainTitle = [
     link: '/tasks',
     title: role === 'TEACHER' ? 'Tasks' : 'School Work',
     homeLink: homeLink,
+    documentName: 'documentName',
   },
   {
     link: '/giveFeedback',
@@ -39,12 +40,14 @@ export const headerMainTitle = [
   },
   {
     link: '/documentsReview',
-    title: 'Feedback History',
-    homeLink: '/tasks',
+    title: role === 'TEACHER' ? 'Tasks' : 'School Work',
+    homeLink: isTeacherWithoutClass(role, localClasses) ? '/giveFeedback' : '/tasks',
+    documentName: 'documentName',
   },
   {
     link: '/documents',
-    title: role === 'TEACHER' ? 'JeddAI' : 'Get Feedback',
+    title: role === 'TEACHER' ? 'Use JeddAI' : 'Get Feedback',
+    documentName: 'documentName',
   },
   {
     link: '/classes',
@@ -52,8 +55,9 @@ export const headerMainTitle = [
   },
   {
     link: '/submissions',
-    title: 'Tasks',
+    title: role === 'TEACHER' ? 'Tasks' : 'School Work',
     homeLink: '/tasks',
+    documentName: 'documentName',
   },
   {
     link: '/completed',

@@ -187,3 +187,12 @@ export const DropDownContainer = styled.div`
   justify-content: space-between;
   padding: 5px 2px 5px 2px;
 `;
+export const DocumentName = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 24.7px;
+  letter-spacing: -0.01em;
+  text-align: left;
+  color: #7b738;
+`;

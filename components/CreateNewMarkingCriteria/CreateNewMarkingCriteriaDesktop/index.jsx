@@ -67,6 +67,7 @@ import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
 import { isTabletView } from '../../ReactiveRender';
 import MenuButton from '../../MenuButton';
 import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar';
+import Header from '../../Header2';
 
 function CreateNewMarkingCriteriaDesktop(props) {
   const {
@@ -111,6 +112,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
 
   return (
     <>
+      <Header breadcrumbs={[markingCriterias?.title]} />
       <MainContainer>
         <ImprovedSecondarySideBar
           isShowMenu={isShowMenu}

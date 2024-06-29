@@ -41,7 +41,9 @@ export const headerMainTitle = [
   {
     link: '/documentsReview',
     title: role === 'TEACHER' ? 'Tasks' : 'School Work',
-    homeLink: isTeacherWithoutClass(role, localClasses) ? '/giveFeedback' : '/tasks',
+    homeLink: isTeacherWithoutClass(role, localClasses)
+      ? '/giveFeedback'
+      : '/tasks',
     documentName: 'documentName',
   },
   {
@@ -68,11 +70,13 @@ export const headerMainTitle = [
     link: '/markingTemplates/strengths-and-targets',
     title: 'Feeback Tools',
     homeLink: '/settings',
+    documentName: 'documentName',
   },
   {
     link: '/markingTemplates/rubrics',
     title: 'Feeback Tools',
     homeLink: '/settings',
+    documentName: 'documentName',
   },
   {
     link: '/tasks/new',

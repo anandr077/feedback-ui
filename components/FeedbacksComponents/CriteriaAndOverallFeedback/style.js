@@ -60,6 +60,8 @@ export const CloseBtn = styled.img`
 
 export const HideArrow = styled.img`
   cursor: pointer;
+  width: 20px;
+  height: 20px;
 `;
 
 export const HeadingTitle = styled.div`

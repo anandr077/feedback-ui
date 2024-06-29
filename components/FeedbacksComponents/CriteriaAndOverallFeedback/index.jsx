@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import CloseIcon from '../../../static/img/close.svg';
 import closecircle from '../../../static/img/closecircle.svg';
-import ArrowDownIcon from '../../../static/img/gray-arrow-down.svg';
 import QuestionIcon from '../../../static/img/question-mark.svg';
 import { getUserId } from '../../../userLocalDetails';
 import { isNullOrEmpty } from '../../../utils/arrays';
@@ -49,6 +48,7 @@ import {
   Text
 } from './style';
 import { findMarkingCriteria } from '../FeedbacksRoot/functions';
+import ToggleArrow from './ToggleArrow';
 
 const CriteriaAndOverallFeedback = ({
   handleClick,
@@ -342,9 +342,10 @@ const CriteriaAndOverallFeedback = ({
               <GreenTickComponent
                 ShowGreen={!isStringNull(overallComment?.comment)}
               />
-              <HideArrow
-                src={ArrowDownIcon}
-                onClick={() => showOverAllFeedback(overallFeedbackRef)}
+
+              <ToggleArrow
+                refProp={overallFeedbackRef}
+                toggleSection={showOverAllFeedback}
               />
             </HeaderRightSection>
           </>
@@ -382,11 +383,10 @@ const CriteriaAndOverallFeedback = ({
                       )
                     )}
                   />
-                  <HideArrow
-                    src={ArrowDownIcon}
-                    onClick={() =>
-                      showOverAllFeedback(markingCriteriaSectionRef)
-                    }
+
+                  <ToggleArrow
+                    refProp={markingCriteriaSectionRef}
+                    toggleSection={showOverAllFeedback}
                   />
                 </HeaderRightSection>
               </Heading>

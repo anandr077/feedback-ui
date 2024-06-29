@@ -75,6 +75,7 @@ import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 import MenuButton from '../../MenuButton';
 import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar';
+import Header from '../../Header2';
 
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
@@ -444,6 +445,7 @@ export default function CreateNewStrengthAndTargets() {
 
   return (
     <>
+      <Header breadcrumbs={[markingMethodology?.title]} />
       <MainContainer>
         <ImprovedSecondarySideBar
           isShowMenu={isShowMenu}

@@ -72,6 +72,7 @@ function App() {
         '#/documents/',
         '#/documentsReview/',
         '#/tasks/',
+        '#/markingTemplates/',
       ];
 
       setShowHeader(shouldShowComponent(hideHeaderPaths));

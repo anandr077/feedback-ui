@@ -198,11 +198,10 @@ export const allCriteriaHaveSelectedLevels = (criterias) => {
 };
 
 export const isShowGreenTick = (
-  markingCriteria,
-  isSubmitted
+  markingCriteriaFeedback,
 ) => {
+  let markingCriteria = markingCriteriaFeedback?.markingCriteria;
   return (
-    isSubmitted ||
     (isMarkingCriteriaTypeRubric(markingCriteria?.type)
       ? allCriteriaHaveSelectedLevels(markingCriteria?.criterias)
       : !isNullOrEmpty(markingCriteria?.selectedTargets) || !isNullOrEmpty(markingCriteria?.selectedStrengths))

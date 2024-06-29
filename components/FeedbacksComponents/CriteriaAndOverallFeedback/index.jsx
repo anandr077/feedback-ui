@@ -48,6 +48,7 @@ import {
   SaveButtonText,
   Text
 } from './style';
+import { findMarkingCriteria } from '../FeedbacksRoot/functions';
 
 const CriteriaAndOverallFeedback = ({
   handleClick,
@@ -65,7 +66,6 @@ const CriteriaAndOverallFeedback = ({
   const userId = getUserId();
   const [isShowMarkingCrteriaPopUp, setShowMarkingCrteriaPopUp] =
     useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const overallFeedbackRef = useRef(null);
   const markingCriteriaSectionRef = useRef(null);
   const overallComment = (
@@ -82,34 +82,38 @@ const CriteriaAndOverallFeedback = ({
   };
 
   useEffect(() => {
-    setIsSubmitted(false);
 
-    const markingCriteriaFromSubmission =
-      {
-        questionSerialNumber: QuestionIndex + 1,
-        feedback: 'Marking Criteria Feedback',
-        range: { from: 0, to: 0 },
-        type: 'MARKING_CRITERIA',
-        replies: [],
-        sharedWithStudents: [],
-        markingCriteria : submission?.assignment?.questions[QuestionIndex]?.markingCriteria
-      }
-    console.log("markingCriteriaFromSubmission init", markingCriteriaFromSubmission)
+    const markingCriteriaFromSubmission = {
+      questionSerialNumber: QuestionIndex + 1,
+      feedback: 'Marking Criteria Feedback',
+      range: { from: 0, to: 0 },
+      type: 'MARKING_CRITERIA',
+      replies: [],
+      sharedWithStudents: [],
+      markingCriteria:
+        submission?.assignment?.questions[QuestionIndex]?.markingCriteria,
+    };
+    console.log(
+      'markingCriteriaFromSubmission init',
+      markingCriteriaFromSubmission
+    );
     setMarkingCriteriaFromSubmission(markingCriteriaFromSubmission);
     if (!isNullOrEmpty(markingCriteriaFeedback)) {
       const submitedMarkingCriteria = markingCriteriaFeedback?.find(
         (markingCriteria) =>
           markingCriteria?.questionSerialNumber === QuestionIndex + 1
       );
-      console.log("submitedMarkingCriteria", submitedMarkingCriteria)
-      console.log("markingCriteriaFromSubmission", markingCriteriaFromSubmission)
+      console.log('submitedMarkingCriteria', submitedMarkingCriteria);
+      console.log(
+        'markingCriteriaFromSubmission',
+        markingCriteriaFromSubmission
+      );
       if (submitedMarkingCriteria) {
-        setIsSubmitted(true);
         setMarkingCriteriaFromSubmission(submitedMarkingCriteria);
-        console.log("submitedMarkingCriteria", submitedMarkingCriteria)
+        console.log('submitedMarkingCriteria', submitedMarkingCriteria);
       }
     }
-  }, [ QuestionIndex, comments, submission]);
+  }, [QuestionIndex]);
 
   const handleRubricsChange = (criteriaSerialNumber, selectedLevel) => {
     console.log('markingCriteria is', markingCriteriaFromSubmission);
@@ -135,7 +139,6 @@ const CriteriaAndOverallFeedback = ({
     setMarkingCriteriaFromSubmission((prevMarkingCriteria) => update);
     console.log('markingCriteria', markingCriteriaFromSubmission);
   };
-
 
   const handleStrengthndTargetChange = (strengthsAndTargets, index, type) => {
     const seletedItem = strengthsAndTargets[type][index];
@@ -214,30 +217,44 @@ const CriteriaAndOverallFeedback = ({
 
 
   const saveMarkingCrieria = () => {
-    if (isMarkingCriteriaTypeRubric(markingCriteriaFromSubmission?.markingCriteria?.type)) {
-      if (!allCriteriaHaveSelectedLevels(markingCriteriaFromSubmission?.markingCriteria?.criterias)) {
+    if (
+      isMarkingCriteriaTypeRubric(
+        markingCriteriaFromSubmission?.markingCriteria?.type
+      )
+    ) {
+      if (
+        !allCriteriaHaveSelectedLevels(
+          markingCriteriaFromSubmission?.markingCriteria?.criterias
+        )
+      ) {
         toast(
-          <Toast
-            message={'Please ensure all criteria have a selected level'}
-          />
+          <Toast message={'Please ensure all criteria have a selected level'} />
         );
         return;
       }
       setShowMarkingCrteriaPopUp(false);
-      setIsSubmitted(true);
-      handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteriaFromSubmission);
+      handleMarkingCriteriaLevelFeedback(
+        QuestionIndex,
+        markingCriteriaFromSubmission
+      );
     } else {
-      if (markingCriteriaFromSubmission.markingCriteria.selectedStrengths.length === 0) {
+      if (
+        isNullOrEmpty(markingCriteriaFromSubmission.markingCriteria?.selectedStrengths)
+      ) {
         toast(<Toast message={'Please select at least one strength'} />);
         return;
       }
-      if (markingCriteriaFromSubmission.markingCriteria.selectedTargets.length === 0) {
-        toast(<Toast message={'Please select at least one target'} />);
+      if (
+        isNullOrEmpty(markingCriteriaFromSubmission.markingCriteria?.selectedTargets)
+      ) {
+        toast(<Toast message={'Please Select at least one target'} />);
         return;
       }
       setShowMarkingCrteriaPopUp(false);
-      setIsSubmitted(true);
-      handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteriaFromSubmission);
+      handleMarkingCriteriaLevelFeedback(
+        QuestionIndex,
+        markingCriteriaFromSubmission
+      );
     }
   };
 
@@ -325,7 +342,10 @@ const CriteriaAndOverallFeedback = ({
               <GreenTickComponent
                 ShowGreen={!isStringNull(overallComment?.comment)}
               />
-              <HideArrow src={ArrowDownIcon} onClick={()=> showOverAllFeedback(overallFeedbackRef)}/>
+              <HideArrow
+                src={ArrowDownIcon}
+                onClick={() => showOverAllFeedback(overallFeedbackRef)}
+              />
             </HeaderRightSection>
           </>
 
@@ -356,11 +376,18 @@ const CriteriaAndOverallFeedback = ({
                 <HeaderRightSection>
                   <GreenTickComponent
                     ShowGreen={isShowGreenTick(
-                      markingCriteriaFromSubmission,
-                      isSubmitted
+                      findMarkingCriteria(
+                        markingCriteriaFeedback,
+                        QuestionIndex
+                      )
                     )}
                   />
-                  <HideArrow src={ArrowDownIcon} onClick={()=> showOverAllFeedback(markingCriteriaSectionRef)}/>
+                  <HideArrow
+                    src={ArrowDownIcon}
+                    onClick={() =>
+                      showOverAllFeedback(markingCriteriaSectionRef)
+                    }
+                  />
                 </HeaderRightSection>
               </Heading>
               <MarkingCriteriaSection ref={markingCriteriaSectionRef}>
@@ -381,7 +408,9 @@ const CriteriaAndOverallFeedback = ({
                 <MarkingCriteriaContainer>
                   <MarkingCriteriaHeadingContainer>
                     <MarkingCriteriaHeading>
-                      {isMarkingCriteriaTypeRubric(markingCriteriaFromSubmission?.markingCriteria?.type)
+                      {isMarkingCriteriaTypeRubric(
+                        markingCriteriaFromSubmission?.markingCriteria?.type
+                      )
                         ? 'Rubric'
                         : 'Strengths and Targets'}
                     </MarkingCriteriaHeading>
@@ -391,24 +420,25 @@ const CriteriaAndOverallFeedback = ({
                       {!isAllowGiveMarkingCriteriaFeedback(pageMode)
                         ? 'Expand'
                         : isShowGreenTick(
-                            markingCriteriaFromSubmission,
-                            isSubmitted
+                            findMarkingCriteria(
+                              markingCriteriaFeedback,
+                              QuestionIndex
+                            )
                           )
                         ? 'Update'
                         : 'Expand'}
                     </RubricButton>
                   </MarkingCriteriaHeadingContainer>
                 </MarkingCriteriaContainer>
-              {isAllowGiveMarkingCriteriaFeedback(pageMode) &&
-                isShowGreenTick(
-                  markingCriteriaFromSubmission,
-                  isSubmitted
-                ) && (
-                  <GreenTickText
-                    margin={true}
-                    text="Marking Criteria complete"
-                  />
-                )}
+                {isAllowGiveMarkingCriteriaFeedback(pageMode) &&
+                  isShowGreenTick(
+                    findMarkingCriteria(markingCriteriaFeedback, QuestionIndex)
+                  ) && (
+                    <GreenTickText
+                      margin={true}
+                      text="Marking Criteria complete"
+                    />
+                  )}
               </MarkingCriteriaSection>
             </>
           )}

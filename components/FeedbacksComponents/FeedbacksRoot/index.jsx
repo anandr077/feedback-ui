@@ -45,7 +45,7 @@ import {
 } from '../../../userLocalDetails.js';
 import Loader from '../../Loader';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
-import { extractStudents, getComments, getPageMode } from './functions';
+import { extractStudents, findMarkingCriteria, getComments, getPageMode } from './functions';
 import {
   ActionButtonsContainer,
   DialogContiner,
@@ -909,9 +909,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       if (question?.markingCriteria?.criterias) {
         let criterias = question.markingCriteria.criterias;
         if (!isNullOrEmpty(markingCriteriaFeedback)) {
-          let submitedMarkingCriteria = markingCriteriaFeedback.find(
-            (markingCriteria) =>
-              markingCriteria?.questionSerialNumber === index + 1
+          let submitedMarkingCriteria = findMarkingCriteria(
+            markingCriteriaFeedback,
+            index
           );
           if (submitedMarkingCriteria) {
             criterias = submitedMarkingCriteria?.markingCriteria?.criterias;
@@ -938,13 +938,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedStrengths: [],
           selectedTargets: [],
         };
-        if (newMarkingCriterias[index])
-          selectedSAndT = newMarkingCriterias[index];
-
+        
         if (!isNullOrEmpty(markingCriteriaFeedback)) {
-          let submitedMarkingCriteria = markingCriteriaFeedback?.find(
-            (markingCriteria) =>
-              markingCriteria?.questionSerialNumber === index + 1
+          let submitedMarkingCriteria = findMarkingCriteria(
+            markingCriteriaFeedback,
+            index
           );
           if (submitedMarkingCriteria) {
             selectedSAndT.selectedStrengths =
@@ -964,7 +962,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           toast(
             <Toast
               message={
-                'Please Select Marking Criteria for question ' +
+                'Please Select marking criteria for question ' +
                 question.serialNumber
               }
             />

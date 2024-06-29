@@ -1,84 +1,53 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import {
-  MainContainer,
-  Heading,
-  Body,
-  HeadingTitle,
-  HeaderRightSection,
-  CloseBtn,
-  HideArrow,
-  HeadingDropdown,
-  Text,
-  RubricContainer,
-  RubricInputContainer,
-  RubricButton,
-  OverallFeedbackContainer,
-  TextFeedback,
-  FeedbackBtn,
-  MarkingCriteriaContainer,
-  MarkRubricTitleContainer,
-  LevelNameContainer,
-  MarkStrengthContainer,
-  Strength,
-  Target,
-  TargetHeading,
-  MarkingCriteriaMainHeading,
-  PopupBackground,
-  PopupContainer,
-  PopupTitleContainer,
-  PopupTitle,
-  PopupTitleImg,
-  PopupDialogContentBox,
-  StrengthsAndTargetsPart,
-  TargetHeadingContainer,
-  StrengthContainer,
-  StrengthsAndTargetsContainerBody,
-  StrengthsAndTargetsContainer,
-  StrengthsAndTargetsContainerHeading,
-  MarkingCriteriaHeadingContainer,
-  MarkingCriteriaMainHeadingContainer,
-  MarkingCriteriaSection,
-  TargetContainer,
-  PopupSubTitle,
-  StrengthsAndTargetsHeadingContainer,
-  StrengthsAndTargetsHeadingContainerDummy,
-  SaveButtonContainer,
-  SaveButton,
-  SaveButtonText,
-} from './style';
+import { toast } from 'react-toastify';
 import CloseIcon from '../../../static/img/close.svg';
-import QuestionIcon from '../../../static/img/question-mark.svg';
-import ArrowDownIcon from '../../../static/img/gray-arrow-down.svg';
-import Microphone from '../../../static/img/Microphone.svg';
-import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
-import AudioRecorder from '../../AudioRecorder';
-import { base64ToBlob, blobToBase64 } from '../../../utils/blobs';
-import OverallFeedback from '../../OverallFeedback';
-import NewOverallFeedback from '../../NewOverallFeedback';
-import { MarkingCriteriaHeading } from './style';
-import { MarkRubricContainer } from './style';
-import { MarkRubricsContainer } from './style';
-import { MarkRubricTitle } from './style';
-import { MarkRubricLevelContainer } from './style';
-import { LevelName } from './style';
-import { LevelDesc } from './style';
-import { getUserId, getUserRole } from '../../../userLocalDetails';
 import closecircle from '../../../static/img/closecircle.svg';
+import ArrowDownIcon from '../../../static/img/gray-arrow-down.svg';
+import QuestionIcon from '../../../static/img/question-mark.svg';
+import { getUserId } from '../../../userLocalDetails';
+import { isNullOrEmpty } from '../../../utils/arrays';
+import { isStringNull } from '../../../utils/strings';
+import { GreenTickComponent, GreenTickText } from '../../GreenTick';
 import MarkingCriteriaFeedback from '../../MarkingCriteriaFeedback';
+import NewOverallFeedback from '../../NewOverallFeedback';
+import Toast from '../../Toast';
+import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import {
   allCriteriaHaveSelectedLevels,
   isAllowGiveMarkingCriteriaFeedback,
   isMarkingCriteriaTypeRubric,
   isShowGreenTick,
-  isShowMarkingCriteriaSection,
-  isShowOverallFeedbackHeadline,
+  isShowMarkingCriteriaSection
 } from '../FeedbacksRoot/rules';
-import { GreenTickComponent, GreenTickText } from '../../GreenTick';
 import StrengthAndTargetMarkingCriteria from '../StrengthAndTargetMarkingCriteria';
-import { isNullOrEmpty } from '../../../utils/arrays';
-import { isStringNull } from '../../../utils/strings';
-import { toast } from 'react-toastify';
-import Toast from '../../Toast';
+import {
+  Body,
+  CloseBtn,
+  HeaderRightSection,
+  Heading,
+  HeadingTitle,
+  HideArrow,
+  MainContainer,
+  MarkingCriteriaContainer,
+  MarkingCriteriaHeading,
+  MarkingCriteriaHeadingContainer,
+  MarkingCriteriaMainHeading,
+  MarkingCriteriaMainHeadingContainer,
+  MarkingCriteriaSection,
+  OverallFeedbackContainer,
+  PopupBackground,
+  PopupContainer,
+  PopupDialogContentBox,
+  PopupSubTitle,
+  PopupTitle,
+  PopupTitleContainer,
+  PopupTitleImg,
+  RubricButton,
+  SaveButton,
+  SaveButtonContainer,
+  SaveButtonText,
+  Text
+} from './style';
 
 const CriteriaAndOverallFeedback = ({
   handleClick,
@@ -88,25 +57,20 @@ const CriteriaAndOverallFeedback = ({
   updateOverAllFeedback,
   pageMode,
   submission,
-  handleMarkingCriteriaLevelFeedback,
-  handleStrengthsTargetsFeedback,
+  handleMarkingCriteriaLevelFeedback
 }) => {
   const { overallComments, comments, markingCriteriaFeedback } =
     useContext(FeedbackContext);
-  const [inputValue, setInputValue] = useState('');
   const [overallComment, setOverallComment] = useState({});
-  const [markingCriteria, setMarkingCriteria] = useState();
-  const isTeacher = getUserRole() === 'TEACHER';
+  const [markingCriteriaFromSubmission, setMarkingCriteriaFromSubmission] = useState();
   const userId = getUserId();
-  const [selectedMarkingCriteria, setSelectedMarkingCriteria] = useState();
-  const [selectedStrengths, setSelectedStrengths] = useState([]);
-  const [selectedTargets, setSelectedTargets] = useState([]);
   const [isShowMarkingCrteriaPopUp, setShowMarkingCrteriaPopUp] =
     useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const overallFeedbackRef = useRef(null);
   const markingCriteriaSectionRef = useRef(null);
-
+  
+  
   const showOverAllFeedback = (ref) => {
     const container = ref.current;
     if (container.style.display === 'none') {
@@ -123,54 +87,139 @@ const CriteriaAndOverallFeedback = ({
     )?.find((comment) => comment?.questionSerialNumber === QuestionIndex + 1);
     setOverallComment(commentObject);
 
-    const markingCriteria =
-      submission?.assignment?.questions[QuestionIndex].markingCriteria;
-    setMarkingCriteria(markingCriteria);
+    const markingCriteriaFromSubmission =
+      {
+        questionSerialNumber: QuestionIndex + 1,
+        feedback: 'Marking Criteria Feedback',
+        range: { from: 0, to: 0 },
+        type: 'MARKING_CRITERIA',
+        replies: [],
+        sharedWithStudents: [],
+        markingCriteria : submission?.assignment?.questions[QuestionIndex]?.markingCriteria
+      }
+    console.log("markingCriteriaFromSubmission init", markingCriteriaFromSubmission)
+    setMarkingCriteriaFromSubmission(markingCriteriaFromSubmission);
     if (!isNullOrEmpty(markingCriteriaFeedback)) {
       const submitedMarkingCriteria = markingCriteriaFeedback?.find(
         (markingCriteria) =>
           markingCriteria?.questionSerialNumber === QuestionIndex + 1
       );
+      console.log("submitedMarkingCriteria", submitedMarkingCriteria)
+      console.log("markingCriteriaFromSubmission", markingCriteriaFromSubmission)
       if (submitedMarkingCriteria) {
-        if (submitedMarkingCriteria?.markingCriteria?.criterias) {
-          setIsSubmitted(true);
-          setMarkingCriteria(submitedMarkingCriteria?.markingCriteria);
-        }
-        if (submitedMarkingCriteria?.markingCriteria?.selectedStrengths) {
-          setIsSubmitted(true);
-          setSelectedStrengths(
-            submitedMarkingCriteria?.markingCriteria?.selectedStrengths
-          );
-          setSelectedTargets(
-            submitedMarkingCriteria?.markingCriteria?.selectedTargets
-          );
-        }
+        setIsSubmitted(true);
+        setMarkingCriteriaFromSubmission(submitedMarkingCriteria);
+        console.log("submitedMarkingCriteria", submitedMarkingCriteria)
       }
     }
   }, [overallComments, QuestionIndex, comments, submission]);
 
   const handleRubricsChange = (criteriaSerialNumber, selectedLevel) => {
-    console.log('markingCriteria', markingCriteria);
-    setMarkingCriteria((prevMarkingCriteria) => ({
-      ...prevMarkingCriteria,
-      criterias: prevMarkingCriteria.criterias.map(
-        (criteria, criteriaIndex) => {
-          if (criteriaIndex === criteriaSerialNumber) {
-            return {
-              ...criteria,
-              selectedLevel: selectedLevel,
-            };
+    console.log('markingCriteria is', markingCriteriaFromSubmission);
+    const update = {
+      ...markingCriteriaFromSubmission,
+      markingCriteria: {
+        ...markingCriteriaFromSubmission.markingCriteria,
+        criterias: markingCriteriaFromSubmission.markingCriteria.criterias.map(
+          (criteria, criteriaIndex) => {
+            if (criteriaIndex === criteriaSerialNumber) {
+              return {
+                ...criteria,
+                selectedLevel: selectedLevel
+              };
+            }
+            return criteria;
           }
-          return criteria;
-        }
-      ),
-    }));
-    console.log('markingCriteria', markingCriteria);
+        ),
+      }
+    }
+    console.log('update is', update);
+
+    setMarkingCriteriaFromSubmission((prevMarkingCriteria) => update);
+    console.log('markingCriteria', markingCriteriaFromSubmission);
   };
+
 
   const handleStrengthndTargetChange = (strengthsAndTargets, index, type) => {
     const seletedItem = strengthsAndTargets[type][index];
+    const selectedStrengths = markingCriteriaFromSubmission?.markingCriteria?.selectedStrengths || [];
+    const selectedTargets = markingCriteriaFromSubmission?.markingCriteria?.selectedTargets || [];
+    var newSelectedStrengths = selectedStrengths
+    var newSelectedTargets = selectedStrengths
+    if (type === 'strengths') {
+      const selectedStrengthNew = {
+        id: selectedStrengths?.length + 1,
+        attribute: seletedItem,
+        criteria: strengthsAndTargets.title,
+      };
+      if (
+        selectedStrengths.find(
+          (stre) => stre.attribute === selectedStrengthNew.attribute
+        )
+      ) {
+        newSelectedStrengths = [
+          ...selectedStrengths.filter(
+            (selectedStrength) =>
+              selectedStrength.attribute != selectedStrengthNew.attribute
+          ),
+        ]
+        
 
+      } else {
+        newSelectedStrengths = [...selectedStrengths, selectedStrengthNew];
+      }
+      setMarkingCriteriaFromSubmission(
+        (prevMarkingCriteria) => ({
+          ...prevMarkingCriteria,
+          markingCriteria: {
+            ...prevMarkingCriteria.markingCriteria,
+            selectedStrengths: newSelectedStrengths,
+          } 
+        }
+      ))
+    }
+    if (type === 'targets') {
+      let selectedTargetNew = {
+        id: selectedTargets.length + 1,
+        attribute: seletedItem,
+        criteria: strengthsAndTargets.title,
+      };
+
+      if (
+        selectedTargets.find(
+          (target) => target.attribute === selectedTargetNew.attribute
+        )
+      ) {
+        newSelectedTargets = [
+          ...selectedTargets.filter(
+            (selectedTarget) =>
+              selectedTarget.attribute != selectedTargetNew.attribute
+          ),
+        ];
+      } else {
+        newSelectedTargets = [...selectedTargets, selectedTargetNew];
+      }
+
+      setMarkingCriteriaFromSubmission(
+        (prevMarkingCriteria) => ({
+          ...prevMarkingCriteria,
+          markingCriteria: {
+            ...prevMarkingCriteria.markingCriteria,
+            selectedTargets: newSelectedTargets
+          } 
+        }
+      ))
+    }
+
+    
+  };
+
+
+  const handleStrengthndTargetChange2 = (strengthsAndTargets, index, type) => {
+    console.log("strengthsAndTargets", strengthsAndTargets, index, type)
+    const seletedItem = strengthsAndTargets[type][index];
+    var selectedStrengths = []
+    var selectedTargets = []
     if (type === 'strengths') {
       const selectedStrengthNew = {
         id: selectedStrengths.length + 1,
@@ -182,14 +231,14 @@ const CriteriaAndOverallFeedback = ({
           (stre) => stre.attribute === selectedStrengthNew.attribute
         )
       ) {
-        setSelectedStrengths([
+        selectedStrengths = [
           ...selectedStrengths.filter(
             (selectedStrength) =>
               selectedStrength.attribute != selectedStrengthNew.attribute
           ),
-        ]);
+        ];
       } else {
-        setSelectedStrengths([...selectedStrengths, selectedStrengthNew]);
+        selectedStrengths = [...selectedStrengths, selectedStrengthNew];
       }
     }
     if (type === 'targets') {
@@ -204,21 +253,34 @@ const CriteriaAndOverallFeedback = ({
           (target) => target.attribute === selectedTargetNew.attribute
         )
       ) {
-        setSelectedTargets([
+        selectedTargets = [
           ...selectedTargets.filter(
             (selectedTarget) =>
               selectedTarget.attribute != selectedTargetNew.attribute
           ),
-        ]);
+        ];
       } else {
-        setSelectedTargets([...selectedTargets, selectedTargetNew]);
+        selectedTargets = [...selectedTargets, selectedTargetNew];
       }
     }
+
+    console.log("selectedStrengths", selectedStrengths)
+    setMarkingCriteriaFromSubmission(
+      (prevMarkingCriteria) => ({
+        ...prevMarkingCriteria,
+        markingCriteria: {
+          ...prevMarkingCriteria.markingCriteria,
+          selectedStrengths: selectedStrengths,
+          selectedTargets: selectedTargets
+        } 
+      }
+    ))
+
   };
 
   const saveMarkingCrieria = () => {
-    if (isMarkingCriteriaTypeRubric(markingCriteria?.type)) {
-      if (!allCriteriaHaveSelectedLevels(markingCriteria?.criterias)) {
+    if (isMarkingCriteriaTypeRubric(markingCriteriaFromSubmission?.markingCriteria?.type)) {
+      if (!allCriteriaHaveSelectedLevels(markingCriteriaFromSubmission?.markingCriteria?.criterias)) {
         toast(
           <Toast
             message={'Please ensure all criteria have a selected level'}
@@ -228,23 +290,19 @@ const CriteriaAndOverallFeedback = ({
       }
       setShowMarkingCrteriaPopUp(false);
       setIsSubmitted(true);
-      handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria);
+      handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteriaFromSubmission);
     } else {
-      if (selectedStrengths.length === 0) {
-        toast(<Toast message={'please select at least one strength'} />);
+      if (markingCriteriaFromSubmission.markingCriteria.selectedStrengths.length === 0) {
+        toast(<Toast message={'Please select at least one strength'} />);
         return;
       }
-      if (selectedTargets.length === 0) {
-        toast(<Toast message={'please select at least one target'} />);
+      if (markingCriteriaFromSubmission.markingCriteria.selectedTargets.length === 0) {
+        toast(<Toast message={'Please select at least one target'} />);
         return;
       }
       setShowMarkingCrteriaPopUp(false);
       setIsSubmitted(true);
-      handleStrengthsTargetsFeedback(
-        QuestionIndex,
-        selectedStrengths,
-        selectedTargets
-      );
+      handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteriaFromSubmission);
     }
   };
 
@@ -287,8 +345,8 @@ const CriteriaAndOverallFeedback = ({
                 markingCriteria={markingCriteria}
                 handleStrengthndTargetChange={handleStrengthndTargetChange}
                 pageMode={pageMode}
-                selectedStrengths={selectedStrengths}
-                selectedTargets={selectedTargets}
+                selectedStrengths={markingCriteria.selectedStrengths}
+                selectedTargets={markingCriteria.selectedTargets}
               />
             )}
           </PopupDialogContentBox>
@@ -313,7 +371,7 @@ const CriteriaAndOverallFeedback = ({
       {isShowMarkingCrteriaPopUp && (
         <MarkingCriteriaPopContainer
           setShowMarkingCrteriaPopUp={setShowMarkingCrteriaPopUp}
-          markingCriteria={markingCriteria}
+          markingCriteria={markingCriteriaFromSubmission.markingCriteria}
           handleMarkingCriteriaLevelFeedback={
             handleMarkingCriteriaLevelFeedback
           }
@@ -353,7 +411,7 @@ const CriteriaAndOverallFeedback = ({
             />
           </OverallFeedbackContainer>
 
-          {isShowMarkingCriteriaSection(markingCriteria) && (
+          {isShowMarkingCriteriaSection(markingCriteriaFromSubmission) && (
             <>
               <Heading>
                 <HeadingTitle>
@@ -363,9 +421,7 @@ const CriteriaAndOverallFeedback = ({
                 <HeaderRightSection>
                   <GreenTickComponent
                     ShowGreen={isShowGreenTick(
-                      markingCriteria,
-                      selectedTargets,
-                      selectedStrengths,
+                      markingCriteriaFromSubmission,
                       isSubmitted
                     )}
                   />
@@ -390,7 +446,7 @@ const CriteriaAndOverallFeedback = ({
                 <MarkingCriteriaContainer>
                   <MarkingCriteriaHeadingContainer>
                     <MarkingCriteriaHeading>
-                      {isMarkingCriteriaTypeRubric(markingCriteria?.type)
+                      {isMarkingCriteriaTypeRubric(markingCriteriaFromSubmission?.markingCriteria?.type)
                         ? 'Rubric'
                         : 'Strengths and Targets'}
                     </MarkingCriteriaHeading>
@@ -400,9 +456,7 @@ const CriteriaAndOverallFeedback = ({
                       {!isAllowGiveMarkingCriteriaFeedback(pageMode)
                         ? 'Expand'
                         : isShowGreenTick(
-                            markingCriteria,
-                            selectedTargets,
-                            selectedStrengths,
+                            markingCriteriaFromSubmission,
                             isSubmitted
                           )
                         ? 'Update'
@@ -412,9 +466,7 @@ const CriteriaAndOverallFeedback = ({
                 </MarkingCriteriaContainer>
               {isAllowGiveMarkingCriteriaFeedback(pageMode) &&
                 isShowGreenTick(
-                  markingCriteria,
-                  selectedTargets,
-                  selectedStrengths,
+                  markingCriteriaFromSubmission,
                   isSubmitted
                 ) && (
                   <GreenTickText

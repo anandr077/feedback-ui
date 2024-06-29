@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-  MarkRubricContainer,
+  StrengthsTargetsGroupContainer,
   MarkRubricTitle,
-  MarkRubricTitleContainer,
+  StrengthTargetsTitleContainer,
   MarkStrengthContainer,
   Strength,
   StrengthContainer,
@@ -20,7 +20,7 @@ import {
 import { isAllowGiveMarkingCriteriaFeedback } from '../FeedbacksRoot/rules';
 import { isStringPresent } from '../../../utils/arrays';
 import BodyPart from './MarkingCriteriaCell';
-import MarkingCriteriaCell from './MarkingCriteriaCell';
+import StrengthsTargetsLists from './MarkingCriteriaCell';
 
 function StrengthAndTargetMarkingCriteria({
   markingCriteria,
@@ -55,7 +55,7 @@ function StrengthAndTargetMarkingCriteria({
               strengthsAndTargets.targets.length
             );
             return (
-              <MarkingCriteriaCell
+              <StrengthsTargetsLists
                 strengthsAndTargets={strengthsAndTargets}
                 maxLength={maxLength}
                 handleStrengthndTargetChange={handleStrengthndTargetChange}

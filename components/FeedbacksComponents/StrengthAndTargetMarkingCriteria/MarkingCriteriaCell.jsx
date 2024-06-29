@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-  MarkRubricContainer,
+  StrengthsTargetsGroupContainer,
   MarkRubricTitle,
-  MarkRubricTitleContainer,
+  StrengthTargetsTitleContainer,
   Strength,
   StrengthContainer,
   StrengthsAndTargetsContainer,
@@ -14,7 +14,7 @@ import {
 import { isStringPresent } from '../../../utils/arrays';
 import { isAllowGiveMarkingCriteriaFeedback } from '../FeedbacksRoot/rules';
 
-function MarkingCriteriaCell({
+function StrengthsTargetsLists({
   strengthsAndTargets,
   selectedStrengths,
   selectedTargets,
@@ -58,10 +58,10 @@ function MarkingCriteriaCell({
   };
   return (
     <>
-      <MarkRubricContainer key={strengthsAndTargets.title}>
-        <MarkRubricTitleContainer>
+      <StrengthsTargetsGroupContainer key={strengthsAndTargets.title}>
+        <StrengthTargetsTitleContainer>
           <MarkRubricTitle>{strengthsAndTargets.title}</MarkRubricTitle>
-        </MarkRubricTitleContainer>
+        </StrengthTargetsTitleContainer>
         <StrengthsAndTargetsContainer>
           <StrengthsAndTargetsContainerBody>
             {Array.from({ length: maxLength }).map((_, index) => (
@@ -84,9 +84,77 @@ function MarkingCriteriaCell({
             ))}
           </StrengthsAndTargetsContainerBody>
         </StrengthsAndTargetsContainer>
-      </MarkRubricContainer>
+      </StrengthsTargetsGroupContainer>
     </>
   );
 }
 
-export default MarkingCriteriaCell;
+
+
+// function Cell({
+//   label,
+//   isEnabled,
+//   onClick,
+//   isHighlighted,
+//   strengthsAndTargets,
+//   selectedStrengths,
+//   selectedTargets,
+//   pageMode,
+//   handleStrengthndTargetChange,
+//   maxLength,
+// }) {
+//   const StrengthAndTargetCell = ({ currentIndex, type, selectedType }) => {
+//     return (
+//       <CellContainer
+//         onClick={
+//           isEnabled
+//             ? () => onClick(label)
+//             : () => {}
+//         }
+//         bgColor={isHighlighted}
+//         style={{
+//           cursor: isEnabled ? 'pointer' : '',
+//         }}
+//       >
+//         <CellBody
+//           bgColor={isHighlighted}
+//         >
+//           {label}
+//         </CellBody>
+//       </CellContainer>
+//     );
+//   };
+//   return (
+//     <>
+//       <MarkRubricContainer key={strengthsAndTargets.title}>
+//         <MarkRubricTitleContainer>
+//           <MarkRubricTitle>{strengthsAndTargets.title}</MarkRubricTitle>
+//         </MarkRubricTitleContainer>
+//         <StrengthsAndTargetsContainer>
+//           <StrengthsAndTargetsContainerBody>
+//             {Array.from({ length: maxLength }).map((_, index) => (
+//               <StrengthsAndTargetsPart key={index}>
+//                 {strengthsAndTargets.strengths[index] && (
+//                   <StrengthAndTargetCell
+//                     currentIndex={index}
+//                     type={'strengths'}
+//                     selectedType={selectedStrengths}
+//                   />
+//                 )}
+//                 {strengthsAndTargets.targets[index] && (
+//                   <StrengthAndTargetCell
+//                     currentIndex={index}
+//                     type={'targets'}
+//                     selectedType={selectedTargets}
+//                   />
+//                 )}
+//               </StrengthsAndTargetsPart>
+//             ))}
+//           </StrengthsAndTargetsContainerBody>
+//         </StrengthsAndTargetsContainer>
+//       </MarkRubricContainer>
+//     </>
+//   );
+// }
+
+export default StrengthsTargetsLists;

@@ -1026,7 +1026,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     markingCriteriaRequest,
     QuestionIndex
   ) {
-    console.log('markingCriteriaFeedback.id:', markingCriteriaFeedback);
+    console.log('markingCriteriaFeedback.id:', markingCriteriaRequest);
 
     let submitedMarkingCriteria = markingCriteriaFeedback?.find(
       (markingCriteria) =>
@@ -1034,31 +1034,52 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     );
     if (submitedMarkingCriteria?.id) {
       console.log('Update', submitedMarkingCriteria?.id);
-      updateFeedback(submission.id, submitedMarkingCriteria.id, {
-        questionSerialNumber: question.serialNumber,
-        feedback: 'Marking Criteria Feedback',
-        range: { from: 0, to: 0 },
-        type: 'MARKING_CRITERIA',
-        replies: [],
-        markingCriteria: markingCriteriaRequest,
-        sharedWithStudents: [],
-      })
+      updateFeedback(submission.id, submitedMarkingCriteria.id, markingCriteriaRequest)
         .then((response) => {
-          console.log('response', response);
+          console.log('Update response', response);
+          setMarkingCriteriaFeedback((prev) => {
+            const existingIndex = prev.findIndex(
+              (markingCriteria) =>
+                markingCriteria.questionSerialNumber === question.serialNumber
+            );
+
+            if (existingIndex !== -1) {
+              return prev.map((item, index) =>
+                index === existingIndex ? { ...item, ...response } : item
+              );
+            } else {
+              return [
+                ...prev,
+                { ...response, questionSerialNumber: question.serialNumber },
+              ];
+            }
+          });
         })
         .catch((error) => {
           console.error('Error in updateFeedback:', error);
         });
+    } else {
+      return addFeedback(submission.id, markingCriteriaRequest).then((response) => {
+        console.log('response', response);
+        setMarkingCriteriaFeedback((prev) => {
+          const existingIndex = prev.findIndex(
+            (markingCriteria) =>
+              markingCriteria.questionSerialNumber === question.serialNumber
+          );
+
+          if (existingIndex !== -1) {
+            return prev.map((item, index) =>
+              index === existingIndex ? { ...item, ...response } : item
+            );
+          } else {
+            return [
+              ...prev,
+              { ...response, questionSerialNumber: question.serialNumber },
+            ];
+          }
+        });
+      });
     }
-    return addFeedback(submission.id, {
-      questionSerialNumber: question.serialNumber,
-      feedback: 'Marking Criteria Feedback',
-      range: { from: 0, to: 0 },
-      type: 'MARKING_CRITERIA',
-      replies: [],
-      markingCriteria: markingCriteriaRequest,
-      sharedWithStudents: [],
-    });
   }
 
   function handleRequestResubmission() {
@@ -1434,22 +1455,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   function handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria) {
-    const updatedSubmission = {
-      ...submission,
-      assignment: {
-        ...submission.assignment,
-        questions: submission.assignment.questions.map((question, index) => {
-          if (index === QuestionIndex) {
-            return {
-              ...question,
-              markingCriteria: markingCriteria,
-            };
-          }
-          return question;
-        }),
-      },
-    };
-    setSubmission(updatedSubmission);
+    
     const currentQuestion = submission.assignment.questions[QuestionIndex];
 
     submitMarkingCriteriaFeedback(
@@ -1637,10 +1643,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           confirmButtonAction={saveDraftPage}
         />
       )}
-      <Header
-        breadcrumbs={[submission.assignment.title, submission.status]}
-        
-      />
+      <Header breadcrumbs={[submission.assignment.title, submission.status]} />
 
       <FeedbackTeacherLaptop
         {...{

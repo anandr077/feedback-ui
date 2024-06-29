@@ -234,13 +234,14 @@ export const MarkRubricsContainer = styled.div`
     display: none;
   }
 `;
-export const MarkRubricContainer = styled.div`
+export const StrengthsTargetsGroupContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 8px;
   width: 99%;
+  background: #ffffff;
 `;
-export const MarkRubricTitleContainer = styled.div`
+export const StrengthTargetsTitleContainer = styled.div`
   display: flex;
   width: 25% !important;
   flex-direction: column;

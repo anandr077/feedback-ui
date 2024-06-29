@@ -187,7 +187,9 @@ export const MarkingCriteriaMainHeadingContainer = styled.div`
 `;
 
 export const MarkingCriteriaSection = styled.div`
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `;
 
 export const MarkingCriteriaMainHeading = styled.p`

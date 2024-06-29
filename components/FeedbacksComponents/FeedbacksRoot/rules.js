@@ -99,6 +99,7 @@ export const isShowOverallFeedbackHeadline = (
 };
 
 export const isMarkingCriteriaTypeRubric = (type) => {
+  console.log("Type: ", type)
   return type === 'RUBRICS';
 };
 
@@ -197,16 +198,13 @@ export const allCriteriaHaveSelectedLevels = (criterias) => {
 };
 
 export const isShowGreenTick = (
-  markingCriteria,
-  selectedTargets,
-  selectedStrengths,
-  isSubmitted
+  markingCriteriaFeedback,
 ) => {
+  let markingCriteria = markingCriteriaFeedback?.markingCriteria;
   return (
-    isSubmitted ||
     (isMarkingCriteriaTypeRubric(markingCriteria?.type)
       ? allCriteriaHaveSelectedLevels(markingCriteria?.criterias)
-      : !isNullOrEmpty(selectedTargets) || !isNullOrEmpty(selectedStrengths))
+      : !isNullOrEmpty(markingCriteria?.selectedTargets) || !isNullOrEmpty(markingCriteria?.selectedStrengths))
   );
 };
 

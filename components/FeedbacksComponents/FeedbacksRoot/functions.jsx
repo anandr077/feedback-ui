@@ -109,3 +109,13 @@ export function getReviewerPortfolioPageMode(user, submission) {
     return 'REVIEW';
   return 'CLOSED';
 }
+
+export const findMarkingCriteria = (
+  markingCriteriaFeedback,
+  QuestionIndex
+) => {
+  return markingCriteriaFeedback?.find(
+    (markingCriteria) =>
+      markingCriteria?.questionSerialNumber === QuestionIndex + 1
+  );
+};

@@ -189,7 +189,9 @@ export const MarkingCriteriaMainHeadingContainer = styled.div`
 `;
 
 export const MarkingCriteriaSection = styled.div`
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `;
 
 export const MarkingCriteriaMainHeading = styled.p`
@@ -236,13 +238,14 @@ export const MarkRubricsContainer = styled.div`
     display: none;
   }
 `;
-export const MarkRubricContainer = styled.div`
+export const StrengthsTargetsGroupContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 8px;
   width: 99%;
+  background: #ffffff;
 `;
-export const MarkRubricTitleContainer = styled.div`
+export const StrengthTargetsTitleContainer = styled.div`
   display: flex;
   width: 25% !important;
   flex-direction: column;

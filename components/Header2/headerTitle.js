@@ -17,21 +17,9 @@ import { getFirstFourWords } from '../../utils/strings';
 const role = getUserRole();
 const localClasses = getLocalClasses();
 const isExpert = isTeacherWithoutClass(role, localClasses);
-const homeTitle = isExpert ? 'Give Feedback' : 'Classwork';
-
-export const headerTitleSub = [
-  {
-    link: '/markingTemplates/rubrics/new',
-    title: 'New Marking Template',
-  },
-  {
-    link: '/markingTemplates/strengths-and-targets/new',
-    title: 'New Marking Template',
-  },
-];
+const homeTitle = isExpert ? 'Feedback From Me' : 'Classwork';
 
 function HeaderTitle({ breadcrumbs }) {
-  console.log('breadcrumbs', breadcrumbs);
   const headerTitleArray = [
     {
       link: '/tasks/new',
@@ -70,7 +58,7 @@ function HeaderTitle({ breadcrumbs }) {
     },
     {
       link: '/feedbackHistory',
-      title: 'Feedback History',
+      title: !isTeacher(role) ? 'Feedback From Me' : 'Feedback History',
       teacherTooltip: '',
       studentTooltip:
         'This is a record of the feedback that you have provided to other students in the past',
@@ -79,11 +67,19 @@ function HeaderTitle({ breadcrumbs }) {
       link: '/documentsReview',
       title:
         breadcrumbs && breadcrumbs[1] === 'FEEDBACK_ACCEPTED'
+          ? isTeacher(role)
+            ? 'Feedback From Me'
+            : 'Help a Friend'
+          : !isTeacher(role)
           ? 'Feedback From Me'
           : 'Feedback History',
       teacherTooltip: '',
       studentTooltip:
         'This is a record of the feedback that you have provided to other students in the past',
+      homeLink:
+        breadcrumbs && breadcrumbs[1] === 'FEEDBACK_ACCEPTED'
+          ? '/giveFeedback'
+          : '/feedbackHistory',
     },
     {
       link: '/completed',
@@ -100,18 +96,21 @@ function HeaderTitle({ breadcrumbs }) {
       title: role === 'TEACHER' ? 'Classwork' : 'Tasks',
       teacherTooltip: '',
       studentTooltip: 'View all of the tasks that you have marked as complete',
+      homeLink: '/',
     },
     {
       link: '/markingTemplates/strengths-and-targets',
       title: 'Marking Templates',
       teacherTooltip:
         'A library of customisable marking templates that can be used for any new task',
+      homeLink: '/settings',
     },
     {
       link: '/markingTemplates/rubrics',
       title: 'Marking Templates',
       teacherTooltip: '',
       studentTooltip: 'View all of the tasks that you have marked as complete',
+      homeLink: '/settings',
     },
     {
       link: '/commentbanks',
@@ -142,9 +141,6 @@ function HeaderTitle({ breadcrumbs }) {
   const pageHeader = headerTitleArray.find((item) =>
     currentPathname.startsWith(item.link)
   );
-  const pageHeaderSub = headerTitleSub.find((item) =>
-    new RegExp(`${item.link}`).test(location.pathname)
-  );
 
   const pageMainHeader = headerMainTitle.find((item) =>
     currentPathname.startsWith(item.link)
@@ -153,7 +149,7 @@ function HeaderTitle({ breadcrumbs }) {
   return (
     <TitleConatiner>
       <TitleMain
-        darkBackground={!pageHeader.title}
+        darkBackground={!(pageHeader.title || pageMainHeader?.documentName)}
         to={pageMainHeader?.homeLink}
       >
         {pageMainHeader && pageMainHeader.title}
@@ -161,13 +157,14 @@ function HeaderTitle({ breadcrumbs }) {
       {pageHeader.title && <ArrowRightImg src={arrowRightMini} />}
       <Title>
         {pageHeader && (
-          <Title style={{ color: pageHeaderSub && '#7b7382' }}>
+          <TitleMain
+            darkBackground={!pageHeader.homeLink}
+            to={pageHeader?.homeLink}
+          >
             {pageHeader.title}
-          </Title>
+          </TitleMain>
         )}
 
-        {pageHeaderSub && <ArrowRightImg src={arrowRightMini} />}
-        {pageHeaderSub && pageHeaderSub.title}
         {pageMainHeader?.documentName && breadcrumbs && (
           <ArrowRightImg src={arrowRightMini} />
         )}

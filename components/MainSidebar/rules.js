@@ -1,4 +1,4 @@
-export const isTeacherWithClass = (role, localClasses) =>{
+export const isClassItems = (role, localClasses) =>{
     return role === 'TEACHER' && localClasses
   }
   
@@ -13,3 +13,8 @@ export const isTeacherWithClass = (role, localClasses) =>{
   export const isNonSchoolStudent = (role, localClasses) =>{
     return role === 'STUDENT' && localClasses == null
   }
+
+  export const checkIsActive = (location, paths) => {
+    const cleanPath = location.pathname.split('?')[0].split('#')[0];
+    return paths.some(path => cleanPath === path || cleanPath.startsWith(`${path}/`));
+  };

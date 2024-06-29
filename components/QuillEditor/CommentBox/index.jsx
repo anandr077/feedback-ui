@@ -51,7 +51,6 @@ const CommentBox = ({
   methods,
   comments,
   editor,
-  editorRef,
   selectedComment,
   selectedRange,
   newCommentFrameRef,
@@ -59,13 +58,14 @@ const CommentBox = ({
   floatingBoxTopPosition,
   question,
   isFeedback,
+  commentHeightRefs,
+  commentBoxContainerHeight
 }) => {
   const { showNewComment, newCommentSerialNumber, isTeacher } =
     useContext(FeedbackContext);
   const [openCommentBox, setOpenCommentbox] = useState(false);
   const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
   const role = getUserRole();
-  const commentRepositionRef = useRef(null);
   const resizeObserver = useRef(null);
 
   let commentBankIds = submission.assignment.questions
@@ -115,9 +115,6 @@ const CommentBox = ({
     };
   }, [selectedComment]);
 
-  const totalHeightAllComments = visibleComments.reduce((acc, cur) => {
-    return acc + (cur.height || 0);
-  }, 0);
 
   const onShareWithClassClick = () =>{
     methods.handleShareWithClass();
@@ -159,14 +156,14 @@ const CommentBox = ({
             )}
         </MainSideContainer>
       ) : (
-        <MainSideContainer style={{ height: `${totalHeightAllComments}px` }}>
+        <MainSideContainer style={{ height: `${commentBoxContainerHeight}px` }}>
           <div
             style={{
               height: '100%',
               position: 'relative',
               overflow: 'hidden',
             }}
-            ref={commentRepositionRef}
+            ref={commentHeightRefs}
           >
             {groupedCommentsWithGap.map((comment, index) => {
               return (

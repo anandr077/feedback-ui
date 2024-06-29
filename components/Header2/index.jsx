@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   useHistory,
-  useLocation, 
+  useLocation,
 } from 'react-router-dom/cjs/react-router-dom.min';
 import { getLocalClasses, getNotifications } from '../../service.js';
-import { getUserName, getUserRole } from '../../userLocalDetails.js';
+import { getCookie, getUserName, getUserRole } from '../../userLocalDetails.js';
 import {
   MainContainer,
   LeftSide,
@@ -21,6 +21,7 @@ import {
   TitleMain,
   ArrowRightImg,
   TitleConatiner,
+  DocumentName,
 } from './HeaderStyle';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/24questionbordered.svg';
@@ -32,14 +33,15 @@ import RoundedBorderLeftIconBtn from '../../components2/Buttons/RoundedBorderLef
 import { useQuery } from '@tanstack/react-query';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar/index.jsx';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown/index.jsx';
-import { headerTitle, headerTitleSub } from './headerTitle.js';
+import HeaderTitle from './HeaderTitle.js';
 import { Avatar } from '@boringer-avatars/react';
 import { headerMainTitle } from './headerMainTitle.js';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 import { isTeacher, isTeacherWithClass } from './rules.js';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
+import { getFirstFourWords } from '../../utils/strings.js';
 
-const Header = () => {
+const Header = ({ breadcrumbs }) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [slideNotificationBar, setSlideNotificationBar] = useState(false);
   const [isHelpBarOpen, setIsHelpBarOpen] = useState(false);
@@ -133,16 +135,6 @@ const Header = () => {
     return () => observer.disconnect();
   }, []);
 
-  const pageHeader = headerTitle.find((item) =>
-    new RegExp(`${item.link}`).test(location.pathname)
-  );
-  const pageHeaderSub = headerTitleSub.find((item) =>
-    new RegExp(`${item.link}`).test(location.pathname)
-  );
-  const pageMainHeader = headerMainTitle.find((item) =>
-    new RegExp(`${item.link}`).test(location.pathname)
-  );
-
   return (
     <div
       ref={notificationBarRef}
@@ -156,33 +148,7 @@ const Header = () => {
     >
       <MainContainer>
         <LeftSide>
-          <TitleConatiner>
-            <TitleMain
-              darkBackground={!pageHeader.title}
-              to={pageMainHeader.homeLink}
-            >
-              {pageMainHeader && pageMainHeader.title}
-            </TitleMain>
-            {pageHeader.title && <ArrowRightImg src={arrowRightMini} />}
-            <Title>
-              <Title style={{ color: pageHeaderSub && '#7b7382' }}>
-                {pageHeader && pageHeader.title}
-              </Title>
-
-              {pageHeaderSub && <ArrowRightImg src={arrowRightMini} />}
-              {pageHeaderSub && pageHeaderSub.title}
-              <QuestionTooltip
-                img={questionMark}
-                text={
-                  pageHeader && role === 'TEACHER'
-                    ? pageHeader.teacherTooltip
-                    : role === 'STUDENT'
-                    ? pageHeader?.studentTooltip
-                    : ''
-                }
-              />
-            </Title>
-          </TitleConatiner>
+          <HeaderTitle breadcrumbs={breadcrumbs} />
         </LeftSide>
         <RightSide>
           {isTeacherWithClass(role, localClasses) && (

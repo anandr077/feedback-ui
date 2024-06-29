@@ -6,7 +6,6 @@ import {
   HeadingTitle,
   HeaderRightSection,
   CloseBtn,
-  HideArrow,
   HeadingDropdown,
   Text,
   RubricContainer,
@@ -48,7 +47,6 @@ import {
 } from './style';
 import CloseIcon from '../../../static/img/close.svg';
 import QuestionIcon from '../../../static/img/question-mark.svg';
-import ArrowDownIcon from '../../../static/img/gray-arrow-down.svg';
 import Microphone from '../../../static/img/Microphone.svg';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import AudioRecorder from '../../AudioRecorder';
@@ -79,6 +77,7 @@ import { isNullOrEmpty } from '../../../utils/arrays';
 import { isStringNull } from '../../../utils/strings';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
+import ToggleArrow from './ToggleArrow';
 
 const CriteriaAndOverallFeedback = ({
   handleClick,
@@ -220,9 +219,7 @@ const CriteriaAndOverallFeedback = ({
     if (isMarkingCriteriaTypeRubric(markingCriteria?.type)) {
       if (!allCriteriaHaveSelectedLevels(markingCriteria?.criterias)) {
         toast(
-          <Toast
-            message={'Please ensure all criteria have a selected level'}
-          />
+          <Toast message={'Please ensure all criteria have a selected level'} />
         );
         return;
       }
@@ -332,7 +329,11 @@ const CriteriaAndOverallFeedback = ({
               <GreenTickComponent
                 ShowGreen={!isStringNull(overallComment?.comment)}
               />
-              <HideArrow src={ArrowDownIcon} onClick={()=> showOverAllFeedback(overallFeedbackRef)}/>
+
+              <ToggleArrow
+                refProp={overallFeedbackRef}
+                toggleSection={showOverAllFeedback}
+              />
             </HeaderRightSection>
           </>
 
@@ -369,7 +370,11 @@ const CriteriaAndOverallFeedback = ({
                       isSubmitted
                     )}
                   />
-                  <HideArrow src={ArrowDownIcon} onClick={()=> showOverAllFeedback(markingCriteriaSectionRef)}/>
+
+                  <ToggleArrow
+                    refProp={markingCriteriaSectionRef}
+                    toggleSection={showOverAllFeedback}
+                  />
                 </HeaderRightSection>
               </Heading>
               <MarkingCriteriaSection ref={markingCriteriaSectionRef}>
@@ -410,18 +415,18 @@ const CriteriaAndOverallFeedback = ({
                     </RubricButton>
                   </MarkingCriteriaHeadingContainer>
                 </MarkingCriteriaContainer>
-              {isAllowGiveMarkingCriteriaFeedback(pageMode) &&
-                isShowGreenTick(
-                  markingCriteria,
-                  selectedTargets,
-                  selectedStrengths,
-                  isSubmitted
-                ) && (
-                  <GreenTickText
-                    margin={true}
-                    text="Marking Criteria complete"
-                  />
-                )}
+                {isAllowGiveMarkingCriteriaFeedback(pageMode) &&
+                  isShowGreenTick(
+                    markingCriteria,
+                    selectedTargets,
+                    selectedStrengths,
+                    isSubmitted
+                  ) && (
+                    <GreenTickText
+                      margin={true}
+                      text="Marking Criteria complete"
+                    />
+                  )}
               </MarkingCriteriaSection>
             </>
           )}

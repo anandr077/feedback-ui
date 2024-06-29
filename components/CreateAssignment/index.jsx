@@ -46,6 +46,7 @@ import CommentBankDialog from '../Shared/Dialogs/commentBank';
 import { getUserId } from '../../userLocalDetails';
 import { toast } from 'react-toastify';
 import Toast from '../Toast';
+import Header from '../Header2';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -141,6 +142,7 @@ export default function CreateAssignment(props) {
         let userCommentBanks = commentBanks._embedded.commentbanks.filter(
           (commentBank) => commentBank.ownerId === UserId
         );
+        console.log('assignmentResult', assignmentResult);
         setAssignment((prevState) => ({
           ...prevState,
           ...assignmentResult,
@@ -783,7 +785,7 @@ export default function CreateAssignment(props) {
           confirmButtonAction={publish}
         />
       )}
-
+      <Header breadcrumbs={[assignment?.title]} />
       <CreateAAssignmentLaptop
         {...{
           ...methods,

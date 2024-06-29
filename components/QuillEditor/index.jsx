@@ -41,6 +41,7 @@ const QuillEditor = React.forwardRef(
   ) => {
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
+    const commentHeightRefs = useRef(null);
     const [editor, setEditor] = useState(null);
     const [selection, setSelection] = useState(null);
     const {
@@ -282,6 +283,22 @@ const QuillEditor = React.forwardRef(
 
       floatingBoxTopPosition = boundsIs.top;
     }
+
+
+    const calculateTotalCommentHeight = () => {
+      if (commentHeightRefs.current) {
+        const children = commentHeightRefs.current.children;
+        let calculatedHeight = 0;
+        for (let i = 0; i < children.length; i++) {
+          calculatedHeight += children[i].offsetHeight;
+        }
+        return calculatedHeight + editorRef?.current.offsetHeight;
+      }
+      return 0;
+    };
+   
+    const totalCommentHeight = calculateTotalCommentHeight()
+
     return (
       <div className="quill-editor-container" style={{ position: 'relative' }}>
         <div
@@ -294,6 +311,7 @@ const QuillEditor = React.forwardRef(
             style={{
               top: floatingBoxTopPosition,
               width: '280px',
+              height: `${totalCommentHeight}px`,
             }}
           >
             <div className="modalHeading">
@@ -323,13 +341,14 @@ const QuillEditor = React.forwardRef(
             methods={methods}
             comments={comments.filter((comment) => !comment.isHidden)}
             editor={editor}
-            editorRef={editorRef}
             selectedComment={selectedComment}
             selectedRange={selectedRange}
             newCommentFrameRef={newCommentFrameRef}
             share={share}
             floatingBoxTopPosition={floatingBoxTopPosition}
             isFeedback={isFeedback}
+            commentHeightRefs={commentHeightRefs}
+            commentBoxContainerHeight={totalCommentHeight}
           />
         )}
       </div>

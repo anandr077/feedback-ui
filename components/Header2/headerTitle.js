@@ -1,112 +1,189 @@
 import { getLocalClasses } from '../../service';
-import { getUserRole } from '../../userLocalDetails';
-import { isTeacherWithoutClass } from './rules';
-
+import { getCookie, getUserRole } from '../../userLocalDetails';
+import {
+  ArrowRightImg,
+  DocumentName,
+  Title,
+  TitleConatiner,
+  TitleMain,
+} from './HeaderStyle';
+import { isTeacher, isTeacherWithoutClass } from './rules';
+import React from 'react';
+import arrowRightMini from '../../static/img/arrowRightMini.svg';
+import QuestionTooltip from '../../components2/QuestionTooltip';
+import questionMark from '../../static/img/24questionbordered.svg';
+import { headerMainTitle } from './headerMainTitle';
+import { getFirstFourWords } from '../../utils/strings';
 const role = getUserRole();
 const localClasses = getLocalClasses();
 const isExpert = isTeacherWithoutClass(role, localClasses);
-const homeTitle = isExpert ? 'Give Feedback' : 'Classwork';
+const homeTitle = isExpert ? 'Feedback From Me' : 'Classwork';
 
-export const headerTitle = [
-  {
-    link: '/tasks/new',
-    title: 'Create task',
-    teacherTooltip: 'Follow the steps provided to design the perfect task for your classes'
-  },
-  {
-    link: '/tasks',
-    title: role === 'TEACHER' ? 'Classwork' : 'Tasks',
-    teacherTooltip:
-      'View the status of every task that you have assigned for your classes',
-    studentTooltip: 'View all of your current tasks from school',
-  },
-  {
-    link: '/giveFeedback',
-    title: 'Give Feedback',
-    teacherTooltip: 'Provide personalized feedback',
-    studentTooltip:
-      'Help other students who have requested feedback from the community',
-  },
-  {
-    link: '/sharedresponses',
-    title: 'Model Responses',
-    teacherTooltip: '',
-    studentTooltip:
-      'All your tasks assigned to you, tasks you are doing, and tasks you have submitted for review',
-  },
-  {
-    link: '/settings',
-    title: ' Marking Templates',
-    teacherTooltip: 'A library of customisable marking templates that can be used for any new task',
-    studentTooltip:
-      'All your tasks assigned to you, tasks you are doing, and tasks you have submitted for review',
-  },
-  {
-    link: '/feedbackHistory',
-    title: 'Feedback History',
-    teacherTooltip: '',
-    studentTooltip:
-      'This is a record of the feedback that you have provided to other students in the past',
-  },
-  {
-    link: '/documentsReview',
-    title: 'Feedback History',
-    teacherTooltip: '',
-    studentTooltip:
-      'This is a record of the feedback that you have provided to other students in the past',
-  },
-  {
-    link: '/completed',
-    title: 'Completed Tasks',
-    teacherTooltip: '',
-    studentTooltip: 'View all of the tasks that you have marked as complete',
-  },
-  {
-    link: '/classes',
-    teacherTooltip: 'View detailed analytics for each class and student',
-  },
-  {
-    link: '/submissions',
-    teacherTooltip: '',
-    studentTooltip: 'View all of the tasks that you have marked as complete',
-  },
-  {
-    link: '/markingTemplates/strengths-and-targets',
-    title: 'Marking Templates',
-    teacherTooltip: 'A library of customisable marking templates that can be used for any new task',
-  },
-  {
-    link: '/markingTemplates/rubrics',
-    title: 'Marking Templates',
-    teacherTooltip: '',
-    studentTooltip: 'View all of the tasks that you have marked as complete',
-  },
-  {
-    link: '/commentbanks',
-    title: 'Comment Banks',
-    teacherTooltip: "A customisable bank of comments to provide faster feedback when making a student's work",
-  },
-  {
-    link: '/documents/',
-    teacherTooltip: '',
-    studentTooltip: '',
-  },
-  {
-    link: '/',
-    title: role === 'TEACHER' ? homeTitle : 'Tasks',
-    teacherTooltip:
-      'View the status of every task that you have assigned for your classes',
-    studentTooltip: 'View all of your current tasks from school',
-  },
-];
+function HeaderTitle({ breadcrumbs }) {
+  const headerTitleArray = [
+    {
+      link: '/tasks/new',
+      title: 'Create task',
+      teacherTooltip:
+        'Follow the steps provided to design the perfect task for your classes',
+    },
+    {
+      link: '/tasks',
+      title: role === 'TEACHER' ? 'Classwork' : 'Tasks',
+      teacherTooltip:
+        'View the status of every task that you have assigned for your classes',
+      studentTooltip: 'View all of your current tasks from school',
+    },
+    {
+      link: '/giveFeedback',
+      title: isTeacher(role) ? 'Feedback From Me' : 'Help a Friend',
+      teacherTooltip: 'Provide personalized feedback',
+      studentTooltip:
+        'Help other students who have requested feedback from the community',
+    },
+    {
+      link: '/sharedresponses',
+      title: 'Model Responses',
+      teacherTooltip: '',
+      studentTooltip:
+        'All your tasks assigned to you, tasks you are doing, and tasks you have submitted for review',
+    },
+    {
+      link: '/settings',
+      title: ' Marking Templates',
+      teacherTooltip:
+        'A library of customisable marking templates that can be used for any new task',
+      studentTooltip:
+        'All your tasks assigned to you, tasks you are doing, and tasks you have submitted for review',
+    },
+    {
+      link: '/feedbackHistory',
+      title: !isTeacher(role) ? 'Feedback From Me' : 'Feedback History',
+      teacherTooltip: '',
+      studentTooltip:
+        'This is a record of the feedback that you have provided to other students in the past',
+    },
+    {
+      link: '/documentsReview',
+      title:
+        breadcrumbs && breadcrumbs[1] === 'FEEDBACK_ACCEPTED'
+          ? isTeacher(role)
+            ? 'Feedback From Me'
+            : 'Help a Friend'
+          : !isTeacher(role)
+          ? 'Feedback From Me'
+          : 'Feedback History',
+      teacherTooltip: '',
+      studentTooltip:
+        'This is a record of the feedback that you have provided to other students in the past',
+      homeLink:
+        breadcrumbs && breadcrumbs[1] === 'FEEDBACK_ACCEPTED'
+          ? '/giveFeedback'
+          : '/feedbackHistory',
+    },
+    {
+      link: '/completed',
+      title: 'Completed Tasks',
+      teacherTooltip: '',
+      studentTooltip: 'View all of the tasks that you have marked as complete',
+    },
+    {
+      link: '/classes',
+      teacherTooltip: 'View detailed analytics for each class and student',
+    },
+    {
+      link: '/submissions',
+      title: role === 'TEACHER' ? 'Classwork' : 'Tasks',
+      teacherTooltip: '',
+      studentTooltip: 'View all of the tasks that you have marked as complete',
+      homeLink: '/',
+    },
+    {
+      link: '/markingTemplates/strengths-and-targets',
+      title: 'Marking Templates',
+      teacherTooltip:
+        'A library of customisable marking templates that can be used for any new task',
+      homeLink: '/settings',
+    },
+    {
+      link: '/markingTemplates/rubrics',
+      title: 'Marking Templates',
+      teacherTooltip: '',
+      studentTooltip: 'View all of the tasks that you have marked as complete',
+      homeLink: '/settings',
+    },
+    {
+      link: '/commentbanks',
+      title: 'Comment Banks',
+      teacherTooltip:
+        "A customisable bank of comments to provide faster feedback when making a student's work",
+    },
+    {
+      link: '/documents/',
+      teacherTooltip: '',
+      studentTooltip: '',
+    },
+    {
+      link: '/',
+      title: role === 'TEACHER' ? homeTitle : 'Tasks',
+      teacherTooltip:
+        'View the status of every task that you have assigned for your classes',
+      studentTooltip: 'View all of your current tasks from school',
+    },
+  ];
 
-export const headerTitleSub = [
-  {
-    link: '/markingTemplates/rubrics/new',
-    title: 'New Marking Template',
-  },
-  {
-    link: '/markingTemplates/strengths-and-targets/new',
-    title: 'New Marking Template',
-  },
-];
+  const currentUrl = new URL(location.href, window.location.origin);
+
+  const currentPathname = currentUrl.hash
+    ? currentUrl.hash.substring(1)
+    : currentUrl.pathname;
+
+  const pageHeader = headerTitleArray.find((item) =>
+    currentPathname.startsWith(item.link)
+  );
+
+  const pageMainHeader = headerMainTitle.find((item) =>
+    currentPathname.startsWith(item.link)
+  );
+
+  return (
+    <TitleConatiner>
+      <TitleMain
+        darkBackground={!(pageHeader.title || pageMainHeader?.documentName)}
+        to={pageMainHeader?.homeLink}
+      >
+        {pageMainHeader && pageMainHeader.title}
+      </TitleMain>
+      {pageHeader.title && <ArrowRightImg src={arrowRightMini} />}
+      <Title>
+        {pageHeader && (
+          <TitleMain
+            darkBackground={!pageHeader.homeLink}
+            to={pageHeader?.homeLink}
+          >
+            {pageHeader.title}
+          </TitleMain>
+        )}
+
+        {pageMainHeader?.documentName && breadcrumbs && (
+          <ArrowRightImg src={arrowRightMini} />
+        )}
+        {pageMainHeader?.documentName && breadcrumbs && (
+          <DocumentName>{getFirstFourWords(breadcrumbs[0])}</DocumentName>
+        )}
+        <QuestionTooltip
+          img={questionMark}
+          text={
+            pageHeader && role === 'TEACHER'
+              ? pageHeader.teacherTooltip
+              : role === 'STUDENT'
+              ? pageHeader?.studentTooltip
+              : ''
+          }
+        />
+      </Title>
+    </TitleConatiner>
+  );
+}
+
+export default HeaderTitle;

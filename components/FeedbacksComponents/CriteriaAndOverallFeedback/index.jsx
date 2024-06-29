@@ -61,7 +61,6 @@ const CriteriaAndOverallFeedback = ({
 }) => {
   const { overallComments, comments, markingCriteriaFeedback } =
     useContext(FeedbackContext);
-  const [overallComment, setOverallComment] = useState({});
   const [markingCriteriaFromSubmission, setMarkingCriteriaFromSubmission] = useState();
   const userId = getUserId();
   const [isShowMarkingCrteriaPopUp, setShowMarkingCrteriaPopUp] =
@@ -69,7 +68,9 @@ const CriteriaAndOverallFeedback = ({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const overallFeedbackRef = useRef(null);
   const markingCriteriaSectionRef = useRef(null);
-  
+  const overallComment = (
+    overallComments.length != 0 ? overallComments : null
+  )?.find((comment) => comment?.questionSerialNumber === QuestionIndex + 1);
   
   const showOverAllFeedback = (ref) => {
     const container = ref.current;
@@ -82,10 +83,6 @@ const CriteriaAndOverallFeedback = ({
 
   useEffect(() => {
     setIsSubmitted(false);
-    const commentObject = (
-      overallComments.length != 0 ? overallComments : null
-    )?.find((comment) => comment?.questionSerialNumber === QuestionIndex + 1);
-    setOverallComment(commentObject);
 
     const markingCriteriaFromSubmission =
       {
@@ -112,7 +109,7 @@ const CriteriaAndOverallFeedback = ({
         console.log("submitedMarkingCriteria", submitedMarkingCriteria)
       }
     }
-  }, [overallComments, QuestionIndex, comments, submission]);
+  }, [ QuestionIndex, comments, submission]);
 
   const handleRubricsChange = (criteriaSerialNumber, selectedLevel) => {
     console.log('markingCriteria is', markingCriteriaFromSubmission);
@@ -215,68 +212,6 @@ const CriteriaAndOverallFeedback = ({
   };
 
 
-  const handleStrengthndTargetChange2 = (strengthsAndTargets, index, type) => {
-    console.log("strengthsAndTargets", strengthsAndTargets, index, type)
-    const seletedItem = strengthsAndTargets[type][index];
-    var selectedStrengths = []
-    var selectedTargets = []
-    if (type === 'strengths') {
-      const selectedStrengthNew = {
-        id: selectedStrengths.length + 1,
-        attribute: seletedItem,
-        criteria: strengthsAndTargets.title,
-      };
-      if (
-        selectedStrengths.find(
-          (stre) => stre.attribute === selectedStrengthNew.attribute
-        )
-      ) {
-        selectedStrengths = [
-          ...selectedStrengths.filter(
-            (selectedStrength) =>
-              selectedStrength.attribute != selectedStrengthNew.attribute
-          ),
-        ];
-      } else {
-        selectedStrengths = [...selectedStrengths, selectedStrengthNew];
-      }
-    }
-    if (type === 'targets') {
-      let selectedTargetNew = {
-        id: selectedTargets.length + 1,
-        attribute: seletedItem,
-        criteria: strengthsAndTargets.title,
-      };
-
-      if (
-        selectedTargets.find(
-          (target) => target.attribute === selectedTargetNew.attribute
-        )
-      ) {
-        selectedTargets = [
-          ...selectedTargets.filter(
-            (selectedTarget) =>
-              selectedTarget.attribute != selectedTargetNew.attribute
-          ),
-        ];
-      } else {
-        selectedTargets = [...selectedTargets, selectedTargetNew];
-      }
-    }
-
-    console.log("selectedStrengths", selectedStrengths)
-    setMarkingCriteriaFromSubmission(
-      (prevMarkingCriteria) => ({
-        ...prevMarkingCriteria,
-        markingCriteria: {
-          ...prevMarkingCriteria.markingCriteria,
-          selectedStrengths: selectedStrengths,
-          selectedTargets: selectedTargets
-        } 
-      }
-    ))
-
-  };
 
   const saveMarkingCrieria = () => {
     if (isMarkingCriteriaTypeRubric(markingCriteriaFromSubmission?.markingCriteria?.type)) {

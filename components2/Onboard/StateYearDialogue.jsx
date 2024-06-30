@@ -19,6 +19,8 @@ import {
 import { profileStateYear } from '../../service';
 import StyledDropDown from '../StyledDropDown';
 import countriesData from './countries.json';
+import { toast } from 'react-toastify';
+import Toast from '../../components/Toast';
 
 const yearOptions = [
   { title: '12' },
@@ -79,7 +81,7 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
         Cookies.set('year', year);
         onClose();
         if (editStateYear) {
-          toast(<Toast message={'Setting successfully updated'} />);
+          toast(<Toast message={'Year and location successfully updated'} />);
         }
       });
     }

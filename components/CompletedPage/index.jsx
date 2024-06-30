@@ -81,20 +81,25 @@ export default function CompletedPage() {
   });
 
   const completedTaskFunc = (filteredTasks) =>{
-    const newCompletedTask = filteredTasks.map(task => {
+    const newCompletedTask = filteredTasks.flatMap(task => {
       const classesCookies = getLocalClasses();
       const teacherClasses = isTeacher && JSON.parse(classesCookies)
       console.log('the teacherClasses', teacherClasses)
-      const matchingClass = teacherClasses.find(teacherClass =>
-        task.classId.some(id => id === teacherClass.id)
-      );
-      return{
-        classTitle: matchingClass ? matchingClass.title : '',
+      console.log('the task', task)
+      const titles = task.classIds.map(id => {
+        const cls = teacherClasses.find(cls => cls.id === id);
+        return cls ? cls.title : null;
+      });
+      // const matchingClass = teacherClasses.find(teacherClass =>
+      //   task.classId.some(id => id === teacherClass.id)
+      // );
+      return titles.map(title => ({
+        classTitle: title,
         id: task.id,
         link: task.link,
         title: task.title,
         completedAt: task.dueAt
-      }
+      }));
     })
     return newCompletedTask
   }
@@ -108,12 +113,13 @@ export default function CompletedPage() {
       })
       const completedTask = completedTaskFunc(filteredTasks)
       setTasks(completedTask);
+      setFilteredTasks(completedTask);
     }
-    if (completedTasksQuery.data) {
+    else if (completedTasksQuery.data) {
       setTasks(completedTasksQuery.data);
       setFilteredTasks(completedTasksQuery.data);
     }
-  }, [assignmentsQuery.data, completedTasksQuery.data, isTeacher]);
+  }, [assignmentsQuery.data, completedTasksQuery.data]);
 
   console.log('the student task', tasks)
 

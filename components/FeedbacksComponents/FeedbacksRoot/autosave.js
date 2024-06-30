@@ -34,6 +34,5 @@ const handleDebounce = (comments, setComments, submission, setSubmission, answer
   }).then((updatedSubmission) => {
     setSubmission(updatedSubmission);
     setComments(updatedSubmission.comments?.filter((c) => c.type !== 'MARKING_CRITERIA'));
-    // return updateCommentsRange(submission, comments, setComments)(answer, highlights);
   });
 };

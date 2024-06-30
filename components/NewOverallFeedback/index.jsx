@@ -111,7 +111,7 @@ const NewOverallFeedback = ({
 
   useEffect(() => {
     const lineHeight = 24; 
-    const lines = inputRef.current.scrollHeight / lineHeight;
+    const lines = inputRef?.current?.scrollHeight / lineHeight;
     
     if (lines > 4) {
       setIsTruncated(true);

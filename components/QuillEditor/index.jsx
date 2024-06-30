@@ -81,15 +81,6 @@ const QuillEditor = React.forwardRef(
         const calculatedLineHeight = editorFontSize * 0.25;
         editor.root.style.lineHeight = `${calculatedLineHeight}px`;
       }
-
-      if (editor) {
-        editor.on('text-change', () => {
-          const text = editor.getText();
-          const wordCount =
-            text.trim().length > 0 ? text.trim().split(/\s+/).length : 0;
-          setCountWords(wordCount);
-        });
-      }
     }, [editor, editorRef, options, value, editorFontSize]);
     console.log('Render QuillEditor');
     useEffect(() => {
@@ -137,6 +128,10 @@ const QuillEditor = React.forwardRef(
           var html = converter.convert();
 
           onDebounce(html, getHighlights(editor));
+          const text = editor.getText();
+          const wordCount =
+            text.trim().length > 0 ? text.trim().split(/\s+/).length : 0;
+          setCountWords(wordCount);
         };
 
         if (debounceTime > 0) {
@@ -409,9 +404,6 @@ function removeAllHighlights(editor) {
   });
 }
 
-function addNewHighlight(editor, comment) {
-  getHighlights(editor);
-}
 
 function getHighlights(editor) {
   const quillContainer = editor.container;
@@ -419,7 +411,7 @@ function getHighlights(editor) {
   let highlightsWithComments = {};
 
   // Get all highlight elements in the Quill container
-  const highlightElements = quillContainer.querySelectorAll('.quill-highlight');
+  const highlightElements = quillContainer.querySelectorAll('span.quill-highlight');
 
   highlightElements.forEach((element) => {
     // Assuming the comment IDs are stored as a comma-separated string
@@ -427,6 +419,7 @@ function getHighlights(editor) {
     const content = element.textContent;
     const index = editor.getIndex(Quill.find(element));
     const length = content.length;
+    console.log('element ' , content, index, length)
 
     // Process each comment ID associated with the highlight
     commentIds.forEach((commentId) => {
@@ -455,7 +448,7 @@ function getHighlights(editor) {
     },
     {}
   );
-
+  console.log('formattedHighlights', formattedHighlights)
   return formattedHighlights;
 }
 
@@ -463,7 +456,7 @@ function getHighlights2(editor) {
   const quillContainer = editor.container;
   let highlightsByRange = {};
   // Get all highlight elements in the Quill container
-  const highlightElements = quillContainer.querySelectorAll('.quill-highlight');
+  const highlightElements = quillContainer.querySelectorAll('span.quill-highlight');
 
   highlightElements.forEach((element) => {
     const commentIds = element.getAttribute('data-comment-ids').split(',');
@@ -471,6 +464,7 @@ function getHighlights2(editor) {
       .getAttribute('data-comment-colours')
       .split(',');
     const index = editor.getIndex(Quill.find(element));
+    console.log('highlightElements index', index)
     const length = element.textContent.length;
     const rangeKey = `${index}-${index + length}`;
 

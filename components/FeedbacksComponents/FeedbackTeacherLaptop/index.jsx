@@ -15,6 +15,7 @@ import Loader from '../../Loader';
 import { answersFrame } from '../AnswersFrame';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
+import {Footer} from './Footer';
 import './FeedbackTeacherLaptop.css';
 import { contextBar, contextBarForPortfolioDocument } from './contextBar';
 import FeedbackFrame from './feedbackFrame';
@@ -321,23 +322,7 @@ function FeedbackTeacherLaptop(props) {
             )}
           </Frame1388>
         </>
-        <CountZoomContainer open={openLeftPanel} mobileView={isMobile}>
-          <div>
-            {countWords} {countWords === 1 ? 'word' : 'words'}
-          </div>
-          <ZoomContianer>
-            Zoom
-            <ZoomInput
-              name="zoom"
-              type="range"
-              min="50"
-              max="150"
-              value={editorFontSize}
-              onChange={(e) => setEditorFontSize(e.target.value)}
-            />
-            {editorFontSize}%
-          </ZoomContianer>
-        </CountZoomContainer>
+        <Footer   openLeftPanel={openLeftPanel} isMobile={isMobile} countWords={countWords} editorFontSize={editorFontSize} setEditorFontSize={setEditorFontSize}  />
       </PageContainer>
 
       {handleFeedbackMethodTypeDialog(
@@ -415,7 +400,7 @@ const selectTabComments = (
   groupedFocusAreaIds
 ) => {
   if (isFocusAreas) {
-    return comments.map((comment) => {
+    return comments?.map((comment) => {
       if (comment.type !== 'FOCUS_AREA') {
         return { ...comment, isHidden: true };
       }
@@ -435,7 +420,7 @@ const selectTabComments = (
       return { ...comment, isHidden: false };
     });
   }
-  return comments.map((comment) => {
+  return comments?.map((comment) => {
     if (comment.type === 'FOCUS_AREA' || comment.status === 'RESOLVED') {
       return { ...comment, isHidden: true };
     }
@@ -624,24 +609,7 @@ function answersAndFeedbacks(
             openLeftPanel
           )}
 
-          {/* {!isMobile && (
-            <FeedbackFrame
-              methods={methods}
-              submission={submission}
-              commentsForSelectedTab={commentsForSelectedTab}
-              setShowResolved={setShowResolved}
-              isShowResolved={isShowResolved}
-              setFeedback={setFeedback}
-              isFeedback={isFeedback}
-              isFocusAreas={isFocusAreas}
-              setFocusAreas={setFocusAreas}
-              isTeacher={isTeacher}
-              comments={comments}
-              pageMode={pageMode}
-              newCommentFrameRef={newCommentFrameRef}
-              share={share}
-            ></FeedbackFrame>
-          )} */}
+         
         </Frame1368>
         <>
           <FeedbackRightSideSlidingTabs

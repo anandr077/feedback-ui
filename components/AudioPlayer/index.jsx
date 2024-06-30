@@ -6,13 +6,7 @@ const AudioPlayer = ({ generatedAudioFeedback }) => {
 
   return (
     <AudioContainer>
-      <Audio controls>
-        <source
-          src={audioUrl}
-          controls
-          controlsList="nodownload"
-          type="audio/webm"
-        />
+      <Audio src={audioUrl} controls type="audio/webm">
         Your browser does not support the audio element.
       </Audio>
     </AudioContainer>

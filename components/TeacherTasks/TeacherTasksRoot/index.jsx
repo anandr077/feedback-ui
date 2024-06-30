@@ -176,7 +176,7 @@ export default function TeacherTaskRoot() {
   const classNames = classes.map((classItem) => classItem.title);
 
   const drafts = filteredData(filteredTasks)
-    .filter((assignment) => assignment.submissionsStatus === 'DRAFT')
+    .filter((assignment) => assignment.status === 'DRAFT')
     .filter(
       (assignment) =>
         !selectedClass || assignment?.tags[0]?.name === selectedClass
@@ -184,9 +184,13 @@ export default function TeacherTaskRoot() {
 
   const awaitingSubmissions = filteredData(filteredTasks)
     .filter((assignment) => {
+      const dueAtDate = new Date(assignment.dueAt); 
+      const currentDate = new Date();
+
       return (
-        assignment.submissionsStatus === 'AWAITING_SUBMISSIONS' ||
-        assignment.submissionStatus === 'FEEDBACK_ACCEPTED'
+        assignment.status === "PUBLISHED" && 
+        assignment.submissionCount === 0 &&
+        dueAtDate >= currentDate
       );
     })
     .filter(
@@ -195,7 +199,16 @@ export default function TeacherTaskRoot() {
     );
 
   const feedbacks = filteredData(filteredTasks)
-    .filter((assignment) => assignment.submissionsStatus === 'FEEDBACK')
+    .filter((assignment) => {
+      const dueAtDate = new Date(assignment.dueAt); 
+      const currentDate = new Date();
+
+      return (
+        assignment.status === "PUBLISHED" && 
+        assignment.submissionCount > 0 &&
+        dueAtDate >= currentDate
+      )
+    })
     .filter(
       (assignment) =>
         !selectedClass || assignment?.tags[0]?.name === selectedClass

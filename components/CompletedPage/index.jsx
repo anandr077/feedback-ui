@@ -51,7 +51,7 @@ import { getUserRole } from '../../userLocalDetails.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 
 export default function CompletedPage() {
-  const [studentTasks, setStudentTasks] = React.useState([]);
+  const [tasks, setTasks] = React.useState([]);
   const [teacherTask, setTeacherTask] = useState([])
   const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
@@ -69,6 +69,8 @@ export default function CompletedPage() {
     staleTime: 3600000,
   });
 
+  console.log('the task assignmentsQuery', assignmentsQuery.data)
+
   const completedTasksQuery = useQuery({
     queryKey: ['completedTasks'],
     queryFn: async () => {
@@ -78,20 +80,42 @@ export default function CompletedPage() {
     staleTime: 3600000,
   });
 
+  const completedTaskFunc = (filteredTasks) =>{
+    const newCompletedTask = filteredTasks.map(task => {
+      const classesCookies = getLocalClasses();
+      const teacherClasses = isTeacher && JSON.parse(classesCookies)
+      console.log('the teacherClasses', teacherClasses)
+      const matchingClass = teacherClasses.find(teacherClass =>
+        task.classId.some(id => id === teacherClass.id)
+      );
+      return{
+        classTitle: matchingClass ? matchingClass.title : '',
+        id: task.id,
+        link: task.link,
+        title: task.title,
+        completedAt: task.dueAt
+      }
+    })
+    return newCompletedTask
+  }
+
   React.useEffect(() => {
-    if (assignmentsQuery.data) {
-      const completedTasks = assignmentsQuery.data.filter(task => {
+    if (isTeacher && assignmentsQuery.data) {
+      const filteredTasks = assignmentsQuery.data.filter(task => {
         const dueAtDate = new Date(task.dueAt); 
         const currentDate = new Date();
         return task.status === "PUBLISHED" && dueAtDate < currentDate
       })
-      setTeacherTask(completedTasks);
+      const completedTask = completedTaskFunc(filteredTasks)
+      setTasks(completedTask);
     }
     if (completedTasksQuery.data) {
-      setStudentTasks(completedTasksQuery.data);
+      setTasks(completedTasksQuery.data);
       setFilteredTasks(completedTasksQuery.data);
     }
-  }, [assignmentsQuery.data, completedTasksQuery.data]);
+  }, [assignmentsQuery.data, completedTasksQuery.data, isTeacher]);
+
+  console.log('the student task', tasks)
 
   if (assignmentsQuery.isLoading) {
     return <Loader />;
@@ -107,24 +131,7 @@ export default function CompletedPage() {
     }
   };
 
-  const classesCookies = getLocalClasses();
-  const teacherClasses = isTeacher && JSON.parse(classesCookies).map(classItem => classItem.title);
-
-  const filterTeacherData = (tasks) => {
-    const filteredTasks = tasks?.filter(
-      (task) => !selectedClass || task.tags?.some(tag => tag.name === selectedClass)
-    );
-
-    const sortedTasks = filteredTasks.sort((a, b) => {
-      const dateA = new Date(a.dueAt).getTime();
-      const dateB = new Date(b.dueAt).getTime();
-      return sortData ? dateB - dateA : dateA - dateB;
-    });
-
-    return sortedTasks;
-  };
-
-  const filterStudentData = (tasks) => {
+  const filterData = (tasks) => {
     const filteredTasks = tasks.filter(
       (task) => !selectedClass || task.classTitle === selectedClass
     );
@@ -165,7 +172,7 @@ export default function CompletedPage() {
                     search={false}
                     type={'classes'}
                     selectedIndex={setSelectedValue}
-                    menuItems={isTeacher ? teacherClasses : arrayFromArrayOfObject(studentTasks, 'classTitle')}
+                    menuItems={arrayFromArrayOfObject(tasks, 'classTitle')}
                     defaultValue={selectedClass}
                     width={110}
                   />
@@ -206,7 +213,7 @@ export default function CompletedPage() {
           <LeftContentContainer>
             <TaskHistoryDataComponent
               downloadPDF={downloadPDF}
-              list={isTeacher ? filterTeacherData(teacherTask) : filterStudentData(studentTasks)}
+              list={filterData(tasks)}
             />
           </LeftContentContainer>
         </InnerContainer>

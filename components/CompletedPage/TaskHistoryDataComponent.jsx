@@ -19,11 +19,9 @@ import {
 import DownloadLight from '../../static/img/download16purple.svg';
 import { dateOnly } from '../../dates';
 import { Tooltip } from '@mui/material';
-import { getUserRole } from '../../userLocalDetails';
 
 function TaskHistoryDataComponent({ list, downloadPDF }) {
   const [clickHighLightRow, setClickHighlightRow] = useState(null);
-  const isTeacher = getUserRole() === 'TEACHER';
 
   const handleClick = (index) => {
     setClickHighlightRow(index);
@@ -58,21 +56,8 @@ function TaskHistoryDataComponent({ list, downloadPDF }) {
               onDoubleClick={() => handleDoubleClick(task.link)}
             >
               <td>{task.title}</td>
-              {isTeacher ? (
-                <td>
-                  {task.classIds.map((cls, idx) => {
-                    return (
-                      <span key={idx}>
-                        {'Class' + cls}
-                        {idx < task.classIds.length - 1 && ', '}
-                      </span>
-                    );
-                  })}
-                </td>
-              ) : (
-                <td>{task.classTitle}</td>
-              )}
-              <td>{dateOnly(task.dueAt)}</td>
+              <td>{task.classTitle}</td>
+              <td>{dateOnly(task.completedAt)}</td>
               <td>
                 <div style={{ display: 'flex' }}>
                   <TaskIconContainer onClick={() => downloadPDF(task.id)}>

@@ -7,6 +7,7 @@ import {
   CheckedContainerLable,
   OverallFeedbackSection,
   TextFeedback,
+  ShowMoreButton,
 } from './style';
 import { base64ToBlob, blobToBase64 } from '../../utils/blobs';
 import AudioRecorder from '../AudioRecorder';
@@ -37,6 +38,8 @@ const NewOverallFeedback = ({
   const [audioComment, setAudioComment] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
   const inputRef = useRef();
 
   useEffect(() => {
@@ -105,6 +108,22 @@ const NewOverallFeedback = ({
       );
     });
   };
+
+  useEffect(() => {
+    const lineHeight = 24; 
+    const lines = inputRef.current.scrollHeight / lineHeight;
+    
+    if (lines > 4) {
+      setIsTruncated(true);
+    }else{
+      setIsTruncated(false);
+    }
+  }, [overallComment, serialNumber]);
+
+  const toggleText = () => {
+    setIsExpanded(!isExpanded);
+  };
+  
   if (pageMode === 'DRAFT') return <></>;
   if (pageMode === 'CLOSED' || pageMode === 'REVISE') {
     return (
@@ -126,14 +145,24 @@ const NewOverallFeedback = ({
           reviewer,
           userId
         ) ? (
+          <>
           <TextFeedback
             ref={inputRef}
             readOnly={true}
             read={true}
             style={{
               height: `auto`,
+              maxHeight: isExpanded ? 'none' : '96px', 
+              overflow: 'hidden',
+              whiteSpace: 'pre-wrap',
             }}
           />
+           {isTruncated && (
+            <ShowMoreButton onClick={toggleText}>
+              {isExpanded ? 'Show less' : 'Show more'}
+            </ShowMoreButton>
+          )}
+          </>
         ) : null}
         {isShowClosedReviewAudioComment(
           pageMode,

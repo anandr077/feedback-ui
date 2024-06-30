@@ -16,16 +16,7 @@ import {
   Table,
 } from './style';
 
-import Download from '../../static/img/Down.svg';
-import DeleteLight from '../../static/img/binLight.svg';
 import DownloadLight from '../../static/img/download16purple.svg';
-import OpenLight from '../../static/img/16purplearrowupright.svg';
-import CompletedIcon from '../../static/img/grayarrowupdown20.svg';
-import PreviewLight from '../../static/img/previewLight.svg';
-import PreviewColor from '../../static/img/previewColor.svg';
-import OpenColor from '../../static/img/openColor.svg';
-import BinRed from '../../static/img/binRed.svg';
-import clock from '../../static/img/clock.svg';
 import { dateOnly } from '../../dates';
 import { Tooltip } from '@mui/material';
 
@@ -47,9 +38,7 @@ function TaskHistoryDataComponent({ list, downloadPDF }) {
           <tr>
             <th class="first-column">Task Name</th>
             <th class="second-column">Class</th>
-            <th className="completed-heading">
-              Completed on <img src={CompletedIcon} />
-            </th>
+            <th className="completed-heading">Completed on</th>
             <th></th>
           </tr>
         </thead>
@@ -59,7 +48,9 @@ function TaskHistoryDataComponent({ list, downloadPDF }) {
               key={index}
               style={{
                 backgroundColor:
-                clickHighLightRow === index ? 'rgba(242, 241, 243, 0.5)' : 'transparent',
+                  clickHighLightRow === index
+                    ? 'rgba(242, 241, 243, 0.5)'
+                    : 'transparent',
               }}
               onClick={() => handleClick(index)}
               onDoubleClick={() => handleDoubleClick(task.link)}
@@ -69,15 +60,6 @@ function TaskHistoryDataComponent({ list, downloadPDF }) {
               <td>{dateOnly(task.completedAt)}</td>
               <td>
                 <div style={{ display: 'flex' }}>
-                  {/* <TaskIconContainer>
-                    <Tooltip
-                      title={'Open'}
-                      placement={'top'}
-                      onClick={() => redirectFunction(task.link)}
-                    >
-                      <DownloadIcon src={OpenLight} />
-                    </Tooltip>
-                  </TaskIconContainer> */}
                   <TaskIconContainer onClick={() => downloadPDF(task.id)}>
                     <Tooltip
                       title={'Download'}

@@ -657,7 +657,7 @@ export const Table = styled.table`
   }
 
   .second-column {
-    width: 10%;
+    width: 20%;
   }
 
   .icon-row {

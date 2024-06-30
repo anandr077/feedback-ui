@@ -100,6 +100,7 @@ const SelectReviewType = ({
           ClosePopUp={ClosePopUp}
           heading={'classmate'}
           onClickFn={(id) => requestFeedback(submission.id, 'FRIEND')(id)}
+          tooltipText={'Ask a classmate to give feedback on your work'}
         />
       )}
       {showTeacherPopUp && (
@@ -108,6 +109,7 @@ const SelectReviewType = ({
           ClosePopUp={ClosePopUp}
           heading={'teacher'}
           onClickFn={(id) => requestFeedback(submission.id, 'TEACHER')(id)}
+          tooltipText={'Ask a teacher to give feedback on your work'}
         />
       )}
       {!showStudentPopUp && !showTeacherPopUp && (

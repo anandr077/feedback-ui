@@ -1,5 +1,5 @@
-import React from 'react';
-import { getCompletedTasks } from '../../service.js';
+import React, {useState} from 'react';
+import { getAssignments, getCompletedTasks, getLocalClasses } from '../../service.js';
 import CompletedRoot from '../Completed/CompletedRoot';
 import { groupBy, groupedData } from 'lodash';
 import { dateOnly } from '../../dates.js';
@@ -33,10 +33,6 @@ import {
   CompletedPageContainer,
 } from './style.js';
 
-import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
-import arrowLeft from '../../static/img/arrowleft.svg';
-import questionMark from '../../static/img/question-mark.svg';
-import LinkButton from '../../components2/LinkButton/index.jsx';
 import TaskHistoryDataComponent from './TaskHistoryDataComponent.jsx';
 import { useQuery } from '@tanstack/react-query';
 import SortSquare from '../../static/img/sort-square.svg';
@@ -48,23 +44,32 @@ import {
   Frame5086Img,
   Frame5086Text,
 } from '../GiveFeedback/style.js';
-import { arrayFromArrayOfObject } from '../../utils/arrays.js';
-import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
-import SecondSidebar from '../SecondSidebar/index.js';
 import { isTabletView } from '../ReactiveRender/index.jsx';
-import ClickOutsideHandler from '../ClickOutsideHandler/index.jsx';
 import MenuButton from '../MenuButton/index.jsx';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
+import { getUserRole } from '../../userLocalDetails.js';
+import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [teacherTask, setTeacherTask] = useState([])
   const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
-  const [classes, setClasses] = React.useState([]);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [isShowMenu, setShowMenu] = React.useState(false);
   const tabletView = isTabletView();
+  const isTeacher = getUserRole() === 'TEACHER';
+
+  const assignmentsQuery = useQuery({
+    queryKey: ['assignments'],
+    queryFn: async () => {
+      const result = await getAssignments();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
+  console.log('the task assignmentsQuery', assignmentsQuery.data)
 
   const completedTasksQuery = useQuery({
     queryKey: ['completedTasks'],
@@ -75,41 +80,53 @@ export default function CompletedPage() {
     staleTime: 3600000,
   });
 
+  const completedTaskFunc = (filteredTasks) =>{
+    const newCompletedTask = filteredTasks.flatMap(task => {
+      const classesCookies = getLocalClasses();
+      const teacherClasses = isTeacher && JSON.parse(classesCookies)
+      console.log('the teacherClasses', teacherClasses)
+      console.log('the task', task)
+      const titles = task.classIds.map(id => {
+        const clazz = teacherClasses.find(cls => cls.id === id);
+        return clazz ? clazz.title : null;
+      });
+      return titles.map(title => ({
+        classTitle: title,
+        id: task.id,
+        link: task.link,
+        title: task.title,
+        completedAt: task.dueAt
+      }));
+    })
+    return newCompletedTask
+  }
+
   React.useEffect(() => {
-    if (completedTasksQuery.data) {
+    if (isTeacher && assignmentsQuery.data) {
+      const filteredTasks = assignmentsQuery.data.filter(task => {
+        const dueAtDate = new Date(task.dueAt); 
+        const currentDate = new Date();
+        return task.status === "PUBLISHED" && dueAtDate < currentDate
+      })
+      const completedTask = completedTaskFunc(filteredTasks)
+      setTasks(completedTask);
+      setFilteredTasks(completedTask);
+    }
+    else if (completedTasksQuery.data) {
       setTasks(completedTasksQuery.data);
       setFilteredTasks(completedTasksQuery.data);
     }
-  }, [completedTasksQuery.data]);
+  }, [assignmentsQuery.data, completedTasksQuery.data]);
 
-  if (completedTasksQuery.isLoading) {
+  console.log('the student task', tasks)
+
+  if (assignmentsQuery.isLoading) {
     return <Loader />;
   }
-  const groups = groupBy(filteredTasks, (task) => dateOnly(task.completedAt));
-  const menuItems = [
-    {
-      name: 'TYPES',
-      title: 'Types',
-      items: [
-        { value: 'ASSIGNMENT', label: 'Tasks', category: 'TYPES' },
-        { value: 'REVIEW', label: 'Reviews', category: 'TYPES' },
-      ],
-    },
-  ];
 
-  const filterTasks = (selectedItems) => {
-    const groupedData = _.groupBy(selectedItems, 'category');
-    let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
-
-    if (typesValues.length === 0) {
-      typesValues = ['REVIEW', 'ASSIGNMENT'];
-    }
-    const filteredTasks = _.filter(tasks, (task) =>
-      _.includes(typesValues, task.type)
-    );
-
-    setFilteredTasks(filteredTasks);
-  };
+  if(completedTasksQuery.isLoading){
+    return <Loader />;
+  }
 
   const setSelectedValue = (type, selectValue) => {
     if (type === 'classes') {
@@ -117,7 +134,7 @@ export default function CompletedPage() {
     }
   };
 
-  const filteredData = (tasks) => {
+  const filterData = (tasks) => {
     const filteredTasks = tasks.filter(
       (task) => !selectedClass || task.classTitle === selectedClass
     );
@@ -134,6 +151,7 @@ export default function CompletedPage() {
   const downloadPDF = (Id) => {
     downloadSubmissionPdf(Id);
   };
+
 
   return (
     <CompletedPageContainer>
@@ -198,7 +216,7 @@ export default function CompletedPage() {
           <LeftContentContainer>
             <TaskHistoryDataComponent
               downloadPDF={downloadPDF}
-              list={filteredData(tasks)}
+              list={filterData(tasks)}
             />
           </LeftContentContainer>
         </InnerContainer>

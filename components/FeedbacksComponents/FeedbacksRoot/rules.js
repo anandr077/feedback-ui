@@ -1,4 +1,5 @@
 import { isNullOrEmpty } from '../../../utils/arrays';
+import { findMarkingCriteria } from './functions';
 
 export const isShowCommentInstructions = (
   pageMode,
@@ -106,7 +107,14 @@ export const isMarkingCriteriaTypeRubric = (type) => {
 export const isShowTaskDetailsButton = (submissionType) => {
   return submissionType !== 'DOCUMENT';
 };
-
+export const isShowMarkingCriteriaSection = (markingCriteria) => {
+  console.log('markingCriteria', markingCriteria);
+  return (
+    markingCriteria !== undefined &&
+    (markingCriteria.criterias !== undefined ||
+      markingCriteria.strengthsTargetsCriterias !== undefined)
+  );
+};
 export const isShowMarkingCriteriaButton = (
   isTeacher,
   submissionType,
@@ -115,11 +123,21 @@ export const isShowMarkingCriteriaButton = (
   QuestionIndex,
   markingCriteriaFeedback
 ) => {
-  const areCommentsAndFeedbackEmpty =
-    !overallComments[QuestionIndex]?.audio &&
-    !overallComments[QuestionIndex]?.video &&
-    markingCriteriaFeedback?.length === 0;
+  
+  const currentMarkingCriteria = findMarkingCriteria(
+    markingCriteriaFeedback,
+    QuestionIndex
+  );
+  const overallComment = (
+    overallComments.length != 0 ? overallComments : null
+  )?.find((comment) => comment?.questionSerialNumber === QuestionIndex + 1);
 
+  
+  const areCommentsAndFeedbackEmpty =
+    !overallComment?.audio &&
+    !overallComment?.comment &&
+    !isShowMarkingCriteriaSection(currentMarkingCriteria);
+  console.log('areCommentsAndFeedbackEmpty', areCommentsAndFeedbackEmpty);
   if (
     (submissionStatus === 'REVIEWED' || submissionStatus === 'CLOSED') &&
     areCommentsAndFeedbackEmpty
@@ -146,12 +164,6 @@ export const isShowOverAllTextFeedback = (pageMode, overallComment) => {
 
 export const isShowClosedReviewOverallTextInputBox = (pageMode) => {
   return pageMode === 'REVIEW';
-};
-
-export const isShowMarkingCriteriaSection = (
-  markingCriteriaFeedback
-) => {
-  return markingCriteriaFeedback !== undefined;
 };
 
 export const isShowClosedReviewOverallComment = (

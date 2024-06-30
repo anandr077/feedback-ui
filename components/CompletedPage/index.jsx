@@ -87,12 +87,9 @@ export default function CompletedPage() {
       console.log('the teacherClasses', teacherClasses)
       console.log('the task', task)
       const titles = task.classIds.map(id => {
-        const cls = teacherClasses.find(cls => cls.id === id);
-        return cls ? cls.title : null;
+        const clazz = teacherClasses.find(cls => cls.id === id);
+        return clazz ? clazz.title : null;
       });
-      // const matchingClass = teacherClasses.find(teacherClass =>
-      //   task.classId.some(id => id === teacherClass.id)
-      // );
       return titles.map(title => ({
         classTitle: title,
         id: task.id,

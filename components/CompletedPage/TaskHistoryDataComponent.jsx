@@ -63,7 +63,7 @@ function TaskHistoryDataComponent({ list, downloadPDF }) {
                   {task.classIds.map((cls, idx) => {
                     return (
                       <span key={idx}>
-                        {'class' + cls}
+                        {'Class' + cls}
                         {idx < task.classIds.length - 1 && ', '}
                       </span>
                     );

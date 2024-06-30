@@ -1,5 +1,5 @@
-import React from 'react';
-import { getCompletedTasks } from '../../service.js';
+import React, {useState} from 'react';
+import { getAssignments, getCompletedTasks } from '../../service.js';
 import CompletedRoot from '../Completed/CompletedRoot';
 import { groupBy, groupedData } from 'lodash';
 import { dateOnly } from '../../dates.js';
@@ -33,10 +33,6 @@ import {
   CompletedPageContainer,
 } from './style.js';
 
-import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
-import arrowLeft from '../../static/img/arrowleft.svg';
-import questionMark from '../../static/img/question-mark.svg';
-import LinkButton from '../../components2/LinkButton/index.jsx';
 import TaskHistoryDataComponent from './TaskHistoryDataComponent.jsx';
 import { useQuery } from '@tanstack/react-query';
 import SortSquare from '../../static/img/sort-square.svg';
@@ -48,23 +44,30 @@ import {
   Frame5086Img,
   Frame5086Text,
 } from '../GiveFeedback/style.js';
-import { arrayFromArrayOfObject } from '../../utils/arrays.js';
-import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
-import SecondSidebar from '../SecondSidebar/index.js';
 import { isTabletView } from '../ReactiveRender/index.jsx';
-import ClickOutsideHandler from '../ClickOutsideHandler/index.jsx';
 import MenuButton from '../MenuButton/index.jsx';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
+import { getUserRole } from '../../userLocalDetails.js';
+import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 
 export default function CompletedPage() {
-  const [tasks, setTasks] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [studentTasks, setStudentTasks] = React.useState([]);
+  const [teacherTask, setTeacherTask] = useState([])
   const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
-  const [classes, setClasses] = React.useState([]);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [isShowMenu, setShowMenu] = React.useState(false);
   const tabletView = isTabletView();
+  const isTeacher = getUserRole() === 'TEACHER';
+
+  const assignmentsQuery = useQuery({
+    queryKey: ['assignments'],
+    queryFn: async () => {
+      const result = await getAssignments();
+      return result;
+    },
+    staleTime: 3600000,
+  });
 
   const completedTasksQuery = useQuery({
     queryKey: ['completedTasks'],
@@ -76,48 +79,51 @@ export default function CompletedPage() {
   });
 
   React.useEffect(() => {
+    if (assignmentsQuery.data) {
+      const completedTasks = assignmentsQuery.data.filter(task => {
+        const dueAtDate = new Date(task.dueAt); 
+        const currentDate = new Date();
+        return task.status === "PUBLISHED" && dueAtDate < currentDate
+      })
+      setTeacherTask(completedTasks);
+    }
     if (completedTasksQuery.data) {
-      setTasks(completedTasksQuery.data);
+      setStudentTasks(completedTasksQuery.data);
       setFilteredTasks(completedTasksQuery.data);
     }
-  }, [completedTasksQuery.data]);
+  }, [assignmentsQuery.data, completedTasksQuery.data]);
 
-  if (completedTasksQuery.isLoading) {
+  if (assignmentsQuery.isLoading) {
     return <Loader />;
   }
-  const groups = groupBy(filteredTasks, (task) => dateOnly(task.completedAt));
-  const menuItems = [
-    {
-      name: 'TYPES',
-      title: 'Types',
-      items: [
-        { value: 'ASSIGNMENT', label: 'Tasks', category: 'TYPES' },
-        { value: 'REVIEW', label: 'Reviews', category: 'TYPES' },
-      ],
-    },
-  ];
 
-  const filterTasks = (selectedItems) => {
-    const groupedData = _.groupBy(selectedItems, 'category');
-    let typesValues = _.map(_.get(groupedData, 'TYPES'), 'value');
-
-    if (typesValues.length === 0) {
-      typesValues = ['REVIEW', 'ASSIGNMENT'];
-    }
-    const filteredTasks = _.filter(tasks, (task) =>
-      _.includes(typesValues, task.type)
-    );
-
-    setFilteredTasks(filteredTasks);
-  };
+  if(completedTasksQuery.isLoading){
+    return <Loader />;
+  }
 
   const setSelectedValue = (type, selectValue) => {
     if (type === 'classes') {
-      setSelectedClass(selectValue);
+      const classId = isTeacher ? selectValue.slice(5) : selectValue;
+      setSelectedClass(classId);
     }
   };
 
-  const filteredData = (tasks) => {
+
+  const filterTeacherData = (tasks) => {
+    const filteredTasks = tasks?.filter(
+      (task) => !selectedClass || task.classIds.includes(selectedClass)
+    );
+
+    const sortedTasks = filteredTasks.sort((a, b) => {
+      const dateA = new Date(a.dueAt).getTime();
+      const dateB = new Date(b.dueAt).getTime();
+      return sortData ? dateB - dateA : dateA - dateB;
+    });
+
+    return sortedTasks;
+  };
+
+  const filterStudentData = (tasks) => {
     const filteredTasks = tasks.filter(
       (task) => !selectedClass || task.classTitle === selectedClass
     );
@@ -131,9 +137,15 @@ export default function CompletedPage() {
     return sortedTasks;
   };
 
+  
+
   const downloadPDF = (Id) => {
     downloadSubmissionPdf(Id);
   };
+
+  const flattenedArray = teacherTask?.flatMap(task => task.classIds);
+  const uniqueIds = [...new Set(flattenedArray)];
+  const teacherClassIds = uniqueIds.map(id => `class${id}`);
 
   return (
     <CompletedPageContainer>
@@ -157,7 +169,7 @@ export default function CompletedPage() {
                     search={false}
                     type={'classes'}
                     selectedIndex={setSelectedValue}
-                    menuItems={arrayFromArrayOfObject(tasks, 'classTitle')}
+                    menuItems={isTeacher ? teacherClassIds : arrayFromArrayOfObject(studentTasks, 'classTitle')}
                     defaultValue={selectedClass}
                     width={110}
                   />
@@ -198,7 +210,7 @@ export default function CompletedPage() {
           <LeftContentContainer>
             <TaskHistoryDataComponent
               downloadPDF={downloadPDF}
-              list={filteredData(tasks)}
+              list={isTeacher ? filterTeacherData(teacherTask) : filterStudentData(studentTasks)}
             />
           </LeftContentContainer>
         </InnerContainer>

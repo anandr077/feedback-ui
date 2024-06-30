@@ -7,10 +7,10 @@ import { MainContainer, Button, CloseImg } from './style';
 import { useQuery } from '@tanstack/react-query';
 import {
   getCommunityTasks,
-  getCompletedTasks,
   getTasks,
   getAssignments,
   getLocalClasses,
+  getCompletedTasks,
 } from '../../service';
 import settings from '../../static/icons/settings.svg';
 import banks from '../../static/icons/banks.svg';
@@ -29,7 +29,8 @@ import { isTabletView } from '../ReactiveRender';
 const SecondSidebar = ({ id, setShowMenu }) => {
   const [containerHeight, setContainerHeight] = useState(0);
   const [feedbackRequestsLength, setFeedbackRequestsLength] = useState(0);
-  const [completedTaskLength, setCompletedTaskLength] = useState(0);
+  const [studentCompletedTaskLength, setStudentCompletedTaskLength] = useState(0);
+  const [teacherCompletedTaskLength, setTeacherCompletedTaskLength] = useState(0);
   const [allStudentTasks, setAllStudentTasks] = useState(0);
   const [allTeacherTasks, setAllTeacherTasks] = useState(0);
   const location = useLocation();
@@ -80,10 +81,20 @@ const SecondSidebar = ({ id, setShowMenu }) => {
       setAllStudentTasks(tasksQuery.data?.length);
     }
     if (assignmentsQuery.data) {
-      setAllTeacherTasks(assignmentsQuery.data?.length);
+      const completedTasks = assignmentsQuery.data.filter(task => {
+        const dueAtDate = new Date(task.dueAt); 
+        const currentDate = new Date();
+        return task.status === "PUBLISHED" && dueAtDate < currentDate
+      })
+
+      const totalTasks = assignmentsQuery.data.length;
+      const notCompletedTasksLength = totalTasks - completedTasks.length;
+
+      setTeacherCompletedTaskLength(completedTasks.length);
+      setAllTeacherTasks(notCompletedTasksLength);
     }
     if (completedTasksQuery.data) {
-      setCompletedTaskLength(completedTasksQuery.data?.length);
+      setStudentCompletedTaskLength(completedTasksQuery.data?.length);
     }
     if (communityTasksQuery.data) {
       setFeedbackRequestsLength(communityTasksQuery.data?.length);
@@ -139,7 +150,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
     {
       icon: '',
       selectedIcon: '',
-      title: `Completed Tasks (${completedTaskLength})`,
+      title: `Completed Tasks (${role === 'STUDENT' ? studentCompletedTaskLength : teacherCompletedTaskLength})`,
       link: `/completed`,
       matchLink: `/completed`,
     },

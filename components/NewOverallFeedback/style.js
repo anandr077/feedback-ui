@@ -91,3 +91,15 @@ const StyledCheckbox = styled(Checkbox)`
     }
   }
 `;
+
+export const ShowMoreButton = styled.button`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #7200E0;
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+`;

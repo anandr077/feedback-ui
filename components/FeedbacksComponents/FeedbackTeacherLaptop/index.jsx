@@ -609,24 +609,7 @@ function answersAndFeedbacks(
             openLeftPanel
           )}
 
-          {/* {!isMobile && (
-            <FeedbackFrame
-              methods={methods}
-              submission={submission}
-              commentsForSelectedTab={commentsForSelectedTab}
-              setShowResolved={setShowResolved}
-              isShowResolved={isShowResolved}
-              setFeedback={setFeedback}
-              isFeedback={isFeedback}
-              isFocusAreas={isFocusAreas}
-              setFocusAreas={setFocusAreas}
-              isTeacher={isTeacher}
-              comments={comments}
-              pageMode={pageMode}
-              newCommentFrameRef={newCommentFrameRef}
-              share={share}
-            ></FeedbackFrame>
-          )} */}
+         
         </Frame1368>
         <>
           <FeedbackRightSideSlidingTabs

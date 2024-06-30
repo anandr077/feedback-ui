@@ -51,7 +51,7 @@ function TeacherTasksDesktop(props) {
           {tasksSelected ? (
             <Frame1359>
               <Frame1354>
-                <TaskFrame1353 outstanding="Drafts" number={drafts.length} />
+                <TaskFrame1353 outstanding="In-Draft" number={drafts.length} />
                 <TaskCardContainer
                   allTasks={drafts}
                   showDeletePopuphandler={showDeletePopuphandler}
@@ -60,7 +60,7 @@ function TeacherTasksDesktop(props) {
               </Frame1354>
               <Frame1354>
                 <TaskFrame1353
-                  outstanding="Active"
+                  outstanding="Assigned"
                   number={awaitingSubmissions.length}
                 />
                 <TaskCardContainer
@@ -70,7 +70,7 @@ function TeacherTasksDesktop(props) {
                 />
               </Frame1354>
               <Frame1354>
-                <TaskFrame1353 outstanding="Closed" number={feedbacks.length} />
+                <TaskFrame1353 outstanding="In-Review" number={feedbacks.length} />
                 <TaskCardContainer
                   allTasks={feedbacks}
                   showDeletePopuphandler={showDeletePopuphandler}

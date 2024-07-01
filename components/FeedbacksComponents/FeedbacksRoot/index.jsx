@@ -116,7 +116,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false);
-  const [countWords, setCountWords] = useState(0);
   const [pageLeavePopup, setPageLeavePopup] = useState(false);
   const [selectedComment, setSelectedComment] = useState(null);
   const [showFloatingDialogue, setShowFloatingDialogue] = useState(false);
@@ -138,7 +137,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           overAllCommentsResult,
         ]) => {
           setSubmission(submissionsResult);
-          console.log('documentName', submissionsResult);
           const allComments = commentsResult?.map((c) => {
             return { ...c };
           });
@@ -594,9 +592,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return checkedStudentIds;
   };
 
-  console.log('the page mode is', pageMode);
-  console.log('the submission is', submission);
-
   const sharewithclassdialog = (
     <Dialog
       onClose={() => {
@@ -935,7 +930,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
               submitedMarkingCriteria?.markingCriteria?.selectedTargets;
           }
         }
-        console.log('selectedSAndT', selectedSAndT);
         if (
           !selectedSAndT ||
           isNullOrEmpty(selectedSAndT.selectedStrengths) ||
@@ -1008,17 +1002,14 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     markingCriteriaRequest,
     QuestionIndex
   ) {
-    console.log('markingCriteriaFeedback.id:', markingCriteriaRequest);
 
     let submitedMarkingCriteria = markingCriteriaFeedback?.find(
       (markingCriteria) =>
         markingCriteria?.questionSerialNumber === question.serialNumber
     );
     if (submitedMarkingCriteria?.id) {
-      console.log('Update', submitedMarkingCriteria?.id);
       updateFeedback(submission.id, submitedMarkingCriteria.id, markingCriteriaRequest)
         .then((response) => {
-          console.log('Update response', response);
           setMarkingCriteriaFeedback((prev) => {
             const existingIndex = prev.findIndex(
               (markingCriteria) =>
@@ -1042,7 +1033,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         });
     } else {
       return addFeedback(submission.id, markingCriteriaRequest).then((response) => {
-        console.log('response', response);
         setMarkingCriteriaFeedback((prev) => {
           const existingIndex = prev.findIndex(
             (markingCriteria) =>
@@ -1571,8 +1561,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   return (
     <FeedbackContext.Provider
       value={{
-        countWords,
-        setCountWords,
         smartAnnotations,
         showNewComment,
         newCommentSerialNumber,

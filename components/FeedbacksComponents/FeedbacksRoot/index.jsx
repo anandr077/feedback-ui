@@ -1625,7 +1625,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           shortcuts,
           newCommentFrameRef,
           methods,
-          comments,
+          comments: (comments ? comments : []),
           submission,
           setSubmission,
           sharewithclassdialog,

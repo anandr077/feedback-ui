@@ -15,6 +15,7 @@ import Loader from '../../Loader';
 import { answersFrame } from '../AnswersFrame';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
+import {Footer} from './Footer';
 import './FeedbackTeacherLaptop.css';
 import { contextBar, contextBarForPortfolioDocument } from './contextBar';
 import FeedbackFrame from './feedbackFrame';
@@ -110,7 +111,7 @@ function FeedbackTeacherLaptop(props) {
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 219;
-  const { countWords, showNewComment, newCommentSerialNumber } =
+  const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
   const [openRightPanel, SetOpenRightPanel] = React.useState(
     isShowMarkingCriteriaSidebar(overallComments, markingCriteriaFeedback) ? 'tab2' : null
@@ -321,23 +322,14 @@ function FeedbackTeacherLaptop(props) {
             )}
           </Frame1388>
         </>
-        <CountZoomContainer open={openLeftPanel} mobileView={isMobile}>
-          <div>
-            {countWords} {countWords === 1 ? 'word' : 'words'}
-          </div>
-          <ZoomContianer>
-            Zoom
-            <ZoomInput
-              name="zoom"
-              type="range"
-              min="50"
-              max="150"
-              value={editorFontSize}
-              onChange={(e) => setEditorFontSize(e.target.value)}
-            />
-            {editorFontSize}%
-          </ZoomContianer>
-        </CountZoomContainer>
+        <Footer 
+          openLeftPanel={openLeftPanel} 
+          isMobile={isMobile} 
+          editorFontSize={editorFontSize} 
+          setEditorFontSize={setEditorFontSize}
+          answers={submission.answers} 
+          questionIndex={QuestionIndex} 
+        />
       </PageContainer>
 
       {handleFeedbackMethodTypeDialog(
@@ -415,7 +407,7 @@ const selectTabComments = (
   groupedFocusAreaIds
 ) => {
   if (isFocusAreas) {
-    return comments.map((comment) => {
+    return comments?.map((comment) => {
       if (comment.type !== 'FOCUS_AREA') {
         return { ...comment, isHidden: true };
       }
@@ -435,7 +427,7 @@ const selectTabComments = (
       return { ...comment, isHidden: false };
     });
   }
-  return comments.map((comment) => {
+  return comments?.map((comment) => {
     if (comment.type === 'FOCUS_AREA' || comment.status === 'RESOLVED') {
       return { ...comment, isHidden: true };
     }

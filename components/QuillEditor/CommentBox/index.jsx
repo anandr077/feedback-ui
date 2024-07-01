@@ -136,7 +136,7 @@ const CommentBox = ({
             <Option onClick={() => setOpenCommentbox(!openCommentBox)}>
               <img src={CommentIcon} />
             </Option>
-            {isShareWithClass(role) && (
+            {isShareWithClass(role, submission.type) && (
               <Option onClick={onShareWithClassClick}>
                 <img src={ShareIcon} />
               </Option>

@@ -1,6 +1,6 @@
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import { cloneDeep, get, has, set, unset } from 'lodash';
+import _ from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -9,72 +9,67 @@ import { formattedDate } from '../../../dates';
 import GeneralPopup from '../../GeneralPopup';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
 import { FeedbackContext } from './FeedbackContext.js';
-import _ from 'lodash';
 
 import {
   addFeedback,
+  askJeddAI,
   deleteFeedback,
-  getDefaultCriteria,
-  getSubmissionById,
   deleteSubmissionById,
-  getSubmissionsByAssignmentId,
-  getOverComments,
   getClassesWithStudents,
+  getCommentBank,
+  getDefaultCriteria,
+  getOverComments,
+  getSubmissionById,
+  getSubmissionsByAssignmentId,
+  getTeachersForClass,
   markSubmissionRequestSubmission,
   markSubmsissionClosed,
   markSubmissionReviewed as markSubmsissionReviewed,
+  provideFeedbackOnFeedback,
   resolveFeedback,
   submitAssignment,
-  updateFeedback,
-  getTeachersForClass,
-  askJeddAI,
-  provideFeedbackOnFeedback,
-  getFeedbackBanks,
-  getCommentBank,
+  updateFeedback
 } from '../../../service';
 import {
-  getShortcuts,
-  getSmartAnnotations,
-  saveAnswer,
+  getShortcuts
 } from '../../../service.js';
 import {
   getUserId,
   getUserName,
-  getUserRole,
-  setCookie,
+  getUserRole
 } from '../../../userLocalDetails.js';
 import Loader from '../../Loader';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
 import { extractStudents, findMarkingCriteria, getComments, getPageMode } from './functions';
 import {
   ActionButtonsContainer,
-  DialogContiner,
-  StyledTextField,
-  feedbacksFeedbackTeacherLaptopData,
-  ClassContainer,
-  ClassBoxContainer,
   ClassBox,
-  StudentList,
-  ClassTitleBox,
+  ClassBoxContainer,
+  ClassContainer,
   ClassTitle,
+  ClassTitleBox,
+  Crown,
+  DialogContiner,
   Line141,
   ListItem,
-  Crown,
   StudentContainer,
+  StudentList,
+  StyledTextField,
+  feedbacksFeedbackTeacherLaptopData,
 } from './style';
 
-import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import { useQueryClient } from '@tanstack/react-query';
-import CheckboxBordered from '../../CheckboxBordered/index.jsx';
-import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
-import { isNullOrEmpty } from '../../../utils/arrays.js';
+import { toast } from 'react-toastify';
 import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
+import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
+import { isNullOrEmpty } from '../../../utils/arrays.js';
+import CheckboxBordered from '../../CheckboxBordered/index.jsx';
+import Header from '../../Header2/index.jsx';
+import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
+import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
 import { allCriteriaHaveSelectedLevels } from './rules.js';
-import Toast from '../../Toast/index.js';
-import { toast } from 'react-toastify';
-import Header from '../../Header2/index.jsx';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -121,7 +116,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false);
-  const [countWords, setCountWords] = useState(0);
   const [pageLeavePopup, setPageLeavePopup] = useState(false);
   const [selectedComment, setSelectedComment] = useState(null);
   const [showFloatingDialogue, setShowFloatingDialogue] = useState(false);
@@ -143,7 +137,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           overAllCommentsResult,
         ]) => {
           setSubmission(submissionsResult);
-          console.log('documentName', submissionsResult);
           const allComments = commentsResult?.map((c) => {
             return { ...c };
           });
@@ -187,7 +180,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         }
       });
   }, [id]);
-
+  
   const commentBankIds = submission?.assignment?.questions
     .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
     .map((q) => q.commentBankId);
@@ -383,18 +376,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }, {});
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
-  const handleChangeText = (change, allSaved) => {
-    if (document.getElementById('statusLabelIcon')) {
-      if (allSaved) {
-        document.getElementById('statusLabelIcon').style.backgroundImage =
-          'url("/icons/saved.png")';
-      } else {
-        document.getElementById('statusLabelIcon').style.backgroundImage =
-          'url("/icons/saving.png")';
-      }
-      document.getElementById('statusLabelDiv').innerHTML = change;
-    }
-  };
+  
 
   const handleEditingComment = (flag) => {
     setEditingComment(flag);
@@ -609,9 +591,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       .value();
     return checkedStudentIds;
   };
-
-  console.log('the page mode is', pageMode);
-  console.log('the submission is', submission);
 
   const sharewithclassdialog = (
     <Dialog
@@ -951,7 +930,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
               submitedMarkingCriteria?.markingCriteria?.selectedTargets;
           }
         }
-        console.log('selectedSAndT', selectedSAndT);
         if (
           !selectedSAndT ||
           isNullOrEmpty(selectedSAndT.selectedStrengths) ||
@@ -1024,17 +1002,14 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     markingCriteriaRequest,
     QuestionIndex
   ) {
-    console.log('markingCriteriaFeedback.id:', markingCriteriaRequest);
 
     let submitedMarkingCriteria = markingCriteriaFeedback?.find(
       (markingCriteria) =>
         markingCriteria?.questionSerialNumber === question.serialNumber
     );
     if (submitedMarkingCriteria?.id) {
-      console.log('Update', submitedMarkingCriteria?.id);
       updateFeedback(submission.id, submitedMarkingCriteria.id, markingCriteriaRequest)
         .then((response) => {
-          console.log('Update response', response);
           setMarkingCriteriaFeedback((prev) => {
             const existingIndex = prev.findIndex(
               (markingCriteria) =>
@@ -1058,7 +1033,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         });
     } else {
       return addFeedback(submission.id, markingCriteriaRequest).then((response) => {
-        console.log('response', response);
         setMarkingCriteriaFeedback((prev) => {
           const existingIndex = prev.findIndex(
             (markingCriteria) =>
@@ -1154,7 +1128,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setPopupText('');
 
     disableAllEditors();
-    handleChangeText('Saving...', false);
     setShowLoader(true);
     toast(<Toast message={'Submitting task...'} />);
 
@@ -1193,7 +1166,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setPopupText('');
 
     disableAllEditors();
-    handleChangeText('Saving...', false);
     setShowLoader(true);
     toast(<Toast message={'Submitting task...'} />);
     setTimeout(() => {
@@ -1231,14 +1203,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }
 
-  const handlesaveAnswer = (serialNumber) => (contents) => {
-    handleChangeText('Saving...', false);
-    saveAnswer(submission.id, serialNumber, {
-      answer: contents,
-    }).then((_) => {
-      handleChangeText('All changes saved', true);
-    });
-  };
 
   const reviewerSelectionChange =
     (visibleComment, serialNumber) => (selection) => {
@@ -1557,7 +1521,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     comments,
     setComments,
     submissionStatusLabel,
-    handleChangeText,
     handleDeleteComment,
     handleShareWithClass,
     handleAddComment,
@@ -1572,7 +1535,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     handleSaveSubmissionForReview,
     handleSubmissionClosed,
     handleCommentSelected,
-    handlesaveAnswer,
     createTasksDropDown,
     onSelectionChange,
     studentUpdate,
@@ -1599,8 +1561,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   return (
     <FeedbackContext.Provider
       value={{
-        countWords,
-        setCountWords,
         smartAnnotations,
         showNewComment,
         newCommentSerialNumber,
@@ -1653,7 +1613,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           shortcuts,
           newCommentFrameRef,
           methods,
-          comments,
+          comments: (comments ? comments : []),
           submission,
           setSubmission,
           sharewithclassdialog,

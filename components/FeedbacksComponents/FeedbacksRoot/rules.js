@@ -35,8 +35,8 @@ export const isShowCommentBanks = (commentBanks) => {
   return commentBanks.length > 0;
 };
 
-export const isShareWithClass = (role) => {
-  return role !== 'STUDENT';
+export const isShareWithClass = (role, submissionType) => {
+  return role !== 'STUDENT' && submissionType !== 'DOCUMENT';
 };
 
 export const isAllowGiveMarkingCriteriaFeedback = (pageMode) => {
@@ -89,7 +89,6 @@ export const isShowOverallFeedback = (pageMode, overallComment) => {
 };
 
 export const isMarkingCriteriaTypeRubric = (type) => {
-  console.log('Type: ', type);
   return type === 'RUBRICS';
 };
 
@@ -97,7 +96,6 @@ export const isShowTaskDetailsButton = (submissionType) => {
   return submissionType !== 'DOCUMENT';
 };
 export const isShowMarkingCriteriaSection = (markingCriteria) => {
-  console.log('markingCriteria', markingCriteria);
   return (
     markingCriteria !== undefined &&
     (markingCriteria.criterias !== undefined ||
@@ -114,14 +112,12 @@ export const isShowMarkingCriteriaAndOverallFeedbackButton = (
   QuestionIndex,
   markingCriteriaFeedback
 ) => {
-  
   const currentMarkingCriteria = findMarkingCriteria(
     markingCriteriaFeedback,
     QuestionIndex
   );
   const overallComment = getOverallComment(overallComments, QuestionIndex);
- 
-  
+
   if (
     !isShowOverallFeedback(pageMode, overallComment) &&
     !isShowMarkingCriteriaSection(currentMarkingCriteria?.markingCriteria)

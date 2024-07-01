@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { getAssignments, getCompletedTasks } from '../../service.js';
+import { getAssignments, getCompletedTasks, getLocalClasses } from '../../service.js';
 import CompletedRoot from '../Completed/CompletedRoot';
 import { groupBy, groupedData } from 'lodash';
 import { dateOnly } from '../../dates.js';
@@ -51,7 +51,7 @@ import { getUserRole } from '../../userLocalDetails.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 
 export default function CompletedPage() {
-  const [studentTasks, setStudentTasks] = React.useState([]);
+  const [tasks, setTasks] = React.useState([]);
   const [teacherTask, setTeacherTask] = useState([])
   const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
@@ -78,17 +78,38 @@ export default function CompletedPage() {
     staleTime: 3600000,
   });
 
+  const completedTaskFunc = (filteredTasks) =>{
+    const newCompletedTask = filteredTasks.flatMap(task => {
+      const classesCookies = getLocalClasses();
+      const teacherClasses = isTeacher && JSON.parse(classesCookies)
+      const titles = task.classIds.map(id => {
+        const clazz = teacherClasses.find(cls => cls.id === id);
+        return clazz ? clazz.title : null;
+      });
+      return titles.map(title => ({
+        classTitle: title,
+        id: task.id,
+        link: task.link,
+        title: task.title,
+        completedAt: task.dueAt
+      }));
+    })
+    return newCompletedTask
+  }
+
   React.useEffect(() => {
-    if (assignmentsQuery.data) {
-      const completedTasks = assignmentsQuery.data.filter(task => {
+    if (isTeacher && assignmentsQuery.data) {
+      const filteredTasks = assignmentsQuery.data.filter(task => {
         const dueAtDate = new Date(task.dueAt); 
         const currentDate = new Date();
         return task.status === "PUBLISHED" && dueAtDate < currentDate
       })
-      setTeacherTask(completedTasks);
+      const completedTask = completedTaskFunc(filteredTasks)
+      setTasks(completedTask);
+      setFilteredTasks(completedTask);
     }
-    if (completedTasksQuery.data) {
-      setStudentTasks(completedTasksQuery.data);
+    else if (completedTasksQuery.data) {
+      setTasks(completedTasksQuery.data);
       setFilteredTasks(completedTasksQuery.data);
     }
   }, [assignmentsQuery.data, completedTasksQuery.data]);
@@ -103,27 +124,11 @@ export default function CompletedPage() {
 
   const setSelectedValue = (type, selectValue) => {
     if (type === 'classes') {
-      const classId = isTeacher ? selectValue.slice(5) : selectValue;
-      setSelectedClass(classId);
+      setSelectedClass(selectValue);
     }
   };
 
-
-  const filterTeacherData = (tasks) => {
-    const filteredTasks = tasks?.filter(
-      (task) => !selectedClass || task.classIds.includes(selectedClass)
-    );
-
-    const sortedTasks = filteredTasks.sort((a, b) => {
-      const dateA = new Date(a.dueAt).getTime();
-      const dateB = new Date(b.dueAt).getTime();
-      return sortData ? dateB - dateA : dateA - dateB;
-    });
-
-    return sortedTasks;
-  };
-
-  const filterStudentData = (tasks) => {
+  const filterData = (tasks) => {
     const filteredTasks = tasks.filter(
       (task) => !selectedClass || task.classTitle === selectedClass
     );
@@ -137,15 +142,10 @@ export default function CompletedPage() {
     return sortedTasks;
   };
 
-  
-
   const downloadPDF = (Id) => {
     downloadSubmissionPdf(Id);
   };
 
-  const flattenedArray = teacherTask?.flatMap(task => task.classIds);
-  const uniqueIds = [...new Set(flattenedArray)];
-  const teacherClassIds = uniqueIds.map(id => `class${id}`);
 
   return (
     <CompletedPageContainer>
@@ -169,7 +169,7 @@ export default function CompletedPage() {
                     search={false}
                     type={'classes'}
                     selectedIndex={setSelectedValue}
-                    menuItems={isTeacher ? teacherClassIds : arrayFromArrayOfObject(studentTasks, 'classTitle')}
+                    menuItems={arrayFromArrayOfObject(tasks, 'classTitle')}
                     defaultValue={selectedClass}
                     width={110}
                   />
@@ -210,7 +210,7 @@ export default function CompletedPage() {
           <LeftContentContainer>
             <TaskHistoryDataComponent
               downloadPDF={downloadPDF}
-              list={isTeacher ? filterTeacherData(teacherTask) : filterStudentData(studentTasks)}
+              list={filterData(tasks)}
             />
           </LeftContentContainer>
         </InnerContainer>

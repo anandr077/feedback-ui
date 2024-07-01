@@ -89,7 +89,6 @@ const createRows = (
   questionSerialNumber,
   pageMode
 ) => {
-  console.log('items', items);
   return items.map((item) => {
     if (item === null) return null;
 

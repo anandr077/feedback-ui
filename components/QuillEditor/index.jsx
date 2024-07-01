@@ -45,7 +45,6 @@ const QuillEditor = React.forwardRef(
     const [editor, setEditor] = useState(null);
     const [selection, setSelection] = useState(null);
     const {
-      setCountWords,
       isTeacher,
       showFloatingDialogue,
       setShowFloatingDialogue,
@@ -66,13 +65,6 @@ const QuillEditor = React.forwardRef(
         setEditor(quillInstance);
 
         quillInstance.on('selection-change', handleSelectionChange);
-
-        const initialText = quillInstance.getText();
-        const initialWordCount =
-          initialText.trim().length > 0
-            ? initialText.trim().split(/\s+/).length
-            : 0;
-        setCountWords(initialWordCount);
       }
 
       if (editor && editorFontSize !== null) {
@@ -81,17 +73,7 @@ const QuillEditor = React.forwardRef(
         const calculatedLineHeight = editorFontSize * 0.25;
         editor.root.style.lineHeight = `${calculatedLineHeight}px`;
       }
-
-      if (editor) {
-        editor.on('text-change', () => {
-          const text = editor.getText();
-          const wordCount =
-            text.trim().length > 0 ? text.trim().split(/\s+/).length : 0;
-          setCountWords(wordCount);
-        });
-      }
     }, [editor, editorRef, options, value, editorFontSize]);
-    console.log('Render QuillEditor');
     useEffect(() => {
       if (editor && Array.isArray(comments) && comments.length > 0) {
         removeAllHighlights(editor);
@@ -169,7 +151,6 @@ const QuillEditor = React.forwardRef(
         return getHighlights(editor);
       },
       setSelection(from, to) {
-        console.log("setSelection", from, to);
         return editor.setSelection(null);
       },
       selectRange(range) {
@@ -319,7 +300,6 @@ const QuillEditor = React.forwardRef(
               <button
                 className="closeButton"
                 onClick={() => {
-                  console.log("closeButton")
                   editor.setSelection(null);
                   setShowFloatingDialogue(false)
                 }}
@@ -370,7 +350,6 @@ function getSelectedText(editor, selection) {
   }
 }
 function scrollToHighlight(commentId) {
-  ////FIX
   const highlightSpans = Array.from(
     document.querySelectorAll('span.quill-highlight')
   );
@@ -378,7 +357,6 @@ function scrollToHighlight(commentId) {
     const commentIds = span.getAttribute('data-comment-ids');
     return commentIds && commentIds.split(',').includes(commentId);
   });
-  console.log("targetSpan", targetSpan)
   if (targetSpan) {
     setTimeout(
       () =>
@@ -389,11 +367,6 @@ function scrollToHighlight(commentId) {
         }),
       100
     );
-    // targetSpan.scrollIntoView({
-    //   behavior: 'smooth',
-    //   block: 'center',
-    //   inline: 'nearest',
-    // });
   } else {
     console.warn(`No highlight found for comment ID: ${commentId}`);
   }
@@ -409,30 +382,23 @@ function removeAllHighlights(editor) {
   });
 }
 
-function addNewHighlight(editor, comment) {
-  getHighlights(editor);
-}
 
 function getHighlights(editor) {
   const quillContainer = editor.container;
 
   let highlightsWithComments = {};
 
-  // Get all highlight elements in the Quill container
-  const highlightElements = quillContainer.querySelectorAll('.quill-highlight');
+  const highlightElements = quillContainer.querySelectorAll('span.quill-highlight');
 
   highlightElements.forEach((element) => {
-    // Assuming the comment IDs are stored as a comma-separated string
+
     const commentIds = element.getAttribute('data-comment-ids').split(',');
     const content = element.textContent;
     const index = editor.getIndex(Quill.find(element));
     const length = content.length;
-
-    // Process each comment ID associated with the highlight
     commentIds.forEach((commentId) => {
       const highlightData = { content, index, length };
 
-      // Group highlights with the same comment id together
       if (highlightsWithComments[commentId]) {
         highlightsWithComments[commentId].push(highlightData);
       } else {
@@ -455,15 +421,13 @@ function getHighlights(editor) {
     },
     {}
   );
-
   return formattedHighlights;
 }
 
 function getHighlights2(editor) {
   const quillContainer = editor.container;
   let highlightsByRange = {};
-  // Get all highlight elements in the Quill container
-  const highlightElements = quillContainer.querySelectorAll('.quill-highlight');
+  const highlightElements = quillContainer.querySelectorAll('span.quill-highlight');
 
   highlightElements.forEach((element) => {
     const commentIds = element.getAttribute('data-comment-ids').split(',');
@@ -474,12 +438,9 @@ function getHighlights2(editor) {
     const length = element.textContent.length;
     const rangeKey = `${index}-${index + length}`;
 
-    // Initialize the array for this range if it doesn't exist
     if (!highlightsByRange[rangeKey]) {
       highlightsByRange[rangeKey] = [];
     }
-
-    // Add comment IDs to the range
     commentIds.forEach((commentId) => {
       if (!highlightsByRange[rangeKey].includes(commentId)) {
         highlightsByRange[rangeKey].push(commentId);
@@ -500,7 +461,6 @@ function getHighlights2(editor) {
 }
 
 function addComment(editor, comment) {
-  // updateQuillHighlights(editor, getHighlights(editor), comment.id, comment.range);
   addCommentHighlight(editor, comment);
 }
 

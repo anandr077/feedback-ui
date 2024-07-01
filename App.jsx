@@ -107,8 +107,10 @@ function App() {
 
   const portfolioClient = new QueryClient();
 
-  const Dashboard = ({ role }) => {
-    const dashboard =
+
+
+  const Tasks = ({ role }) => {
+    const tasks =
       role === 'TEACHER' ? (
         getLocalClasses() ? (
           <ProtectedTeacherTaskRoot />
@@ -121,16 +123,22 @@ function App() {
         <ProtectedDocRoot />
       );
 
-    return <div>{dashboard}</div>;
+    return <div>{tasks}</div>;
   };
-
-  const Tasks = ({ role }) => {
+  const Dashboard = ({ role }) => {
     const tasks =
       role === 'TEACHER' ? (
-        <ProtectedTeacherTaskRoot />
-      ) : (
+        getLocalClasses() ? (
+          <ProtectedTeacherTaskRoot />
+        ) : (
+          <ProtectedGiveFeedback />
+        )
+      ) : getLocalClasses() ? (
         <ProtectedStudentTaskRoot />
+      ) : (
+        <ProtectedDocRoot />
       );
+
     return <div>{tasks}</div>;
   };
   return (

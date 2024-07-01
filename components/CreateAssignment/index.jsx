@@ -142,7 +142,6 @@ export default function CreateAssignment(props) {
         let userCommentBanks = commentBanks._embedded.commentbanks.filter(
           (commentBank) => commentBank.ownerId === UserId
         );
-        console.log('assignmentResult', assignmentResult);
         setAssignment((prevState) => ({
           ...prevState,
           ...assignmentResult,

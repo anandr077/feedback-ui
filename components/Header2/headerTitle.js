@@ -59,7 +59,7 @@ function HeaderTitle({ breadcrumbs }) {
     {
       link: '/feedbackHistory',
       title: !isTeacher(role) ? 'Feedback From Me' : 'Feedback History',
-      teacherTooltip: '',
+      teacherTooltip: 'Feedback provided on student requests for their work',
       studentTooltip:
         'This is a record of the feedback that you have provided to other students in the past',
     },
@@ -84,7 +84,7 @@ function HeaderTitle({ breadcrumbs }) {
     {
       link: '/completed',
       title: 'Completed Tasks',
-      teacherTooltip: '',
+      teacherTooltip: 'Consists of all the tasks whose feedback date has expired and are no longer active',
       studentTooltip: 'View all of the tasks that you have marked as complete',
     },
     {
@@ -120,8 +120,8 @@ function HeaderTitle({ breadcrumbs }) {
     },
     {
       link: '/documents/',
-      teacherTooltip: '',
-      studentTooltip: '',
+      teacherTooltip: 'Get comprehensive feedback on your work from JeddAI',
+      studentTooltip: 'Request feedback from JeddAI, teachers or your friends on your work',
     },
     {
       link: '/',

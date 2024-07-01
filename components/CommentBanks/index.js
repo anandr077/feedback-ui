@@ -208,7 +208,6 @@ const CommentBanks = () => {
         setFeedbackBankCreated(true);
       })
       .catch((error) => {
-        console.log('first error', error);
         toast(<Toast message={'Error creating new feedback bank'} />);
       });
   };

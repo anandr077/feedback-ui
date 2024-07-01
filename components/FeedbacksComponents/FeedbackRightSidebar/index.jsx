@@ -24,7 +24,6 @@ const FeedbackRightSidebar = ({
   const { overallComments, markingCriteriaFeedback } =
     useContext(FeedbackContext);
 
-  console.log('FeedbackRightSidebar - PageMode', pageMode);
 
   return (
     <MainContainer>

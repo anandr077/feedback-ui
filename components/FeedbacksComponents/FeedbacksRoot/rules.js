@@ -114,29 +114,14 @@ export const isShowMarkingCriteriaAndOverallFeedbackButton = (
   QuestionIndex,
   markingCriteriaFeedback
 ) => {
-  console.log('markingCriteriaFeedback', markingCriteriaFeedback);
+  
   const currentMarkingCriteria = findMarkingCriteria(
     markingCriteriaFeedback,
     QuestionIndex
   );
   const overallComment = getOverallComment(overallComments, QuestionIndex);
-
-  // const areCommentsAndFeedbackEmpty =
-  //   !overallComment?.audio &&
-  //   !overallComment?.comment &&
-  //   !isShowMarkingCriteriaSection(currentMarkingCriteria);
-  console.log(
-    'isShowOverallFeedback',
-    isShowOverallFeedback(pageMode, overallComment)
-  );
-  console.log(
-    'isShowMarkingCriteriaSection',
-    isShowMarkingCriteriaSection(currentMarkingCriteria?.markingCriteria)
-  );
-  const areCommentsAndFeedbackEmpty =
-    !isShowOverallFeedback(pageMode, overallComment) &&
-    !isShowMarkingCriteriaSection(currentMarkingCriteria?.markingCriteria);
-  console.log('areCommentsAndFeedbackEmpty', areCommentsAndFeedbackEmpty);
+ 
+  
   if (
     !isShowOverallFeedback(pageMode, overallComment) &&
     !isShowMarkingCriteriaSection(currentMarkingCriteria?.markingCriteria)

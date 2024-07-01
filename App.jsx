@@ -110,9 +110,6 @@ function App() {
 
 
   const Tasks = ({ role }) => {
-    console.log('role', role);
-    console.log("User", getUserName())
-    console.log("Classes", getLocalClasses())
     const tasks =
       role === 'TEACHER' ? (
         getLocalClasses() ? (
@@ -129,9 +126,6 @@ function App() {
     return <div>{tasks}</div>;
   };
   const Dashboard = ({ role }) => {
-    console.log('role', role);
-    console.log("User", getUserName())
-    console.log("Classes", getLocalClasses())
     const tasks =
       role === 'TEACHER' ? (
         getLocalClasses() ? (

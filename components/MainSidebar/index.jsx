@@ -58,7 +58,6 @@ const MainSidebar = () => {
         <ul>
           {sideNavItems.map((navItem) => {
             const active = navItem.isActive;
-            console.log('the is active', active)
               return (
                 <li
                   key={navItem.link}

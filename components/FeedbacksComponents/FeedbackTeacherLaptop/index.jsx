@@ -111,7 +111,7 @@ function FeedbackTeacherLaptop(props) {
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 219;
-  const { countWords, showNewComment, newCommentSerialNumber } =
+  const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
   const [openRightPanel, SetOpenRightPanel] = React.useState(
     isShowMarkingCriteriaSidebar(overallComments, markingCriteriaFeedback) ? 'tab2' : null
@@ -322,7 +322,14 @@ function FeedbackTeacherLaptop(props) {
             )}
           </Frame1388>
         </>
-        <Footer   openLeftPanel={openLeftPanel} isMobile={isMobile} countWords={countWords} editorFontSize={editorFontSize} setEditorFontSize={setEditorFontSize}  />
+        <Footer 
+          openLeftPanel={openLeftPanel} 
+          isMobile={isMobile} 
+          editorFontSize={editorFontSize} 
+          setEditorFontSize={setEditorFontSize}
+          answers={submission.answers} 
+          questionIndex={QuestionIndex} 
+        />
       </PageContainer>
 
       {handleFeedbackMethodTypeDialog(

@@ -7,14 +7,18 @@ import {
 export function Footer({
   openLeftPanel,
   isMobile,
-  countWords,
   editorFontSize,
   setEditorFontSize,
+  answers,
+  questionIndex
 }) {
+  const selectedAnswer = answers?.find(answer => answer.serialNumber === questionIndex + 1);
+  const wordCount = selectedAnswer?.answer?.wordCount ?? 0;
+
   return (
     <CountZoomContainer open={openLeftPanel} mobileView={isMobile}>
       <div>
-        {countWords} {countWords === 1 ? 'word' : 'words'}
+        {wordCount} {wordCount === 1 ? 'word' : 'words'}
       </div>
       <ZoomContianer>
         Zoom

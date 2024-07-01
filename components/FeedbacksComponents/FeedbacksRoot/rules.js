@@ -35,8 +35,8 @@ export const isShowCommentBanks = (commentBanks) => {
   return commentBanks.length > 0;
 };
 
-export const isShareWithClass = (role) => {
-  return role !== 'STUDENT';
+export const isShareWithClass = (role, submissionType) => {
+  return role !== 'STUDENT' && submissionType !== "DOCUMENT";
 };
 
 export const isAllowGiveMarkingCriteriaFeedback = (pageMode) => {

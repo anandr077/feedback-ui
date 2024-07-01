@@ -100,7 +100,6 @@ export const isShowOverallFeedbackHeadline = (
 };
 
 export const isMarkingCriteriaTypeRubric = (type) => {
-  console.log("Type: ", type)
   return type === 'RUBRICS';
 };
 
@@ -108,7 +107,6 @@ export const isShowTaskDetailsButton = (submissionType) => {
   return submissionType !== 'DOCUMENT';
 };
 export const isShowMarkingCriteriaSection = (markingCriteria) => {
-  console.log('markingCriteria', markingCriteria);
   return (
     markingCriteria !== undefined &&
     (markingCriteria.criterias !== undefined ||
@@ -137,7 +135,6 @@ export const isShowMarkingCriteriaButton = (
     !overallComment?.audio &&
     !overallComment?.comment &&
     !isShowMarkingCriteriaSection(currentMarkingCriteria);
-  console.log('areCommentsAndFeedbackEmpty', areCommentsAndFeedbackEmpty);
   if (
     (submissionStatus === 'REVIEWED' || submissionStatus === 'CLOSED') &&
     areCommentsAndFeedbackEmpty

@@ -9,7 +9,6 @@ export default function PreviewDialog({
   setMarkingCriteriaPreviewDialog,
   markingCriterias,
 }) {
-  console.log('first preview', markingCriterias);
   const [open, setOpen] = React.useState(true);
   const onMobileView = isMobileView();
   const handleClose = () => {

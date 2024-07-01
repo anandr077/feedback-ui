@@ -69,8 +69,6 @@ export default function CompletedPage() {
     staleTime: 3600000,
   });
 
-  console.log('the task assignmentsQuery', assignmentsQuery.data)
-
   const completedTasksQuery = useQuery({
     queryKey: ['completedTasks'],
     queryFn: async () => {
@@ -84,8 +82,6 @@ export default function CompletedPage() {
     const newCompletedTask = filteredTasks.flatMap(task => {
       const classesCookies = getLocalClasses();
       const teacherClasses = isTeacher && JSON.parse(classesCookies)
-      console.log('the teacherClasses', teacherClasses)
-      console.log('the task', task)
       const titles = task.classIds.map(id => {
         const clazz = teacherClasses.find(cls => cls.id === id);
         return clazz ? clazz.title : null;
@@ -117,8 +113,6 @@ export default function CompletedPage() {
       setFilteredTasks(completedTasksQuery.data);
     }
   }, [assignmentsQuery.data, completedTasksQuery.data]);
-
-  console.log('the student task', tasks)
 
   if (assignmentsQuery.isLoading) {
     return <Loader />;

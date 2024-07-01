@@ -3,9 +3,6 @@ export const adjustPositionsForSelectedComment = (editor, groupedComments, selec
     return groupedComments;
   }
 
-  console.log("Grouped Comments: ", groupedComments.map(c => ({ id: c.id, topPosition: c.topPosition, height: c.height })));
-  console.log("Selected Comment ID: ", selectedCommentId);
-
   const selectedCommentIndex = groupedComments.findIndex(comment => comment.id === selectedCommentId);
   if (selectedCommentIndex === -1) {
     console.error(`Selected comment with ID ${selectedCommentId} not found.`);
@@ -18,7 +15,6 @@ export const adjustPositionsForSelectedComment = (editor, groupedComments, selec
 
   let lastBottomPosition = selectedCommentTopPosition + selectedComment.height + spacing;
 
-  // Adjust positions for comments after the selected comment
   for (let i = selectedCommentIndex + 1; i < groupedComments.length; i++) {
     const comment = groupedComments[i];
     const desiredTop = getBoundsForComment(editor, comment)?.top || 0;
@@ -27,7 +23,6 @@ export const adjustPositionsForSelectedComment = (editor, groupedComments, selec
     lastBottomPosition = comment.topPosition + comment.height + spacing;
   }
 
-  // Adjust positions for comments before the selected comment
   lastBottomPosition = selectedCommentTopPosition;
   for (let i = selectedCommentIndex - 1; i >= 0; i--) {
     const comment = groupedComments[i];
@@ -38,8 +33,6 @@ export const adjustPositionsForSelectedComment = (editor, groupedComments, selec
   }
 
   const adjustedComments = groupedComments.sort((a, b) => a.topPosition - b.topPosition);
-
-  console.log("Adjusted Comments: ", adjustedComments.map(c => ({ id: c.id, topPosition: c.topPosition, height: c.height })));
 
   return adjustedComments;
 };

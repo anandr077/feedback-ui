@@ -45,7 +45,6 @@ const QuillEditor = React.forwardRef(
     const [editor, setEditor] = useState(null);
     const [selection, setSelection] = useState(null);
     const {
-      setCountWords,
       isTeacher,
       showFloatingDialogue,
       setShowFloatingDialogue,
@@ -66,13 +65,6 @@ const QuillEditor = React.forwardRef(
         setEditor(quillInstance);
 
         quillInstance.on('selection-change', handleSelectionChange);
-
-        const initialText = quillInstance.getText();
-        const initialWordCount =
-          initialText.trim().length > 0
-            ? initialText.trim().split(/\s+/).length
-            : 0;
-        setCountWords(initialWordCount);
       }
 
       if (editor && editorFontSize !== null) {
@@ -128,10 +120,6 @@ const QuillEditor = React.forwardRef(
           var html = converter.convert();
 
           onDebounce(html, getHighlights(editor));
-          const text = editor.getText();
-          const wordCount =
-            text.trim().length > 0 ? text.trim().split(/\s+/).length : 0;
-          setCountWords(wordCount);
         };
 
         if (debounceTime > 0) {

@@ -116,7 +116,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false);
-  const [countWords, setCountWords] = useState(0);
   const [pageLeavePopup, setPageLeavePopup] = useState(false);
   const [selectedComment, setSelectedComment] = useState(null);
   const [showFloatingDialogue, setShowFloatingDialogue] = useState(false);
@@ -1571,8 +1570,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   return (
     <FeedbackContext.Provider
       value={{
-        countWords,
-        setCountWords,
         smartAnnotations,
         showNewComment,
         newCommentSerialNumber,

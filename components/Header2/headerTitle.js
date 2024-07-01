@@ -120,8 +120,8 @@ function HeaderTitle({ breadcrumbs }) {
     },
     {
       link: '/documents/',
-      teacherTooltip: '',
-      studentTooltip: '',
+      teacherTooltip: 'Get comprehensive feedback on your work from JeddAI',
+      studentTooltip: 'Request feedback from JeddAI, teachers or your friends on your work',
     },
     {
       link: '/',

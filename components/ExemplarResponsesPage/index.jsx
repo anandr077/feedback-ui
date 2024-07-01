@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { addToFavouriteList, denyModelResponse, getModelResponses, publishModelResponse, removeFromFavouriteList } from '../../service.js';
+import {
+  addToFavouriteList,
+  denyModelResponse,
+  getModelResponses,
+  publishModelResponse,
+  removeFromFavouriteList,
+} from '../../service.js';
 import CompletedRoot from '../Completed/CompletedRoot';
 import { groupBy } from 'lodash';
 import { dateOnly } from '../../dates.js';
 import { useLocation } from 'react-router-dom';
 import Loader from '../Loader';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
-import SnackbarContext from '../SnackbarContext/index.jsx';
+import Toast from '../Toast/index.js';
+import { toast } from 'react-toastify';
 
 export default function ExemplarResponsesPage(props) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
   const [exemplarResponses, setExemplarResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [id, setId] = React.useState(null);
@@ -32,23 +38,12 @@ export default function ExemplarResponsesPage(props) {
       }
     });
   }, []);
-  React.useEffect(() => {
-   
-    getModelResponses().then((result) => {
-      if (result) {
-        setExemplarResponses(result);
-        setIsLoading(false);
-      }
-    });
-      
-  }, []);
-
 
   React.useEffect(() => {
     const createGroup = groupBy(exemplarResponses, (task) =>
       dateOnly(task.reviewedAt)
     );
-    setGroups(createGroup)
+    setGroups(createGroup);
   }, [exemplarResponses]);
 
   if (isLoading) {
@@ -59,25 +54,8 @@ export default function ExemplarResponsesPage(props) {
     );
   }
 
-  const handleAddToFavourite = (id) =>{
-    addToFavouriteList(id).then((result)=>{
-        setExemplarResponses((prev) => {
-          return prev.map((task) => {
-            if (task.id === id) {
-              return {
-                ...task,
-                bookmarkedByStudents: result.bookmarkedByStudents,
-              };
-            } else {
-              return task;
-            }
-          });
-        })
-    })
-  }
-
-  const handleRemoveFromFavourite = (id) =>{
-    removeFromFavouriteList(id).then((result)=>{
+  const handleAddToFavourite = (id) => {
+    addToFavouriteList(id).then((result) => {
       setExemplarResponses((prev) => {
         return prev.map((task) => {
           if (task.id === id) {
@@ -89,9 +67,26 @@ export default function ExemplarResponsesPage(props) {
             return task;
           }
         });
-      })
-    })
-  }
+      });
+    });
+  };
+
+  const handleRemoveFromFavourite = (id) => {
+    removeFromFavouriteList(id).then((result) => {
+      setExemplarResponses((prev) => {
+        return prev.map((task) => {
+          if (task.id === id) {
+            return {
+              ...task,
+              bookmarkedByStudents: result.bookmarkedByStudents,
+            };
+          } else {
+            return task;
+          }
+        });
+      });
+    });
+  };
 
   const onAccept = (taskId) => {
     publishModelResponse(taskId).then((res) => {
@@ -108,14 +103,14 @@ export default function ExemplarResponsesPage(props) {
               return task;
             }
           });
-        })
+        });
         // onSlideChange();
-        showSnackbar('Response shared', res.link);
+        toast(<Toast message={'Response shared'} link={res.link} />);
       } else {
         return;
       }
     });
-  }
+  };
   const onDecline = (taskId) => {
     denyModelResponse(taskId).then((res) => {
       if (res.status === 'DENIED') {
@@ -130,14 +125,14 @@ export default function ExemplarResponsesPage(props) {
               return task;
             }
           });
-        })
+        });
         // onSlideChange();
-        showSnackbar("Response won't be shared", res.link);
+        toast(<Toast message={"Response won't be shared"} link={res.link} />);
       } else {
         return;
       }
     });
-  }
+  };
 
   return (
     <CompletedRoot

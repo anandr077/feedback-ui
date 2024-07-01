@@ -39,7 +39,7 @@ const CardContainer = styled.div`
   flex-direction: column;
   width: 100%;
   align-items: center;
-  gap: 20px;
+  gap: 11px;
   padding: 0px 0px 10px 0px;
   overflow-y: scroll;
   &::-webkit-scrollbar {

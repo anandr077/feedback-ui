@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
-import ReactiveRender from '../../ReactiveRender';
+import ReactiveRender, { isMobileView } from '../../ReactiveRender';
 import AccountSettingsMarkingCriteriaDeskt from '../AccountSettingsMarkingCriteriaDeskt';
-import AccountSettingsMarkingCriteriaTable3 from '../AccountSettingsMarkingCriteriaTable3';
-import AccountSettingsMarkingCriteriaTable from '../AccountSettingsMarkingCriteriaTable';
-import AccountSettingsMarkingCriteriaLapto from '../AccountSettingsMarkingCriteriaLapto';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import MarkingCriteriaCard from '../MarkingCriteriaCard';
 import {
@@ -25,15 +22,8 @@ import SettingsNav from '../SettingsNav';
 import Breadcrumb from '../../Breadcrumb';
 import Breadcrumb2 from '../../Breadcrumb2';
 import Loader from '../../Loader';
-import SnackbarContext from '../../SnackbarContext';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from '@mui/material';
+
 import {
   CardImg,
   CardTitle,
@@ -72,10 +62,11 @@ import {
   TabsPlus,
   TabsPlusText,
 } from '../AccountSettingsMarkingCriteriaDeskt/style.jsx';
+import Toast from '../../Toast/index.js';
+import { toast } from 'react-toastify';
 
 export default function AccountSettingsRoot(props) {
   const queryClient = useQueryClient();
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [smartAnnotationUpdateIndex, setSmartAnnotationUpdateIndex] =
     React.useState(-1);
@@ -94,6 +85,7 @@ export default function AccountSettingsRoot(props) {
   const [feedbackBankCreated, setFeedbackBankCreated] = React.useState(false);
   const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] =
     React.useState('');
+  const mobileView = isMobileView();
 
   const shortCutsQuery = useQuery({
     queryKey: ['shortCuts'],
@@ -202,13 +194,13 @@ export default function AccountSettingsRoot(props) {
   const deleteMarkingCriteriaHandler = (markingCriteriaId) => {
     deleteMarkingCriteria(markingCriteriaId)
       .then(() => {
-        // showSnackbar('Marking criteria deleted');
+        toast(<Toast message={'Marking criteria deleted'} />);
         getAllMarkingCriteria().then((result) => {
           setMarkingCriterias(result);
         });
       })
       .catch((error) => {
-        // showSnackbar('Error deleting marking criteria');
+        toast(<Toast message={'Error deleting marking criteria'} />);
       });
   };
 
@@ -216,7 +208,6 @@ export default function AccountSettingsRoot(props) {
     const newSmartAnnotations = smartAnnotations.filter(
       (smartAnnotation) => smartAnnotation.id != smartAnnotationIndex
     );
-    console.log('first', newSmartAnnotations);
     deleteSmartAnnotation(smartAnnotationIndex)
       .then(() => {
         if (newSmartAnnotations.length === 0) {
@@ -226,10 +217,10 @@ export default function AccountSettingsRoot(props) {
         }
 
         setSmartAnnotations(newSmartAnnotations);
-        // showSnackbar('Feedback bank Deleted');
+        toast(<Toast message={'Feedback bank deleted'} />);
       })
       .catch(() => {
-        // showSnackbar('Error deleting bank');
+        toast(<Toast message={'Error deleting bank'} />);
       });
   };
 
@@ -244,11 +235,11 @@ export default function AccountSettingsRoot(props) {
     createNewFeedbackBank(newObject)
       .then(() => {
         queryClient.invalidateQueries(['feedbackBank']);
-        // showSnackbar('feedback bank cloned');
+        toast(<Toast message={'feedback bank cloned'} />);
         setFeedbackBankCreated(true);
       })
       .catch((error) => {
-        // showSnackbar('Cloning failed');
+        toast(<Toast message={'Cloning failed'} />);
       });
   };
 
@@ -272,10 +263,10 @@ export default function AccountSettingsRoot(props) {
         queryClient.invalidateQueries(['feedbackBank']);
         setShowNewBankPopUp(false);
         setFeedbackBankCreated(true);
-        // showSnackbar('New feedback bank created');
+        toast(<Toast message={'New feedback bank created'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error creating new feedback bank');
+        toast(<Toast message={'Error creating new feedback bank'} />);
       });
   };
 
@@ -289,13 +280,12 @@ export default function AccountSettingsRoot(props) {
       .then(() => {
         // setSmartAnnotations([...smartAnnotations, newBank]);
         setShowNewBankPopUp(false);
-        // showSnackbar('New feedback bank created');
+        toast(<Toast message={'New feedback bank created'} />);
         queryClient.invalidateQueries(['feedbackBank']);
         setFeedbackBankCreated(true);
       })
       .catch((error) => {
-        console.log('first error', error);
-        // showSnackbar('Error creating new feedback bank');
+        toast(<Toast message={'Error creating new feedback bank'} />);
       });
   };
 
@@ -332,10 +322,10 @@ export default function AccountSettingsRoot(props) {
     createNewSmartAnnotation(newObject, feedbackBankId)
       .then((result) => {
         setSmartAnnotations(newSmartAnnotations);
-        // showSnackbar('Smart annotation created');
+        toast(<Toast message={'Smart annotation created'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error updating Feedback bank');
+        toast(<Toast message={'Error updating Feedback bank'} />);
       });
 
     //updateSmartAnnotation(smartAnnotationRequest, smartAnnotation.id)
@@ -363,10 +353,10 @@ export default function AccountSettingsRoot(props) {
     updateSmartAnnotation(newObject, smartAnnotationIndex)
       .then(() => {
         setSmartAnnotations(newSmartAnnotations);
-        // showSnackbar('Feedback bank title updated');
+        toast(<Toast message={'Feedback bank title updated'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error updating smart annotation');
+        toast(<Toast message={'Error updating smart annotation'} />);
       });
   };
 
@@ -402,10 +392,10 @@ export default function AccountSettingsRoot(props) {
     updateSmartAnnotation(newObject, smartAnnotationIndex)
       .then(() => {
         setSmartAnnotations(newSmartAnnotations);
-        // showSnackbar('Smart annotation updated');
+        toast(<Toast message={'Smart annotation updated'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error updating smart annotation');
+        toast(<Toast message={'Error updating smart annotation'} />);
       });
   };
 
@@ -432,10 +422,10 @@ export default function AccountSettingsRoot(props) {
     updateSmartAnnotation(newObject, smartAnnotationIndex)
       .then(() => {
         setSmartAnnotations(NewSmartAnnotations);
-        // showSnackbar('Smart commit deleted');
+        toast(<Toast message={'Smart commit deleted'} />);
       })
       .catch((error) => {
-        // showSnackbar('Error deleting Smart commit');
+        toast(<Toast message={'Error deleting smart commit'} />);
       });
   };
 
@@ -456,16 +446,19 @@ export default function AccountSettingsRoot(props) {
       .then((res) => {
         createdMarkingCriteria.id = res.id.value;
         createdMarkingCriteria.teacherId = res.teacherId.value;
-        // showSnackbar(
-        //   'Copied marking template',
-        //   markingCriteriaUrl(res.id.value, res.type.value)
-        // );
+
+        toast(
+          <Toast
+            message={'Copied marking template'}
+            link={markingCriteriaUrl(res.id.value, res.type.value)}
+          />
+        );
         getAllMarkingCriteria().then((result) => {
           setMarkingCriterias(result);
         });
       })
       .catch((err) => {
-        // showSnackbar('Error cloning marking template');
+        toast(<Toast message={'Error cloning marking template'} />);
       });
   };
 
@@ -480,21 +473,6 @@ export default function AccountSettingsRoot(props) {
     )
   );
 
-  const [showMarkingCriteria, setShowMarkingCriteria] = React.useState(true);
-  const [showUserSettings, setShowUserSettings] = React.useState(false);
-  const [showShortcuts, setShowShortcuts] = React.useState(false);
-
-  const sidebarNav = (
-    <SettingsNav
-      setShowMarkingCriteria={setShowMarkingCriteria}
-      setShowShortcuts={setShowShortcuts}
-      setShowUserSettings={setShowUserSettings}
-      showMarkingCriteria={showMarkingCriteria}
-      showUserSettings={showUserSettings}
-      showShortcuts={showShortcuts}
-    />
-  );
-
   if (
     feedbackBankQuery.isLoading ||
     shortCutsQuery.isLoading ||
@@ -507,203 +485,12 @@ export default function AccountSettingsRoot(props) {
     );
   }
 
-  const NewBankPopContainer = ({ setShowNewBankPopUp }) => {
-    return (
-      <PopupBackground>
-        <PopupContainer>
-          <PopupTitleContainer>
-            <PopupTitle>Create New Bank</PopupTitle>
-            <PopupTitleImg
-              onClick={() => setShowNewBankPopUp(false)}
-              src={closecircle}
-            />
-          </PopupTitleContainer>
-          <PopupDialogContentBox>
-            <PopupDialogContentBoxLeft>
-              <Card onClick={() => createFeedbackBank()}>
-                <CardImgCont>
-                  <CardImg src={PlusBlue} />
-                </CardImgCont>
-                <CardTitle>New Bank</CardTitle>
-              </Card>
-              {systemSmartAnnotations?.map((bank) => {
-                return (
-                  <Card
-                    onClick={() => setSelectedBank(bank)}
-                    style={{
-                      backgroundColor:
-                        bank.id === selectedBank.id ? ' #F1E6FC' : '#ffffff',
-                    }}
-                  >
-                    <CardImgDoc src={Doc} />
-
-                    <CardTitle>{bank.title}</CardTitle>
-                  </Card>
-                );
-              })}
-            </PopupDialogContentBoxLeft>
-            <PopupDialogContentBoxRight>
-              <PreviewContainer>
-                <PrevieImg src={PreviewIcon} />
-                <Previewpara>Preview</Previewpara>
-              </PreviewContainer>
-
-              {selectedBank?.smartComments.map((comment) => {
-                return (
-                  <div key={comment.title}>
-                    <BankCommentTitle>{comment.title}</BankCommentTitle>
-                    {comment?.suggestions?.map((suggestion) => (
-                      <Commentsuggestion key={suggestion}>
-                        {suggestion}
-                      </Commentsuggestion>
-                    ))}
-                  </div>
-                );
-              })}
-            </PopupDialogContentBoxRight>
-          </PopupDialogContentBox>
-          <ButtonConatiner>
-            <CreateButton
-              onClick={() => createSystemFeedbackBank(selectedBank.id)}
-            >
-              <ButtonText>Create</ButtonText>
-            </CreateButton>
-          </ButtonConatiner>
-        </PopupContainer>
-      </PopupBackground>
-    );
-  };
-
-  const emptyFeedbackBank = () => {
-    return (
-      <EmptyBankContainer>
-        <EmptyBankIconCont src={EmptyBankIcon} />
-        <EmptyBankHeading>No comment banks created yet</EmptyBankHeading>
-        <EmptyBankSubHeading>
-          To start using comment banks, click below.
-        </EmptyBankSubHeading>
-        <EmptyBankContainerButton onClick={() => setShowNewBankPopUp(true)}>
-          <TabsPlus src={Plus} />
-          <TabsPlusText>New Bank</TabsPlusText>
-        </EmptyBankContainerButton>
-      </EmptyBankContainer>
-    );
-  };
-
   return (
     <>
-      {isShowNewBankPopUp && (
-        <NewBankPopContainer setShowNewBankPopUp={setShowNewBankPopUp} />
-      )}
-      <ReactiveRender
-        mobile={
-          <AccountSettingsMarkingCriteriaTable
-            {...{
-              ...accountSettingsMarkingCriteriaTableData,
-              markingCriteriaList,
-              smartAnnotationsFrame,
-              createSmartAnnotationHandler,
-              setShowMarkingCriteria,
-              setShowShortcuts,
-              setShowUserSettings,
-              showMarkingCriteria,
-              showShortcuts,
-              showUserSettings,
-              setOpenMarkingMethodologyDialog,
-              smartAnnotations,
-              setFeedbackBankId,
-              feedbackBankId,
-              setOpenMarkingMethodologyDialog,
-              UpdateSmartBankTitleHandler,
-              deteteFeedbackBank,
-              createCloneFeedbankBank,
-              setShowNewBankPopUp,
-              feedbackBankCreated,
-              setFeedbackBankCreated,
-              emptyFeedbackBank,
-              setSmartAnnotationeditIndex,
-            }}
-          />
-        }
-        tablet={
-          <AccountSettingsMarkingCriteriaTable3
-            {...{
-              ...accountSettingsMarkingCriteriaTable3Data,
-              markingCriteriaList,
-              smartAnnotationsFrame,
-              createSmartAnnotationHandler,
-              sidebarNav,
-              showMarkingCriteria,
-              showShortcuts,
-              showUserSettings,
-              setOpenMarkingMethodologyDialog,
-              smartAnnotations,
-              setFeedbackBankId,
-              feedbackBankId,
-              UpdateSmartBankTitleHandler,
-              deteteFeedbackBank,
-              createCloneFeedbankBank,
-              setShowNewBankPopUp,
-              feedbackBankCreated,
-              setFeedbackBankCreated,
-              emptyFeedbackBank,
-              setSmartAnnotationeditIndex,
-            }}
-          />
-        }
-        laptop={
-          <AccountSettingsMarkingCriteriaLapto
-            {...{
-              ...accountSettingsMarkingCriteriaLaptoData,
-              markingCriteriaList,
-              createSmartAnnotationHandler,
-              smartAnnotationsFrame,
-              sidebarNav,
-              showMarkingCriteria,
-              showShortcuts,
-              showUserSettings,
-              smartAnnotations,
-              setFeedbackBankId,
-              feedbackBankId,
-              setOpenMarkingMethodologyDialog,
-              UpdateSmartBankTitleHandler,
-              deteteFeedbackBank,
-              createCloneFeedbankBank,
-              setShowNewBankPopUp,
-              feedbackBankCreated,
-              setFeedbackBankCreated,
-              emptyFeedbackBank,
-              setSmartAnnotationeditIndex,
-            }}
-          />
-        }
-        desktop={
-          <AccountSettingsMarkingCriteriaDeskt
-            {...{
-              ...accountSettingsMarkingCriteriaDesktData,
-              markingCriteriaList,
-              createSmartAnnotationHandler,
-              smartAnnotationsFrame,
-              createFeedbackBank,
-              sidebarNav,
-              showMarkingCriteria,
-              showShortcuts,
-              showUserSettings,
-              smartAnnotations,
-              setFeedbackBankId,
-              feedbackBankId,
-              setOpenMarkingMethodologyDialog,
-              UpdateSmartBankTitleHandler,
-              deteteFeedbackBank,
-              createCloneFeedbankBank,
-              setShowNewBankPopUp,
-              feedbackBankCreated,
-              setFeedbackBankCreated,
-              emptyFeedbackBank,
-              setSmartAnnotationeditIndex,
-            }}
-          />
-        }
+      <AccountSettingsMarkingCriteriaDeskt
+        {...{
+          markingCriteriaList,
+        }}
       />
       {openMarkingMethodologyDialog && (
         <MarkingMethodologyDialog
@@ -715,8 +502,8 @@ export default function AccountSettingsRoot(props) {
 }
 function markingCriteriaUrl(id, type) {
   return type === 'RUBRICS'
-    ? `/#/markingCriterias/rubrics/${id}`
-    : `/#/markingTemplates/strengths-and-targets/${id}`;
+    ? `/markingCriterias/rubrics/${id}`
+    : `/markingTemplates/strengths-and-targets/${id}`;
 }
 const navElement1Data = {
   home3: '/img/home3@2x.png',
@@ -846,32 +633,6 @@ const cards26Data = {
   className: 'cards-5',
 };
 
-const accountSettingsMarkingCriteriaTableData = {
-  frame1349: '/img/frame-1349@2x.png',
-  notifications: '/img/notifications@2x.png',
-  frame5: '/img/frame-5@2x.png',
-  title: 'Account Settings',
-  userSettings: 'User Settings',
-  frame12841: '/img/frame-1284@2x.png',
-  markingCriteria: 'Marking Criteria',
-  frame12842: '/img/frame-1284-1@2x.png',
-  line14: '/img/line-14@2x.png',
-  shortcuts: 'Smart Annotations',
-  frame12843: '/img/frame-1284@2x.png',
-  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
-  mainWebsite: 'Main Website',
-  terms: 'Terms',
-  privacy: 'Privacy',
-  breadcrumbProps: breadcrumb3Data,
-  breadcrumb2Props: breadcrumb22Data,
-  buttonsProps: buttons3Data,
-  cards21Props: cards22Data,
-  cards22Props: cards23Data,
-  cards23Props: cards24Data,
-  cards24Props: cards25Data,
-  cards25Props: cards26Data,
-};
-
 const breadcrumb4Data = {
   children: 'Account Settings',
 };
@@ -922,28 +683,6 @@ const cards35Data = {
 
 const cards36Data = {
   systemDefault: 'Physics friction theroy',
-};
-
-const accountSettingsMarkingCriteriaTable3Data = {
-  frame1349: '/img/frame-1349-1.png',
-  notifications: '/img/notifications@2x.png',
-  frame5: '/img/frame-5@2x.png',
-  title: 'Account Settings',
-  markingCriteria: 'Marking Criteria',
-  line14: '/img/line-14-1.png',
-  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
-  mainWebsite: 'Main Website',
-  terms: 'Terms',
-  privacy: 'Privacy',
-  breadcrumbProps: breadcrumb4Data,
-  breadcrumb2Props: breadcrumb23Data,
-  frame1322Props: frame13222Data,
-  buttonsProps: buttons4Data,
-  cards31Props: cards32Data,
-  cards32Props: cards33Data,
-  cards33Props: cards34Data,
-  cards34Props: cards35Data,
-  cards35Props: cards36Data,
 };
 
 const navElement4Data = {

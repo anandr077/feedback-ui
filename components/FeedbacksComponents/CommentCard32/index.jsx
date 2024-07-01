@@ -1,11 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useRef } from 'react';
 import ReviewsFrame132532 from '../ReviewsFrame132532';
 import styled from 'styled-components';
-import {
-  IbmplexsansNormalBlack16px,
-  feedbacksIbmplexsansMediumBlack16px,
-} from '../../../styledMixins';
+import { textAreaAutoResize } from '../../../components2/textAreaAutoResize';
+import { isShowFullCommentBankText } from '../FeedbacksRoot/rules';
+import { isShowReplyInput } from './rule';
+import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 function CommentCard32(props) {
   const {
@@ -27,13 +26,16 @@ function CommentCard32(props) {
     openShareWithStudentDialog,
     convertToCheckedState,
     updateExemplarComment,
+    selectedComment
   } = props;
-  const [isReplyClicked, setIsReplyClicked] = React.useState(false);
+  const { setSelectedComment } = useContext(FeedbackContext);
   const [inputValue, setInputValue] = React.useState('');
   const [editCommentType, setEditCommentType] = React.useState('');
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
-
+  const inputRef = useRef();
+  
+  const isReplyClicked = selectedComment?.id === comment.id 
   const handleEditComment = (commentType, inputValue, index = null) => {
     setEditButtonActive(true);
     handleEditingComment(true);
@@ -42,17 +44,15 @@ function CommentCard32(props) {
       setEditReplyIndex(index);
     }
     setInputValue(inputValue);
-    setIsReplyClicked(true);
   };
 
   const handleInputChange = (event) => {
     event.preventDefault();
     setInputValue(event.target.value);
+    textAreaAutoResize(event, inputRef);
   };
 
-  function handleReplyClick() {
-    setIsReplyClicked(true);
-  }
+  
 
   function handleSubmitClick() {
     if (inputValue === '' || inputValue === null || inputValue === undefined) {
@@ -60,24 +60,33 @@ function CommentCard32(props) {
     }
     if (editButtonActive) {
       if (editCommentType === 'replies') {
-        updateChildComment(comment.id, editReplyIndex, inputValue, comment.sharedWithStudents);
+        updateChildComment(
+          comment.id,
+          editReplyIndex,
+          inputValue,
+          comment.sharedWithStudents
+        );
       } else if (editCommentType === 'parent_comment') {
         updateParentComment(inputValue, comment.id);
       }
     } else {
-      handleReplyComment(inputValue, comment.id, comment.questionSerialNumber, comment.sharedWithStudents);
+      handleReplyComment(
+        inputValue,
+        comment.id,
+        comment.questionSerialNumber,
+        comment.sharedWithStudents
+      );
     }
     setInputValue('');
-    setIsReplyClicked(false);
     setEditButtonActive(false);
     handleEditingComment(false);
   }
 
   function handleCancelClick() {
-    setIsReplyClicked(false);
     setEditButtonActive(false);
     setInputValue('');
     handleEditingComment(false);
+    setSelectedComment(null);
   }
 
   function showReply() {
@@ -126,25 +135,30 @@ function CommentCard32(props) {
     return (
       <ReplyInputWrapper id="comment_input">
         <Input
+          ref={inputRef}
+          style={{
+            height: `${inputRef.current ? inputRef.current.scrollHeight : 33}px`,
+          }}
           type="text"
           placeholder="Type here..."
-          defaultValue={inputValue}
+          value={inputValue}
           onChange={handleInputChange}
         />
         <ButtonWrapper>
-          <InputButton
-            backgroundColor={'#7200E0'}
-            textColor={'#ffffff'}
-            onClick={handleSubmitClick}
-          >
-            Submit
-          </InputButton>
           <InputButton
             backgroundColor={'#ffffff'}
             textColor={'#7200E0'}
             onClick={handleCancelClick}
           >
             Cancel
+          </InputButton>
+          <InputButton
+            backgroundColor={'#7200E0'}
+            textColor={'#ffffff'}
+            onClick={handleSubmitClick}
+            borderColor={'#7200E0'}
+          >
+            Submit
           </InputButton>
         </ButtonWrapper>
       </ReplyInputWrapper>
@@ -187,17 +201,12 @@ function CommentCard32(props) {
         {showComment()}
       </CommentText>
       {comment.replies?.length > 0 && showReply()}
-      {isResolved !== 'RESOLVED' &&
-        !isReplyClicked &&
-        !defaultComment &&
-        pageMode != 'CLOSED' && (
-          <Reply onClick={handleReplyClick}>
-            <img src="/icons/reply.svg" alt="reply" />
-            <div>Reply</div>
-          </Reply>
-        )}
-
-      {isReplyClicked && !editButtonActive && inputComment()}
+      {isShowReplyInput(
+        isResolved, 
+        isReplyClicked, 
+        defaultComment, 
+        pageMode, 
+        editButtonActive) && inputComment()}
     </CommentCard>
   );
 
@@ -207,16 +216,28 @@ function CommentCard32(props) {
     } else {
       if (comment?.comment?.includes('\n\n')) {
         const commentArray = comment.comment.split('\n\n');
+        const isFullComment = isShowFullCommentBankText(comment, selectedComment);
+
         return (
           <>
             <p>
               <BoldText>{commentArray[0]}</BoldText>
             </p>
-            <NewlineText text={commentArray[1]} />
+            <StyledNewlineText isFull={isFullComment}>
+              <NewlineText text={commentArray[1]} />
+            </StyledNewlineText>
           </>
         );
       } else {
-        return comment.comment;
+        return (
+          <>
+            {isShowFullCommentBankText(comment, selectedComment) ? (
+              <FullCommentBox>{comment.comment}</FullCommentBox>
+            ) : (
+              <TruncatedCommentBox>{comment.comment}</TruncatedCommentBox>
+            )}
+          </>
+        );
       }
     }
   }
@@ -236,26 +257,70 @@ function NewlineText({ text }) {
   return <>{newText}</>;
 }
 
+const StyledNewlineText = styled.p`
+  ${({ isFull }) =>
+    isFull
+      ? `
+        font-family: var(--font-family-ibm_plex_sans);
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 17px;
+        color: rgba(75, 70, 79, 1);
+      `
+      : `
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: var(--font-family-ibm_plex_sans);
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 17px;
+        color: rgba(75, 70, 79, 1);
+      `}
+`;
+
+const TruncatedCommentBox = styled.p`
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400px;
+  font-size: 13px;
+  line-height: 17px;
+  color: rgba(75, 70, 79, 1);
+`;
+
+const FullCommentBox = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 17px;
+  color: rgba(75, 70, 79, 1);
+`;
+
 const BoldText = styled.div`
   font-weight: bold;
-  padding-bottom: 1em;
+  padding-bottom: 5px;
 `;
 
 const CommentCard = styled.article`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
-  padding: 16px;
   position: relative;
   align-self: stretch;
   background-color: ${(props) =>
     props.bgColor ||
-    'var(--white)'}; // default is var(--white) if no bgColor prop is provided
-  border-radius: 16px;
-  border: 1px solid;
-  border-color: var(--electric-violet);
-  box-shadow: 0px 4px 16px #7200e01a;
+    'var(--white)'}; 
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px 0 rgba(112, 112, 112, 0.1);
+  border: solid 1px rgba(201, 198, 204, 0.5);
+  width: 293px;
 
   &.comment-card-4.comment-card-5 {
     cursor: unset;
@@ -266,12 +331,16 @@ const CommentCard = styled.article`
   }
 
   &:hover {
-    border-color: var(--light-mode-purple);
+    border-color: rgba(197, 150, 242, 1);
   }
 `;
 
 const CommentText = styled.div`
-  ${IbmplexsansNormalBlack16px}
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 17px;
+  color: #4B464F;
   position: relative;
   align-self: stretch;
   letter-spacing: 0;
@@ -288,40 +357,24 @@ const ReplyInputWrapper = styled.div`
   gap: 8px;
   align-self: stretch;
   font-family: 'IBM Plex Sans';
+  margin-top: 10px;
 `;
 
 const Input = styled.textarea`
   width: 100%;
-  min-height: 100px;
   display: flex;
-  padding: 8px 8px 8px 12px;
+  padding: 8px;
   font-family: var(--font-family-ibm_plex_sans);
   align-items: center;
   gap: 12px;
   align-self: stretch;
-  border-radius: 8px;
-  border: 1px solid #1e252a;
+  border-radius: 4px;
   background: #fff;
-  border: 1px solid var(--light-mode-purple);
-  border-radius: 10px;
+  border: 1px solid #C9C6CC;
+  box-shadow: 0px 2.04px 2px 0px #73737340 inset;
   outline: none;
   resize: none;
-`;
-
-const Reply = styled.div`
-  display: flex;
-  padding: 4px 8px;
-  margin-top: 6px;
-  justify-content: center;
-  align-items: center;
-  gap: 2px;
-  cursor: pointer;
-  border-radius: 14px;
-  border: 1px solid #7200e0;
-  color: #7200e0;
-  font-family: 'IBM Plex Sans';
-  font-weight: 500;
-  font-size: 13px;
+  overflow: hidden;
 `;
 
 const ButtonWrapper = styled.div`
@@ -334,18 +387,19 @@ const ButtonWrapper = styled.div`
 
 const InputButton = styled.div`
   display: flex;
-  padding: 8px 16px;
+  padding: 8px 12px;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  border-radius: 30px;
-  border: 1px solid #7200e0;
+  border-radius: 32px;
+  border: ${(props) => props.borderColor ? '1px solid #7200e0' : ''};
   background: ${(props) => props.backgroundColor};
   cursor: pointer;
   color: ${(props) => props.textColor};
   text-align: center;
-  font-size: 16px;
-  font-family: IBM Plex Sans;
+  font-size: 13px;
+  line-height: 17px;
+  font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
 `;
 
@@ -353,10 +407,19 @@ const ReplyCommentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-family: IBM Plex Sans;
+  font-family: var(--font-family-ibm_plex_sans);
   padding-top: 12px;
-  border-top: 1px solid #f1e6fc;
   width: 100%;
+  border-top: 1px solid #f1e6fc;
+`;
+
+
+const CommentDiv = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 400;
+  font-size: var(--font-size-s);
+  line-height: 16px;
+  color: rgba(75, 70, 79, 1);
 `;
 
 export default CommentCard32;

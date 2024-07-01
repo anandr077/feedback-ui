@@ -65,7 +65,6 @@ import {
   cancelFeedbackRequest,
   createRequestFeddbackType,
 } from '../../../service';
-import SnackbarContext from '../../SnackbarContext';
 import { linkify } from '../../../utils/linkify';
 import Button5 from '../Buttons5';
 import { Dialog } from '@mui/material';
@@ -84,6 +83,8 @@ import RectangularBigBtn from '../../../components2/Buttons/RectangularbigBtn';
 import StyledDropDown from '../../../components2/StyledDropDown';
 import TransparentbigBtn from '../../../components2/Buttons/TransparentbigBtn';
 import RectangularBigBtn2 from '../../../components2/Buttons/RectangularBigBtn2';
+import { toast } from 'react-toastify';
+import Toast from '../../Toast';
 
 function createFocusAreasCount(submission) {
   return submission.assignment.questions
@@ -391,7 +392,6 @@ export function contextBarForPortfolioDocument(
   setShowTeacherPopUp,
   isTeacher
 ) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
   const [isEditing, setIsEditing] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
   const [assignment, setAssignment] = React.useState(submission);
@@ -436,34 +436,6 @@ export function contextBarForPortfolioDocument(
       });
   };
 
-  const handleTaskUpdate = (selectedItem) => {
-    updateDocumentType(submission.id, selectedItem.title).then((res) => {
-      setSubmission((old) => {
-        return {
-          ...old,
-          documentType: res.documentType,
-        };
-      });
-    });
-  };
-
-  const handleSubjectUpdate = (selectedItem) => {
-    updateSubject(submission.assignment.id, selectedItem.title).then((res) => {
-      setSubmission((old) => {
-        return {
-          ...old,
-          assignment: {
-            ...old.assignment,
-            subject: res.subject,
-          },
-        };
-      });
-    });
-  };
-
-  const handleTitleClick = () => {
-    setIsEditing(true);
-  };
 
   React.useEffect(() => {
     if (isEditing) {
@@ -488,12 +460,6 @@ export function contextBarForPortfolioDocument(
 
   return (
     <>
-      {subjectTypeSelection(
-        pageMode,
-        submission,
-        handleTaskUpdate,
-        handleSubjectUpdate
-      )}
       <Frame1371 id="assignmentTitle">
         <TitleWrapper>
           <TitleContainer>
@@ -534,7 +500,6 @@ export function contextBarForPortfolioDocument(
           <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
         )} */}
           {submitButtonDocument(
-            showSnackbar,
             isShowSelectType,
             setShowSelectType,
             methods,
@@ -592,7 +557,6 @@ function statusText(methods, focusAreasCount, submission) {
 }
 
 const submitButtonDocument = (
-  showSnackbar,
   isShowSelectType,
   setShowSelectType,
   methods,
@@ -692,7 +656,7 @@ const submitButtonDocument = (
           onClick={() =>
             handleCancelFeedbackRequest(
               setShowFeedbackButtons,
-              showSnackbar,
+
               submission,
               setSubmission
             )
@@ -704,7 +668,7 @@ const submitButtonDocument = (
         {showFeedbackButtons &&
           dropdownButtons(
             setShowFeedbackButtons,
-            showSnackbar,
+
             submission,
             setSubmission
           )}
@@ -866,7 +830,7 @@ function getFeedbackRequestedBy(submission, allClasses) {
 
 function dropdownButtons(
   setShowFeedbackButtons,
-  showSnackbar,
+
   submission,
   setSubmission
 ) {
@@ -877,7 +841,7 @@ function dropdownButtons(
         onClick={() =>
           handleCancelFeedbackRequest(
             setShowFeedbackButtons,
-            showSnackbar,
+
             submission,
             setSubmission
           )
@@ -891,13 +855,12 @@ function dropdownButtons(
 
 function handleCancelFeedbackRequest(
   setShowFeedbackButtons,
-  showSnackbar,
   submission,
   setSubmission
 ) {
   cancelFeedbackRequest(submission.id)
     .then((response) => {
-      showSnackbar('Feedback request cancelled');
+      toast(<Toast message={'Feedback request cancelled'} />);
 
       setSubmission((old) => ({
         ...old,
@@ -909,7 +872,7 @@ function handleCancelFeedbackRequest(
       }));
     })
     .catch((error) => {
-      showSnackbar(error.message);
+      toast(<Toast message={error.message} />);
       setSubmission(error.submission);
     })
     .finally(() => {
@@ -917,55 +880,4 @@ function handleCancelFeedbackRequest(
     });
 }
 
-function subjectTypeSelection(
-  pageMode,
-  submission,
-  handleTaskUpdate,
-  handleSubjectUpdate
-) {
-  const subjectOptions = [{ title: 'English' }];
-  const taskOptions = [
-    { title: 'Analytical' },
-    { title: 'Imaginative' },
-    { title: 'Discursive' },
-    { title: 'Persuasive' },
-    { title: 'Reflective' },
-  ];
-  return (
-    <SubjectSelectionContainer>
-      {pageMode === 'DRAFT' ? (
-        <>
-          <SubjectSelectBox>
-            <label>Select Subject</label>
-            <StyledDropDown
-              menuItems={subjectOptions}
-              selectedIndex={subjectOptions.findIndex(
-                (item) => item.title === submission.assignment.subject
-              )}
-              onItemSelected={(item) => handleSubjectUpdate(item)}
-            ></StyledDropDown>
-          </SubjectSelectBox>
-          <SubjectSelectBox>
-            <label>Task Type</label>
-            <StyledDropDown
-              menuItems={taskOptions}
-              selectedIndex={taskOptions.findIndex(
-                (item) => item.title === submission.documentType
-              )}
-              onItemSelected={(item) => handleTaskUpdate(item)}
-            ></StyledDropDown>
-          </SubjectSelectBox>
-        </>
-      ) : (
-        <>
-          <SubjectSelectBox>
-            <label>{submission.assignment.subject || 'English'}</label>
-          </SubjectSelectBox>
-          <SubjectSelectBox>
-            <label>{submission.documentType || 'Analytical'}</label>
-          </SubjectSelectBox>
-        </>
-      )}
-    </SubjectSelectionContainer>
-  );
-}
+

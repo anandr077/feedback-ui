@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import {
-    IbmplexsansMediumElectricViolet20px,
-    IbmplexsansMediumWhite16px,
-    IbmplexsansNormalShark20px,
-    IbmplexsansSemiBoldShark20px,
-  } from '../../styledMixins';
+  IbmplexsansMediumElectricViolet20px,
+  IbmplexsansMediumWhite16px,
+  IbmplexsansNormalShark20px,
+  IbmplexsansSemiBoldShark20px,
+} from '../../styledMixins';
 
 export const MoreOptionsWrapper = styled.div`
   position: absolute;
@@ -71,24 +71,21 @@ export const BubbleContainer = styled.div`
 `;
 
 export const TaskTitle = styled.p`
-  ${IbmplexsansNormalShark20px}
-  color: var(--black);
-  font-size: 18px;
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: 27px;
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20.8px;
+  text-align: left;
+  color: #7b7382;
 `;
 
 export const TaskTitleBold = styled.p`
-  ${IbmplexsansSemiBoldShark20px}
+  font-family: IBM Plex Sans;
   font-size: 16px;
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
+  font-weight: 500;
+  line-height: 20.8px;
+  text-align: left;
+  color: #4b464f;
 `;
 
 export const Frame12191 = styled.div`
@@ -141,30 +138,75 @@ export const Button = styled.div`
   letter-spacing: 0;
   line-height: normal;
 `;
+
+export const TaskLink = styled.a`
+  text-decoration: none;
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16.9px;
+  text-align: center;
+  color: var(--light-mode-purple);
+  display: none !important;
+  justify-content: center;
+`;
+
 export const StyledCard = styled.article`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  padding: 20px;
+  padding: ${({ exemplar }) => (exemplar ? '20px' : '12px')};
   position: relative;
   align-self: stretch;
-  background-color: ${({overdue}) => (overdue ? '#FDE2E2' : 'var(--white)')};
-  box-shadow: 0px 4px 8.5px rgba(114, 0, 224, 0.08);
-  border-color: var(--corn);
-  border:  1px solid ${({ overdue }) => (overdue ? 'rgba(114, 0, 224, 0.10)' : 'rgba(219, 87, 87, 0.2)')};
-  border-radius: 16px;
-  
+
+  //border: 1px solid ${({ overdue }) => (overdue ? '#C9C6CC80' : '#EAEAEA')};
+  background-color: var(--white);
+  box-shadow: ${({ exemplar }) =>
+    !exemplar ? '0 4px 16px rgba(156, 156, 156, 0.4)' : 'none'};
+
+  //border-color: ${({ exemplar }) => (exemplar ? 'none' : 'var(--corn)')};
+  box-shadow: 0px 4px 8.5px 0px rgba(156, 156, 156, 0.08);
+  border: 1px solid
+    ${({ overdue }) => (overdue ? 'rgba(238, 149, 142, 1)' : '#EAEAEA')};
+  border-radius: ${({ exemplar }) => (exemplar ? '6px' : '16px')};
+
   &:hover {
-    background: #f9f5ff;
-    border: 1px solid var(--light-mode-purple);
-    box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
+    background: ${({ exemplar }) => (exemplar ? 'inherit' : '#f1e6fc')};
+    box-shadow: ${({ exemplar }) =>
+      exemplar ? 'none' : '0px 4px 16px rgba(114, 0, 224, 0.2)'};
+    ${TaskLink} {
+      display: flex !important;
+    }
   }
+`;
+
+export const StyledCardMain = styled.article`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  // padding: 20px;
+  position: relative;
+  align-self: stretch;
+  // background-color: ${({ overdue }) =>
+    overdue ? '#FDE2E2' : 'var(--white)'};
+  // box-shadow: 0 4px 16px rgba(156, 156, 156, 0.4);
+  // border-color: var(--corn);
+  // border: 1px solid
+  //   ${({ overdue }) => (overdue ? 'rgba(114, 0, 224, 0.10)' : '#EAEAEA')};
+  // border-radius: ${({ overdue }) => (overdue ? '16px' : '0px')};;
+
+  // &:hover {
+  //   background: #f1e6fc;
+  //   box-shadow: 0px 4px 16px rgba(114, 0, 224, 0.2);
+  // }
 `;
 
 export const AnchorTag = styled.a`
   text-decoration: none;
-`
+`;
 
 export const StudentLength = styled.span`
   color: var(--royal-purple);
@@ -173,7 +215,7 @@ export const StudentLength = styled.span`
   font-size: 18px;
   cursor: pointer;
   position: relative;
-`
+`;
 
 export const Header = styled.div`
   width: 100%;
@@ -198,7 +240,8 @@ export const FavouriteContent = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-  color: ${({favourite}) => favourite ? '#C70A65' : 'var(--light-mode-purple)'};
+  color: ${({ favourite }) =>
+    favourite ? '#C70A65' : 'var(--light-mode-purple)'};
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
   font-size: var(--font-size-s);

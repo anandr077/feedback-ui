@@ -13,38 +13,69 @@ export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center !important;
-  background-color: var(--white-pointer);
+  background-color: #fff;
   position: relative;
-  padding: 60px 0px;
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    min-width: 1025px;
-  }
-
-  @media (min-width: 766px) and (max-width: 1024px) {
-    min-width: 766px;
-  }
+  width:100%;
 `;
 export const TitleAndLinkContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 60px;
   position: relative;
   @media (max-width: 1024px) {
-    gap: 40px;
+    // gap: 16px;
   }
 `;
 export const LinkContainer = styled.div`
   width: 100%;
   display: flex;
+  align-items: center;
+  background-color: #f2f1f380;
+  padding: 0px 90px;
+`;
+export const LinkPartContainer = styled.a`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0px;
+  padding: 11px 0px;
+  text-decoration: none;
+`;
+
+export const LinkIcon = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
+export const LinkText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #7b7382;
 `;
 export const TitleAndSubtitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
   position: relative;
   width: 100%;
+  gap: 4px;
+  padding: 16px 90px;
+  border-bottom: solid 1px rgba(201, 198, 204, 0.5);
+`;
+export const TitleAndSubtitleSubContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  gap: 8px;
 `;
 export const TitleContainer = styled.div`
   display: flex;
@@ -122,22 +153,21 @@ export const Frame1379 = styled.div`
   // position: relative;
   // align-self: stretch;
   // margin-bottom: 20px;
-  max-width: 1440px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 60px;
-  padding: 0px 60px;
+  gap: 45px;
+  // padding: 0px 60px;
   @media (min-width: 1025px) and (max-width: 1440px) {
-    padding: 0px 60px;
+    // padding: 0px 60px;
   }
   @media (min-width: 766px) and (max-width: 1024px) {
-    padding: 0px 60px;
-    gap: 40px;
+    // padding: 0px 60px;
+    // gap: 40px;
   }
   @media (max-width: 765px) {
-    padding: 0px 20px;
-    gap: 40px;
+    // padding: 0px 20px;
+    // gap: 40px;
   }
 `;
 
@@ -167,15 +197,16 @@ export const Frame1378 = styled.div`
   align-items: flex-start;
   position: relative;
   align-self: stretch;
-  gap: 32px;
+  gap: 23px;
   ${(props) => props.readOnly && 'pointer-events: none; opacity: 0.5;'}
+  padding: 0px 90px;
 `;
 
 export const Frame1375 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 32px;
+  gap: 45px;
   position: relative;
   align-self: stretch;
   width: 80%;
@@ -198,6 +229,8 @@ export const Frame1372 = styled.div`
   gap: 30px;
   align-self: stretch;
   z-index: 1;
+  // padding: 0px 90px;
+  margin-left: 22%;
 `;
 
 export const TaskHeading = styled.div`
@@ -212,43 +245,67 @@ export const TaskHeading = styled.div`
   text-align: left;
   color: #7200e0;
 `;
+export const LeftStepNumber = styled.div`
+  display: flex;
+  gap: 8px;
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.31;
+  letter-spacing: normal;
+  text-align: center;
+  color: #a154ea;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 3px 8px;
+  border-radius: 11.5px;
+  border: 1px solid #dec7ff;
+  background-color: #fff;
+`;
 
 export const Title = styled.h1`
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--Dark-Purple, #301b72);
-  font-family: IBM Plex Sans;
-  font-size: 36px;
+
+  font-size: 23px;
+  font-weight: 600;
+  font-stretch: normal;
   font-style: normal;
-  font-weight: 700;
   line-height: normal;
-  letter-spacing: -0.9px;
+  letter-spacing: -0.23px;
+  text-align: left;
+  color: #4b464f;
   @media (max-width: 765px) {
-    font-size: 32px;
+    font-size: 23px;
     letter-spacing: -0.8px;
   }
 `;
 export const HeadingLine = styled.p`
-  color: var(--Foundation-Grey-grey-500, #333333);
   font-family: IBM Plex Sans;
   font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
   font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #918b97;
 `;
 
 export const Frame1374 = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 14px 21px;
+  padding: 12px 16px;
   position: relative;
   align-self: stretch;
   background-color: var(--white);
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
-  border: 1px solid #a6a6a6 !important;
+  border: 1px solid #b2aeb7 !important;
 `;
 
 export const TextInput = styled.input`
@@ -262,12 +319,13 @@ export const TextInput = styled.input`
   transition: 0.15s;
   width: 100%;
   font-family: IBM Plex Sans;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 26px;
-  letter-spacing: 0em;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
   text-align: left;
-  border: 0px;
 `;
 
 export const Frame1294 = styled.div`
@@ -313,11 +371,12 @@ export const Frame1296 = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 0px 30px 0px 30px;
   position: relative;
   align-self: stretch;
+  padding-top: 22px;
+  border-top: 1px solid rgba(201, 198, 204, 0.5);
   @media (max-width: 765px) {
-    width:100%;
+    width: 100%;
     justify-content: center;
     align-items: center;
   }
@@ -330,6 +389,7 @@ export const Frame1377 = styled.div`
   gap: 40px;
   position: relative;
   align-self: stretch;
+  padding: 0px 90px;
 `;
 
 export const Frame1299 = styled.div`
@@ -396,6 +456,7 @@ export const Button = styled.div`
   letter-spacing: 0;
   line-height: normal;
   color: var(--light-mode-purple);
+  font-size: 16px;
 `;
 export const Buttons1 = styled.div`
   display: flex;
@@ -422,12 +483,10 @@ export const TaskContainer = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
-  padding: 0px 0px 32px 0px;
-  border-radius: 12px;
-  border: 1px;
-  gap: 32px;
-  background: linear-gradient(0deg, #ffffff, #ffffff);
-  border: 1px solid #f2f2f2;
+  padding: 0px 0px 44px 0px;
+  gap: 23px;
+
+  border-bottom: 1px solid rgba(201, 198, 204, 0.5);
   @media (max-width: 765px) {
     gap: 20px;
   }
@@ -436,17 +495,12 @@ export const TaskHeadingContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  padding: 20px 30px 20px 30px;
-  border-radius: 12px 12px 0px 0px;
-  gap: 10px;
-  background: #f7eeff;
 `;
 
 export const TaskNameContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0px 30px 0px 30px;
-  gap: 20px;
+  gap: 23px;
 `;
 export const TaskName = styled.div`
   display: flex;
@@ -456,17 +510,19 @@ export const TaskName = styled.div`
 `;
 export const TaskTitle = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 24px;
+  font-size: 19px;
   font-weight: 600;
-  line-height: 31px;
-  letter-spacing: 0em;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
   text-align: left;
-  color: #1e252a;
+  color: #4b464f;
 `;
 
 export const StepsPart = styled.div`
-  position:sticky;
-  top: 75px;
+  position: sticky;
+  top: 110px;
   display: flex;
   flex-direction: column;
   width: 20%;
@@ -474,13 +530,11 @@ export const StepsPart = styled.div`
   border-radius: 12px;
   gap: 20px;
   background: linear-gradient(0deg, #ffffff, #ffffff);
-  box-shadow: 0px 4px 6px 0px #ca93ff1a;
 `;
 export const StepsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0px 20px 0px 20px;
-  gap: 20px;
+  gap: 16px;
 `;
 export const StepContainer = styled.div`
   display: flex;
@@ -490,6 +544,18 @@ export const StepContainer = styled.div`
 export const StepImag = styled.img`
   width: 24px;
   height: 24px;
+`;
+export const StepNum = styled.p`
+  font-family: IBM Plex Sans;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
 `;
 export const StepText = styled.p`
   font-family: IBM Plex Sans;

@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CreateNewMarkingCriteriaDesktop from '../CreateNewMarkingCriteriaDesktop';
-import CreateNewMarkingCriteriaTablet from '../CreateNewMarkingCriteriaTablet';
-import CreateNewMarkingCriteriaLaptop from '../CreateNewMarkingCriteriaLaptop';
-import CreateNewMarkingCriteriaMobile from '../CreateNewMarkingCriteriaMobile';
-import ReactiveRender from '../../ReactiveRender';
-
+import  { isMobileView } from '../../ReactiveRender';
 import CriteriaContainer from '../CriteriaContainer';
 import {
   createNewMarkingCriteria,
@@ -16,8 +12,9 @@ import {
   getNewCriteria,
 } from '../../../service';
 import Loader from '../../Loader';
-import SnackbarContext from '../../SnackbarContext';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Toast from '../../Toast';
 
 export default function CreateNewMarkingCriteriaRoot(props) {
   const { markingCriteriaId } = useParams();
@@ -25,10 +22,10 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isUpdating, setIsUpdating] = React.useState(false);
 
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria);
   const history = useHistory();
+  const mobileView = isMobileView();
 
   React.useEffect(() => {
     Promise.all([getAllMarkingCriteria()]).then(([result]) => {
@@ -78,6 +75,26 @@ export default function CreateNewMarkingCriteriaRoot(props) {
     setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
   };
 
+  const addLevelInBetween = (criteriaId, levelId) => {
+    const newLevel = {
+      id: markingCriterias.criterias[criteriaId].levels.length,
+      name: '',
+      description: '',
+    };
+    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+      if (index === criteriaId) {
+        const newLevels = [...criteria.levels];
+        newLevels.splice(levelId + 1, 0, newLevel);
+        return {
+          ...criteria,
+          levels: newLevels,
+        };
+      }
+      return criteria;
+    });
+    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+  };
+
   const deleteLevel = (criteriaId, levelId) => {
     const newCriterias = markingCriterias.criterias.map((criteria, index) => {
       if (index === criteriaId) {
@@ -96,33 +113,45 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   const validateMarkingCriteria = () => {
     let isValid = true;
     if (markingCriterias.title === '' || markingCriterias.title === undefined) {
-      showSnackbar('Please enter a title for the marking criteria');
+      toast(
+        <Toast message={'Please enter a title for the marking criteria'} />
+      );
       isValid = false;
     }
     if (markingCriterias.criterias.length === 0) {
-      showSnackbar('Please add at least one criteria');
+      toast(<Toast message={'Please add at least one criteria'} />);
       isValid = false;
     }
 
     markingCriterias.criterias.forEach((criteria, indexout) => {
       if (criteria.title === undefined || criteria.title === '') {
-        showSnackbar(`Please enter a title for criteria ${indexout + 1}`);
+        toast(
+          <Toast
+            message={`Please enter a title for criteria ${indexout + 1}`}
+          />
+        );
         isValid = false;
       }
       criteria.levels.forEach((level) => {
         if (level.name == undefined || level.name === '') {
-          showSnackbar(
-            `Please enter a name for all level in criteria ${indexout + 1}`
+          toast(
+            <Toast
+              message={`Please enter a name for all level in criteria ${
+                indexout + 1
+              }`}
+            />
           );
           isValid = false;
         }
       });
       criteria.levels.forEach((level) => {
         if (level.description == undefined || level.description === '') {
-          showSnackbar(
-            `Please enter a description for all level in criteria ${
-              indexout + 1
-            }`
+          toast(
+            <Toast
+              message={`Please enter a description for all level in criteria ${
+                indexout + 1
+              }`}
+            />
           );
           isValid = false;
         }
@@ -152,8 +181,13 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       isUpdating
         ? updateMarkingCriteria(markingCriteria, markingCriteriaId)
         : createNewMarkingCriteria(markingCriteria);
-      showSnackbar(
-        isUpdating ? 'Marking criteria updated' : 'Marking criteria created'
+
+      toast(
+        <Toast
+          message={
+            isUpdating ? 'Marking criteria updated' : 'Marking criteria created'
+          }
+        />
       );
       window.localStorage.setItem('markingCriteria', 'true');
       history.push('/settings');
@@ -165,12 +199,14 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   const deleteMarkingCriteriaMethod = () => {
     deleteMarkingCriteria(markingCriteriaId)
       .then(() => {
-        showSnackbar('Marking criteria deleted');
+        toast(<Toast message={'Marking criteria deleted'} />);
         window.localStorage.setItem('markingCriteria', 'true');
         history.push('/settings');
       })
       .catch((error) => {
-        showSnackbar('An error occured while deleting marking criteria');
+        toast(
+          <Toast message={'An error occured while deleting marking criteria'} />
+        );
       });
   };
 
@@ -261,68 +297,30 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   }
 
   return (
-    <ReactiveRender
-      mobile={
-        <CreateNewMarkingCriteriaMobile
-          {...{
-            ...accountSettingsMarkingCriteriaCreat2Data,
-            criterias,
-            addCriteria,
-            addLevel,
-            saveMarkingCriteria,
-            deleteMarkingCriteriaMethod,
-            handleTitleChange,
-            isUpdating,
-            markingCriterias,
-          }}
-        />
-      }
-      tablet={
-        <CreateNewMarkingCriteriaTablet
-          {...{
-            ...accountSettingsMarkingCriteriaCreat3Data,
-            criterias,
-            addCriteria,
-            addLevel,
-            saveMarkingCriteria,
-            deleteMarkingCriteriaMethod,
-            handleTitleChange,
-            isUpdating,
-            markingCriterias,
-          }}
-        />
-      }
-      laptop={
-        <CreateNewMarkingCriteriaLaptop
-          {...{
-            ...accountSettingsMarkingCriteriaCreat4Data,
-            criterias,
-            addCriteria,
-            addLevel,
-            saveMarkingCriteria,
-            deleteMarkingCriteriaMethod,
-            handleTitleChange,
-            isUpdating,
-            markingCriterias,
-          }}
-        />
-      }
-      desktop={
+    <>
+     
         <CreateNewMarkingCriteriaDesktop
           {...{
             ...accountSettingsMarkingCriteriaCreat4Data,
             criterias,
             addCriteria,
             addLevel,
+            deleteLevel,
+            addLevelInBetween,
+            deleteCriteria,
+            updateCriteriaTitle,
+            updateLevelName,
+            updateLevelDescription,
             saveMarkingCriteria,
             deleteMarkingCriteriaMethod,
             handleTitleChange,
             isUpdating,
             markingCriterias,
+            markingCriteriaId,
           }}
         />
-      }
-    />
+    
+    </>
   );
 }
 

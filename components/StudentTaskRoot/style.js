@@ -1,14 +1,9 @@
 import styled from 'styled-components';
 export const FilterAndSortContainer = styled.div`
   display: flex;
-  align-items: center;
   gap: 16px;
-  align-self: stretch;
   @media (min-width: 766px) and (max-width: 1024px) {
-    flex-wrap: wrap;
-  }
-  @media (max-width: 765px) {
-    flex-direction: row;
+    flex-direction: column;
   }
 `;
 export const MainContainer = styled.div`
@@ -16,14 +11,6 @@ export const MainContainer = styled.div`
   padding: 16px 0px 16px 0px;
   justify-content: space-between;
   width: 100%;
-  align-self: stretch;
-  border-top: 1px solid var(--Foundation-Grey-grey-100, #d6d6d6);
-  @media (min-width: 766px) and (max-width: 1024px) {
-    align-items: center;
-  }
-  @media (max-width: 765px) {
-    align-items: center;
-  }
 `;
 
 export const CalenderContainer = styled.div`
@@ -33,14 +20,12 @@ export const CalenderContainer = styled.div`
 `;
 
 export const TasksImg = styled.img`
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+  width: 24px;
+  height: 24px;
 `;
 export const TasksImgCal = styled.img`
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
+  width: 24px;
+  height: 24px;
 `;
 
 // export const Filter = styled.div`

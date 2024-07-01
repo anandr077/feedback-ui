@@ -1,9 +1,6 @@
 import React from 'react';
 import { getTasks, getClasses } from '../../service';
 import ReactiveRender, { isMobileView, isTabletView } from '../ReactiveRender';
-import TasksStudentMobile from '../TasksStudentMobile';
-import TasksStudentTablet from '../TasksStudentTablet';
-import TasksLaptop from '../TasksLaptop';
 import TasksDesktop from '../TasksDesktop';
 import { taskHeaderProps } from '../../utils/headerProps.js';
 import { Dialog } from '@mui/material';
@@ -21,10 +18,11 @@ import {
 import RoundedDropDown from '../../components2/RoundedDropDown/index.jsx';
 import SortSquare from '../../static/img/sort-square.svg';
 import FilterSquare from '../../static/img/filter-square.svg';
-import TaskSelected from '../../static/img/taskselected.svg';
+import TaskSelected from '../../static/img/Columns-new.svg';
 import CloseCircle from '../../static/img/closecircle.svg';
-import TaskUnSelected from '../../static/img/taskunselected.svg';
-import CalSelected from '../../static/img/calselected.svg';
+import TaskNotSelected from '../../static/img/Columns-new-gray.svg';
+import CalNotSelected from '../../static/img/Calendar-new-purple.svg';
+import CalSelected from '../../static/img/Calendar-new.svg';
 import CalUnSelected from '../../static/img/calunselected.svg';
 import MyCalendar from '../../components2/Calender/index.js';
 import moment from 'moment';
@@ -42,6 +40,7 @@ import {
   SortHeading,
   SortImg,
   SortText,
+  TitleHeading,
 } from '../FilterSort/style.js';
 import {
   FeedbackButtonArrow,
@@ -53,6 +52,7 @@ import {
   PopupContainer,
   SortPopUpBody,
 } from '../GiveFeedback/style.js';
+import MenuButton from '../MenuButton/index.jsx';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
@@ -62,7 +62,9 @@ export default function StudentTaskRoot() {
   const [tasksSelected, setTasksSelected] = React.useState(true);
   const [isShowFilterPopUp, setShowFilterPopUp] = React.useState(false);
   const [isShowSortPopUp, setShowSortPopUp] = React.useState(false);
+   const [isShowMenu, setShowMenu] = React.useState(false);
   const mobileView = isMobileView();
+   const tabletView = isTabletView();
 
   const tasksQuery = useQuery({
     queryKey: ['tasks'],
@@ -176,94 +178,50 @@ export default function StudentTaskRoot() {
     setFilteredTasks(filteredClasses);
   };
 
-  const FilterPopContainer = ({ isShowFilterPopUp, setShowFilterPopUp }) => {
-    return (
-      <Dialog open={isShowFilterPopUp}>
-        {isShowFilterPopUp && (
-          <PopupContainer>
-            <Frame5086PopUp>
-              <Frame5086PopUpTitle>
-                <Frame5086Img src={FilterSquare} />
-                <Frame5086Text>Filters:</Frame5086Text>
-              </Frame5086PopUpTitle>
-              <FeedbackButtonArrow
-                style={{ cursor: 'pointer' }}
-                src={CloseCircle}
-                onClick={() => setShowFilterPopUp(false)}
-              />
-            </Frame5086PopUp>
-            <Frame5086PopUpBody>
-              <RoundedDropDown
-                search={false}
-                type={'classes'}
-                selectedIndex={setSelectedValue}
-                menuItems={classNames}
-                defaultValue={selectedClass}
-                width={110}
-              />
-            </Frame5086PopUpBody>
-          </PopupContainer>
-        )}
-      </Dialog>
-    );
-  };
-  const SortPopContainer = ({ isShowSortPopUp, setShowSortPopUp }) => {
-    return (
-      <Dialog open={isShowSortPopUp}>
-        {isShowSortPopUp && (
-          <PopupContainer>
-            <Frame5086PopUp>
-              <Frame5086PopUpTitle>
-                <Frame5086Img src={SortSquare} />
-                <Frame5086Text>Sort by:</Frame5086Text>
-              </Frame5086PopUpTitle>
-              <FeedbackButtonArrow
-                style={{ cursor: 'pointer' }}
-                src={CloseCircle}
-                onClick={() => setShowSortPopUp(false)}
-              />
-            </Frame5086PopUp>
-            <SortPopUpBody>
-              <SortButton
-                style={{ backgroundColor: sortData ? '#51009F' : '' }}
-                onClick={() => setSortData(true)}
-              >
-                <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
-                  New to Old
-                </SortButtonText>
-              </SortButton>
-              <SortButton
-                style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-                onClick={() => setSortData(false)}
-              >
-                <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
-                  Old to New
-                </SortButtonText>
-              </SortButton>
-            </SortPopUpBody>
-          </PopupContainer>
-        )}
-      </Dialog>
-    );
-  };
+
 
   const FilterSortAndCal = (
     <>
       <MainContainer>
+        <CalenderContainer>
+          {tabletView && <MenuButton setShowMenu={setShowMenu} />}
+          <TitleHeading
+            style={tasksSelected ? { color: '#7200E0' } : { color: '#7B7382' }}
+            className={tasksSelected ? 'active' : ''}
+            onClick={() => setTasksSelected(true)}
+          >
+            <TasksImg
+              src={!tasksSelected ? TaskNotSelected : TaskSelected}
+              selected={tasksSelected}
+            />
+            Column
+          </TitleHeading>
+          
+            <TitleHeading
+              style={
+                tasksSelected ? { color: '#7B7382' } : { color: '#7200E0' }
+              }
+              className={!tasksSelected ? 'active' : ''}
+              onClick={() => setTasksSelected(false)}
+            >
+              <TasksImgCal
+                src={!tasksSelected ? CalNotSelected : CalSelected}
+                selected={!tasksSelected}
+              />
+              Calendar
+            </TitleHeading>
+          
+        </CalenderContainer>
         <FilterAndSortContainer>
           <FilterContainer>
             <Filter
-              onClick={
-                mobileView
-                  ? () => setShowFilterPopUp(!isShowFilterPopUp)
-                  : undefined
-              }
+              
             >
               <FilterImg src={FilterSquare} />
-              <FilterText>Filter {!mobileView && ':'}</FilterText>
+              <FilterText>Filter :</FilterText>
             </Filter>
 
-            {!mobileView ? (
+           
               <>
                 <RoundedDropDown
                   search={false}
@@ -274,28 +232,19 @@ export default function StudentTaskRoot() {
                   width={110}
                 />
               </>
-            ) : (
-              <></>
-            )}
-            <FilterPopContainer
-              isShowFilterPopUp={isShowFilterPopUp}
-              setShowFilterPopUp={setShowFilterPopUp}
-            />
+           
+            
           </FilterContainer>
           {!isTabletView && <FilterLine />}
           {tasksSelected && (
             <SortContainer>
               <SortHeading
-                onClick={
-                  mobileView
-                    ? () => setShowSortPopUp(!isShowSortPopUp)
-                    : undefined
-                }
+                
               >
                 <SortImg src={SortSquare} />
-                <SortText>Sort by {!mobileView && ':'}</SortText>
+                <SortText>Sort by :</SortText>
               </SortHeading>
-              {!mobileView ? (
+              
                 <>
                   <SortButton
                     style={{
@@ -321,36 +270,11 @@ export default function StudentTaskRoot() {
                     </SortButtonText>
                   </SortButton>
                 </>
-              ) : (
-                <></>
-              )}
-              <SortPopContainer
-                isShowSortPopUp={isShowSortPopUp}
-                setShowSortPopUp={setShowSortPopUp}
-              />
+              
+              
             </SortContainer>
           )}
         </FilterAndSortContainer>
-        <CalenderContainer>
-          <TasksImg
-            src={
-              tasksSelected
-                ? TaskSelected
-                : mobileView
-                ? TaskSelected
-                : TaskUnSelected
-            }
-            selected={tasksSelected}
-            onClick={() => setTasksSelected(true)}
-          />
-          {!mobileView && (
-            <TasksImgCal
-              src={!tasksSelected ? CalSelected : CalUnSelected}
-              selected={!tasksSelected}
-              onClick={() => setTasksSelected(false)}
-            />
-          )}
-        </CalenderContainer>
       </MainContainer>
     </>
   );
@@ -367,67 +291,20 @@ export default function StudentTaskRoot() {
 
   const MyCalendarFile = <MyCalendar calenderEvents={calenderEvents} />;
   return (
-    <ReactiveRender
-      mobile={
-        <TasksStudentMobile
-          {...{
-            menuItems,
-            filterTasks,
-            assignmedTasks,
-            inProgressTasks,
-            inReviewTasks,
-            FilterSortAndCal,
-            tasksSelected,
-            MyCalendarFile,
-            ...tasksStudentMobileData,
-          }}
-        />
-      }
-      tablet={
-        <TasksStudentTablet
-          {...{
-            menuItems,
-            filterTasks,
-            assignmedTasks,
-            inProgressTasks,
-            inReviewTasks,
-            FilterSortAndCal,
-            tasksSelected,
-            MyCalendarFile,
-            ...tasksStudentTabletData,
-          }}
-        />
-      }
-      laptop={
-        <TasksLaptop
-          {...{
-            menuItems,
-            filterTasks,
-            assignmedTasks,
-            inProgressTasks,
-            inReviewTasks,
-            FilterSortAndCal,
-            tasksSelected,
-            MyCalendarFile,
-            ...tasksLaptopData,
-          }}
-        />
-      }
-      desktop={
-        <TasksDesktop
-          {...{
-            menuItems,
-            filterTasks,
-            assignmedTasks,
-            inProgressTasks,
-            inReviewTasks,
-            FilterSortAndCal,
-            tasksSelected,
-            MyCalendarFile,
-            ...tasksDesktopData,
-          }}
-        />
-      }
+    <TasksDesktop
+      {...{
+        menuItems,
+        filterTasks,
+        assignmedTasks,
+        inProgressTasks,
+        inReviewTasks,
+        FilterSortAndCal,
+        tasksSelected,
+        MyCalendarFile,
+        isShowMenu,
+        setShowMenu,
+        ...tasksDesktopData,
+      }}
     />
   );
 }
@@ -551,14 +428,7 @@ const frame192Data = {
   cards5Props: cards52Data,
 };
 
-const tasksStudentMobileData = {
-  headerProps: taskHeaderProps,
-  frame1304Props: frame13041Data,
-  tabs21Props: tabs23Data,
-  tabs22Props: tabs24Data,
-  frame19Props: frame192Data,
-  arrowright: '/img/arrowright@2x.png',
-};
+
 
 const frame13042Data = {
   iconsaxLinearSort: '/img/iconsax-linear-sort@2x.png',
@@ -674,28 +544,7 @@ const cards10Data = {
 const notifications3Data = {
   src: '/img/notificationbing@2x.png',
 };
-const tasksStudentTabletData = {
-  frame1349: '/img/frame-1349-1.png',
-  frame5: '/img/frame-5@2x.png',
-  keepOrganizedWitho: 'Tasks',
-  outstanding: 'Outstanding',
-  number: '5',
-  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
-  mainWebsite: 'Main Website',
-  terms: 'Terms',
-  privacy: 'Privacy',
-  notificationsProps: notifications3Data,
-  frame1304Props: frame13042Data,
-  tabs21Props: tabs25Data,
-  tabs22Props: tabs26Data,
-  cards6Props: cards62Data,
-  cards7Props: cards7Data,
-  cards8Props: cards8Data,
-  cards9Props: cards9Data,
-  cards10Props: cards10Data,
-  frame19Props: frame192Data,
-  arrowright: '/img/arrowright@2x.png',
-};
+
 
 const statusBubbles21Data = {
   children: 'Theory',
@@ -803,11 +652,7 @@ const frame191Data = {
   cards5Props: cards51Data,
 };
 
-const tasksLaptopData = {
-  frame19Props: frame191Data,
-  headerProps: taskHeaderProps,
-  arrowright: '/img/arrowright@2x.png',
-};
+
 
 const frame13043Data = {
   iconsaxLinearSort: '/img/iconsax-linear-sort-2@2x.png',

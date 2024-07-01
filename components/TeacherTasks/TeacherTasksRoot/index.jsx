@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   getAssignments,
   getClasses,
@@ -8,9 +8,6 @@ import ReactiveRender, {
   isMobileView,
   isTabletView,
 } from '../../ReactiveRender';
-import TeacherTasksStudentMobile from '../TeacherTasksStudentMobile';
-import TeacherTasksStudentTablet from '../TeacherTasksStudentTablet';
-import TeacherTasksLaptop from '../TeacherTasksLaptop';
 import TeacherTasksDesktop from '../TeacherTasksDesktop';
 import { Dialog } from '@mui/material';
 import {
@@ -34,10 +31,13 @@ import { FilterContainer, FilterLine } from '../../CompletedPage/style.js';
 import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
 import SortSquare from '../../../static/img/sort-square.svg';
 import FilterSquare from '../../../static/img/filter-square.svg';
-import TaskSelected from '../../../static/img/taskselected.svg';
+import TaskSelected from '../../../static/img/Columns-new.svg';
+import TaskNotSelected from '../../../static/img/Columns-new-gray.svg';
 import Closecircle from '../../../static/img/closecircle.svg';
 import TaskUnSelected from '../../../static/img/taskunselected.svg';
-import CalSelected from '../../../static/img/calselected.svg';
+import CalSelected from '../../../static/img/Calendar-new.svg';
+import CalNotSelected from '../../../static/img/Calendar-new-purple.svg';
+import MenuNavIcon from '../../../static/icons/Menu-nav-icon.svg';
 import CalUnSelected from '../../../static/img/calunselected.svg';
 import moment from 'moment';
 import MyCalendar from '../../../components2/Calender/index.js';
@@ -50,6 +50,7 @@ import {
   SortText,
   SortButton,
   SortButtonText,
+  TitleHeading,
 } from '../../FilterSort/style.js';
 import {
   FeedbackButtonArrow,
@@ -62,6 +63,7 @@ import {
   SortContainer,
   Frame5086PopUpBody,
 } from '../../GiveFeedback/style.js';
+import MenuButton from '../../MenuButton/index.jsx';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -74,8 +76,7 @@ export default function TeacherTaskRoot() {
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [tasksSelected, setTasksSelected] = React.useState(true);
-  const [isShowFilterPopUp, setShowFilterPopUp] = React.useState(false);
-  const [isShowSortPopUp, setShowSortPopUp] = React.useState(false);
+  const [isShowMenu, setShowMenu] = React.useState(false);
   const mobileView = isMobileView();
   const tabletView = isTabletView();
 
@@ -172,13 +173,10 @@ export default function TeacherTaskRoot() {
     return sortedTasks;
   };
 
-  // console.log('filteredData', filteredData(filteredTasks)[0].tags[0].name);
-  console.log('selectedClass', selectedClass);
-
   const classNames = classes.map((classItem) => classItem.title);
 
   const drafts = filteredData(filteredTasks)
-    .filter((assignment) => assignment.submissionsStatus === 'DRAFT')
+    .filter((assignment) => assignment.status === 'DRAFT')
     .filter(
       (assignment) =>
         !selectedClass || assignment?.tags[0]?.name === selectedClass
@@ -186,9 +184,13 @@ export default function TeacherTaskRoot() {
 
   const awaitingSubmissions = filteredData(filteredTasks)
     .filter((assignment) => {
+      const dueAtDate = new Date(assignment.dueAt); 
+      const currentDate = new Date();
+
       return (
-        assignment.submissionsStatus === 'AWAITING_SUBMISSIONS' ||
-        assignment.submissionStatus === 'FEEDBACK_ACCEPTED'
+        assignment.status === "PUBLISHED" && 
+        assignment.submissionCount === 0 &&
+        dueAtDate >= currentDate
       );
     })
     .filter(
@@ -197,7 +199,16 @@ export default function TeacherTaskRoot() {
     );
 
   const feedbacks = filteredData(filteredTasks)
-    .filter((assignment) => assignment.submissionsStatus === 'FEEDBACK')
+    .filter((assignment) => {
+      const dueAtDate = new Date(assignment.dueAt); 
+      const currentDate = new Date();
+
+      return (
+        assignment.status === "PUBLISHED" && 
+        assignment.submissionCount > 0 &&
+        dueAtDate >= currentDate
+      )
+    })
     .filter(
       (assignment) =>
         !selectedClass || assignment?.tags[0]?.name === selectedClass
@@ -272,23 +283,43 @@ export default function TeacherTaskRoot() {
     setShowDateExtendPopup(false);
   };
 
-  const FilterPopContainer = ({ isShowFilterPopUp, setShowFilterPopUp }) => {
-    return (
-      <Dialog open={isShowFilterPopUp}>
-        {isShowFilterPopUp && (
-          <PopupContainer>
-            <Frame5086PopUp>
-              <Frame5086PopUpTitle>
-                <Frame5086Img src={FilterSquare} />
-                <Frame5086Text>Filters:</Frame5086Text>
-              </Frame5086PopUpTitle>
-              <FeedbackButtonArrow
-                style={{ cursor: 'pointer' }}
-                src={Closecircle}
-                onClick={() => setShowFilterPopUp(false)}
-              />
-            </Frame5086PopUp>
-            <Frame5086PopUpBody>
+  const FilterSortAndCal = (
+    <>
+      <MainContainer>
+        <CalenderContainer>
+          {tabletView && <MenuButton setShowMenu={setShowMenu} />}
+          <TitleHeading
+            style={tasksSelected ? { color: '#7200E0' } : { color: '#7B7382' }}
+            className={tasksSelected ? 'active' : ''}
+            onClick={() => setTasksSelected(true)}
+          >
+            <TasksImg
+              src={!tasksSelected ? TaskNotSelected : TaskSelected}
+              selected={tasksSelected}
+            />
+            Column
+          </TitleHeading>
+
+          <TitleHeading
+            style={tasksSelected ? { color: '#7B7382' } : { color: '#7200E0' }}
+            className={!tasksSelected ? 'active' : ''}
+            onClick={() => setTasksSelected(false)}
+          >
+            <TasksImgCal
+              src={!tasksSelected ? CalNotSelected : CalSelected}
+              selected={!tasksSelected}
+            />
+            Calendar
+          </TitleHeading>
+        </CalenderContainer>
+        <FilterAndSortContainer>
+          <FilterContainer>
+            <Filter>
+              <FilterImg src={FilterSquare} />
+              <FilterText>Filter :</FilterText>
+            </Filter>
+
+            <>
               <RoundedDropDown
                 search={false}
                 type={'classes'}
@@ -297,157 +328,40 @@ export default function TeacherTaskRoot() {
                 defaultValue={selectedClass}
                 width={110}
               />
-            </Frame5086PopUpBody>
-          </PopupContainer>
-        )}
-      </Dialog>
-    );
-  };
-
-  const SortPopContainer = ({ isShowSortPopUp, setShowSortPopUp }) => {
-    return (
-      <Dialog open={isShowSortPopUp}>
-        {isShowSortPopUp && (
-          <PopupContainer>
-            <Frame5086PopUp>
-              <Frame5086PopUpTitle>
-                <Frame5086Img src={SortSquare} />
-                <Frame5086Text>Sort by:</Frame5086Text>
-              </Frame5086PopUpTitle>
-              <FeedbackButtonArrow
-                style={{ cursor: 'pointer' }}
-                src={Closecircle}
-                onClick={() => setShowSortPopUp(false)}
-              />
-            </Frame5086PopUp>
-            <SortPopUpBody>
-              <SortButton
-                style={{ backgroundColor: sortData ? '#51009F' : '' }}
-                onClick={() => setSortData(true)}
-              >
-                <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
-                  New to Old
-                </SortButtonText>
-              </SortButton>
-              <SortButton
-                style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-                onClick={() => setSortData(false)}
-              >
-                <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
-                  Old to New
-                </SortButtonText>
-              </SortButton>
-            </SortPopUpBody>
-          </PopupContainer>
-        )}
-      </Dialog>
-    );
-  };
-
-  const FilterSortAndCal = (
-    <>
-      <MainContainer>
-        <FilterAndSortContainer>
-          <FilterContainer>
-            <Filter
-              onClick={
-                mobileView
-                  ? () => setShowFilterPopUp(!isShowFilterPopUp)
-                  : undefined
-              }
-            >
-              <FilterImg src={FilterSquare} />
-              <FilterText>Filter {!mobileView && ':'}</FilterText>
-            </Filter>
-
-            {!mobileView ? (
-              <>
-                <RoundedDropDown
-                  search={false}
-                  type={'classes'}
-                  selectedIndex={setSelectedValue}
-                  menuItems={classNames}
-                  defaultValue={selectedClass}
-                  width={110}
-                />
-              </>
-            ) : (
-              <></>
-            )}
-            <FilterPopContainer
-              isShowFilterPopUp={isShowFilterPopUp}
-              setShowFilterPopUp={setShowFilterPopUp}
-            />
+            </>
           </FilterContainer>
           {!tabletView && <FilterLine />}
           {tasksSelected && (
             <SortContainer>
-              <SortHeading
-                onClick={
-                  mobileView
-                    ? () => setShowSortPopUp(!isShowSortPopUp)
-                    : undefined
-                }
-              >
+              <SortHeading>
                 <SortImg src={SortSquare} />
-                <SortText>Sort by {!mobileView && ':'}</SortText>
+                <SortText>Sort by :</SortText>
               </SortHeading>
-              {!mobileView ? (
-                <>
-                  <SortButton
-                    style={{
-                      backgroundColor: sortData ? '#51009F' : '',
-                      border: '1px solid #8E33E6',
-                    }}
-                    onClick={() => setSortData(true)}
-                  >
-                    <SortButtonText
-                      style={{ color: sortData ? '#FFFFFF' : '' }}
-                    >
-                      New to Old
-                    </SortButtonText>
-                  </SortButton>
-                  <SortButton
-                    style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-                    onClick={() => setSortData(false)}
-                  >
-                    <SortButtonText
-                      style={{ color: !sortData ? '#FFFFFF' : '' }}
-                    >
-                      Old to New
-                    </SortButtonText>
-                  </SortButton>
-                </>
-              ) : (
-                <></>
-              )}
-              <SortPopContainer
-                isShowSortPopUp={isShowSortPopUp}
-                setShowSortPopUp={setShowSortPopUp}
-              />
+
+              <>
+                <SortButton
+                  style={{
+                    backgroundColor: sortData ? '#51009F' : '',
+                    border: '1px solid #8E33E6',
+                  }}
+                  onClick={() => setSortData(true)}
+                >
+                  <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
+                    New to Old
+                  </SortButtonText>
+                </SortButton>
+                <SortButton
+                  style={{ backgroundColor: !sortData ? '#51009F' : '' }}
+                  onClick={() => setSortData(false)}
+                >
+                  <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
+                    Old to New
+                  </SortButtonText>
+                </SortButton>
+              </>
             </SortContainer>
           )}
         </FilterAndSortContainer>
-        <CalenderContainer>
-          <TasksImg
-            src={
-              tasksSelected
-                ? TaskSelected
-                : mobileView
-                ? TaskSelected
-                : TaskUnSelected
-            }
-            selected={tasksSelected}
-            onClick={() => setTasksSelected(true)}
-          />
-          {!mobileView && (
-            <TasksImgCal
-              src={!tasksSelected ? CalSelected : CalUnSelected}
-              selected={!tasksSelected}
-              onClick={() => setTasksSelected(false)}
-            />
-          )}
-        </CalenderContainer>
       </MainContainer>
     </>
   );
@@ -497,78 +411,22 @@ export default function TeacherTaskRoot() {
         />
       )}
 
-      <ReactiveRender
-        mobile={
-          <TeacherTasksStudentMobile
-            {...{
-              menuItems,
-              filterTasks,
-              drafts,
-              awaitingSubmissions,
-              feedbacks,
-              showDeletePopuphandler,
-              showDateExtendPopuphandler,
-              FilterSortAndCal,
-              tasksSelected,
-              MyCalendarFile,
-              ...tasksStudentMobileData,
-            }}
-          />
-        }
-        tablet={
-          <TeacherTasksStudentTablet
-            {...{
-              menuItems,
-              filterTasks,
-              drafts,
-              awaitingSubmissions,
-              showDeletePopuphandler,
-              showDateExtendPopuphandler,
-              feedbacks,
-              FilterSortAndCal,
-              tasksSelected,
-              MyCalendarFile,
-              ...tasksStudentTabletData,
-            }}
-          />
-        }
-        laptop={
-          <TeacherTasksLaptop
-            {...{
-              menuItems,
-              filterTasks,
-              drafts,
-              awaitingSubmissions,
-              feedbacks,
-              showDeletePopuphandler,
-              showDateExtendPopuphandler,
-              showDeletePopup,
-              hidedeletePopup,
-              selectedAssignment,
-              FilterSortAndCal,
-              tasksSelected,
-              MyCalendarFile,
-              ...tasksLaptopData,
-            }}
-          />
-        }
-        desktop={
-          <TeacherTasksDesktop
-            {...{
-              menuItems,
-              filterTasks,
-              drafts,
-              awaitingSubmissions,
-              feedbacks,
-              showDeletePopuphandler,
-              showDateExtendPopuphandler,
-              FilterSortAndCal,
-              tasksSelected,
-              MyCalendarFile,
-              ...tasksDesktopData,
-            }}
-          />
-        }
+      <TeacherTasksDesktop
+        {...{
+          menuItems,
+          filterTasks,
+          drafts,
+          awaitingSubmissions,
+          feedbacks,
+          showDeletePopuphandler,
+          showDateExtendPopuphandler,
+          FilterSortAndCal,
+          tasksSelected,
+          MyCalendarFile,
+          isShowMenu,
+          setShowMenu,
+          ...tasksDesktopData,
+        }}
       />
     </>
   );
@@ -693,13 +551,7 @@ const frame192Data = {
   cards5Props: cards52Data,
 };
 
-const tasksStudentMobileData = {
-  headerProps: assignmentsHeaderProps,
-  frame1304Props: frame13041Data,
-  tabs21Props: tabs23Data,
-  tabs22Props: tabs24Data,
-  frame19Props: frame192Data,
-};
+
 
 const frame13042Data = {
   iconsaxLinearSort: '/img/iconsax-linear-sort@2x.png',
@@ -815,27 +667,7 @@ const cards10Data = {
 const notifications3Data = {
   src: '/img/notificationbing@2x.png',
 };
-const tasksStudentTabletData = {
-  frame1349: '/img/frame-1349-1.png',
-  frame5: '/img/frame-5@2x.png',
-  keepOrganizedWitho: 'Tasks',
-  outstanding: 'Outstanding',
-  number: '5',
-  x2023JeddleAllRightsReserved: '© 2023 Jeddle. All rights reserved.',
-  mainWebsite: 'Main Website',
-  terms: 'Terms',
-  privacy: 'Privacy',
-  notificationsProps: notifications3Data,
-  frame1304Props: frame13042Data,
-  tabs21Props: tabs25Data,
-  tabs22Props: tabs26Data,
-  cards6Props: cards62Data,
-  cards7Props: cards7Data,
-  cards8Props: cards8Data,
-  cards9Props: cards9Data,
-  cards10Props: cards10Data,
-  frame19Props: frame192Data,
-};
+
 
 const statusBubbles21Data = {
   children: 'Theory',
@@ -943,10 +775,7 @@ const frame191Data = {
   cards5Props: cards51Data,
 };
 
-const tasksLaptopData = {
-  frame19Props: frame191Data,
-  headerProps: taskHeaderProps,
-};
+
 
 const frame13043Data = {
   iconsaxLinearSort: '/img/iconsax-linear-sort-2@2x.png',

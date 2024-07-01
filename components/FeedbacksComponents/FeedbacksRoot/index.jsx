@@ -1,6 +1,6 @@
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import { cloneDeep, get, set } from 'lodash';
+import _ from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -9,69 +9,67 @@ import { formattedDate } from '../../../dates';
 import GeneralPopup from '../../GeneralPopup';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
 import { FeedbackContext } from './FeedbackContext.js';
-import _ from 'lodash';
 
 import {
   addFeedback,
+  askJeddAI,
   deleteFeedback,
-  getDefaultCriteria,
-  getSubmissionById,
   deleteSubmissionById,
-  getSubmissionsByAssignmentId,
-  getOverComments,
   getClassesWithStudents,
+  getCommentBank,
+  getDefaultCriteria,
+  getOverComments,
+  getSubmissionById,
+  getSubmissionsByAssignmentId,
+  getTeachersForClass,
   markSubmissionRequestSubmission,
   markSubmsissionClosed,
   markSubmissionReviewed as markSubmsissionReviewed,
+  provideFeedbackOnFeedback,
   resolveFeedback,
   submitAssignment,
-  updateFeedback,
-  getTeachersForClass,
-  askJeddAI,
-  provideFeedbackOnFeedback,
-  getFeedbackBanks,
-  getCommentBank,
+  updateFeedback
 } from '../../../service';
 import {
-  getShortcuts,
-  getSmartAnnotations,
-  saveAnswer,
+  getShortcuts
 } from '../../../service.js';
 import {
   getUserId,
   getUserName,
-  getUserRole,
+  getUserRole
 } from '../../../userLocalDetails.js';
 import Loader from '../../Loader';
-import SnackbarContext from '../../SnackbarContext';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
-import { extractStudents, getComments, getPageMode } from './functions';
-import SnackbarContext from '../../SnackbarContext';
+import { extractStudents, findMarkingCriteria, getComments, getPageMode } from './functions';
 import {
   ActionButtonsContainer,
-  DialogContiner,
-  StyledTextField,
-  feedbacksFeedbackTeacherLaptopData,
-  ClassContainer,
-  ClassBoxContainer,
   ClassBox,
-  StudentList,
-  ClassTitleBox,
+  ClassBoxContainer,
+  ClassContainer,
   ClassTitle,
+  ClassTitleBox,
+  Crown,
+  DialogContiner,
   Line141,
   ListItem,
-  Crown,
   StudentContainer,
+  StudentList,
+  StyledTextField,
+  feedbacksFeedbackTeacherLaptopData,
 } from './style';
 
-import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import { useQueryClient } from '@tanstack/react-query';
-import CheckboxBordered from '../../CheckboxBordered/index.jsx';
-import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
-import { isNullOrEmpty } from '../../../utils/arrays.js';
+import { toast } from 'react-toastify';
 import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
+import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
+import { isNullOrEmpty } from '../../../utils/arrays.js';
+import CheckboxBordered from '../../CheckboxBordered/index.jsx';
+import Header from '../../Header2/index.jsx';
+import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
+import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
+import { allCriteriaHaveSelectedLevels } from './rules.js';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -91,7 +89,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     showComment: false,
   });
   const [showLoader, setShowLoader] = useState(false);
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const newCommentFrameRef = useRef(null);
 
@@ -110,7 +107,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
-  const [newMarkingCriterias, setNewMarkingCriterias] = useState({});
+  const [newMarkingCriterias, setNewMarkingCriterias] = useState([]);
   const [overallComments, setOverallComments] = useState([]);
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
@@ -119,8 +116,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false);
-  const [countWords, setCountWords] = useState(0);
   const [pageLeavePopup, setPageLeavePopup] = useState(false);
+  const [selectedComment, setSelectedComment] = useState(null);
+  const [showFloatingDialogue, setShowFloatingDialogue] = useState(false);
   const defaultMarkingCriteria = getDefaultCriteria();
 
   useEffect(() => {
@@ -182,18 +180,25 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         }
       });
   }, [id]);
+  
+  const commentBankIds = submission?.assignment?.questions
+    .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
+    .map((q) => q.commentBankId);
 
   useEffect(() => {
     if (isTeacher && submission && submission?.assignment.id) {
-      // alert("sub" + JSON.stringify(submission.assignment))
-      const commentBankIds = submission.assignment.questions.filter((q) => q.commentBankId !== undefined && q.commentBankId !== null).map(q => q.commentBankId);
-
+      // alert("sub" + JSON.stringify(submission.assignment)
 
       const commentBankPromises = commentBankIds.map(getCommentBank);
-    
-      Promise.all([getSubmissionsByAssignmentId(submission.assignment.id), ...commentBankPromises])
+
+      Promise.all([
+        getSubmissionsByAssignmentId(submission.assignment.id),
+        ...commentBankPromises,
+      ])
         .then(([allSubmissions, ...commentBanks]) => {
-          setSmartAnnotations(commentBanks.filter(cb => cb !== undefined && cb !== null));
+          setSmartAnnotations(
+            commentBanks.filter((cb) => cb !== undefined && cb !== null)
+          );
           setStudents(extractStudents(allSubmissions));
           let currentSubmissionIndex = 0;
           const allExceptCurrent = allSubmissions.map((r, index) => {
@@ -235,6 +240,20 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         });
     }
   }, [submission]);
+
+  const allCommentBanks = smartAnnotations?.flatMap(
+    (annotation, index) =>
+      annotation.smartComments.filter((smartComment) =>
+        commentBankIds?.includes(annotation.id)
+      )
+    // .map((smartComment, innerIndex) => (
+    //   <SmartAnotation
+    //     key={`${index}-${innerIndex}`}
+    //     smartAnnotation={smartComment}
+    //     onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
+    //   />
+    // ))
+  );
 
   useEffect(() => {
     const unblock = history.block((location, action) => {
@@ -357,18 +376,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }, {});
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
-  const handleChangeText = (change, allSaved) => {
-    if (document.getElementById('statusLabelIcon')) {
-      if (allSaved) {
-        document.getElementById('statusLabelIcon').style.backgroundImage =
-          'url("/icons/saved.png")';
-      } else {
-        document.getElementById('statusLabelIcon').style.backgroundImage =
-          'url("/icons/saving.png")';
-      }
-      document.getElementById('statusLabelDiv').innerHTML = change;
-    }
-  };
+  
 
   const handleEditingComment = (flag) => {
     setEditingComment(flag);
@@ -458,6 +466,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
+        setShowFloatingDialogue(false);
       }
     });
   }
@@ -676,6 +685,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
                 setExemplerComment('');
                 setCheckedState(initialCheckedState);
               }}
+              smartAnnotations={smartAnnotations}
             />
           </DialogActions>
         </ActionButtonsContainer>
@@ -872,46 +882,82 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   const validateMarkingCriteria = () => {
-    let invalid = true;
-    if (
-      submission.assignment.questions.markingCriteria === undefined ||
-      submission.assignment.questions.markingCriteria === null
-    ) {
-      return true;
-    }
-    submission.assignment.questions.map((question) => {
-      if (
-        (question?.markingCriteria?.title != '' &&
-          question?.markingCriteria?.criterias) ||
-        question.markingCriteria?.strengthsTargetsCriterias
-      ) {
-        question.markingCriteria?.criterias?.map((criteria) => {
-          if (!criteria.selectedLevel) {
-            criteria.selectedLevel = criteria.levels[0].name;
+    let valid = true;
+
+    submission.assignment.questions.some((question, index) => {
+      if (question?.markingCriteria?.criterias) {
+        let criterias = question.markingCriteria.criterias;
+        if (!isNullOrEmpty(markingCriteriaFeedback)) {
+          let submitedMarkingCriteria = findMarkingCriteria(
+            markingCriteriaFeedback,
+            index
+          );
+          if (submitedMarkingCriteria) {
+            criterias = submitedMarkingCriteria?.markingCriteria?.criterias;
           }
-        });
+        }
+
+        if (!allCriteriaHaveSelectedLevels(criterias)) {
+          valid = false;
+
+          toast(
+            <Toast
+              message={
+                'Please select marking criteria for question ' +
+                question.serialNumber
+              }
+            />
+          );
+
+          return true;
+        }
       }
+      if (question.markingCriteria?.strengthsTargetsCriterias) {
+        let selectedSAndT = {
+          selectedStrengths: [],
+          selectedTargets: [],
+        };
+        
+        if (!isNullOrEmpty(markingCriteriaFeedback)) {
+          let submitedMarkingCriteria = findMarkingCriteria(
+            markingCriteriaFeedback,
+            index
+          );
+          if (submitedMarkingCriteria) {
+            selectedSAndT.selectedStrengths =
+              submitedMarkingCriteria?.markingCriteria?.selectedStrengths;
+            selectedSAndT.selectedTargets =
+              submitedMarkingCriteria?.markingCriteria?.selectedTargets;
+          }
+        }
+        if (
+          !selectedSAndT ||
+          isNullOrEmpty(selectedSAndT.selectedStrengths) ||
+          isNullOrEmpty(selectedSAndT.selectedTargets)
+        ) {
+          valid = false;
+
+          toast(
+            <Toast
+              message={
+                'Please Select marking criteria for question ' +
+                question.serialNumber
+              }
+            />
+          );
+          return true;
+        }
+      }
+      return false;
     });
-    return invalid;
+    return valid;
   };
 
-  function hasDuplicateAttributes(arr) {
-    const attributeSet = new Set();
-
-    for (const item of arr) {
-      if (attributeSet.has(item.attribute)) {
-        return true;
-      }
-      attributeSet.add(item.attribute);
-    }
-
-    return false;
-  }
   function convertToSelectedAttribute(selectedArray) {
-    return selectedArray.map((item, index) => ({
+    return selectedArray?.map((item, index) => ({
       index,
-      criteria: item.label,
-      attribute: item.value.name,
+      criteria: item.criteria,
+      attribute: item.attribute,
     }));
   }
 
@@ -919,57 +965,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
-    let isDuplicate = false;
     if (validateMarkingCriteria()) {
-      submission.assignment.questions.map((question) => {
-        submitMarkingCriteriaInputs(question);
-      });
-    }
-    submission.assignment.questions.map((question) => {
-      if (
-        submission.assignment.questions.markingCriteria === undefined ||
-        submission.assignment.questions.markingCriteria === null
-      ) {
-        return true;
-      }
-      if (hasDuplicateAttributes(question.markingCriteria?.selectedStrengths)) {
-        showSnackbar(
-          'Please select different strength in question number ' +
-            question.serialNumber
-        );
-        setShowSubmitPopup(false);
-        isDuplicate = true;
-      }
-    });
-    if (!isDuplicate) {
       submitReview();
     }
   }
 
-  function submitMarkingCriteriaInputs(question) {
-    if (question.markingCriteria?.title != '') {
-      if (question.markingCriteria?.criterias) {
-        const markingCriteriaRequest = question.markingCriteria;
-        return submitMarkingCriteriaFeedback(question, markingCriteriaRequest);
-      }
-      if (question.markingCriteria?.strengthsTargetsCriterias) {
-        const markingCriteriaRequest = question.markingCriteria;
-        const selectedStrengths = get(
-          newMarkingCriterias,
-          `${question.serialNumber}.selectedStrengths`
-        );
-        const selectedTargets = get(
-          newMarkingCriterias,
-          `${question.serialNumber}.selectedTargets`
-        );
-        markingCriteriaRequest.selectedStrengths =
-          convertToSelectedAttribute(selectedStrengths);
-        markingCriteriaRequest.selectedTargets =
-          convertToSelectedAttribute(selectedTargets);
-        submitMarkingCriteriaFeedback(question, markingCriteriaRequest);
-      }
-    }
-  }
   function submitReview() {
     markSubmsissionReviewed(submission.id).then((_) => {
       queryClient.invalidateQueries(['notifications']);
@@ -978,7 +978,17 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       queryClient.invalidateQueries((queryKey) => {
         return queryKey.includes('class');
       });
-      showSnackbar('Task reviewed...', window.location.href);
+
+      toast(
+        <Toast
+          message={'Task reviewed...'}
+          link={
+            window.location.href.includes('documentsReview')
+              ? '/documentsReview/'
+              : '/submissions/' + submission.id
+          }
+        />
+      );
       if (isTeacher) {
         window.location.href = nextUrl === '/' ? '/#' : nextUrl;
       } else {
@@ -987,16 +997,61 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   }
 
-  function submitMarkingCriteriaFeedback(question, markingCriteriaRequest) {
-    return addFeedback(submission.id, {
-      questionSerialNumber: question.serialNumber,
-      feedback: 'Marking Criteria Feedback',
-      range: { from: 0, to: 0 },
-      type: 'MARKING_CRITERIA',
-      replies: [],
-      markingCriteria: markingCriteriaRequest,
-      sharedWithStudents: [],
-    });
+  function submitMarkingCriteriaFeedback(
+    question,
+    markingCriteriaRequest,
+    QuestionIndex
+  ) {
+
+    let submitedMarkingCriteria = markingCriteriaFeedback?.find(
+      (markingCriteria) =>
+        markingCriteria?.questionSerialNumber === question.serialNumber
+    );
+    if (submitedMarkingCriteria?.id) {
+      updateFeedback(submission.id, submitedMarkingCriteria.id, markingCriteriaRequest)
+        .then((response) => {
+          setMarkingCriteriaFeedback((prev) => {
+            const existingIndex = prev.findIndex(
+              (markingCriteria) =>
+                markingCriteria.questionSerialNumber === question.serialNumber
+            );
+
+            if (existingIndex !== -1) {
+              return prev.map((item, index) =>
+                index === existingIndex ? { ...item, ...response } : item
+              );
+            } else {
+              return [
+                ...prev,
+                { ...response, questionSerialNumber: question.serialNumber },
+              ];
+            }
+          });
+        })
+        .catch((error) => {
+          console.error('Error in updateFeedback:', error);
+        });
+    } else {
+      return addFeedback(submission.id, markingCriteriaRequest).then((response) => {
+        setMarkingCriteriaFeedback((prev) => {
+          const existingIndex = prev.findIndex(
+            (markingCriteria) =>
+              markingCriteria.questionSerialNumber === question.serialNumber
+          );
+
+          if (existingIndex !== -1) {
+            return prev.map((item, index) =>
+              index === existingIndex ? { ...item, ...response } : item
+            );
+          } else {
+            return [
+              ...prev,
+              { ...response, questionSerialNumber: question.serialNumber },
+            ];
+          }
+        });
+      });
+    }
   }
 
   function handleRequestResubmission() {
@@ -1004,36 +1059,19 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setMethodToCall(null);
     setPopupText('');
     if (validateMarkingCriteria()) {
-      submission.assignment.questions.map((question) => {
-        if (
-          question.markingCriteria?.title != '' &&
-          question.markingCriteria.criterias
-        ) {
-          const markingCriteriaRequest = question.markingCriteria;
-          addFeedback(submission.id, {
-            questionSerialNumber: question.serialNumber,
-            feedback: 'Marking Criteria Feedback',
-            range: { from: 0, to: 0 },
-            type: 'MARKING_CRITERIA',
-            replies: [],
-            markingCriteria: markingCriteriaRequest,
-            sharedWithStudents: [],
-          }).then((response) => {
-            queryClient.invalidateQueries(['notifications']);
-            queryClient.invalidateQueries(['tasks']);
-            queryClient.invalidateQueries(['assignments']);
-            queryClient.invalidateQueries((queryKey) => {
-              return queryKey.includes('class');
-            });
-            showSnackbar('Resubmission requested...', window.location.href);
-            window.location.href = '/#';
-            setShowLoader(false);
-          });
-        }
-      });
-
       markSubmissionRequestSubmission(submission.id).then((_) => {
-        showSnackbar('Resubmission requested...', window.location.href);
+        queryClient.invalidateQueries(['notifications']);
+        queryClient.invalidateQueries(['tasks']);
+        queryClient.invalidateQueries(['assignments']);
+        queryClient.invalidateQueries((queryKey) => {
+          return queryKey.includes('class');
+        });
+        toast(
+          <Toast
+            message={'Resubmission requested...'}
+            link={'/submissions/' + submission.id}
+          />
+        );
         if (isTeacher) {
           window.location.href = nextUrl === '/' ? '/#' : nextUrl;
           window.location.reload();
@@ -1090,9 +1128,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setPopupText('');
 
     disableAllEditors();
-    handleChangeText('Saving...', false);
     setShowLoader(true);
-    showSnackbar('Submitting task...');
+    toast(<Toast message={'Submitting task...'} />);
 
     setTimeout(() => {
       submitAssignment(submission.id).then((_) => {
@@ -1102,7 +1139,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         queryClient.invalidateQueries((queryKey) => {
           return queryKey.includes('class');
         });
-        showSnackbar('Task submitted...', window.location.href);
+
+        toast(
+          <Toast
+            message={'Task submitted...'}
+            link={'/submissions/' + submission.id}
+          />
+        );
         window.location.href = '/#';
         setShowLoader(false);
       });
@@ -1113,7 +1156,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       .filter((question) => question.type === 'TEXT')
       .forEach((question) => {
         const quill = quillRefs.current[question.serialNumber - 1];
-        quill.disable();
+        quill?.disable();
       });
   }
 
@@ -1123,9 +1166,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setPopupText('');
 
     disableAllEditors();
-    handleChangeText('Saving...', false);
     setShowLoader(true);
-    showSnackbar('Submitting task...');
+    toast(<Toast message={'Submitting task...'} />);
     setTimeout(() => {
       markSubmsissionClosed(submission.id).then((_) => {
         queryClient.invalidateQueries(['notifications']);
@@ -1134,7 +1176,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         queryClient.invalidateQueries((queryKey) => {
           return queryKey.includes('class');
         });
-        showSnackbar('Task completed...', window.location.href);
+
+        toast(
+          <Toast
+            message={'Task completed...'}
+            link={'/submissions/' + submission.id}
+          />
+        );
         window.location.href = '/#';
         setShowLoader(false);
       });
@@ -1155,14 +1203,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }
 
-  const handlesaveAnswer = (serialNumber) => (contents) => {
-    handleChangeText('Saving...', false);
-    saveAnswer(submission.id, serialNumber, {
-      answer: contents,
-    }).then((_) => {
-      handleChangeText('All changes saved', true);
-    });
-  };
 
   const reviewerSelectionChange =
     (visibleComment, serialNumber) => (selection) => {
@@ -1188,6 +1228,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         );
       if (matchingComments && matchingComments.length > 0) {
         const matchingComment = matchingComments[0];
+        setSelectedComment(matchingComment);
         highlightByComment(matchingComment);
       } else {
         openNewCommentFrame(from, to, serialNumber, selection);
@@ -1212,7 +1253,12 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         to: to,
       });
       setSelectedText(selection.selectedText);
-      setShowNewComment(true);
+      if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
+        setShowFloatingDialogue(true);
+      }
+      if (pageMode === 'REVIEW') {
+        setShowNewComment(true);
+      }
     }
   }
   function highlightByComment(comment) {
@@ -1222,11 +1268,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }
   function highlightComment(color, div) {
-    div.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-      inline: 'center',
-    });
     setTimeout(() => {
       div.style.background = color ? color : '#FFFFFF';
       div.style.border = '1px solid #E5E5E5';
@@ -1234,8 +1275,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       div.style.scale = 1;
     }, 2000);
     div.style.background = '#F9F5FF';
-    div.style.border = '1px solid #7200E0';
-    div.style.boxShadow = '0px 4px 16px rgba(114, 0, 224, 0.2)';
+    div.style.border = '1px solid rgba(197, 150, 242, 1)';
+    div.style.boxShadow = '0px 4.08px 8px 0px rgba(112, 112, 112, 0.1)';
     div.style.scale = 1.0003;
     setCommentHighlight(true);
   }
@@ -1375,31 +1416,52 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }
 
-  function handleMarkingCriteriaLevelFeedback(
-    questionSerialNumber,
-    criteriaSerialNumber,
-    selectedLevel
-  ) {
-    const markingCriteriaToUpdate =
-      submission.assignment.questions[questionSerialNumber - 1].markingCriteria;
-    markingCriteriaToUpdate.criterias[criteriaSerialNumber].selectedLevel =
-      selectedLevel;
+  function handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria) {
+    
+    const currentQuestion = submission.assignment.questions[QuestionIndex];
+
+    submitMarkingCriteriaFeedback(
+      currentQuestion,
+      markingCriteria,
+      QuestionIndex
+    );
   }
 
-  const handleStrengthsTargetsFeedback =
-    (questionSerialNumber) => (index) => (value) => {
-      const criteriaType = index === 2 ? 'target' : 'strength';
-      const criteriaIndex = index === 2 ? 0 : index;
-      setNewMarkingCriterias((prevState) => {
-        const label = value.heading;
-        let newState = cloneDeep(prevState);
-        let path = `${questionSerialNumber}.${
-          criteriaType === 'strength' ? 'selectedStrengths' : 'selectedTargets'
-        }[${criteriaIndex}]`;
-        newState = set(newState, path, { label, value });
-        return newState;
-      });
-    };
+  const handleStrengthsTargetsFeedback = (
+    QuestionIndex,
+    selectedStrengths,
+    selectedTargets
+  ) => {
+    const currentQuestion = submission.assignment.questions[QuestionIndex];
+
+    const markingCriteriaRequest = currentQuestion.markingCriteria;
+
+    markingCriteriaRequest.selectedStrengths =
+      convertToSelectedAttribute(selectedStrengths);
+    markingCriteriaRequest.selectedTargets =
+      convertToSelectedAttribute(selectedTargets);
+
+    setNewMarkingCriterias((previousState) => {
+      const updatedMarkingCriterias = [...previousState];
+
+      if (!updatedMarkingCriterias[QuestionIndex]) {
+        updatedMarkingCriterias[QuestionIndex] = {};
+      }
+      updatedMarkingCriterias[QuestionIndex] = {
+        ...updatedMarkingCriterias[QuestionIndex],
+        selectedStrengths: markingCriteriaRequest.selectedStrengths,
+        selectedTargets: markingCriteriaRequest.selectedTargets,
+      };
+
+      return updatedMarkingCriterias;
+    });
+
+    submitMarkingCriteriaFeedback(
+      currentQuestion,
+      markingCriteriaRequest,
+      QuestionIndex
+    );
+  };
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
   };
@@ -1447,12 +1509,18 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   };
 
+  const isResetEditorTextSelection = () => {
+    setShowFloatingDialogue(false);
+    setNewCommentSerialNumber(0);
+    setSelectedRange(null);
+    setSelectedText(null);
+    setShowNewComment(false);
+  };
+
   const methods = {
     comments,
     setComments,
     submissionStatusLabel,
-    isTeacher,
-    handleChangeText,
     handleDeleteComment,
     handleShareWithClass,
     handleAddComment,
@@ -1467,7 +1535,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     handleSaveSubmissionForReview,
     handleSubmissionClosed,
     handleCommentSelected,
-    handlesaveAnswer,
     createTasksDropDown,
     onSelectionChange,
     studentUpdate,
@@ -1494,13 +1561,23 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   return (
     <FeedbackContext.Provider
       value={{
-        countWords,
-        setCountWords,
         smartAnnotations,
         showNewComment,
         newCommentSerialNumber,
         markingCriteriaFeedback,
         overallComments,
+        comments,
+        showFloatingDialogue,
+        setShowFloatingDialogue,
+        allCommentBanks,
+        methods,
+        isTeacher,
+        quillRefs,
+        setNewCommentSerialNumber,
+        setSelectedRange,
+        setSelectedText,
+        isResetEditorTextSelection,
+        setSelectedComment,
       }}
     >
       {showSubmitPopup &&
@@ -1524,6 +1601,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           confirmButtonAction={saveDraftPage}
         />
       )}
+      <Header breadcrumbs={[submission.assignment.title, submission.status]} />
 
       <FeedbackTeacherLaptop
         {...{
@@ -1535,7 +1613,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           shortcuts,
           newCommentFrameRef,
           methods,
-          comments,
+          comments: (comments ? comments : []),
           submission,
           setSubmission,
           sharewithclassdialog,
@@ -1544,6 +1622,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedRange,
           classesAndStudents,
           teachers,
+          selectedComment,
+          overallComments,
+          markingCriteriaFeedback,
         }}
       />
     </FeedbackContext.Provider>

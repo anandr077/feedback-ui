@@ -13,10 +13,9 @@ export const OnboardingInformationContainer = styled.div`
 
 export const OnboardingContainer = styled.div`
   position: relative;
-  width: 36px;
-  height: 36px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background-color: green;
 
   &:hover ${OnboardingInformationContainer} {
     display: block;
@@ -24,8 +23,8 @@ export const OnboardingContainer = styled.div`
 `;
 
 export const HeaderFlag = styled.img`
-  height: 36px;
-  width: 36px;
+  height: 24px;
+  width: 24px;
   border-radius: 50%;
 `;
 

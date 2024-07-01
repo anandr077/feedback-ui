@@ -4,14 +4,14 @@ import Select from '@mui/material/Select';
 
 export const StyledSelect = styled(Select)`
   font-family: IBM Plex Sans;
-  border: 1px solid #a6a6a6;
+  border: 1px solid #7B7382;
   background-color: white;
   border-radius: 25px;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 400;
   display: flex;
   text-align: center;
-  padding: 4px 12px 3px 12px;
+  padding: 4px, 8px, 4px, 8px;
 `;
 export const SelectInput = styled(Input)``;
 export const StyledInput = styled(Input)`

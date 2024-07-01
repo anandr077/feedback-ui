@@ -1,6 +1,5 @@
 .marking-criteria-parent-container {
   display: flex;
-  gap: 20px;
   flex-direction: column;
   width: 100%;
   font-family: IBM Plex Sans;

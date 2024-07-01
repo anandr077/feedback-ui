@@ -32,8 +32,9 @@ export const StudentContainer = styled.div`
 
 export const SidebarContainer = styled.div`
   background-color: white;
-  border-right: 1px solid var(--blue-chalk);
-  border-top: 1px solid var(--blue-chalk);
+  border-right: 1px solid rgba(201, 198, 204, 0.5);
+  border-top: 1px solid rgba(201, 198, 204, 0.5);
+  box-shadow: -1px 4px 4px 0px rgba(115, 115, 115, 0.25);
   width: ${(props) => props.drawerWidth + 'px'};
   transform: translateX(
     ${(props) => (props.open ? '0' : `-${props.drawerWidth}px`)}
@@ -47,7 +48,25 @@ export const SidebarContainer = styled.div`
     width: 0;
   }
   position: fixed;
-  z-index: 4;
+  z-index: 5;
+`;
+
+export const DrawerHeader = styled.div`
+  height: 40px !important;
+  display: grid;
+  place-items: center;
+  background: var(--light-mode-purple);
+  padding: 8px 12px;
+  border-radius: 32px;
+  color: var(--white);
+  margin: 8px;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-l);
+  font-weight: 500;
+  line-height: 24px;
+  position: relative;
+  cursor: pointer;
+  text-align: center;
 `;
 
 // width: ${props => (props.isOpen ? '300' : '200')};
@@ -120,7 +139,7 @@ export const DrawerBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin: 20px;
+  margin: 8px;
 `;
 
 export const Heading = styled.p`
@@ -134,21 +153,23 @@ export const Heading = styled.p`
 export const DrawerInputBox = styled.div`
   position: relative;
   width: 100%;
-  border: 1px solid #1e252a;
+  border: 1px solid rgba(145, 139, 151, 1);
   border-radius: 8px;
 `;
 
 export const DrawerInput = styled.input`
   &::placeholder {
-    color: #979797;
+    color: rgba(151, 151, 151, 1);
   }
-  padding: 9px 12px;
+  padding: 6px 8px;
   width: 92%;
   border: none;
   border-radius: 8px;
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-l);
   line-height: 24px;
+  font-weight: 400;
+  color: rgba(151, 151, 151, 1);
   &:focus {
     outline: none;
   }
@@ -164,11 +185,9 @@ export const SearchIcon = styled.img`
 export const SubjectTitle = styled.p`
   font-size: 12px;
   line-height: 15.6px;
-  font-weight: 600;
+  font-weight: 500;
   font-family: var(--font-family-ibm_plex_sans);
-  letter-spacing: 1px;
-  color: #6f6f6f;
-  margin-top: 5px;
+  color: rgba(111, 111, 111, 1);
 `;
 
 export const DrawerSubjects = styled.div`
@@ -185,9 +204,11 @@ export const DrawerSubjects = styled.div`
 `;
 export const DrawerSubject = styled.div`
   padding: 8px 12px;
-  background: ${props => props.selected ? '#51009F' : 'linear-gradient(0deg, #dec7ff, #dec7ff)'};
-  border: ${props => props.selected ? '1px solid #8E33E6' : '1px solid #ffefb5'};
-  color: ${props => props.selected ? 'white' : '#434343'};
+  background: ${(props) =>
+    props.selected ? 'rgba(241, 230, 252, 1)' : 'white'};
+  border: ${(props) =>
+    props.selected ? '1px solid rgba(241, 230, 252, 1)' : '1px solid rgba(201, 198, 204, 0.5)'};
+  color: ${(props) => (props.selected ? 'rgba(114, 0, 224, 1)' : 'rgba(123, 115, 130, 1)')};
   border-radius: 22px;
   cursor: pointer;
   font-family: 'IBM Plex Sans';
@@ -195,7 +216,7 @@ export const DrawerSubject = styled.div`
   line-height: 18.2px;
   font-weight: 600;
   &:hover {
-    background: #E5C9FF;
+    background: #e5c9ff;
     color: var(--royal-purple);
     border: 1px solid #ffefb5;
   }
@@ -250,33 +271,24 @@ export const DrawerQuestions = styled.div`
   }
 `;
 
-export const OverflowShadow = styled.div`
-  position: absolute;
-  height: 100%;
-  width: 40px;
-  background: ${(props) =>
-    props.blueBackground
-      ? 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, var(--royal-purple) 60%, var(--royal-purple) 100%)'
-      : 'linear-gradient(to right, rgba(242, 242, 242, 0) 0%, #F2F2F2 60%, #F2F2F2 100%)'};
-  border-radius: 0 8px 8px 0;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-`;
 export const MenuItemsDots = styled.img`
   cursor: pointer;
 `;
 export const QuestionTitle = styled.div`
-  width: 235px;
-  margin-bottom: 10px;
-  max-height: 20px;
+  //width: 235px;
+  //margin-bottom: 10px;
+  max-height: 25px;
+  line-height: 20px;
+  padding-bottom: 5px;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
-  -webkit-transition: max-height 1s; 
-  -moz-transition: max-height 1s; 
-  -ms-transition: max-height 1s; 
-  -o-transition: max-height 1s; 
-  transition: max-height 1s; 
+  //-webkit-transition: max-height 1s;
+  //-moz-transition: max-height 1s;
+  //-ms-transition: max-height 1s;
+  //-o-transition: max-height 1s;
+  transition: max-height 1s;
 `;
 export const MenuItemsContainer = styled.div`
   position: relative;
@@ -285,17 +297,15 @@ export const MenuItemsContainer = styled.div`
 export const MenuItems = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 16px 0px 0px 0px;
-  border: 1px 0px 0px 0px;
+  padding-top: 5px;
   justify-content: space-between;
-  background: #f2f2f2;
   border-top: 1px solid transparent;
-  width: 235px;
   //transition: 0.7s ease-in;
 
   background: ${(props) =>
-    props.studentStyle ? 'var(--royal-purple)' : '#f2f2f2'};
-  color: ${(props) => (props.studentStyle ? 'var(--white) !important' : 'var(--text)')};
+    props.studentStyle ? 'rgba(241, 230, 252, 1)' : 'transparent'};
+  color: ${(props) =>
+    props.studentStyle ? 'var(--white) !important' : 'var(--text)'};
 `;
 export const LeftPart = styled.div`
   display: flex;
@@ -318,7 +328,7 @@ export const EachMenuItem = styled.div`
   transition: transform 0.3s ease;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     transform: scale(1.05);
   }
 `;
@@ -327,13 +337,14 @@ export const EachMenuItemImg = styled.img`
   height: 16px;
   transition: transform 0.3s ease;
 
-  &:hover{
+  &:hover {
     transform: scale(1.1);
   }
 `;
 export const EachMenuItemText = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
-  color: ${props => props.purpleColor ? 'white' : 'var(--light-mode-purple)'};
+  color: ${(props) =>
+    props.purpleColor ? 'white' : 'var(--light-mode-purple)'};
   font-size: 14px;
   font-weight: 400;
   line-height: 18px;
@@ -352,36 +363,34 @@ export const EachMenuItemTextDel = styled.p`
 `;
 export const DrawerQuestion = styled.div`
   font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 400;
-  font-size: var(--font-size-l);
-  line-height: 20.8px;
-  padding: 16px 20px;
-  border-radius: 8px;
+  font-weight: ${(props) => (props.studentStyle ? '500' : '400')};
+  font-size: var(--font-size-s);
+  line-height: 17px;
+  padding: 12px;
+  border-radius: 6px;
   background: ${(props) =>
-    props.studentStyle ? 'var(--royal-purple)' : '#f2f2f2'};
-  color: ${(props) => (props.studentStyle ? 'var(--white)' : 'var(--text)')};
+    props.studentStyle ? 'rgba(241, 230, 252, 1)' : 'transparent'};
+  color: ${(props) => (props.studentStyle ? 'rgba(114, 0, 224, 1)' : 'rgba(75, 70, 79, 1)')};
   position: relative;
-  
+
   transition: 0.3s ease-in;
-  max-height: 53px;
+  max-height: 41px;
   overflow: hidden;
   cursor: pointer;
 
-  -webkit-transition: max-height 1s; 
-  -moz-transition: max-height 1s; 
-  -ms-transition: max-height 1s; 
-  -o-transition: max-height 1s; 
-  transition: max-height 1s; 
+  -webkit-transition: max-height 1s;
+  -moz-transition: max-height 1s;
+  -ms-transition: max-height 1s;
+  -o-transition: max-height 1s;
+  transition: max-height 1s;
 
-  &:hover {  
+  &:hover {
     max-height: 1520px;
 
-    ${QuestionTitle}{
+    ${QuestionTitle} {
       max-height: 1500px;
-    }
-
-    ${OverflowShadow} {
-      display: none;
+      text-overflow: clip;
+      white-space: normal;
     }
     ${MenuItems} {
       border-color: #d6d6d6;
@@ -412,7 +421,7 @@ export const DrawerArrow = styled.div`
 `;
 
 export const DividerContainer = styled.div`
-  margin: 0 20px;
+  margin: 0 10px;
 `;
 
 export const LoadingDiv = styled.div`

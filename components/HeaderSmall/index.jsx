@@ -12,8 +12,6 @@ import {
   Frame51,
 } from './HeaderSmallStyle';
 import { useQuery } from '@tanstack/react-query';
-import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
-import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
 
 import HeaderHelpBar from '../../components2/HeaderHelpBar/index.jsx';
 import HelpSidebar from '../../components2/HelpSidebar';

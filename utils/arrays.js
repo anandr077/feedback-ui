@@ -17,3 +17,7 @@ export function arrayFromArrayOfObject(givenArray, key) {
   });
   return arr;
 }
+
+export const isStringPresent = (array, key, string) => {
+    return array?.some((object) => object[key] === string);
+  };

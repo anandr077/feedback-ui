@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const HelpSidebarContainer = styled.div`
-  width: 420px;
+  width: 380px;
   height: ${(props) => (props.fixedTop ? '100vh' : '100%')};
   padding: 20px;
   background-color: var(--white);
@@ -18,7 +18,7 @@ export const HelpSidebarContainer = styled.div`
 
 export const HelpSidebarSmallContainer = styled.div`
   position: relative;
-  width: 100vw;
+  width: 380px;
   height: 100vh;
   padding: 20px;
   background-color: var(--white);

@@ -1,20 +1,17 @@
 import styled, { keyframes } from 'styled-components';
 
-export const MainContainer = styled.div`
-  align-items: center;
-  background-color: var(--white-pointer);
-  border: 1px none;
+export const CompletedPageContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 60px;
+`;
+
+export const MainContainer = styled.div`
+  width: 100%;
+  display: relative;
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: row;
   position: relative;
-  padding: 60px 0px;
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    min-width: 1025px;
-  }
-  @media (min-width: 766px) and (max-width: 1024px) {
-    min-width: 766px;
-  }
 `;
 
 export const InnerContainer = styled.div`
@@ -23,25 +20,13 @@ export const InnerContainer = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  gap: 40px;
   position: relative;
-  max-width: 1440px;
-  padding: 0px 60px;
-  @media (min-width: 1025px) and (max-width: 1440px) {
-    padding: 0px 60px;
-  }
-  @media (min-width: 766px) and (max-width: 1024px) {
-    padding: 0px 60px;
-  }
-  @media (max-width: 765px) {
-    padding: 0px 20px;
-  }
 `;
 export const HeadingAndFilterCon = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px 20px;
   width: 100%;
 `;
 export const TopContainer = styled.div`
@@ -71,7 +56,7 @@ export const ConnectContainer = styled.div``;
 
 export const FilterAndSortContainer = styled.div`
   display: flex;
-  padding: 16px 0px;
+  padding: 20px 0px;
   align-items: center;
   gap: 16px;
   align-self: stretch;
@@ -84,14 +69,14 @@ export const FilterAndSortContainer = styled.div`
 `;
 export const FilterContainer = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 8px;
 `;
 export const FilterLine = styled.div`
   height: 30px;
   width: 1px;
   border: 1px solid #d6d6d6;
   @media (min-width: 766px) and (max-width: 1024px) {
-     display: none;
+    display: none;
   }
   @media (max-width: 765px) {
     display: none;
@@ -145,14 +130,11 @@ export const LeftContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 20px;
-  //   border-radius: 8px;
-  //   border: 1px solid var(--Foundation-Grey-grey-50, #f2f2f2);
-  //   background: #fff;
-  //   box-shadow: 0px 3px 8px 0px rgba(48, 27, 114, 0.04);
-  //   @media (max-width: 1024px) {
-  //     width: 100%;
-  //   }
+  height: 90vh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const RightContentContainer = styled.div`
   display: flex;
@@ -523,56 +505,50 @@ export const PopupContainer = styled.div`
   width: 360px;
   border-radius: 12px;
 `;
-//
 
-export const TaskContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 20px;
-  border-radius: 16px;
-  gap: 10px;
-  border: 1px solid #7200e01a;
-  background: #ffffff;
-  cursor: pointer;
-  box-shadow: 0px 4px 16px 0px #7200e01a;
-  transition: background 2s ease-in 1s;
-
-  :hover {
-    background: linear-gradient(
-        0deg,
-        rgba(114, 0, 224, 0.1),
-        rgba(114, 0, 224, 0.1)
-      ),
-      linear-gradient(0deg, #ffffff, #ffffff);
-  }
-`;
 export const DataContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90%;
+  gap: 9px;
+`;
+export const TaskIconsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   gap: 10px;
-  @media (min-width: 766px) and (max-width: 1024px) {
-    width: 85%;
-  }
-  @media (max-width: 765px) {
-    width: 80%;
+  align-items: center;
+`;
+export const TaskIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 3px;
+  height: 32px;
+  width: 32px;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+  visibility: hidden;
+
+  &:hover {
+    background-color: rgba(241, 230, 252, 1);
   }
 `;
+
 export const DataTitle = styled.p`
   font-family: IBM Plex Sans;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 26px;
-  letter-spacing: 0em;
+  line-height: 24px;
   text-align: left;
+  color: #4b464f;
 `;
 export const DataSubtitle = styled.p`
   font-family: IBM Plex Sans;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 18px;
-  letter-spacing: 0.008em;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16.9px;
   text-align: left;
+  color: #b2aeb7;
 `;
 
 export const TaskCompiltion = styled.div`
@@ -582,11 +558,11 @@ export const TaskCompiltion = styled.div`
   border-radius: 24px;
   gap: 5px;
   font-family: IBM Plex Sans;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 18px;
-  letter-spacing: 0.008em;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16.9px;
   text-align: left;
+  color: #7b7382;
 `;
 export const TaskCompiltionIcon = styled.img`
   width: 16px;
@@ -598,7 +574,6 @@ export const IconContainerDown = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 10%;
   padding: 8px;
   border-radius: 4px;
   gap: 6px;
@@ -611,16 +586,98 @@ export const IconContainerDown = styled.div`
 `;
 
 export const DownloadIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  padding: 1.67px 1.67px 1.67px 1.67px;
+  width: 16px;
+  height: 16px;
 `;
-export const DownloadText = styled.div`
+export const DownloadIconColor = styled.img`
+  width: 16px;
+  height: 16px;
+  display: none;
+`;
+
+export const DeleteText = styled.div`
   font-family: IBM Plex Sans;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 21px;
-  letter-spacing: 0em;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16.9px;
   text-align: left;
-  color: #7200e0;
+  color: #9e322b;
+  display: none;
+`;
+
+export const TaskContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  gap: 10px;
+  border-bottom: 1px solid #c9c6cc80;
+  background: #ffffff;
+  cursor: pointer;
+  justify-content: space-between;
+  :hover {
+    background: #f2f1f380;
+  }
+  &:hover {
+    ${DownloadIconColor}, ${DeleteText} {
+      display: flex;
+    }
+    ${DownloadIcon} {
+      display: none;
+    }
+  }
+`;
+
+export const Table = styled.table`
+  border: 1px solid rgba(201, 198, 204, 0.5);
+
+  th {
+    font-weight: 700;
+  }
+  .completed-heading {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  td {
+    font-weight: 500;
+  }
+  th,
+  td {
+    font-family: IBM Plex Sans;
+    font-size: 13px;
+    line-height: 24px;
+    color: rgba(75, 70, 79, 1);
+    text-align: start;
+    padding: 8px 0px 8px 20px;
+    border-bottom: 1px solid rgba(201, 198, 204, 0.5);
+    vertical-align: middle;
+  }
+  .first-column {
+    width: 65%;
+  }
+
+  .second-column {
+    width: 20%;
+  }
+
+  .icon-row {
+    display: flex;
+    align-items: center;
+  }
+
+  thead tr {
+    background-color: rgba(242, 241, 243, 0.5);
+  }
+
+  tbody tr {
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(242, 241, 243, 0.5) !important;
+    }
+
+    &:hover ${TaskIconContainer} {
+      visibility: visible;
+    }
+  }
 `;

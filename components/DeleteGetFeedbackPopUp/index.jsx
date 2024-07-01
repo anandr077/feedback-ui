@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { deleteAssignment } from '../../service';
-import SnackbarContext from '../SnackbarContext';
 import {
   IbmplexsansSemiBoldShark24px,
   IbmplexsansSemiBoldWhite16px,
@@ -10,7 +9,6 @@ import { DialogContent, Dialog } from '@mui/material';
 import { Arrowright, ArrowrightSmall, ButtonsContainer, CancelButton, DeleteAssignmentPopupContainer, DeleteButton, DeleteTitle, Line141, TextContent, TitleContainer } from './style';
 
 export default function DeleteGetFeedbackPopup(props) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const {
     hidedeletePopup,

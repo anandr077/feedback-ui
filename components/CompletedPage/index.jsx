@@ -1,5 +1,5 @@
-import React from 'react';
-import { getCompletedTasks } from '../../service.js';
+import React, {useState} from 'react';
+import { getAssignments, getCompletedTasks, getLocalClasses } from '../../service.js';
 import CompletedRoot from '../Completed/CompletedRoot';
 import { groupBy, groupedData } from 'lodash';
 import { dateOnly } from '../../dates.js';
@@ -29,16 +29,12 @@ import {
   HeadingLine,
   InnerContainer,
   LeftContentContainer,
-
   MainContainer,
+  CompletedPageContainer,
 } from './style.js';
 
-import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
-import arrowLeft from '../../static/img/arrowleft.svg';
-import questionMark from '../../static/img/question-mark.svg';
-import LinkButton from '../../components2/LinkButton/index.jsx';
 import TaskHistoryDataComponent from './TaskHistoryDataComponent.jsx';
-
+import { useQuery } from '@tanstack/react-query';
 import SortSquare from '../../static/img/sort-square.svg';
 import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf.js';
 import FilterSquare from '../../static/img/filter-square.svg';
@@ -48,36 +44,91 @@ import {
   Frame5086Img,
   Frame5086Text,
 } from '../GiveFeedback/style.js';
+import { isTabletView } from '../ReactiveRender/index.jsx';
+import MenuButton from '../MenuButton/index.jsx';
+import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
+import { getUserRole } from '../../userLocalDetails.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
-import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [teacherTask, setTeacherTask] = useState([])
+  const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
+  const [isShowMenu, setShowMenu] = React.useState(false);
+  const tabletView = isTabletView();
+  const isTeacher = getUserRole() === 'TEACHER';
+
+  const assignmentsQuery = useQuery({
+    queryKey: ['assignments'],
+    queryFn: async () => {
+      const result = await getAssignments();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
+  const completedTasksQuery = useQuery({
+    queryKey: ['completedTasks'],
+    queryFn: async () => {
+      const result = await getCompletedTasks();
+      return result;
+    },
+    staleTime: 3600000,
+  });
+
+  const completedTaskFunc = (filteredTasks) =>{
+    const newCompletedTask = filteredTasks.flatMap(task => {
+      const classesCookies = getLocalClasses();
+      const teacherClasses = isTeacher && JSON.parse(classesCookies)
+      const titles = task.classIds.map(id => {
+        const clazz = teacherClasses.find(cls => cls.id === id);
+        return clazz ? clazz.title : null;
+      });
+      return titles.map(title => ({
+        classTitle: title,
+        id: task.id,
+        link: task.link,
+        title: task.title,
+        completedAt: task.dueAt
+      }));
+    })
+    return newCompletedTask
+  }
 
   React.useEffect(() => {
-    getCompletedTasks().then((result) => {
-      if (result) {
-        setTasks(result);
-        setIsLoading(false);
-      }
-    });
-  }, []);
+    if (isTeacher && assignmentsQuery.data) {
+      const filteredTasks = assignmentsQuery.data.filter(task => {
+        const dueAtDate = new Date(task.dueAt); 
+        const currentDate = new Date();
+        return task.status === "PUBLISHED" && dueAtDate < currentDate
+      })
+      const completedTask = completedTaskFunc(filteredTasks)
+      setTasks(completedTask);
+      setFilteredTasks(completedTask);
+    }
+    else if (completedTasksQuery.data) {
+      setTasks(completedTasksQuery.data);
+      setFilteredTasks(completedTasksQuery.data);
+    }
+  }, [assignmentsQuery.data, completedTasksQuery.data]);
 
-  if (isLoading) {
+  if (assignmentsQuery.isLoading) {
     return <Loader />;
   }
-  
-  
+
+  if(completedTasksQuery.isLoading){
+    return <Loader />;
+  }
+
   const setSelectedValue = (type, selectValue) => {
     if (type === 'classes') {
       setSelectedClass(selectValue);
     }
   };
 
-  const filteredData = (tasks) => {
+  const filterData = (tasks) => {
     const filteredTasks = tasks.filter(
       (task) => !selectedClass || task.classTitle === selectedClass
     );
@@ -95,34 +146,17 @@ export default function CompletedPage() {
     downloadSubmissionPdf(Id);
   };
 
+
   return (
-    <>
+    <CompletedPageContainer>
       <MainContainer>
+        <ImprovedSecondarySideBar
+          isShowMenu={isShowMenu}
+          setShowMenu={setShowMenu}
+        />
         <InnerContainer>
           <HeadingAndFilterCon>
-            <TopContainer>
-              <TitleContainer>
-                <Title>
-                  Task History
-                  <QuestionTooltip 
-                    img={questionMark} 
-                    text={"View all of the tasks that you have marked as complete"}
-                  />
-                </Title>
-                <ConnectContainer>
-                  <LinkButton
-                    link={`#/`}
-                    label="Back to tasks"
-                    arrowleft={arrowLeft}
-                    whiteArrowleft={whiteArrowleft}
-                  />
-                </ConnectContainer>
-              </TitleContainer>
-              <HeadingLine>
-                View or download any previous tasks that you have already
-                completed
-              </HeadingLine>
-            </TopContainer>
+            {tabletView && <MenuButton setShowMenu={setShowMenu} />}
             <FilterAndSortContainer>
               <FilterContainer>
                 <Frame5086>
@@ -141,7 +175,7 @@ export default function CompletedPage() {
                   />
                 </>
               </FilterContainer>
-              <FilterLine/>
+              <FilterLine />
               <SortContainer>
                 <SortHeading>
                   <SortImg src={SortSquare} />
@@ -173,16 +207,14 @@ export default function CompletedPage() {
               </SortContainer>
             </FilterAndSortContainer>
           </HeadingAndFilterCon>
-          <ContentContainer>
-            <LeftContentContainer>
-              <TaskHistoryDataComponent
-                downloadPDF={downloadPDF}
-                list={filteredData(tasks)}
-              />
-            </LeftContentContainer>
-          </ContentContainer>
+          <LeftContentContainer>
+            <TaskHistoryDataComponent
+              downloadPDF={downloadPDF}
+              list={filterData(tasks)}
+            />
+          </LeftContentContainer>
         </InnerContainer>
       </MainContainer>
-    </>
+    </CompletedPageContainer>
   );
 }

@@ -19,10 +19,10 @@ import {
 } from './style';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import NotificationSwitch from './NotificationSwitch';
-import SnackbarContext from '../../SnackbarContext';
+import Toast from '../../Toast';
+import { toast } from 'react-toastify';
 
 function NotificationsBar(props) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [notificationValue, setNotificationValue] = useState('URL');
   const queryClient = useQueryClient();
@@ -46,7 +46,7 @@ function NotificationsBar(props) {
     },
 
     onError: (err, newTodo, context) => {
-      showSnackbar('' + err.message);
+      toast(<Toast message={'' + err.message} />);
 
       queryClient.setQueryData(
         ['notifications'],
@@ -145,8 +145,6 @@ function NotificationsBar(props) {
     }
     return <TaskCard task={notification} small={true} />;
   });
-
-  console.log('the notifications are', notifications)
 
   return (
     <>

@@ -1,7 +1,7 @@
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import { chain } from 'lodash';
-import { isMobileView } from '../../../ReactiveRender'; 
+import { isMobileView } from '../../../ReactiveRender';
 import * as React from 'react';
 import './preview.css';
 
@@ -10,7 +10,7 @@ export default function PreviewDialog({
   markingCriterias,
 }) {
   const [open, setOpen] = React.useState(true);
-  const onMobileView = isMobileView()
+  const onMobileView = isMobileView();
   const handleClose = () => {
     setOpen(false);
     setMarkingCriteriaPreviewDialog(false);
@@ -20,7 +20,7 @@ export default function PreviewDialog({
       <Dialog open={open} onClose={handleClose}>
         <DialogContent>
           {markingCriterias.type === 'RUBRICS' ? (
-            <table className='rubrics-table'>
+            <table className="rubrics-table">
               <tr className="title">
                 {createHeading(markingCriterias.criterias)}
               </tr>
@@ -28,16 +28,28 @@ export default function PreviewDialog({
               {createLevels(markingCriterias.criterias)}
             </table>
           ) : (
-            <div className={`${onMobileView ? 'parent-container-sm' : 'parent-container'}`}>
-              {markingCriterias.strengthsTargetsCriterias.map((criteria) => (
+            <div
+              className={`${
+                onMobileView ? 'parent-container-sm' : 'parent-container'
+              }`}
+            >
+              {markingCriterias?.strengthsTargetsCriterias?.map((criteria) => (
                 <div className="st-table">
                   <div className="st-title">{criteria.title}</div>
                   <div className="option-container">
-                    <div className={`${onMobileView ? 'st-sub-title-sm' : 'st-sub-title'}`}>
-                       Strengths
+                    <div
+                      className={`${
+                        onMobileView ? 'st-sub-title-sm' : 'st-sub-title'
+                      }`}
+                    >
+                      Strengths
                     </div>
-                    <div className={`${onMobileView ? 'st-sub-title-sm' : 'st-sub-title'}`}>
-                       Targets
+                    <div
+                      className={`${
+                        onMobileView ? 'st-sub-title-sm' : 'st-sub-title'
+                      }`}
+                    >
+                      Targets
                     </div>
                   </div>
                   {Array.from({
@@ -47,14 +59,14 @@ export default function PreviewDialog({
                     ),
                   }).map((_, index) => (
                     <div className="option-container" key={index}>
-                      <div className="data" style={{ width: '50%'}}>
+                      <div className="data" style={{ width: '50%' }}>
                         {index < criteria.strengths.length && (
                           <div className="content">
                             {criteria.strengths[index]}
                           </div>
                         )}
                       </div>
-                      <div className="data" style={{ width: '50%'}}>
+                      <div className="data" style={{ width: '50%' }}>
                         {index < criteria.targets.length && (
                           <div className="content">
                             {criteria.targets[index]}

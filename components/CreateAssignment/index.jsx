@@ -25,7 +25,6 @@ import DateSelector from '../DateSelector';
 import MCQQuestionFrame from '../MCQQuestionFrame';
 import ReactiveRender, { isMobileView } from '../ReactiveRender';
 import TheoryQuestionFrame from '../TheoryQuestionFrame';
-import SnackbarContext from '../SnackbarContext';
 import Loader from '../Loader';
 import FocusAreaDialog from './Dialog/newFocusArea';
 import { getFocusAreas, getAllColors } from '../../service';
@@ -45,6 +44,9 @@ import questionMark from '../../static/img/question-mark.svg';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import CommentBankDialog from '../Shared/Dialogs/commentBank';
 import { getUserId } from '../../userLocalDetails';
+import { toast } from 'react-toastify';
+import Toast from '../Toast';
+import Header from '../Header2';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -64,7 +66,7 @@ export default function CreateAssignment(props) {
     reviewedBy: 'NONE',
     status: 'DRAFT',
     reviewers: {},
-    dueAt: dayjs().add(3, 'day'),
+    dueAt: '',
   };
   const [assignment, setAssignment] = React.useState(draft);
 
@@ -77,7 +79,6 @@ export default function CreateAssignment(props) {
     []
   );
   const [currentCommentBank, setCurrentCommentBank] = React.useState([]);
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const getAssignment = async (id) => {
     if (id === 'new') {
@@ -121,7 +122,6 @@ export default function CreateAssignment(props) {
 
     return a;
   };
-  console.log('UserId', UserId);
   React.useEffect(() => {
     Promise.all([
       getClasses(),
@@ -246,7 +246,7 @@ export default function CreateAssignment(props) {
     e.currentTarget.style.border = '1px solid var(--text)';
   };
   const cleanformattingDiv = (e) => {
-    e.currentTarget.style.border = '1px solid #E0E0E0';
+    // e.currentTarget.style.border = '1px solid #E0E0E0';
   };
 
   const questionFrames = () => {
@@ -459,10 +459,11 @@ export default function CreateAssignment(props) {
         queryClient.invalidateQueries((queryKey) => {
           return queryKey.includes('class');
         });
-        showSnackbar('Task saved');
+
+        toast(<Toast message={'Task saved'} />);
         return;
       } else {
-        showSnackbar('Could not save task');
+        toast(<Toast message={'Could not save task'} />);
         return;
       }
     });
@@ -475,7 +476,8 @@ export default function CreateAssignment(props) {
     } else {
       document.getElementById('assignmentNameContainer');
       assignmentNameContainer.style.border = '1px solid red';
-      showSnackbar('Please enter task title');
+
+      toast(<Toast message={'Please enter task title'} />);
       return false;
     }
   };
@@ -495,7 +497,10 @@ export default function CreateAssignment(props) {
           );
           questionTextBox.style.border = '1px solid red';
           invalidQuestion = true;
-          showSnackbar('Please enter Question ' + question.serialNumber);
+
+          toast(
+            <Toast message={'Please enter question ' + question.serialNumber} />
+          );
           return false;
         }
         if (question.type === 'MCQ') {
@@ -514,9 +519,14 @@ export default function CreateAssignment(props) {
             }
           });
           if (invalidQuestion) {
-            showSnackbar(
-              'Please enter options for Question ' + question.serialNumber
+            toast(
+              <Toast
+                message={
+                  'Please enter options for question ' + question.serialNumber
+                }
+              />
             );
+
             return false;
           }
           if (!isCorrectPresent) {
@@ -525,9 +535,14 @@ export default function CreateAssignment(props) {
             );
             optionContainer.style.border = '1px solid red';
             invalidQuestion = true;
-            showSnackbar(
-              'Please select atleast one correct option for Question ' +
-                question.serialNumber
+
+            toast(
+              <Toast
+                message={
+                  'Please select atleast one correct option for question ' +
+                  question.serialNumber
+                }
+              />
             );
             return false;
           }
@@ -542,7 +557,10 @@ export default function CreateAssignment(props) {
         );
         questionTextBox.style.border = '1px solid red';
         invalidQuestion = true;
-        showSnackbar('Please enter Question ' + question.serialNumber);
+
+        toast(
+          <Toast message={'Please enter question ' + question.serialNumber} />
+        );
         return false;
       }
     });
@@ -555,7 +573,8 @@ export default function CreateAssignment(props) {
     } else {
       const classesContainer = document.getElementById('classesContainer');
       classesContainer.style.border = '1px solid red';
-      showSnackbar('Please select atleast one class');
+
+      toast(<Toast message={'Please select atleast one class'} />);
     }
   };
 
@@ -566,7 +585,10 @@ export default function CreateAssignment(props) {
     } else {
       const dueDateContainer = document.getElementById('timeContainer');
       dueDateContainer.style.border = '1px solid red';
-      showSnackbar('Please choose due time at least one hour from now.');
+
+      toast(
+        <Toast message={'Please choose due time at least one hour from now'} />
+      );
       return false;
     }
   };
@@ -581,7 +603,8 @@ export default function CreateAssignment(props) {
       } else {
         const dueDateContainer = document.getElementById('DnDContainer');
         dueDateContainer.style.border = '1px solid red';
-        showSnackbar('Please add reviewer for each student');
+
+        toast(<Toast message={'Please add reviewer for each student'} />);
         return false;
       }
     } else {
@@ -611,16 +634,16 @@ export default function CreateAssignment(props) {
             queryClient.invalidateQueries((queryKey) => {
               return queryKey.includes('class');
             });
-            showSnackbar('Task published', res.link);
-            window.location.href = '#tasks';
+
+            toast(<Toast message={'Task published'} link={res.link} />);
+            window.location.href = '#';
           } else {
-            showSnackbar('Task creation failed', res.link);
+            toast(<Toast message={'Task creation failed'} link={res.link} />);
             return;
           }
         });
       });
     } else {
-      // showSnackbar('Please fill all the fields');
     }
   };
 
@@ -628,10 +651,10 @@ export default function CreateAssignment(props) {
     updateAssignment(assignment.id, assignment).then((_) => {
       deleteAssignment(assignment.id).then((res) => {
         if (res.status === 'DELETED') {
-          showSnackbar('Task deleted');
-          window.location.href = '#tasks';
+          toast(<Toast message={'Task deleted'} />);
+          window.location.href = '#';
         } else {
-          showSnackbar('Task deletion failed');
+          toast(<Toast message={'Task deletion failed'} />);
           return;
         }
       });
@@ -761,7 +784,7 @@ export default function CreateAssignment(props) {
           confirmButtonAction={publish}
         />
       )}
-
+      <Header breadcrumbs={[assignment?.title]} />
       <CreateAAssignmentLaptop
         {...{
           ...methods,

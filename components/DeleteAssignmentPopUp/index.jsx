@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { deleteAssignment } from '../../service';
-import SnackbarContext from '../SnackbarContext';
 import {
   IbmplexsansSemiBoldShark24px,
   IbmplexsansSemiBoldWhite16px,
 } from '../../styledMixins';
 import { DialogContent, Dialog } from '@mui/material';
+import { toast } from 'react-toastify';
+import Toast from '../Toast';
 
 export default function DeleteAssignmentPopup(props) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const {
     assignment,
@@ -24,7 +24,7 @@ export default function DeleteAssignmentPopup(props) {
       window.location.reload();
     });
     hidedeletePopup();
-    showSnackbar('Task deleted');
+    toast(<Toast message={'Task deleted'} />);
   };
 
   const textContent = `Are you sure you want to permanently delete ${

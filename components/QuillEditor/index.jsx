@@ -1,5 +1,11 @@
 import { add, flatMap } from 'lodash';
-import React, { useEffect, useImperativeHandle, useRef, useState, useContext } from 'react';
+import React, {
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+  useContext,
+} from 'react';
 import { FeedbackContext } from '../FeedbacksComponents/FeedbacksRoot/FeedbackContext';
 import Quill from 'quill';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
@@ -7,109 +13,77 @@ import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import HighlightBlot from './HighlightBlot';
 import './styles.css';
+import CommentBox from './CommentBox';
+import ModalForSelectOption from '../../components2/Modals/ModalForSelectOption';
+import FocusAreaSelection from '../../components2/FocusAreaSelection';
+
 const QuillEditor = React.forwardRef(
-  ({ comments, value, options, debounceTime, onDebounce, nonEditable, editorFontSize }, ref) => {
+  (
+    {
+      comments,
+      value,
+      options,
+      debounceTime,
+      onDebounce,
+      nonEditable,
+      editorFontSize,
+      selectedComment,
+      methods,
+      pageMode,
+      submission,
+      selectedRange,
+      newCommentFrameRef,
+      share,
+      question,
+      isFeedback,
+    },
+    ref
+  ) => {
     Quill.register(HighlightBlot);
     const editorRef = useRef(null);
+    const commentHeightRefs = useRef(null);
     const [editor, setEditor] = useState(null);
-    const { setCountWords } = useContext(FeedbackContext)
-    const manipulatePastedHTML = (pastedHTML) => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(pastedHTML, 'text/html');
-
-      const removeStyles = (element) => {
-        element.removeAttribute('style');
-        element.style.backgroundColor = '';
-      };
-
-      const traverseAndRemoveStyles = (node) => {
-        if (node.nodeType === 1) {
-          removeStyles(node);
-          for (let i = 0; i < node.children.length; i++) {
-            traverseAndRemoveStyles(node.children[i]);
-          }
-        } else if (node.nodeType === 3) {
-          // Do nothing with text nodes for this example
-        }
-      };
-
-      traverseAndRemoveStyles(doc.body);
-
-      const serializer = new XMLSerializer();
-      const modifiedHTML = serializer.serializeToString(doc);
-
-      return modifiedHTML;
-    };
-
-    const handlePaste = (event) => {
-      event.preventDefault();
-
-      const clipboardData = event.clipboardData || window.clipboardData;
-
-      const pastedHTML = clipboardData.getData('text/html');
-
-      const modifiedHTML = manipulatePastedHTML(pastedHTML);
-
-      const cursorPosition = editor.getSelection(true);
-
-      const currentText = editor.getText();
-
-      editor.clipboard.dangerouslyPasteHTML(cursorPosition.index, modifiedHTML);
-
-      const pastedLength = editor.getText().length - currentText.length;
-
-      const newCursorPosition = cursorPosition.index + pastedLength;
-      
-      setTimeout(()=>{
-        editor.setSelection(newCursorPosition, 0, 'silent');
-        editor.focus();
-      }, 10)
-    };
+    const [selection, setSelection] = useState(null);
+    const {
+      isTeacher,
+      showFloatingDialogue,
+      setShowFloatingDialogue,
+    } = useContext(FeedbackContext);
 
     useEffect(() => {
       if (editorRef.current && !editor) {
         const quillInstance = new Quill(editorRef.current, options);
-        quillInstance.root.style.fontFamily = '"IBM Plex Sans", sans-serif';
-        quillInstance.root.style.fontSize = '18px';
-        quillInstance.root.style.lineHeight = '32px';
+        quillInstance.root.style.fontFamily =
+          'var(--font-family-ibm_plex_sans)';
+        quillInstance.root.style.fontSize = '16px';
+        quillInstance.root.style.lineHeight = '24px';
+        quillInstance.root.style.fontWeight = '400';
+        quillInstance.root.style.color = '#181718';
 
-        const delta = quillInstance.clipboard.convert(value);
+        const delta = quillInstance.clipboard.convert({html:value});
         quillInstance.setContents(delta);
         setEditor(quillInstance);
 
-        const initialText = quillInstance.getText();
-        const initialWordCount = initialText.trim().length > 0 ? initialText.trim().split(/\s+/).length : 0;
-        setCountWords(initialWordCount);
+        quillInstance.on('selection-change', handleSelectionChange);
       }
 
       if (editor && editorFontSize !== null) {
         const fontSizePercentage = editorFontSize * 0.01;
-        editor.root.style.fontSize = `${18 * fontSizePercentage}px`;
-        const calculatedLineHeight = editorFontSize * 0.25; 
+        editor.root.style.fontSize = `${16 * fontSizePercentage}px`;
+        const calculatedLineHeight = editorFontSize * 0.25;
         editor.root.style.lineHeight = `${calculatedLineHeight}px`;
       }
-      
-      if (editor) {
-        editor.on('text-change', () => {
-          const text = editor.getText();
-          const wordCount = text.trim().length > 0 ? text.trim().split(/\s+/).length : 0;
-          setCountWords(wordCount);
-        });
-      }
-
     }, [editor, editorRef, options, value, editorFontSize]);
-
     useEffect(() => {
-      if (editor) {
+      if (editor && Array.isArray(comments) && comments.length > 0) {
         removeAllHighlights(editor);
-        comments.forEach((comment) => {
-          
+        comments?.forEach((comment) => {
           if (comment.range) {
-            addCommentHighlight(editor, comment)
+            addCommentHighlight(editor, comment);
           }
         });
       }
-    }, [editor]);
+    }, [editor, comments]);
 
     useEffect(() => {
       if (editor) {
@@ -143,8 +117,8 @@ const QuillEditor = React.forwardRef(
           var converter = new QuillDeltaToHtmlConverter(filteredOps, cfg);
 
           var html = converter.convert();
-          
-          onDebounce(html,  getHighlights(editor));
+
+          onDebounce(html, getHighlights(editor));
         };
 
         if (debounceTime > 0) {
@@ -158,9 +132,8 @@ const QuillEditor = React.forwardRef(
         }
 
         const debouncedAction = debounce(handleDebounce, debounceTime);
-        editor.root.addEventListener('paste', (event)=>{
+        editor.root.addEventListener('paste', (event) => {
           debouncedAction();
-          handlePaste(event);
         });
       }
     }, [editor]);
@@ -177,6 +150,9 @@ const QuillEditor = React.forwardRef(
       getAllHighlightsWithComments() {
         return getHighlights(editor);
       },
+      setSelection(from, to) {
+        return editor.setSelection(null);
+      },
       selectRange(range) {
         editor.setSelection(range.index, range.length, 'silent');
         editor.focus();
@@ -184,7 +160,7 @@ const QuillEditor = React.forwardRef(
       redrawHighlights(comments) {
         if (editor) {
           removeAllHighlights(editor);
-          comments.forEach((comment) => {
+          comments?.forEach((comment) => {
             if (comment.isHidden !== undefined && comment.isHidden !== null)
               highlightCommentRange(editor, comment);
           });
@@ -193,9 +169,9 @@ const QuillEditor = React.forwardRef(
       delteComment(commentId) {
         if (editor) {
           const remainingComments = Object.entries(highlightsWithCommentsData)
-          .filter(([commentId, _]) => commentId !== commentId)
-          .map(([commentId, _]) => commentId);
-        
+            .filter(([commentId, _]) => commentId !== commentId)
+            .map(([commentId, _]) => commentId);
+
           removeAllHighlights(editor);
           remainingComments.forEach((comment) => {
             if (comment.isHidden !== undefined && comment.isHidden !== null)
@@ -210,13 +186,12 @@ const QuillEditor = React.forwardRef(
       highlightComment(comment) {
         highlightCommentRange(editor, comment);
       },
-      
 
       getContents() {
         return editor.getContents();
       },
       getSelection() {
-        const selection =  editor.getSelection();
+        const selection = editor.getSelection();
 
         const selectedText = getSelectedText(editor, selection);
         return {
@@ -266,9 +241,96 @@ const QuillEditor = React.forwardRef(
       },
     }));
 
+    const handleSelectionChange = (range, oldRange, source) => {
+      if (range && range.length > 0 && source === 'user') {
+        setSelection(range);
+      } else {
+        setSelection(null);
+      }
+    };
+
+    let floatingBoxTopPosition;
+    if (selectedRange) {
+      const length = selectedRange.to - selectedRange.from;
+
+      let boundsIs;
+      if (editor) {
+        boundsIs = editor.getBounds(selectedRange.from, length);
+      }
+
+      if (!boundsIs) {
+        return null;
+      }
+
+      floatingBoxTopPosition = boundsIs.top;
+    }
+
+
+    const calculateTotalCommentHeight = () => {
+      if (commentHeightRefs.current) {
+        const children = commentHeightRefs.current.children;
+        let calculatedHeight = 0;
+        for (let i = 0; i < children.length; i++) {
+          calculatedHeight += children[i].offsetHeight;
+        }
+        return calculatedHeight + editorRef?.current.offsetHeight;
+      }
+      return 0;
+    };
+   
+    const totalCommentHeight = calculateTotalCommentHeight()
+
     return (
-      <div className="quill-editor-container">
-        <div ref={editorRef} style={nonEditable ? { height: 'auto' } : { minHeight: '750px' }}/>
+      <div className="quill-editor-container" style={{ position: 'relative' }}>
+        <div
+          ref={editorRef}
+          style={nonEditable ? { height: 'auto' } : { minHeight: '750px' }}
+        ></div>
+        {showFloatingDialogue && (
+          <div
+            className="FloatingEditorDialogueBox"
+            style={{
+              top: floatingBoxTopPosition,
+              width: '280px',
+              height: `${totalCommentHeight}px`,
+            }}
+          >
+            <div className="modalHeading">
+              <h1>{isTeacher ? 'Comment Banks' : 'Focus Areas'}</h1>
+              <button
+                className="closeButton"
+                onClick={() => {
+                  editor.setSelection(null);
+                  setShowFloatingDialogue(false)
+                }}
+              >
+                x
+              </button>
+            </div>
+            <FocusAreaSelection 
+              optionsToSelect={question?.focusAreas}
+              onClickOption={methods.handleFocusAreaComment}
+            />
+          </div>
+        )}
+
+        {!showFloatingDialogue && (
+          <CommentBox
+            pageMode={pageMode}
+            submission={submission}
+            methods={methods}
+            comments={comments.filter((comment) => !comment.isHidden)}
+            editor={editor}
+            selectedComment={selectedComment}
+            selectedRange={selectedRange}
+            newCommentFrameRef={newCommentFrameRef}
+            share={share}
+            floatingBoxTopPosition={floatingBoxTopPosition}
+            isFeedback={isFeedback}
+            commentHeightRefs={commentHeightRefs}
+            commentBoxContainerHeight={totalCommentHeight}
+          />
+        )}
       </div>
     );
   }
@@ -288,25 +350,23 @@ function getSelectedText(editor, selection) {
   }
 }
 function scrollToHighlight(commentId) {
-  ////FIX
-  const highlightSpans = Array.from(document.querySelectorAll('span.quill-highlight'));
-  const targetSpan = highlightSpans.find(span => {
-      const commentIds = span.getAttribute('data-comment-ids');
-      return commentIds && commentIds.split(',').includes(commentId);
+  const highlightSpans = Array.from(
+    document.querySelectorAll('span.quill-highlight')
+  );
+  const targetSpan = highlightSpans.find((span) => {
+    const commentIds = span.getAttribute('data-comment-ids');
+    return commentIds && commentIds.split(',').includes(commentId);
   });
   if (targetSpan) {
-    setTimeout(() => targetSpan.scrollIntoView(
-      {
+    setTimeout(
+      () =>
+        targetSpan.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
-          inline: 'nearest',
-      }
-    ), 100);
-    // targetSpan.scrollIntoView({
-    //   behavior: 'smooth',
-    //   block: 'center',
-    //   inline: 'nearest',
-    // });
+          inline: 'center',
+        }),
+      100
+    );
   } else {
     console.warn(`No highlight found for comment ID: ${commentId}`);
   }
@@ -322,30 +382,23 @@ function removeAllHighlights(editor) {
   });
 }
 
-function addNewHighlight(editor, comment) {
-  getHighlights(editor);
-}
 
 function getHighlights(editor) {
   const quillContainer = editor.container;
 
   let highlightsWithComments = {};
 
-  // Get all highlight elements in the Quill container
-  const highlightElements = quillContainer.querySelectorAll('.quill-highlight');
+  const highlightElements = quillContainer.querySelectorAll('span.quill-highlight');
 
   highlightElements.forEach((element) => {
-    // Assuming the comment IDs are stored as a comma-separated string
+
     const commentIds = element.getAttribute('data-comment-ids').split(',');
     const content = element.textContent;
     const index = editor.getIndex(Quill.find(element));
     const length = content.length;
-
-    // Process each comment ID associated with the highlight
-    commentIds.forEach(commentId => {
+    commentIds.forEach((commentId) => {
       const highlightData = { content, index, length };
 
-      // Group highlights with the same comment id together
       if (highlightsWithComments[commentId]) {
         highlightsWithComments[commentId].push(highlightData);
       } else {
@@ -368,127 +421,128 @@ function getHighlights(editor) {
     },
     {}
   );
-
   return formattedHighlights;
 }
 
 function getHighlights2(editor) {
   const quillContainer = editor.container;
   let highlightsByRange = {};
-  // Get all highlight elements in the Quill container
-  const highlightElements = quillContainer.querySelectorAll('.quill-highlight');
+  const highlightElements = quillContainer.querySelectorAll('span.quill-highlight');
 
   highlightElements.forEach((element) => {
     const commentIds = element.getAttribute('data-comment-ids').split(',');
-    const commentColours = element.getAttribute('data-comment-colours').split(',');
+    const commentColours = element
+      .getAttribute('data-comment-colours')
+      .split(',');
     const index = editor.getIndex(Quill.find(element));
     const length = element.textContent.length;
     const rangeKey = `${index}-${index + length}`;
 
-    // Initialize the array for this range if it doesn't exist
     if (!highlightsByRange[rangeKey]) {
       highlightsByRange[rangeKey] = [];
     }
-
-    // Add comment IDs to the range
-    commentIds.forEach(commentId => {
+    commentIds.forEach((commentId) => {
       if (!highlightsByRange[rangeKey].includes(commentId)) {
         highlightsByRange[rangeKey].push(commentId);
       }
     });
     commentIds.forEach((commentId, idx) => {
       const colour = commentColours[idx] || '#fff9c4';
-      if (!highlightsByRange[rangeKey].some(entry => entry.commentId === commentId)) {
-          highlightsByRange[rangeKey].push({ commentId, colour });
+      if (
+        !highlightsByRange[rangeKey].some(
+          (entry) => entry.commentId === commentId
+        )
+      ) {
+        highlightsByRange[rangeKey].push({ commentId, colour });
       }
     });
   });
   return highlightsByRange;
 }
 
-
 function addComment(editor, comment) {
-  // updateQuillHighlights(editor, getHighlights(editor), comment.id, comment.range);
   addCommentHighlight(editor, comment);
 }
 
 function addCommentHighlight(editor, comment) {
-  const highlightsByRange = getHighlights2(editor)
+  const highlightsByRange = getHighlights2(editor);
   const updatedHighlights = JSON.parse(JSON.stringify(highlightsByRange));
 
   let segmentsToAdd = [{ from: comment.range.from, to: comment.range.to }];
 
   Object.entries(highlightsByRange).forEach(([rangeKey, entries]) => {
-    const commentIds = entries.map(entry => entry.commentId);
-    const colours = entries.map(entry => entry.colour);  
+    const commentIds = entries.map((entry) => entry.commentId);
+    const colours = entries.map((entry) => entry.colour);
     const [rangeStart, rangeEnd] = rangeKey.split('-').map(Number);
 
-      segmentsToAdd = segmentsToAdd.flatMap(segment => {
-          if (segment.from < rangeEnd && segment.to > rangeStart) {
-              // Split the segment into non-overlapping parts
-              const newSegments = [];
-              if (segment.from < rangeStart) {
-                  newSegments.push({ from: segment.from, to: rangeStart });
-              }
-              if (segment.to > rangeEnd) {
-                  newSegments.push({ from: rangeEnd, to: segment.to });
-              }
-              return newSegments;
-          }
-          return [segment];
-      });
-
-      // Update existing overlapping highlights
-      if (comment.range.from < rangeEnd && comment.range.to > rangeStart) {
-          const overlapStart = Math.max(rangeStart, comment.range.from);
-          const overlapEnd = Math.min(rangeEnd, comment.range.to);
-          updatedHighlights[`${overlapStart}-${overlapEnd}`] = [...new Set([...commentIds, comment.id])];
-
-          editor.formatText(
-              overlapStart,
-              overlapEnd - overlapStart,
-              {
-                  highlight: {
-                      commentIds: updatedHighlights[`${overlapStart}-${overlapEnd}`],
-                      colours: [...colours, createBackgroundColour(comment)],
-                      background: createBackgroundColour(comment),
-                      isVisible: !comment.isHidden,
-                  },
-              },
-              'silent'
-          );
-
-          // Adjust the existing range if necessary
-          if (rangeStart < overlapStart) {
-              updatedHighlights[`${rangeStart}-${overlapStart}`] = commentIds;
-          }
-          if (overlapEnd < rangeEnd) {
-              updatedHighlights[`${overlapEnd}-${rangeEnd}`] = commentIds;
-          }
-
-          // Remove the original range key
-          delete updatedHighlights[rangeKey];
+    segmentsToAdd = segmentsToAdd.flatMap((segment) => {
+      if (segment.from < rangeEnd && segment.to > rangeStart) {
+        // Split the segment into non-overlapping parts
+        const newSegments = [];
+        if (segment.from < rangeStart) {
+          newSegments.push({ from: segment.from, to: rangeStart });
+        }
+        if (segment.to > rangeEnd) {
+          newSegments.push({ from: rangeEnd, to: segment.to });
+        }
+        return newSegments;
       }
+      return [segment];
+    });
+
+    // Update existing overlapping highlights
+    if (comment.range.from < rangeEnd && comment.range.to > rangeStart) {
+      const overlapStart = Math.max(rangeStart, comment.range.from);
+      const overlapEnd = Math.min(rangeEnd, comment.range.to);
+      updatedHighlights[`${overlapStart}-${overlapEnd}`] = [
+        ...new Set([...commentIds, comment.id]),
+      ];
+
+      editor.formatText(
+        overlapStart,
+        overlapEnd - overlapStart,
+        {
+          highlight: {
+            commentIds: updatedHighlights[`${overlapStart}-${overlapEnd}`],
+            colours: [...colours, createBackgroundColour(comment)],
+            background: createBackgroundColour(comment),
+            isVisible: !comment.isHidden,
+          },
+        },
+        'silent'
+      );
+
+      // Adjust the existing range if necessary
+      if (rangeStart < overlapStart) {
+        updatedHighlights[`${rangeStart}-${overlapStart}`] = commentIds;
+      }
+      if (overlapEnd < rangeEnd) {
+        updatedHighlights[`${overlapEnd}-${rangeEnd}`] = commentIds;
+      }
+
+      // Remove the original range key
+      delete updatedHighlights[rangeKey];
+    }
   });
 
   // Add new highlights for each non-overlapping segment
-  segmentsToAdd.forEach(segment => {
-      const segmentKey = `${segment.from}-${segment.to}`;
-      updatedHighlights[segmentKey] = [comment.id];
+  segmentsToAdd.forEach((segment) => {
+    const segmentKey = `${segment.from}-${segment.to}`;
+    updatedHighlights[segmentKey] = [comment.id];
 
-      editor.formatText(
-          segment.from,
-          segment.to - segment.from,
-          {
-              highlight: {
-                  commentIds: [comment.id],
-                  colours: [createBackgroundColour(comment)],
-                  background: createBackgroundColour(comment),
-                  isVisible: !comment.isHidden,
-              },
-          },
-          'silent'
-      );
+    editor.formatText(
+      segment.from,
+      segment.to - segment.from,
+      {
+        highlight: {
+          commentIds: [comment.id],
+          colours: [createBackgroundColour(comment)],
+          background: createBackgroundColour(comment),
+          isVisible: !comment.isHidden,
+        },
+      },
+      'silent'
+    );
   });
 
   // Return the updated highlights

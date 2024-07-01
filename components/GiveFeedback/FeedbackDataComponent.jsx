@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ButtonsContainer,
   CardContainer,
@@ -18,33 +18,34 @@ import {
   IconsContainer,
   ParaContainer,
   RequestedText,
+  MarkedLiked,
   Tag,
   TagText,
   TagsAndTextContainer,
+  UserNameBox,
+  UserImage,
   TagsContainer,
   TextContainer,
   TextContainer1,
   WordsCount,
   WordsCountContainer,
 } from './style';
-import WhiteArrowRight from '../../static/img/arrowright-White.svg';
+import WhiteArrowRight from '../../static/img/Arrow-right-purple-24.svg';
 import CloseCircle from '../../static/img/closecircle.svg';
-import StarFilled from '../../static/img/Star-filled.png';
-import StarEmpty from '../../static/img/Star-empty.png';
 import StyledButton from '../../components2/StyledButton';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { acceptFeedbackRequest, declineFeedbackRequest } from '../../service';
 import arrowRight from '../../static/img/arrowright.svg';
 import { requestedTime } from '../../utils/requestedTime';
-import SnackbarContext from '../SnackbarContext';
+import { toast } from 'react-toastify';
+import Toast from '../Toast';
+import { Avatar } from '@boringer-avatars/react';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
-  const { showSnackbar } = React.useContext(SnackbarContext);
-
   const queryClient = useQueryClient();
   const acceptMutation = useMutation({
     mutationFn: acceptFeedbackRequest,
-    
+
     onSuccess: (data, variables) => {
       queryClient.refetchQueries({ queryKey: ['communityTasks'] });
       queryClient.refetchQueries({
@@ -56,37 +57,45 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
 
   const declineMutation = useMutation({
     mutationFn: declineFeedbackRequest,
-  
+
     onSuccess: (data, variables) => {
-      console.log('data', data);
-      console.log('variables', variables);
       const submissionId = variables;
-      
-      const previousCommunityTasks = queryClient.getQueryData(['communityTasks']);
+
+      const previousCommunityTasks = queryClient.getQueryData([
+        'communityTasks',
+      ]);
       const updatedCommunityTasks = previousCommunityTasks.filter(
         (n) => n.submissionId !== submissionId
       );
       queryClient.setQueryData(['communityTasks'], updatedCommunityTasks);
     },
-  
+
     onSettled: () => {
       queryClient.refetchQueries({ queryKey: ['communityTasks'] });
-      showSnackbar('Feedback request dismissed');
+
+      toast(<Toast message={'Feedback request dismissed'} />);
     },
   });
+
+
   return (
     <>
       {feedbackData.map((text, index) => {
         return (
           <CardContainer>
             <TagsAndTextContainer>
-              <TagsContainer>
-                {text.tags.map((tag, index) => (
-                  <Tag key={index}>
-                    <TagText>{tag.name}</TagText>
-                  </Tag>
-                ))}
-              </TagsContainer>
+              <UserNameBox>
+                <UserImage>
+                  <Avatar
+                    title={false}
+                    size={24}
+                    variant="beam"
+                    name={text?.authorName}
+                    square={false}
+                  />
+                </UserImage>
+                {text?.authorName}
+              </UserNameBox>
               <RequestedText>
                 {pathName.includes('/feedbackHistory')
                   ? 'Reviewed '
@@ -99,8 +108,17 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
               </RequestedText>
             </TagsAndTextContainer>
             <TextContainer>
-              <DataText>{text.title}</DataText>
+              <DataText>
+                {text.title}
+              </DataText>
               <WordsCountContainer>
+                <TagsContainer>
+                  {text.tags.map((tag, index) => (
+                    <Tag key={index}>
+                      <TagText>{tag.name}</TagText>
+                    </Tag>
+                  ))}
+                </TagsContainer>
                 <WordsCount>{text.wordCount} words</WordsCount>
               </WordsCountContainer>
             </TextContainer>
@@ -108,7 +126,7 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
               {pathName.includes('/feedbackHistory') ? (
                 <StyledButton
                   URL={text.url}
-                  Text="View Feedback"
+                  Text="Open"
                   Icon={WhiteArrowRight}
                   ColoredIcon={arrowRight}
                 />

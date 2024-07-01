@@ -18,12 +18,14 @@ import {
   PopupContainer,
 } from './style';
 import { Avatar } from '@boringer-avatars/react';
+import QuestionTooltip from '../QuestionTooltip';
 
 function RequestFeedbackPopUp({
   list,
   heading,
   ClosePopUp,
-  onClickFn
+  onClickFn,
+  tooltipText=''
 }) {
   return (
     <>
@@ -32,7 +34,10 @@ function RequestFeedbackPopUp({
           <Frame1334Img src={messages} />
           <Frame1577>
             <Frame1577heading>Get Feedback</Frame1577heading>
-            <Frame1577Img src={questionmark} />
+            <QuestionTooltip
+              text={tooltipText}
+              img={questionmark}
+            />
           </Frame1577>
           <Frame1334Img
             style={{ cursor: 'pointer' }}
@@ -43,7 +48,6 @@ function RequestFeedbackPopUp({
         <Frame1371>
           <Frame1371Title>
             <Frame1371SubTitle>Select a {heading}</Frame1371SubTitle>
-            <Frame1371Img src={questionmark} />
           </Frame1371Title>
         </Frame1371>
         <Frame5053>

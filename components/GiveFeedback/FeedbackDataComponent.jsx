@@ -32,9 +32,6 @@ import {
 } from './style';
 import WhiteArrowRight from '../../static/img/Arrow-right-purple-24.svg';
 import CloseCircle from '../../static/img/closecircle.svg';
-import StarFilled from '../../static/img/Star-filled.png';
-import StarEmpty from '../../static/img/Star-empty.png';
-import Liked from '../../static/img/like.svg';
 import StyledButton from '../../components2/StyledButton';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { acceptFeedbackRequest, declineFeedbackRequest } from '../../service';
@@ -45,8 +42,6 @@ import Toast from '../Toast';
 import { Avatar } from '@boringer-avatars/react';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
-  const [showFullText, setShowFullText] = useState(false);
-
   const queryClient = useQueryClient();
   const acceptMutation = useMutation({
     mutationFn: acceptFeedbackRequest,
@@ -82,22 +77,6 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
     },
   });
 
-  const showMoreText = (title) => {
-    if (showFullText) {
-      return title;
-    } else {
-      if (title.length > 120) {
-        const sliceIndex = title.lastIndexOf(' ', 120);
-        return title.slice(0, sliceIndex) + '...';
-      } else {
-        return title;
-      }
-    }
-  };
-
-  const toggleShowText = () => {
-    setShowFullText(!showFullText);
-  };
 
   return (
     <>
@@ -130,11 +109,7 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
             </TagsAndTextContainer>
             <TextContainer>
               <DataText>
-                {showMoreText(text.title)}{' '}
-                <span onClick={toggleShowText}>
-                  {text.title.length > 120 &&
-                    (!showFullText ? 'Show more' : 'Show less')}
-                </span>
+                {text.title}
               </DataText>
               <WordsCountContainer>
                 <TagsContainer>
@@ -145,10 +120,6 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
                   ))}
                 </TagsContainer>
                 <WordsCount>{text.wordCount} words</WordsCount>
-                {/* <MarkedLiked>
-                  <img src={Liked} />
-                  You marked this feedback as helpful
-                </MarkedLiked> */}
               </WordsCountContainer>
             </TextContainer>
             <ButtonsContainer>

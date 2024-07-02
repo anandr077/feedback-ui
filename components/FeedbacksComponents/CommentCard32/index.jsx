@@ -33,6 +33,7 @@ function CommentCard32(props) {
   const [editCommentType, setEditCommentType] = React.useState('');
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
+  const [showCommentReplies, setShowCommentReplies] = React.useState(null);
   const inputRef = useRef();
   
   const isReplyClicked = selectedComment?.id === comment.id 
@@ -87,6 +88,10 @@ function CommentCard32(props) {
     setInputValue('');
     handleEditingComment(false);
     setSelectedComment(null);
+  }
+
+  const handleShowCommentReply = (id) =>{
+    setShowCommentReplies(prevId => (prevId === id ? null : id))
   }
 
   function showReply() {
@@ -200,13 +205,21 @@ function CommentCard32(props) {
       >
         {showComment()}
       </CommentText>
-      {comment.replies?.length > 0 && showReply()}
+      <ShowRepliesButton
+        onClick={() => handleShowCommentReply(comment.id)}
+      >
+        {comment.replies?.length > 0 && (
+          `${comment.replies.length} ${comment.replies.length === 1 ? 'Reply' : 'Replies'}`
+        )}
+      </ShowRepliesButton>
+      {showCommentReplies === comment.id && showReply()}
       {isShowReplyInput(
-        isResolved, 
-        isReplyClicked, 
-        defaultComment, 
-        pageMode, 
-        editButtonActive) && inputComment()}
+        isResolved,
+        isReplyClicked,
+        defaultComment,
+        pageMode,
+        editButtonActive
+      ) && inputComment()}
     </CommentCard>
   );
 
@@ -416,12 +429,16 @@ const ReplyCommentWrapper = styled.div`
 `;
 
 
-const CommentDiv = styled.p`
+const ShowRepliesButton = styled.button`
   font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 400;
-  font-size: var(--font-size-s);
-  line-height: 16px;
-  color: rgba(75, 70, 79, 1);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 18px;
+  color: rgba(114, 0, 224, 1);
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 `;
 
 export default CommentCard32;

@@ -134,12 +134,16 @@ function ReviewsFrame132532(props) {
           openShareWithStudentDialog,
           convertToCheckedState
         )}
+        textColor={'rgba(75, 70, 79, 1)'}
       >
-        <More src="/icons/edit-purple-icon.svg" />
+        <More src="/icons/edit_icon_purple_24.svg" />
         <div>Edit</div>
       </MoreOptions>
-      <MoreOptions onClick={handleDeleteClick}>
-        <More src="/icons/delete-purple-icon.svg" />
+      <MoreOptions 
+        onClick={handleDeleteClick}
+        textColor={'rgba(226, 72, 61, 1)'}
+      >
+        <More src="/icons/trash_red_23.svg" />
         <div>Delete</div>
       </MoreOptions>
     </MoreOptionsWrapper>
@@ -263,8 +267,8 @@ const Instructer = styled.div`
 
 const More = styled.img`
   position: relative;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   cursor: pointer;
 `;
 
@@ -309,8 +313,10 @@ const MoreOptions = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-  color: #7200e0;
+  color: ${props => props.textColor};
   font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
   font-family: IBM Plex Sans;
   cursor: pointer;
 `;

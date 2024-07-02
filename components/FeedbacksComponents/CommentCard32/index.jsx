@@ -3,7 +3,7 @@ import ReviewsFrame132532 from '../ReviewsFrame132532';
 import styled from 'styled-components';
 import { textAreaAutoResize } from '../../../components2/textAreaAutoResize';
 import { isShowFullCommentBankText } from '../FeedbacksRoot/rules';
-import { isShowReplyInput } from './rule';
+import { isShowReplies, isShowReplyCount, isShowReplyInput } from './rule';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 function CommentCard32(props) {
@@ -33,7 +33,6 @@ function CommentCard32(props) {
   const [editCommentType, setEditCommentType] = React.useState('');
   const [editReplyIndex, setEditReplyIndex] = React.useState(null);
   const [editButtonActive, setEditButtonActive] = React.useState(false);
-  const [showCommentReplies, setShowCommentReplies] = React.useState(null);
   const inputRef = useRef();
   
   const isReplyClicked = selectedComment?.id === comment.id 
@@ -90,12 +89,9 @@ function CommentCard32(props) {
     setSelectedComment(null);
   }
 
-  const handleShowCommentReply = (id) =>{
-    setShowCommentReplies(prevId => (prevId === id ? null : id))
-  }
 
   function showReply() {
-    return comment.replies.map((reply, index) => {
+    return comment.replies?.map((reply, index) => {
       return (
         <ReplyCommentWrapper>
           <ReviewsFrame132532
@@ -205,14 +201,14 @@ function CommentCard32(props) {
       >
         {showComment()}
       </CommentText>
-      <ShowRepliesButton
-        onClick={() => handleShowCommentReply(comment.id)}
-      >
-        {comment.replies?.length > 0 && (
-          `${comment.replies.length} ${comment.replies.length === 1 ? 'Reply' : 'Replies'}`
-        )}
-      </ShowRepliesButton>
-      {showCommentReplies === comment.id && showReply()}
+      {isShowReplyCount(selectedComment, comment) && (
+        <ShowRepliesCount onClick={() => onClick(comment)}>
+          {`${comment.replies?.length} ${
+            comment.replies?.length === 1 ? 'Reply' : 'Replies'
+          }`}
+        </ShowRepliesCount>
+      )}
+      {isShowReplies(selectedComment, comment) && showReply()}
       {isShowReplyInput(
         isResolved,
         isReplyClicked,
@@ -429,15 +425,12 @@ const ReplyCommentWrapper = styled.div`
 `;
 
 
-const ShowRepliesButton = styled.button`
+const ShowRepliesCount = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 500;
   font-size: 13px;
   line-height: 18px;
   color: rgba(114, 0, 224, 1);
-  padding: 0;
-  border: none;
-  background-color: transparent;
   cursor: pointer;
 `;
 

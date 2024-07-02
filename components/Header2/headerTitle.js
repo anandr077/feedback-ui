@@ -46,7 +46,7 @@ function HeaderTitle({ breadcrumbs }) {
       title: 'Model Responses',
       teacherTooltip: '',
       studentTooltip:
-        'All your tasks assigned to you, tasks you are doing, and tasks you have submitted for review',
+        'A collection of student work that has been shared with the class',
     },
     {
       link: '/settings',

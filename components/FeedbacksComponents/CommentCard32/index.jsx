@@ -3,7 +3,7 @@ import ReviewsFrame132532 from '../ReviewsFrame132532';
 import styled from 'styled-components';
 import { textAreaAutoResize } from '../../../components2/textAreaAutoResize';
 import { isShowFullCommentBankText } from '../FeedbacksRoot/rules';
-import { isShowReplyInput } from './rule';
+import { isShowReplies, isShowReplyCount, isShowReplyInput } from './rule';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 function CommentCard32(props) {
@@ -89,8 +89,9 @@ function CommentCard32(props) {
     setSelectedComment(null);
   }
 
+
   function showReply() {
-    return comment.replies.map((reply, index) => {
+    return comment.replies?.map((reply, index) => {
       return (
         <ReplyCommentWrapper>
           <ReviewsFrame132532
@@ -200,13 +201,21 @@ function CommentCard32(props) {
       >
         {showComment()}
       </CommentText>
-      {comment.replies?.length > 0 && showReply()}
+      {isShowReplyCount(selectedComment, comment) && (
+        <ShowRepliesCount onClick={() => onClick(comment)}>
+          {`${comment.replies?.length} ${
+            comment.replies?.length === 1 ? 'Reply' : 'Replies'
+          }`}
+        </ShowRepliesCount>
+      )}
+      {isShowReplies(selectedComment, comment) && showReply()}
       {isShowReplyInput(
-        isResolved, 
-        isReplyClicked, 
-        defaultComment, 
-        pageMode, 
-        editButtonActive) && inputComment()}
+        isResolved,
+        isReplyClicked,
+        defaultComment,
+        pageMode,
+        editButtonActive
+      ) && inputComment()}
     </CommentCard>
   );
 
@@ -265,7 +274,7 @@ const StyledNewlineText = styled.p`
         font-weight: 400;
         font-size: 13px;
         line-height: 17px;
-        color: rgba(75, 70, 79, 1);
+        color: #4B464F;
       `
       : `
         display: -webkit-box;
@@ -277,7 +286,7 @@ const StyledNewlineText = styled.p`
         font-weight: 400;
         font-size: 13px;
         line-height: 17px;
-        color: rgba(75, 70, 79, 1);
+        color: #4B464F;
       `}
 `;
 
@@ -318,8 +327,8 @@ const CommentCard = styled.article`
     'var(--white)'}; 
   padding: 8px;
   border-radius: 6px;
-  box-shadow: 0 2px 4px 0 rgba(112, 112, 112, 0.1);
-  border: solid 1px rgba(201, 198, 204, 0.5);
+  box-shadow: 0px 2.04px 4px 0px #7070701A;
+  border: 1px solid rgba(201, 198, 204, 0.5);
   width: 293px;
 
   &.comment-card-4.comment-card-5 {
@@ -406,20 +415,23 @@ const InputButton = styled.div`
 const ReplyCommentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
   font-family: var(--font-family-ibm_plex_sans);
-  padding-top: 12px;
+  padding: 8px;
   width: 100%;
-  border-top: 1px solid #f1e6fc;
+  box-shadow: 0px 2.04px 4px 0px #7070701A;
+  margin-top: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(201, 198, 204, 0.5);
 `;
 
 
-const CommentDiv = styled.p`
+const ShowRepliesCount = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 400;
-  font-size: var(--font-size-s);
-  line-height: 16px;
-  color: rgba(75, 70, 79, 1);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 18px;
+  color: rgba(114, 0, 224, 1);
+  cursor: pointer;
 `;
 
 export default CommentCard32;

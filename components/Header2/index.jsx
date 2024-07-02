@@ -33,7 +33,7 @@ import RoundedBorderLeftIconBtn from '../../components2/Buttons/RoundedBorderLef
 import { useQuery } from '@tanstack/react-query';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar/index.jsx';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown/index.jsx';
-import HeaderTitle from './HeaderTitle.js';
+import HeaderTitle from './headerTitle.js';
 import { Avatar } from '@boringer-avatars/react';
 import { headerMainTitle } from './headerMainTitle.js';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';

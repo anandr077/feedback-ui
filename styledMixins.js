@@ -435,6 +435,7 @@ export const feedbacksIbmplexsansMediumBlack16px = css`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-s);
   font-weight: 500;
+  line-height: 17px;
   font-style: normal;
 `;
 

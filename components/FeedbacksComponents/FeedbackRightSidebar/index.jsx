@@ -6,7 +6,11 @@ import CommentsIcon from '../../../static/img/gray_message_2.svg';
 import PurpleCommentsIcon from '../../../static/img/purplemessage.svg';
 import ClockIcon from '../../../static/img/clock_2.svg';
 import TasksIcon from '../../../static/img/task.svg';
-import { isShowMarkingCriteriaButton, isShowQuestionsTab, isShowTaskDetailsButton } from '../FeedbacksRoot/rules';
+import {
+  isShowMarkingCriteriaAndOverallFeedbackButton,
+  isShowQuestionsTab,
+  isShowTaskDetailsButton,
+} from '../FeedbacksRoot/rules';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 const FeedbackRightSidebar = ({
@@ -15,10 +19,11 @@ const FeedbackRightSidebar = ({
   pageMode,
   isTeacher,
   submission,
-  QuestionIndex
+  QuestionIndex,
 }) => {
   const { overallComments, markingCriteriaFeedback } =
     useContext(FeedbackContext);
+
 
   return (
     <MainContainer>
@@ -37,7 +42,15 @@ const FeedbackRightSidebar = ({
             />
           </Button>
         )}
-        {isShowMarkingCriteriaButton(isTeacher, submission.type, submission.status, overallComments, QuestionIndex, markingCriteriaFeedback) && (
+        {isShowMarkingCriteriaAndOverallFeedbackButton(
+          isTeacher,
+          submission.type,
+          submission.status,
+          pageMode,
+          overallComments,
+          QuestionIndex,
+          markingCriteriaFeedback
+        ) && (
           <Button
             isActive={openRightPanel === 'tab2'}
             onClick={() => handleClick('tab2')}

@@ -53,9 +53,10 @@ export const Body = styled.div`
 export const CloseBtn = styled.img`
   position: absolute;
   left: -12px;
-  top: 50%;
+  top: 28px;
   transform: translateY(-50%);
   cursor: pointer;
+  z-index: 2;
 `;
 
 export const HideArrow = styled.img`

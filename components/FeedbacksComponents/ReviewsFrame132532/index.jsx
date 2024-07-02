@@ -103,7 +103,7 @@ function ReviewsFrame132532(props) {
     ) : (
       <Avatar
         title={false}
-        size={25}
+        size={16}
         variant="beam"
         name={reviewer}
         square={false}
@@ -134,12 +134,16 @@ function ReviewsFrame132532(props) {
           openShareWithStudentDialog,
           convertToCheckedState
         )}
+        textColor={'rgba(75, 70, 79, 1)'}
       >
-        <More src="/icons/edit-purple-icon.svg" />
+        <More src="/icons/edit_icon_purple_24.svg" />
         <div>Edit</div>
       </MoreOptions>
-      <MoreOptions onClick={handleDeleteClick}>
-        <More src="/icons/delete-purple-icon.svg" />
+      <MoreOptions 
+        onClick={handleDeleteClick}
+        textColor={'rgba(226, 72, 61, 1)'}
+      >
+        <More src="/icons/trash_red_23.svg" />
         <div>Delete</div>
       </MoreOptions>
     </MoreOptionsWrapper>
@@ -237,8 +241,7 @@ const Frame1325 = styled.div`
 
 const Frame1324 = styled.div`
   display: flex;
-  align-items: center;
-  gap: 8px;
+  gap: 4px;
   position: relative;
   flex: 1;
 `;
@@ -257,16 +260,15 @@ const Ellipse7 = styled.img`
 const Instructer = styled.div`
   ${feedbacksIbmplexsansMediumBlack16px}
   position: relative;
-  flex: 1;
   letter-spacing: 0;
-  line-height: normal;
+  color: #4B464F;
   cursor: pointer;
 `;
 
 const More = styled.img`
   position: relative;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   cursor: pointer;
 `;
 
@@ -275,8 +277,8 @@ const Wrapper = styled.div`
 `;
 
 const JeddaiIcon = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 16px;
+  height: 16px;
 `;
 
 const Tooltip = styled.div`
@@ -311,8 +313,10 @@ const MoreOptions = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-  color: #7200e0;
+  color: ${props => props.textColor};
   font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
   font-family: IBM Plex Sans;
   cursor: pointer;
 `;

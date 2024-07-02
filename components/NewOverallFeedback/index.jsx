@@ -110,12 +110,12 @@ const NewOverallFeedback = ({
   };
 
   useEffect(() => {
-    const lineHeight = 24; 
+    const lineHeight = 24;
     const lines = inputRef?.current?.scrollHeight / lineHeight;
-    
+
     if (lines > 4) {
       setIsTruncated(true);
-    }else{
+    } else {
       setIsTruncated(false);
     }
   }, [overallComment, serialNumber]);
@@ -123,7 +123,7 @@ const NewOverallFeedback = ({
   const toggleText = () => {
     setIsExpanded(!isExpanded);
   };
-  
+
   if (pageMode === 'DRAFT') return <></>;
   if (pageMode === 'CLOSED' || pageMode === 'REVISE') {
     return (
@@ -139,29 +139,24 @@ const NewOverallFeedback = ({
             read={true}
           />
         )}
-        {isShowClosedReviewOverallComment(
-          pageMode,
-          overallComment?.comment,
-          reviewer,
-          userId
-        ) ? (
+        {isShowClosedReviewOverallComment(pageMode, overallComment?.comment) ? (
           <>
-          <TextFeedback
-            ref={inputRef}
-            readOnly={true}
-            read={true}
-            style={{
-              height: `auto`,
-              maxHeight: isExpanded ? 'none' : '96px', 
-              overflow: 'hidden',
-              whiteSpace: 'pre-wrap',
-            }}
-          />
-           {isTruncated && (
-            <ShowMoreButton onClick={toggleText}>
-              {isExpanded ? 'Show less' : 'Show more'}
-            </ShowMoreButton>
-          )}
+            <TextFeedback
+              ref={inputRef}
+              readOnly={true}
+              read={true}
+              style={{
+                height: `auto`,
+                maxHeight: isExpanded ? 'none' : '96px',
+                overflow: 'hidden',
+                whiteSpace: 'pre-wrap',
+              }}
+            />
+            {isTruncated && (
+              <ShowMoreButton onClick={toggleText}>
+                {isExpanded ? 'Show less' : 'Show more'}
+              </ShowMoreButton>
+            )}
           </>
         ) : null}
         {isShowClosedReviewAudioComment(

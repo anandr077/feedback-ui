@@ -119,3 +119,21 @@ export const findMarkingCriteria = (
       markingCriteria?.questionSerialNumber === QuestionIndex + 1
   );
 };
+
+export const getOverallComment = (overallComments, QuestionIndex) => {
+  if (overallComments.length === 0) {
+    return null;
+  }
+  return overallComments.find(
+    (comment) => comment?.questionSerialNumber === QuestionIndex + 1
+  );
+}
+
+export const showOverAllFeedback = (ref) => {
+  const container = ref.current;
+  if (container.style.display === 'none') {
+    container.style.display = 'block';
+  } else {
+    container.style.display = 'none';
+  }
+};

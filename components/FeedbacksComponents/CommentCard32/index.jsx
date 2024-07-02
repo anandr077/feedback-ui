@@ -265,7 +265,7 @@ const StyledNewlineText = styled.p`
         font-weight: 400;
         font-size: 13px;
         line-height: 17px;
-        color: rgba(75, 70, 79, 1);
+        color: #4B464F;
       `
       : `
         display: -webkit-box;
@@ -277,7 +277,7 @@ const StyledNewlineText = styled.p`
         font-weight: 400;
         font-size: 13px;
         line-height: 17px;
-        color: rgba(75, 70, 79, 1);
+        color: #4B464F;
       `}
 `;
 
@@ -318,8 +318,8 @@ const CommentCard = styled.article`
     'var(--white)'}; 
   padding: 8px;
   border-radius: 6px;
-  box-shadow: 0 2px 4px 0 rgba(112, 112, 112, 0.1);
-  border: solid 1px rgba(201, 198, 204, 0.5);
+  box-shadow: 0px 2.04px 4px 0px #7070701A;
+  border: 1px solid rgba(201, 198, 204, 0.5);
   width: 293px;
 
   &.comment-card-4.comment-card-5 {
@@ -406,11 +406,13 @@ const InputButton = styled.div`
 const ReplyCommentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
   font-family: var(--font-family-ibm_plex_sans);
-  padding-top: 12px;
+  padding: 8px;
   width: 100%;
-  border-top: 1px solid #f1e6fc;
+  box-shadow: 0px 2.04px 4px 0px #7070701A;
+  margin-top: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(201, 198, 204, 0.5);
 `;
 
 

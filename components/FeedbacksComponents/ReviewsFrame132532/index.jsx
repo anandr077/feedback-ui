@@ -103,7 +103,7 @@ function ReviewsFrame132532(props) {
     ) : (
       <Avatar
         title={false}
-        size={25}
+        size={16}
         variant="beam"
         name={reviewer}
         square={false}
@@ -237,8 +237,7 @@ const Frame1325 = styled.div`
 
 const Frame1324 = styled.div`
   display: flex;
-  align-items: center;
-  gap: 8px;
+  gap: 4px;
   position: relative;
   flex: 1;
 `;
@@ -257,9 +256,8 @@ const Ellipse7 = styled.img`
 const Instructer = styled.div`
   ${feedbacksIbmplexsansMediumBlack16px}
   position: relative;
-  flex: 1;
   letter-spacing: 0;
-  line-height: normal;
+  color: #4B464F;
   cursor: pointer;
 `;
 
@@ -275,8 +273,8 @@ const Wrapper = styled.div`
 `;
 
 const JeddaiIcon = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 16px;
+  height: 16px;
 `;
 
 const Tooltip = styled.div`

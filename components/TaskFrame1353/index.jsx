@@ -25,7 +25,7 @@ function TaskFrame1353(props) {
       }
       return 'Tasks that you have started but not yet submitted';
     }
-    if (outstanding === 'Active' || outstanding === 'In Review') {
+    if (outstanding === 'Active' || outstanding === 'In Progress') {
       if (role === 'TEACHER') {
         return 'Tasks that are currently being completed by students and/or that await your feedback';
       }
@@ -41,7 +41,7 @@ function TaskFrame1353(props) {
     if (outstanding === 'Closed' || outstanding === 'In Draft') {
       icon = PencilIcon;
     }
-    if (outstanding === 'Active' || outstanding === 'In Review') {
+    if (outstanding === 'Active' || outstanding === 'In Progress') {
       icon = StarIcon;
     }
     return icon;

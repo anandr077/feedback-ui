@@ -111,10 +111,10 @@ export default function TheoryQuestionFrame(props) {
         </InputQuestion>
         <FocusAreasFrame>
           <QuestionMarkContainer>
-            <Label>Focus areas</Label>
+            <Label>Self-assessment Areas</Label>
             <QuestionTooltip
               text={
-                "Select the focus areas the student's answer should have. You can add new focus areas using the +New button below"
+                "Select the Self-assessment Areas the student's answer should have. You can add new Self-assessment Areas using the +New button below"
               }
               img={questionMark}
             />
@@ -252,7 +252,7 @@ function createFocusAreasFrame(
   const menuItems = [
     {
       name: 'FOCUS_AREAS',
-      title: 'Focus Areas',
+      title: 'Self-assessment Areas',
       items: focusAreaItems,
     },
   ];

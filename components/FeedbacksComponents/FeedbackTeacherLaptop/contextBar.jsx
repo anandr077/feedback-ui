@@ -549,7 +549,7 @@ function statusText(methods, focusAreasCount, submission) {
               <></>
             )}
           </div>
-          <div className="text">{focusAreasCount} focus areas</div>
+          <div className="text">{focusAreasCount} Self-assessment Areas</div>
         </div>
       )}
     </StatusText>

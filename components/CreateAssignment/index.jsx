@@ -692,9 +692,7 @@ export default function CreateAssignment(props) {
             // endIcon={<TitleImage src={questionMark} />}
           />
           <QuestionTooltip
-            text={
-              'After student submits their task the feedback will be provided by you or any other assigned teacher'
-            }
+            text={'Each submission will be reviewed by the class teacher'}
             img={questionMark}
           />
         </LableAndImgContainer>
@@ -706,7 +704,7 @@ export default function CreateAssignment(props) {
           />
           <QuestionTooltip
             text={
-              "After submission students will be randomly assigned to review their peer's task"
+              "Students mark each other's work anonymously. Use the drag-and-drop feature to pair specific students together"
             }
             img={questionMark}
           />

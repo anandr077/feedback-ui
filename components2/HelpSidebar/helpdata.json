@@ -42,11 +42,11 @@
         },
         {
           "title": "Starting a Task",
-          "content": "You can start a task by clicking on the relevant task bubble. If you are completing a written response, you will see a document with space for typing. The task instructions will appear above the document, and if you are required to highlight 'Focus Areas' in your response, they will appear to the right of the document as soon as you highlight a section of your response. If the task is to provide feedback to another student (peer to peer), clicking the task bubble will show you the student's response (anonymously) and provide you with feedback tools on the right-hand side of the page."
+          "content": "You can start a task by clicking on the relevant task bubble. If you are completing a written response, you will see a document with space for typing. The task instructions will appear above the document, and if you are required to highlight 'Self-assessment Areas' in your response, they will appear to the right of the document as soon as you highlight a section of your response. If the task is to provide feedback to another student (peer to peer), clicking the task bubble will show you the student's response (anonymously) and provide you with feedback tools on the right-hand side of the page."
         },
         {
-          "title": "Focus Areas",
-          "content": "Focus Areas are specific elements that a teacher would like you to use when completing a task (e.g. 'quotes' in an English essay). Before submitting a task with Focus Areas, make sure that you have highlighted the sections of your response that include each focus area (e.g. highlight all of the quotes in your essay). Once you highlight a section of text, click the relevant Focus Area bubble on the right side of the page, as this will mark that section for your teacher."
+          "title": "Self-assessment Areas",
+          "content": "Self-assessment Areas are specific elements that a teacher would like you to use when completing a task (e.g. 'quotes' in an English essay). Before submitting a task with Self-assessment Areas, make sure that you have highlighted the sections of your response that include each focus area (e.g. highlight all of the quotes in your essay). Once you highlight a section of text, click the relevant Focus Area bubble on the right side of the page, as this will mark that section for your teacher."
         },
         {
           "title": "Peer Feedback",
@@ -388,7 +388,7 @@
         },
         {
           "title": "How do I Create a New Task?",
-          "content": "To create a task for one or more classes, simply click the 'New Task' button at the top right corner of your screen. You will then be prompted to fill in the relevant information for the task, including any relevant marking templates, comment banks and 'Focus Areas'. You must also select a due date and the mode of feedback (i.e. who is providing feedback for the student responses? Is it you as the teacher, the students themselves via peer feedback of Jedd-AI, your AI-marking assistant?)"
+          "content": "To create a task for one or more classes, simply click the 'New Task' button at the top right corner of your screen. You will then be prompted to fill in the relevant information for the task, including any relevant marking templates, comment banks and 'Self-assessment Areas'. You must also select a due date and the mode of feedback (i.e. who is providing feedback for the student responses? Is it you as the teacher, the students themselves via peer feedback of Jedd-AI, your AI-marking assistant?)"
         },
         {
           "title": "Overdue Tasks",
@@ -422,24 +422,24 @@
       "subtopics": [
         {
           "title": "How do Students Complete a Task?",
-          "content": "Students can start a task by clicking on the relevant task bubble on their 'Homework' page. If they are completing a written response, they will see a blank document with space for typing. The task instructions will appear above the document, and if they are required to highlight 'Focus Areas' in their responses, they will appear to the right of the document as soon as they highlight a relevant section of their response. If the task is to provide feedback to another student (peer to peer), clicking the task bubble will show another student's response (anonymously) and provide the student with feedback tools on the right-hand side of the page. "
+          "content": "Students can start a task by clicking on the relevant task bubble on their 'Homework' page. If they are completing a written response, they will see a blank document with space for typing. The task instructions will appear above the document, and if they are required to highlight 'Self-assessment Areas' in their responses, they will appear to the right of the document as soon as they highlight a relevant section of their response. If the task is to provide feedback to another student (peer to peer), clicking the task bubble will show another student's response (anonymously) and provide the student with feedback tools on the right-hand side of the page. "
         }
       ]
     },
     {
-      "title": "Focus Areas",
+      "title": "Self-assessment Areas",
       "subtopics": [
         {
-          "title": "What are 'Focus Areas'?",
-          "content": "Focus Areas are specific elements that a teacher would like students to use when completing a task (e.g. 'quotes' in an English essay). Before submitting a task with Focus Areas, students will be prompted to highlight sections of their responses that include each focus area (e.g. highlight all of the quotes in your essay). Once a section of text is highlighted, students will be prompted to select the relevant Focus Area bubble on the right side of the page, marking that section for the teacher."
+          "title": "What are 'Self-assessment Areas'?",
+          "content": "Self-assessment Areas are specific elements that a teacher would like students to use when completing a task (e.g. 'quotes' in an English essay). Before submitting a task with Self-assessment Areas, students will be prompted to highlight sections of their responses that include each focus area (e.g. highlight all of the quotes in your essay). Once a section of text is highlighted, students will be prompted to select the relevant Focus Area bubble on the right side of the page, marking that section for the teacher."
         },
         {
-          "title": "How do I use 'Focus Areas'?",
-          "content": "Click the 'New Task' button to begin creating a new task. When setting up the task itself (e.g. entering in the 'Task Description'), you will see a field called 'Focus areas'. Select and/or create as many 'Focus areas' as you would like for the particular task. Each 'Focus area' has a colour, which will be the colour that appears when that particular element is highlighted in a student's response."
+          "title": "How do I use 'Self-assessment Areas'?",
+          "content": "Click the 'New Task' button to begin creating a new task. When setting up the task itself (e.g. entering in the 'Task Description'), you will see a field called 'Self-assessment Areas'. Select and/or create as many 'Self-assessment Areas' as you would like for the particular task. Each 'Focus area' has a colour, which will be the colour that appears when that particular element is highlighted in a student's response."
         },
         {
-          "title": "How do I view 'Focus Areas' in a Student's Response?",
-          "content": "After a student has submitted a response to the assigned homework task, any 'Focus areas' that they have highlighted will appear by default when you first open their submission. You can reply to each selection on the right side of the page or you can hide the 'Focus areas' so that you can only see your comments and annotations."
+          "title": "How do I view 'Self-assessment Areas' in a Student's Response?",
+          "content": "After a student has submitted a response to the assigned homework task, any 'Self-assessment Areas' that they have highlighted will appear by default when you first open their submission. You can reply to each selection on the right side of the page or you can hide the 'Self-assessment Areas' so that you can only see your comments and annotations."
         }
       ]
     },
@@ -456,7 +456,7 @@
         },
         {
           "title": "Do I need to include a 'Marking Template'?",
-          "content": "No, 'Marking Templates' are optional, just like 'Focus areas'."
+          "content": "No, 'Marking Templates' are optional, just like 'Self-assessment Areas'."
         },
         {
           "title": "How do I create or edit a 'Marking Template'?",

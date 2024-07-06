@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ToggleContainer = styled.div`
-  width: 240px;
+  width: 360px;
   height: 40px;
   position: relative;
   border-radius: 30px;
@@ -25,7 +25,7 @@ export const ToggleBtn = styled.div`
   z-index: 1;
   top: 4px;
   left: 4px;
-  width: 116px;
+  width: 176px;
   height: 32px;
   transition: 0.2s;
   background: rgba(255, 255, 255, 1);
@@ -47,7 +47,7 @@ export const ToggleBtn = styled.div`
   }
 
   ${ToggleInput}:active + & {
-    width: 120px;
+    width: 176px;
   }
 
   img {

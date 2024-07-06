@@ -213,6 +213,7 @@ export const LeftConatinerHeading = styled.div`
   background-color: #ffffff;
   padding: 20px;
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  margin-bottom: 5px;
 `;
 export const LeftConatinerHeadingText = styled.p`
   font-family: IBM Plex Sans;

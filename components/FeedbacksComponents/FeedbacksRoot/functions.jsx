@@ -131,9 +131,9 @@ export const getOverallComment = (overallComments, QuestionIndex) => {
 
 export const showOverAllFeedback = (ref) => {
   const container = ref.current;
-  if (container.style.display === 'none') {
-    container.style.display = 'block';
-  } else {
+  if (container.style.display === 'block') {
     container.style.display = 'none';
+  } else {
+    container.style.display = 'block';
   }
 };

@@ -40,7 +40,7 @@ import {
 } from '../../../userLocalDetails.js';
 import Loader from '../../Loader';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
-import { extractStudents, findMarkingCriteria, getComments, getPageMode } from './functions';
+import { extractStudents, findMarkingCriteria, getComments, getPageMode, goToNewUrl } from './functions';
 import {
   ActionButtonsContainer,
   ClassBox,
@@ -290,23 +290,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     };
   }, [submission, feedbackReviewPopup, history]);
 
-  const goToNewUrl = (pendingLocation) => {
-    const port =
-      window.location.port &&
-      window.location.port !== '80' &&
-      window.location.port !== '443'
-        ? `:${window.location.port}`
-        : '';
-
-    const path = pendingLocation ? `#${pendingLocation.pathname}` : '#/';
-
-    const newUrl = `${window.location.protocol}//${
-      window.location.hostname
-    }${port}?code=${getUserId()}${path}`;
-
-    window.history.pushState('', '', newUrl);
-    window.location.reload();
-  };
 
   const deleteDraftPage = async (submissionId, pendingLocation) => {
     await deleteSubmissionById(submissionId).then(() => {

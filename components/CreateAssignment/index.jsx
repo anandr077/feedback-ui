@@ -47,6 +47,7 @@ import { getUserId } from '../../userLocalDetails';
 import { toast } from 'react-toastify';
 import Toast from '../Toast';
 import Header from '../Header2';
+import { goToNewUrl } from '../FeedbacksComponents/FeedbacksRoot/functions';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -57,6 +58,7 @@ export default function CreateAssignment(props) {
 
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [showPublishPopup, setShowPublishPopup] = React.useState(false);
+  const [showSaveAsDraftPopup, setSaveAsDraftPopup] = React.useState(false);
 
   const draft = {
     id: uuidv4(),
@@ -66,7 +68,7 @@ export default function CreateAssignment(props) {
     reviewedBy: 'NONE',
     status: 'DRAFT',
     reviewers: {},
-    dueAt: '',
+    dueAt: dayjs().add(3, 'day'),
   };
   const [assignment, setAssignment] = React.useState(draft);
 
@@ -103,6 +105,7 @@ export default function CreateAssignment(props) {
   const [commentBankPlaceholder, setCommentBankPlaceholder] = React.useState(
     mobileView ? 'Select' : 'Select Comment Bank'
   );
+  const [pendingLocation, setPendingLocation] = React.useState(null);
 
   const getStudentById = (id) => {
     return Object.values(allClassStudents)
@@ -451,6 +454,7 @@ export default function CreateAssignment(props) {
   };
 
   const saveDraft = () => {
+    if (showSaveAsDraftPopup) setSaveAsDraftPopup(false);
     updateAssignment(assignment.id, assignment).then((res) => {
       if (res.status === 'DRAFT') {
         queryClient.invalidateQueries(['notifications']);
@@ -461,6 +465,7 @@ export default function CreateAssignment(props) {
         });
 
         toast(<Toast message={'Task saved'} />);
+        if (pendingLocation) goToNewUrl(pendingLocation);
         return;
       } else {
         toast(<Toast message={'Could not save task'} />);
@@ -748,6 +753,14 @@ export default function CreateAssignment(props) {
   const hidePublishPopup = () => {
     setShowPublishPopup(false);
   };
+  const hideSaveAsDraftPopup = () => {
+    if (pendingLocation) setPendingLocation(null);
+    setSaveAsDraftPopup(false);
+  };
+  const cancelSaveAsDraftPopup = () => {
+    if (pendingLocation) goToNewUrl(pendingLocation);
+    setSaveAsDraftPopup(false);
+  };
   const showPublishPopuphandler = (assignmentId) => {
     setShowPublishPopup(true);
   };
@@ -775,6 +788,17 @@ export default function CreateAssignment(props) {
           hidedeletePopup={hidedeletePopup}
         />
       )}
+      {showSaveAsDraftPopup && (
+        <GeneralPopup
+          hidePopup={hideSaveAsDraftPopup}
+          title="Save As Draft"
+          textContent="Do you want to save this task?"
+          buttonText="Save as draft"
+          confirmButtonAction={saveDraft}
+          closeBtnText="Do not save"
+          cancelPopup={cancelSaveAsDraftPopup}
+        />
+      )}
       {showPublishPopup && (
         <GeneralPopup
           hidePopup={hidePublishPopup}
@@ -792,6 +816,8 @@ export default function CreateAssignment(props) {
           feedbacksMethodContainer,
           dateSelectorFrame,
           updateDueDateTick,
+          setSaveAsDraftPopup,
+          setPendingLocation,
           ...createAAssignmentLaptopData,
         }}
       />

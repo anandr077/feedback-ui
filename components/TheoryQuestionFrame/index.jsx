@@ -111,7 +111,7 @@ export default function TheoryQuestionFrame(props) {
         </InputQuestion>
         <FocusAreasFrame>
           <QuestionMarkContainer>
-            <Label>Focus areas</Label>
+            <Label>Self-assessment Areas</Label>
             <QuestionTooltip
               text={
                 'These are elements that students will be required to highlight in their own work before submitting their responses for external feedback'
@@ -252,7 +252,7 @@ function createFocusAreasFrame(
   const menuItems = [
     {
       name: 'FOCUS_AREAS',
-      title: 'Focus Areas',
+      title: 'Self-assessment Areas',
       items: focusAreaItems,
     },
   ];

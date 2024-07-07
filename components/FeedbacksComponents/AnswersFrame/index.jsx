@@ -182,9 +182,9 @@ function AnswersFrame(props) {
               isFocusAreas
             ) && (
               <AddCommentFocusAreaInstruction
-                heading="How to use Focus Areas:"
+                heading="How to use Self-assessment Areas:"
                 firstIcon={RedabcIcon}
-                firstStep="Highlight a section of your response that addresses one of the focus areas (check the list of focus areas below or in the task details tab)."
+                firstStep="Highlight a section of your response that addresses one of the Self-assessment Areas (check the list of Self-assessment Areas below or in the task details tab)."
                 secondIcon={ColorCircleIcon}
                 secondStep="Click the focus area that matches your selection."
                 thirdIcon={RefreshIcon}

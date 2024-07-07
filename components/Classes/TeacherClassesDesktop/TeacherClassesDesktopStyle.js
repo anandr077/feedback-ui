@@ -126,6 +126,7 @@ export const Frame1339 = styled.div`
   position: relative;
   flex: 1;
   align-self: stretch;
+  scroll-margin-top: 140px;
 `;
 
 export const Frame13371 = styled.div`
@@ -284,10 +285,15 @@ export const ActiveTaskContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  scroll-margin-top: 140px;
 `;
 
-export const SharedResponseFrame = styled.div``;
-export const ClassStatsFrame = styled.div``;
+export const SharedResponseFrame = styled.div`
+  scroll-margin-top: 140px;
+`;
+export const ClassStatsFrame = styled.div`
+  scroll-margin-top: 140px;
+`;
 
 export const TasksContainer = styled.div`
   display: flex;

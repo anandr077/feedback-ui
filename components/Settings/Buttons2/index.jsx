@@ -54,7 +54,7 @@ function Buttons2(props) {
             }}
           />
         </Buttons>
-        <span className="tooltip-text">Copy</span>
+        <span className="tooltip-text">Duplicate & Edit</span>
       </TooltipWrapper>
       <TooltipWrapper>
         <DeleteButtonContainer

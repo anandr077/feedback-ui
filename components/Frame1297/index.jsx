@@ -12,7 +12,7 @@ import RedBin from '../../static/img/RedBin.svg';
 function Frame1297(props) {
   const {
     dropdown,
-    number,
+    serialNumber,
     UpdateQuestionFrame,
     defaultType,
     deleteQuestionFrameFn,
@@ -21,27 +21,27 @@ function Frame1297(props) {
 
   const setTypeTheory = () => {
     setType('TEXT');
-    UpdateQuestionFrame(number, 'TEXT');
+    UpdateQuestionFrame(serialNumber, 'TEXT');
   };
 
   const setTypeMCQ = () => {
     setType('MCQ');
-    UpdateQuestionFrame(number, 'MCQ');
+    UpdateQuestionFrame(serialNumber, 'MCQ');
   };
 
   const setTypeEssay = () => {
     setType('ESSAY');
-    UpdateQuestionFrame(number, 'ESSAY');
+    UpdateQuestionFrame(serialNumber, 'ESSAY');
   };
   return (
     <QuestionPart>
       <Frame12971>
         <Frame1281>
-          <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
+          <ToremIpsumDolorSi>Question {serialNumber}</ToremIpsumDolorSi>
         </Frame1281>
         <DeleteButtonFrame>
           <BinImage src={RedBin} />
-          <DeleteButton onClick={() => deleteQuestionFrameFn(number)}>
+          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
             Delete
           </DeleteButton>
         </DeleteButtonFrame>

@@ -111,31 +111,30 @@ function CreateAAssignmentLaptop(props) {
     showPublishPopuphandler,
     setSaveAsDraftPopup,
     setPendingLocation,
+    isChanged,
   } = props;
 
   const smallScreenView = isSmallScreen();
   const mobileView = isMobileView();
   const history = useHistory();
 
-  
-
   useEffect(() => {
     const unblock = history.block((location, action) => {
-      if (assignment.status === 'DRAFT') 
-        {
+      if (assignment.status === 'DRAFT' && isChanged) {
+        console.log('isChangedInside', isChanged);
         setPendingLocation(location);
         setSaveAsDraftPopup(true);
         return false;
-        }
+      }
+      console.log('isChangedoutside', isChanged);
       return true;
     });
 
     return () => {
       unblock();
     };
-  }, [history]);
+  }, [history, isChanged]);
 
-  
   function titleAndSaveButtons(assignment, saveDraft, publish) {
     const title =
       assignment.status === 'DRAFT' ? (

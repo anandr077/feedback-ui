@@ -59,6 +59,7 @@ export default function CreateAssignment(props) {
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [showPublishPopup, setShowPublishPopup] = React.useState(false);
   const [showSaveAsDraftPopup, setSaveAsDraftPopup] = React.useState(false);
+  const [isChanged, setIsChanged] = React.useState(false);
 
   const draft = {
     id: uuidv4(),
@@ -214,6 +215,8 @@ export default function CreateAssignment(props) {
     setCommentBankPreviewDialog(commentBank?.smartComments?.length > 0);
   }
   const handleChangeReviewedBy = (newReviewers) => {
+    setIsChanged(true);
+    console.log('isChanged 1', isChanged);
     const students = assignment.classIds.flatMap(
       (classId) => allClassStudents[classId]
     );
@@ -230,6 +233,8 @@ export default function CreateAssignment(props) {
   };
 
   const handleTitleChange = (e) => {
+    setIsChanged(true);
+    console.log('isChanged 2', isChanged);
     if (e.target.value.length > 140) {
       return;
     }
@@ -237,12 +242,17 @@ export default function CreateAssignment(props) {
     setAssignment((prevAssignment) => ({ ...prevAssignment, title: newTitle }));
   };
   const feedbackMethodUpdate = (newReviewedBy) => {
+    console.log('feedbackMethodUpdate');
+    console.log('isChanged 3', isChanged);
+    setIsChanged(true);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       reviewedBy: newReviewedBy,
     }));
   };
   const updateDueAt = (newDueAt) => {
+    console.log('isChanged 4', isChanged);
+    setIsChanged(true);
     setAssignment((prevAssignment) => ({ ...prevAssignment, dueAt: newDueAt }));
   };
   const cleanformattingTextBox = (e) => {
@@ -288,11 +298,14 @@ export default function CreateAssignment(props) {
         handleCommentBankPreview={handleCommentBankPreview}
         setAllFocusAreas={setAllFocusAreas}
         allCommentBanks={allCommentBanks}
+        setIsChanged={setIsChanged}
       />
     );
   };
 
   function addQuestion() {
+    console.log('isChanged 6', isChanged);
+    setIsChanged(true);
     const newId = assignment.questions.length + 1;
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
@@ -301,6 +314,8 @@ export default function CreateAssignment(props) {
   }
 
   function deleteQuestion(serialNumber) {
+    console.log('isChanged 7', isChanged);
+    setIsChanged(true);
     setAssignment((prevAssignment) => {
       const newQuestions = prevAssignment.questions.filter(
         (question) => question.serialNumber !== serialNumber
@@ -350,6 +365,8 @@ export default function CreateAssignment(props) {
   }
 
   function updateQuestion(id, newContent) {
+    console.log('isChanged 8', isChanged);
+    setIsChanged(true);
     if (newContent.length > 500) {
       return;
     }
@@ -373,6 +390,7 @@ export default function CreateAssignment(props) {
   };
 
   function updateMarkingCriteria(id, markingCriteria) {
+    console.log('isChanged 9', isChanged);
     const updatedMarkingCriteriaObj = removeAppendFunction(markingCriteria);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
@@ -384,6 +402,7 @@ export default function CreateAssignment(props) {
     }));
   }
   function updateCommentBank(id, commentBank) {
+    console.log('isChanged 10', isChanged);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
@@ -393,6 +412,9 @@ export default function CreateAssignment(props) {
   }
 
   function updateQuestionType(id, newType) {
+    console.log('isChanged 11', isChanged);
+    setIsChanged(true);
+
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((question) =>
@@ -402,6 +424,8 @@ export default function CreateAssignment(props) {
   }
 
   function updateFocusAreas(id, newFocusAreas) {
+    console.log('isChanged 12', isChanged);
+    setIsChanged(true);
     const focusAreas = allFocusAreas.filter((focusArea) =>
       newFocusAreas.includes(focusArea.id)
     );
@@ -435,6 +459,8 @@ export default function CreateAssignment(props) {
   }
 
   const handleClassCheckboxChange = (classId, isChecked) => {
+    console.log('isChanged 14', isChanged);
+    setIsChanged(true);
     setAssignment((prevAssignment) => {
       if (isChecked) {
         setClassId(classId);
@@ -818,6 +844,7 @@ export default function CreateAssignment(props) {
           updateDueDateTick,
           setSaveAsDraftPopup,
           setPendingLocation,
+          isChanged,
           ...createAAssignmentLaptopData,
         }}
       />

@@ -216,7 +216,6 @@ export default function CreateAssignment(props) {
   }
   const handleChangeReviewedBy = (newReviewers) => {
     setIsChanged(true);
-    console.log('isChanged 1', isChanged);
     const students = assignment.classIds.flatMap(
       (classId) => allClassStudents[classId]
     );
@@ -234,7 +233,6 @@ export default function CreateAssignment(props) {
 
   const handleTitleChange = (e) => {
     setIsChanged(true);
-    console.log('isChanged 2', isChanged);
     if (e.target.value.length > 140) {
       return;
     }
@@ -242,8 +240,6 @@ export default function CreateAssignment(props) {
     setAssignment((prevAssignment) => ({ ...prevAssignment, title: newTitle }));
   };
   const feedbackMethodUpdate = (newReviewedBy) => {
-    console.log('feedbackMethodUpdate');
-    console.log('isChanged 3', isChanged);
     setIsChanged(true);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
@@ -251,7 +247,6 @@ export default function CreateAssignment(props) {
     }));
   };
   const updateDueAt = (newDueAt) => {
-    console.log('isChanged 4', isChanged);
     setIsChanged(true);
     setAssignment((prevAssignment) => ({ ...prevAssignment, dueAt: newDueAt }));
   };
@@ -304,7 +299,6 @@ export default function CreateAssignment(props) {
   };
 
   function addQuestion() {
-    console.log('isChanged 6', isChanged);
     setIsChanged(true);
     const newId = assignment.questions.length + 1;
     setAssignment((prevAssignment) => ({
@@ -314,7 +308,6 @@ export default function CreateAssignment(props) {
   }
 
   function deleteQuestion(serialNumber) {
-    console.log('isChanged 7', isChanged);
     setIsChanged(true);
     setAssignment((prevAssignment) => {
       const newQuestions = prevAssignment.questions.filter(
@@ -365,7 +358,6 @@ export default function CreateAssignment(props) {
   }
 
   function updateQuestion(id, newContent) {
-    console.log('isChanged 8', isChanged);
     setIsChanged(true);
     if (newContent.length > 500) {
       return;
@@ -390,7 +382,6 @@ export default function CreateAssignment(props) {
   };
 
   function updateMarkingCriteria(id, markingCriteria) {
-    console.log('isChanged 9', isChanged);
     const updatedMarkingCriteriaObj = removeAppendFunction(markingCriteria);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
@@ -402,7 +393,6 @@ export default function CreateAssignment(props) {
     }));
   }
   function updateCommentBank(id, commentBank) {
-    console.log('isChanged 10', isChanged);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((q) =>
@@ -412,7 +402,6 @@ export default function CreateAssignment(props) {
   }
 
   function updateQuestionType(id, newType) {
-    console.log('isChanged 11', isChanged);
     setIsChanged(true);
 
     setAssignment((prevAssignment) => ({
@@ -424,7 +413,6 @@ export default function CreateAssignment(props) {
   }
 
   function updateFocusAreas(id, newFocusAreas) {
-    console.log('isChanged 12', isChanged);
     setIsChanged(true);
     const focusAreas = allFocusAreas.filter((focusArea) =>
       newFocusAreas.includes(focusArea.id)
@@ -459,7 +447,6 @@ export default function CreateAssignment(props) {
   }
 
   const handleClassCheckboxChange = (classId, isChecked) => {
-    console.log('isChanged 14', isChanged);
     setIsChanged(true);
     setAssignment((prevAssignment) => {
       if (isChecked) {

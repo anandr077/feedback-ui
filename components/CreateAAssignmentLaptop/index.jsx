@@ -121,12 +121,10 @@ function CreateAAssignmentLaptop(props) {
   useEffect(() => {
     const unblock = history.block((location, action) => {
       if (assignment.status === 'DRAFT' && isChanged) {
-        console.log('isChangedInside', isChanged);
         setPendingLocation(location);
         setSaveAsDraftPopup(true);
         return false;
       }
-      console.log('isChangedoutside', isChanged);
       return true;
     });
 

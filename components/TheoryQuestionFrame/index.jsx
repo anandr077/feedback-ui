@@ -88,7 +88,7 @@ export default function TheoryQuestionFrame(props) {
       onClick={cleanformattingDiv}
     >
       <Frame1297
-        number={serialNumber}
+        serialNumber={serialNumber}
         UpdateQuestionFrame={UpdateQuestionFrame}
         defaultType={questionDetails.type}
         deleteQuestionFrameFn={deleteQuestionFrameFn}

@@ -24,11 +24,6 @@ function Frame1297(props) {
     UpdateQuestionFrame(serialNumber, 'TEXT');
   };
 
-  const setTypeMCQ = () => {
-    setType('MCQ');
-    UpdateQuestionFrame(serialNumber, 'MCQ');
-  };
-
   const setTypeEssay = () => {
     setType('ESSAY');
     UpdateQuestionFrame(serialNumber, 'ESSAY');
@@ -49,7 +44,6 @@ function Frame1297(props) {
       {createQuestionTypeSelector(
         type,
         setTypeTheory,
-        setTypeMCQ,
         setTypeEssay
       )}
     </QuestionPart>
@@ -59,7 +53,6 @@ function Frame1297(props) {
 const createQuestionTypeSelector = (
   type,
   setTypeTheory,
-  setTypeMCQ,
   setTypeEssay
 ) => {
   const menuItems = [
@@ -75,14 +68,9 @@ const createQuestionTypeSelector = (
       title: 'Extended response',
       onClick: setTypeEssay,
     },
-    {
-      id: 2,
-      image: '/icons/mcqIcon.png',
-      title: 'Multiple choice',
-      onClick: setTypeMCQ,
-    },
+   
   ];
-  const selectedIndex = type === 'MCQ' ? 2 : type === 'ESSAY' ? 1 : 0;
+  const selectedIndex = type === 'ESSAY' ? 1 : 0;
   return (
     <StyledDropDown
       selectedIndex={selectedIndex}

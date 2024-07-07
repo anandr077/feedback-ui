@@ -22,7 +22,6 @@ import { assignmentsHeaderProps } from '../../utils/headerProps';
 import CheckboxBordered from '../CheckboxBordered';
 import CreateAAssignmentLaptop from '../CreateAAssignmentLaptop';
 import DateSelector from '../DateSelector';
-import MCQQuestionFrame from '../MCQQuestionFrame';
 import ReactiveRender, { isMobileView } from '../ReactiveRender';
 import TheoryQuestionFrame from '../TheoryQuestionFrame';
 import Loader from '../Loader';
@@ -253,20 +252,7 @@ export default function CreateAssignment(props) {
     return assignment.questions.map((question) => questionFrame(question));
   };
   const questionFrame = (question) => {
-    return question?.type === 'MCQ' ? (
-      <MCQQuestionFrame
-        serialNumber={question.serialNumber}
-        deleteQuestionFrameFn={deleteQuestion}
-        questionDetails={question}
-        UpdateQuestionFrame={updateQuestionType}
-        updateQuestion={updateQuestion}
-        cleanformattingTextBox={cleanformattingTextBox}
-        cleanformattingDiv={cleanformattingDiv}
-        onOptionChange={updateMCQOption}
-        options={question.options}
-        allMarkingCriterias={allMarkingCriterias}
-      />
-    ) : (
+    return (
       <TheoryQuestionFrame
         serialNumber={question.serialNumber}
         deleteQuestionFrameFn={deleteQuestion}
@@ -323,28 +309,7 @@ export default function CreateAssignment(props) {
     });
   }
 
-  function updateMCQOption(
-    questionSerialNumber,
-    optionSerialNumber,
-    newOption,
-    newIsCorrect
-  ) {
-    setAssignment((prevAssignment) => ({
-      ...prevAssignment,
-      questions: prevAssignment.questions.map((question) =>
-        question.serialNumber === questionSerialNumber
-          ? {
-              ...question,
-              options: question.options.map((o) =>
-                o.optionSerialNumber === optionSerialNumber
-                  ? { ...o, option: newOption, isCorrect: newIsCorrect }
-                  : o
-              ),
-            }
-          : question
-      ),
-    }));
-  }
+ 
 
   function updateQuestion(id, newContent) {
     if (newContent.length > 500) {

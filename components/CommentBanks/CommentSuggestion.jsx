@@ -14,9 +14,10 @@ function CommentSuggestion({
   index,
   saveEditedSuggestion,
   handleDeleteSuggestion,
+  defaultEditing,
 }) {
   const [editedText, setEditedText] = useState(comment);
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(defaultEditing);
 
   useEffect(() => {
     setEditedText(comment);
@@ -40,6 +41,7 @@ function CommentSuggestion({
           onChange={handleTextChange}
           onBlur={() => saveEditedSuggestion(editedText, index)}
           onKeyPress={handleKeyPress}
+          autoFocus={defaultEditing}
         ></TextInputEditable>
       ) : (
         <SpecificCommentText>{editedText}</SpecificCommentText>

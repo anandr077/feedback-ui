@@ -29,6 +29,7 @@ import BorderedHeart from '../../static/img/Addtofav.svg';
 import RedBgHeart from '../../static/img/favTick.svg';
 import ProgressBar from '../ProgressBar';
 import arrowRight from '../../static/img/arrowright.svg';
+import { isShowProgressBar } from './rules';
 
 function TaskCard(props) {
   const [showMoreOptions, setShowMoreOptions] = React.useState(false);
@@ -171,24 +172,22 @@ function TaskCard(props) {
         title: task.classTitle,
         para: task.title,
         date: task.dueAt,
-        status1:
-          task.submissionCount > 0 ? (
-            <ProgressBar
-              title={'Submissions'}
-              isPercentage={false}
-              count={task.submissionCount}
-              total={task.expectedSubmissions}
-            />
-          ) : null,
-        status2:
-          task.submissionCount > 0 ? (
-            <ProgressBar
-              title={'Reviewed'}
-              isPercentage={false}
-              count={task.reviewCount}
-              total={task.submissionCount}
-            />
-          ) : null,
+        status1: isShowProgressBar(task) ? (
+          <ProgressBar
+            title={'Submissions'}
+            isPercentage={false}
+            count={task.submissionCount}
+            total={task.expectedSubmissions}
+          />
+        ) : null,
+        status2: isShowProgressBar(task) ? (
+          <ProgressBar
+            title={'Reviewed'}
+            isPercentage={false}
+            count={task.reviewCount}
+            total={task.submissionCount}
+          />
+        ) : null,
       };
     }
     return {

@@ -346,7 +346,7 @@ function CreateAAssignmentLaptop(props) {
                 <TaskName>
                   <TaskTitle>Name the task</TaskTitle>
                   <QuestionTooltip
-                    text={'Set a name which accurately describes this task'}
+                    text={'Create a title that accurately reflects the task'}
                     img={questionMark}
                   />
                 </TaskName>
@@ -371,7 +371,7 @@ function CreateAAssignmentLaptop(props) {
                 <TaskName>
                   <TaskTitle>Select a class</TaskTitle>
                   <QuestionTooltip
-                    text={'Select the classes this task is for'}
+                    text={'Which classes are you setting this task for ?'}
                     img={questionMark}
                   />
                 </TaskName>
@@ -388,7 +388,7 @@ function CreateAAssignmentLaptop(props) {
                 <TaskName>
                   <TaskTitle>Set up the task</TaskTitle>
                   <QuestionTooltip
-                    text={'Add Questions and Instructions'}
+                    text={'Add questions and/or instructions for the task'}
                     img={questionMark}
                   />
                 </TaskName>

@@ -307,7 +307,7 @@ function MarkingCriteria({
         <>
           <Heading>
             <HeadingTitle>
-              Assessment
+              Marking Criteria
               <img src={QuestionIcon} />
             </HeadingTitle>
             <HeaderRightSection>
@@ -325,9 +325,6 @@ function MarkingCriteria({
           </Heading>
           <MarkingCriteriaSection ref={markingCriteriaSectionRef}>
             <MarkingCriteriaMainHeadingContainer>
-              <MarkingCriteriaMainHeading>
-                Marking Criteria
-              </MarkingCriteriaMainHeading>
               {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
                 <Text>
                   Click 'Expand' to provide Marking Criteria based feedback

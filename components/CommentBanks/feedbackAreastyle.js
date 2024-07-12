@@ -213,6 +213,7 @@ export const LeftConatinerHeading = styled.div`
   background-color: #ffffff;
   padding: 20px;
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  margin-bottom: 5px;
 `;
 export const LeftConatinerHeadingText = styled.p`
   font-family: IBM Plex Sans;
@@ -287,6 +288,7 @@ export const FeedbackAreaText = styled.p`
   letter-spacing: -0.01em;
   text-align: left;
   color: ${(props) => (props.selected ? '#7200E0' : '#4B464F')};
+  width: 100%;
 `;
 
 export const SpecificCommentsCont = styled.div`
@@ -353,6 +355,7 @@ export const SpecificCommentText = styled.p`
   line-height: 24px;
   text-align: left;
   color: #56515b;
+  width: 100%;
 `;
 
 export const DotContainerPopUp = styled.div`
@@ -365,8 +368,8 @@ export const DotContainerPopUp = styled.div`
   background: #ffffff;
   border: 1px solid var(--color-neutral-80, #f2f1f3);
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: calc(100% + 5px);
+  right: 0px;
 `;
 
 export const OptionContainer = styled.div`

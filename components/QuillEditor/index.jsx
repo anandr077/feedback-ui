@@ -296,7 +296,7 @@ const QuillEditor = React.forwardRef(
             }}
           >
             <div className="modalHeading">
-              <h1>{isTeacher ? 'Comment Banks' : 'Focus Areas'}</h1>
+              <h1>{isTeacher ? 'Comment Banks' : 'Self-assessment Areas'}</h1>
               <button
                 className="closeButton"
                 onClick={() => {

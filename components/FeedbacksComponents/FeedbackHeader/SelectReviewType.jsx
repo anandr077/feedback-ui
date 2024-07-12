@@ -27,7 +27,8 @@ import ai from '../../../static/img/ai.svg';
 import rightarrow from '../../../static/img/Vector13.svg';
 import expert from '../../../static/img/Expert-check.svg';
 import profileCircle from '../../../static/img/profile-circle.svg';
-import { createRequestFeddbackType } from '../../../service';
+import { createRequestFeddbackType, getLocalClasses } from '../../../service';
+import { isNonSchoolStudent } from '../../MainSidebar/rules';
 
 const SelectReviewType = ({
   submission,
@@ -50,6 +51,8 @@ const SelectReviewType = ({
     (s) => s.id !== getUserId()
   );
   const isTeacher = getUserRole() === 'TEACHER';
+  const role = getUserRole();
+  const localClasses = getLocalClasses();
   const showClassMate = uniqueStudents.length > 0;
   const showTeacher = uniqueTeachers.length > 0;
   const requestFeedback = (submissionId, requestType) => (id) => {
@@ -168,7 +171,7 @@ const SelectReviewType = ({
                 </Card1ImgContainer>
               </Frame5053Card2>
             )}
-            {!isTeacher && (
+            {!isTeacher && isNonSchoolStudent(role, localClasses) && (
               <Frame5053Card1 onClick={requestCommnityFeedback}>
                 <Frame5053Card1Img src={expert} />
                 <CardContainer>

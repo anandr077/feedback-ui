@@ -41,7 +41,7 @@ function Frame1297(props) {
         </Frame1281>
         <DeleteButtonFrame>
           <BinImage src={RedBin} />
-          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
+          <DeleteButton onClick={() => deleteQuestionFrameFn(number)}>
             Delete
           </DeleteButton>
         </DeleteButtonFrame>

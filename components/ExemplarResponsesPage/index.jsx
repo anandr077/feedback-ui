@@ -32,6 +32,7 @@ export default function ExemplarResponsesPage(props) {
   React.useEffect(() => {
     getModelResponses().then((result) => {
       if (result) {
+        console.log('the result is', result)
         setExemplarResponses(result);
         setClasses(arrayFromArrayOfObject(result, 'classTitle'));
         setIsLoading(false);
@@ -133,7 +134,7 @@ export default function ExemplarResponsesPage(props) {
       }
     });
   };
-
+  console.log('the classes is', classes)
   return (
     <CompletedRoot
       title="Exemplars"

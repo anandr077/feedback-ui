@@ -43,7 +43,7 @@ function HeaderTitle({ breadcrumbs }) {
     },
     {
       link: '/sharedresponses',
-      title: 'Model Responses',
+      title: isTeacher(role) ? 'Shared Responses' : 'Model Responses',
       teacherTooltip: '',
       studentTooltip:
         'A collection of student work that has been shared with the class',

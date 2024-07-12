@@ -35,7 +35,7 @@ export const headerMainTitle = [
   },
   {
     link: '/sharedresponses',
-    title: 'School Work',
+    title: role === 'TEACHER' ? 'Tasks' : 'School Work',
     homeLink: '/tasks',
   },
   {

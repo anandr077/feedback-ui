@@ -477,6 +477,7 @@ function createQuill(
           modules: createModules(pageMode),
           theme: 'snow',
           readOnly: pageMode === 'REVIEW' || pageMode === 'CLOSED',
+          placeholder: 'Write your first word here...',
         }}
         debounceTime={debounce.debounceTime}
         onDebounce={debounce.onDebounce}

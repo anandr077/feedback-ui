@@ -17,6 +17,7 @@ import Rename from '../../static/img/Rename.svg';
 import Copy from '../../static/img/Copy.svg';
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import { handleFocus } from './function';
 
 function FeedbackAreaTitle({
   index,
@@ -28,7 +29,6 @@ function FeedbackAreaTitle({
   deleteAnnotationHandler,
 }) {
   const divRef = useRef(null);
-  const [currentSmartComment, setCurrentSmartComment] = useState(smartComment);
   const [showPopUp, setShowPopUp] = useState(false);
   const [editingTitle, setEditingTitle] = useState(false);
   const [editTitle, setEditTitle] = useState(smartComment.title);
@@ -49,9 +49,8 @@ function FeedbackAreaTitle({
   const saveEditedSmartAnnotation = (updatedText) => {
     if (updatedText?.trim() === '') return;
     setEditTitle(updatedText);
-    const newSmartAnnotation = { ...currentSmartComment };
+    const newSmartAnnotation = { ...smartComment };
     newSmartAnnotation.title = updatedText;
-    setCurrentSmartComment(newSmartAnnotation);
     UpdateSmartAnotationHandler(newSmartAnnotation, currentSmartCommentId);
   };
   const handleKeyPress = (event) => {
@@ -70,7 +69,7 @@ function FeedbackAreaTitle({
 
   const cloneSmartAnnotation = () => {
     setShowPopUp(false);
-    let { title, suggestions } = currentSmartComment;
+    let { title, suggestions } = smartComment;
     title = 'Copy of ' + title;
     createSmartAnnotation({ title: title, suggestions: suggestions });
   };
@@ -78,11 +77,14 @@ function FeedbackAreaTitle({
   const handleDeleteSmartComment = () => {
     deleteAnnotationHandler(index);
   };
+
+
+
   return (
     <div>
       <FeedbackAreaCon
         key={index}
-        onClick={() => handleSmartCommentSelection(currentSmartComment, index)}
+        onClick={() => handleSmartCommentSelection(smartComment, index)}
         selected={index === currentSmartCommentId}
         showPopUp={showPopUp}
       >
@@ -92,9 +94,14 @@ function FeedbackAreaTitle({
             onChange={handleTitleTextChange}
             onBlur={() => saveEditedSmartAnnotation(editTitle)}
             onKeyPress={handleKeyPress}
+            onFocus={handleFocus}
+            autoFocus={editingTitle}
           ></TextInputEditable>
         ) : (
-          <FeedbackAreaText selected={index === currentSmartCommentId}>
+          <FeedbackAreaText
+            selected={index === currentSmartCommentId}
+            onDoubleClick={() => setEditingTitle(true)}
+          >
             {editTitle}
           </FeedbackAreaText>
         )}

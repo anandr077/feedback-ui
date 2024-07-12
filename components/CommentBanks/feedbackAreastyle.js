@@ -288,6 +288,7 @@ export const FeedbackAreaText = styled.p`
   letter-spacing: -0.01em;
   text-align: left;
   color: ${(props) => (props.selected ? '#7200E0' : '#4B464F')};
+  width: 100%;
 `;
 
 export const SpecificCommentsCont = styled.div`
@@ -354,6 +355,7 @@ export const SpecificCommentText = styled.p`
   line-height: 24px;
   text-align: left;
   color: #56515b;
+  width: 100%;
 `;
 
 export const DotContainerPopUp = styled.div`

@@ -739,7 +739,7 @@ const submitButtonDocument = (
           }}
         >
           {<Icon24 src="/img/jeddleaiIcon.svg"></Icon24>}
-          <Label16pxSmall>JeddAI has provided its feedback</Label16pxSmall>
+          <Label16pxSmall>JeddAI has marked your work</Label16pxSmall>
         </RequestFeedbackFrame>
       );
     }

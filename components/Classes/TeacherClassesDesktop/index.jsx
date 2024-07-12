@@ -66,11 +66,7 @@ function TeacherClassesDesktop(props) {
 
   const handleScroll = (ref) => {
     const element = ref.current;
-    var elementPosition = ref.current.getBoundingClientRect().top;
-    var offsetPosition = elementPosition + window.pageYOffset - 100;
-
     element.scrollIntoView({
-      top: offsetPosition,
       behavior: 'smooth',
     });
   };
@@ -79,17 +75,17 @@ function TeacherClassesDesktop(props) {
     <TopContainer>
       <Frame1422>
         <Frame1306>
-            <Tabs
-              value={selectedClassIndex}
-              onChange={(event, newValue) => {
-                setClassId(classes[newValue]?.id);
-              }}
-              aria-label="Class tabs"
-            >
-              {classes.map((classItem, index) => (
-                <Tab key={index} label={classItem.title} />
-              ))}
-            </Tabs>
+          <Tabs
+            value={selectedClassIndex}
+            onChange={(event, newValue) => {
+              setClassId(classes[newValue]?.id);
+            }}
+            aria-label="Class tabs"
+          >
+            {classes.map((classItem, index) => (
+              <Tab key={index} label={classItem.title} />
+            ))}
+          </Tabs>
         </Frame1306>
         <MainContainer>
           <LeftContainer>

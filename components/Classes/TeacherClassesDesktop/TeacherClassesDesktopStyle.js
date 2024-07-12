@@ -34,7 +34,6 @@ export const Frame1422 = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  max-width: 1440px;
 `;
 
 export const Frame13121 = styled.div`

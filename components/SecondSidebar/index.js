@@ -168,7 +168,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
     {
       icon: '',
       selectedIcon: '',
-      title: `Model Responses`,
+      title: role === 'STUDENT' ? `Model Responses` : 'Shared Responses',
       link: `/sharedresponses`,
       matchLink: `/sharedresponses`,
     },
@@ -322,10 +322,6 @@ const SecondSidebar = ({ id, setShowMenu }) => {
                 </Button>
               )}
               {route.subLinks.map((subLink, subIdx) => {
-                if (subLink.link === '/sharedresponses' && role === 'TEACHER') {
-                  return null;
-                }
-
                 const isActive = isActiveButton(
                   subLink,
                   location.pathname,

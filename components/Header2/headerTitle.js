@@ -31,7 +31,7 @@ function HeaderTitle({ breadcrumbs }) {
       link: '/tasks',
       title: role === 'TEACHER' ? 'Classwork' : 'Tasks',
       teacherTooltip:
-        'View the status of every task that you have assigned for your classes',
+        'View the status of every task that you have assigned to your classes',
       studentTooltip: 'View all of your current tasks from school',
     },
     {
@@ -43,7 +43,7 @@ function HeaderTitle({ breadcrumbs }) {
     },
     {
       link: '/sharedresponses',
-      title: 'Model Responses',
+      title: isTeacher(role) ? 'Shared Responses' : 'Model Responses',
       teacherTooltip: '',
       studentTooltip:
         'A collection of student work that has been shared with the class',
@@ -127,7 +127,7 @@ function HeaderTitle({ breadcrumbs }) {
       link: '/',
       title: role === 'TEACHER' ? homeTitle : 'Tasks',
       teacherTooltip:
-        'View the status of every task that you have assigned for your classes',
+        'View the status of every task that you have assigned to your classes',
       studentTooltip: 'View all of your current tasks from school',
     },
   ];

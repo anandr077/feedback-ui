@@ -361,7 +361,7 @@ function submitButtonOnDocument(
       return (
         <DocumentSubmitBtnContainer>
           {<Icon24 src="/img/jeddleaiIcon.svg" />}
-          <p>JeddAI has provided its feedback</p>
+          <p>JeddAI has marked your work</p>
         </DocumentSubmitBtnContainer>
       );
     }

@@ -34,7 +34,6 @@ export const Frame1422 = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  max-width: 1440px;
 `;
 
 export const Frame13121 = styled.div`
@@ -126,6 +125,7 @@ export const Frame1339 = styled.div`
   position: relative;
   flex: 1;
   align-self: stretch;
+  scroll-margin-top: 140px;
 `;
 
 export const Frame13371 = styled.div`
@@ -284,10 +284,15 @@ export const ActiveTaskContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  scroll-margin-top: 140px;
 `;
 
-export const SharedResponseFrame = styled.div``;
-export const ClassStatsFrame = styled.div``;
+export const SharedResponseFrame = styled.div`
+  scroll-margin-top: 140px;
+`;
+export const ClassStatsFrame = styled.div`
+  scroll-margin-top: 140px;
+`;
 
 export const TasksContainer = styled.div`
   display: flex;

@@ -8,6 +8,7 @@ import {
 } from './feedbackAreastyle';
 import Delete from '../../static/img/tabs-delete.svg';
 import Rename from '../../static/img/Rename.svg';
+import { handleFocus } from './function';
 
 function CommentSuggestion({
   comment,
@@ -41,10 +42,13 @@ function CommentSuggestion({
           onChange={handleTextChange}
           onBlur={() => saveEditedSuggestion(editedText, index)}
           onKeyPress={handleKeyPress}
-          autoFocus={defaultEditing}
+          onFocus={handleFocus}
+          autoFocus={defaultEditing || editing}
         ></TextInputEditable>
       ) : (
-        <SpecificCommentText>{editedText}</SpecificCommentText>
+        <SpecificCommentText onDoubleClick={() => setEditing(true)}>
+          {editedText}
+        </SpecificCommentText>
       )}
       <IconsContainer>
         <IconImage

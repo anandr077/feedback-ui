@@ -24,6 +24,8 @@ import {
 } from './feedbackAreastyle';
 import CommentSuggestion from './CommentSuggestion';
 import FeedbackAreaTitle from './FeedbackAreaTitle';
+import Toast from '../Toast';
+import { toast } from 'react-toastify';
 
 function FeedbackArea(props) {
   const {
@@ -32,7 +34,7 @@ function FeedbackArea(props) {
     deleteAnnotationHandler,
     createSmartAnnotation,
     smartAnnotationeditIndex,
-    createSmartAnnotationHandler
+    createSmartAnnotationHandler,
   } = props;
 
   const [currentSmartComment, setCurrnetSmartComment] = useState(
@@ -41,14 +43,15 @@ function FeedbackArea(props) {
   const [currentSmartCommentId, setCurrnetSmartCommentId] = useState(
     smartAnnotationeditIndex
   );
-  const [isNewCommentAdded, setIsNewCommentAdded] = useState(false);
-
 
   const saveEditedSuggestion = (updatedText, index) => {
+    if (updatedText.length === 0) {
+      toast(<Toast message={'Please add some text to the new comment'} />);
+      return;
+    }
     const newSmartAnnotation = { ...currentSmartComment };
     newSmartAnnotation.suggestions[index] = updatedText;
-    if (isNewCommentAdded) setIsNewCommentAdded(false);
-      UpdateSmartAnotationHandler(newSmartAnnotation, currentSmartCommentId);
+    UpdateSmartAnotationHandler(newSmartAnnotation, currentSmartCommentId);
   };
 
   const handleDeleteSuggestion = (index) => {
@@ -60,10 +63,8 @@ function FeedbackArea(props) {
   const addNewSuggestions = () => {
     const newSuggestion = '';
     let newSmartAnnotation = { ...currentSmartComment };
-    setIsNewCommentAdded(true);
     newSmartAnnotation.suggestions.push(newSuggestion);
     setCurrnetSmartComment(newSmartAnnotation);
-    
   };
 
   const handleSmartCommentSelection = (smartComment, index) => {
@@ -125,7 +126,7 @@ function FeedbackArea(props) {
                   saveEditedSuggestion={saveEditedSuggestion}
                   handleDeleteSuggestion={handleDeleteSuggestion}
                   defaultEditing={
-                    isNewCommentAdded &&
+                    comment.length === 0 &&
                     currentSmartComment?.suggestions.length === index + 1
                   }
                 />

@@ -13,15 +13,24 @@ function LinkButton({
   label,
   whiteArrowleft,
   whiteArrowright,
+  notification,
 }) {
   return (
-    <a href={link} style={{textDecoration:'none'}}>
-      <ButtonContainer>
+    <a href={link} style={{ textDecoration: 'none' }}>
+      <ButtonContainer notification={notification}>
         {arrowleft ? <ButtonIcon src={arrowleft} /> : <></>}
         {whiteArrowleft ? <ButtonIconWhite src={whiteArrowleft} /> : <></>}
-        <ButtonText>{label}</ButtonText>
-        {arrowright ? <ButtonIcon src={arrowright} /> : <></>}
-        {whiteArrowright ? <ButtonIconWhite src={whiteArrowright} /> : <></>}
+        <ButtonText notification={notification}>{label}</ButtonText>
+        {arrowright ? (
+          <ButtonIcon notification={notification} src={arrowright} />
+        ) : (
+          <></>
+        )}
+        {whiteArrowright ? (
+          <ButtonIconWhite notification={notification} src={whiteArrowright} />
+        ) : (
+          <></>
+        )}
       </ButtonContainer>
     </a>
   );

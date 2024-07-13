@@ -67,7 +67,8 @@ export function answersFrame(
   share,
   isFeedback,
   isFocusAreas,
-  openLeftPanel
+  openLeftPanel,
+  setOtherDrafts
 ) {
   return (
     <AnswersFrame
@@ -100,6 +101,7 @@ export function answersFrame(
       isFeedback={isFeedback}
       isFocusAreas={isFocusAreas}
       openLeftPanel={openLeftPanel}
+      setOtherDrafts={setOtherDrafts}
     ></AnswersFrame>
   );
 }
@@ -133,6 +135,7 @@ function AnswersFrame(props) {
     isFeedback,
     isFocusAreas,
     openLeftPanel,
+    setOtherDrafts,
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
@@ -147,6 +150,7 @@ function AnswersFrame(props) {
       <Frame1367 moveToLeft={openRightPanel} moveRight={openLeftPanel}>
         {answerFrames(
           quillRefs,
+          setOtherDrafts,
           smallMarkingCriteria,
           handleCheckboxChange,
           groupedFocusAreaIds,
@@ -243,6 +247,7 @@ const createModules = (pageMode) => {
 };
 const answerFrames = (
   quillRefs,
+  setOtherDrafts,
   smallMarkingCriteria,
   handleCheckboxChange,
   groupedFocusAreaIds,
@@ -296,12 +301,14 @@ const answerFrames = (
               ...old.assignment,
               title: res.title,
             },
-            otherDrafts: old.otherDrafts?.map((draft) =>
-              draft.submissionId === submission.id
-                ? { ...draft, title: res.title }
-                : draft
-            ),
           }));
+          setOtherDrafts((prevDrafts) =>
+            prevDrafts.map((draft) =>
+              draft.submissionId === submission.id
+                ? { ...draft, title: newTitle }
+                : draft
+            )
+          );
         } else {
           setInputValue(res.title);
         }

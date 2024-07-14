@@ -6,12 +6,12 @@ import getFeedbackselected from '../static/img/getFeedbackselected.svg';
 import getFeedbackUnselected from '../static/img/getFeedbackunselected.svg';
 import giveFeedbackselected from '../static/img/giveFeedbackselected.svg';
 import giveFeedbackUnselected from '../static/img/giveFeedbackunselected.svg';
-import { getLocalClasses } from '../service';
+import { getLocalStorage } from './function';
 
 const isTeacher = getUserRole() === 'TEACHER';
 
 let teacherTabs;
-if (getLocalClasses()) {
+if (getLocalStorage('classes')) {
   teacherTabs = (first, second, third, fourth) => {
     return {
       firstButton: {
@@ -60,7 +60,7 @@ if (getLocalClasses()) {
 
 let studentTabs;
 
-if (getLocalClasses()) {
+if (getLocalStorage('classes')) {
   studentTabs = (first, second, third) => {
     return {
       firstButton: {
@@ -124,7 +124,7 @@ export const teacherGiveFeedbackHeaderProps = teacherTabs(
 );
 
 // export const homeHeaderProps = studentTabs(true, false, false);
-export const giveFeedbackHeaderProps = getLocalClasses()
+export const giveFeedbackHeaderProps = getLocalStorage('classes')
   ? studentTabs(false, false, true)
   : studentTabs(false, true);
 export const taskHeaderProps = studentTabs(true, false, false);
@@ -132,7 +132,7 @@ export const teacherStudentTaskHeaderProps = () => {
   if (isTeacher) {
     return teacherTabs(true, false, false, false);
   }
-  return getLocalClasses()
+  return getLocalStorage('classes')
     ? studentTabs(false, false, true)
     : studentTabs(false, true);
 };
@@ -141,7 +141,7 @@ export const docsHeaderProps = () => {
   if (isTeacher) {
     return teacherTabs(false, false, true, false);
   }
-  return getLocalClasses()
+  return getLocalStorage('classes')
     ? studentTabs(false, true, false)
     : studentTabs(true, false);
 };
@@ -151,11 +151,11 @@ export const documentHeaderProps = (selfDocument) => {
     return teacherTabs(true, false, false, false);
   }
   if (selfDocument) {
-    return getLocalClasses()
+    return getLocalStorage('classes')
       ? studentTabs(false, false, true)
       : studentTabs(false, true);
   }
-  return getLocalClasses()
+  return getLocalStorage('classes')
     ? studentTabs(false, true, false)
     : studentTabs(true, false);
 };
@@ -164,11 +164,11 @@ export const completedHeaderProps = (exemplar) => {
   if (exemplar) {
     return isTeacher
       ? teacherTabs(false, false, false, false)
-      : getLocalClasses()
+      : getLocalStorage('classes')
       ? studentTabs(false, false, false)
       : studentTabs(false, false);
   }
-  return getLocalClasses()
+  return getLocalStorage('classes')
     ? studentTabs(false, false, true)
     : studentTabs(false, true);
 };

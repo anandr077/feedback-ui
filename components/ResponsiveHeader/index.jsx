@@ -18,7 +18,7 @@ import {
 import { getUserRole } from '../../userLocalDetails';
 import { isSmallScreen } from '../ReactiveRender';
 import Cookies from 'js-cookie';
-import { getLocalClasses } from '../../service';
+import { getLocalStorage } from '../../utils/function';
 
 export default function ResponsiveHeader() {
   const location = useLocation();
@@ -47,13 +47,13 @@ const getHeaderProps = (location) => {
     else if (location.includes('/getFeedback'))
       return teacherGetFeedbackHeaderProps;
     else if (location.includes('/giveFeedback'))
-      return getLocalClasses()
+      return getLocalStorage('classes')
         ? teacherGiveFeedbackHeaderProps
         : expertTeacherHomeHeaderProps;
     else if (location.includes('/feedbackHistory'))
-      return getLocalClasses()
-      ? teacherGiveFeedbackHeaderProps
-      : expertTeacherHomeHeaderProps;
+      return getLocalStorage('classes')
+        ? teacherGiveFeedbackHeaderProps
+        : expertTeacherHomeHeaderProps;
     return assignmentsHeaderProps;
   } else {
     if (location.includes('/getFeedback')) return docsHeaderProps();
@@ -62,6 +62,6 @@ const getHeaderProps = (location) => {
       return giveFeedbackHeaderProps;
     else if (location.includes('/submissions')) return taskHeaderProps;
 
-    return getLocalClasses() ? taskHeaderProps : docsHeaderProps();
+    return getLocalStorage('classes') ? taskHeaderProps : docsHeaderProps();
   }
 };

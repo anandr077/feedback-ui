@@ -9,7 +9,6 @@ import {
   getCommunityTasks,
   getTasks,
   getAssignments,
-  getLocalClasses,
   getCompletedTasks,
 } from '../../service';
 import settings from '../../static/icons/settings.svg';
@@ -25,6 +24,7 @@ import { deleteCookie, getUserRole } from '../../userLocalDetails';
 import { isActiveButton, isTeacherWithoutClass } from './rules';
 import { useQuery } from '@tanstack/react-query';
 import { isTabletView } from '../ReactiveRender';
+import { getLocalStorage } from '../../utils/function';
 
 const SecondSidebar = ({ id, setShowMenu }) => {
   const [containerHeight, setContainerHeight] = useState(0);
@@ -36,7 +36,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
   const location = useLocation();
   const history = useHistory();
   const role = getUserRole();
-  const localClasses = getLocalClasses();
+  const localClasses = getLocalStorage('classes');
   const isTeacherNoClass = isTeacherWithoutClass(role, localClasses);
   const tabletView = isTabletView();
 

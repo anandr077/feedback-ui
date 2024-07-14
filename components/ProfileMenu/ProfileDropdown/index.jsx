@@ -8,6 +8,7 @@ import { getUserRole } from '../../../userLocalDetails';
 import { useQueryClient } from '@tanstack/react-query';
 import { IbmplexsansNormalBlack16px } from '../../../styledMixins';
 import 'react-edit-text/dist/index.css';
+import { getLocalStorage } from '../../../utils/function';
 
 function ProfileDropdown() {
   const role = getUserRole();
@@ -16,8 +17,8 @@ function ProfileDropdown() {
   const [year, setYear] = useState('Year');
 
   useEffect(() => {
-    const cookieState = Cookies.get('state');
-    const cookieYear = Cookies.get('year');
+    const cookieState = getLocalStorage('state');
+    const cookieYear = getLocalStorage('year');
 
     if (cookieState) {
       setState(cookieState);

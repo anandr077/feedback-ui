@@ -27,8 +27,9 @@ import ai from '../../../static/img/ai.svg';
 import rightarrow from '../../../static/img/Vector13.svg';
 import expert from '../../../static/img/Expert-check.svg';
 import profileCircle from '../../../static/img/profile-circle.svg';
-import { createRequestFeddbackType, getLocalClasses } from '../../../service';
+import { createRequestFeddbackType } from '../../../service';
 import { isNonSchoolStudent } from '../../MainSidebar/rules';
+import { getLocalStorage } from '../../../utils/function';
 
 const SelectReviewType = ({
   submission,
@@ -52,7 +53,7 @@ const SelectReviewType = ({
   );
   const isTeacher = getUserRole() === 'TEACHER';
   const role = getUserRole();
-  const localClasses = getLocalClasses();
+  const localClasses = getLocalStorage('classes');
   const showClassMate = uniqueStudents.length > 0;
   const showTeacher = uniqueTeachers.length > 0;
   const requestFeedback = (submissionId, requestType) => (id) => {

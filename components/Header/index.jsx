@@ -3,7 +3,7 @@ import Notifications from '../Notifications';
 import UserIcon from '../UserIcon';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar';
-import { getLocalClasses, getNotifications } from '../../service.js';
+import {  getNotifications } from '../../service.js';
 import {
   NavigationContainer,
   HelpbarContainer,
@@ -26,6 +26,7 @@ import { useState } from 'react';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
 import { getUserRole } from '../../userLocalDetails.js';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
+import { getLocalStorage } from '../../utils/function.js';
 
 export default function Header(props) {
   const { headerProps } = props;
@@ -172,7 +173,7 @@ export default function Header(props) {
           <Frame1343 src="/icons/header-logo.png" alt="Frame 1343" />
         </a>
         <Frame5>
-          {getLocalClasses() && (
+          {getLocalStorage('classes') && (
             <>
               {headerProps.firstButton.selected ? (
                 <HeaderButtonSelected onClick={OnFirstButtonClick}>
@@ -222,7 +223,8 @@ export default function Header(props) {
               )}
             </>
           )}
-          {isTeacher && getLocalClasses() &&
+          {isTeacher &&
+            getLocalStorage('classes') &&
             (headerProps.thirdButton.selected ? (
               <HeaderButtonSelected onClick={OnThirdButtonClick}>
                 <HeaderButtonInnnerContainer>
@@ -246,7 +248,7 @@ export default function Header(props) {
                 </HeaderButtonInnnerContainer>
               </HeaderButton>
             ))}
-          {getLocalClasses() &&
+          {getLocalStorage('classes') &&
             !isTeacher &&
             (headerProps.thirdButton.selected ? (
               <HeaderButtonSelected onClick={OnThirdButtonClick}>

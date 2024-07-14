@@ -12,10 +12,11 @@ import {
 import Cookies from 'js-cookie';
 import OnboardingScreen from './OnboardingScreen';
 import countriesData from './countries.json';
+import { getLocalStorage } from '../../utils/function';
 
 const HeaderOnboardingMenu = () => {
   const [showOnboardingPopup, setShowOnboardingPopup] = useState(false);
-  const state = Cookies.get('state');
+  const state = getLocalStorage('state');
   const defaultCountry = Object.keys(countriesData)[0] || 'Australia';
   const [country, setCountry] = useState(defaultCountry);
 
@@ -47,7 +48,8 @@ const HeaderOnboardingMenu = () => {
             <Frame1410>
               <LocationAgeContainer>
                 <div>
-                  Year {Cookies.get('year')}, {country}, {Cookies.get('state')}
+                  Year {getLocalStorage('year')}, {country},{' '}
+                  {getLocalStorage('state')}
                 </div>
               </LocationAgeContainer>
               <EditBtn

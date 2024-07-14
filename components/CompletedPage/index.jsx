@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { getAssignments, getCompletedTasks, getLocalClasses } from '../../service.js';
+import { getAssignments, getCompletedTasks } from '../../service.js';
 import CompletedRoot from '../Completed/CompletedRoot';
 import { groupBy, groupedData } from 'lodash';
 import { dateOnly } from '../../dates.js';
@@ -49,6 +49,7 @@ import MenuButton from '../MenuButton/index.jsx';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
 import { getUserRole } from '../../userLocalDetails.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
+import { getLocalStorage } from '../../utils/function.js';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
@@ -80,8 +81,8 @@ export default function CompletedPage() {
 
   const completedTaskFunc = (filteredTasks) =>{
     const newCompletedTask = filteredTasks.flatMap(task => {
-      const classesCookies = getLocalClasses();
-      const teacherClasses = isTeacher && JSON.parse(classesCookies)
+      const classesCookies = getLocalStorage('classes');
+      const teacherClasses = isTeacher && classesCookies;
       const titles = task.classIds.map(id => {
         const clazz = teacherClasses.find(cls => cls.id === id);
         return clazz ? clazz.title : null;

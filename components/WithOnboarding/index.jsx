@@ -2,10 +2,13 @@ import Cookies from 'js-cookie';
 import { default as React, default as React, useState } from 'react';
 import OnboardingScreen from '../../components2/Onboard/OnboardingScreen';
 import { getUserRole } from '../../userLocalDetails';
+import { getLocalStorage } from '../../utils/function';
 
 const withOnboarding = (WrappedComponent) => {
   const defaultShowOnboarding =
-   getUserRole() === 'STUDENT' && (Cookies.get('state') === undefined || Cookies.get('state') === null);
+    getUserRole() === 'STUDENT' &&
+    (getLocalStorage('state') === undefined ||
+      getLocalStorage('state') === null);
   const [showOnboarding, setShowOnboarding] = useState(defaultShowOnboarding);
 
   const WithOnboarding = (props) => {
@@ -22,7 +25,10 @@ const withOnboarding = (WrappedComponent) => {
   };
 
   function onboardingPopup() {
-    const show = getUserRole() === 'STUDENT' && (Cookies.get('state') === undefined || Cookies.get('state') === null);
+    const show =
+      getUserRole() === 'STUDENT' &&
+      (getLocalStorage('state') === undefined ||
+        getLocalStorage('state') === null);
 
     if (show) {
       localStorage.setItem("onboardingShown", true)

@@ -1,4 +1,4 @@
-import { getLocalClasses } from '../../service';
+
 import { getCookie, getUserRole } from '../../userLocalDetails';
 import {
   ArrowRightImg,
@@ -14,8 +14,9 @@ import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/24questionbordered.svg';
 import { headerMainTitle } from './headerMainTitle';
 import { getFirstFourWords } from '../../utils/strings';
+import { getLocalStorage } from '../../utils/function';
 const role = getUserRole();
-const localClasses = getLocalClasses();
+const localClasses = getLocalStorage('classes');
 const isExpert = isTeacherWithoutClass(role, localClasses);
 const homeTitle = isExpert ? 'Feedback From Me' : 'Classwork';
 

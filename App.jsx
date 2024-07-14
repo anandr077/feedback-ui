@@ -44,12 +44,12 @@ import Button from '@mui/material/Button';
 import Header from './components/Header2';
 import MainSidebar from './components/MainSidebar';
 import CommentBanks from './components/CommentBanks';
-import { getLocalClasses } from './service';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isMobileView } from './components/ReactiveRender';
 import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
 import { shouldShowComponent } from './rules';
+import { getLocalStorage } from './utils/function';
 
 function App() {
   const role = getUserRole();
@@ -112,12 +112,12 @@ function App() {
   const Tasks = ({ role }) => {
     const tasks =
       role === 'TEACHER' ? (
-        getLocalClasses() ? (
+        getLocalStorage('classes') ? (
           <ProtectedTeacherTaskRoot />
         ) : (
           <ProtectedGiveFeedback />
         )
-      ) : getLocalClasses() ? (
+      ) : getLocalStorage('classes') ? (
         <ProtectedStudentTaskRoot />
       ) : (
         <ProtectedDocRoot />
@@ -128,12 +128,12 @@ function App() {
   const Dashboard = ({ role }) => {
     const tasks =
       role === 'TEACHER' ? (
-        getLocalClasses() ? (
+        getLocalStorage('classes') ? (
           <ProtectedTeacherTaskRoot />
         ) : (
           <ProtectedGiveFeedback />
         )
-      ) : getLocalClasses() ? (
+      ) : getLocalStorage('classes') ? (
         <ProtectedStudentTaskRoot />
       ) : (
         <ProtectedDocRoot />

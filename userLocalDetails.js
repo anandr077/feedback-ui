@@ -1,8 +1,11 @@
-import { deleteLocalClasses, getClasses, getLocalClasses, setLocalClasses } from "./service";
+import {
+  getClasses,
+} from './service';
+import { deleteLocalStorage, getLocalStorage, setLocalStorage } from './utils/function';
 
-export const getUserName = () => getCookie('user.name');
-export const getUserId = () => getCookie('userId');
-export const getUserRole = () => getCookie('role');
+export const getUserName = () => getLocalStorage('user.name');
+export const getUserId = () => getLocalStorage('userId');
+export const getUserRole = () => getLocalStorage('role');
 export const getAuthToken = () => localStorage.getItem('jwtToken');
 
 export const getCookie = (name) => {
@@ -22,25 +25,24 @@ export const setCookie = (key, value) => {
 export const setProfileCookies = (profile) => {
   localStorage.setItem('jwtToken', profile.token);
 
-  setCookie('user.name', profile.name);
-  setCookie('userId', profile.userId);
-  setCookie('role', profile.role);
+  setLocalStorage('user.name', profile.name);
+  setLocalStorage('userId', profile.userId);
+  setLocalStorage('role', profile.role);
 
   if (profile.state !== undefined || profile.year !== undefined) {
-    setCookie('state', profile.state);
-    setCookie('year', profile.year);
+    setLocalStorage('state', profile.state);
+    setLocalStorage('year', profile.year);
   }
 
   if (profile.classes) {
     localStorage.setItem('classes', JSON.stringify(profile.classes));
-    setLocalClasses(profile.classes);
+    setLocalStorage('classes', profile.classes);
   }
 };
 
 export const deleteCookie = (key) => {
   document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
 };
-
 
 export const deleteProfileCookies = () => {
   deleteCookie('user.name');
@@ -49,5 +51,10 @@ export const deleteProfileCookies = () => {
   deleteCookie('state');
   deleteCookie('year');
   deleteCookie('classes');
-  deleteLocalClasses();
+  deleteLocalStorage('user.name');
+  deleteLocalStorage('userId');
+  deleteLocalStorage('role');
+  deleteLocalStorage('state');
+  deleteLocalStorage('year');
+  deleteLocalStorage('classes');
 };

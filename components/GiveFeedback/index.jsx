@@ -88,6 +88,7 @@ import { getUserRole } from '../../userLocalDetails';
 import MenuButton from '../MenuButton';
 import ClickOutsideHandler from '../ClickOutsideHandler';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
+import { getLocalStorage } from '../../utils/function';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
@@ -127,11 +128,11 @@ function GiveFeedback() {
     );
 
     let menuItems = Object.keys(groupedItems);
-    if (type == 'year' && !menuItems.includes(Cookies.get('year'))) {
-      menuItems.push(Cookies.get('year'));
+    if (type == 'year' && !menuItems.includes(getLocalStorage('year'))) {
+      menuItems.push(getLocalStorage('year'));
     }
-    if (type == 'state' && !menuItems.includes(Cookies.get('state'))) {
-      menuItems.push(Cookies.get('state'));
+    if (type == 'state' && !menuItems.includes(getLocalStorage('state'))) {
+      menuItems.push(getLocalStorage('state'));
     }
     return menuItems;
   };

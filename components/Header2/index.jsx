@@ -3,7 +3,7 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom/cjs/react-router-dom.min';
-import { getLocalClasses, getNotifications } from '../../service.js';
+import {  getNotifications } from '../../service.js';
 import { getCookie, getUserName, getUserRole } from '../../userLocalDetails.js';
 import {
   MainContainer,
@@ -40,6 +40,7 @@ import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 import { isTeacher, isTeacherWithClass } from './rules.js';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
 import { getFirstFourWords } from '../../utils/strings.js';
+import { getLocalStorage } from '../../utils/function.js';
 
 const Header = ({ breadcrumbs }) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -54,7 +55,7 @@ const Header = ({ breadcrumbs }) => {
   const location = useLocation();
   const role = getUserRole();
   const name = getUserName();
-  const localClasses = getLocalClasses();
+  const localClasses = getLocalStorage('classes');
 
   const { data: notifications, isLoading } = useQuery({
     queryKey: ['notifications'],

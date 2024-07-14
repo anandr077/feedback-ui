@@ -21,6 +21,7 @@ import StyledDropDown from '../StyledDropDown';
 import countriesData from './countries.json';
 import { toast } from 'react-toastify';
 import Toast from '../../components/Toast';
+import { getLocalStorage } from '../../utils/function';
 
 const yearOptions = [
   { title: '12' },
@@ -35,14 +36,14 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
   const defaultCountry = Object.keys(countriesData)[0] || 'Australia';
   const [country, setCountry] = useState({ title: defaultCountry });
   const defaultState =
-    Cookies.get('state') === null || Cookies.get('state') === undefined
+    getLocalStorage('state') === null || getLocalStorage('state') === undefined
       ? countriesData[defaultCountry][0].state
-      : Cookies.get('state');
+      : getLocalStorage('state');
   const [state, setState] = useState(defaultState);
   const defaultYear =
-    Cookies.get('year') === null || Cookies.get('year') === undefined
+    getLocalStorage('year') === null || getLocalStorage('year') === undefined
       ? '7'
-      : Cookies.get('year');
+      : getLocalStorage('year');
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
   const [year, setYear] = useState(defaultYear);
@@ -68,8 +69,8 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
     setCountry(selectedCountry);
   };
 
-  const cookieState = Cookies.get('state');
-  const cookieYear = Cookies.get('year');
+  const cookieState = getLocalStorage('state');
+  const cookieYear = getLocalStorage('year');
 
   const saveStateYear = () => {
     if (state && year) {

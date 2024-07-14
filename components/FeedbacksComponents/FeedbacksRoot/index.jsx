@@ -18,6 +18,7 @@ import {
   getClassesWithStudents,
   getCommentBank,
   getDefaultCriteria,
+  getOtherDrafts,
   getOverComments,
   getSubmissionById,
   getSubmissionsByAssignmentId,
@@ -120,6 +121,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [selectedComment, setSelectedComment] = useState(null);
   const [showFloatingDialogue, setShowFloatingDialogue] = useState(false);
   const defaultMarkingCriteria = getDefaultCriteria();
+  const [otherDrafts, setOtherDrafts] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -128,6 +130,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       getComments(id),
       fetchClassWithStudentsAndTeachers(),
       getOverComments(id),
+      getOtherDrafts(id),
     ])
       .then(
         ([
@@ -135,7 +138,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           commentsResult,
           classWithTeacherAndStudentsResult,
           overAllCommentsResult,
+          otherDrafts,
         ]) => {
+          
+          setOtherDrafts(otherDrafts);
           setSubmission(submissionsResult);
           const allComments = commentsResult?.map((c) => {
             return { ...c };
@@ -180,7 +186,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         }
       });
   }, [id]);
-  
+
   const commentBankIds = submission?.assignment?.questions
     .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
     .map((q) => q.commentBankId);
@@ -1608,6 +1614,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedComment,
           overallComments,
           markingCriteriaFeedback,
+          otherDrafts,
+          setOtherDrafts,
         }}
       />
     </FeedbackContext.Provider>

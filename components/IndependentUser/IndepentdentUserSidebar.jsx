@@ -116,31 +116,11 @@ function IndepentdentUserSidebar({
     downloadSubmissionPdf(id);
   };
 
-  // const getNextQuestionId = (currentId) => {
-  //   const currentIndex = questionTitle.findIndex(
-  //     (question) => question.id === currentId
-  //   );
-  //   const nextIndex =
-  //     currentIndex + 1 < questionTitle.length ? currentIndex + 1 : 0;
-  //   return questionTitle[nextIndex]?.id;
-  // };
 
   const deleteFunction = () => {
     setShowDeletePopup(false);
     deleteQuestionFunction(deleteQuestionId);
-    // deleteSubmissionById(deleteQuestionId).then(() => {
-    //   if (deleteQuestionId === currentSubmissionId) {
-    //     const nextId = getNextQuestionId(deleteQuestionId);
-    //     history.push(`/documents/${nextId}`);
-    //   } else {
-    //     const filteredTitle = questionTitle.filter(
-    //       (question) => question.id !== deleteQuestionId
-    //     );
-    //     console.log('filteredTitle', filteredTitle);
-    //     setSubjects(filteredTitle);
-    //     // setQuestionTitle(filteredTitle);
-    //   }
-    // });
+    
   };
 
   return (

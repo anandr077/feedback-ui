@@ -82,7 +82,7 @@ export default function CompletedPage() {
   const completedTaskFunc = (filteredTasks) =>{
     const newCompletedTask = filteredTasks.flatMap(task => {
       const classesCookies = getLocalStorage('classes');
-      const teacherClasses = isTeacher && JSON.parse(classesCookies)
+      const teacherClasses = isTeacher && classesCookies;
       const titles = task.classIds.map(id => {
         const clazz = teacherClasses.find(cls => cls.id === id);
         return clazz ? clazz.title : null;

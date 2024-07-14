@@ -52,6 +52,7 @@ export default function TheoryQuestionFrame(props) {
     handleCommentBankPreview,
     setAllFocusAreas,
     allCommentBanks,
+    setIsChanged,
   } = props;
   const history = useHistory();
 
@@ -149,6 +150,7 @@ export default function TheoryQuestionFrame(props) {
                   onItemSelected={(item) => {
                     updateMarkingCriteria(serialNumber, item);
                   }}
+                  setIsChanged={setIsChanged}
                   defaultSearch={true}
                 ></DropdownMenu>
               ) : (
@@ -159,6 +161,7 @@ export default function TheoryQuestionFrame(props) {
                   onItemSelected={(item) => {
                     updateMarkingCriteria(serialNumber, item);
                   }}
+                  setIsChanged={setIsChanged}
                 ></DropdownMenu>
               )}
               <Preview
@@ -198,6 +201,7 @@ export default function TheoryQuestionFrame(props) {
                   onItemSelected={(item) => {
                     updateCommentBank(serialNumber, item);
                   }}
+                  setIsChanged={setIsChanged}
                   defaultSearch={true}
                 ></DropdownMenu>
               ) : (
@@ -208,6 +212,7 @@ export default function TheoryQuestionFrame(props) {
                   onItemSelected={(item) => {
                     updateCommentBank(serialNumber, item);
                   }}
+                  setIsChanged={setIsChanged}
                 ></DropdownMenu>
               )}
               <Preview

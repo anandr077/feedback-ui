@@ -503,7 +503,7 @@ export function redirectToExternalIDP() {
       '&redirect_uri=' +
       selfBaseUrl;
     window.location.href = externalIDPLoginUrl;
-  }, 4000);
+  }, 10000);
 }
 
 export const exchangeCodeForToken = async (code) => {

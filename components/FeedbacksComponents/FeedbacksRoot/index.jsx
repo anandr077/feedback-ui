@@ -18,6 +18,7 @@ import {
   getClassesWithStudents,
   getCommentBank,
   getDefaultCriteria,
+  getOtherDrafts,
   getOverComments,
   getSubmissionById,
   getSubmissionsByAssignmentId,
@@ -40,7 +41,7 @@ import {
 } from '../../../userLocalDetails.js';
 import Loader from '../../Loader';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
-import { extractStudents, findMarkingCriteria, getComments, getPageMode } from './functions';
+import { extractStudents, findMarkingCriteria, getComments, getPageMode, goToNewUrl } from './functions';
 import {
   ActionButtonsContainer,
   ClassBox,
@@ -120,6 +121,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [selectedComment, setSelectedComment] = useState(null);
   const [showFloatingDialogue, setShowFloatingDialogue] = useState(false);
   const defaultMarkingCriteria = getDefaultCriteria();
+  const [otherDrafts, setOtherDrafts] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -128,6 +130,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       getComments(id),
       fetchClassWithStudentsAndTeachers(),
       getOverComments(id),
+      getOtherDrafts(id),
     ])
       .then(
         ([
@@ -135,7 +138,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           commentsResult,
           classWithTeacherAndStudentsResult,
           overAllCommentsResult,
+          otherDrafts,
         ]) => {
+          
+          setOtherDrafts(otherDrafts);
           setSubmission(submissionsResult);
           const allComments = commentsResult?.map((c) => {
             return { ...c };
@@ -180,7 +186,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         }
       });
   }, [id]);
-  
+
   const commentBankIds = submission?.assignment?.questions
     .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
     .map((q) => q.commentBankId);
@@ -290,23 +296,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     };
   }, [submission, feedbackReviewPopup, history]);
 
-  const goToNewUrl = (pendingLocation) => {
-    const port =
-      window.location.port &&
-      window.location.port !== '80' &&
-      window.location.port !== '443'
-        ? `:${window.location.port}`
-        : '';
-
-    const path = pendingLocation ? `#${pendingLocation.pathname}` : '#/';
-
-    const newUrl = `${window.location.protocol}//${
-      window.location.hostname
-    }${port}?code=${getUserId()}${path}`;
-
-    window.history.pushState('', '', newUrl);
-    window.location.reload();
-  };
 
   const deleteDraftPage = async (submissionId, pendingLocation) => {
     await deleteSubmissionById(submissionId).then(() => {
@@ -1625,6 +1614,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedComment,
           overallComments,
           markingCriteriaFeedback,
+          otherDrafts,
+          setOtherDrafts,
         }}
       />
     </FeedbackContext.Provider>

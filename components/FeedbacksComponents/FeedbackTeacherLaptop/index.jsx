@@ -89,6 +89,8 @@ function FeedbackTeacherLaptop(props) {
     selectedComment,
     overallComments,
     markingCriteriaFeedback,
+    otherDrafts,
+    setOtherDrafts,
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
@@ -123,7 +125,7 @@ function FeedbackTeacherLaptop(props) {
     }
   }, [showNewComment]);
   React.useEffect(() => {
-    let dataToUse = submission.otherDrafts || [];
+    let dataToUse = otherDrafts || [];
 
     const groupedData = dataToUse?.reduce((result, item) => {
       const subject = item.subject || 'English';
@@ -150,7 +152,7 @@ function FeedbackTeacherLaptop(props) {
     }
     setGroupedAndSortedData(groupedData);
     setSelectedSubject(Object.keys(groupedData)[0]);
-  }, [submission.otherDrafts]);
+  }, [otherDrafts]);
   const navigate = useHistory();
   const location = useLocation();
 
@@ -269,8 +271,7 @@ function FeedbackTeacherLaptop(props) {
         <>
           
           {sharewithclassdialog}
-          {(submission.otherDrafts || submission.studentsSubmissions) &&
-            sidebar()}
+          {(otherDrafts || submission.studentsSubmissions) && sidebar()}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}
@@ -318,7 +319,8 @@ function FeedbackTeacherLaptop(props) {
               SetOpenRightPanel,
               QuestionIndex,
               setQuestionIndex,
-              openLeftPanel
+              openLeftPanel,
+              setOtherDrafts
             )}
           </Frame1388>
         </>
@@ -347,10 +349,10 @@ function FeedbackTeacherLaptop(props) {
   function sidebar() {
     return (
       <>
-        {!isNullOrEmpty(submission.otherDrafts) && (
+        {!isNullOrEmpty(otherDrafts) && (
           <IndepentdentUserSidebar
             open={openLeftPanel}
-            subjects={submission.otherDrafts?.map((d) => ({
+            subjects={otherDrafts?.map((d) => ({
               id: d.submissionId,
               title: d.title,
               subject: d.subject,
@@ -364,13 +366,13 @@ function FeedbackTeacherLaptop(props) {
         )}
 
         {((isTeacher && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) ||
-          submission.otherDrafts ||
+          otherDrafts ||
           submission.studentsSubmissions) && (
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}
             open={openLeftPanel}
-            subjects={submission.otherDrafts?.map((d) => ({
+            subjects={otherDrafts?.map((d) => ({
               id: d.submissionId,
               title: d.title,
               subject: d.subject,
@@ -384,7 +386,7 @@ function FeedbackTeacherLaptop(props) {
         )}
 
         {((isTeacher && pageMode !== 'CLOSED' && pageMode !== 'REVIEW') ||
-          submission.otherDrafts) && (
+          otherDrafts) && (
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}
@@ -509,7 +511,8 @@ function answersAndFeedbacks(
   SetOpenRightPanel,
   QuestionIndex,
   setQuestionIndex,
-  openLeftPanel
+  openLeftPanel,
+  setOtherDrafts
 ) {
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
@@ -613,10 +616,9 @@ function answersAndFeedbacks(
             share,
             isFeedback,
             isFocusAreas,
-            openLeftPanel
+            openLeftPanel,
+            setOtherDrafts
           )}
-
-         
         </Frame1368>
         <>
           <FeedbackRightSideSlidingTabs

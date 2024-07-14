@@ -46,6 +46,7 @@ import { getUserId } from '../../userLocalDetails';
 import { toast } from 'react-toastify';
 import Toast from '../Toast';
 import Header from '../Header2';
+import { goToNewUrl } from '../FeedbacksComponents/FeedbacksRoot/functions';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -56,6 +57,8 @@ export default function CreateAssignment(props) {
 
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [showPublishPopup, setShowPublishPopup] = React.useState(false);
+  const [showSaveAsDraftPopup, setSaveAsDraftPopup] = React.useState(false);
+  const [isChanged, setIsChanged] = React.useState(false);
 
   const draft = {
     id: uuidv4(),
@@ -65,7 +68,7 @@ export default function CreateAssignment(props) {
     reviewedBy: 'NONE',
     status: 'DRAFT',
     reviewers: {},
-    dueAt: '',
+    dueAt: dayjs().add(3, 'day'),
   };
   const [assignment, setAssignment] = React.useState(draft);
 
@@ -102,6 +105,7 @@ export default function CreateAssignment(props) {
   const [commentBankPlaceholder, setCommentBankPlaceholder] = React.useState(
     mobileView ? 'Select' : 'Select Comment Bank'
   );
+  const [pendingLocation, setPendingLocation] = React.useState(null);
 
   const getStudentById = (id) => {
     return Object.values(allClassStudents)
@@ -210,6 +214,7 @@ export default function CreateAssignment(props) {
     setCommentBankPreviewDialog(commentBank?.smartComments?.length > 0);
   }
   const handleChangeReviewedBy = (newReviewers) => {
+    setIsChanged(true);
     const students = assignment.classIds.flatMap(
       (classId) => allClassStudents[classId]
     );
@@ -226,6 +231,7 @@ export default function CreateAssignment(props) {
   };
 
   const handleTitleChange = (e) => {
+    setIsChanged(true);
     if (e.target.value.length > 140) {
       return;
     }
@@ -233,12 +239,14 @@ export default function CreateAssignment(props) {
     setAssignment((prevAssignment) => ({ ...prevAssignment, title: newTitle }));
   };
   const feedbackMethodUpdate = (newReviewedBy) => {
+    setIsChanged(true);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       reviewedBy: newReviewedBy,
     }));
   };
   const updateDueAt = (newDueAt) => {
+    setIsChanged(true);
     setAssignment((prevAssignment) => ({ ...prevAssignment, dueAt: newDueAt }));
   };
   const cleanformattingTextBox = (e) => {
@@ -271,11 +279,13 @@ export default function CreateAssignment(props) {
         handleCommentBankPreview={handleCommentBankPreview}
         setAllFocusAreas={setAllFocusAreas}
         allCommentBanks={allCommentBanks}
+        setIsChanged={setIsChanged}
       />
     );
   };
 
   function addQuestion() {
+    setIsChanged(true);
     const newId = assignment.questions.length + 1;
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
@@ -284,6 +294,7 @@ export default function CreateAssignment(props) {
   }
 
   function deleteQuestion(serialNumber) {
+    setIsChanged(true);
     setAssignment((prevAssignment) => {
       const newQuestions = prevAssignment.questions.filter(
         (question) => question.serialNumber !== serialNumber
@@ -312,6 +323,7 @@ export default function CreateAssignment(props) {
  
 
   function updateQuestion(id, newContent) {
+    setIsChanged(true);
     if (newContent.length > 500) {
       return;
     }
@@ -355,6 +367,8 @@ export default function CreateAssignment(props) {
   }
 
   function updateQuestionType(id, newType) {
+    setIsChanged(true);
+
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
       questions: prevAssignment.questions.map((question) =>
@@ -364,6 +378,7 @@ export default function CreateAssignment(props) {
   }
 
   function updateFocusAreas(id, newFocusAreas) {
+    setIsChanged(true);
     const focusAreas = allFocusAreas.filter((focusArea) =>
       newFocusAreas.includes(focusArea.id)
     );
@@ -397,6 +412,7 @@ export default function CreateAssignment(props) {
   }
 
   const handleClassCheckboxChange = (classId, isChecked) => {
+    setIsChanged(true);
     setAssignment((prevAssignment) => {
       if (isChecked) {
         setClassId(classId);
@@ -416,6 +432,7 @@ export default function CreateAssignment(props) {
   };
 
   const saveDraft = () => {
+    if (showSaveAsDraftPopup) setSaveAsDraftPopup(false);
     updateAssignment(assignment.id, assignment).then((res) => {
       if (res.status === 'DRAFT') {
         queryClient.invalidateQueries(['notifications']);
@@ -426,6 +443,7 @@ export default function CreateAssignment(props) {
         });
 
         toast(<Toast message={'Task saved'} />);
+        if (pendingLocation) goToNewUrl(pendingLocation);
         return;
       } else {
         toast(<Toast message={'Could not save task'} />);
@@ -711,6 +729,14 @@ export default function CreateAssignment(props) {
   const hidePublishPopup = () => {
     setShowPublishPopup(false);
   };
+  const hideSaveAsDraftPopup = () => {
+    if (pendingLocation) setPendingLocation(null);
+    setSaveAsDraftPopup(false);
+  };
+  const cancelSaveAsDraftPopup = () => {
+    if (pendingLocation) goToNewUrl(pendingLocation);
+    setSaveAsDraftPopup(false);
+  };
   const showPublishPopuphandler = (assignmentId) => {
     setShowPublishPopup(true);
   };
@@ -738,6 +764,17 @@ export default function CreateAssignment(props) {
           hidedeletePopup={hidedeletePopup}
         />
       )}
+      {showSaveAsDraftPopup && (
+        <GeneralPopup
+          hidePopup={hideSaveAsDraftPopup}
+          title="Save As Draft"
+          textContent="Do you want to save this task?"
+          buttonText="Save as draft"
+          confirmButtonAction={saveDraft}
+          closeBtnText="Do not save"
+          cancelPopup={cancelSaveAsDraftPopup}
+        />
+      )}
       {showPublishPopup && (
         <GeneralPopup
           hidePopup={hidePublishPopup}
@@ -755,6 +792,9 @@ export default function CreateAssignment(props) {
           feedbacksMethodContainer,
           dateSelectorFrame,
           updateDueDateTick,
+          setSaveAsDraftPopup,
+          setPendingLocation,
+          isChanged,
           ...createAAssignmentLaptopData,
         }}
       />

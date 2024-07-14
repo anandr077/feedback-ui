@@ -24,6 +24,8 @@ import {
 } from './feedbackAreastyle';
 import CommentSuggestion from './CommentSuggestion';
 import FeedbackAreaTitle from './FeedbackAreaTitle';
+import Toast from '../Toast';
+import { toast } from 'react-toastify';
 
 function FeedbackArea(props) {
   const {
@@ -34,8 +36,6 @@ function FeedbackArea(props) {
     smartAnnotationeditIndex,
     createSmartAnnotationHandler,
   } = props;
-  const [currentSmartAnnotation, setCurrentSmartAnnotation] =
-    useState(smartAnnotation);
 
   const [currentSmartComment, setCurrnetSmartComment] = useState(
     smartAnnotation?.smartComments[smartAnnotationeditIndex]
@@ -43,26 +43,28 @@ function FeedbackArea(props) {
   const [currentSmartCommentId, setCurrnetSmartCommentId] = useState(
     smartAnnotationeditIndex
   );
+
   const saveEditedSuggestion = (updatedText, index) => {
+    if (updatedText.length === 0) {
+      toast(<Toast message={'Please add some text to the new comment'} />);
+      return;
+    }
     const newSmartAnnotation = { ...currentSmartComment };
     newSmartAnnotation.suggestions[index] = updatedText;
-    setCurrnetSmartComment(newSmartAnnotation);
     UpdateSmartAnotationHandler(newSmartAnnotation, currentSmartCommentId);
   };
 
   const handleDeleteSuggestion = (index) => {
     const newSmartAnnotation = { ...currentSmartComment };
     newSmartAnnotation.suggestions.splice(index, 1);
-    setCurrentSmartAnnotation(newSmartAnnotation);
     UpdateSmartAnotationHandler(newSmartAnnotation, currentSmartCommentId);
   };
 
   const addNewSuggestions = () => {
-    const newSuggestion = 'New suggestion';
+    const newSuggestion = '';
     let newSmartAnnotation = { ...currentSmartComment };
     newSmartAnnotation.suggestions.push(newSuggestion);
-    setCurrentSmartAnnotation(newSmartAnnotation);
-    UpdateSmartAnotationHandler(newSmartAnnotation, currentSmartCommentId);
+    setCurrnetSmartComment(newSmartAnnotation);
   };
 
   const handleSmartCommentSelection = (smartComment, index) => {
@@ -78,22 +80,20 @@ function FeedbackArea(props) {
             <LeftConatinerHeadingText>Feedback Areas</LeftConatinerHeadingText>
           </LeftConatinerHeading>
           <FeedbackAreasContainer>
-            {currentSmartAnnotation?.smartComments?.map(
-              (smartComment, index) => {
-                return (
-                  <FeedbackAreaTitle
-                    index={index}
-                    smartComment={smartComment}
-                    currentSmartCommentId={currentSmartCommentId}
-                    handleSmartCommentSelection={handleSmartCommentSelection}
-                    UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}
-                    createSmartAnnotation={createSmartAnnotation}
-                    deleteAnnotationHandler={deleteAnnotationHandler}
-                  />
-                );
-              }
-            )}
-            {currentSmartAnnotation?.ownerId === getUserId() && (
+            {smartAnnotation?.smartComments?.map((smartComment, index) => {
+              return (
+                <FeedbackAreaTitle
+                  index={index}
+                  smartComment={smartComment}
+                  currentSmartCommentId={currentSmartCommentId}
+                  handleSmartCommentSelection={handleSmartCommentSelection}
+                  UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}
+                  createSmartAnnotation={createSmartAnnotation}
+                  deleteAnnotationHandler={deleteAnnotationHandler}
+                />
+              );
+            })}
+            {smartAnnotation?.ownerId === getUserId() && (
               <FeedbackAreaCon
                 style={{ justifyContent: 'flex-start', gap: '8px' }}
                 onClick={() => createSmartAnnotationHandler()}
@@ -125,11 +125,14 @@ function FeedbackArea(props) {
                   index={index}
                   saveEditedSuggestion={saveEditedSuggestion}
                   handleDeleteSuggestion={handleDeleteSuggestion}
+                  defaultEditing={
+                    comment.length === 0 &&
+                    currentSmartComment?.suggestions.length === index + 1
+                  }
                 />
               );
             })}
-
-            {currentSmartAnnotation?.ownerId === getUserId() && (
+            {smartAnnotation?.ownerId === getUserId() && (
               <SpecificComment
                 style={{ justifyContent: 'flex-start', gap: '8px' }}
                 onClick={addNewSuggestions}

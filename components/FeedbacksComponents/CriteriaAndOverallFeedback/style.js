@@ -212,7 +212,7 @@ export const MarkingCriteriaHeadingContainer = styled.div`
   align-items: center;
   width: 100%;
   padding: 12px 8px;
-  background-color: #f2f1f3;
+  background-color: #ffffff;
   border-radius: 6px;
 `;
 
@@ -523,4 +523,108 @@ export const SaveButtonText = styled.p`
   line-height: 17px;
   text-align: left;
   color: var(--color-neutral-white, #ffffff);
+`;
+
+export const MarkingCriteriaPreview = styled.div`
+  padding: 8px;
+  gap: 8px;
+  opacity: 0px;
+  box-shadow: 0px -2px 4px 0px #6f6f6f40 inset;
+  background: var(--color-neutral-80, #f2f1f3);
+`;
+
+export const MarkingCriteriaCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  border: 1px solid var(--color-neutral-alpha-90, #C9C6CC80)
+  opacity: 0px;
+`;
+
+export const MarkingCriteriaCardHeading = styled.div`
+  padding: 8px;
+  opacity: 0px;
+  background: var(--color-purple-80, #f1e6fc);
+  border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+`;
+export const MarkingCriteriaCardHeadingText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 17px;
+  text-align: left;
+  color: var(--color-purple-300, #7200e0);
+`;
+export const MarkingCriteriaCardBody = styled.div`
+  padding: 8px;
+  opacity: 0px;
+  background: var(--color-neutral-white, #ffffff);
+  border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+`;
+export const MarkingCriteriaCardBodyText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17px;
+  text-align: left;
+  color: var(--color-neutral-500, #4b464f);
+`;
+
+export const RubricCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px;
+  opacity: 0px;
+  background: var(--color-neutral-white, #ffffff);
+  border: 1px solid var(--color-neutral-90, #c9c6cc);
+`;
+export const RubricCardHeadingText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 17px;
+  text-align: left;
+  color: var(--color-neutral-500, #4b464f);
+`;
+
+export const RubricCardBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  border-radius: 4px;
+  border: 1px;
+  opacity: 0px;
+  border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+`;
+export const RubricCardBodyHeading = styled.div`
+  padding: 8px;
+  gap: 12px;
+  border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  background: var(--color-warning-yellow-80, #faf5e6);
+  opacity: 0px;
+`;
+export const RubricCardBodyHeadingText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 17px;
+  text-align: left;
+  color: var(--color-warning-yellow-400, #916f01);
+`;
+
+export const RubricCardBodyTextPart = styled.div`
+  background: var(--color-neutral-white, #ffffff);
+  padding: 8px;
+  opacity: 0px;
+`;
+export const RubricCardBodyTextPartText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17px;
+  text-align: left;
+  color: var(--color-neutral-500, #4b464f);
 `;

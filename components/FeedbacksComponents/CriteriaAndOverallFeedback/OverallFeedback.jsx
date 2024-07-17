@@ -17,6 +17,7 @@ import {
 } from '../FeedbacksRoot/functions';
 import { getUserId } from '../../../userLocalDetails';
 import { isShowOverallFeedback } from '../FeedbacksRoot/rules';
+import Accordion from '../../../components2/HelpSidebar/Accordion';
 
 function OverallFeedback({
   addOverallFeedback,
@@ -26,40 +27,39 @@ function OverallFeedback({
   QuestionIndex,
 }) {
   const { overallComments } = useContext(FeedbackContext);
-  const overallFeedbackRef = useRef(null);
+  console.log('overallComments', overallComments);
   const userId = getUserId();
   const overallComment = getOverallComment(overallComments, QuestionIndex);
   return (
     isShowOverallFeedback(pageMode, overallComment) && (
-      <>
-        <Heading>
-          <HeadingTitle>
-            Overall Feedback
-            <img src={QuestionIcon} />
-          </HeadingTitle>
-          <HeaderRightSection>
-            <GreenTickComponent
-              ShowGreen={!isStringNull(overallComment?.comment)}
+      <Accordion
+        title={
+          <Heading>
+            <HeadingTitle>
+              Overall Feedback
+              <img src={QuestionIcon} />
+            </HeadingTitle>
+            <HeaderRightSection>
+              <GreenTickComponent
+                ShowGreen={!isStringNull(overallComment?.comment)}
+              />
+            </HeaderRightSection>
+          </Heading>
+        }
+        body={
+          <OverallFeedbackContainer>
+            <NewOverallFeedback
+              pageMode={pageMode}
+              addOverallFeedback={addOverallFeedback}
+              serialNumber={QuestionIndex + 1}
+              overallComment={overallComment}
+              updateOverAllFeedback={updateOverAllFeedback}
+              reviewer={submission.reviewerId}
+              userId={userId}
             />
-
-            <ToggleArrow
-              refProp={overallFeedbackRef}
-              toggleSection={showOverAllFeedback}
-            />
-          </HeaderRightSection>
-        </Heading>
-        <OverallFeedbackContainer ref={overallFeedbackRef}>
-          <NewOverallFeedback
-            pageMode={pageMode}
-            addOverallFeedback={addOverallFeedback}
-            serialNumber={QuestionIndex + 1}
-            overallComment={overallComment}
-            updateOverAllFeedback={updateOverAllFeedback}
-            reviewer={submission.reviewerId}
-            userId={userId}
-          />
-        </OverallFeedbackContainer>
-      </>
+          </OverallFeedbackContainer>
+        }
+      />
     )
   );
 }

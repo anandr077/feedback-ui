@@ -43,6 +43,7 @@ import {
 } from '../FeedbacksRoot/functions';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
+import Accordion from '../../../components2/HelpSidebar/Accordion';
 
 function MarkingCriteria({
   QuestionIndex,
@@ -55,7 +56,6 @@ function MarkingCriteria({
     useState();
   const [isShowMarkingCrteriaPopUp, setShowMarkingCrteriaPopUp] =
     useState(false);
-  const markingCriteriaSectionRef = useRef(null);
 
   useEffect(() => {
     const markingCriteriaFromSubmission = {
@@ -304,68 +304,72 @@ function MarkingCriteria({
       {isShowMarkingCriteriaSection(
         markingCriteriaFromSubmission?.markingCriteria
       ) && (
-        <>
-          <Heading>
-            <HeadingTitle>
-              Marking Criteria
-              <img src={QuestionIcon} />
-            </HeadingTitle>
-            <HeaderRightSection>
-              <GreenTickComponent
-                ShowGreen={isShowGreenTick(
-                  findMarkingCriteria(markingCriteriaFeedback, QuestionIndex)
+        <Accordion
+          title={
+            <Heading>
+              <HeadingTitle>
+                Marking Criteria
+                <img src={QuestionIcon} />
+              </HeadingTitle>
+              <HeaderRightSection>
+                <GreenTickComponent
+                  ShowGreen={isShowGreenTick(
+                    findMarkingCriteria(markingCriteriaFeedback, QuestionIndex)
+                  )}
+                />
+              </HeaderRightSection>
+            </Heading>
+          }
+          body={
+            <MarkingCriteriaSection>
+              <MarkingCriteriaMainHeadingContainer>
+                {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
+                  <Text>
+                    Click 'Expand' to provide Marking Criteria based feedback
+                  </Text>
+                ) : (
+                  <Text>
+                    Click 'Expand' to see Marking Criteria based feedback
+                  </Text>
                 )}
-              />
-
-              <ToggleArrow
-                refProp={markingCriteriaSectionRef}
-                toggleSection={showOverAllFeedback}
-              />
-            </HeaderRightSection>
-          </Heading>
-          <MarkingCriteriaSection ref={markingCriteriaSectionRef}>
-            <MarkingCriteriaMainHeadingContainer>
-              {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
-                <Text>
-                  Click 'Expand' to provide Marking Criteria based feedback
-                </Text>
-              ) : (
-                <Text>
-                  Click 'Expand' to see Marking Criteria based feedback
-                </Text>
-              )}
-            </MarkingCriteriaMainHeadingContainer>
-            <MarkingCriteriaContainer>
-              <MarkingCriteriaHeadingContainer>
-                <MarkingCriteriaHeading>
-                  {isMarkingCriteriaTypeRubric(
-                    markingCriteriaFromSubmission?.markingCriteria?.type
-                  )
-                    ? 'Rubric'
-                    : 'Strengths and Targets'}
-                </MarkingCriteriaHeading>
-                <RubricButton onClick={() => setShowMarkingCrteriaPopUp(true)}>
-                  {!isAllowGiveMarkingCriteriaFeedback(pageMode)
-                    ? 'Expand'
-                    : isShowGreenTick(
-                        findMarkingCriteria(
-                          markingCriteriaFeedback,
-                          QuestionIndex
+              </MarkingCriteriaMainHeadingContainer>
+              <MarkingCriteriaContainer>
+                <MarkingCriteriaHeadingContainer>
+                  <MarkingCriteriaHeading>
+                    {isMarkingCriteriaTypeRubric(
+                      markingCriteriaFromSubmission?.markingCriteria?.type
+                    )
+                      ? 'Rubric'
+                      : 'Strengths and Targets'}
+                  </MarkingCriteriaHeading>
+                  <RubricButton
+                    onClick={() => setShowMarkingCrteriaPopUp(true)}
+                  >
+                    {!isAllowGiveMarkingCriteriaFeedback(pageMode)
+                      ? 'Expand'
+                      : isShowGreenTick(
+                          findMarkingCriteria(
+                            markingCriteriaFeedback,
+                            QuestionIndex
+                          )
                         )
-                      )
-                    ? 'Update'
-                    : 'Expand'}
-                </RubricButton>
-              </MarkingCriteriaHeadingContainer>
-            </MarkingCriteriaContainer>
-            {isAllowGiveMarkingCriteriaFeedback(pageMode) &&
-              isShowGreenTick(
-                findMarkingCriteria(markingCriteriaFeedback, QuestionIndex)
-              ) && (
-                <GreenTickText margin={true} text="Marking Criteria complete" />
-              )}
-          </MarkingCriteriaSection>
-        </>
+                      ? 'Update'
+                      : 'Expand'}
+                  </RubricButton>
+                </MarkingCriteriaHeadingContainer>
+              </MarkingCriteriaContainer>
+              {isAllowGiveMarkingCriteriaFeedback(pageMode) &&
+                isShowGreenTick(
+                  findMarkingCriteria(markingCriteriaFeedback, QuestionIndex)
+                ) && (
+                  <GreenTickText
+                    margin={true}
+                    text="Marking Criteria complete"
+                  />
+                )}
+            </MarkingCriteriaSection>
+          }
+        />
       )}
     </>
   );

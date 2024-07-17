@@ -194,6 +194,7 @@ export const MarkingCriteriaSection = styled.div`
   flex-direction: column;
   gap: 16px;
   display: none;
+  margin-bottom: 30px;
 `;
 
 export const MarkingCriteriaMainHeading = styled.p`
@@ -526,11 +527,18 @@ export const SaveButtonText = styled.p`
 `;
 
 export const MarkingCriteriaPreview = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 8px;
   gap: 8px;
   opacity: 0px;
   box-shadow: 0px -2px 4px 0px #6f6f6f40 inset;
   background: var(--color-neutral-80, #f2f1f3);
+  max-height: 300px;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
 `;
 
 export const MarkingCriteriaCard = styled.div`
@@ -544,6 +552,7 @@ export const MarkingCriteriaCard = styled.div`
 export const MarkingCriteriaCardHeading = styled.div`
   padding: 8px;
   opacity: 0px;
+  border-radius: 4px 4px 0px 0px;
   background: var(--color-purple-80, #f1e6fc);
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
 `;
@@ -560,6 +569,7 @@ export const MarkingCriteriaCardBody = styled.div`
   opacity: 0px;
   background: var(--color-neutral-white, #ffffff);
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+  border-radius: ${({ isLastItem }) => (isLastItem ? '0px 0px 4px 4px' : '')};
 `;
 export const MarkingCriteriaCardBodyText = styled.p`
   font-family: IBM Plex Sans;
@@ -603,7 +613,7 @@ export const RubricCardBodyHeading = styled.div`
   padding: 8px;
   gap: 12px;
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
-  background: var(--color-warning-yellow-80, #faf5e6);
+  background: var(--color-purple-80, #f1e6fc);
   opacity: 0px;
 `;
 export const RubricCardBodyHeadingText = styled.p`
@@ -612,7 +622,7 @@ export const RubricCardBodyHeadingText = styled.p`
   font-weight: 500;
   line-height: 17px;
   text-align: left;
-  color: var(--color-warning-yellow-400, #916f01);
+  color: var(--color-purple-300, #7200e0);
 `;
 
 export const RubricCardBodyTextPart = styled.div`

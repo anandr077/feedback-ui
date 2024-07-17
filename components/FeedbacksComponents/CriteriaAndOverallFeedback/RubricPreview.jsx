@@ -9,10 +9,7 @@ import {
   RubricCardBodyTextPartText,
   RubricCardHeadingText,
 } from './style';
-import { getAllColors } from '../../../service';
 
-const colors = getAllColors();
-console.log('colors', colors);
 
 function RubricPreview({ markingCriteria }) {
   console.log('markingCriteria', markingCriteria);
@@ -23,15 +20,13 @@ function RubricPreview({ markingCriteria }) {
           (level) => level.name === criteria.selectedLevel
         );
 
-        // Ensure the color index is within the bounds of the colors array
-        const color = colors[index % colors.length];
-        console.log(`Color for index ${index}:`, color);
+        
         return (
           <RubricCard key={index}>
             <RubricCardHeadingText>{criteria.title}</RubricCardHeadingText>
             <RubricCardBody>
-              <RubricCardBodyHeading style={{ backgroundColor: color }}>
-                <RubricCardBodyHeadingText style={{ color: color }}>
+              <RubricCardBodyHeading >
+                <RubricCardBodyHeadingText>
                   {criteria.selectedLevel}
                 </RubricCardBodyHeadingText>
               </RubricCardBodyHeading>

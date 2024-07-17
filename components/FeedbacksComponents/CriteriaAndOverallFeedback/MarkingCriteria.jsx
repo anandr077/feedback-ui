@@ -5,6 +5,7 @@ import {
   isMarkingCriteriaTypeRubric,
   isShowGreenTick,
   isShowMarkingCriteriaSection,
+  isTeacher,
 } from '../FeedbacksRoot/rules';
 import QuestionIcon from '../../../static/img/question-mark.svg';
 import {
@@ -356,7 +357,7 @@ function MarkingCriteria({
                     : 'Expand'}
                 </RubricButton>
               </MarkingCriteriaHeadingContainer>
-              {isShowGreenTick(currentMarkingCriteria) && (
+              {isShowGreenTick(currentMarkingCriteria) && !isTeacher && (
                 <>
                   {isRubric ? (
                     <RubricPreview

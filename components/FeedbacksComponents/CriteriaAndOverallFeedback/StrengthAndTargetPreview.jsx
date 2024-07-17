@@ -13,13 +13,15 @@ const CriteriaSection = ({ title, items }) => (
     <MarkingCriteriaCardHeading>
       <MarkingCriteriaCardHeadingText>{title}</MarkingCriteriaCardHeadingText>
     </MarkingCriteriaCardHeading>
-    {items?.map((item) => (
-      <MarkingCriteriaCardBody key={item.attribute}>
-        <MarkingCriteriaCardBodyText>
-          {item.attribute}
-        </MarkingCriteriaCardBodyText>
-      </MarkingCriteriaCardBody>
-    ))}
+    {items?.map((item,index) =>{
+      const isLastItem = index === items.length - 1;
+      return (
+        <MarkingCriteriaCardBody key={item.attribute} isLastItem={isLastItem}>
+          <MarkingCriteriaCardBodyText>
+            {item.attribute}
+          </MarkingCriteriaCardBodyText>
+        </MarkingCriteriaCardBody>
+      );})}
   </MarkingCriteriaCard>
 );
 

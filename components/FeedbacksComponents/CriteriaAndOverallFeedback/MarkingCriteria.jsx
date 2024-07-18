@@ -43,6 +43,7 @@ import {
 } from '../FeedbacksRoot/functions';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
+import { getButtonText } from './function';
 
 function MarkingCriteria({
   QuestionIndex,
@@ -324,17 +325,6 @@ function MarkingCriteria({
             </HeaderRightSection>
           </Heading>
           <MarkingCriteriaSection ref={markingCriteriaSectionRef}>
-            <MarkingCriteriaMainHeadingContainer>
-              {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
-                <Text>
-                  Click 'Expand' to provide Marking Criteria based feedback
-                </Text>
-              ) : (
-                <Text>
-                  Click 'Expand' to see Marking Criteria based feedback
-                </Text>
-              )}
-            </MarkingCriteriaMainHeadingContainer>
             <MarkingCriteriaContainer>
               <MarkingCriteriaHeadingContainer>
                 <MarkingCriteriaHeading>
@@ -345,16 +335,11 @@ function MarkingCriteria({
                     : 'Strengths and Targets'}
                 </MarkingCriteriaHeading>
                 <RubricButton onClick={() => setShowMarkingCrteriaPopUp(true)}>
-                  {!isAllowGiveMarkingCriteriaFeedback(pageMode)
-                    ? 'Expand'
-                    : isShowGreenTick(
-                        findMarkingCriteria(
-                          markingCriteriaFeedback,
-                          QuestionIndex
-                        )
-                      )
-                    ? 'Update'
-                    : 'Expand'}
+                  {getButtonText(
+                    pageMode,
+                    markingCriteriaFeedback,
+                    QuestionIndex
+                  )}
                 </RubricButton>
               </MarkingCriteriaHeadingContainer>
             </MarkingCriteriaContainer>

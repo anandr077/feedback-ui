@@ -15,15 +15,17 @@ import {
   NotificationHead,
   EmptyBox,
   CloseNotification,
-  NotificationBody
+  NotificationBody,
+  HeadingImage,
+  Heading,
 } from './style';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import NotificationSwitch from './NotificationSwitch';
 import Toast from '../../Toast';
 import { toast } from 'react-toastify';
+import notificationbing from '../../../static/img/notificationbing.svg';
 
 function NotificationsBar(props) {
-
   const [notificationValue, setNotificationValue] = useState('URL');
   const queryClient = useQueryClient();
   const acceptMutation = useMutation({
@@ -138,12 +140,13 @@ function NotificationsBar(props) {
         <TaskCard
           task={notification}
           small={true}
+          notification={true}
           onAccept={() => acceptMutation.mutate(notification.submissionId)}
           onDecline={() => declineMutation.mutate(notification.submissionId)}
         />
       );
     }
-    return <TaskCard task={notification} small={true} />;
+    return <TaskCard task={notification} small={true} notification={true} />;
   });
 
   return (
@@ -152,8 +155,8 @@ function NotificationsBar(props) {
         <NavbarDiv>
           <Frame1409>
             <NotificationHead>
-              <img src="img/notificationIcon.png" />
-              <h1>Notifications</h1>
+              <HeadingImage src={notificationbing} />
+              <Heading>Notifications</Heading>
               <CloseNotification src="/img/close.png" onClick={onCloseFn} />
             </NotificationHead>
             <Frame16 onClick={onCloseFn}>
@@ -168,8 +171,8 @@ function NotificationsBar(props) {
       ) : (
         <Frame15 onClick={onCloseFn}>
           <NotificationHead>
-            <img src="img/notificationIcon.png" />
-            <h1>Notifications</h1>
+            <HeadingImage src={notificationbing} />
+            <Heading>Notifications</Heading>
           </NotificationHead>
           <NotificationBody>
             {notificationFrames.length > 0 ? (

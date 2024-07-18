@@ -44,6 +44,7 @@ import {
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 import Accordion from '../../../components2/HelpSidebar/Accordion';
+import { getButtonText } from './function';
 
 function MarkingCriteria({
   QuestionIndex,
@@ -345,16 +346,11 @@ function MarkingCriteria({
                   <RubricButton
                     onClick={() => setShowMarkingCrteriaPopUp(true)}
                   >
-                    {!isAllowGiveMarkingCriteriaFeedback(pageMode)
-                      ? 'Expand'
-                      : isShowGreenTick(
-                          findMarkingCriteria(
-                            markingCriteriaFeedback,
-                            QuestionIndex
-                          )
-                        )
-                      ? 'Update'
-                      : 'Expand'}
+                    {getButtonText(
+                      pageMode,
+                      markingCriteriaFeedback,
+                      QuestionIndex
+                    )}
                   </RubricButton>
                 </MarkingCriteriaHeadingContainer>
               </MarkingCriteriaContainer>

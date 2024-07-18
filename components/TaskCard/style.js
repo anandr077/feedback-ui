@@ -157,25 +157,35 @@ export const StyledCard = styled.article`
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  padding: ${({ exemplar }) => (exemplar ? '20px' : '12px')};
+  padding: ${({ exemplar, notification }) =>
+    notification ? '16px' : exemplar ? '20px' : '12px'};
   position: relative;
   align-self: stretch;
 
-  //border: 1px solid ${({ overdue }) => (overdue ? '#C9C6CC80' : '#EAEAEA')};
   background-color: var(--white);
-  box-shadow: ${({ exemplar }) =>
-    !exemplar ? '0 4px 16px rgba(156, 156, 156, 0.4)' : 'none'};
+  box-shadow: ${({ exemplar, notification }) =>
+    !exemplar && !notification
+      ? '0 4px 16px rgba(156, 156, 156, 0.4)'
+      : 'none'};
 
-  //border-color: ${({ exemplar }) => (exemplar ? 'none' : 'var(--corn)')};
-  box-shadow: 0px 4px 8.5px 0px rgba(156, 156, 156, 0.08);
-  border: 1px solid
-    ${({ overdue }) => (overdue ? 'rgba(238, 149, 142, 1)' : '#EAEAEA')};
-  border-radius: ${({ exemplar }) => (exemplar ? '6px' : '16px')};
+  box-shadow: ${({ notification }) =>
+    notification ? 'none' : '0px 4px 8.5px 0px rgba(156, 156, 156, 0.08)'};
+  border: ${({ notification, overdue }) =>
+    notification
+      ? 'none'
+      : `1px solid ${overdue ? 'rgba(238, 149, 142, 1)' : '#EAEAEA'}`};
+  border-radius: ${({ exemplar, notification }) =>
+    notification ? 'none' : exemplar ? '6px' : '16px'};
+
+  ${({ notification }) => notification && `border-bottom: 1px solid #F1E6FC;`}
 
   &:hover {
-    background: ${({ exemplar }) => (exemplar ? 'inherit' : '#f1e6fc')};
-    box-shadow: ${({ exemplar }) =>
-      exemplar ? 'none' : '0px 4px 16px rgba(114, 0, 224, 0.2)'};
+    background: ${({ exemplar, notification }) =>
+      notification ? 'none' : exemplar ? 'inherit' : '#f1e6fc'};
+    box-shadow: ${({ exemplar, notification }) =>
+      exemplar || notification
+        ? 'none'
+        : '0px 4px 16px rgba(114, 0, 224, 0.2)'};
     ${TaskLink} {
       display: flex !important;
     }

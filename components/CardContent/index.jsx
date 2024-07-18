@@ -23,7 +23,7 @@ import {
 } from './style';
 
 function CardContent(props) {
-  const { task, small, onAccept, onDecline } = props;
+  const { task, small, onAccept, onDecline, notification = false } = props;
   const [showFullPara, setShowFullPara] = useState(false);
   const [showFullSubPara, setShowFullSubPera] = useState(false);
 
@@ -140,7 +140,7 @@ function CardContent(props) {
   return (
     <>
       <Content>
-        {createTitle(small, task.title)}
+        {!notification && createTitle(small, task.title)}
         {createPara(small, task.para)}
         {task.subTitle && task.subPara && (
           <TeacherComment>
@@ -148,7 +148,7 @@ function CardContent(props) {
             {createSubPara(task.subPara)}
           </TeacherComment>
         )}
-        {!onAccept && date(small, task.date)}
+        {!notification && !onAccept && date(small, task.date)}
         {(task.status1 || task.status2) && (
           <StatusContainer>
             {createStatus(small, task.status1)}

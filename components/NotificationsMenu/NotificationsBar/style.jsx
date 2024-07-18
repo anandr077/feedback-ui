@@ -13,12 +13,27 @@ export const NavbarDiv = styled.div`
   z-index: 10000;
 `;
 
+export const Heading = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 31.2px;
+  text-align: left;
+  color: #1e252a;
+`;
+
+export const HeadingImage = styled.img`
+  width: 32px;
+  height: 32px;
+  gap: 0px;
+  opacity: 0px;
+`;
+
 export const NotificationHead = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
   width: 100%;
-  margin-bottom: 10px;
   position: relative;
   img {
     height: 32px;
@@ -79,7 +94,6 @@ export const Frame16 = styled.div`
   position: relative;
   align-self: stretch;
   z-index: 10;
-  gap: 10px;
   flex-direction: column;
   flex-grow: 1;
   overflow-y: scroll;
@@ -109,7 +123,6 @@ export const NotificationBody = styled.div`
   height: calc(100vh - 160px);
   display: flex;
   flex-direction: column;
-  gap: 10px;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;

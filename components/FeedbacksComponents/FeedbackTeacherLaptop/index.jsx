@@ -44,7 +44,7 @@ import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 import { useHistory, useLocation } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
-import { createRequestFeddbackType } from '../../../service';
+import { createRequestFeddbackType, deleteSubmissionById } from '../../../service';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import ResponsiveFooter from '../../ResponsiveFooter';
 import FeedbackRightSidebar from '../FeedbackRightSidebar';
@@ -254,6 +254,30 @@ function FeedbackTeacherLaptop(props) {
     });
   };
 
+
+    const getNextQuestionId = (currentId) => {
+      const currentIndex = otherDrafts.findIndex(
+        (question) => question.submissionId === currentId
+      );
+      const nextIndex =
+        currentIndex + 1 < otherDrafts.length ? currentIndex + 1 : 0;
+      return otherDrafts[nextIndex]?.submissionId;
+    };
+
+    const deleteQuestionFunction = (deleteQuestionId) => {
+      deleteSubmissionById(deleteQuestionId).then(() => {
+        if (deleteQuestionId === submission.id) {
+          const nextId = getNextQuestionId(deleteQuestionId);
+          navigate.push(`/documents/${nextId}`);
+        } else {
+          const filteredOtherDrafts = otherDrafts.filter(
+            (question) => question.submissionId !== deleteQuestionId
+          );
+          setOtherDrafts(filteredOtherDrafts);
+        }
+      });
+    };
+
   function handleToggleUpdate() {
     setFeedback((prev) => !prev);
     setFocusAreas((prev) => !prev);
@@ -362,6 +386,7 @@ function FeedbackTeacherLaptop(props) {
             selectedSubject={selectedSubject}
             groupedAndSortedData={groupedAndSortedData}
             currentSubmissionId={submission.id}
+            deleteQuestionFunction={deleteQuestionFunction}
           />
         )}
 

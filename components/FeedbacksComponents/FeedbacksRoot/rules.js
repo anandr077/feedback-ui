@@ -1,3 +1,4 @@
+import { getUserRole } from '../../../userLocalDetails';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import { findMarkingCriteria, getOverallComment } from './functions';
 
@@ -131,6 +132,9 @@ export const isShowMarkingCriteriaAndOverallFeedbackButton = (
 export const isShowQuestionsTab = (submissionType) => {
   return submissionType !== 'DOCUMENT';
 };
+
+export const isTeacher = getUserRole() === 'TEACHER';
+
 
 export const isShowOverAllTextFeedback = (pageMode, overallComment) => {
   return pageMode === 'REVIEW' || overallComment != null;

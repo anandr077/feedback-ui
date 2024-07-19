@@ -52,11 +52,11 @@ const authorDefaultReviewComment = {
 };
 const reviewerDefaultFocusAreasComment = {
   reviewerName: 'Jeddle',
-  comment: 'Focus areas will appear here',
+  comment: 'Self-assessment Areas will appear here',
 };
 const authorDefaultFocusAreasReviewComment = {
   reviewerName: 'Jeddle',
-  comment: 'Please select text to highlight focus areas',
+  comment: 'Please select text to highlight Self-assessment Areas',
 };
 function FeedbackFrame(props) {
   const {

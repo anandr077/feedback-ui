@@ -48,32 +48,28 @@ export default function CompletedRoot(props) {
 
     const filteredAndSortedData = {};
 
-    if (selectedClass != '') {
-      Object.keys(sortedData).forEach((date) => {
-        const filteredObjects = sortedData[date].filter(
+    Object.keys(sortedData).forEach((date) => {
+      let filteredObjects = sortedData[date];
+
+      if (selectedClass !== '') {
+        filteredObjects = filteredObjects.filter(
           (obj) => obj.classTitle === targetClassTitle
         );
-        if (filteredObjects.length > 0) {
-          filteredAndSortedData[date] = filteredObjects;
-        }
-      });
-    }
+      }
 
-    if (favouriteResponse) {
-      Object.keys(sortedData).forEach((date) => {
-        const filteredObjects = sortedData[date].filter((item) => {
+      if (favouriteResponse) {
+        filteredObjects = filteredObjects.filter((item) => {
           const bookmarkedItems = item?.bookmarkedByStudents || [];
-          const isBookmarkedByUser = bookmarkedItems.includes(getUserId());
-          return isBookmarkedByUser;
+          return bookmarkedItems.includes(getUserId());
         });
-        if (filteredObjects.length > 0) {
-          filteredAndSortedData[date] = filteredObjects;
-        }
-      });
-      return filteredAndSortedData;
-    }
+      }
 
-    return selectedClass != '' ? filteredAndSortedData : sortedData;
+      if (filteredObjects.length > 0) {
+        filteredAndSortedData[date] = filteredObjects;
+      }
+    });
+
+    return filteredAndSortedData;
   }
 
   const setSelectedValue = (type, selectValue) => {

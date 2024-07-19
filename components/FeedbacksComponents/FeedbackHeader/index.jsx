@@ -193,7 +193,7 @@ const FeedbackHeader = ({
         {isShowCommentsAndFocusAreasTab(pageMode, submission.type) && (
           <ToggleSwitchWithTwoOptions
             text1={'Comments'}
-            text2={'Focus Areas'}
+            text2={'Self-assessment Areas'}
             icon1={CommentIcon}
             icon1Active={ActiveCommentIcon}
             icon2={FocusIcon}
@@ -361,7 +361,7 @@ function submitButtonOnDocument(
       return (
         <DocumentSubmitBtnContainer>
           {<Icon24 src="/img/jeddleaiIcon.svg" />}
-          <p>JeddAI has provided its feedback</p>
+          <p>JeddAI has marked your work</p>
         </DocumentSubmitBtnContainer>
       );
     }

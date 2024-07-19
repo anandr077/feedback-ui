@@ -28,6 +28,7 @@ export const DropdownMenu = (props) => {
     noDefaultSelected = false,
     defaultSearch = false,
     getSelectedItem = null,
+    setIsChanged,
   } = props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -71,6 +72,7 @@ export const DropdownMenu = (props) => {
         return;
       }
       if (onItemSelected) {
+        if (setIsChanged) setIsChanged(true);
         onItemSelected(item);
       }
     } else {

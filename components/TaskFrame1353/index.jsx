@@ -13,21 +13,24 @@ function TaskFrame1353(props) {
   const role = getUserRole();
 
   const tooltipText = () => {
-    if (outstanding === 'Drafts' || outstanding === 'Assigned') {
+    if (outstanding === 'Assigned') {
       if (role === 'TEACHER') {
-        return 'Tasks that you have started to create but have not yet assigned to a class';
+        return 'Recent tasks that have been assigned to a class but not yet completed by any students';
       }
       return "New tasks that you haven't opened yet";
     }
-    if (outstanding === 'Closed' || outstanding === 'In Draft') {
-      if (role === 'TEACHER') {
-        return 'Previous tasks that are no longer accepting submissions or feedback';
+    if (outstanding === 'In Draft'){
+      if(role === 'TEACHER') {
+        return 'Tasks that you have started creating but not yet assigned to a class'
       }
       return 'Tasks that you have started but not yet submitted';
     }
-    if (outstanding === 'Active' || outstanding === 'In Review') {
+    if (outstanding === 'Closed') {
+      return 'Previous tasks that are no longer accepting submissions or feedback';
+    }
+    if (outstanding === 'In Review' || outstanding === 'In Progress') {
       if (role === 'TEACHER') {
-        return 'Tasks that are currently being completed by students and/or that await your feedback';
+        return 'Active tasks that at least one student has submitted a response for';
       }
       return 'Completed tasks that are either awaiting feedback or pending your review';
     }
@@ -41,7 +44,7 @@ function TaskFrame1353(props) {
     if (outstanding === 'Closed' || outstanding === 'In Draft') {
       icon = PencilIcon;
     }
-    if (outstanding === 'Active' || outstanding === 'In Review') {
+    if (outstanding === 'Active' || outstanding === 'In Progress') {
       icon = StarIcon;
     }
     return icon;

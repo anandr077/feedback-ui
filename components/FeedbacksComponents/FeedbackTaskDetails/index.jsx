@@ -66,7 +66,7 @@ const FeedbackTaskDetails = ({
       </OtherDetails>
       {question?.focusAreas && question?.focusAreas.length !== 0 && (
         <FocusAreasContainer>
-          <FocusHeading>Focus Areas</FocusHeading>
+          <FocusHeading>Self-assessment Areas</FocusHeading>
           <FocusBody>
             {question?.focusAreas?.map((fa) => {
               return (

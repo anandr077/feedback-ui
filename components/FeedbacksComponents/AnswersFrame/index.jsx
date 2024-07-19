@@ -67,7 +67,8 @@ export function answersFrame(
   share,
   isFeedback,
   isFocusAreas,
-  openLeftPanel
+  openLeftPanel,
+  setOtherDrafts
 ) {
   return (
     <AnswersFrame
@@ -100,6 +101,7 @@ export function answersFrame(
       isFeedback={isFeedback}
       isFocusAreas={isFocusAreas}
       openLeftPanel={openLeftPanel}
+      setOtherDrafts={setOtherDrafts}
     ></AnswersFrame>
   );
 }
@@ -133,6 +135,7 @@ function AnswersFrame(props) {
     isFeedback,
     isFocusAreas,
     openLeftPanel,
+    setOtherDrafts,
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
@@ -147,6 +150,7 @@ function AnswersFrame(props) {
       <Frame1367 moveToLeft={openRightPanel} moveRight={openLeftPanel}>
         {answerFrames(
           quillRefs,
+          setOtherDrafts,
           smallMarkingCriteria,
           handleCheckboxChange,
           groupedFocusAreaIds,
@@ -182,9 +186,9 @@ function AnswersFrame(props) {
               isFocusAreas
             ) && (
               <AddCommentFocusAreaInstruction
-                heading="How to use Focus Areas:"
+                heading="How to use Self-assessment Areas:"
                 firstIcon={RedabcIcon}
-                firstStep="Highlight a section of your response that addresses one of the focus areas (check the list of focus areas below or in the task details tab)."
+                firstStep="Highlight a section of your response that addresses one of the Self-assessment Areas (check the list of Self-assessment Areas below or in the task details tab)."
                 secondIcon={ColorCircleIcon}
                 secondStep="Click the focus area that matches your selection."
                 thirdIcon={RefreshIcon}
@@ -243,6 +247,7 @@ const createModules = (pageMode) => {
 };
 const answerFrames = (
   quillRefs,
+  setOtherDrafts,
   smallMarkingCriteria,
   handleCheckboxChange,
   groupedFocusAreaIds,
@@ -296,12 +301,14 @@ const answerFrames = (
               ...old.assignment,
               title: res.title,
             },
-            otherDrafts: old.otherDrafts?.map((draft) =>
-              draft.submissionId === submission.id
-                ? { ...draft, title: res.title }
-                : draft
-            ),
           }));
+          setOtherDrafts((prevDrafts) =>
+            prevDrafts.map((draft) =>
+              draft.submissionId === submission.id
+                ? { ...draft, title: newTitle }
+                : draft
+            )
+          );
         } else {
           setInputValue(res.title);
         }
@@ -477,6 +484,7 @@ function createQuill(
           modules: createModules(pageMode),
           theme: 'snow',
           readOnly: pageMode === 'REVIEW' || pageMode === 'CLOSED',
+          placeholder: 'Write your first word here...',
         }}
         debounceTime={debounce.debounceTime}
         onDebounce={debounce.onDebounce}

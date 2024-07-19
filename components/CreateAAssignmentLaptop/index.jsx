@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import Buttons2 from '../Buttons2';
@@ -90,6 +90,7 @@ import Header from '../Header';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/question-mark.svg';
 import backIcon from '../../static/img/BackIcon.svg';
+import { useHistory } from 'react-router-dom';
 
 function CreateAAssignmentLaptop(props) {
   const {
@@ -108,10 +109,29 @@ function CreateAAssignmentLaptop(props) {
     goBack22Props,
     showDeletePopuphandler,
     showPublishPopuphandler,
+    setSaveAsDraftPopup,
+    setPendingLocation,
+    isChanged,
   } = props;
 
   const smallScreenView = isSmallScreen();
   const mobileView = isMobileView();
+  const history = useHistory();
+
+  useEffect(() => {
+    const unblock = history.block((location, action) => {
+      if (assignment.status === 'DRAFT' && isChanged) {
+        setPendingLocation(location);
+        setSaveAsDraftPopup(true);
+        return false;
+      }
+      return true;
+    });
+
+    return () => {
+      unblock();
+    };
+  }, [history, isChanged]);
 
   function titleAndSaveButtons(assignment, saveDraft, publish) {
     const title =
@@ -130,12 +150,6 @@ function CreateAAssignmentLaptop(props) {
       );
     return (
       <TitleAndLinkContainer>
-        <LinkContainer>
-          <LinkPartContainer href={'#/'}>
-            <LinkIcon src={backIcon} />
-            <LinkText>Back to tasks</LinkText>
-          </LinkPartContainer>
-        </LinkContainer>
         <TitleAndSubtitleContainer>
           <TitleContainer>
             {title}
@@ -153,6 +167,7 @@ function CreateAAssignmentLaptop(props) {
       </TitleAndLinkContainer>
     );
   }
+
   const saveButtons = (
     assignment,
     saveDraft,
@@ -346,7 +361,7 @@ function CreateAAssignmentLaptop(props) {
                 <TaskName>
                   <TaskTitle>Name the task</TaskTitle>
                   <QuestionTooltip
-                    text={'Set a name which accurately describes this task'}
+                    text={'Create a title that accurately reflects the task'}
                     img={questionMark}
                   />
                 </TaskName>
@@ -371,7 +386,7 @@ function CreateAAssignmentLaptop(props) {
                 <TaskName>
                   <TaskTitle>Select a class</TaskTitle>
                   <QuestionTooltip
-                    text={'Select the classes this task is for'}
+                    text={'Which classes are you setting this task for ?'}
                     img={questionMark}
                   />
                 </TaskName>
@@ -388,7 +403,7 @@ function CreateAAssignmentLaptop(props) {
                 <TaskName>
                   <TaskTitle>Set up the task</TaskTitle>
                   <QuestionTooltip
-                    text={'Add Questions and Instructions'}
+                    text={'Add questions and/or instructions for the task'}
                     img={questionMark}
                   />
                 </TaskName>

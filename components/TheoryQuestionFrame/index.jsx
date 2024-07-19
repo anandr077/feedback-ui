@@ -52,6 +52,7 @@ export default function TheoryQuestionFrame(props) {
     handleCommentBankPreview,
     setAllFocusAreas,
     allCommentBanks,
+    setIsChanged,
   } = props;
   const history = useHistory();
 
@@ -88,7 +89,7 @@ export default function TheoryQuestionFrame(props) {
       onClick={cleanformattingDiv}
     >
       <Frame1297
-        number={serialNumber}
+        serialNumber={serialNumber}
         UpdateQuestionFrame={UpdateQuestionFrame}
         defaultType={questionDetails.type}
         deleteQuestionFrameFn={deleteQuestionFrameFn}
@@ -111,10 +112,10 @@ export default function TheoryQuestionFrame(props) {
         </InputQuestion>
         <FocusAreasFrame>
           <QuestionMarkContainer>
-            <Label>Focus areas</Label>
+            <Label>Self-assessment Areas</Label>
             <QuestionTooltip
               text={
-                "Select the focus areas the student's answer should have. You can add new focus areas using the +New button below"
+                'These are elements that students will be required to highlight in their own work before submitting their responses for external feedback'
               }
               img={questionMark}
             />
@@ -134,7 +135,7 @@ export default function TheoryQuestionFrame(props) {
             <Label>Marking Template</Label>
             <QuestionTooltip
               text={
-                'Select the marking template which will be used in the assessment of this task. New marking templates can be created in the account settings'
+                "Select a Rubric (R) or list of Strengths and Targets (S&T) to use as overall feedback for this task. After reading a student's response, click on the applicable performance level/s or strengths and targets"
               }
               img={questionMark}
             />
@@ -149,6 +150,7 @@ export default function TheoryQuestionFrame(props) {
                   onItemSelected={(item) => {
                     updateMarkingCriteria(serialNumber, item);
                   }}
+                  setIsChanged={setIsChanged}
                   defaultSearch={true}
                 ></DropdownMenu>
               ) : (
@@ -159,6 +161,7 @@ export default function TheoryQuestionFrame(props) {
                   onItemSelected={(item) => {
                     updateMarkingCriteria(serialNumber, item);
                   }}
+                  setIsChanged={setIsChanged}
                 ></DropdownMenu>
               )}
               <Preview
@@ -183,7 +186,7 @@ export default function TheoryQuestionFrame(props) {
             <Label>Comment Bank</Label>
             <QuestionTooltip
               text={
-                'Select the commnet bank which will be used in the assessment of this task. New commnet bank can be created in the account settings'
+                "Select a comment bank to save you time when reviewing a student's work. After highlighting a section of a student's response, simply click one of the suggested comments from the drop-down selection"
               }
               img={questionMark}
             />
@@ -198,6 +201,7 @@ export default function TheoryQuestionFrame(props) {
                   onItemSelected={(item) => {
                     updateCommentBank(serialNumber, item);
                   }}
+                  setIsChanged={setIsChanged}
                   defaultSearch={true}
                 ></DropdownMenu>
               ) : (
@@ -208,6 +212,7 @@ export default function TheoryQuestionFrame(props) {
                   onItemSelected={(item) => {
                     updateCommentBank(serialNumber, item);
                   }}
+                  setIsChanged={setIsChanged}
                 ></DropdownMenu>
               )}
               <Preview
@@ -252,7 +257,7 @@ function createFocusAreasFrame(
   const menuItems = [
     {
       name: 'FOCUS_AREAS',
-      title: 'Focus Areas',
+      title: 'Self-assessment Areas',
       items: focusAreaItems,
     },
   ];

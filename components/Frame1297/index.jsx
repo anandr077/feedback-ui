@@ -12,7 +12,7 @@ import RedBin from '../../static/img/RedBin.svg';
 function Frame1297(props) {
   const {
     dropdown,
-    number,
+    serialNumber,
     UpdateQuestionFrame,
     defaultType,
     deleteQuestionFrameFn,
@@ -21,27 +21,22 @@ function Frame1297(props) {
 
   const setTypeTheory = () => {
     setType('TEXT');
-    UpdateQuestionFrame(number, 'TEXT');
-  };
-
-  const setTypeMCQ = () => {
-    setType('MCQ');
-    UpdateQuestionFrame(number, 'MCQ');
+    UpdateQuestionFrame(serialNumber, 'TEXT');
   };
 
   const setTypeEssay = () => {
     setType('ESSAY');
-    UpdateQuestionFrame(number, 'ESSAY');
+    UpdateQuestionFrame(serialNumber, 'ESSAY');
   };
   return (
     <QuestionPart>
       <Frame12971>
         <Frame1281>
-          <ToremIpsumDolorSi>Question {number}</ToremIpsumDolorSi>
+          <ToremIpsumDolorSi>Question {serialNumber}</ToremIpsumDolorSi>
         </Frame1281>
         <DeleteButtonFrame>
           <BinImage src={RedBin} />
-          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
+          <DeleteButton onClick={() => deleteQuestionFrameFn(number)}>
             Delete
           </DeleteButton>
         </DeleteButtonFrame>
@@ -49,7 +44,6 @@ function Frame1297(props) {
       {createQuestionTypeSelector(
         type,
         setTypeTheory,
-        setTypeMCQ,
         setTypeEssay
       )}
     </QuestionPart>
@@ -59,7 +53,6 @@ function Frame1297(props) {
 const createQuestionTypeSelector = (
   type,
   setTypeTheory,
-  setTypeMCQ,
   setTypeEssay
 ) => {
   const menuItems = [
@@ -75,14 +68,9 @@ const createQuestionTypeSelector = (
       title: 'Extended response',
       onClick: setTypeEssay,
     },
-    {
-      id: 2,
-      image: '/icons/mcqIcon.png',
-      title: 'Multiple choice',
-      onClick: setTypeMCQ,
-    },
+   
   ];
-  const selectedIndex = type === 'MCQ' ? 2 : type === 'ESSAY' ? 1 : 0;
+  const selectedIndex = type === 'ESSAY' ? 1 : 0;
   return (
     <StyledDropDown
       selectedIndex={selectedIndex}

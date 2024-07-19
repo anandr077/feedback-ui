@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { deleteProfileCookies } from './userLocalDetails';
+import { getLocalStorage } from './utils/function';
 
 // const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "https://feedbacks-backend-leso2wocda-ts.a.run.app";
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
@@ -242,6 +243,9 @@ export const getOverComments = async (id) =>
   await getApi(baseUrl + '/submissions/' + id + '/overallComments');
 export const getPortfolioSubjects = async () =>
   await getApi(baseUrl + '/students/drafts');
+
+export const getOtherDrafts = async (id) =>
+  await getApi(baseUrl + '/submissions/' + id + '/otherDrafts');
 
 export const addFeedback = async (submissionId, comment) =>
   await postApi(
@@ -651,27 +655,12 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
   });
 export const askJeddAI = async (submissionId, cleanAnswer, subject, type) =>
   await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
-    state: Cookies.get('state'),
-    year: Cookies.get('year'),
+    state: getLocalStorage('state'),
+    year: getLocalStorage('year'),
     cleanAnswer: cleanAnswer,
   });
 
-export const setLocalClasses = (classes) => {
-  localStorage.setItem('classes', JSON.stringify(classes));
-}
 
-export const getLocalClasses = () => {
-  const localClasses = localStorage.getItem('classes');
-  if (localClasses) {
-    return localClasses;
-  }
-  return Cookies.get('classes');
-}
-
-
-export const deleteLocalClasses = () => {
-  localStorage.removeItem('classes');
-};
 
 
 export const getAllSubjects = [{ title: 'English' }];

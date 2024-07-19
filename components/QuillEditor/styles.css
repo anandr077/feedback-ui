@@ -67,9 +67,15 @@
   padding: 40px 80px !important;
 }
 
-.ql-formats{
-display: flex;
-gap: 20px;
+.ql-editor::before {
+  padding: 0px 65px !important;
+  font-family: var(--font-family-ibm_plex_sans) !important;
+
+}
+
+.ql-formats {
+  display: flex;
+  gap: 20px;
 }
 
 .ql-formats button,

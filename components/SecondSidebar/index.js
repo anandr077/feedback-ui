@@ -9,7 +9,6 @@ import {
   getCommunityTasks,
   getTasks,
   getAssignments,
-  getLocalClasses,
   getCompletedTasks,
 } from '../../service';
 import settings from '../../static/icons/settings.svg';
@@ -25,6 +24,7 @@ import { deleteCookie, getUserRole } from '../../userLocalDetails';
 import { isActiveButton, isTeacherWithoutClass } from './rules';
 import { useQuery } from '@tanstack/react-query';
 import { isTabletView } from '../ReactiveRender';
+import { getLocalStorage } from '../../utils/function';
 
 const SecondSidebar = ({ id, setShowMenu }) => {
   const [containerHeight, setContainerHeight] = useState(0);
@@ -36,7 +36,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
   const location = useLocation();
   const history = useHistory();
   const role = getUserRole();
-  const localClasses = getLocalClasses();
+  const localClasses = getLocalStorage('classes');
   const isTeacherNoClass = isTeacherWithoutClass(role, localClasses);
   const tabletView = isTabletView();
 
@@ -168,7 +168,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
     {
       icon: '',
       selectedIcon: '',
-      title: `Model Responses`,
+      title: role === 'STUDENT' ? `Model Responses` : 'Shared Responses',
       link: `/sharedresponses`,
       matchLink: `/sharedresponses`,
     },
@@ -322,10 +322,6 @@ const SecondSidebar = ({ id, setShowMenu }) => {
                 </Button>
               )}
               {route.subLinks.map((subLink, subIdx) => {
-                if (subLink.link === '/sharedresponses' && role === 'TEACHER') {
-                  return null;
-                }
-
                 const isActive = isActiveButton(
                   subLink,
                   location.pathname,

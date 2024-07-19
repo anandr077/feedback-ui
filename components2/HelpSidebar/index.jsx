@@ -14,6 +14,11 @@ import Accordion from './Accordion';
 import { isSmallScreen } from '../../components/ReactiveRender';
 import helpdata from './helpdata.json';
 import { userRole } from '../../roles';
+import helpbing from '../../static/img/help-icon.svg';
+import {
+  HeadingImage,
+  Heading,
+} from '../../components/NotificationsMenu/NotificationsBar/style';
 
 const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   const isSmallView = isSmallScreen();
@@ -59,8 +64,8 @@ function helpSidebarContent(data, handleSearch) {
   return (
     <>
       <Header>
-        <IconImg src="/img/helpIcon.png" />
-        Help Centre
+        <HeadingImage src={helpbing} />
+        <Heading>Help Centre</Heading>
       </Header>
       <SearchContainer>
         <Input

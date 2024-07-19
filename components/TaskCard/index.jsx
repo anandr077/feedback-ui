@@ -29,6 +29,10 @@ import BorderedHeart from '../../static/img/Addtofav.svg';
 import RedBgHeart from '../../static/img/favTick.svg';
 import ProgressBar from '../ProgressBar';
 import arrowRight from '../../static/img/arrowright.svg';
+import { isShowProgressBar } from './rules';
+import LinkButton from '../../components2/LinkButton';
+import arrowRight from '../../static/img/arrowright.svg';
+import whiteArrowright from '../../static/img/arrowright-White.svg';
 
 function TaskCard(props) {
   const [showMoreOptions, setShowMoreOptions] = React.useState(false);
@@ -49,6 +53,7 @@ function TaskCard(props) {
     showThreeDots = true,
     onAddToBookmark = () => {},
     onRemoveFromBookmark = () => {},
+    notification = false,
   } = props;
   const role = getUserRole();
   const userId = getUserId();
@@ -102,7 +107,14 @@ function TaskCard(props) {
     if (onAccept) {
       return styledCard();
     }
-    return <AnchorTag style={{ width: '100%' }} href={!exemplar && task.link}>{styledCard()}</AnchorTag>;
+    return (
+      <AnchorTag
+        style={{ width: '100%' }}
+        href={(!exemplar && !notification) && task.link}
+      >
+        {styledCard()}
+      </AnchorTag>
+    );
   }
   function styledCard() {
     const dueDate = new Date(task.dueAt);
@@ -115,6 +127,7 @@ function TaskCard(props) {
         isSelected={isSelected}
         overdue={isOverDue}
         exemplar={exemplar}
+        notification={notification}
       >
         {showAddToCard ? (
           <Header>
@@ -155,7 +168,17 @@ function TaskCard(props) {
           exemplar={exemplar}
           onAccept={onAccept}
           onDecline={onDecline}
+          notification={notification}
         />
+        {notification && (
+          <LinkButton
+            link={task.link}
+            label="View details"
+            arrowright={arrowRight}
+            whiteArrowright={whiteArrowright}
+            notification={notification}
+          />
+        )}
         {/* {!exemplar && (
           <TaskLink href={task.link}>
             Open Task
@@ -171,24 +194,22 @@ function TaskCard(props) {
         title: task.classTitle,
         para: task.title,
         date: task.dueAt,
-        status1:
-          task.submissionCount > 0 ? (
-            <ProgressBar
-              title={'Submissions'}
-              isPercentage={false}
-              count={task.submissionCount}
-              total={task.expectedSubmissions}
-            />
-          ) : null,
-        status2:
-          task.submissionCount > 0 ? (
-            <ProgressBar
-              title={'Reviewed'}
-              isPercentage={false}
-              count={task.reviewCount}
-              total={task.submissionCount}
-            />
-          ) : null,
+        status1: isShowProgressBar(task) ? (
+          <ProgressBar
+            title={'Submissions'}
+            isPercentage={false}
+            count={task.submissionCount}
+            total={task.expectedSubmissions}
+          />
+        ) : null,
+        status2: isShowProgressBar(task) ? (
+          <ProgressBar
+            title={'Reviewed'}
+            isPercentage={false}
+            count={task.reviewCount}
+            total={task.submissionCount}
+          />
+        ) : null,
       };
     }
     return {

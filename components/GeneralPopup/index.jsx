@@ -30,6 +30,7 @@ export default function GeneralPopup(props) {
     smartAnnotation,
     createSmartAnnotationHandler,
     warningMessage,
+    cancelPopup,
   } = props;
 
 
@@ -60,7 +61,7 @@ export default function GeneralPopup(props) {
       </ConfirmSubmit>
 
       <ButtonsContainer>
-        <ProceedButton onClick={() => hidePopup()}>{closeBtnText}</ProceedButton>
+        <ProceedButton onClick={() =>cancelPopup? cancelPopup(): hidePopup()}>{closeBtnText}</ProceedButton>
         {smartAnnotation ? (
           <CancelButton
             onClick={() => createSmartAnnotationHandler(annotationTitle)}

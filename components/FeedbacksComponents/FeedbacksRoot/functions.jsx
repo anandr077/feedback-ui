@@ -3,6 +3,7 @@ import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import { React } from 'react';
 import { getCommentsForSubmission } from '../../../service';
+import { getUserId } from '../../../userLocalDetails';
 
 export function extractStudents(tasksResult) {
   return tasksResult.map((task) => {
@@ -129,11 +130,22 @@ export const getOverallComment = (overallComments, QuestionIndex) => {
   );
 }
 
-export const showOverAllFeedback = (ref) => {
-  const container = ref.current;
-  if (container.style.display === 'none') {
-    container.style.display = 'block';
-  } else {
-    container.style.display = 'none';
-  }
+
+
+export const goToNewUrl = (pendingLocation) => {
+  const port =
+    window.location.port &&
+    window.location.port !== '80' &&
+    window.location.port !== '443'
+      ? `:${window.location.port}`
+      : '';
+
+  const path = pendingLocation ? `#${pendingLocation.pathname}` : '#/';
+
+  const newUrl = `${window.location.protocol}//${
+    window.location.hostname
+  }${port}?code=${getUserId()}${path}`;
+
+  window.history.pushState('', '', newUrl);
+  window.location.reload();
 };

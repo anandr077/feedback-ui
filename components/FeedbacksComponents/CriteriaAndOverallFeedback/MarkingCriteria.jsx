@@ -5,6 +5,7 @@ import {
   isMarkingCriteriaTypeRubric,
   isShowGreenTick,
   isShowMarkingCriteriaSection,
+  isTeacher,
 } from '../FeedbacksRoot/rules';
 import QuestionIcon from '../../../static/img/question-mark.svg';
 import {
@@ -16,6 +17,7 @@ import {
   MarkingCriteriaHeadingContainer,
   MarkingCriteriaMainHeading,
   MarkingCriteriaMainHeadingContainer,
+  MarkingCriteriaPreview,
   MarkingCriteriaSection,
   PopupBackground,
   PopupContainer,
@@ -43,6 +45,10 @@ import {
 } from '../FeedbacksRoot/functions';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
+import StrengthAndTargetPreview from './StrengthAndTargetPreview';
+import RubricPreview from './RubricPreview';
+import Accordion from '../../../components2/HelpSidebar/Accordion';
+import { getButtonText } from './function';
 
 function MarkingCriteria({
   QuestionIndex,
@@ -55,7 +61,6 @@ function MarkingCriteria({
     useState();
   const [isShowMarkingCrteriaPopUp, setShowMarkingCrteriaPopUp] =
     useState(false);
-  const markingCriteriaSectionRef = useRef(null);
 
   useEffect(() => {
     const markingCriteriaFromSubmission = {
@@ -288,6 +293,13 @@ function MarkingCriteria({
       </PopupBackground>
     );
   };
+  const isRubric = isMarkingCriteriaTypeRubric(
+    markingCriteriaFromSubmission?.markingCriteria?.type
+  );
+  const currentMarkingCriteria = findMarkingCriteria(
+    markingCriteriaFeedback,
+    QuestionIndex
+  );
   return (
     <>
       {isShowMarkingCrteriaPopUp && (
@@ -304,71 +316,68 @@ function MarkingCriteria({
       {isShowMarkingCriteriaSection(
         markingCriteriaFromSubmission?.markingCriteria
       ) && (
-        <>
-          <Heading>
-            <HeadingTitle>
-              Assessment
-              <img src={QuestionIcon} />
-            </HeadingTitle>
-            <HeaderRightSection>
-              <GreenTickComponent
-                ShowGreen={isShowGreenTick(
-                  findMarkingCriteria(markingCriteriaFeedback, QuestionIndex)
-                )}
-              />
-
-              <ToggleArrow
-                refProp={markingCriteriaSectionRef}
-                toggleSection={showOverAllFeedback}
-              />
-            </HeaderRightSection>
-          </Heading>
-          <MarkingCriteriaSection ref={markingCriteriaSectionRef}>
-            <MarkingCriteriaMainHeadingContainer>
-              <MarkingCriteriaMainHeading>
+        <Accordion
+          title={
+            <Heading>
+              <HeadingTitle>
                 Marking Criteria
-              </MarkingCriteriaMainHeading>
-              {isAllowGiveMarkingCriteriaFeedback(pageMode) ? (
-                <Text>
-                  Click 'Expand' to provide Marking Criteria based feedback
-                </Text>
-              ) : (
-                <Text>
-                  Click 'Expand' to see Marking Criteria based feedback
-                </Text>
-              )}
-            </MarkingCriteriaMainHeadingContainer>
-            <MarkingCriteriaContainer>
-              <MarkingCriteriaHeadingContainer>
-                <MarkingCriteriaHeading>
-                  {isMarkingCriteriaTypeRubric(
-                    markingCriteriaFromSubmission?.markingCriteria?.type
-                  )
-                    ? 'Rubric'
-                    : 'Strengths and Targets'}
-                </MarkingCriteriaHeading>
-                <RubricButton onClick={() => setShowMarkingCrteriaPopUp(true)}>
-                  {!isAllowGiveMarkingCriteriaFeedback(pageMode)
-                    ? 'Expand'
-                    : isShowGreenTick(
-                        findMarkingCriteria(
-                          markingCriteriaFeedback,
-                          QuestionIndex
-                        )
-                      )
-                    ? 'Update'
-                    : 'Expand'}
-                </RubricButton>
-              </MarkingCriteriaHeadingContainer>
-            </MarkingCriteriaContainer>
-            {isAllowGiveMarkingCriteriaFeedback(pageMode) &&
-              isShowGreenTick(
-                findMarkingCriteria(markingCriteriaFeedback, QuestionIndex)
-              ) && (
-                <GreenTickText margin={true} text="Marking Criteria complete" />
-              )}
-          </MarkingCriteriaSection>
-        </>
+                <img src={QuestionIcon} />
+              </HeadingTitle>
+              <HeaderRightSection>
+                <GreenTickComponent
+                  ShowGreen={isShowGreenTick(currentMarkingCriteria)}
+                />
+              </HeaderRightSection>
+            </Heading>
+          }
+          body={
+            <MarkingCriteriaSection>
+              <MarkingCriteriaMainHeadingContainer></MarkingCriteriaMainHeadingContainer>
+              <MarkingCriteriaContainer>
+                <MarkingCriteriaHeadingContainer>
+                  <MarkingCriteriaHeading>
+                    {isRubric ? 'Rubric' : 'Strengths and Targets'}
+                  </MarkingCriteriaHeading>
+                  <RubricButton
+                    onClick={() => setShowMarkingCrteriaPopUp(true)}
+                  >
+                    {getButtonText(
+                      pageMode,
+                      markingCriteriaFeedback,
+                      QuestionIndex
+                    )}
+                  </RubricButton>
+                </MarkingCriteriaHeadingContainer>
+                {isShowGreenTick(currentMarkingCriteria) && !isTeacher && (
+                  <>
+                    {isRubric ? (
+                      <RubricPreview
+                        markingCriteria={
+                          markingCriteriaFromSubmission?.markingCriteria
+                        }
+                      />
+                    ) : (
+                      <StrengthAndTargetPreview
+                        markingCriteria={
+                          markingCriteriaFromSubmission?.markingCriteria
+                        }
+                      />
+                    )}
+                  </>
+                )}
+              </MarkingCriteriaContainer>
+              {isAllowGiveMarkingCriteriaFeedback(pageMode) &&
+                isShowGreenTick(
+                  findMarkingCriteria(markingCriteriaFeedback, QuestionIndex)
+                ) && (
+                  <GreenTickText
+                    margin={true}
+                    text="Marking Criteria complete"
+                  />
+                )}
+            </MarkingCriteriaSection>
+          }
+        />
       )}
     </>
   );

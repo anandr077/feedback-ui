@@ -44,7 +44,7 @@ import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 import { useHistory, useLocation } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
-import { createRequestFeddbackType } from '../../../service';
+import { createRequestFeddbackType, deleteSubmissionById } from '../../../service';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import ResponsiveFooter from '../../ResponsiveFooter';
 import FeedbackRightSidebar from '../FeedbackRightSidebar';
@@ -89,6 +89,8 @@ function FeedbackTeacherLaptop(props) {
     selectedComment,
     overallComments,
     markingCriteriaFeedback,
+    otherDrafts,
+    setOtherDrafts,
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
@@ -123,7 +125,7 @@ function FeedbackTeacherLaptop(props) {
     }
   }, [showNewComment]);
   React.useEffect(() => {
-    let dataToUse = submission.otherDrafts || [];
+    let dataToUse = otherDrafts || [];
 
     const groupedData = dataToUse?.reduce((result, item) => {
       const subject = item.subject || 'English';
@@ -150,7 +152,7 @@ function FeedbackTeacherLaptop(props) {
     }
     setGroupedAndSortedData(groupedData);
     setSelectedSubject(Object.keys(groupedData)[0]);
-  }, [submission.otherDrafts]);
+  }, [otherDrafts]);
   const navigate = useHistory();
   const location = useLocation();
 
@@ -252,6 +254,30 @@ function FeedbackTeacherLaptop(props) {
     });
   };
 
+
+    const getNextQuestionId = (currentId) => {
+      const currentIndex = otherDrafts.findIndex(
+        (question) => question.submissionId === currentId
+      );
+      const nextIndex =
+        currentIndex + 1 < otherDrafts.length ? currentIndex + 1 : 0;
+      return otherDrafts[nextIndex]?.submissionId;
+    };
+
+    const deleteQuestionFunction = (deleteQuestionId) => {
+      deleteSubmissionById(deleteQuestionId).then(() => {
+        if (deleteQuestionId === submission.id) {
+          const nextId = getNextQuestionId(deleteQuestionId);
+          navigate.push(`/documents/${nextId}`);
+        } else {
+          const filteredOtherDrafts = otherDrafts.filter(
+            (question) => question.submissionId !== deleteQuestionId
+          );
+          setOtherDrafts(filteredOtherDrafts);
+        }
+      });
+    };
+
   function handleToggleUpdate() {
     setFeedback((prev) => !prev);
     setFocusAreas((prev) => !prev);
@@ -267,10 +293,8 @@ function FeedbackTeacherLaptop(props) {
       {loader(showLoader)}
       <PageContainer>
         <>
-          
           {sharewithclassdialog}
-          {(submission.otherDrafts || submission.studentsSubmissions) &&
-            sidebar()}
+          {(otherDrafts || submission.studentsSubmissions) && sidebar()}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}
@@ -318,7 +342,8 @@ function FeedbackTeacherLaptop(props) {
               SetOpenRightPanel,
               QuestionIndex,
               setQuestionIndex,
-              openLeftPanel
+              openLeftPanel,
+              setOtherDrafts
             )}
           </Frame1388>
         </>
@@ -347,10 +372,10 @@ function FeedbackTeacherLaptop(props) {
   function sidebar() {
     return (
       <>
-        {!isNullOrEmpty(submission.otherDrafts) && (
+        {!isNullOrEmpty(otherDrafts) && (
           <IndepentdentUserSidebar
             open={openLeftPanel}
-            subjects={submission.otherDrafts?.map((d) => ({
+            subjects={otherDrafts?.map((d) => ({
               id: d.submissionId,
               title: d.title,
               subject: d.subject,
@@ -360,17 +385,18 @@ function FeedbackTeacherLaptop(props) {
             selectedSubject={selectedSubject}
             groupedAndSortedData={groupedAndSortedData}
             currentSubmissionId={submission.id}
+            deleteQuestionFunction={deleteQuestionFunction}
           />
         )}
 
         {((isTeacher && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) ||
-          submission.otherDrafts ||
+          otherDrafts ||
           submission.studentsSubmissions) && (
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}
             open={openLeftPanel}
-            subjects={submission.otherDrafts?.map((d) => ({
+            subjects={otherDrafts?.map((d) => ({
               id: d.submissionId,
               title: d.title,
               subject: d.subject,
@@ -384,7 +410,7 @@ function FeedbackTeacherLaptop(props) {
         )}
 
         {((isTeacher && pageMode !== 'CLOSED' && pageMode !== 'REVIEW') ||
-          submission.otherDrafts) && (
+          otherDrafts.length > 0) && (
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}
@@ -509,7 +535,8 @@ function answersAndFeedbacks(
   SetOpenRightPanel,
   QuestionIndex,
   setQuestionIndex,
-  openLeftPanel
+  openLeftPanel,
+  setOtherDrafts
 ) {
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
@@ -613,10 +640,9 @@ function answersAndFeedbacks(
             share,
             isFeedback,
             isFocusAreas,
-            openLeftPanel
+            openLeftPanel,
+            setOtherDrafts
           )}
-
-         
         </Frame1368>
         <>
           <FeedbackRightSideSlidingTabs

@@ -1,4 +1,4 @@
-import { getLocalClasses } from '../../service';
+
 import { getCookie, getUserRole } from '../../userLocalDetails';
 import {
   ArrowRightImg,
@@ -14,8 +14,9 @@ import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/24questionbordered.svg';
 import { headerMainTitle } from './headerMainTitle';
 import { getFirstFourWords } from '../../utils/strings';
+import { getLocalStorage } from '../../utils/function';
 const role = getUserRole();
-const localClasses = getLocalClasses();
+const localClasses = getLocalStorage('classes');
 const isExpert = isTeacherWithoutClass(role, localClasses);
 const homeTitle = isExpert ? 'Feedback From Me' : 'Classwork';
 
@@ -31,7 +32,7 @@ function HeaderTitle({ breadcrumbs }) {
       link: '/tasks',
       title: role === 'TEACHER' ? 'Classwork' : 'Tasks',
       teacherTooltip:
-        'View the status of every task that you have assigned for your classes',
+        'View the status of every task that you have assigned to your classes',
       studentTooltip: 'View all of your current tasks from school',
     },
     {
@@ -43,7 +44,7 @@ function HeaderTitle({ breadcrumbs }) {
     },
     {
       link: '/sharedresponses',
-      title: 'Model Responses',
+      title: isTeacher(role) ? 'Shared Responses' : 'Model Responses',
       teacherTooltip: '',
       studentTooltip:
         'A collection of student work that has been shared with the class',
@@ -127,7 +128,7 @@ function HeaderTitle({ breadcrumbs }) {
       link: '/',
       title: role === 'TEACHER' ? homeTitle : 'Tasks',
       teacherTooltip:
-        'View the status of every task that you have assigned for your classes',
+        'View the status of every task that you have assigned to your classes',
       studentTooltip: 'View all of your current tasks from school',
     },
   ];
@@ -155,33 +156,32 @@ function HeaderTitle({ breadcrumbs }) {
         {pageMainHeader && pageMainHeader.title}
       </TitleMain>
       {pageHeader.title && <ArrowRightImg src={arrowRightMini} />}
-      <Title>
-        {pageHeader && (
-          <TitleMain
-            darkBackground={!pageHeader.homeLink}
-            to={pageHeader?.homeLink}
-          >
-            {pageHeader.title}
-          </TitleMain>
-        )}
 
-        {pageMainHeader?.documentName && breadcrumbs && (
-          <ArrowRightImg src={arrowRightMini} />
-        )}
-        {pageMainHeader?.documentName && breadcrumbs && (
-          <DocumentName>{getFirstFourWords(breadcrumbs[0])}</DocumentName>
-        )}
-        <QuestionTooltip
-          img={questionMark}
-          text={
-            pageHeader && role === 'TEACHER'
-              ? pageHeader.teacherTooltip
-              : role === 'STUDENT'
-              ? pageHeader?.studentTooltip
-              : ''
-          }
-        />
-      </Title>
+      {pageHeader.title && (
+        <TitleMain
+          darkBackground={!pageHeader.homeLink}
+          to={pageHeader?.homeLink}
+        >
+          {pageHeader.title}
+        </TitleMain>
+      )}
+
+      {pageMainHeader?.documentName && breadcrumbs && (
+        <ArrowRightImg src={arrowRightMini} />
+      )}
+      {pageMainHeader?.documentName && breadcrumbs && (
+        <DocumentName>{getFirstFourWords(breadcrumbs[0])}</DocumentName>
+      )}
+      <QuestionTooltip
+        img={questionMark}
+        text={
+          pageHeader && role === 'TEACHER'
+            ? pageHeader.teacherTooltip
+            : role === 'STUDENT'
+            ? pageHeader?.studentTooltip
+            : ''
+        }
+      />
     </TitleConatiner>
   );
 }

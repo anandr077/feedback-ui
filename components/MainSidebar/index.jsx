@@ -16,7 +16,6 @@ import {
   useHistory,
   useLocation,
 } from 'react-router-dom/cjs/react-router-dom.min';
-import { getLocalClasses } from '../../service';
 import {
   isNonSchoolStudent,
   isShowSetting,
@@ -24,12 +23,13 @@ import {
   isTeacherWithoutClass,
   checkIsActive,
 } from './rules';
+import { getLocalStorage } from '../../utils/function';
 
 const MainSidebar = () => {
   const history = useHistory();
   const location = useLocation();
   const role = getUserRole();
-  const localClasses = getLocalClasses();
+  const localClasses = getLocalStorage('classes');
   const isExpert = isTeacherWithoutClass(role, localClasses);
   const homePageLink = isExpert ? '/giveFeedback' : '/tasks';
 

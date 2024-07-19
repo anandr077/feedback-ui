@@ -1,9 +1,9 @@
-import { getLocalClasses } from '../../service';
 import { getUserRole } from '../../userLocalDetails';
+import { getLocalStorage } from '../../utils/function';
 import { isTeacherWithoutClass } from './rules';
 
 const role = getUserRole();
-const localClasses = getLocalClasses();
+const localClasses = getLocalStorage('classes');
 const homeLink = isTeacherWithoutClass(role, localClasses) ? '/giveFeedback' : '/tasks';
 
 export const headerMainTitle = [
@@ -35,7 +35,7 @@ export const headerMainTitle = [
   },
   {
     link: '/sharedresponses',
-    title: 'School Work',
+    title: role === 'TEACHER' ? 'Tasks' : 'School Work',
     homeLink: '/tasks',
   },
   {

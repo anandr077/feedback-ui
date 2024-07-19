@@ -76,6 +76,7 @@ export const SortText = styled.p`
 
 export const SortButton = styled.div`
   display: flex;
+  align-items: center;
   padding: 4px 8px;
   border-radius: 25px;
   border: 1px;
@@ -85,6 +86,8 @@ export const SortButton = styled.div`
 
 export const SortButtonText = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: IBM Plex Sans;
   font-size: 13px;
   font-weight: 500;

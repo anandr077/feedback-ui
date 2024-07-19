@@ -8,7 +8,7 @@ import {
 } from './accordionStyle';
 import SubAccordion from './SubAccordion';
 
-const Accordion = ({ title, subtopics }) => {
+const Accordion = ({ title, subtopics, body }) => {
   const [isActive, setIsActive] = useState(false);
 
   const toggleAccordion = () => {
@@ -17,13 +17,20 @@ const Accordion = ({ title, subtopics }) => {
 
   return (
     <AccordionSection>
-      <AccordionTitle onClick={toggleAccordion}>
-        {title} <StyledExpandMoreIcon isActive={isActive} />
+      <AccordionTitle onClick={toggleAccordion} feedback={body}>
+        {title} <StyledExpandMoreIcon isActive={isActive} feedback={body} />
       </AccordionTitle>
       <SectionContent isActive={isActive}>
-        {subtopics.map((sub, index) => (
-          <SubAccordion key={index} title={sub.title} content={sub.content} video={sub.video}/>
-        ))}
+        {body
+          ? body
+          : subtopics.map((sub, index) => (
+              <SubAccordion
+                key={index}
+                title={sub.title}
+                content={sub.content}
+                video={sub.video}
+              />
+            ))}
       </SectionContent>
     </AccordionSection>
   );

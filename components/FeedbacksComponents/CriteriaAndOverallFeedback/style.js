@@ -30,7 +30,7 @@ export const Heading = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 4px;
-  padding: 16px;
+  padding: 16px 0px 16px 16px;
   background-color: #f2f1f3;
   color: #4b464f;
   font-family: var(--font-family-ibm_plex_sans);
@@ -141,7 +141,6 @@ export const RubricButton = styled.button`
 
 export const OverallFeedbackContainer = styled.div`
   padding: 16px 16px;
-  display: none;
 `;
 
 export const TextFeedback = styled.textarea`
@@ -193,7 +192,6 @@ export const MarkingCriteriaSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  display: none;
   margin-bottom: 30px;
 `;
 
@@ -534,11 +532,6 @@ export const MarkingCriteriaPreview = styled.div`
   opacity: 0px;
   box-shadow: 0px -2px 4px 0px #6f6f6f40 inset;
   background: var(--color-neutral-80, #f2f1f3);
-  max-height: 300px;
-  overflow-y: scroll;
-  ::-webkit-scrollbar {
-    width: 0;
-  }
 `;
 
 export const MarkingCriteriaCard = styled.div`

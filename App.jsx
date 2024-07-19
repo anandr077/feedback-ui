@@ -35,8 +35,6 @@ import MainPage from './components/MainPage';
 import NewDocPage from './components/NewDocRoot';
 import withAuth from './components/WithAuth';
 import withOnboarding from './components/WithOnboarding';
-
-import { Snackbar } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -86,7 +84,6 @@ function App() {
 
   const middleware = (c) => withOnboarding(withAuth(c));
   const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
-  //const ProtectedCompletedRoot = middleware(CompletedPage);
   const ProtectedTeacherClassesRoot = middleware(TeacherClassesRoot);
   const ProtectedTaskDetail = middleware(TaskDetail);
   const ProtectedCreateAssignment = middleware(CreateAssignment);

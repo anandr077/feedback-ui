@@ -19,8 +19,6 @@ import {
 import { getUserId } from '../../../userLocalDetails.js';
 import SmartAnotation from '../../../components/SmartAnnotations';
 import SettingsNav from '../SettingsNav';
-import Breadcrumb from '../../Breadcrumb';
-import Breadcrumb2 from '../../Breadcrumb2';
 import Loader from '../../Loader';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
 
@@ -85,7 +83,6 @@ export default function AccountSettingsRoot(props) {
   const [feedbackBankCreated, setFeedbackBankCreated] = React.useState(false);
   const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] =
     React.useState('');
-  const mobileView = isMobileView();
 
   const shortCutsQuery = useQuery({
     queryKey: ['shortCuts'],
@@ -150,32 +147,7 @@ export default function AccountSettingsRoot(props) {
     }
   }, [feedbackBankQuery.data, markingCriteriaQuery.data, shortCutsQuery.data]);
 
-  const smartAnnotationsFrame = () => {
-    const smartAnnotation = smartAnnotations.find(
-      (sa) => sa.id === feedbackBankId
-    );
-
-    if (!smartAnnotation) {
-      return null;
-    }
-    const all = smartAnnotation.smartComments?.map((sa, index) => (
-      <SmartAnotation
-        key={Math.random()}
-        smartAnnotationIndex={feedbackBankId}
-        smartCommentIndex={index}
-        smartAnnotationUpdateIndex={smartAnnotationUpdateIndex}
-        smartAnnotation={sa}
-        UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}
-        settingsMode={true}
-        deleteAnnotationHandler={deleteAnnotationHandler}
-        createSmartAnnotation={createSmartAnnotation}
-        teacherId={smartAnnotation.ownerId}
-        open={smartAnnotationeditIndex === index}
-        setSmartAnnotationeditIndex={setSmartAnnotationeditIndex}
-      />
-    ));
-    return all;
-  };
+ 
   if (window.localStorage.getItem('markingCriteria')) {
     Promise.all([
       getAllMarkingCriteria(),
@@ -204,230 +176,9 @@ export default function AccountSettingsRoot(props) {
       });
   };
 
-  const deteteFeedbackBank = (smartAnnotationIndex) => {
-    const newSmartAnnotations = smartAnnotations.filter(
-      (smartAnnotation) => smartAnnotation.id != smartAnnotationIndex
-    );
-    deleteSmartAnnotation(smartAnnotationIndex)
-      .then(() => {
-        if (newSmartAnnotations.length === 0) {
-          setFeedbackBankId('');
-        } else {
-          setFeedbackBankId(newSmartAnnotations[0].id);
-        }
 
-        setSmartAnnotations(newSmartAnnotations);
-        toast(<Toast message={'Feedback bank deleted'} />);
-      })
-      .catch(() => {
-        toast(<Toast message={'Error deleting bank'} />);
-      });
-  };
 
-  const createCloneFeedbankBank = (smartAnnotationIndex) => {
-    const newClonedBank = smartAnnotations.find(
-      (smartAnnotation) => smartAnnotation.id === smartAnnotationIndex
-    );
 
-    const { title, smartComments } = newClonedBank;
-    const newObject = { title: `Copy of ${title}`, smartComments };
-
-    createNewFeedbackBank(newObject)
-      .then(() => {
-        queryClient.invalidateQueries(['feedbackBank']);
-        toast(<Toast message={'feedback bank cloned'} />);
-        setFeedbackBankCreated(true);
-      })
-      .catch((error) => {
-        toast(<Toast message={'Cloning failed'} />);
-      });
-  };
-
-  const createFeedbackBank = () => {
-    const newBank = {
-      title: 'Untitled feedback bank',
-      smartComments: [
-        {
-          title: 'First feedback area',
-          suggestions: ['First comment', 'Second comment'],
-        },
-        {
-          title: 'Second feedback area',
-          suggestions: ['First comment.', 'Second comment.'],
-        },
-      ],
-    };
-
-    createNewFeedbackBank(newBank)
-      .then(() => {
-        queryClient.invalidateQueries(['feedbackBank']);
-        setShowNewBankPopUp(false);
-        setFeedbackBankCreated(true);
-        toast(<Toast message={'New feedback bank created'} />);
-      })
-      .catch((error) => {
-        toast(<Toast message={'Error creating new feedback bank'} />);
-      });
-  };
-
-  const createSystemFeedbackBank = (systemBankId) => {
-    let newSystemBank = systemSmartAnnotations.find(
-      (bank) => bank.id === systemBankId
-    );
-    const { title, smartComments } = newSystemBank;
-    const newObject = { title: `Copy of ${title}`, smartComments };
-    createNewFeedbackBank(newObject)
-      .then(() => {
-        // setSmartAnnotations([...smartAnnotations, newBank]);
-        setShowNewBankPopUp(false);
-        toast(<Toast message={'New feedback bank created'} />);
-        queryClient.invalidateQueries(['feedbackBank']);
-        setFeedbackBankCreated(true);
-      })
-      .catch((error) => {
-        toast(<Toast message={'Error creating new feedback bank'} />);
-      });
-  };
-
-  const createSmartAnnotationHandler = () => {
-    const smartAnnotationRequest = {
-      title: 'Untitled feedback area',
-      suggestions: ['First comment', 'Second comment'],
-    };
-    createSmartAnnotation(smartAnnotationRequest);
-  };
-
-  const createSmartAnnotation = (newSmartAnnotation) => {
-    const newSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
-      if (smartAnnotation.id === feedbackBankId) {
-        return {
-          ...smartAnnotation,
-          smartComments: [
-            ...(smartAnnotation.smartComments || []),
-            newSmartAnnotation,
-          ],
-        };
-      }
-
-      return smartAnnotation;
-    });
-
-    const foundSmartAnnotation = newSmartAnnotations.find(
-      (smartAnnotation) => smartAnnotation.id === feedbackBankId
-    );
-
-    const { title, smartComments } = foundSmartAnnotation;
-    const newObject = { title, smartComments };
-
-    createNewSmartAnnotation(newObject, feedbackBankId)
-      .then((result) => {
-        setSmartAnnotations(newSmartAnnotations);
-        toast(<Toast message={'Smart annotation created'} />);
-      })
-      .catch((error) => {
-        toast(<Toast message={'Error updating Feedback bank'} />);
-      });
-
-    //updateSmartAnnotation(smartAnnotationRequest, smartAnnotation.id)
-  };
-
-  const UpdateSmartBankTitleHandler = (newTitle, smartAnnotationIndex) => {
-    const newSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
-      if (smartAnnotation.id === smartAnnotationIndex) {
-        return {
-          ...smartAnnotation,
-          title: newTitle,
-        };
-      }
-
-      return smartAnnotation;
-    });
-
-    const foundSmartAnnotation = newSmartAnnotations.find(
-      (smartAnnotation) => smartAnnotation.id === smartAnnotationIndex
-    );
-
-    const { title, smartComments } = foundSmartAnnotation;
-    const newObject = { title, smartComments };
-
-    updateSmartAnnotation(newObject, smartAnnotationIndex)
-      .then(() => {
-        setSmartAnnotations(newSmartAnnotations);
-        toast(<Toast message={'Feedback bank title updated'} />);
-      })
-      .catch((error) => {
-        toast(<Toast message={'Error updating smart annotation'} />);
-      });
-  };
-
-  const UpdateSmartAnotationHandler = (
-    newSmartComment,
-    smartAnnotationIndex,
-    index
-  ) => {
-    setSmartAnnotationeditIndex(index);
-    const newSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
-      if (smartAnnotation.id === smartAnnotationIndex) {
-        return {
-          ...smartAnnotation,
-          smartComments: smartAnnotation.smartComments.map((comment, ind) => {
-            if (ind === index) {
-              return newSmartComment;
-            }
-            return comment;
-          }),
-        };
-      }
-
-      return smartAnnotation;
-    });
-
-    const foundSmartAnnotation = newSmartAnnotations.find(
-      (smartAnnotation) => smartAnnotation.id === smartAnnotationIndex
-    );
-
-    const { title, smartComments } = foundSmartAnnotation;
-    const newObject = { title, smartComments };
-
-    updateSmartAnnotation(newObject, smartAnnotationIndex)
-      .then(() => {
-        setSmartAnnotations(newSmartAnnotations);
-        toast(<Toast message={'Smart annotation updated'} />);
-      })
-      .catch((error) => {
-        toast(<Toast message={'Error updating smart annotation'} />);
-      });
-  };
-
-  const deleteAnnotationHandler = (smartcommentId, smartAnnotationIndex) => {
-    const NewSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
-      if (smartAnnotation.id === smartAnnotationIndex) {
-        return {
-          ...smartAnnotation,
-          smartComments: smartAnnotation.smartComments.filter(
-            (comment, ind) => ind !== smartcommentId
-          ),
-        };
-      }
-
-      return smartAnnotation;
-    });
-
-    const foundSmartAnnotation = NewSmartAnnotations.find(
-      (smartAnnotation) => smartAnnotation.id === smartAnnotationIndex
-    );
-
-    const { title, smartComments } = foundSmartAnnotation;
-    const newObject = { title, smartComments };
-    updateSmartAnnotation(newObject, smartAnnotationIndex)
-      .then(() => {
-        setSmartAnnotations(NewSmartAnnotations);
-        toast(<Toast message={'Smart commit deleted'} />);
-      })
-      .catch((error) => {
-        toast(<Toast message={'Error deleting smart commit'} />);
-      });
-  };
 
   const createMarkingCriteria = (markingCriteria) => {
     let { title } = markingCriteria;

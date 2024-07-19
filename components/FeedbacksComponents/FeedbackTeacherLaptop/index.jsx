@@ -8,13 +8,10 @@ import {
   useState,
   useContext,
 } from 'react';
-import Header from '../../Header';
 import { getUserRole } from '../../../userLocalDetails';
 import { flatMap, groupBy } from 'lodash';
 import Loader from '../../Loader';
 import { answersFrame } from '../AnswersFrame';
-import Breadcrumb from '../Breadcrumb';
-import Breadcrumb2 from '../Breadcrumb2';
 import {Footer} from './Footer';
 import './FeedbackTeacherLaptop.css';
 import { contextBar, contextBarForPortfolioDocument } from './contextBar';
@@ -684,16 +681,7 @@ function answersAndFeedbacks(
   );
 }
 
-function breadcrumbs(submission) {
-  return (
-    <Frame1387>
-      <Frame1315>
-        <Breadcrumb text={'Tasks'} link={'/#/tasks'} />
-        <Breadcrumb2 assignments={submission.assignment.title} />
-      </Frame1315>
-    </Frame1387>
-  );
-}
+
 
 function createContextBar(
   submission,

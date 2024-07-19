@@ -1,6 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Breadcrumb from '../Breadcrumb';
-import Breadcrumb2 from '../Breadcrumb2';
 import Buttons2 from '../Buttons2';
 import GoBack2 from '../GoBack2';
 import {
@@ -58,31 +56,12 @@ import {
   LinkText,
   LinkPartContainer,
 } from './CreateAssignmentLaptopStyle';
-import {
-  IbmplexsansBoldShark64px,
-  IbmplexsansMediumElectricViolet20px,
-  IbmplexsansMediumWhite16px,
-  IbmplexsansNormalShark20px,
-  IbmplexsansNormalStack20px,
-  IbmplexsansSemiBoldShark20px,
-  IbmplexsansSemiBoldShark24px,
-  IbmplexsansNormalElectricViolet16px,
-} from '../../styledMixins';
-import Breadcrumb from '../Breadcrumb';
-import Breadcrumb2 from '../Breadcrumb2';
+
 import Buttons2 from '../Buttons2';
 import Footer from '../Footer';
 import GoBack2 from '../GoBack2';
-import Header from '../Header';
-import LinkButton from '../../components2/LinkButton';
-import arrowLeft from '../../static/img/arrowleft.svg';
-import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
 import questionMark from '../../static/img/question-mark.svg';
-import tick from '../../static/img/Ticklightcolor.svg';
-import tickColor from '../../static/img/tickColor.svg';
 import { isMobileView, isSmallScreen } from '../ReactiveRender';
-import Breadcrumb from '../Breadcrumb';
-import Breadcrumb2 from '../Breadcrumb2';
 import Buttons2 from '../Buttons2';
 import Footer from '../Footer';
 import GoBack2 from '../GoBack2';

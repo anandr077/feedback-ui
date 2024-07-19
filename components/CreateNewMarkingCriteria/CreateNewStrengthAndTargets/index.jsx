@@ -1,8 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import './style.css';
-import Breadcrumb from '../../Breadcrumb';
-import Breadcrumb2 from '../../Breadcrumb2';
-import GoBack from '../GoBack';
 import { useState } from 'react';
 import {
   createNewMarkingCriteria,
@@ -333,17 +330,7 @@ export default function CreateNewStrengthAndTargets() {
     );
   };
 
-  const createBreadcrumb = (markingMethodologyId) => {
-    return (
-      <div className="breadcrumb">
-        <Breadcrumb text="Account Settings" link={'/#/settings'} />
-        <Breadcrumb2 title="Marking Templates" link={'/#/settings'} />
-        <Breadcrumb2
-          title={markingMethodologyId === 'new' ? 'Create new' : 'Update'}
-        />
-      </div>
-    );
-  };
+
 
   const allCriteriaFrames = () => {
     return (

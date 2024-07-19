@@ -10,8 +10,6 @@ import {
 } from '../../../service';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import { answersFrameNoMC } from '../AnswersFrameNoMC';
-import Breadcrumb from '../Breadcrumb';
-import Breadcrumb2 from '../Breadcrumb2';
 import '../FeedbackTeacherLaptop/FeedbackTeacherLaptop.css';
 import { contextBarForPortfolioDocument } from '../FeedbackTeacherLaptop/contextBar';
 import {
@@ -165,7 +163,6 @@ function Document(props) {
             </DrawerArrow>
           </DrawerArrowContainer>
           <Frame1388 open={open} drawerWidth={drawerWidth}>
-            {breadcrumbs(pageMode, submission, allFolders)}
             {answersAndFeedbacks(
               isShowSelectType,
               setShowSelectType,
@@ -393,61 +390,6 @@ function documentFeedbackFrame(
   );
 }
 
-function breadcrumbs(pageMode, submission, allFolders) {
-  if (
-    pageMode === 'DRAFT' ||
-    pageMode === 'REVISE' ||
-    (pageMode === 'CLOSED' &&
-      (submission.status === 'FEEDBACK_ACCEPTED' ||
-        submission.status === 'SUBMITTED'))
-  ) {
-    return (
-      <Frame1387>
-        <Frame1315>
-          <Breadcrumb text={'GetFeedback'} link={'/#/getFeedback'} />
-          {folderBreadcrumb()}
-          {subfolderBreadcrumb()}
 
-          <Breadcrumb2 assignments={submission.assignment.title} />
-        </Frame1315>
-      </Frame1387>
-    );
-  }
-  return (
-    <Frame1387>
-      <Frame1315>
-        <Breadcrumb text={'Tasks'} link={'/#/tasks'} />
-        <Breadcrumb2 assignments={submission.assignment.title} />
-      </Frame1315>
-    </Frame1387>
-  );
-
-  function subfolderBreadcrumb() {
-    return (
-      <Breadcrumb2
-        assignments={'Drafts'}
-        link={'/#/getFeedback/' + submission.folderId + '/Drafts'}
-      />
-    );
-  }
-
-  function folderBreadcrumb() {
-    let matchingFolderTitle = null;
-    if (allFolders && submission && submission.id) {
-      const matchingFolder = allFolders.find(
-        (folder) => folder.id === submission.folderId
-      );
-      if (matchingFolder) {
-        matchingFolderTitle = matchingFolder.title;
-      }
-    }
-    return (
-      <Breadcrumb2
-        assignments={matchingFolderTitle}
-        link={'/#/getFeedback/' + submission.folderId}
-      />
-    );
-  }
-}
 
 export default Document;

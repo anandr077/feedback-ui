@@ -55,6 +55,7 @@ function IndepentdentUserSidebar({
   selectedSubject,
   groupedAndSortedData,
   currentSubmissionId,
+  deleteQuestionFunction,
 }) {
   const theme = useTheme();
   const [selectedQuestion, setSelectedQuestion] = useState();
@@ -115,28 +116,11 @@ function IndepentdentUserSidebar({
     downloadSubmissionPdf(id);
   };
 
-  const getNextQuestionId = (currentId) => {
-    const currentIndex = questionTitle.findIndex(
-      (question) => question.id === currentId
-    );
-    const nextIndex =
-      currentIndex + 1 < questionTitle.length ? currentIndex + 1 : 0;
-    return questionTitle[nextIndex]?.id;
-  };
 
   const deleteFunction = () => {
     setShowDeletePopup(false);
-    deleteSubmissionById(deleteQuestionId).then(() => {
-      if (deleteQuestionId === currentSubmissionId) {
-        const nextId = getNextQuestionId(deleteQuestionId);
-        history.push(`/documents/${nextId}`);
-      } else {
-        const deletedTitle = questionTitle.filter(
-          (question) => question.id !== deleteQuestionId
-        );
-        setQuestionTitle(deletedTitle);
-      }
-    });
+    deleteQuestionFunction(deleteQuestionId);
+    
   };
 
   return (

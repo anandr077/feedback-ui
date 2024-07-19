@@ -284,7 +284,7 @@ const QuillEditor = React.forwardRef(
       <div className="quill-editor-container" style={{ position: 'relative' }}>
         <div
           ref={editorRef}
-          style={nonEditable ? { height: 'auto' } : { minHeight: '750px' }}
+          style={{ minHeight: '750px' }}
         ></div>
         {showFloatingDialogue && (
           <div

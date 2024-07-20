@@ -12,7 +12,6 @@ import {
   Structure,
   Ellipse141,
   SmalllQuestionFrame,
-  Line141,
   Frame12891,
   QuestionFrame2,
   ShowFocusArea,

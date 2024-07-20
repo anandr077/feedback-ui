@@ -3,7 +3,7 @@ import Frame13123 from '../Frame13123';
 import styled from 'styled-components';
 import ProgressBar from '../../ProgressBar';
 import CommonMistakesPopup from '../CommonMistakesPopup';
-import CommonMistakeBox from '../CommonMistakeBox';
+import Line from '../../../static/img/Line17.svg';
 
 function Frame13135(props) {
   const { student } = props;
@@ -47,7 +47,7 @@ function Frame13135(props) {
             />
           </Frame1312>
           <Stats>
-            <Line14 src="/img/line-14.png" alt="Line 14" />
+            <Line14 src={Line} alt="Line 14" />
             <ProgressBar
               title={'Completion Rate'}
               count={student?.completionRate}

@@ -290,7 +290,6 @@ function FeedbackTeacherLaptop(props) {
       {loader(showLoader)}
       <PageContainer>
         <>
-          
           {sharewithclassdialog}
           {(otherDrafts || submission.studentsSubmissions) && sidebar()}
           <Frame1388
@@ -408,7 +407,7 @@ function FeedbackTeacherLaptop(props) {
         )}
 
         {((isTeacher && pageMode !== 'CLOSED' && pageMode !== 'REVIEW') ||
-          otherDrafts) && (
+          otherDrafts.length > 0) && (
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}

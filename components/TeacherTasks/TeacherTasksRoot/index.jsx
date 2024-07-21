@@ -552,39 +552,7 @@ const frame192Data = {
 
 
 
-const frame13042Data = {
-  iconsaxLinearSort: '/img/iconsax-linear-sort@2x.png',
-};
 
-const tabs25Data = {
-  children: 'In progress',
-};
-
-const tabs26Data = {
-  children: 'Overdue',
-};
-
-const statusBubbles215Data = {
-  children: 'Theory',
-};
-
-const statusBubbles33Data = {
-  star1: '/img/star1-1@2x.png',
-};
-
-const frame67Data = {
-  statusBubbles2Props: statusBubbles215Data,
-  statusBubbles3Props: statusBubbles33Data,
-};
-
-const content22Data = {
-  dueOn2April2023: 'Due on 2 April 2023',
-};
-
-const cards62Data = {
-  frame6Props: frame67Data,
-  content2Props: content22Data,
-};
 
 const statusBubbles216Data = {
   children: 'Assignment',

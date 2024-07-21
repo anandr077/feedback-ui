@@ -11,9 +11,6 @@ import {
   getAssignments,
   getCompletedTasks,
 } from '../../service';
-import settings from '../../static/icons/settings.svg';
-import banks from '../../static/icons/banks.svg';
-import marking from '../../static/icons/marking.svg';
 import commentSelected from '../../static/img/commentSelected.svg';
 import commentUnSelected from '../../static/img/commentUnSelected.svg';
 import markSelected from '../../static/img/markSelected.svg';

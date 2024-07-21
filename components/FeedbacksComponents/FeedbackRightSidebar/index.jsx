@@ -4,7 +4,6 @@ import ExclamationIcon from '../../../static/img/exclamation.svg';
 import PurpleExclamationIcon from '../../../static/img/purpleExclamationIcon.svg';
 import CommentsIcon from '../../../static/img/gray_message_2.svg';
 import PurpleCommentsIcon from '../../../static/img/purplemessage.svg';
-import ClockIcon from '../../../static/img/clock_2.svg';
 import TasksIcon from '../../../static/img/task.svg';
 import {
   isShowMarkingCriteriaAndOverallFeedbackButton,

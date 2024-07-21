@@ -60,15 +60,12 @@ import {
 import Buttons2 from '../Buttons2';
 import Footer from '../Footer';
 import GoBack2 from '../GoBack2';
-import questionMark from '../../static/img/question-mark.svg';
 import { isMobileView, isSmallScreen } from '../ReactiveRender';
 import Buttons2 from '../Buttons2';
 import Footer from '../Footer';
 import GoBack2 from '../GoBack2';
-import Header from '../Header';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/question-mark.svg';
-import backIcon from '../../static/img/BackIcon.svg';
 import { useHistory } from 'react-router-dom';
 
 function CreateAAssignmentLaptop(props) {

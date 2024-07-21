@@ -33,19 +33,11 @@ import {
   RightPart,
   EachMenuItemTextDel,
 } from './style';
-import threedotsc from '../../static/img/threedotsc.svg';
-import threedotsw from '../../static/img/threedotsw.svg';
-import deleteIcon from '../../static/img/Bin.svg';
 import deletered from '../../static/img/deletered.svg';
 import Download from '../../static/img/Down.svg';
-import selectedDownload from '../../static/icons/download.png';
-import closeCircleWhite from '../../static/icons/closecircle.png';
-import editIcon from '../../static/img/edit.svg';
 import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf';
-import { deleteSubmissionById } from '../../service';
 import Loader from '../Loader';
 import DeleteGetFeedbackPopup from '../DeleteGetFeedbackPopUp';
-import { deleteCookie } from '../../userLocalDetails';
 const drawerWidth = 219;
 
 function IndepentdentUserSidebar({

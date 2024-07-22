@@ -1,6 +1,6 @@
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import _ from 'lodash';
+import _, { flatMap, groupBy } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -123,6 +123,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const defaultMarkingCriteria = getDefaultCriteria();
   const [otherDrafts, setOtherDrafts] = useState([]);
 
+  const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState();
+
   useEffect(() => {
     setIsLoading(true);
     Promise.all([
@@ -143,6 +145,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           
           setOtherDrafts(otherDrafts);
           setSubmission(submissionsResult);
+          setGroupedFocusAreaIds(createGroupedFocusAreas(submissionsResult));
           const allComments = commentsResult?.map((c) => {
             return { ...c };
           });
@@ -306,6 +309,47 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   };
 
+  const handleCheckboxChange = (serialNumber, focusAreaId) => {
+    console.log('groupedFocusAreaIds', groupedFocusAreaIds);
+    const isChecked = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
+    setGroupedFocusAreaIds((prevState) => {
+      if (!isChecked) {
+        return {
+          ...prevState,
+          [serialNumber]: [...prevState[serialNumber], focusAreaId],
+        };
+      } else {
+        return {
+          ...prevState,
+          [serialNumber]: prevState[serialNumber].filter(
+            (id) => id !== focusAreaId
+          ),
+        };
+      }
+    });
+  };
+  
+function createGroupedFocusAreas(submission) {
+  const flattenedQuestions = flatMap(
+    submission?.assignment?.questions,
+    (question) =>
+      question.focusAreaIds?.map((focusAreaId) => ({
+        serialNumber: question.serialNumber,
+        focusAreaId,
+      }))
+  );
+
+  const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
+  const grouped = Object.keys(groupedBySerialNumber).reduce(
+    (grouped, serialNumber) => {
+      grouped[serialNumber] = [];
+      return grouped;
+    },
+    {}
+  );
+  return grouped;
+}
+
   const saveDraftPage = () => {
     if (pendingLocation) {
       goToNewUrl(pendingLocation);
@@ -452,6 +496,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       sharedWithStudents: [],
     }).then((response) => {
       if (response) {
+        handleCheckboxChange(newCommentSerialNumber, focusArea.id);
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
@@ -1602,7 +1647,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           shortcuts,
           newCommentFrameRef,
           methods,
-          comments: (comments ? comments : []),
+          comments: comments ? comments : [],
           submission,
           setSubmission,
           sharewithclassdialog,
@@ -1616,6 +1661,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           markingCriteriaFeedback,
           otherDrafts,
           setOtherDrafts,
+          groupedFocusAreaIds,
+          setGroupedFocusAreaIds,
+          handleCheckboxChange,
         }}
       />
     </FeedbackContext.Provider>

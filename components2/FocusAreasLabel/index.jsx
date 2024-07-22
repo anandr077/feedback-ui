@@ -12,6 +12,7 @@ const FocusAreasLabel = ({
   serialNumber,
   focusAreas,
 }) => {
+  console.log('groupedFocusAreaIds', groupedFocusAreaIds);
   const [selectedFocusAreaIds, setSelectedFocusAreaIds] = useState(
     groupedFocusAreaIds?.[serialNumber] || []
   );

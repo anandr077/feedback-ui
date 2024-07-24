@@ -7,7 +7,6 @@ import {
 } from './style';
 
 const FocusAreasLabel = ({
-  handleCheckboxChange,
   groupedFocusAreaIds,
   serialNumber,
   focusAreas,
@@ -30,7 +29,7 @@ const FocusAreasLabel = ({
       <>
         <MainFocusBox
           selected={isHighlighted(groupedFocusAreaIds, serialNumber, fa.id)}
-          onClick={() => handleCheckboxChange(serialNumber, fa.id)}
+          
         >
           <Ellipse141 style={{ backgroundColor: fa.color }}></Ellipse141>
           <Label selected={isHighlighted(groupedFocusAreaIds, serialNumber, fa.id)}>{fa.title}</Label>

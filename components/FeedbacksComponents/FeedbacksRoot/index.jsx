@@ -29,19 +29,23 @@ import {
   provideFeedbackOnFeedback,
   resolveFeedback,
   submitAssignment,
-  updateFeedback
+  updateFeedback,
 } from '../../../service';
-import {
-  getShortcuts
-} from '../../../service.js';
+import { getShortcuts } from '../../../service.js';
 import {
   getUserId,
   getUserName,
-  getUserRole
+  getUserRole,
 } from '../../../userLocalDetails.js';
 import Loader from '../../Loader';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
-import { extractStudents, findMarkingCriteria, getComments, getPageMode, goToNewUrl } from './functions';
+import {
+  extractStudents,
+  findMarkingCriteria,
+  getComments,
+  getPageMode,
+  goToNewUrl,
+} from './functions';
 import {
   ActionButtonsContainer,
   ClassBox,
@@ -124,6 +128,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [otherDrafts, setOtherDrafts] = useState([]);
 
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState();
+  const [showFocusAreaPopUp, setShowFocusArePopUp] = React.useState(false);
+  const [showFocusAreaPopUpText, setShowFocusArePopUpText] = React.useState('');
 
   useEffect(() => {
     setIsLoading(true);
@@ -142,15 +148,20 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           overAllCommentsResult,
           otherDrafts,
         ]) => {
-          
           setOtherDrafts(otherDrafts);
           setSubmission(submissionsResult);
-          setGroupedFocusAreaIds(createGroupedFocusAreas(submissionsResult));
+          console.log('submission', submissionsResult);
+
           const allComments = commentsResult?.map((c) => {
             return { ...c };
           });
           const feedbackComments = allComments?.filter(
             (c) => c.type !== 'MARKING_CRITERIA'
+          );
+
+          console.log('feedbackComments', feedbackComments);
+          setGroupedFocusAreaIds(
+            createGroupedFocusAreas(submissionsResult, feedbackComments)
           );
           setComments(feedbackComments);
           const markingCriteriaFeedback = allComments?.filter(
@@ -299,7 +310,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     };
   }, [submission, feedbackReviewPopup, history]);
 
-
   const deleteDraftPage = async (submissionId, pendingLocation) => {
     await deleteSubmissionById(submissionId).then(() => {
       if (pendingLocation) {
@@ -309,46 +319,49 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   };
 
-  const handleCheckboxChange = (serialNumber, focusAreaId) => {
-    console.log('groupedFocusAreaIds', groupedFocusAreaIds);
-    const isChecked = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
-    setGroupedFocusAreaIds((prevState) => {
-      if (!isChecked) {
+  const updateGroupedFocusAreaIds = (serialNumber, focusAreaId) => {
+    const isPresent = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
+    if (!isPresent) {
+      setGroupedFocusAreaIds((prevState) => {
         return {
           ...prevState,
           [serialNumber]: [...prevState[serialNumber], focusAreaId],
         };
-      } else {
-        return {
-          ...prevState,
-          [serialNumber]: prevState[serialNumber].filter(
-            (id) => id !== focusAreaId
-          ),
-        };
+      });
+      console.log('updateGroupedFocusAreaIds', groupedFocusAreaIds);
+    }
+  };
+
+  function createGroupedFocusAreas(submission, feedbackComments) {
+    const flattenedQuestions = flatMap(
+      submission?.assignment?.questions,
+      (question) =>
+        question.focusAreaIds?.map((focusAreaId) => ({
+          serialNumber: question.serialNumber,
+          focusAreaId,
+        }))
+    );
+
+    const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
+    const grouped = Object.keys(groupedBySerialNumber).reduce(
+      (grouped, serialNumber) => {
+        grouped[serialNumber] = [];
+        return grouped;
+      },
+      {}
+    );
+
+    feedbackComments.forEach((comment) => {
+      if (comment.type === 'FOCUS_AREA') {
+        const { questionSerialNumber, focusAreaId } = comment;
+        if (grouped[questionSerialNumber]) {
+          grouped[questionSerialNumber].push(focusAreaId);
+        }
       }
     });
-  };
-  
-function createGroupedFocusAreas(submission) {
-  const flattenedQuestions = flatMap(
-    submission?.assignment?.questions,
-    (question) =>
-      question.focusAreaIds?.map((focusAreaId) => ({
-        serialNumber: question.serialNumber,
-        focusAreaId,
-      }))
-  );
-
-  const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
-  const grouped = Object.keys(groupedBySerialNumber).reduce(
-    (grouped, serialNumber) => {
-      grouped[serialNumber] = [];
-      return grouped;
-    },
-    {}
-  );
-  return grouped;
-}
+    console.log('grouped', grouped);
+    return grouped;
+  }
 
   const saveDraftPage = () => {
     if (pendingLocation) {
@@ -409,7 +422,6 @@ function createGroupedFocusAreas(submission) {
   }, {});
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
-  
 
   const handleEditingComment = (flag) => {
     setEditingComment(flag);
@@ -496,7 +508,7 @@ function createGroupedFocusAreas(submission) {
       sharedWithStudents: [],
     }).then((response) => {
       if (response) {
-        handleCheckboxChange(newCommentSerialNumber, focusArea.id);
+        updateGroupedFocusAreaIds(newCommentSerialNumber, focusArea.id);
         setComments([...comments, response]);
         highlightByComment(response);
         setShowNewComment(false);
@@ -740,9 +752,16 @@ function createGroupedFocusAreas(submission) {
         const quill =
           quillRefs.current[deletedComment.questionSerialNumber - 1];
         const newComments = oldComments.filter((c) => c.id != commentId);
-        return oldComments.filter((c) => c.id != commentId);
-      });
+        const updatedFeedbackComments = newComments?.filter(
+          (c) => c.type !== 'MARKING_CRITERIA'
+        );
+        setGroupedFocusAreaIds(
+          createGroupedFocusAreas(submission, updatedFeedbackComments)
+        );
+        return newComments;
+      })
     });
+
   }
 
   function handleResolvedComment(commentId) {
@@ -1451,7 +1470,6 @@ function createGroupedFocusAreas(submission) {
   }
 
   function handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria) {
-    
     const currentQuestion = submission.assignment.questions[QuestionIndex];
 
     submitMarkingCriteriaFeedback(
@@ -1513,6 +1531,56 @@ function createGroupedFocusAreas(submission) {
     } else if (method === 'CloseSubmission') {
       setPopupText('Are you sure you want to mark this task as complete?');
     }
+  };
+
+const validateFocusAreas = () => {
+  let valid = true;
+  let errorMessage = '';
+
+  for (let index = 0; index < submission.assignment.questions.length; index++) {
+    const question = submission.assignment.questions[index];
+    const currentFocusAreas = question?.focusAreas || [];
+    const selectedFocusAreas = groupedFocusAreaIds[index + 1] || [];
+    console.log('currentFocusAreas', currentFocusAreas);
+    console.log('selectedFocusAreas', selectedFocusAreas);
+
+    if (
+      selectedFocusAreas.length === 0 ||
+      currentFocusAreas.length !== selectedFocusAreas.length
+    ) {
+      errorMessage = 'Some focus areas are not selected. Do you want to submit';
+      valid = false;
+      break; // Stop iterating
+    }
+  }
+
+  if (!valid) {
+    setShowFocusArePopUpText(errorMessage);
+  }
+
+  console.log('valid', valid);
+  return valid;
+};
+
+const checkFocusAreas = () => {
+  if (!validateFocusAreas()) {
+    console.log('valid entered');
+    setShowFocusArePopUp(true);
+  } else {
+    showSubmitPopuphandler('SubmitForReview');
+  }
+};
+
+
+  const proceedToSave = () => {
+    showSubmitPopuphandler('SubmitForReview');
+    setShowFocusArePopUpText('');
+    setShowFocusArePopUp(false);
+  };
+
+  const closeFocusAreaPopUp = () => {
+    setShowFocusArePopUpText('');
+    setShowFocusArePopUp(false);
   };
   const jeddAI = () => {
     const q = quillRefs.current[0];
@@ -1588,6 +1656,7 @@ function createGroupedFocusAreas(submission) {
     addOverallFeedback,
     updateOverAllFeedback,
     jeddAI,
+    checkFocusAreas,
   };
 
   const shortcuts = getShortcuts();
@@ -1635,6 +1704,15 @@ function createGroupedFocusAreas(submission) {
           confirmButtonAction={saveDraftPage}
         />
       )}
+      {showFocusAreaPopUp && (
+        <GeneralPopup
+          title="Submit task"
+          textContent={showFocusAreaPopUpText}
+          buttonText={'Submit'}
+          hidePopup={closeFocusAreaPopUp}
+          confirmButtonAction={proceedToSave}
+        />
+      )}
       <Header breadcrumbs={[submission.assignment.title, submission.status]} />
 
       <FeedbackTeacherLaptop
@@ -1662,8 +1740,6 @@ function createGroupedFocusAreas(submission) {
           otherDrafts,
           setOtherDrafts,
           groupedFocusAreaIds,
-          setGroupedFocusAreaIds,
-          handleCheckboxChange,
         }}
       />
     </FeedbackContext.Provider>

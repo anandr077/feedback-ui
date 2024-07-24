@@ -92,8 +92,6 @@ function FeedbackTeacherLaptop(props) {
     otherDrafts,
     setOtherDrafts,
     groupedFocusAreaIds,
-    setGroupedFocusAreaIds,
-    handleCheckboxChange,
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
@@ -109,9 +107,7 @@ function FeedbackTeacherLaptop(props) {
     questions[QuestionIndex]?.focusAreas &&
       questions[QuestionIndex]?.focusAreas.length !== 0
   );
-  // const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
-  //   createGroupedFocusAreas(submission)
-  // );
+  
   const [openLeftPanel, setOpenLefPanel] = useState(false);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
@@ -296,7 +292,6 @@ function FeedbackTeacherLaptop(props) {
               pageMode,
               quillRefs,
               smallMarkingCriteria,
-              handleCheckboxChange,
               groupedFocusAreaIds,
               commentsForSelectedTab,
               setShowResolved,
@@ -457,26 +452,6 @@ function loader(showLoader) {
   );
 }
 
-// function createGroupedFocusAreas(submission) {
-//   const flattenedQuestions = flatMap(
-//     submission.assignment.questions,
-//     (question) =>
-//       question.focusAreaIds?.map((focusAreaId) => ({
-//         serialNumber: question.serialNumber,
-//         focusAreaId,
-//       }))
-//   );
-
-//   const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
-//   const grouped = Object.keys(groupedBySerialNumber).reduce(
-//     (grouped, serialNumber) => {
-//       grouped[serialNumber] = [];
-//       return grouped;
-//     },
-//     {}
-//   );
-//   return grouped;
-// }
 
 function answersAndFeedbacks(
   isMobile,
@@ -487,7 +462,6 @@ function answersAndFeedbacks(
   pageMode,
   quillRefs,
   smallMarkingCriteria,
-  handleCheckboxChange,
   groupedFocusAreaIds,
   commentsForSelectedTab,
   setShowResolved,
@@ -597,7 +571,6 @@ function answersAndFeedbacks(
       <FeedbackBody>
         {isFocusAreas && (
           <FocusAreasLabel
-            handleCheckboxChange={handleCheckboxChange}
             groupedFocusAreaIds={groupedFocusAreaIds}
             serialNumber={question?.serialNumber}
             focusAreas={matchingFocusAreas}
@@ -607,7 +580,6 @@ function answersAndFeedbacks(
           {answersFrame(
             quillRefs,
             smallMarkingCriteria,
-            handleCheckboxChange,
             groupedFocusAreaIds,
             pageMode,
             submission,

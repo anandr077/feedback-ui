@@ -92,6 +92,8 @@ function FeedbackTeacherLaptop(props) {
     otherDrafts,
     setOtherDrafts,
   } = props;
+  console.log('submission', submission);
+  console.log('props', props);
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
   const [QuestionIndex, setQuestionIndex] = React.useState(0);

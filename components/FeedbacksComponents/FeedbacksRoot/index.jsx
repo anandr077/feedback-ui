@@ -29,19 +29,23 @@ import {
   provideFeedbackOnFeedback,
   resolveFeedback,
   submitAssignment,
-  updateFeedback
+  updateFeedback,
 } from '../../../service';
-import {
-  getShortcuts
-} from '../../../service.js';
+import { getShortcuts } from '../../../service.js';
 import {
   getUserId,
   getUserName,
-  getUserRole
+  getUserRole,
 } from '../../../userLocalDetails.js';
 import Loader from '../../Loader';
 import FeedbackTeacherLaptop from '../FeedbackTeacherLaptop';
-import { extractStudents, findMarkingCriteria, getComments, getPageMode, goToNewUrl } from './functions';
+import {
+  extractStudents,
+  findMarkingCriteria,
+  getComments,
+  getPageMode,
+  goToNewUrl,
+} from './functions';
 import {
   ActionButtonsContainer,
   ClassBox,
@@ -71,6 +75,7 @@ import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
 import { allCriteriaHaveSelectedLevels } from './rules.js';
+import { useAllSubmisssionsById, useClassData, useCommentBanksById,  useCommentsById, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -94,7 +99,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const newCommentFrameRef = useRef(null);
 
   const [submission, setSubmission] = useState(null);
-  const [smartAnnotations, setSmartAnnotations] = useState([]);
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
@@ -123,143 +127,162 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const defaultMarkingCriteria = getDefaultCriteria();
   const [otherDrafts, setOtherDrafts] = useState([]);
 
+
+  const {
+    data: submissionByIdData,
+    isLoadingdata: isLoadingsubmissionByIdData,
+  } = useSubmissionById(id);
+  const { data: commentsByIdData, isLoadingdata: isLoadingcommentsByIdData } =
+    useCommentsById(id);
+  const {
+    data: overAllCommentsById,
+    isLoadingdata: isLoadingoverAllCommentsById,
+  } = useOverAllCommentsById(id);
+  const { data: otherDraftsById, isLoadingdata: isLoadingotherDraftsById } =
+    useOtherDraftsById(id);
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
+
+  console.log(
+    'outise',
+    submissionByIdData,
+    commentsByIdData,
+    overAllCommentsById,
+    otherDraftsById,
+    classData
+  );
+
   useEffect(() => {
     setIsLoading(true);
-    Promise.all([
-      getSubmissionById(id),
-      getComments(id),
-      fetchClassWithStudentsAndTeachers(),
-      getOverComments(id),
-      getOtherDrafts(id),
-    ])
-      .then(
-        ([
-          submissionsResult,
-          commentsResult,
-          classWithTeacherAndStudentsResult,
-          overAllCommentsResult,
-          otherDrafts,
-        ]) => {
-          
-          setOtherDrafts(otherDrafts);
-          setSubmission(submissionsResult);
-          const allComments = commentsResult?.map((c) => {
-            return { ...c };
-          });
-          const feedbackComments = allComments?.filter(
-            (c) => c.type !== 'MARKING_CRITERIA'
-          );
-          setComments(feedbackComments);
-          const markingCriteriaFeedback = allComments?.filter(
-            (c) => c.type === 'MARKING_CRITERIA'
-          );
-          setMarkingCriteriaFeedback(markingCriteriaFeedback);
-
-          const initialState = classWithTeacherAndStudentsResult.reduce(
-            (acc, classItem) => {
-              acc[classItem.id] = {
-                checked: false,
-                students: classItem.students.reduce((studentAcc, student) => {
-                  let bool =
-                    submissionsResult.studentId === student.id ? true : false;
-                  studentAcc[student.id] = bool;
-                  return studentAcc;
-                }, {}),
-              };
-              return acc;
-            },
-            {}
-          );
-          setCheckedState(initialState);
-          setOverallComments(overAllCommentsResult);
-          setClassesAndStudents(classWithTeacherAndStudentsResult);
-          const allTeachers = _.flatten(
-            classWithTeacherAndStudentsResult.map((c) => c.teachers)
-          );
-          const uniqueTeachers = _.uniqBy(allTeachers, 'id');
-          setTeachers(uniqueTeachers);
-        }
-      )
-      .finally(() => {
-        if (!isTeacher) {
-          setIsLoading(false);
-        }
-      });
   }, [id]);
 
-  const commentBankIds = submission?.assignment?.questions
+  
+  const commentBankIds = submissionByIdData?.assignment?.questions
     .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
     .map((q) => q.commentBankId);
 
+  const { data: allSubmissions, isLoadingdata: isLoadingallSubmissions } =
+    useAllSubmisssionsById(submissionByIdData?.assignment.id, isTeacher);
+
+  const { data: commentBanksData, isLoadingdata: isLoadingcommentBanksData } =
+    useCommentBanksById(commentBankIds, isTeacher);
+
+   const isDataLoading =
+     isLoadingsubmissionByIdData ||
+     isLoadingcommentsByIdData ||
+     isLoadingoverAllCommentsById ||
+     isLoadingotherDraftsById ||
+     isLoadingclassData ||
+     (isTeacher &&
+       (isLoadingallSubmissions ||
+         isLoadingcommentBanksData));
+
   useEffect(() => {
-    if (isTeacher && submission && submission?.assignment.id) {
-      // alert("sub" + JSON.stringify(submission.assignment)
+    if (!isDataLoading) {
+      console.log('submissionByIdData outside', submissionByIdData);
 
-      const commentBankPromises = commentBankIds.map(getCommentBank);
+      if (submissionByIdData) {
+        console.log('submissionByIdData Inside', submissionByIdData);
+        setSubmission(submissionByIdData);
+      }
 
-      Promise.all([
-        getSubmissionsByAssignmentId(submission.assignment.id),
-        ...commentBankPromises,
-      ])
-        .then(([allSubmissions, ...commentBanks]) => {
-          setSmartAnnotations(
-            commentBanks.filter((cb) => cb !== undefined && cb !== null)
-          );
-          setStudents(extractStudents(allSubmissions));
-          let currentSubmissionIndex = 0;
-          const allExceptCurrent = allSubmissions.map((r, index) => {
-            if (r.id != submission.id) {
-              return r;
-            } else {
-              currentSubmissionIndex = index;
-            }
-          });
+      if (otherDraftsById) {
+        setOtherDrafts(otherDraftsById);
+      }
 
-          let nextSubmissionIndex = currentSubmissionIndex + 1;
-          while (
-            nextSubmissionIndex > 0 &&
-            nextSubmissionIndex < allExceptCurrent.length
-          ) {
-            if (allExceptCurrent[nextSubmissionIndex]?.status === 'SUBMITTED') {
-              break;
-            } else {
-              nextSubmissionIndex++;
-            }
-          }
-          if (nextSubmissionIndex >= allExceptCurrent.length) {
-            nextSubmissionIndex = 0;
-          }
+      if (commentsByIdData) {
+        const allComments = commentsByIdData.map((c) => ({ ...c }));
+        const feedbackComments = allComments.filter(
+          (c) => c.type !== 'MARKING_CRITERIA'
+        );
+        setComments(feedbackComments);
+        const markingCriteriaFeedback = allComments.filter(
+          (c) => c.type === 'MARKING_CRITERIA'
+        );
+        setMarkingCriteriaFeedback(markingCriteriaFeedback);
+      }
 
-          const nextUrl = allExceptCurrent[nextSubmissionIndex]
-            ? '#submissions/' + allExceptCurrent[nextSubmissionIndex]?.id
-            : '/';
+      if (overAllCommentsById) {
+        setOverallComments(overAllCommentsById);
+      }
 
-          setNextUrl(nextUrl);
-          const studentName =
-            allSubmissions.find((r) => r.id === submission.assignment.id)
-              ?.studentName ?? null;
+      if (classData && submissionByIdData) {
+        const initialState = classData.reduce((acc, classItem) => {
+          acc[classItem.id] = {
+            checked: false,
+            students: classItem.students.reduce((studentAcc, student) => {
+              const isStudent = submissionByIdData.studentId === student.id;
+              studentAcc[student.id] = isStudent;
+              return studentAcc;
+            }, {}),
+          };
+          return acc;
+        }, {});
+        setCheckedState(initialState);
+        setClassesAndStudents(classData);
 
-          setStudentName(studentName);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+        const allTeachers = _.flatten(classData.map((c) => c.teachers));
+        const uniqueTeachers = _.uniqBy(allTeachers, 'id');
+        setTeachers(uniqueTeachers);
+      }
+      if (!isTeacher) {
+        setIsLoading(false);
+      }
     }
-  }, [submission]);
+  }, [isDataLoading, id]);
 
-  const allCommentBanks = smartAnnotations?.flatMap(
-    (annotation, index) =>
-      annotation.smartComments.filter((smartComment) =>
-        commentBankIds?.includes(annotation.id)
-      )
-    // .map((smartComment, innerIndex) => (
-    //   <SmartAnotation
-    //     key={`${index}-${innerIndex}`}
-    //     smartAnnotation={smartComment}
-    //     onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
-    //   />
-    // ))
-  );
+
+  
+
+ useEffect(() => {
+   if (!isDataLoading && allSubmissions) {
+     setStudents(extractStudents(allSubmissions));
+
+     let currentSubmissionIndex = 0;
+     const allExceptCurrent = allSubmissions?.filter((r, index) => {
+       if (r.id !== submissionByIdData.id) {
+         return r;
+       } else {
+         currentSubmissionIndex = index;
+         return false;
+       }
+     });
+
+     let nextSubmissionIndex = currentSubmissionIndex + 1;
+     while (
+       nextSubmissionIndex > 0 &&
+       nextSubmissionIndex < allExceptCurrent?.length
+     ) {
+       if (allExceptCurrent[nextSubmissionIndex]?.status === 'SUBMITTED') {
+         break;
+       } else {
+         nextSubmissionIndex++;
+       }
+     }
+     if (nextSubmissionIndex >= allExceptCurrent.length) {
+       nextSubmissionIndex = 0;
+     }
+
+     const nextUrl = allExceptCurrent[nextSubmissionIndex]
+       ? '#submissions/' + allExceptCurrent[nextSubmissionIndex]?.id
+       : '/';
+     setNextUrl(nextUrl);
+
+     const studentName =
+       allSubmissions.find((r) => r.id === submissionByIdData.assignment.id)
+         ?.studentName ?? null;
+     setStudentName(studentName);
+     setIsLoading(false);
+   }
+ }, [isDataLoading, id]);
+  
+  const deleteDraftPage = async (submissionId, pendingLocation) => {
+    await deleteSubmissionById(submissionId).then(() => {
+      if (pendingLocation) {
+        goToNewUrl(pendingLocation);
+      }
+      setPageLeavePopup(false);
+    });
+  };
 
   useEffect(() => {
     const unblock = history.block((location, action) => {
@@ -297,14 +320,26 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }, [submission, feedbackReviewPopup, history]);
 
 
-  const deleteDraftPage = async (submissionId, pendingLocation) => {
-    await deleteSubmissionById(submissionId).then(() => {
-      if (pendingLocation) {
-        goToNewUrl(pendingLocation);
-      }
-      setPageLeavePopup(false);
-    });
-  };
+
+console.log('isDataLoading', isDataLoading);
+
+  
+  if (isLoading) {
+    return (
+      <>
+        <Loader />
+      </>
+    );
+  }
+
+  const allCommentBanks = commentBanksData
+    ?.filter((cb) => cb !== undefined && cb !== null)
+    ?.flatMap((annotation) =>
+      annotation.smartComments.filter((smartComment) =>
+        commentBankIds?.includes(annotation.id)
+      )
+    );
+
 
   const saveDraftPage = () => {
     if (pendingLocation) {
@@ -313,13 +348,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setPageLeavePopup(false);
   };
 
-  if (isLoading) {
-    return (
-      <>
-        <Loader />
-      </>
-    );
-  }
   const handleFeedbackOnFeedback = (feedbackOnFeedback) => () => {
     provideFeedbackOnFeedback(submission.id, feedbackOnFeedback).then((res) => {
       setSubmission((old) => {
@@ -365,7 +393,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }, {});
 
   const pageMode = getPageMode(isTeacher, getUserId(), submission);
-  
 
   const handleEditingComment = (flag) => {
     setEditingComment(flag);
@@ -674,7 +701,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
                 setExemplerComment('');
                 setCheckedState(initialCheckedState);
               }}
-              smartAnnotations={smartAnnotations}
+              smartAnnotations={commentBanksData?.filter(
+                (cb) => cb !== undefined && cb !== null
+              )}
             />
           </DialogActions>
         </ActionButtonsContainer>
@@ -906,7 +935,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedStrengths: [],
           selectedTargets: [],
         };
-        
+
         if (!isNullOrEmpty(markingCriteriaFeedback)) {
           let submitedMarkingCriteria = findMarkingCriteria(
             markingCriteriaFeedback,
@@ -991,13 +1020,16 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     markingCriteriaRequest,
     QuestionIndex
   ) {
-
     let submitedMarkingCriteria = markingCriteriaFeedback?.find(
       (markingCriteria) =>
         markingCriteria?.questionSerialNumber === question.serialNumber
     );
     if (submitedMarkingCriteria?.id) {
-      updateFeedback(submission.id, submitedMarkingCriteria.id, markingCriteriaRequest)
+      updateFeedback(
+        submission.id,
+        submitedMarkingCriteria.id,
+        markingCriteriaRequest
+      )
         .then((response) => {
           setMarkingCriteriaFeedback((prev) => {
             const existingIndex = prev.findIndex(
@@ -1021,25 +1053,27 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           console.error('Error in updateFeedback:', error);
         });
     } else {
-      return addFeedback(submission.id, markingCriteriaRequest).then((response) => {
-        setMarkingCriteriaFeedback((prev) => {
-          const existingIndex = prev.findIndex(
-            (markingCriteria) =>
-              markingCriteria.questionSerialNumber === question.serialNumber
-          );
-
-          if (existingIndex !== -1) {
-            return prev.map((item, index) =>
-              index === existingIndex ? { ...item, ...response } : item
+      return addFeedback(submission.id, markingCriteriaRequest).then(
+        (response) => {
+          setMarkingCriteriaFeedback((prev) => {
+            const existingIndex = prev.findIndex(
+              (markingCriteria) =>
+                markingCriteria.questionSerialNumber === question.serialNumber
             );
-          } else {
-            return [
-              ...prev,
-              { ...response, questionSerialNumber: question.serialNumber },
-            ];
-          }
-        });
-      });
+
+            if (existingIndex !== -1) {
+              return prev.map((item, index) =>
+                index === existingIndex ? { ...item, ...response } : item
+              );
+            } else {
+              return [
+                ...prev,
+                { ...response, questionSerialNumber: question.serialNumber },
+              ];
+            }
+          });
+        }
+      );
     }
   }
 
@@ -1191,7 +1225,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     } else {
     }
   }
-
 
   const reviewerSelectionChange =
     (visibleComment, serialNumber) => (selection) => {
@@ -1406,7 +1439,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   function handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria) {
-    
     const currentQuestion = submission.assignment.questions[QuestionIndex];
 
     submitMarkingCriteriaFeedback(
@@ -1550,7 +1582,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   return (
     <FeedbackContext.Provider
       value={{
-        smartAnnotations,
+        smartAnnotations: commentBanksData?.filter(
+          (cb) => cb !== undefined && cb !== null
+        ),
         showNewComment,
         newCommentSerialNumber,
         markingCriteriaFeedback,
@@ -1590,7 +1624,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           confirmButtonAction={saveDraftPage}
         />
       )}
-      <Header breadcrumbs={[submission.assignment.title, submission.status]} />
+      <Header
+        breadcrumbs={[submission?.assignment.title, submission?.status]}
+      />
 
       <FeedbackTeacherLaptop
         {...{
@@ -1602,7 +1638,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           shortcuts,
           newCommentFrameRef,
           methods,
-          comments: (comments ? comments : []),
+          comments: comments ? comments : [],
           submission,
           setSubmission,
           sharewithclassdialog,

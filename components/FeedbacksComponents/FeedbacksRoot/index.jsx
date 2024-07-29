@@ -113,7 +113,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [editingComment, setEditingComment] = useState(false);
   const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
   const [newMarkingCriterias, setNewMarkingCriterias] = useState([]);
-  const [overallComments, setOverallComments] = useState([]);
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
@@ -137,6 +136,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const {
     data: overAllCommentsById,
     isLoadingdata: isLoadingoverAllCommentsById,
+    setData: setOverAllCommentsById,
   } = useOverAllCommentsById(id);
   const { data: otherDraftsById, isLoadingdata: isLoadingotherDraftsById } =
     useOtherDraftsById(id);
@@ -201,9 +201,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setMarkingCriteriaFeedback(markingCriteriaFeedback);
       }
 
-      if (overAllCommentsById) {
-        setOverallComments(overAllCommentsById);
-      }
+      
 
       if (classData && submissionByIdData) {
         const initialState = classData.reduce((acc, classItem) => {
@@ -1106,7 +1104,7 @@ console.log('isDataLoading', isDataLoading);
   }
 
   const addOverallFeedback = (questionSerialNumber, comment, audio) => {
-    addFeedback(submission.id, {
+    addFeedback(submissionByIdData.id, {
       questionSerialNumber: questionSerialNumber,
       feedback: comment,
       range: {
@@ -1115,34 +1113,47 @@ console.log('isDataLoading', isDataLoading);
       },
       audio: audio,
       type: 'OVERALL_COMMENT',
-    }).then((response) => {
-      if (response) {
-        setOverallComments([...overallComments, response]);
-      }
-    });
+    })
+      .then((response) => {
+        if (response) {
+          setOverAllCommentsById([...overAllCommentsById, response]);
+        }
+      })
+      .catch((err) => {
+        toast(
+          <Toast
+            message={`Error adding feedback: ${err.message}`}
+          />
+        );
+        
+      });;
   };
 
   const updateOverAllFeedback = (feedbackId, feedbackText, audio) => {
-    const feedbackToUpdate = overallComments.find(
+    const feedbackToUpdate = overAllCommentsById.find(
       (feedback) => feedback.id === feedbackId
     );
     if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
       return;
     }
 
-    updateFeedback(submission.id, feedbackId, {
+    updateFeedback(submissionByIdData?.id, feedbackId, {
       ...feedbackToUpdate,
       feedback: feedbackText,
       audio: audio,
-    }).then((response) => {
-      setOverallComments((o) =>
-        o.map((feedback) => {
-          return feedback.id === feedbackId
-            ? { ...feedback, comment: feedbackText, audio: audio }
-            : feedback;
-        })
-      );
-    });
+    })
+      .then((response) => {
+        setOverAllCommentsById((prevComments) =>
+          prevComments.map((feedback) => {
+            return feedback.id === feedbackId
+              ? { ...feedback, comment: feedbackText, audio: audio }
+              : feedback;
+          })
+        );
+      })
+      .catch((err) => {
+         toast(<Toast message={`Error updating feedback: ${err.message}`} />);
+      });
   };
 
   const handleSaveSubmissionForReview = () => {
@@ -1588,7 +1599,7 @@ console.log('isDataLoading', isDataLoading);
         showNewComment,
         newCommentSerialNumber,
         markingCriteriaFeedback,
-        overallComments,
+        overallComments: overAllCommentsById,
         comments,
         showFloatingDialogue,
         setShowFloatingDialogue,
@@ -1648,7 +1659,7 @@ console.log('isDataLoading', isDataLoading);
           classesAndStudents,
           teachers,
           selectedComment,
-          overallComments,
+          overallComments : overAllCommentsById,
           markingCriteriaFeedback,
           otherDrafts,
           setOtherDrafts,

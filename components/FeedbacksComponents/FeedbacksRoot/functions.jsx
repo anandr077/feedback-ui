@@ -122,10 +122,10 @@ export const findMarkingCriteria = (
 };
 
 export const getOverallComment = (overallComments, QuestionIndex) => {
-  if (overallComments.length === 0) {
+  if (overallComments?.length === 0) {
     return null;
   }
-  return overallComments.find(
+  return overallComments?.find(
     (comment) => comment?.questionSerialNumber === QuestionIndex + 1
   );
 }

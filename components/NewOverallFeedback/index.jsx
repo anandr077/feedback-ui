@@ -42,6 +42,8 @@ const NewOverallFeedback = ({
   const [isTruncated, setIsTruncated] = useState(false);
   const inputRef = useRef();
 
+
+
   useEffect(() => {
     if (inputRef.current) {
       if (overallComment?.comment) {

@@ -103,7 +103,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const [studentName, setStudentName] = useState(null);
-  const [comments, setComments] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [selectedText, setSelectedText] = useState(null);
@@ -111,7 +110,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [nextUrl, setNextUrl] = useState('');
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
-  const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
   const [newMarkingCriterias, setNewMarkingCriterias] = useState([]);
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
@@ -131,8 +129,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     data: submissionByIdData,
     isLoadingdata: isLoadingsubmissionByIdData,
   } = useSubmissionById(id);
-  const { data: commentsByIdData, isLoadingdata: isLoadingcommentsByIdData } =
-    useCommentsById(id);
+  const {
+    data: commentsByIdData,
+    isLoadingdata: isLoadingcommentsByIdData,
+    setData: setCommentsByIdData,
+  } = useCommentsById(id);
   const {
     data: overAllCommentsById,
     isLoadingdata: isLoadingoverAllCommentsById,
@@ -176,6 +177,15 @@ export default function FeedbacksRoot({ isDocumentPage }) {
        (isLoadingallSubmissions ||
          isLoadingcommentBanksData));
 
+
+  const markingCriteriaFeedback = commentsByIdData?.filter(
+    (c) => c.type === 'MARKING_CRITERIA'
+  );
+  const feedbackComments = commentsByIdData?.filter(
+          (c) => c.type !== 'MARKING_CRITERIA'
+        );
+
+
   useEffect(() => {
     if (!isDataLoading) {
       console.log('submissionByIdData outside', submissionByIdData);
@@ -189,17 +199,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setOtherDrafts(otherDraftsById);
       }
 
-      if (commentsByIdData) {
-        const allComments = commentsByIdData.map((c) => ({ ...c }));
-        const feedbackComments = allComments.filter(
-          (c) => c.type !== 'MARKING_CRITERIA'
-        );
-        setComments(feedbackComments);
-        const markingCriteriaFeedback = allComments.filter(
-          (c) => c.type === 'MARKING_CRITERIA'
-        );
-        setMarkingCriteriaFeedback(markingCriteriaFeedback);
-      }
+     
 
       
 
@@ -358,25 +358,7 @@ console.log('isDataLoading', isDataLoading);
     });
   };
 
-  async function fetchClassWithStudentsAndTeachers() {
-    try {
-      const classesWithStudents = await getClassesWithStudents();
 
-      const teacherPromises = _.flatMap(classesWithStudents, (classItem) => {
-        return getTeachersForClass(classItem.id).then((teachers) => {
-          return { ...classItem, teachers };
-        });
-      });
-
-      return await Promise.all(teacherPromises);
-    } catch (error) {
-      console.error(
-        'Error fetching classes with students and teachers:',
-        error
-      );
-      throw error;
-    }
-  }
 
   const initialCheckedState = classesAndStudents.reduce((acc, classItem) => {
     acc[classItem.id] = {
@@ -418,7 +400,11 @@ console.log('isDataLoading', isDataLoading);
       sharedWithStudents: [],
     }).then((response) => {
       if (response) {
-        setComments([...comments, response]);
+        setCommentsByIdData([
+          ...markingCriteriaFeedback,
+          ...feedbackComments,
+          response,
+        ]);
         highlightByComment(response);
         setShowNewComment(false);
       }
@@ -437,7 +423,11 @@ console.log('isDataLoading', isDataLoading);
       sharedWithStudents: [],
     }).then((response) => {
       if (response) {
-        setComments([...comments, response]);
+        setCommentsByIdData([
+          ...markingCriteriaFeedback,
+          ...feedbackComments,
+          response,
+        ]);
         highlightByComment(response);
         setShowNewComment(false);
       }
@@ -456,7 +446,11 @@ console.log('isDataLoading', isDataLoading);
       sharedWithStudents: [],
     }).then((response) => {
       if (response) {
-        setComments([...comments, response]);
+        setCommentsByIdData([
+          ...markingCriteriaFeedback,
+          ...feedbackComments,
+          response,
+        ]);
         highlightByComment(response);
         setShowNewComment(false);
       }
@@ -477,7 +471,11 @@ console.log('isDataLoading', isDataLoading);
       sharedWithStudents: [],
     }).then((response) => {
       if (response) {
-        setComments([...comments, response]);
+        setCommentsByIdData([
+          ...markingCriteriaFeedback,
+          ...feedbackComments,
+          response,
+        ]);
         highlightByComment(response);
         setShowNewComment(false);
         setShowFloatingDialogue(false);
@@ -499,7 +497,11 @@ console.log('isDataLoading', isDataLoading);
       sharedWithStudents: getSharedStudentIds(),
     }).then((response) => {
       if (response) {
-        setComments([...comments, response]);
+        setCommentsByIdData([
+          ...markingCriteriaFeedback,
+          ...feedbackComments,
+          response,
+        ]);
         highlightByComment(response);
         setShowNewComment(false);
         setExemplerComment('');
@@ -717,25 +719,34 @@ console.log('isDataLoading', isDataLoading);
 
   function handleDeleteComment(commentId) {
     deleteFeedback(submission.id, commentId).then((response) => {
-      setComments((oldComments) => {
-        const deletedComment = oldComments.find((c) => c.id == commentId);
-        const quill =
-          quillRefs.current[deletedComment.questionSerialNumber - 1];
-        const newComments = oldComments.filter((c) => c.id != commentId);
-        return oldComments.filter((c) => c.id != commentId);
+      
+
+      setCommentsByIdData((prevComments) => {
+       
+        const otherComments = prevComments.filter(
+          (comment) => comment.type !== 'MARKING_CRITERIA'
+        );
+        const markingCriteriaComments = prevComments.filter(
+          (comment) => comment.type === 'MARKING_CRITERIA'
+        );
+        let updatedComments = otherComments.filter((c) => c.id != commentId);
+        return [...updatedComments, ...markingCriteriaComments];
       });
     });
   }
 
   function handleResolvedComment(commentId) {
-    const updatedComments = comments.map((comment) => {
+    const updatedComments = feedbackComments.map((comment) => {
       if (comment.id === commentId) {
         resolveFeedback(commentId);
         return { ...comment, status: 'RESOLVED' };
       }
       return comment;
     });
-    setComments(updatedComments);
+    setCommentsByIdData([
+      ...markingCriteriaFeedback,
+      ...updatedComments
+    ]);
   }
 
   function handleReplyComment(
@@ -755,7 +766,7 @@ console.log('isDataLoading', isDataLoading);
       markingCriteria: defaultMarkingCriteria,
       sharedWithStudents: sharedWithStudents,
     };
-    const addReplyComments = comments.map((comment) => {
+    const addReplyComments = feedbackComments.map((comment) => {
       if (comment.id === commentId) {
         const commentToUpdate =
           comment.replies === undefined
@@ -776,10 +787,13 @@ console.log('isDataLoading', isDataLoading);
           sharedWithStudents: commentToUpdate.sharedWithStudents,
         }).then((response) => {
           if (response) {
-            const updatedComments = comments.map((c) =>
+            const updatedComments = feedbackComments.map((c) =>
               c.id === commentId ? commentToUpdate : c
             );
-            setComments(updatedComments);
+            setCommentsByIdData([
+              ...markingCriteriaFeedback,
+              ...updatedComments,
+            ]);
           }
         });
       }
@@ -792,7 +806,7 @@ console.log('isDataLoading', isDataLoading);
   }
 
   function updateParentComment(comment, commentId) {
-    const updatedComment = comments.map((c) => {
+    const updatedComment = feedbackComments.map((c) => {
       if (c.id === commentId) {
         const commentToUpdate = {
           ...c,
@@ -815,10 +829,13 @@ console.log('isDataLoading', isDataLoading);
           reviewerId: commentToUpdate.reviewerId,
         }).then((response) => {
           if (response) {
-            const updatedComments = comments.map((c) =>
+            const updatedComments = feedbackComments.map((c) =>
               c.id === commentId ? commentToUpdate : c
             );
-            setComments(updatedComments);
+            setCommentsByIdData([
+              ...markingCriteriaFeedback,
+              ...updatedComments,
+            ]);
           }
         });
       }
@@ -836,7 +853,7 @@ console.log('isDataLoading', isDataLoading);
     comment,
     sharedWithStudents
   ) {
-    const updatedReplyComment = comments.map((c) => {
+    const updatedReplyComment = feedbackComments.map((c) => {
       if (c.id === commentId) {
         const updatedReplies = [...c.replies];
         updatedReplies[replyCommentIndex] = {
@@ -857,10 +874,13 @@ console.log('isDataLoading', isDataLoading);
           sharedWithStudents: sharedWithStudents,
         }).then((response) => {
           if (response) {
-            const updatedComments = comments.map((c) =>
+            const updatedComments = feedbackComments.map((c) =>
               c.id === commentId ? commentToUpdate : c
             );
-            setComments(updatedComments);
+            setCommentsByIdData([
+              ...markingCriteriaFeedback,
+              ...updatedComments,
+            ]);
           }
         });
       }
@@ -869,7 +889,7 @@ console.log('isDataLoading', isDataLoading);
   }
 
   function handleDeleteReplyComment(commentId, replyCommentIndex) {
-    const deleteReplyComment = comments.map((c) => {
+    const deleteReplyComment = feedbackComments.map((c) => {
       if (c.id === commentId) {
         const updatedReplies = [...c.replies];
         updatedReplies.splice(replyCommentIndex, 1);
@@ -886,10 +906,13 @@ console.log('isDataLoading', isDataLoading);
           sharedWithStudents: c.sharedWithStudents,
         }).then((response) => {
           if (response) {
-            const updatedComments = comments.map((c) =>
+            const updatedComments = feedbackComments.map((c) =>
               c.id === commentId ? commentToUpdate : c
             );
-            setComments(updatedComments);
+            setCommentsByIdData([
+              ...markingCriteriaFeedback,
+              ...updatedComments,
+            ]);
           }
         });
       }
@@ -1013,6 +1036,68 @@ console.log('isDataLoading', isDataLoading);
     });
   }
 
+  // function submitMarkingCriteriaFeedback(
+  //   question,
+  //   markingCriteriaRequest,
+  //   QuestionIndex
+  // ) {
+  //   let submitedMarkingCriteria = markingCriteriaFeedback?.find(
+  //     (markingCriteria) =>
+  //       markingCriteria?.questionSerialNumber === question.serialNumber
+  //   );
+  //   if (submitedMarkingCriteria?.id) {
+  //     updateFeedback(
+  //       submission.id,
+  //       submitedMarkingCriteria.id,
+  //       markingCriteriaRequest
+  //     )
+  //       .then((response) => {
+  //         setMarkingCriteriaFeedback((prev) => {
+  //           const existingIndex = prev.findIndex(
+  //             (markingCriteria) =>
+  //               markingCriteria.questionSerialNumber === question.serialNumber
+  //           );
+
+  //           if (existingIndex !== -1) {
+  //             return prev.map((item, index) =>
+  //               index === existingIndex ? { ...item, ...response } : item
+  //             );
+  //           } else {
+  //             return [
+  //               ...prev,
+  //               { ...response, questionSerialNumber: question.serialNumber },
+  //             ];
+  //           }
+  //         });
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error in updateFeedback:', error);
+  //       });
+  //   } else {
+  //     return addFeedback(submission.id, markingCriteriaRequest).then(
+  //       (response) => {
+  //         setMarkingCriteriaFeedback((prev) => {
+  //           const existingIndex = prev.findIndex(
+  //             (markingCriteria) =>
+  //               markingCriteria.questionSerialNumber === question.serialNumber
+  //           );
+
+  //           if (existingIndex !== -1) {
+  //             return prev.map((item, index) =>
+  //               index === existingIndex ? { ...item, ...response } : item
+  //             );
+  //           } else {
+  //             return [
+  //               ...prev,
+  //               { ...response, questionSerialNumber: question.serialNumber },
+  //             ];
+  //           }
+  //         });
+  //       }
+  //     );
+  //   }
+  // }
+
   function submitMarkingCriteriaFeedback(
     question,
     markingCriteriaRequest,
@@ -1022,6 +1107,39 @@ console.log('isDataLoading', isDataLoading);
       (markingCriteria) =>
         markingCriteria?.questionSerialNumber === question.serialNumber
     );
+
+    const updateLocalFeedbackState = (response) => {
+      setCommentsByIdData((prevComments) => {
+        
+        const otherComments = prevComments.filter(
+          (comment) => comment.type !== 'MARKING_CRITERIA'
+        );
+        const markingCriteriaComments = prevComments.filter(
+          (comment) => comment.type === 'MARKING_CRITERIA'
+        );
+
+        
+        const updatedMarkingCriteriaComments = markingCriteriaComments.map(
+          (comment) => {
+            if (comment.id === response.id) {
+              return { ...comment, ...response };
+            }
+            return comment;
+          }
+        );
+
+      
+        if (
+          !markingCriteriaComments.find((comment) => comment.id === response.id)
+        ) {
+          updatedMarkingCriteriaComments.push(response);
+        }
+
+       
+        return [...otherComments, ...updatedMarkingCriteriaComments];
+      });
+    };
+
     if (submitedMarkingCriteria?.id) {
       updateFeedback(
         submission.id,
@@ -1029,51 +1147,22 @@ console.log('isDataLoading', isDataLoading);
         markingCriteriaRequest
       )
         .then((response) => {
-          setMarkingCriteriaFeedback((prev) => {
-            const existingIndex = prev.findIndex(
-              (markingCriteria) =>
-                markingCriteria.questionSerialNumber === question.serialNumber
-            );
-
-            if (existingIndex !== -1) {
-              return prev.map((item, index) =>
-                index === existingIndex ? { ...item, ...response } : item
-              );
-            } else {
-              return [
-                ...prev,
-                { ...response, questionSerialNumber: question.serialNumber },
-              ];
-            }
-          });
+          updateLocalFeedbackState(response);
         })
         .catch((error) => {
           console.error('Error in updateFeedback:', error);
         });
     } else {
-      return addFeedback(submission.id, markingCriteriaRequest).then(
-        (response) => {
-          setMarkingCriteriaFeedback((prev) => {
-            const existingIndex = prev.findIndex(
-              (markingCriteria) =>
-                markingCriteria.questionSerialNumber === question.serialNumber
-            );
-
-            if (existingIndex !== -1) {
-              return prev.map((item, index) =>
-                index === existingIndex ? { ...item, ...response } : item
-              );
-            } else {
-              return [
-                ...prev,
-                { ...response, questionSerialNumber: question.serialNumber },
-              ];
-            }
-          });
-        }
-      );
+      addFeedback(submission.id, markingCriteriaRequest)
+        .then((response) => {
+          updateLocalFeedbackState(response);
+        })
+        .catch((error) => {
+          console.error('Error in addFeedback:', error);
+        });
     }
   }
+
 
   function handleRequestResubmission() {
     setShowSubmitPopup(false);
@@ -1315,8 +1404,8 @@ console.log('isDataLoading', isDataLoading);
   }
 
   const unhighlightComment = () => {
-    if (comments.length > 0 && commentHighlight) {
-      comments.map((comment) => {
+    if (feedbackComments.length > 0 && commentHighlight) {
+      feedbackComments.map((comment) => {
         const div = document.getElementById('comment_' + comment.id);
         div.style.background = '#FFFFFF';
         div.style.border = '1px solid #E5E5E5';
@@ -1459,41 +1548,7 @@ console.log('isDataLoading', isDataLoading);
     );
   }
 
-  const handleStrengthsTargetsFeedback = (
-    QuestionIndex,
-    selectedStrengths,
-    selectedTargets
-  ) => {
-    const currentQuestion = submission.assignment.questions[QuestionIndex];
-
-    const markingCriteriaRequest = currentQuestion.markingCriteria;
-
-    markingCriteriaRequest.selectedStrengths =
-      convertToSelectedAttribute(selectedStrengths);
-    markingCriteriaRequest.selectedTargets =
-      convertToSelectedAttribute(selectedTargets);
-
-    setNewMarkingCriterias((previousState) => {
-      const updatedMarkingCriterias = [...previousState];
-
-      if (!updatedMarkingCriterias[QuestionIndex]) {
-        updatedMarkingCriterias[QuestionIndex] = {};
-      }
-      updatedMarkingCriterias[QuestionIndex] = {
-        ...updatedMarkingCriterias[QuestionIndex],
-        selectedStrengths: markingCriteriaRequest.selectedStrengths,
-        selectedTargets: markingCriteriaRequest.selectedTargets,
-      };
-
-      return updatedMarkingCriterias;
-    });
-
-    submitMarkingCriteriaFeedback(
-      currentQuestion,
-      markingCriteriaRequest,
-      QuestionIndex
-    );
-  };
+  
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
   };
@@ -1550,8 +1605,7 @@ console.log('isDataLoading', isDataLoading);
   };
 
   const methods = {
-    comments,
-    setComments,
+    comments: feedbackComments,
     submissionStatusLabel,
     handleDeleteComment,
     handleShareWithClass,
@@ -1579,7 +1633,6 @@ console.log('isDataLoading', isDataLoading);
     updateParentComment,
     updateChildComment,
     handleMarkingCriteriaLevelFeedback,
-    handleStrengthsTargetsFeedback,
     showSubmitPopuphandler,
     setUpdateExemplarComment,
     convertToCheckedState,
@@ -1600,7 +1653,7 @@ console.log('isDataLoading', isDataLoading);
         newCommentSerialNumber,
         markingCriteriaFeedback,
         overallComments: overAllCommentsById,
-        comments,
+        comments: feedbackComments,
         showFloatingDialogue,
         setShowFloatingDialogue,
         allCommentBanks,
@@ -1649,7 +1702,7 @@ console.log('isDataLoading', isDataLoading);
           shortcuts,
           newCommentFrameRef,
           methods,
-          comments: comments ? comments : [],
+          comments: feedbackComments ? feedbackComments : [],
           submission,
           setSubmission,
           sharewithclassdialog,
@@ -1659,7 +1712,7 @@ console.log('isDataLoading', isDataLoading);
           classesAndStudents,
           teachers,
           selectedComment,
-          overallComments : overAllCommentsById,
+          overallComments: overAllCommentsById,
           markingCriteriaFeedback,
           otherDrafts,
           setOtherDrafts,

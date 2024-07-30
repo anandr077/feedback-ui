@@ -73,30 +73,23 @@ function MarkingCriteria({
       markingCriteria:
         submission?.assignment?.questions[QuestionIndex]?.markingCriteria,
     };
-    console.log(
-      'markingCriteriaFromSubmission init',
-      markingCriteriaFromSubmission
-    );
+    
     setMarkingCriteriaFromSubmission(markingCriteriaFromSubmission);
     if (!isNullOrEmpty(markingCriteriaFeedback)) {
       const submitedMarkingCriteria = markingCriteriaFeedback?.find(
         (markingCriteria) =>
           markingCriteria?.questionSerialNumber === QuestionIndex + 1
       );
-      console.log('submitedMarkingCriteria', submitedMarkingCriteria);
-      console.log(
-        'markingCriteriaFromSubmission',
-        markingCriteriaFromSubmission
-      );
+      
       if (submitedMarkingCriteria) {
         setMarkingCriteriaFromSubmission(submitedMarkingCriteria);
-        console.log('submitedMarkingCriteria', submitedMarkingCriteria);
+        
       }
     }
-  }, [QuestionIndex]);
+  }, [QuestionIndex, markingCriteriaFeedback]);
 
   const handleRubricsChange = (criteriaSerialNumber, selectedLevel) => {
-    console.log('markingCriteria is', markingCriteriaFromSubmission);
+   
     const update = {
       ...markingCriteriaFromSubmission,
       markingCriteria: {
@@ -114,10 +107,10 @@ function MarkingCriteria({
         ),
       },
     };
-    console.log('update is', update);
+    
 
     setMarkingCriteriaFromSubmission((prevMarkingCriteria) => update);
-    console.log('markingCriteria', markingCriteriaFromSubmission);
+    
   };
 
   const handleStrengthndTargetChange = (strengthsAndTargets, index, type) => {

@@ -84,11 +84,10 @@ export function answersFrame(
       handleMarkingCriteriaLevelFeedback={
         methods.handleMarkingCriteriaLevelFeedback
       }
-      handleStrengthsTargetsFeedback={methods.handleStrengthsTargetsFeedback}
       handleEditorMounted={methods.handleEditorMounted}
       addOverallFeedback={methods.addOverallFeedback}
       updateOverAllFeedback={methods.updateOverAllFeedback}
-      setComments={methods.setComments}
+      
       comments={methods.comments}
       editorFontSize={editorFontSize}
       selectedComment={selectedComment}
@@ -118,11 +117,9 @@ function AnswersFrame(props) {
     commentsForSelectedTab,
     onSelectionChange,
     handleMarkingCriteriaLevelFeedback,
-    handleStrengthsTargetsFeedback,
     handleEditorMounted,
     addOverallFeedback,
     updateOverAllFeedback,
-    setComments,
     comments,
     editorFontSize,
     selectedComment,
@@ -160,11 +157,9 @@ function AnswersFrame(props) {
           commentsForSelectedTab,
           onSelectionChange,
           handleMarkingCriteriaLevelFeedback,
-          handleStrengthsTargetsFeedback,
           handleEditorMounted,
           addOverallFeedback,
           updateOverAllFeedback,
-          setComments,
           comments,
           editorFontSize,
           selectedComment,
@@ -257,11 +252,9 @@ const answerFrames = (
   commentsForSelectedTab,
   onSelectionChange,
   handleMarkingCriteriaLevelFeedback,
-  handleStrengthsTargetsFeedback,
   handleEditorMounted,
   addOverallFeedback,
   updateOverAllFeedback,
-  setComments,
   comments,
   editorFontSize,
   selectedComment,
@@ -347,7 +340,6 @@ const answerFrames = (
     setSubmission,
     pageMode,
     comments,
-    setComments
   )(answer);
 
   return (

@@ -665,9 +665,7 @@ function answersAndFeedbacks(
             handleMarkingCriteriaLevelFeedback={
               methods.handleMarkingCriteriaLevelFeedback
             }
-            handleStrengthsTargetsFeedback={
-              methods.handleStrengthsTargetsFeedback
-            }
+            
             pageMode={pageMode}
             submission={submission}
           />

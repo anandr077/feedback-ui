@@ -122,7 +122,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [selectedComment, setSelectedComment] = useState(null);
   const [showFloatingDialogue, setShowFloatingDialogue] = useState(false);
   const defaultMarkingCriteria = getDefaultCriteria();
-  const [otherDrafts, setOtherDrafts] = useState([]);
 
 
   const {
@@ -139,8 +138,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     isLoadingdata: isLoadingoverAllCommentsById,
     setData: setOverAllCommentsById,
   } = useOverAllCommentsById(id);
-  const { data: otherDraftsById, isLoadingdata: isLoadingotherDraftsById } =
-    useOtherDraftsById(id);
+  const {
+    data: otherDraftsById,
+    isLoadingdata: isLoadingotherDraftsById,
+    setData: setOtherDraftsById,
+  } = useOtherDraftsById(id);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
 
   console.log(
@@ -195,10 +197,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setSubmission(submissionByIdData);
       }
 
-      if (otherDraftsById) {
-        setOtherDrafts(otherDraftsById);
-      }
-
+     
      
 
       
@@ -1714,8 +1713,8 @@ console.log('isDataLoading', isDataLoading);
           selectedComment,
           overallComments: overAllCommentsById,
           markingCriteriaFeedback,
-          otherDrafts,
-          setOtherDrafts,
+          otherDrafts : otherDraftsById,
+          setOtherDrafts : setOtherDraftsById,
         }}
       />
     </FeedbackContext.Provider>

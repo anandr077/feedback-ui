@@ -1,9 +1,8 @@
 import React from 'react';
 import { getTasks, getClasses } from '../../service';
-import ReactiveRender, { isMobileView, isTabletView } from '../ReactiveRender';
+import ReactiveRender, { isTabletView } from '../ReactiveRender';
 import TasksDesktop from '../TasksDesktop';
 import { taskHeaderProps } from '../../utils/headerProps.js';
-import { Dialog } from '@mui/material';
 import _ from 'lodash';
 import Loader from '../Loader';
 import { useQuery } from '@tanstack/react-query';
@@ -14,19 +13,15 @@ import {
   TasksImg,
   TasksImgCal,
 } from './style.js';
-
 import RoundedDropDown from '../../components2/RoundedDropDown/index.jsx';
 import SortSquare from '../../static/img/sort-square.svg';
 import FilterSquare from '../../static/img/filter-square.svg';
 import TaskSelected from '../../static/img/Columns-new.svg';
-import CloseCircle from '../../static/img/closecircle.svg';
 import TaskNotSelected from '../../static/img/Columns-new-gray.svg';
 import CalNotSelected from '../../static/img/Calendar-new-purple.svg';
 import CalSelected from '../../static/img/Calendar-new.svg';
-import CalUnSelected from '../../static/img/calunselected.svg';
 import MyCalendar from '../../components2/Calender/index.js';
 import moment from 'moment';
-
 import {
   FilterText,
   FilterImg,
@@ -42,16 +37,6 @@ import {
   SortText,
   TitleHeading,
 } from '../FilterSort/style.js';
-import {
-  FeedbackButtonArrow,
-  Frame5086Img,
-  Frame5086PopUp,
-  Frame5086PopUpBody,
-  Frame5086PopUpTitle,
-  Frame5086Text,
-  PopupContainer,
-  SortPopUpBody,
-} from '../GiveFeedback/style.js';
 import MenuButton from '../MenuButton/index.jsx';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
@@ -60,10 +45,8 @@ export default function StudentTaskRoot() {
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [tasksSelected, setTasksSelected] = React.useState(true);
-  const [isShowFilterPopUp, setShowFilterPopUp] = React.useState(false);
-  const [isShowSortPopUp, setShowSortPopUp] = React.useState(false);
    const [isShowMenu, setShowMenu] = React.useState(false);
-  const mobileView = isMobileView();
+
    const tabletView = isTabletView();
 
   const tasksQuery = useQuery({
@@ -309,17 +292,7 @@ export default function StudentTaskRoot() {
   );
 }
 
-const frame13041Data = {
-  iconsaxLinearSort: '/img/iconsax-linear-sort@2x.png',
-};
-const tabs23Data = {
-  children: 'In progress',
-  className: 'tabs-3',
-};
-const tabs24Data = {
-  children: 'Overdue',
-  className: 'tabs-4',
-};
+
 const statusBubbles28Data = {
   children: 'Theory',
 };
@@ -427,232 +400,6 @@ const frame192Data = {
   cards4Props: cards42Data,
   cards5Props: cards52Data,
 };
-
-
-
-const frame13042Data = {
-  iconsaxLinearSort: '/img/iconsax-linear-sort@2x.png',
-};
-
-const tabs25Data = {
-  children: 'In progress',
-};
-
-const tabs26Data = {
-  children: 'Overdue',
-};
-
-const statusBubbles215Data = {
-  children: 'Theory',
-};
-
-const statusBubbles33Data = {
-  star1: '/img/star1-1@2x.png',
-};
-
-const frame67Data = {
-  statusBubbles2Props: statusBubbles215Data,
-  statusBubbles3Props: statusBubbles33Data,
-};
-
-const content22Data = {
-  dueOn2April2023: 'Due on 2 April 2023',
-};
-
-const cards62Data = {
-  frame6Props: frame67Data,
-  content2Props: content22Data,
-};
-
-const statusBubbles216Data = {
-  children: 'Assignment',
-};
-
-const statusBubbles217Data = {
-  children: 'MCQ',
-};
-
-const frame623Data = {
-  statusBubbles21Props: statusBubbles216Data,
-  statusBubbles22Props: statusBubbles217Data,
-};
-
-const content23Data = {
-  dueOn2April2023: 'Due on 10 April 2023',
-};
-
-const cards7Data = {
-  frame62Props: frame623Data,
-  content2Props: content23Data,
-};
-
-const statusBubbles218Data = {
-  children: 'MCQ',
-};
-
-const frame633Data = {
-  statusBubbles2Props: statusBubbles218Data,
-};
-
-const content24Data = {
-  dueOn2April2023: 'Due on 2 April 2023',
-};
-
-const cards8Data = {
-  frame63Props: frame633Data,
-  content2Props: content24Data,
-};
-
-const statusBubbles219Data = {
-  children: 'Theory',
-};
-
-const frame643Data = {
-  statusBubbles2Props: statusBubbles219Data,
-};
-
-const content25Data = {
-  dueOn2April2023: 'Due on 2 April 2023',
-};
-
-const cards9Data = {
-  frame64Props: frame643Data,
-  content2Props: content25Data,
-};
-
-const statusBubbles220Data = {
-  children: 'Assignment',
-};
-
-const statusBubbles221Data = {
-  children: 'Theory',
-};
-
-const frame653Data = {
-  statusBubbles21Props: statusBubbles220Data,
-  statusBubbles22Props: statusBubbles221Data,
-};
-
-const content26Data = {
-  dueOn2April2023: 'Due on 2 April 2023',
-};
-
-const cards10Data = {
-  frame65Props: frame653Data,
-  content2Props: content26Data,
-};
-const notifications3Data = {
-  src: '/img/notificationbing@2x.png',
-};
-
-
-const statusBubbles21Data = {
-  children: 'Theory',
-};
-
-const statusBubbles31Data = {
-  star1: '/img/star1@2x.png',
-};
-const frame61Data = {
-  statusBubbles2Props: statusBubbles21Data,
-  statusBubbles3Props: statusBubbles31Data,
-};
-
-const content1Data = {
-  dueOn2April2023: 'Due on 2 April 2023',
-};
-
-const cards1Data = {
-  frame6Props: frame61Data,
-  contentProps: content1Data,
-};
-
-const statusBubbles22Data = {
-  children: 'Assignment',
-};
-
-const statusBubbles23Data = {
-  children: 'MCQ',
-};
-
-const frame621Data = {
-  statusBubbles21Props: statusBubbles22Data,
-  statusBubbles22Props: statusBubbles23Data,
-};
-
-const content2Data = {
-  dueOn2April2023: 'Due on 10 April 2023',
-};
-
-const cards21Data = {
-  frame62Props: frame621Data,
-  contentProps: content2Data,
-};
-
-const statusBubbles24Data = {
-  children: 'MCQ',
-};
-
-const frame631Data = {
-  statusBubbles2Props: statusBubbles24Data,
-};
-
-const content3Data = {
-  dueOn2April2023: 'Due on 2 April 2023',
-};
-
-const cards31Data = {
-  frame63Props: frame631Data,
-  contentProps: content3Data,
-};
-
-const statusBubbles25Data = {
-  children: 'Theory',
-};
-
-const frame641Data = {
-  statusBubbles2Props: statusBubbles25Data,
-};
-
-const content4Data = {
-  dueOn2April2023: 'Due on 2 April 2023',
-};
-
-const cards41Data = {
-  frame64Props: frame641Data,
-  contentProps: content4Data,
-};
-
-const statusBubbles26Data = {
-  children: 'Assignment',
-};
-
-const statusBubbles27Data = {
-  children: 'Theory',
-};
-
-const frame651Data = {
-  statusBubbles21Props: statusBubbles26Data,
-  statusBubbles22Props: statusBubbles27Data,
-};
-
-const content5Data = {
-  dueOn2April2023: 'Due on 2 April 2023',
-};
-
-const cards51Data = {
-  frame65Props: frame651Data,
-  contentProps: content5Data,
-};
-const frame191Data = {
-  cardsProps: cards1Data,
-  cards2Props: cards21Data,
-  cards3Props: cards31Data,
-  cards4Props: cards41Data,
-  cards5Props: cards51Data,
-};
-
-
 
 const frame13043Data = {
   iconsaxLinearSort: '/img/iconsax-linear-sort-2@2x.png',

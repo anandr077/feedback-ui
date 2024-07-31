@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import Breadcrumb from '../../Breadcrumb';
-import Breadcrumb2 from '../../Breadcrumb2';
-import GoBack from '../GoBack';
 import Frame1372 from '../Frame1372';
 import Frame1281 from '../Frame1281';
 import Buttons2 from '../Buttons2';
-import './CreateNewMarkingCriteriaDesktop.css';
 import {
   TextInput,
   TitleContainer,
@@ -62,7 +58,6 @@ import {
   TableHeadingPart,
   TableRowButtoncont,
 } from './style';
-import SecondSidebar from '../../SecondSidebar';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
 import { isTabletView } from '../../ReactiveRender';
 import MenuButton from '../../MenuButton';

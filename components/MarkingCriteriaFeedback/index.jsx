@@ -2,7 +2,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import React from 'react';
 import styled from 'styled-components';
-import { createMenuItems } from '../../features/strengthsTargets';
 import DropdownMenu from '../DropdownMenu';
 import { chain, set } from 'lodash';
 import '../MarkingCriteriaFeedbackReadOnly/markingcriteria.css';

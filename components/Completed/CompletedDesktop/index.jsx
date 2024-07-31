@@ -2,17 +2,13 @@ import React, { useState } from 'react';
 import Frame14103 from '../Frame14103';
 import styled from 'styled-components';
 import { IbmplexsansBoldShark64px } from '../styledMixins';
-import { completedHeaderProps } from '../../../utils/headerProps.js';
 import CheckboxGroup from '../../CheckboxGroup';
-import Breadcrumb from '../../Breadcrumb';
-import Breadcrumb2 from '../../Breadcrumb2';
 import HelpPeerSlide from '../HelpPeerSlide/index.jsx';
 import {
   SharedResponseContainer,
   HeadingAndFilterCon,
   SharedResponseMainContainer,
 } from './style.js';
-import SecondSidebar from '../../SecondSidebar/index.js';
 import MenuButton from '../../MenuButton/index.jsx';
 import { isTabletView } from '../../ReactiveRender/index.jsx';
 import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar/index.jsx';
@@ -26,9 +22,6 @@ function CompletedDesktop(props) {
     title,
     exemplar,
     setPublishActionCompleted,
-    subject,
-    frame1284,
-    line18,
     headingPart,
     onAccept,
     onDecline,
@@ -88,14 +81,7 @@ function CompletedDesktop(props) {
     );
   }
 }
-const Frame1315 = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  padding: 0px 0px 0px 60px;
-  position: relative;
-  align-self: stretch;
-`;
+
 const Frame1425 = styled.div`
   display: flex;
   width: 100%;
@@ -129,14 +115,7 @@ const Frame1424 = styled.div`
   align-self: stretch;
 `;
 
-const Title = styled.h1`
-  ${IbmplexsansBoldShark64px}
-  position: relative;
-  flex: 1;
-  margin-top: -1px;
-  letter-spacing: -1.6px;
-  line-height: normal;
-`;
+
 
 const Frame1413 = styled.div`
   display: flex;
@@ -153,12 +132,5 @@ const Frame1413 = styled.div`
   }
 `;
 
-const Line18 = styled.img`
-  position: relative;
-  align-self: stretch;
-  min-width: 1200px;
-  height: 1px;
-  object-fit: cover;
-`;
 
 export default CompletedDesktop;

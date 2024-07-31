@@ -21,7 +21,7 @@ import StyledDropDown from '../StyledDropDown';
 import countriesData from './countries.json';
 import { toast } from 'react-toastify';
 import Toast from '../../components/Toast';
-import { getLocalStorage } from '../../utils/function';
+import { getLocalStorage, setLocalStorage } from '../../utils/function';
 
 const yearOptions = [
   { title: '12' },
@@ -78,8 +78,8 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
         year: year,
         state: state,
       }).then(() => {
-        Cookies.set('state', state);
-        Cookies.set('year', year);
+        setLocalStorage('state', state);
+        setLocalStorage('year', year);
         onClose();
         if (editStateYear) {
           toast(<Toast message={'Year and location successfully updated'} />);

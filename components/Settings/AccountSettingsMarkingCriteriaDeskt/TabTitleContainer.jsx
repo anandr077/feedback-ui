@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import Rename from '../../../static/img/Rename.svg';
-import Hide from '../../../static/img/Hide.svg';
 import Copy from '../../../static/img/Copy.svg';
 import TabsDelete from '../../../static/img/tabs-delete.svg';
 import { BankTitleeditTitle, TabContainer, TabTitle, TabsImage } from './style';
-import { getUserId } from '../../../userLocalDetails';
 
 function TabTitleContainer({
   bank,

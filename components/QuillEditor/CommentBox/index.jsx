@@ -20,15 +20,11 @@ import {
   MainSideContainer,
 } from './style';
 import CommentIcon from '../../../static/img/graysinglecomment.svg';
-import AlphabetIcon from '../../../static/img/24grayalphabet.svg';
 import ShareIcon from '../../../static/img/24grayshare.svg';
-import ThumbsupIcon from '../../../static/img/24thumbsuppurple.svg';
 import CommentCard32 from '../../FeedbacksComponents/CommentCard32';
 import SmartAnotation from '../../SmartAnnotations';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
 import FocussedInput from '../../FocussedInput';
-import { Share } from '@mui/icons-material';
-import Buttons4 from '../../FeedbacksComponents/Buttons4';
 import FocusAreasFrame from '../../FeedbacksComponents/FocusAreasFrame';
 import { FeedbackContext } from '../../FeedbacksComponents/FeedbacksRoot/FeedbackContext';
 import { getUserRole } from '../../../userLocalDetails';

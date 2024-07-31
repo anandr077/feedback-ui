@@ -1,8 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import './style.css';
-import Breadcrumb from '../../Breadcrumb';
-import Breadcrumb2 from '../../Breadcrumb2';
-import GoBack from '../GoBack';
 import { useState } from 'react';
 import {
   createNewMarkingCriteria,
@@ -67,8 +64,7 @@ import Plus from '../../../static/icons/Plus.svg';
 import pluswhite from '../../../static/icons/pluswhite.svg';
 import grayEdit from '../../../static/icons/edit_gray.svg';
 import EditHover from '../../../static/img/EditHover.svg';
-import SecondSidebar from '../../SecondSidebar';
-import { isMobileView, isTabletView } from '../../ReactiveRender';
+import { isTabletView } from '../../ReactiveRender';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
 import MinusCircle from '../../../static/img/MinusCircle.svg';
 import { toast } from 'react-toastify';
@@ -333,17 +329,7 @@ export default function CreateNewStrengthAndTargets() {
     );
   };
 
-  const createBreadcrumb = (markingMethodologyId) => {
-    return (
-      <div className="breadcrumb">
-        <Breadcrumb text="Account Settings" link={'/#/settings'} />
-        <Breadcrumb2 title="Marking Templates" link={'/#/settings'} />
-        <Breadcrumb2
-          title={markingMethodologyId === 'new' ? 'Create new' : 'Update'}
-        />
-      </div>
-    );
-  };
+
 
   const allCriteriaFrames = () => {
     return (

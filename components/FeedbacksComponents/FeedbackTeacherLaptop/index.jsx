@@ -88,6 +88,7 @@ function FeedbackTeacherLaptop(props) {
     markingCriteriaFeedback,
     otherDrafts,
     setOtherDrafts,
+    groupedFocusAreaIds,
   } = props;
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
@@ -103,9 +104,7 @@ function FeedbackTeacherLaptop(props) {
     questions[QuestionIndex]?.focusAreas &&
       questions[QuestionIndex]?.focusAreas.length !== 0
   );
-  const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
-    createGroupedFocusAreas(submission)
-  );
+  
   const [openLeftPanel, setOpenLefPanel] = useState(false);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
@@ -232,24 +231,7 @@ function FeedbackTeacherLaptop(props) {
     setOpenLefPanel(!isStudentReviewRoute && documentsRoute);
   }, [location.pathname]);
 
-  const handleCheckboxChange = (serialNumber, focusAreaId) => {
-    const isChecked = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
-    setGroupedFocusAreaIds((prevState) => {
-      if (!isChecked) {
-        return {
-          ...prevState,
-          [serialNumber]: [...prevState[serialNumber], focusAreaId],
-        };
-      } else {
-        return {
-          ...prevState,
-          [serialNumber]: prevState[serialNumber].filter(
-            (id) => id !== focusAreaId
-          ),
-        };
-      }
-    });
-  };
+
 
 
     const getNextQuestionId = (currentId) => {
@@ -307,7 +289,6 @@ function FeedbackTeacherLaptop(props) {
               pageMode,
               quillRefs,
               smallMarkingCriteria,
-              handleCheckboxChange,
               groupedFocusAreaIds,
               commentsForSelectedTab,
               setShowResolved,
@@ -468,28 +449,6 @@ function loader(showLoader) {
   );
 }
 
-function createGroupedFocusAreas(submission) {
-  const flattenedQuestions = flatMap(
-    submission.assignment.questions,
-    (question) =>
-      question.focusAreaIds?.map((focusAreaId) => ({
-        serialNumber: question.serialNumber,
-        focusAreaId,
-      }))
-  );
-
-  const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
-  const grouped = Object.keys(groupedBySerialNumber).reduce(
-    (grouped, serialNumber) => {
-      grouped[serialNumber] = groupedBySerialNumber[serialNumber].map(
-        (item) => item?.focusAreaId
-      );
-      return grouped;
-    },
-    {}
-  );
-  return grouped;
-}
 
 function answersAndFeedbacks(
   isMobile,
@@ -500,7 +459,6 @@ function answersAndFeedbacks(
   pageMode,
   quillRefs,
   smallMarkingCriteria,
-  handleCheckboxChange,
   groupedFocusAreaIds,
   commentsForSelectedTab,
   setShowResolved,
@@ -549,9 +507,8 @@ function answersAndFeedbacks(
 
   const question = submission.assignment.questions[QuestionIndex];
 
-  const matchingFocusAreas = question?.focusAreas?.filter((focusArea) =>
-    focusAreaCommentIds.includes(focusArea.id)
-  );
+  const matchingFocusAreas = question?.focusAreas;
+  
 
   return (
     <Frame1386 id="content">
@@ -611,7 +568,6 @@ function answersAndFeedbacks(
       <FeedbackBody>
         {isFocusAreas && (
           <FocusAreasLabel
-            handleCheckboxChange={handleCheckboxChange}
             groupedFocusAreaIds={groupedFocusAreaIds}
             serialNumber={question?.serialNumber}
             focusAreas={matchingFocusAreas}
@@ -621,7 +577,6 @@ function answersAndFeedbacks(
           {answersFrame(
             quillRefs,
             smallMarkingCriteria,
-            handleCheckboxChange,
             groupedFocusAreaIds,
             pageMode,
             submission,

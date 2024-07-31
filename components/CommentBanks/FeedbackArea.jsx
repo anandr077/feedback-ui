@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SmartAnnotationSuggestion from '../SmartAnnotationSuggestion';
 import { getUserId } from '../../userLocalDetails';
-import deleteLight from '../../static/img/delete-light.svg';
-import WidearrowDown from '../../static/img/Widearrow-down.svg';
-import WideArrowUp from '../../static/img/WideArrow-up.svg';
 import PlusBlue from '../../static/img/Plus-blue.svg';
 
 import {

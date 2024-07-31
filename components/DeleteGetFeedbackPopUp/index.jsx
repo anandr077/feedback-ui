@@ -1,20 +1,21 @@
 import React from 'react';
-import styled from 'styled-components';
-import { deleteAssignment } from '../../service';
-import {
-  IbmplexsansSemiBoldShark24px,
-  IbmplexsansSemiBoldWhite16px,
-} from '../../styledMixins';
 import { DialogContent, Dialog } from '@mui/material';
-import { Arrowright, ArrowrightSmall, ButtonsContainer, CancelButton, DeleteAssignmentPopupContainer, DeleteButton, DeleteTitle, Line141, TextContent, TitleContainer } from './style';
+
+import {
+  Arrowright,
+  ArrowrightSmall,
+  ButtonsContainer,
+  CancelButton,
+  DeleteAssignmentPopupContainer,
+  DeleteButton,
+  DeleteTitle,
+  Line141,
+  TextContent,
+  TitleContainer,
+} from './style';
 
 export default function DeleteGetFeedbackPopup(props) {
-
-  const {
-    hidedeletePopup,
-    showDeletePopup,
-    deleteFunction,
-  } = props;
+  const { hidedeletePopup, showDeletePopup, deleteFunction } = props;
 
   const onDelete = () => {
     deleteFunction();
@@ -48,14 +49,3 @@ export default function DeleteGetFeedbackPopup(props) {
     </Dialog>
   );
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -60,8 +60,6 @@ import EmptyBankIcon from '../../static/img/emptyBank.svg';
 import Plus from '../../static/img/Plus.svg';
 import Pluslight from '../../static/img/Pluslight.svg';
 import TabTitleContainer from '../Settings/AccountSettingsMarkingCriteriaDeskt/TabTitleContainer';
-import Buttons from '../Classes/Buttons';
-import questionMark from '../../static/img/question-mark.svg';
 import { getUserId } from '../../userLocalDetails';
 import closecircle from '../../static/img/closecircle.svg';
 import PlusBlue from '../../static/img/Plus-blue.svg';

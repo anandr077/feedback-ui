@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IbmplexsansMediumWhite16px } from '../styledMixins';
 
 function Buttons(props) {
   const { className, link } = props;

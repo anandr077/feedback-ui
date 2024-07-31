@@ -1,13 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import TaskCardContainer from '../TaskCardContainer';
 import TaskFrame1353 from '../TaskFrame1353';
-import LinkButton from '../../components2/LinkButton/index.jsx';
-import arrowRight from '../../static/img/arrowright.svg';
-import whiteArrowright from '../../static/img/arrowright-White.svg';
-import questionMark from '../../static/img/question-mark.svg';
-import share from '../../static/img/share.svg';
-import shareColor from '../../static/img/share-color.svg';
 import {
   Frame1354,
   Frame1358,
@@ -20,8 +13,7 @@ import {
   TitleAndFilterContainer,
   TitleAndSubtitleContainer,
 } from './style.js';
-import QuestionTooltip from '../../components2/QuestionTooltip/index.jsx';
-import SecondSidebar from '../SecondSidebar/index.js';
+
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
 
 function TasksDesktop(props) {

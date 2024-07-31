@@ -4,6 +4,7 @@ import {
   isAllowGiveMarkingCriteriaFeedback,
   isMarkingCriteriaTypeRubric,
   isShowGreenTick,
+  isShowMarkingCriteriaPreview,
   isShowMarkingCriteriaSection,
   isTeacher,
 } from '../FeedbacksRoot/rules';
@@ -234,6 +235,8 @@ function MarkingCriteria({
     }
   };
 
+
+
   const MarkingCriteriaPopUpContainer = ({
     markingCriteria,
     setShowMarkingCrteriaPopUp,
@@ -348,28 +351,27 @@ function MarkingCriteria({
                     )}
                   </RubricButton>
                 </MarkingCriteriaHeadingContainer>
-                {isShowGreenTick(currentMarkingCriteria) && !isTeacher && (
-                  <>
-                    {isRubric ? (
-                      <RubricPreview
-                        markingCriteria={
-                          markingCriteriaFromSubmission?.markingCriteria
-                        }
-                      />
-                    ) : (
-                      <StrengthAndTargetPreview
-                        markingCriteria={
-                          markingCriteriaFromSubmission?.markingCriteria
-                        }
-                      />
-                    )}
-                  </>
-                )}
+                {isShowMarkingCriteriaPreview(pageMode) &&
+                  isShowGreenTick(currentMarkingCriteria) && (
+                    <>
+                      {isRubric ? (
+                        <RubricPreview
+                          markingCriteria={
+                            markingCriteriaFromSubmission?.markingCriteria
+                          }
+                        />
+                      ) : (
+                        <StrengthAndTargetPreview
+                          markingCriteria={
+                            markingCriteriaFromSubmission?.markingCriteria
+                          }
+                        />
+                      )}
+                    </>
+                  )}
               </MarkingCriteriaContainer>
               {isAllowGiveMarkingCriteriaFeedback(pageMode) &&
-                isShowGreenTick(
-                  findMarkingCriteria(markingCriteriaFeedback, QuestionIndex)
-                ) && (
+                isShowGreenTick(currentMarkingCriteria) && (
                   <GreenTickText
                     margin={true}
                     text="Marking Criteria complete"

@@ -3,36 +3,10 @@ import {
   GiveFeedbackContainer,
   MainContainer,
   InnerContainer,
-  Title,
-  TitleContainer,
-  TopContainer,
-  TitleImage,
   HeadingAndFilterCon,
-  HeadingLine,
   FilterContainer,
   ContentContainer,
   LeftContentContainer,
-  RightContentContainer,
-  CardContainer,
-  TextContainer,
-  IconsContainer,
-  IconContainer,
-  CorrectIcon,
-  CrossIcon,
-  Frame5111,
-  Frame5087,
-  Frame5088,
-  Frame1353,
-  Frame5088Para,
-  Frame5088Img,
-  Frame5111Para,
-  Frame5042,
-  Frame5042Para1,
-  Frame5042Para2,
-  Frame5114,
-  Frame5112,
-  Frame5112para,
-  ConnectContainer,
   FilterAndSortContainer,
   Frame5086,
   Frame5086Img,
@@ -40,25 +14,9 @@ import {
   SortContainer,
   SortButton,
   SortButtonText,
-  PopupContainer,
-  FeedbackButtonArrow,
-  Frame5086PopUp,
-  Frame5086PopUpTitle,
-  Frame5086PopUpBody,
-  SortPopUpBody,
-  StartImg,
-  StartsPart,
-  StarsPart,
-  StarImg,
-  StarPart,
-  StartLevel,
-  StarsContainer,
-  ProgressContainer,
-  ProgressBardiv,
 } from './style';
 import FeedbackDataComponent from './FeedbackDataComponent';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
-import StyledDropDown from '../../components2/StyledDropDown';
 import { useQuery } from '@tanstack/react-query';
 import {
   getCommunityTasks,
@@ -68,25 +26,11 @@ import {
 import Loader from '../Loader';
 import FilterSquare from '../../static/img/filter-square.svg';
 import SortSquare from '../../static/img/sort-square.svg';
-import questionMark from '../../static/img/question-mark.svg';
-import line from '../../static/img/line-17-22@2x.png';
-import arrowLeft from '../../static/img/arrowleft.svg';
-import LinkButton from '../../components2/LinkButton';
-import CloseCircle from '../../static/img/closecircle.svg';
-import { isMobileView, isTabletView } from '../ReactiveRender';
-import { Dialog } from '@mui/material';
-import Cookies from 'js-cookie';
-import whiteArrowright from '../../static/img/arrowright-White.svg';
-import whiteArrowleft from '../../static/img/arrowleftwhite.svg';
-import levelEmoji from '../../static/img/Level-emoji.svg';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import {  isTabletView } from '../ReactiveRender';
 import RoundedDropDown from '../../components2/RoundedDropDown';
-import ProgressBarComponent from './ProgressBarComponent';
-import QuestionTooltip from '../../components2/QuestionTooltip';
-import SecondSidebar from '../SecondSidebar';
+
 import { getUserRole } from '../../userLocalDetails';
 import MenuButton from '../MenuButton';
-import ClickOutsideHandler from '../ClickOutsideHandler';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
 import { getLocalStorage } from '../../utils/function';
 

@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { deleteAssignment } from '../../service';
 import {
-  IbmplexsansSemiBoldShark24px,
   IbmplexsansSemiBoldWhite16px,
 } from '../../styledMixins';
 import { DialogContent, Dialog } from '@mui/material';
 import { toast } from 'react-toastify';
 import Toast from '../Toast';
+import line from '../../static/img/Line17.svg';
 
 export default function DeleteAssignmentPopup(props) {
 
@@ -48,7 +48,7 @@ export default function DeleteAssignmentPopup(props) {
           {documentToDelete ? 'Delete Document' : 'Delete task'}
         </DeleteTitle>
       </TitleContainer>
-      <Line141 src="/img/line-14@2x.png" />
+      <Line141 src={line} />
       <TextContent>{textContent}</TextContent>
       <ButtonsContainer>
         <CancelButton onClick={() => hidedeletePopup()}>Cancel</CancelButton>

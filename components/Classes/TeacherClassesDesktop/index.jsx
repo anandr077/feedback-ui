@@ -50,14 +50,6 @@ function TeacherClassesDesktop(props) {
     students,
     selectedClassIndex,
     annotationAnalyticsFrame,
-    title,
-    headerProps,
-    x12Engadv3,
-    frame12841,
-    xclass,
-    line171,
-    line176,
-    x2021JeddleAllRightsReserved,
   } = props;
   const ref1 = useRef();
   const ref2 = useRef();

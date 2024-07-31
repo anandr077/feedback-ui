@@ -29,18 +29,11 @@ import ResponsiveHeader from './components/ResponsiveHeader';
 import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getUserName, getUserRole } from './userLocalDetails';
-import Cookies from 'js-cookie';
 import GiveFeedback from './components/GiveFeedback';
 import MainPage from './components/MainPage';
 import NewDocPage from './components/NewDocRoot';
 import withAuth from './components/WithAuth';
 import withOnboarding from './components/WithOnboarding';
-
-import { Snackbar } from '@mui/material';
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import Button from '@mui/material/Button';
 import Header from './components/Header2';
 import MainSidebar from './components/MainSidebar';
 import CommentBanks from './components/CommentBanks';
@@ -86,7 +79,6 @@ function App() {
 
   const middleware = (c) => withOnboarding(withAuth(c));
   const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
-  //const ProtectedCompletedRoot = middleware(CompletedPage);
   const ProtectedTeacherClassesRoot = middleware(TeacherClassesRoot);
   const ProtectedTaskDetail = middleware(TaskDetail);
   const ProtectedCreateAssignment = middleware(CreateAssignment);

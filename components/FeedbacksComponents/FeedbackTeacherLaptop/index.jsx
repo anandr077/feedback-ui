@@ -97,15 +97,16 @@ function FeedbackTeacherLaptop(props) {
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
-  const questions = submission.assignment.questions;
+  const questions = submission?.assignment.questions;
   const [isFeedback, setFeedback] = React.useState(
-    !(
+    !(questions && 
       questions[QuestionIndex]?.focusAreas &&
       questions[QuestionIndex]?.focusAreas.length !== 0
     )
   );
   const [isFocusAreas, setFocusAreas] = React.useState(
-    questions[QuestionIndex]?.focusAreas &&
+    questions &&
+      questions[QuestionIndex]?.focusAreas &&
       questions[QuestionIndex]?.focusAreas.length !== 0
   );
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
@@ -296,7 +297,7 @@ function FeedbackTeacherLaptop(props) {
       <PageContainer>
         <>
           {sharewithclassdialog}
-          {(otherDrafts || submission.studentsSubmissions) && sidebar()}
+          {(otherDrafts || submission?.studentsSubmissions) && sidebar()}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}
@@ -354,7 +355,7 @@ function FeedbackTeacherLaptop(props) {
           isMobile={isMobile} 
           editorFontSize={editorFontSize} 
           setEditorFontSize={setEditorFontSize}
-          answers={submission.answers} 
+          answers={submission?.answers} 
           questionIndex={QuestionIndex} 
         />
       </PageContainer>
@@ -386,14 +387,14 @@ function FeedbackTeacherLaptop(props) {
             setSelectedSubject={setSelectedSubject}
             selectedSubject={selectedSubject}
             groupedAndSortedData={groupedAndSortedData}
-            currentSubmissionId={submission.id}
+            currentSubmissionId={submission?.id}
             deleteQuestionFunction={deleteQuestionFunction}
           />
         )}
 
         {((isTeacher && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) ||
           otherDrafts ||
-          submission.studentsSubmissions) && (
+          submission?.studentsSubmissions) && (
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}
@@ -407,7 +408,7 @@ function FeedbackTeacherLaptop(props) {
             setSelectedSubject={setSelectedSubject}
             selectedSubject={selectedSubject}
             groupedAndSortedData={groupedAndSortedData}
-            currentSubmissionId={submission.id}
+            currentSubmissionId={submission?.id}
           />
         )}
 
@@ -475,7 +476,7 @@ function loader(showLoader) {
 
 function createGroupedFocusAreas(submission) {
   const flattenedQuestions = flatMap(
-    submission.assignment.questions,
+    submission?.assignment.questions,
     (question) =>
       question.focusAreaIds?.map((focusAreaId) => ({
         serialNumber: question.serialNumber,
@@ -552,7 +553,7 @@ function answersAndFeedbacks(
     ?.filter((f) => f.questionSerialNumber === QuestionIndex + 1)
     .map((comment) => comment.focusAreaId);
 
-  const question = submission.assignment.questions[QuestionIndex];
+  const question = submission?.assignment.questions[QuestionIndex];
 
   const matchingFocusAreas = question?.focusAreas?.filter((focusArea) =>
     focusAreaCommentIds.includes(focusArea.id)
@@ -603,12 +604,12 @@ function answersAndFeedbacks(
         commentsForSelectedTab={commentsForSelectedTab}
         isLeftSidebarOpen={openLeftPanel}
       />
-      {submission.type === 'SUBMISSION' &&
-        submission.assignment.questions.length !== 0 && (
+      {submission?.type === 'SUBMISSION' &&
+        submission?.assignment.questions.length !== 0 && (
           <FeedbackQuestionSlider
             setQuestionIndex={setQuestionIndex}
             QuestionIndex={QuestionIndex}
-            questions={submission.assignment.questions}
+            questions={submission?.assignment.questions}
             setFeedback={setFeedback}
             setFocusAreas={setFocusAreas}
           />
@@ -688,7 +689,7 @@ function breadcrumbs(submission) {
     <Frame1387>
       <Frame1315>
         <Breadcrumb text={'Tasks'} link={'/#/tasks'} />
-        <Breadcrumb2 assignments={submission.assignment.title} />
+        <Breadcrumb2 assignments={submission?.assignment.title} />
       </Frame1315>
     </Frame1387>
   );

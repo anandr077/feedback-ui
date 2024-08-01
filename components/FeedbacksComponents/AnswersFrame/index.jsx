@@ -172,7 +172,7 @@ function AnswersFrame(props) {
           isFocusAreas
         )}
       </Frame1367>
-      {submission.type !== 'DOCUMENT' &&
+      {submission?.type !== 'DOCUMENT' &&
         (pageMode === 'DRAFT' || pageMode === 'REVIEW') && (
           <AddCommentFocusAreaDiv moveToLeft={openRightPanel}>
             {isShowFocusAreaInstructions(
@@ -272,7 +272,7 @@ const answerFrames = (
 
   React.useEffect(() => {
     if (submission?.assignment?.title) {
-      setInputValue(submission.assignment.title);
+      setInputValue(submission?.assignment.title);
     }
   }, [submission]);
 
@@ -282,10 +282,10 @@ const answerFrames = (
 
   const updateAssignmentTitle = (newTitle) => {
     const updatedAssignment = {
-      ...submission.assignment,
+      ...submission?.assignment,
       title: newTitle,
     };
-    updateAssignment(submission.assignment.id, updatedAssignment)
+    updateAssignment(submission?.assignment.id, updatedAssignment)
       .then((res) => {
         if (res && res.title) {
           setSubmission((old) => ({
@@ -297,7 +297,7 @@ const answerFrames = (
           }));
           setOtherDrafts((prevDrafts) =>
             prevDrafts.map((draft) =>
-              draft.submissionId === submission.id
+              draft.submissionId === submission?.id
                 ? { ...draft, title: newTitle }
                 : draft
             )
@@ -324,15 +324,15 @@ const answerFrames = (
     }, 0);
   }, []);
 
-  const question = submission.assignment.questions[QuestionIndex];
+  const question = submission?.assignment.questions[QuestionIndex];
   const newAnswer = {
-    serialNumber: question.serialNumber,
+    serialNumber: question?.serialNumber,
     answer: '',
   };
 
   const answer =
-    submission.answers?.find(
-      (answer) => answer.serialNumber === question.serialNumber
+    submission?.answers?.find(
+      (answer) => answer?.serialNumber === question?.serialNumber
     ) || newAnswer;
   const answerValue = answer.answer.answer;
   const debounce = createDebounceFunction(
@@ -345,7 +345,7 @@ const answerFrames = (
   return (
     <>
       <Frame1366>
-        {submission.type === 'DOCUMENT' ? (
+        {submission?.type === 'DOCUMENT' ? (
           <QuestionContainer>
             {QuestionHeadingContainer(setQuestionSlide, questionSlide)}
             {pageMode === 'DRAFT' ? (
@@ -376,7 +376,7 @@ const answerFrames = (
             {QuestionHeadingContainer(setQuestionSlide, questionSlide)}
             <QuestionText
               slide={questionSlide}
-              dangerouslySetInnerHTML={{ __html: linkify(question.question) }}
+              dangerouslySetInnerHTML={{ __html: linkify(question?.question) }}
             />
           </QuestionContainer>
         )}
@@ -390,11 +390,11 @@ const answerFrames = (
                 answer.serialNumber
               )(quillRefs.current[answer.serialNumber - 1].getSelection());
             }}
-            id={'quillContainer_' + submission.id + '_' + answer.serialNumber}
+            id={'quillContainer_' + submission?.id + '_' + answer.serialNumber}
           >
             {createQuill(
               pageMode,
-              'quillContainer_' + submission.id + '_' + answer.serialNumber,
+              'quillContainer_' + submission?.id + '_' + answer.serialNumber,
               submission,
               answer,
               answerValue,
@@ -458,15 +458,15 @@ function createQuill(
       <QuillEditor
         key={
           'quillEditor_' +
-          submission.id +
+          submission?.id +
           '_' +
           answer.serialNumber +
           '_' +
-          submission.status +
+          submission?.status +
           '_' +
           pageMode
         }
-        id={'quillEditor_' + submission.id + '_' + answer.serialNumber}
+        id={'quillEditor_' + submission?.id + '_' + answer.serialNumber}
         ref={(editor) => handleEditorMounted(editor, answer.serialNumber - 1)}
         comments={commentsForSelectedTab?.filter((comment) => {
           return comment.questionSerialNumber === answer.serialNumber;

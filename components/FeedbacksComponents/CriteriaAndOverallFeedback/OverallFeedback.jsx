@@ -54,7 +54,7 @@ function OverallFeedback({
               serialNumber={QuestionIndex + 1}
               overallComment={overallComment}
               updateOverAllFeedback={updateOverAllFeedback}
-              reviewer={submission.reviewerId}
+              reviewer={submission?.reviewerId}
               userId={userId}
             />
           </OverallFeedbackContainer>

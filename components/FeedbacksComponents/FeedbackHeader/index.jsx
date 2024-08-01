@@ -126,11 +126,11 @@ const FeedbackHeader = ({
   return (
     <FeedbackHeaderContainer>
       <LeftSection
-        moveToRight={isLeftSidebarOpen && submission.type === 'DOCUMENT'}
+        moveToRight={isLeftSidebarOpen && submission?.type === 'DOCUMENT'}
       >
         {isShowStudentDropdownInHeader(
           isTeacher,
-          submission.type,
+          submission?.type,
           pageMode
         ) && (
           <>
@@ -139,7 +139,7 @@ const FeedbackHeader = ({
             </ArrowBtn>
             <DropdownWithRoundedTick
               options={studentsList}
-              selectedId={submission.id}
+              selectedId={submission?.id}
               selectedIndex={selectedIndex}
               onChange={handleQuestionClick}
             />
@@ -148,25 +148,25 @@ const FeedbackHeader = ({
             </ArrowBtn>
           </>
         )}
-        {isShowTitleInHeader(submission.type, getUserRole()) && (
+        {isShowTitleInHeader(submission?.type, getUserRole()) && (
           <TaskTitle>{submission?.assignment?.title}</TaskTitle>
         )}
-        {isShowSubjectTaskType(submission.type) && (
+        {isShowSubjectTaskType(submission?.type) && (
           <SubjectTaskTypeContainer>
-            {submission.assignment.subject && (
+            {submission?.assignment.subject && (
               <>
                 <div>
                   <STTitle>Subject:</STTitle>
-                  <STDetails>{submission.assignment.subject}</STDetails>
+                  <STDetails>{submission?.assignment.subject}</STDetails>
                 </div>
                 <span>|</span>
               </>
             )}
-            {submission.documentType && (
+            {submission?.documentType && (
               <>
                 <div>
                   <STTitle>Task Type:</STTitle>
-                  <STDetails>{submission.documentType}</STDetails>
+                  <STDetails>{submission?.documentType}</STDetails>
                 </div>
               </>
             )}
@@ -190,7 +190,7 @@ const FeedbackHeader = ({
           isShowResolved,
           handleShowResolvedToggle
         )}
-        {isShowCommentsAndFocusAreasTab(pageMode, submission.type) && (
+        {isShowCommentsAndFocusAreasTab(pageMode, submission?.type) && (
           <ToggleSwitchWithTwoOptions
             text1={'Comments'}
             text2={'Self-assessment Areas'}
@@ -202,7 +202,7 @@ const FeedbackHeader = ({
             isChecked={isFocusAreas}
           />
         )}
-        {isShowReassignBtn(isTeacher, pageMode, submission.type) && (
+        {isShowReassignBtn(isTeacher, pageMode, submission?.type) && (
           <ReassignBtn
             onClick={() =>
               methods.showSubmitPopuphandler('RequestResubmission')
@@ -212,7 +212,7 @@ const FeedbackHeader = ({
             Reassign Task
           </ReassignBtn>
         )}
-        {submission.type === 'DOCUMENT'
+        {submission?.type === 'DOCUMENT'
           ? submitButtonOnDocument(
               isTeacher,
               setShowSelectType,
@@ -309,7 +309,7 @@ function submitButtonOnDocument(
     );
   }
 
-  if (pageMode === 'CLOSED' && submission.status === 'SUBMITTED') {
+  if (pageMode === 'CLOSED' && submission?.status === 'SUBMITTED') {
     return (
       <DocumentSubmitCancelBtnContainer>
         <AwaitingFeedbackTextAlert>
@@ -332,8 +332,8 @@ function submitButtonOnDocument(
     );
   }
 
-  if (pageMode === 'CLOSED' && submission.status === 'FEEDBACK_ACCEPTED') {
-    if (submission.feedbackRequestType === 'JEDDAI') {
+  if (pageMode === 'CLOSED' && submission?.status === 'FEEDBACK_ACCEPTED') {
+    if (submission?.feedbackRequestType === 'JEDDAI') {
       return (
         <JeddAiAnimatedTextContainer>
           {<JeddAiImageForAnimation src="/img/jeddleaiIcon.svg" />}
@@ -356,8 +356,8 @@ function submitButtonOnDocument(
     );
   }
 
-  if (submission.status === 'REVIEWED') {
-    if (submission.feedbackRequestType === 'JEDDAI') {
+  if (submission?.status === 'REVIEWED') {
+    if (submission?.feedbackRequestType === 'JEDDAI') {
       return (
         <DocumentSubmitBtnContainer>
           {<Icon24 src="/img/jeddleaiIcon.svg" />}
@@ -404,7 +404,7 @@ function submitButton(methods, pageMode, submission, isTeacher) {
   }
 
   if (pageMode === 'REVISE') {
-    if (submission.status === 'RESUBMISSION_REQUESTED') {
+    if (submission?.status === 'RESUBMISSION_REQUESTED') {
       return (
         <RoundedBorderSubmitBtn
           text={'Get Feedback'}
@@ -422,7 +422,7 @@ function submitButton(methods, pageMode, submission, isTeacher) {
 
   if (
     pageMode === 'CLOSED' &&
-    submission.status === 'SUBMITTED' &&
+    submission?.status === 'SUBMITTED' &&
     !isTeacher
   ) {
     return (
@@ -442,7 +442,7 @@ function handleCancelFeedbackRequest(
   submission,
   setSubmission
 ) {
-  cancelFeedbackRequest(submission.id)
+  cancelFeedbackRequest(submission?.id)
     .then((response) => {
       toast(<Toast message={'Feedback request cancelled'} />);
 

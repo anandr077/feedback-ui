@@ -27,19 +27,23 @@ export function createGlobalStates(queryKey, queryFunction) {
     console.log('createGlobalStatesData', data);
     const isLoadingdata = results.some((result) => result.isLoading);
 
-    // function setData(data) {
-    //   queryClient.setQueryData(fullQueryKey, data);
-    // }
+    function setData(data) {
+      queryClient.setQueryData(fullQueryKey, data);
+    }
 
-    // function resetData() {
-    //   queryClient.invalidateQueries({
-    //     queryKey: fullQueryKey,
-    //   });
-    //   queryClient.refetchQueries({
-    //     queryKey: fullQueryKey,
-    //   });
-    // }
+    
+    function resetData() {
+      queries.forEach((query) => {
+        queryClient.invalidateQueries({
+          queryKey: query.queryKey,
+        });
+        queryClient.refetchQueries({
+          queryKey: query.queryKey,
+        });
+      });
+    }
 
-    return { data, isLoadingdata };
+
+    return { data, isLoadingdata, resetData };
   };
 }

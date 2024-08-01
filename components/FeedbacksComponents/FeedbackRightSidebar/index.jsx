@@ -28,7 +28,7 @@ const FeedbackRightSidebar = ({
   return (
     <MainContainer>
       <TopSection>
-        {isShowTaskDetailsButton(submission.type) && (
+        {isShowTaskDetailsButton(submission?.type) && (
           <Button
             isActive={openRightPanel === 'tab1'}
             onClick={() => handleClick('tab1')}
@@ -44,8 +44,8 @@ const FeedbackRightSidebar = ({
         )}
         {isShowMarkingCriteriaAndOverallFeedbackButton(
           isTeacher,
-          submission.type,
-          submission.status,
+          submission?.type,
+          submission?.status,
           pageMode,
           overallComments,
           QuestionIndex,
@@ -63,7 +63,7 @@ const FeedbackRightSidebar = ({
           </Button>
         )}
 
-        {isShowQuestionsTab(submission.type) && (
+        {isShowQuestionsTab(submission?.type) && (
           <Button
             isActive={openRightPanel === 'tab3'}
             onClick={() => handleClick('tab3')}

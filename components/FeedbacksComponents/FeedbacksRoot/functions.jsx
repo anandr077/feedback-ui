@@ -5,6 +5,9 @@ import { React } from 'react';
 import { getCommentsForSubmission } from '../../../service';
 import { getUserId } from '../../../userLocalDetails';
 
+
+
+
 export function extractStudents(tasksResult) {
   return tasksResult?.map((task) => {
     return {
@@ -132,7 +135,11 @@ export const getOverallComment = (overallComments, QuestionIndex) => {
 
 
 
-export const goToNewUrl = (pendingLocation) => {
+export const goToNewUrl = (pendingLocation, history, unblockRef) => {
+  console.log('pendingLocation', pendingLocation);
+  if (unblockRef?.current) {
+    unblockRef.current(); // Temporarily unblock history navigation
+  }
   const port =
     window.location.port &&
     window.location.port !== '80' &&
@@ -145,7 +152,9 @@ export const goToNewUrl = (pendingLocation) => {
   const newUrl = `${window.location.protocol}//${
     window.location.hostname
   }${port}?code=${getUserId()}${path}`;
+  console.log('path', path, newUrl);
 
-  window.history.pushState('', '', newUrl);
-  window.location.reload();
+  // window.history.pushState('', '', newUrl);
+  // window.location.reload();
+  history.push(pendingLocation.pathname);
 };

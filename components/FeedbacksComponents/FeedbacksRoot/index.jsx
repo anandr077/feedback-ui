@@ -98,11 +98,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   const newCommentFrameRef = useRef(null);
 
-  const [submission, setSubmission] = useState(null);
-  const [students, setStudents] = useState([]);
+  // const [submission, setSubmission] = useState(null);
+  // const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
-  const [studentName, setStudentName] = useState(null);
+  // const [studentName, setStudentName] = useState(null);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [selectedText, setSelectedText] = useState(null);
@@ -114,34 +114,40 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
-  const [classesAndStudents, setClassesAndStudents] = useState([]);
-  const [teachers, setTeachers] = useState([]);
+  // const [classesAndStudents, setClassesAndStudents] = useState([]);
+  // const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false);
   const [pageLeavePopup, setPageLeavePopup] = useState(false);
   const [selectedComment, setSelectedComment] = useState(null);
   const [showFloatingDialogue, setShowFloatingDialogue] = useState(false);
   const defaultMarkingCriteria = getDefaultCriteria();
+  const unblockRef = useRef(null);
 
 
   const {
     data: submissionByIdData,
     isLoadingdata: isLoadingsubmissionByIdData,
+    setData: setSubmissionByIdData,
+    resetData: resetSubmissionByIdData,
   } = useSubmissionById(id);
   const {
     data: commentsByIdData,
     isLoadingdata: isLoadingcommentsByIdData,
     setData: setCommentsByIdData,
+    resetData: resetCommentsByIdData,
   } = useCommentsById(id);
   const {
     data: overAllCommentsById,
     isLoadingdata: isLoadingoverAllCommentsById,
     setData: setOverAllCommentsById,
+    resetData: resetOverAllCommentsById,
   } = useOverAllCommentsById(id);
   const {
     data: otherDraftsById,
     isLoadingdata: isLoadingotherDraftsById,
     setData: setOtherDraftsById,
+    resetData: resetOtherDraftsById,
   } = useOtherDraftsById(id);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
 
@@ -163,11 +169,17 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
     .map((q) => q.commentBankId);
 
-  const { data: allSubmissions, isLoadingdata: isLoadingallSubmissions } =
-    useAllSubmisssionsById(submissionByIdData?.assignment.id, isTeacher);
+  const {
+    data: allSubmissions,
+    isLoadingdata: isLoadingallSubmissions,
+    resetData: resetAllSubmissions,
+  } = useAllSubmisssionsById(submissionByIdData?.assignment.id, isTeacher);
 
-  const { data: commentBanksData, isLoadingdata: isLoadingcommentBanksData } =
-    useCommentBanksById(commentBankIds, isTeacher);
+  const {
+    data: commentBanksData,
+    isLoadingdata: isLoadingcommentBanksData,
+    resetData: resetCommentBanksData,
+  } = useCommentBanksById(commentBankIds, isTeacher);
 
    const isDataLoading =
      isLoadingsubmissionByIdData ||
@@ -188,38 +200,52 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         );
 
 
+  const allTeachers = _.flatten(classData?.map((c) => c.teachers));
+  const uniqueTeachers = _.uniqBy(allTeachers, 'id');
+
+
+  const initialCheckedState = classData?.reduce((acc, classItem) => {
+    acc[classItem.id] = {
+      checked: false,
+      students: classItem.students.reduce((studentAcc, student) => {
+        let bool = submissionByIdData?.studentId === student.id ? true : false;
+        studentAcc[student.id] = bool;
+        return studentAcc;
+      }, {}),
+    };
+    return acc;
+  }, {});
+
+  // setCheckedState(initialCheckedState);
+
+
   useEffect(() => {
     if (!isDataLoading) {
-      console.log('submissionByIdData outside', submissionByIdData);
+      // console.log('submissionByIdData outside', submissionByIdData);
 
-      if (submissionByIdData) {
-        console.log('submissionByIdData Inside', submissionByIdData);
-        setSubmission(submissionByIdData);
-      }
-
-     
-     
-
-      
+      // if (submissionByIdData) {
+      //   console.log('submissionByIdData Inside', submissionByIdData);
+      //   // setSubmission(submissionByIdData);
+      // }
 
       if (classData && submissionByIdData) {
-        const initialState = classData.reduce((acc, classItem) => {
-          acc[classItem.id] = {
-            checked: false,
-            students: classItem.students.reduce((studentAcc, student) => {
-              const isStudent = submissionByIdData.studentId === student.id;
-              studentAcc[student.id] = isStudent;
-              return studentAcc;
-            }, {}),
-          };
-          return acc;
-        }, {});
-        setCheckedState(initialState);
-        setClassesAndStudents(classData);
+        // const initialState = classData.reduce((acc, classItem) => {
+        //   acc[classItem.id] = {
+        //     checked: false,
+        //     students: classItem.students.reduce((studentAcc, student) => {
+        //       const isStudent = submissionByIdData.studentId === student.id;
+        //       studentAcc[student.id] = isStudent;
+        //       return studentAcc;
+        //     }, {}),
+        //   };
+        //   return acc;
+        // }, {});
+        setCheckedState(initialCheckedState);
+        // setClassesAndStudents(classData);
 
-        const allTeachers = _.flatten(classData.map((c) => c.teachers));
-        const uniqueTeachers = _.uniqBy(allTeachers, 'id');
-        setTeachers(uniqueTeachers);
+        // const allTeachers = _.flatten(classData.map((c) => c.teachers));
+        // const uniqueTeachers = _.uniqBy(allTeachers, 'id');
+        // setTeachers(uniqueTeachers);
       }
       if (!isTeacher) {
         setIsLoading(false);
@@ -227,12 +253,41 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }, [isDataLoading, id]);
 
+const students = extractStudents(allSubmissions);
 
+//  let currentSubmissionIndex = 0;
+//  const allExceptCurrent = allSubmissions?.filter((r, index) => {
+//    if (r.id !== submissionByIdData.id) {
+//      return r;
+//    } else {
+//      currentSubmissionIndex = index;
+//      return false;
+//    }
+//  });
+
+//  let nextSubmissionIndex = currentSubmissionIndex + 1;
+//  while (
+//    nextSubmissionIndex > 0 &&
+//    nextSubmissionIndex < allExceptCurrent?.length
+//  ) {
+//    if (allExceptCurrent[nextSubmissionIndex]?.status === 'SUBMITTED') {
+//      break;
+//    } else {
+//      nextSubmissionIndex++;
+//    }
+//  }
+//  if (nextSubmissionIndex >= allExceptCurrent.length) {
+//    nextSubmissionIndex = 0;
+//  }
+
+//  const nextUrl = allExceptCurrent[nextSubmissionIndex]
+//    ? '#submissions/' + allExceptCurrent[nextSubmissionIndex]?.id
+//    : '/';
   
 
  useEffect(() => {
    if (!isDataLoading && allSubmissions) {
-     setStudents(extractStudents(allSubmissions));
+    //  setStudents(extractStudents(allSubmissions));
 
      let currentSubmissionIndex = 0;
      const allExceptCurrent = allSubmissions?.filter((r, index) => {
@@ -263,11 +318,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
        ? '#submissions/' + allExceptCurrent[nextSubmissionIndex]?.id
        : '/';
      setNextUrl(nextUrl);
-
-     const studentName =
-       allSubmissions.find((r) => r.id === submissionByIdData.assignment.id)
-         ?.studentName ?? null;
-     setStudentName(studentName);
      setIsLoading(false);
    }
  }, [isDataLoading, id]);
@@ -275,31 +325,34 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const deleteDraftPage = async (submissionId, pendingLocation) => {
     await deleteSubmissionById(submissionId).then(() => {
       if (pendingLocation) {
-        goToNewUrl(pendingLocation);
+       goToNewUrl(pendingLocation, history, unblockRef);
       }
       setPageLeavePopup(false);
     });
   };
 
   useEffect(() => {
-    const unblock = history.block((location, action) => {
+    unblockRef.current = history.block((location, action) => {
       if (
-        submission?.status === 'REVIEWED' &&
-        submission?.type === 'DOCUMENT' &&
-        submission?.studentId === getUserId() &&
-        (submission?.feedbackOnFeedback === null ||
-          submission?.feedbackOnFeedback === undefined)
+        submissionByIdData?.status === 'REVIEWED' &&
+        submissionByIdData?.type === 'DOCUMENT' &&
+        submissionByIdData?.studentId === getUserId() &&
+        (submissionByIdData?.feedbackOnFeedback === null ||
+          submissionByIdData?.feedbackOnFeedback === undefined)
       ) {
         setPendingLocation(location);
         setFeedbackReviewPopup(true);
         return false;
       }
-      if (submission?.status === 'DRAFT' && submission?.type === 'DOCUMENT') {
+      if (
+        submissionByIdData?.status === 'DRAFT' &&
+        submissionByIdData?.type === 'DOCUMENT'
+      ) {
         if (
-          !submission?.answers &&
-          submission?.assignment.title === 'Untitled Question'
+          !submissionByIdData?.answers &&
+          submissionByIdData?.assignment.title === 'Untitled Question'
         ) {
-          deleteDraftPage(submission.id, location);
+          deleteDraftPage(submissionByIdData.id, location);
           return false;
         } else {
           setPendingLocation(location);
@@ -312,9 +365,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
 
     return () => {
-      unblock();
+       if (unblockRef.current) {
+         unblockRef.current();
+       }
     };
-  }, [submission, feedbackReviewPopup, history]);
+  }, [submissionByIdData, feedbackReviewPopup, history]);
 
 
 
@@ -340,38 +395,38 @@ console.log('isDataLoading', isDataLoading);
 
   const saveDraftPage = () => {
     if (pendingLocation) {
-      goToNewUrl(pendingLocation);
+      goToNewUrl(pendingLocation, history, unblockRef);
     }
     setPageLeavePopup(false);
   };
 
   const handleFeedbackOnFeedback = (feedbackOnFeedback) => () => {
-    provideFeedbackOnFeedback(submission.id, feedbackOnFeedback).then((res) => {
-      setSubmission((old) => {
-        return { ...old, feedbackOnFeedback: res.feedbackOnFeedback };
-      });
-      setFeedbackReviewPopup(false);
-      if (pendingLocation !== undefined || pendingLocation !== null) {
-        history.replace(pendingLocation);
+    provideFeedbackOnFeedback(submissionByIdData.id, feedbackOnFeedback).then(
+      (res) => {
+        setSubmissionByIdData((old) => {
+          return { ...old, feedbackOnFeedback: res.feedbackOnFeedback };
+        });
+        setFeedbackReviewPopup(false);
+        if (pendingLocation !== undefined || pendingLocation !== null) {
+          history.replace(pendingLocation);
+        }
       }
-    });
+    );
   };
 
+  // const initialCheckedState = classesAndStudents.reduce((acc, classItem) => {
+  //   acc[classItem.id] = {
+  //     checked: false,
+  //     students: classItem.students.reduce((studentAcc, student) => {
+  //       let bool = submissionByIdData.studentId === student.id ? true : false;
+  //       studentAcc[student.id] = bool;
+  //       return studentAcc;
+  //     }, {}),
+  //   };
+  //   return acc;
+  // }, {});
 
-
-  const initialCheckedState = classesAndStudents.reduce((acc, classItem) => {
-    acc[classItem.id] = {
-      checked: false,
-      students: classItem.students.reduce((studentAcc, student) => {
-        let bool = submission.studentId === student.id ? true : false;
-        studentAcc[student.id] = bool;
-        return studentAcc;
-      }, {}),
-    };
-    return acc;
-  }, {});
-
-  const pageMode = getPageMode(isTeacher, getUserId(), submission);
+  const pageMode = getPageMode(isTeacher, getUserId(), submissionByIdData);
 
   const handleEditingComment = (flag) => {
     setEditingComment(flag);
@@ -388,7 +443,7 @@ console.log('isDataLoading', isDataLoading);
   }
   function handleAddComment() {
     if (!document.getElementById('newCommentInput').value) return;
-    addFeedback(submission.id, {
+    addFeedback(submissionByIdData.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById('newCommentInput').value,
       range: selectedRange,
@@ -411,7 +466,7 @@ console.log('isDataLoading', isDataLoading);
   }
 
   function handleShortcutAddComment(commentText) {
-    addFeedback(submission.id, {
+    addFeedback(submissionByIdData.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: commentText.trim(),
       range: selectedRange,
@@ -434,7 +489,7 @@ console.log('isDataLoading', isDataLoading);
   }
 
   function handleShortcutAddCommentSmartAnnotaion(commentText) {
-    addFeedback(submission.id, {
+    addFeedback(submissionByIdData.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: commentText,
       range: selectedRange,
@@ -457,7 +512,7 @@ console.log('isDataLoading', isDataLoading);
   }
 
   function handleFocusAreaComment(focusArea) {
-    addFeedback(submission.id, {
+    addFeedback(submissionByIdData.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: focusArea.title,
       range: selectedRange,
@@ -485,7 +540,7 @@ console.log('isDataLoading', isDataLoading);
   const addExemplerComment = () => {
     const comment = exemplarComment || 'No comment';
 
-    addFeedback(submission.id, {
+    addFeedback(submissionByIdData.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: comment,
       range: selectedRange,
@@ -542,7 +597,7 @@ console.log('isDataLoading', isDataLoading);
         students: Object.fromEntries(
           Object.entries(checkedState[classId]?.students || {}).map(
             ([studentId, _]) => {
-              if (submission.studentId === studentId) {
+              if (submissionByIdData.studentId === studentId) {
                 return [studentId, true];
               }
               return [studentId, currentClassCheckedState];
@@ -635,7 +690,7 @@ console.log('isDataLoading', isDataLoading);
             <Line141 src="/img/line-14@2x.png" />
           </ClassTitleBox>
           <StudentContainer>
-            {classesAndStudents.map((classItem) => (
+            {classData.map((classItem) => (
               <div key={classItem.id}>
                 <ClassBox>
                   <CheckboxBordered
@@ -655,13 +710,15 @@ console.log('isDataLoading', isDataLoading);
                             checkedState[classItem.id]?.students[student.id] ||
                             false
                           }
-                          disabled={submission.studentId === student.id}
+                          disabled={submissionByIdData?.studentId === student.id}
                           onChange={() =>
                             handleStudentCheck(classItem.id, student.id)
                           }
                         />
                         {student.name}{' '}
-                        {submission.studentId === student.id ? '(author)' : ''}
+                        {submissionByIdData?.studentId === student.id
+                          ? '(author)'
+                          : ''}
                       </label>
                     </ListItem>
                   ))}
@@ -717,11 +774,8 @@ console.log('isDataLoading', isDataLoading);
   }
 
   function handleDeleteComment(commentId) {
-    deleteFeedback(submission.id, commentId).then((response) => {
-      
-
+    deleteFeedback(submissionByIdData.id, commentId).then((response) => {
       setCommentsByIdData((prevComments) => {
-       
         const otherComments = prevComments.filter(
           (comment) => comment.type !== 'MARKING_CRITERIA'
         );
@@ -772,7 +826,7 @@ console.log('isDataLoading', isDataLoading);
             ? { ...comment, replies: [replyCommentObject] }
             : { ...comment, replies: [...comment.replies, replyCommentObject] };
 
-        updateFeedback(submission.id, commentId, {
+        updateFeedback(submissionByIdData.id, commentId, {
           ...commentToUpdate,
           questionSerialNumber: commentToUpdate.questionSerialNumber,
           feedback: commentToUpdate.comment,
@@ -812,7 +866,7 @@ console.log('isDataLoading', isDataLoading);
           comment: comment,
           sharedWithStudents: getSharedStudentIds(),
         };
-        updateFeedback(submission.id, commentId, {
+        updateFeedback(submissionByIdData.id, commentId, {
           questionSerialNumber: commentToUpdate.questionSerialNumber,
           feedback: commentToUpdate.comment,
           range: commentToUpdate.range,
@@ -861,7 +915,7 @@ console.log('isDataLoading', isDataLoading);
         };
         const commentToUpdate = { ...c, replies: updatedReplies };
 
-        updateFeedback(submission.id, commentId, {
+        updateFeedback(submissionByIdData.id, commentId, {
           questionSerialNumber: c.questionSerialNumber,
           feedback: c.comment,
           range: c.range,
@@ -893,7 +947,7 @@ console.log('isDataLoading', isDataLoading);
         const updatedReplies = [...c.replies];
         updatedReplies.splice(replyCommentIndex, 1);
         const commentToUpdate = { ...c, replies: updatedReplies };
-        updateFeedback(submission.id, commentId, {
+        updateFeedback(submissionByIdData.id, commentId, {
           questionSerialNumber: c.questionSerialNumber,
           feedback: c.comment,
           range: c.range,
@@ -922,7 +976,7 @@ console.log('isDataLoading', isDataLoading);
   const validateMarkingCriteria = () => {
     let valid = true;
 
-    submission.assignment.questions.some((question, index) => {
+    submissionByIdData.assignment.questions.some((question, index) => {
       if (question?.markingCriteria?.criterias) {
         let criterias = question.markingCriteria.criterias;
         if (!isNullOrEmpty(markingCriteriaFeedback)) {
@@ -991,13 +1045,13 @@ console.log('isDataLoading', isDataLoading);
     return valid;
   };
 
-  function convertToSelectedAttribute(selectedArray) {
-    return selectedArray?.map((item, index) => ({
-      index,
-      criteria: item.criteria,
-      attribute: item.attribute,
-    }));
-  }
+  // function convertToSelectedAttribute(selectedArray) {
+  //   return selectedArray?.map((item, index) => ({
+  //     index,
+  //     criteria: item.criteria,
+  //     attribute: item.attribute,
+  //   }));
+  // }
 
   function handleSubmissionReviewed() {
     setShowSubmitPopup(false);
@@ -1009,13 +1063,8 @@ console.log('isDataLoading', isDataLoading);
   }
 
   function submitReview() {
-    markSubmsissionReviewed(submission.id).then((_) => {
-      queryClient.invalidateQueries(['notifications']);
-      queryClient.invalidateQueries(['tasks']);
-      queryClient.invalidateQueries(['assignments']);
-      queryClient.invalidateQueries((queryKey) => {
-        return queryKey.includes('class');
-      });
+    markSubmsissionReviewed(submissionByIdData.id).then((_) => {
+      
 
       toast(
         <Toast
@@ -1023,10 +1072,22 @@ console.log('isDataLoading', isDataLoading);
           link={
             window.location.href.includes('documentsReview')
               ? '/documentsReview/'
-              : '/submissions/' + submission.id
+              : '/submissions/' + submissionByIdData?.id
           }
         />
       );
+      queryClient.invalidateQueries(['notifications']);
+      queryClient.invalidateQueries(['tasks']);
+      queryClient.invalidateQueries(['assignments']);
+      queryClient.invalidateQueries((queryKey) => {
+        return queryKey.includes('class');
+      });
+      resetSubmissionByIdData();
+      resetCommentsByIdData();
+      resetOverAllCommentsById();
+      resetOtherDraftsById();
+      resetAllSubmissions();
+      resetCommentBanksData();
       if (isTeacher) {
         window.location.href = nextUrl === '/' ? '/#' : nextUrl;
       } else {
@@ -1141,7 +1202,7 @@ console.log('isDataLoading', isDataLoading);
 
     if (submitedMarkingCriteria?.id) {
       updateFeedback(
-        submission.id,
+        submissionByIdData?.id,
         submitedMarkingCriteria.id,
         markingCriteriaRequest
       )
@@ -1152,7 +1213,7 @@ console.log('isDataLoading', isDataLoading);
           console.error('Error in updateFeedback:', error);
         });
     } else {
-      addFeedback(submission.id, markingCriteriaRequest)
+      addFeedback(submissionByIdData?.id, markingCriteriaRequest)
         .then((response) => {
           updateLocalFeedbackState(response);
         })
@@ -1168,19 +1229,27 @@ console.log('isDataLoading', isDataLoading);
     setMethodToCall(null);
     setPopupText('');
     if (validateMarkingCriteria()) {
-      markSubmissionRequestSubmission(submission.id).then((_) => {
+      markSubmissionRequestSubmission(submissionByIdData?.id).then((_) => {
+        
+        toast(
+          <Toast
+            message={'Resubmission requested...'}
+            link={'/submissions/' + submissionByIdData?.id}
+          />
+        );
+
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
         queryClient.invalidateQueries(['assignments']);
         queryClient.invalidateQueries((queryKey) => {
           return queryKey.includes('class');
         });
-        toast(
-          <Toast
-            message={'Resubmission requested...'}
-            link={'/submissions/' + submission.id}
-          />
-        );
+        resetSubmissionByIdData();
+        resetCommentsByIdData();
+        resetOverAllCommentsById();
+        resetOtherDraftsById();
+        resetAllSubmissions();
+        resetCommentBanksData();
         if (isTeacher) {
           window.location.href = nextUrl === '/' ? '/#' : nextUrl;
           window.location.reload();
@@ -1254,27 +1323,34 @@ console.log('isDataLoading', isDataLoading);
     toast(<Toast message={'Submitting task...'} />);
 
     setTimeout(() => {
-      submitAssignment(submission.id).then((_) => {
+      submitAssignment(submissionByIdData.id).then((_) => {
+        
+
+        toast(
+          <Toast
+            message={'Task submitted...'}
+            link={'/submissions/' + submissionByIdData.id}
+          />
+        );
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
         queryClient.invalidateQueries(['assignments']);
         queryClient.invalidateQueries((queryKey) => {
           return queryKey.includes('class');
         });
-
-        toast(
-          <Toast
-            message={'Task submitted...'}
-            link={'/submissions/' + submission.id}
-          />
-        );
+        resetSubmissionByIdData();
+        resetCommentsByIdData();
+        resetOverAllCommentsById();
+        resetOtherDraftsById();
+        resetAllSubmissions();
+        resetCommentBanksData();
         window.location.href = '/#';
         setShowLoader(false);
       });
     }, 4000);
   };
   function disableAllEditors() {
-    submission.assignment.questions
+    submissionByIdData.assignment.questions
       .filter((question) => question.type === 'TEXT')
       .forEach((question) => {
         const quill = quillRefs.current[question.serialNumber - 1];
@@ -1291,20 +1367,27 @@ console.log('isDataLoading', isDataLoading);
     setShowLoader(true);
     toast(<Toast message={'Submitting task...'} />);
     setTimeout(() => {
-      markSubmsissionClosed(submission.id).then((_) => {
+      markSubmsissionClosed(submissionByIdData?.id).then((_) => {
+        
+
+        toast(
+          <Toast
+            message={'Task completed...'}
+            link={'/submissions/' + submissionByIdData?.id}
+          />
+        );
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
         queryClient.invalidateQueries(['assignments']);
         queryClient.invalidateQueries((queryKey) => {
           return queryKey.includes('class');
         });
-
-        toast(
-          <Toast
-            message={'Task completed...'}
-            link={'/submissions/' + submission.id}
-          />
-        );
+        resetSubmissionByIdData();
+      resetCommentsByIdData();
+      resetOverAllCommentsById();
+      resetOtherDraftsById();
+      resetAllSubmissions();
+      resetCommentBanksData();
         window.location.href = '/#';
         setShowLoader(false);
       });
@@ -1333,7 +1416,10 @@ console.log('isDataLoading', isDataLoading);
       if (
         pageMode === 'DRAFT' &&
         isNullOrEmpty(
-          _.flatMap(submission.assignment.questions, (q) => q.focusAreas || [])
+          _.flatMap(
+            submissionByIdData?.assignment.questions,
+            (q) => q.focusAreas || []
+          )
         )
       ) {
         return;
@@ -1359,7 +1445,10 @@ console.log('isDataLoading', isDataLoading);
     if (
       pageMode === 'DRAFT' &&
       isNullOrEmpty(
-        _.flatMap(submission.assignment.questions, (q) => q.focusAreas || [])
+        _.flatMap(
+          submissionByIdData?.assignment.questions,
+          (q) => q.focusAreas || []
+        )
       )
     ) {
       return;
@@ -1419,9 +1508,7 @@ console.log('isDataLoading', isDataLoading);
     setShowNewComment(false);
   };
 
-  const studentUpdate = (student) => {
-    setStudentName(student);
-  };
+
 
   const onSelectionChange = reviewerSelectionChange;
 
@@ -1437,7 +1524,7 @@ console.log('isDataLoading', isDataLoading);
         };
       });
       const selectedItemIndex = menuItems.findIndex((menuItem) => {
-        return menuItem.id === submission.id;
+        return menuItem.id === submissionByIdData?.id;
       });
       return (
         <>
@@ -1453,61 +1540,61 @@ console.log('isDataLoading', isDataLoading);
   };
 
   const downloadPDF = () => {
-    downloadSubmissionPdf(submission.id);
+    downloadSubmissionPdf(submissionByIdData?.id);
   };
 
   function submissionStatusLabel() {
     return getStatusMessage(
-      submission,
+      submissionByIdData,
       isTeacher
         ? 'TEACHER'
-        : getUserId() === submission.studentId
+        : getUserId() === submissionByIdData?.studentId
         ? 'SELF'
         : 'PEER'
     );
   }
 
-  function getStatusMessage(submission, viewer) {
-    if (submission.status === 'DRAFT') {
+  function getStatusMessage(submissionByIdData, viewer) {
+    if (submissionByIdData?.status === 'DRAFT') {
       return (
         'Created by ' +
-        submission.assignment.teacherName +
+        submissionByIdData?.assignment.teacherName +
         ' | Due on ' +
-        formattedDate(submission.assignment.dueAt)
+        formattedDate(submissionByIdData?.assignment.dueAt)
       );
     }
-    if (submission.status === 'SUBMITTED') {
+    if (submissionByIdData?.status === 'SUBMITTED') {
       let submitter;
       if (viewer === 'PEER') {
         submitter = 'your peer';
       } else if (viewer === 'SELF') {
         submitter = 'you';
       } else {
-        submitter = submission.studentName;
+        submitter = submissionByIdData?.studentName;
       }
       return (
         'Submitted by ' +
         submitter +
         ' | Review due on ' +
-        formattedDate(submission.assignment.reviewDueAt)
+        formattedDate(submissionByIdData?.assignment.reviewDueAt)
       );
     }
     if (
-      submission.status === 'REVIEWED' ||
-      submission.status === 'RESUBMISSION_REQUESTED'
+      submissionByIdData?.status === 'REVIEWED' ||
+      submissionByIdData?.status === 'RESUBMISSION_REQUESTED'
     ) {
       let reviewer;
-      if (submission.assignment.reviewedBy === 'TEACHER') {
+      if (submissionByIdData?.assignment.reviewedBy === 'TEACHER') {
         if (viewer === 'TEACHER') {
           reviewer = 'you';
         } else {
-          reviewer = submission.assignment.teacherName;
+          reviewer = submissionByIdData?.assignment.teacherName;
         }
       } else {
         if (viewer === 'PEER') {
           reviewer = 'you';
         } else {
-          if (isJeddAIUser(submission.reviewerId)) {
+          if (isJeddAIUser(submissionByIdData?.reviewerId)) {
             reviewer = 'JEDDAI';
           } else {
             reviewer = 'your peer';
@@ -1518,27 +1605,31 @@ console.log('isDataLoading', isDataLoading);
         'Reviewed by ' +
         reviewer +
         ' on ' +
-        formattedDate(submission.reviewedAt)
+        formattedDate(submissionByIdData?.reviewedAt)
       );
     }
 
-    if (submission.status === 'CLOSED') {
+    if (submissionByIdData?.status === 'CLOSED') {
       let closedBy;
       if (viewer === 'PEER') {
         closedBy = 'your peer';
       } else if (viewer === 'SELF') {
         closedBy = 'you';
       } else {
-        closedBy = submission.studentName;
+        closedBy = submissionByIdData?.studentName;
       }
       return (
-        'Closed by ' + closedBy + ' on ' + formattedDate(submission.closedAt)
+        'Closed by ' +
+        closedBy +
+        ' on ' +
+        formattedDate(submissionByIdData?.closedAt)
       );
     }
   }
 
   function handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria) {
-    const currentQuestion = submission.assignment.questions[QuestionIndex];
+    const currentQuestion =
+      submissionByIdData?.assignment.questions[QuestionIndex];
 
     submitMarkingCriteriaFeedback(
       currentQuestion,
@@ -1568,8 +1659,8 @@ console.log('isDataLoading', isDataLoading);
   };
   const jeddAI = () => {
     const q = quillRefs.current[0];
-    return askJeddAI(submission.id, q.getText()).then((res) => {
-      setSubmission((old) => ({
+    return askJeddAI(submissionByIdData?.id, q.getText()).then((res) => {
+      setSubmissionByIdData((old) => ({
         ...old,
         status: res.status,
         feedbackRequestType: res.feedbackRequestType,
@@ -1578,13 +1669,13 @@ console.log('isDataLoading', isDataLoading);
       let interval;
 
       function getAndUpdateSubmission() {
-        getSubmissionById(submission.id).then((response) => {
+        getSubmissionById(submissionByIdData?.id).then((response) => {
           if (response) {
             if (response.status !== 'FEEDBACK_ACCEPTED') {
               clearInterval(interval);
               window.location.reload();
             }
-            setSubmission(response);
+            setSubmissionByIdData(response);
           }
         });
       }
@@ -1622,7 +1713,6 @@ console.log('isDataLoading', isDataLoading);
     handleCommentSelected,
     createTasksDropDown,
     onSelectionChange,
-    studentUpdate,
     unhighlightComment,
     downloadPDF,
     handleResolvedComment,
@@ -1683,12 +1773,17 @@ console.log('isDataLoading', isDataLoading);
           closeBtnText={'Delete'}
           textContent={'Do you want to save this document? '}
           buttonText={'Save'}
-          hidePopup={() => deleteDraftPage(submission.id, pendingLocation)}
+          hidePopup={() =>
+            deleteDraftPage(submissionByIdData?.id, pendingLocation)
+          }
           confirmButtonAction={saveDraftPage}
         />
       )}
       <Header
-        breadcrumbs={[submission?.assignment.title, submission?.status]}
+        breadcrumbs={[
+          submissionByIdData?.assignment.title,
+          submissionByIdData?.status,
+        ]}
       />
 
       <FeedbackTeacherLaptop
@@ -1702,19 +1797,19 @@ console.log('isDataLoading', isDataLoading);
           newCommentFrameRef,
           methods,
           comments: feedbackComments ? feedbackComments : [],
-          submission,
-          setSubmission,
+          submission: submissionByIdData,
+          setSubmission: setSubmissionByIdData,
           sharewithclassdialog,
           ...feedbacksFeedbackTeacherLaptopData,
           MARKING_METHODOLOGY_TYPE,
           selectedRange,
-          classesAndStudents,
-          teachers,
+          classesAndStudents: classData,
+          teachers: uniqueTeachers,
           selectedComment,
           overallComments: overAllCommentsById,
           markingCriteriaFeedback,
-          otherDrafts : otherDraftsById,
-          setOtherDrafts : setOtherDraftsById,
+          otherDrafts: otherDraftsById,
+          setOtherDrafts: setOtherDraftsById,
         }}
       />
     </FeedbackContext.Provider>

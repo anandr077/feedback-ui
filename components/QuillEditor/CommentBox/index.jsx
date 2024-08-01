@@ -68,7 +68,7 @@ const CommentBox = ({
   const role = getUserRole();
   const resizeObserver = useRef(null);
 
-  let commentBankIds = submission.assignment.questions
+  let commentBankIds = submission?.assignment.questions
     .filter((item) => item.serialNumber === newCommentSerialNumber)
     .map((item) => item.commentBankId);
 
@@ -136,7 +136,7 @@ const CommentBox = ({
             <Option onClick={() => setOpenCommentbox(!openCommentBox)}>
               <img src={CommentIcon} />
             </Option>
-            {isShareWithClass(role, submission.type) && (
+            {isShareWithClass(role, submission?.type) && (
               <Option onClick={onShareWithClassClick}>
                 <img src={ShareIcon} />
               </Option>
@@ -199,7 +199,7 @@ const CommentBox = ({
                       openShareWithStudentDialog={methods.handleShareWithClass}
                       convertToCheckedState={methods.convertToCheckedState}
                       updateExemplarComment={methods.setUpdateExemplarComment}
-                      studentId={submission.studentId}
+                      studentId={submission?.studentId}
                       selectedComment={selectedComment}
                     />
                   ) : isFeedback && comment.status !== 'RESOLVED' ? (
@@ -223,7 +223,7 @@ const CommentBox = ({
                       openShareWithStudentDialog={methods.handleShareWithClass}
                       convertToCheckedState={methods.convertToCheckedState}
                       updateExemplarComment={methods.setUpdateExemplarComment}
-                      studentId={submission.studentId}
+                      studentId={submission?.studentId}
                       selectedComment={selectedComment}
                     />
                   ) : comment.status === 'RESOLVED' ? (
@@ -247,7 +247,7 @@ const CommentBox = ({
                       openShareWithStudentDialog={methods.handleShareWithClass}
                       convertToCheckedState={methods.convertToCheckedState}
                       updateExemplarComment={methods.setUpdateExemplarComment}
-                      studentId={submission.studentId}
+                      studentId={submission?.studentId}
                       selectedComment={selectedComment}
                     />
                   ) : (
@@ -287,7 +287,7 @@ const newCommentFrame = (
     commentBankIds,
     question,
     selectedRange,
-    submission.type
+    submission?.type
   );
 };
 
@@ -367,7 +367,7 @@ function selectFocusArea(methods, submission, newCommentSerialNumber) {
 
   const focusAreas = uniqBy(
     allFocusAreas?.filter((fa) => {
-      return submission.assignment.questions[
+      return submission?.assignment.questions[
         newCommentSerialNumber - 1
       ]?.focusAreaIds?.includes(fa.id);
     }),

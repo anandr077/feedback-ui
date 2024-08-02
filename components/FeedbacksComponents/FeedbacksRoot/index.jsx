@@ -1,6 +1,6 @@
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import _ from 'lodash';
+import _, { flatMap, groupBy } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
@@ -320,6 +320,49 @@ const students = extractStudents(allSubmissions);
   }, [submissionByIdData, feedbackReviewPopup, history]);
 
   
+   const updateGroupedFocusAreaIds = (serialNumber, focusAreaId) => {
+     const isPresent = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
+     if (!isPresent) {
+       setGroupedFocusAreaIds((prevState) => {
+         return {
+           ...prevState,
+           [serialNumber]: [...prevState[serialNumber], focusAreaId],
+         };
+       });
+       console.log('updateGroupedFocusAreaIds', groupedFocusAreaIds);
+     }
+   };
+
+   function createGroupedFocusAreas(submission, feedbackComments) {
+     const flattenedQuestions = flatMap(
+       submission?.assignment?.questions,
+       (question) =>
+         question.focusAreaIds?.map((focusAreaId) => ({
+           serialNumber: question.serialNumber,
+           focusAreaId,
+         }))
+     );
+
+     const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
+     const grouped = Object.keys(groupedBySerialNumber).reduce(
+       (grouped, serialNumber) => {
+         grouped[serialNumber] = [];
+         return grouped;
+       },
+       {}
+     );
+
+     feedbackComments.forEach((comment) => {
+       if (comment.type === 'FOCUS_AREA') {
+         const { questionSerialNumber, focusAreaId } = comment;
+         if (grouped[questionSerialNumber]) {
+           grouped[questionSerialNumber].push(focusAreaId);
+         }
+       }
+     });
+     console.log('grouped', grouped);
+     return grouped;
+   }
   if (isLoading) {
     return (
       <>
@@ -1525,6 +1568,56 @@ const students = extractStudents(allSubmissions);
       setPopupText('Are you sure you want to mark this task as complete?');
     }
   };
+
+const validateFocusAreas = () => {
+  let valid = true;
+  let errorMessage = '';
+
+  for (let index = 0; index < submission.assignment.questions.length; index++) {
+    const question = submission.assignment.questions[index];
+    const currentFocusAreas = question?.focusAreas || [];
+    const selectedFocusAreas = groupedFocusAreaIds[index + 1] || [];
+    console.log('currentFocusAreas', currentFocusAreas);
+    console.log('selectedFocusAreas', selectedFocusAreas);
+
+    if (
+      selectedFocusAreas.length === 0 ||
+      currentFocusAreas.length !== selectedFocusAreas.length
+    ) {
+      errorMessage = 'Some focus areas are not selected. Do you want to submit';
+      valid = false;
+      break; // Stop iterating
+    }
+  }
+
+  if (!valid) {
+    setShowFocusArePopUpText(errorMessage);
+  }
+
+  console.log('valid', valid);
+  return valid;
+};
+
+const checkFocusAreas = () => {
+  if (!validateFocusAreas()) {
+    console.log('valid entered');
+    setShowFocusArePopUp(true);
+  } else {
+    showSubmitPopuphandler('SubmitForReview');
+  }
+};
+
+
+  const proceedToSave = () => {
+    showSubmitPopuphandler('SubmitForReview');
+    setShowFocusArePopUpText('');
+    setShowFocusArePopUp(false);
+  };
+
+  const closeFocusAreaPopUp = () => {
+    setShowFocusArePopUpText('');
+    setShowFocusArePopUp(false);
+  };
   const jeddAI = () => {
     const q = quillRefs.current[0];
     return askJeddAI(submissionByIdData?.id, q.getText()).then((res) => {
@@ -1596,6 +1689,7 @@ const students = extractStudents(allSubmissions);
     addOverallFeedback,
     updateOverAllFeedback,
     jeddAI,
+    checkFocusAreas,
   };
 
   const shortcuts = getShortcuts();
@@ -1647,6 +1741,15 @@ const students = extractStudents(allSubmissions);
           confirmButtonAction={saveDraftPage}
         />
       )}
+      {showFocusAreaPopUp && (
+        <GeneralPopup
+          title="Submit task"
+          textContent={showFocusAreaPopUpText}
+          buttonText={'Submit'}
+          hidePopup={closeFocusAreaPopUp}
+          confirmButtonAction={proceedToSave}
+        />
+      )}
       <Header
         breadcrumbs={[
           submissionByIdData?.assignment.title,
@@ -1678,6 +1781,7 @@ const students = extractStudents(allSubmissions);
           markingCriteriaFeedback,
           otherDrafts: otherDraftsById,
           setOtherDrafts: setOtherDraftsById,
+          groupedFocusAreaIds,
         }}
       />
     </FeedbackContext.Provider>

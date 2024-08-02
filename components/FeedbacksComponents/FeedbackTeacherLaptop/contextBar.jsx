@@ -98,30 +98,7 @@ const tasksListsDropDown = (isTeacher, methods) => {
   }
   return <></>;
 };
-export function contextBar(submission, methods, isTeacher, pageMode) {
-  const focusAreasCount = createFocusAreasCount(submission);
-  return (
-    <Frame1371 id="assignmentTitle">
-      <TitleWrapper>
-        <AssignmentTitle
-          dangerouslySetInnerHTML={{
-            __html: linkify(submission.assignment.title),
-          }}
-        />
-        {statusText(methods, focusAreasCount, submission)}
-        {downloadButtonClosedSubmission(
-          isTeacher,
-          pageMode,
-          submission,
-          methods
-        )}
-      </TitleWrapper>
-      <ButtonContainer>
-        {submitButton(methods, pageMode, isTeacher, submission)}
-      </ButtonContainer>
-    </Frame1371>
-  );
-}
+
 const selectReviewType = (
   submission,
   setSubmission,
@@ -331,26 +308,7 @@ const submitButton = (methods, pageMode, isTeacher, submission) => {
   return <></>;
 };
 
-function downloadButtonNonClosedSubmission(
-  isTeacher,
-  pageMode,
-  submission,
-  methods
-) {
-  return (
-    !isTeacher &&
-    pageMode === 'CLOSED' &&
-    submission.status != 'CLOSED' && (
-      <AwaitFeedbackContainer id="deleteButton">
-        <Buttons2
-          button="Download PDF"
-          download={true}
-          onClickFn={methods.downloadPDF}
-        />
-      </AwaitFeedbackContainer>
-    )
-  );
-}
+
 
 function downloadButtonClosedSubmission(
   isTeacher,
@@ -373,155 +331,6 @@ function downloadButtonClosedSubmission(
   );
 }
 
-export function contextBarForPortfolioDocument(
-  isShowSelectType,
-  setShowSelectType,
-  showFeedbackButtons,
-  setShowFeedbackButtons,
-  submission,
-  setSubmission,
-  methods,
-  pageMode,
-  feedbackMethodType = [],
-  handleRequestFeedback,
-  showStatusText = true,
-  allClasses,
-  showStudentPopUp,
-  showTeacherPopUp,
-  setShowStudentPopUp,
-  setShowTeacherPopUp,
-  isTeacher
-) {
-  const [isEditing, setIsEditing] = React.useState(false);
-  const [inputValue, setInputValue] = React.useState('');
-  const [assignment, setAssignment] = React.useState(submission);
-  const inputRef = React.useRef(null);
-
-  React.useEffect(() => {
-    if (submission?.assignment?.title) {
-      setInputValue(submission.assignment.title);
-    }
-  }, [submission]);
-
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const updateAssignmentTitle = (newTitle) => {
-    const updatedAssignment = {
-      ...submission.assignment,
-      title: newTitle,
-    };
-    updateAssignment(submission.assignment.id, updatedAssignment)
-      .then((res) => {
-        if (res && res.title) {
-          setSubmission((old) => ({
-            ...old,
-            assignment: {
-              ...old.assignment,
-              title: res.title,
-            },
-            otherDrafts: old.otherDrafts?.map((draft) =>
-              draft.submissionId === submission.id
-                ? { ...draft, title: res.title }
-                : draft
-            ),
-          }));
-        } else {
-          setInputValue(res.title);
-        }
-      })
-      .catch((error) => {
-        console.error('Error updating assignment:', error);
-      });
-  };
-
-
-  React.useEffect(() => {
-    if (isEditing) {
-      const input = inputRef.current;
-      input.focus();
-      input.setSelectionRange(input.value.length, input.value.length);
-    }
-  }, [isEditing]);
-
-  const autoResize = () => {
-    if (inputRef.current) {
-      inputRef.current.style.height = '20px';
-      inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
-    }
-  };
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      autoResize();
-    }, 0);
-  }, []);
-
-  return (
-    <>
-      <Frame1371 id="assignmentTitle">
-        <TitleWrapper>
-          <TitleContainer>
-            {pageMode === 'DRAFT' ? (
-              <QuestionEditInput
-                ref={inputRef}
-                type="text"
-                value={inputValue}
-                onChange={(e) => {
-                  handleInputChange(e);
-                  autoResize(e);
-                }}
-                style={{ overflow: 'hidden' }}
-                onBlur={() => {
-                  updateAssignmentTitle(inputValue);
-                  setIsEditing(false);
-                }}
-              />
-            ) : (
-              <AssignmentTitle
-                style={{ display: 'contents' }}
-                dangerouslySetInnerHTML={{
-                  __html: linkify(submission?.assignment?.title),
-                }}
-              />
-            )}
-          </TitleContainer>
-          {pageMode === 'DRAFT' ? (
-            <EditTextBox>
-              💬 Use a specific question for more accurate feedback
-            </EditTextBox>
-          ) : (
-            showStatusText && statusText(methods, 0, submission)
-          )}
-        </TitleWrapper>
-        <FeedbackBtnContainer>
-          {/* {(pageMode === 'DRAFT' || pageMode === 'REVISE') && (
-          <StatusLabel key="statusLabel" id="statusLabel" text={labelText} />
-        )} */}
-          {submitButtonDocument(
-            isShowSelectType,
-            setShowSelectType,
-            methods,
-            pageMode,
-            submission,
-            setSubmission,
-            feedbackMethodType,
-            handleRequestFeedback,
-            allClasses,
-            showFeedbackButtons,
-            setShowFeedbackButtons,
-            showStudentPopUp,
-            showTeacherPopUp,
-            setShowStudentPopUp,
-            setShowTeacherPopUp,
-            isTeacher
-          )}
-        </FeedbackBtnContainer>
-      </Frame1371>
-    </>
-  );
-}
 
 function statusText(methods, focusAreasCount, submission) {
   return (

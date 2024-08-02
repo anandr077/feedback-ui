@@ -95,14 +95,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     showComment: false,
   });
   const [showLoader, setShowLoader] = useState(false);
-
   const newCommentFrameRef = useRef(null);
-
-  // const [submission, setSubmission] = useState(null);
-  // const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
-  // const [studentName, setStudentName] = useState(null);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [selectedText, setSelectedText] = useState(null);
@@ -110,12 +105,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [nextUrl, setNextUrl] = useState('');
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
-  const [newMarkingCriterias, setNewMarkingCriterias] = useState([]);
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
-  // const [classesAndStudents, setClassesAndStudents] = useState([]);
-  // const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false);
   const [pageLeavePopup, setPageLeavePopup] = useState(false);
@@ -216,36 +208,17 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return acc;
   }, {});
 
-  // setCheckedState(initialCheckedState);
+  
 
 
   useEffect(() => {
     if (!isDataLoading) {
-      // console.log('submissionByIdData outside', submissionByIdData);
-
-      // if (submissionByIdData) {
-      //   console.log('submissionByIdData Inside', submissionByIdData);
-      //   // setSubmission(submissionByIdData);
-      // }
+      
 
       if (classData && submissionByIdData) {
-        // const initialState = classData.reduce((acc, classItem) => {
-        //   acc[classItem.id] = {
-        //     checked: false,
-        //     students: classItem.students.reduce((studentAcc, student) => {
-        //       const isStudent = submissionByIdData.studentId === student.id;
-        //       studentAcc[student.id] = isStudent;
-        //       return studentAcc;
-        //     }, {}),
-        //   };
-        //   return acc;
-        // }, {});
+        
         setCheckedState(initialCheckedState);
-        // setClassesAndStudents(classData);
-
-        // const allTeachers = _.flatten(classData.map((c) => c.teachers));
-        // const uniqueTeachers = _.uniqBy(allTeachers, 'id');
-        // setTeachers(uniqueTeachers);
+        
       }
       if (!isTeacher) {
         setIsLoading(false);
@@ -255,39 +228,14 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
 const students = extractStudents(allSubmissions);
 
-//  let currentSubmissionIndex = 0;
-//  const allExceptCurrent = allSubmissions?.filter((r, index) => {
-//    if (r.id !== submissionByIdData.id) {
-//      return r;
-//    } else {
-//      currentSubmissionIndex = index;
-//      return false;
-//    }
-//  });
 
-//  let nextSubmissionIndex = currentSubmissionIndex + 1;
-//  while (
-//    nextSubmissionIndex > 0 &&
-//    nextSubmissionIndex < allExceptCurrent?.length
-//  ) {
-//    if (allExceptCurrent[nextSubmissionIndex]?.status === 'SUBMITTED') {
-//      break;
-//    } else {
-//      nextSubmissionIndex++;
-//    }
-//  }
-//  if (nextSubmissionIndex >= allExceptCurrent.length) {
-//    nextSubmissionIndex = 0;
-//  }
 
-//  const nextUrl = allExceptCurrent[nextSubmissionIndex]
-//    ? '#submissions/' + allExceptCurrent[nextSubmissionIndex]?.id
-//    : '/';
+
   
 
  useEffect(() => {
    if (!isDataLoading && allSubmissions) {
-    //  setStudents(extractStudents(allSubmissions));
+   
 
      let currentSubmissionIndex = 0;
      const allExceptCurrent = allSubmissions?.filter((r, index) => {
@@ -371,10 +319,6 @@ const students = extractStudents(allSubmissions);
     };
   }, [submissionByIdData, feedbackReviewPopup, history]);
 
-
-
-console.log('isDataLoading', isDataLoading);
-
   
   if (isLoading) {
     return (
@@ -414,17 +358,7 @@ console.log('isDataLoading', isDataLoading);
     );
   };
 
-  // const initialCheckedState = classesAndStudents.reduce((acc, classItem) => {
-  //   acc[classItem.id] = {
-  //     checked: false,
-  //     students: classItem.students.reduce((studentAcc, student) => {
-  //       let bool = submissionByIdData.studentId === student.id ? true : false;
-  //       studentAcc[student.id] = bool;
-  //       return studentAcc;
-  //     }, {}),
-  //   };
-  //   return acc;
-  // }, {});
+
 
   const pageMode = getPageMode(isTeacher, getUserId(), submissionByIdData);
 
@@ -1045,13 +979,7 @@ console.log('isDataLoading', isDataLoading);
     return valid;
   };
 
-  // function convertToSelectedAttribute(selectedArray) {
-  //   return selectedArray?.map((item, index) => ({
-  //     index,
-  //     criteria: item.criteria,
-  //     attribute: item.attribute,
-  //   }));
-  // }
+
 
   function handleSubmissionReviewed() {
     setShowSubmitPopup(false);
@@ -1096,67 +1024,7 @@ console.log('isDataLoading', isDataLoading);
     });
   }
 
-  // function submitMarkingCriteriaFeedback(
-  //   question,
-  //   markingCriteriaRequest,
-  //   QuestionIndex
-  // ) {
-  //   let submitedMarkingCriteria = markingCriteriaFeedback?.find(
-  //     (markingCriteria) =>
-  //       markingCriteria?.questionSerialNumber === question.serialNumber
-  //   );
-  //   if (submitedMarkingCriteria?.id) {
-  //     updateFeedback(
-  //       submission.id,
-  //       submitedMarkingCriteria.id,
-  //       markingCriteriaRequest
-  //     )
-  //       .then((response) => {
-  //         setMarkingCriteriaFeedback((prev) => {
-  //           const existingIndex = prev.findIndex(
-  //             (markingCriteria) =>
-  //               markingCriteria.questionSerialNumber === question.serialNumber
-  //           );
-
-  //           if (existingIndex !== -1) {
-  //             return prev.map((item, index) =>
-  //               index === existingIndex ? { ...item, ...response } : item
-  //             );
-  //           } else {
-  //             return [
-  //               ...prev,
-  //               { ...response, questionSerialNumber: question.serialNumber },
-  //             ];
-  //           }
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error in updateFeedback:', error);
-  //       });
-  //   } else {
-  //     return addFeedback(submission.id, markingCriteriaRequest).then(
-  //       (response) => {
-  //         setMarkingCriteriaFeedback((prev) => {
-  //           const existingIndex = prev.findIndex(
-  //             (markingCriteria) =>
-  //               markingCriteria.questionSerialNumber === question.serialNumber
-  //           );
-
-  //           if (existingIndex !== -1) {
-  //             return prev.map((item, index) =>
-  //               index === existingIndex ? { ...item, ...response } : item
-  //             );
-  //           } else {
-  //             return [
-  //               ...prev,
-  //               { ...response, questionSerialNumber: question.serialNumber },
-  //             ];
-  //           }
-  //         });
-  //       }
-  //     );
-  //   }
-  // }
+  
 
   function submitMarkingCriteriaFeedback(
     question,

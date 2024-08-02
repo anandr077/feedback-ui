@@ -17,7 +17,6 @@ import Breadcrumb from '../Breadcrumb';
 import Breadcrumb2 from '../Breadcrumb2';
 import {Footer} from './Footer';
 import './FeedbackTeacherLaptop.css';
-import { contextBar, contextBarForPortfolioDocument } from './contextBar';
 import FeedbackFrame from './feedbackFrame';
 import {
   Frame1315,
@@ -359,7 +358,6 @@ function FeedbackTeacherLaptop(props) {
           questionIndex={QuestionIndex} 
         />
       </PageContainer>
-
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,
         setFeedbackMethodTypeDialog,
@@ -561,26 +559,7 @@ function answersAndFeedbacks(
 
   return (
     <Frame1386 id="content">
-      {/* {createContextBar(
-        submission,
-        setSubmission,
-        methods,
-        pageMode,
-        isShowSelectType,
-        setShowSelectType,
-        showFeedbackButtons,
-        setShowFeedbackButtons,
-        methods,
-        isTeacher,
-        pageMode,
-        handleRequestFeedback,
-        showStatusText,
-        classesAndStudents,
-        showStudentPopUp,
-        showTeacherPopUp,
-        setShowStudentPopUp,
-        setShowTeacherPopUp
-      )} */}
+      
       <FeedbackHeader
         submission={submission}
         setSubmission={setSubmission}
@@ -684,61 +663,8 @@ function answersAndFeedbacks(
   );
 }
 
-function breadcrumbs(submission) {
-  return (
-    <Frame1387>
-      <Frame1315>
-        <Breadcrumb text={'Tasks'} link={'/#/tasks'} />
-        <Breadcrumb2 assignments={submission?.assignment.title} />
-      </Frame1315>
-    </Frame1387>
-  );
-}
 
-function createContextBar(
-  submission,
-  setSubmission,
-  methods,
-  pageMode,
-  isShowSelectType,
-  setShowSelectType,
-  showFeedbackButtons,
-  setShowFeedbackButtons,
-  methods,
-  isTeacher,
-  pageMode,
-  handleRequestFeedback,
-  showStatusText,
-  classesAndStudents,
-  showStudentPopUp,
-  showTeacherPopUp,
-  setShowStudentPopUp,
-  setShowTeacherPopUp
-) {
-  if (submission.type === 'DOCUMENT') {
-    return contextBarForPortfolioDocument(
-      isShowSelectType,
-      setShowSelectType,
-      showFeedbackButtons,
-      setShowFeedbackButtons,
-      submission,
-      setSubmission,
-      methods,
-      pageMode,
-      (feedbackMethodType = FeedbackMethodType),
-      handleRequestFeedback,
-      true,
-      classesAndStudents,
-      showStudentPopUp,
-      showTeacherPopUp,
-      setShowStudentPopUp,
-      setShowTeacherPopUp,
-      isTeacher
-    );
-  }
 
-  return contextBar(submission, methods, isTeacher, pageMode);
-}
 
 const handleFeedbackMethodTypeDialog = (
   feedbackMethodType,

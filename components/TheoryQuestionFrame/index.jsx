@@ -4,7 +4,6 @@ import Frame1297 from '../Frame1297';
 import DropdownMenu from '../DropdownMenu';
 import { getFocusAreas, deleteFocusArea } from '../../service';
 import questionMark from '../../static/img/question-mark.svg';
-import Bincolor from '../../static/img/Bincolor.svg';
 import {
   MarkingCriteriaSelectionContainer,
   FocusAreasFrame,
@@ -12,7 +11,6 @@ import {
   Structure,
   Ellipse141,
   SmalllQuestionFrame,
-  Line141,
   Frame12891,
   QuestionFrame2,
   ShowFocusArea,

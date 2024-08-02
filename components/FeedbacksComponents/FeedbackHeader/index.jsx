@@ -380,7 +380,7 @@ function submitButton(methods, pageMode, submission, isTeacher) {
     return (
       <RoundedBorderSubmitBtn
         text={'Submit Task'}
-        onClickFn={() => methods.showSubmitPopuphandler('SubmitForReview')}
+        onClickFn={() => methods.checkFocusAreas()}
       />
     );
   }

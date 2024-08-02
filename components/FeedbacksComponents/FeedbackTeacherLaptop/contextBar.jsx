@@ -71,7 +71,6 @@ import { Dialog } from '@mui/material';
 import ai from '../../../static/img/ai.svg';
 import profileCircle from '../../../static/img/profile-circle.svg';
 import Teacher from '../../../static/img/Teacher.svg';
-import questionmark from '../../../static/img/question-mark.svg';
 import expert from '../../../static/img/Expert-check.svg';
 import messages from '../../../static/img/messages-2.svg';
 import closecircle from '../../../static/img/closecircle.svg';

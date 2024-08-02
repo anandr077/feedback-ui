@@ -51,7 +51,6 @@ import {
 export function answersFrame(
   quillRefs,
   smallMarkingCriteria,
-  handleCheckboxChange,
   groupedFocusAreaIds,
   pageMode,
   submission,
@@ -74,7 +73,6 @@ export function answersFrame(
     <AnswersFrame
       quillRefs={quillRefs}
       smallMarkingCriteria={smallMarkingCriteria}
-      handleCheckboxChange={handleCheckboxChange}
       groupedFocusAreaIds={groupedFocusAreaIds}
       pageMode={pageMode}
       submission={submission}
@@ -109,7 +107,6 @@ function AnswersFrame(props) {
   const {
     quillRefs,
     smallMarkingCriteria,
-    handleCheckboxChange,
     groupedFocusAreaIds,
     pageMode,
     submission,
@@ -149,7 +146,6 @@ function AnswersFrame(props) {
           quillRefs,
           setOtherDrafts,
           smallMarkingCriteria,
-          handleCheckboxChange,
           groupedFocusAreaIds,
           pageMode,
           submission,
@@ -244,7 +240,6 @@ const answerFrames = (
   quillRefs,
   setOtherDrafts,
   smallMarkingCriteria,
-  handleCheckboxChange,
   groupedFocusAreaIds,
   pageMode,
   submission,
@@ -324,7 +319,7 @@ const answerFrames = (
     }, 0);
   }, []);
 
-  const question = submission?.assignment.questions[QuestionIndex];
+  const question = submission?.assignment?.questions[QuestionIndex];
   const newAnswer = {
     serialNumber: question?.serialNumber,
     answer: '',

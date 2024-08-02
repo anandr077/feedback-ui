@@ -166,7 +166,6 @@ export default function TeacherClassesRoot() {
         selectedClassIndex,
         annotationAnalyticsFrame,
         awaitingSubmissions,
-        ...teacherClassesDesktopData,
       }}
     />
   );
@@ -176,31 +175,7 @@ const getSelectedClassIndex = (classes, id) => {
   return classes.findIndex((cls) => cls.id === id);
 };
 
-const buttons3Data = {
-  className: 'buttons-1',
-};
 
-const teacherClassesMobileData = {
-  title: 'Classes',
-  line171: '/img/line-18@2x.png',
-  line175: '/img/line-18@2x.png',
-  buttonsProps: buttons3Data,
-};
 
-const teacherClassesTabletData = {
-  title: 'Classes',
-  line171: '/img/line-17-14.png',
-  line176: '/img/line-17-14.png',
-};
 
-const teacherClassesLaptopData = {
-  line171: '/img/line-17-28.png',
-  line176: '/img/line-17-28.png',
-};
 
-const teacherClassesDesktopData = {
-  title: 'Classes',
-  line171: '/img/line-17-42.png',
-  line176: '/img/line-17-42.png',
-  x2021JeddleAllRightsReserved: '© 2021 Jeddle. All rights reserved.',
-};

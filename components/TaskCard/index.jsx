@@ -28,7 +28,6 @@ import StatusBubbleContainer from '../StatusBubblesContainer';
 import BorderedHeart from '../../static/img/Addtofav.svg';
 import RedBgHeart from '../../static/img/favTick.svg';
 import ProgressBar from '../ProgressBar';
-import arrowRight from '../../static/img/arrowright.svg';
 import { isShowProgressBar } from './rules';
 import LinkButton from '../../components2/LinkButton';
 import arrowRight from '../../static/img/arrowright.svg';

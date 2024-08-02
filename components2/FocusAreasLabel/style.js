@@ -34,7 +34,6 @@ export const MainFocusBox = styled.div`
   gap: 8px;
   border: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
   background-color: ${(props) => (props.selected ? '#F1E6FC' : '#FFFFFF')};
-  cursor: pointer;
 `;
 export const Ellipse141 = styled.div`
   position: relative;

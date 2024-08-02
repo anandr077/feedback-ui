@@ -188,6 +188,11 @@ export const isShowGreenTick = (markingCriteriaFeedback) => {
         !isNullOrEmpty(markingCriteria?.selectedStrengths);
 };
 
+export const isShowMarkingCriteriaPreview = (pageMode) => {
+  return (
+    pageMode === 'CLOSED' || pageMode === 'REVISE' || pageMode === 'REVIEW'
+  );
+};
 export const isShowUpdateCommentLabel = () => {
   return 'Update';
 };

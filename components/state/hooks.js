@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { createGlobalState } from '.';
-import { getClassesWithStudents, getCommentBank, getCommentsForSubmission, getFeedbackBanks, getOtherDrafts, getOverComments, getSubmissionById, getSubmissionsByAssignmentId, getTeachersForClass } from '../../service';
+import { getAllMarkingCriteria, getClassesWithStudents, getCommentBank, getCommentsForSubmission, getFeedbackBanks, getOtherDrafts, getOverComments, getSubmissionById, getSubmissionsByAssignmentId, getTeachersForClass } from '../../service';
 import { createGlobalStates } from './createGlobalStates';
 
 export const useAllSubmisssionsById = createGlobalState(
@@ -16,6 +16,10 @@ export const useCommentBanksById = createGlobalStates(
 export const useCommentBanks = createGlobalState(
   'feedbackBanks',
   getFeedbackBanks
+);
+export const useMarkingCriterias = createGlobalState(
+  'markingCriterias',
+  getAllMarkingCriteria
 );
 
 export const useCommentsById = createGlobalState(

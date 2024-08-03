@@ -79,7 +79,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
     handleTitleChange,
     deleteMarkingCriteriaMethod,
     isUpdating,
-    markingCriterias,
+    markingCriteria,
     markingCriteriaId,
   } = props;
 
@@ -107,7 +107,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
 
   return (
     <>
-      <Header breadcrumbs={[markingCriterias?.title]} />
+      <Header breadcrumbs={[markingCriteria?.title]} />
       <MainContainer>
         <ImprovedSecondarySideBar
           isShowMenu={isShowMenu}
@@ -127,7 +127,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
                   <TextInput
                     placeholder="Name of marking template"
                     id="markingCriteriaName"
-                    value={markingCriterias.title}
+                    value={markingCriteria.title}
                     onChange={handleTitleChange}
                     onBlur={() => handleOnBlur()}
                     onKeyPress={handleKeyPress}
@@ -136,7 +136,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
                 </Heading>
               ) : (
                 <Heading onClick={() => setIsEditing(true)}>
-                  {markingCriterias.title}
+                  {markingCriteria.title}
                   <EditIcon src={MarkEdit} />
                   <EditIconHover src={EditHover} />
                 </Heading>
@@ -166,7 +166,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
                 <BodyHeading>Level Description</BodyHeading>
               </BodyHeadingPart>
               <TableBodyParts>
-                {markingCriterias.criterias.map(
+                {markingCriteria.criterias.map(
                   (markingTemplatesRubric, templateIndex) => (
                     <TableBodyPart key={templateIndex}>
                       <CriteriaPart>
@@ -275,7 +275,7 @@ function CreateNewMarkingCriteriaDesktop(props) {
       {openMarkingCriteriaPreviewDialog && (
         <PreviewDialog
           setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
-          markingCriterias={{ ...markingCriterias, type: 'RUBRICS' }}
+          markingCriterias={{ ...markingCriteria, type: 'RUBRICS' }}
         />
       )}
     </>

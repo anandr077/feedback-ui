@@ -43,7 +43,7 @@ import { isMobileView } from './components/ReactiveRender';
 import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
 import { shouldShowComponent } from './rules';
 import { getLocalStorage } from './utils/function';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function App() {
   const role = getUserRole();
@@ -228,7 +228,7 @@ function App() {
             theme="dark"
           />
         </Router>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </>
   );

@@ -30,9 +30,6 @@ export default function AccountSettingsRoot(props) {
 
   const [markingCriterias, setMarkingCriterias] = React.useState([]);
   const [shortcuts, setShortcuts] = React.useState([]);
-  const [smartAnnotations, setSmartAnnotations] = React.useState();
-  const [systemSmartAnnotations, setSystemSmartAnnotations] = React.useState();
-  const [selectedBank, setSelectedBank] = React.useState();
   const [normalSmartAnnotations, setNormalSmartAnnotations] = React.useState();
   const [isLoading, setIsLoading] = React.useState(true);
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
@@ -61,50 +58,17 @@ export default function AccountSettingsRoot(props) {
     staleTime: 3600000,
   });
 
-  const feedbackBankQuery = useQuery({
-    queryKey: ['feedbackBank'],
-    queryFn: async () => {
-      const result = await getFeedbackBanks();
-      return result;
-    },
-    staleTime: 3600000,
-  });
+  
 
   useEffect(() => {
-    if (feedbackBankQuery.data) {
-      const nonSyatemBanks =
-        feedbackBankQuery.data._embedded.commentbanks.filter(
-          (bank) => !bank.isSystem
-        );
-      setFeedbackBankId(
-        feedbackBankCreated
-          ? nonSyatemBanks[nonSyatemBanks.length - 1]?.id
-          : nonSyatemBanks[0]?.id
-      );
-      setSmartAnnotations(
-        feedbackBankQuery.data._embedded.commentbanks.filter(
-          (bank) => !bank.isSystem
-        )
-      );
-
-      setSystemSmartAnnotations(
-        feedbackBankQuery.data._embedded.commentbanks.filter(
-          (bank) => bank.isSystem
-        )
-      );
-      setSelectedBank(
-        feedbackBankQuery.data._embedded.commentbanks.filter(
-          (bank) => bank.isSystem
-        )[0]
-      );
-    }
+    
     if (markingCriteriaQuery.data) {
       setMarkingCriterias(markingCriteriaQuery.data);
     }
     if (shortCutsQuery.data) {
       setShortcuts(shortCutsQuery.data);
     }
-  }, [feedbackBankQuery.data, markingCriteriaQuery.data, shortCutsQuery.data]);
+  }, [markingCriteriaQuery.data, shortCutsQuery.data]);
 
  
   if (window.localStorage.getItem('markingCriteria')) {
@@ -184,7 +148,6 @@ export default function AccountSettingsRoot(props) {
   );
 
   if (
-    feedbackBankQuery.isLoading ||
     shortCutsQuery.isLoading ||
     markingCriteriaQuery.isLoading
   ) {

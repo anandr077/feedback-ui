@@ -42,10 +42,14 @@ const NewOverallFeedback = ({
   const [isTruncated, setIsTruncated] = useState(false);
   const inputRef = useRef();
 
+
+console.log('overallComment', overallComment);
   useEffect(() => {
     if (inputRef.current) {
       if (overallComment?.comment) {
+        console.log('first', overallComment?.comment);
         inputRef.current.value = overallComment.comment;
+        console.log('inputRef', inputRef.current.value);
       } else {
         inputRef.current.value = '';
       }

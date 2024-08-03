@@ -36,7 +36,7 @@ const FeedbackTaskDetails = ({
     return markingCriteria;
   };
 
-  const question = submission.assignment.questions[QuestionIndex];
+  const question = submission?.assignment.questions[QuestionIndex];
 
   return (
     <FeedbackTaskDetailsContainer openRightPanel={openRightPanel}>
@@ -81,8 +81,8 @@ const FeedbackTaskDetails = ({
       )}
       <QuestionContainer onClick={() => questionPanelOpen('tab3')}>
         <QuestionNumbers>
-          {submission.assignment.questions.length}
-          {submission.assignment.questions.length <= 1
+          {submission?.assignment.questions.length}
+          {submission?.assignment.questions.length <= 1
             ? ' Question'
             : ' Questions'}
         </QuestionNumbers>

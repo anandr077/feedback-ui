@@ -14,7 +14,6 @@ import Loader from '../../Loader';
 import { answersFrame } from '../AnswersFrame';
 import {Footer} from './Footer';
 import './FeedbackTeacherLaptop.css';
-import { contextBar, contextBarForPortfolioDocument } from './contextBar';
 import FeedbackFrame from './feedbackFrame';
 import {
   Frame1315,
@@ -90,18 +89,21 @@ function FeedbackTeacherLaptop(props) {
     setOtherDrafts,
     groupedFocusAreaIds,
   } = props;
+  console.log('submission', submission);
+  console.log('props', props);
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
-  const questions = submission.assignment.questions;
+  const questions = submission?.assignment.questions;
   const [isFeedback, setFeedback] = React.useState(
-    !(
+    !(questions && 
       questions[QuestionIndex]?.focusAreas &&
       questions[QuestionIndex]?.focusAreas.length !== 0
     )
   );
   const [isFocusAreas, setFocusAreas] = React.useState(
-    questions[QuestionIndex]?.focusAreas &&
+    questions &&
+      questions[QuestionIndex]?.focusAreas &&
       questions[QuestionIndex]?.focusAreas.length !== 0
   );
   
@@ -273,7 +275,7 @@ function FeedbackTeacherLaptop(props) {
       <PageContainer>
         <>
           {sharewithclassdialog}
-          {(otherDrafts || submission.studentsSubmissions) && sidebar()}
+          {(otherDrafts || submission?.studentsSubmissions) && sidebar()}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}
@@ -330,11 +332,10 @@ function FeedbackTeacherLaptop(props) {
           isMobile={isMobile} 
           editorFontSize={editorFontSize} 
           setEditorFontSize={setEditorFontSize}
-          answers={submission.answers} 
+          answers={submission?.answers} 
           questionIndex={QuestionIndex} 
         />
       </PageContainer>
-
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,
         setFeedbackMethodTypeDialog,
@@ -362,14 +363,14 @@ function FeedbackTeacherLaptop(props) {
             setSelectedSubject={setSelectedSubject}
             selectedSubject={selectedSubject}
             groupedAndSortedData={groupedAndSortedData}
-            currentSubmissionId={submission.id}
+            currentSubmissionId={submission?.id}
             deleteQuestionFunction={deleteQuestionFunction}
           />
         )}
 
         {((isTeacher && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) ||
           otherDrafts ||
-          submission.studentsSubmissions) && (
+          submission?.studentsSubmissions) && (
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}
@@ -383,7 +384,7 @@ function FeedbackTeacherLaptop(props) {
             setSelectedSubject={setSelectedSubject}
             selectedSubject={selectedSubject}
             groupedAndSortedData={groupedAndSortedData}
-            currentSubmissionId={submission.id}
+            currentSubmissionId={submission?.id}
           />
         )}
 
@@ -505,33 +506,14 @@ function answersAndFeedbacks(
     ?.filter((f) => f.questionSerialNumber === QuestionIndex + 1)
     .map((comment) => comment.focusAreaId);
 
-  const question = submission.assignment.questions[QuestionIndex];
+  const question = submission?.assignment.questions[QuestionIndex];
 
   const matchingFocusAreas = question?.focusAreas;
   
 
   return (
     <Frame1386 id="content">
-      {/* {createContextBar(
-        submission,
-        setSubmission,
-        methods,
-        pageMode,
-        isShowSelectType,
-        setShowSelectType,
-        showFeedbackButtons,
-        setShowFeedbackButtons,
-        methods,
-        isTeacher,
-        pageMode,
-        handleRequestFeedback,
-        showStatusText,
-        classesAndStudents,
-        showStudentPopUp,
-        showTeacherPopUp,
-        setShowStudentPopUp,
-        setShowTeacherPopUp
-      )} */}
+      
       <FeedbackHeader
         submission={submission}
         setSubmission={setSubmission}
@@ -555,12 +537,12 @@ function answersAndFeedbacks(
         commentsForSelectedTab={commentsForSelectedTab}
         isLeftSidebarOpen={openLeftPanel}
       />
-      {submission.type === 'SUBMISSION' &&
-        submission.assignment.questions.length !== 0 && (
+      {submission?.type === 'SUBMISSION' &&
+        submission?.assignment.questions.length !== 0 && (
           <FeedbackQuestionSlider
             setQuestionIndex={setQuestionIndex}
             QuestionIndex={QuestionIndex}
-            questions={submission.assignment.questions}
+            questions={submission?.assignment.questions}
             setFeedback={setFeedback}
             setFocusAreas={setFocusAreas}
           />
@@ -615,9 +597,7 @@ function answersAndFeedbacks(
             handleMarkingCriteriaLevelFeedback={
               methods.handleMarkingCriteriaLevelFeedback
             }
-            handleStrengthsTargetsFeedback={
-              methods.handleStrengthsTargetsFeedback
-            }
+            
             pageMode={pageMode}
             submission={submission}
           />
@@ -637,50 +617,6 @@ function answersAndFeedbacks(
 
 
 
-function createContextBar(
-  submission,
-  setSubmission,
-  methods,
-  pageMode,
-  isShowSelectType,
-  setShowSelectType,
-  showFeedbackButtons,
-  setShowFeedbackButtons,
-  methods,
-  isTeacher,
-  pageMode,
-  handleRequestFeedback,
-  showStatusText,
-  classesAndStudents,
-  showStudentPopUp,
-  showTeacherPopUp,
-  setShowStudentPopUp,
-  setShowTeacherPopUp
-) {
-  if (submission.type === 'DOCUMENT') {
-    return contextBarForPortfolioDocument(
-      isShowSelectType,
-      setShowSelectType,
-      showFeedbackButtons,
-      setShowFeedbackButtons,
-      submission,
-      setSubmission,
-      methods,
-      pageMode,
-      (feedbackMethodType = FeedbackMethodType),
-      handleRequestFeedback,
-      true,
-      classesAndStudents,
-      showStudentPopUp,
-      showTeacherPopUp,
-      setShowStudentPopUp,
-      setShowTeacherPopUp,
-      isTeacher
-    );
-  }
-
-  return contextBar(submission, methods, isTeacher, pageMode);
-}
 
 const handleFeedbackMethodTypeDialog = (
   feedbackMethodType,

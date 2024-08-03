@@ -75,6 +75,7 @@ import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
 import { allCriteriaHaveSelectedLevels } from './rules.js';
+import { useAllSubmisssionsById, useClassData, useCommentBanksById,  useCommentsById, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -94,16 +95,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     showComment: false,
   });
   const [showLoader, setShowLoader] = useState(false);
-
   const newCommentFrameRef = useRef(null);
-
-  const [submission, setSubmission] = useState(null);
-  const [smartAnnotations, setSmartAnnotations] = useState([]);
-  const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
-  const [studentName, setStudentName] = useState(null);
-  const [comments, setComments] = useState([]);
   const [showNewComment, setShowNewComment] = useState(false);
   const [selectedRange, setSelectedRange] = useState(null);
   const [selectedText, setSelectedText] = useState(null);
@@ -111,189 +105,194 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [nextUrl, setNextUrl] = useState('');
   const [commentHighlight, setCommentHighlight] = useState(false);
   const [editingComment, setEditingComment] = useState(false);
-  const [markingCriteriaFeedback, setMarkingCriteriaFeedback] = useState([]);
-  const [newMarkingCriterias, setNewMarkingCriterias] = useState([]);
-  const [overallComments, setOverallComments] = useState([]);
   const [showSubmitPopup, setShowSubmitPopup] = React.useState(false);
   const [methodTocall, setMethodToCall] = React.useState(null);
   const [popupText, setPopupText] = React.useState(null);
-  const [classesAndStudents, setClassesAndStudents] = useState([]);
-  const [teachers, setTeachers] = useState([]);
   const [checkedState, setCheckedState] = useState({});
   const [feedbackReviewPopup, setFeedbackReviewPopup] = useState(false);
   const [pageLeavePopup, setPageLeavePopup] = useState(false);
   const [selectedComment, setSelectedComment] = useState(null);
   const [showFloatingDialogue, setShowFloatingDialogue] = useState(false);
   const defaultMarkingCriteria = getDefaultCriteria();
-  const [otherDrafts, setOtherDrafts] = useState([]);
-
+  const unblockRef = useRef(null);
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState();
   const [showFocusAreaPopUp, setShowFocusArePopUp] = React.useState(false);
   const [showFocusAreaPopUpText, setShowFocusArePopUpText] = React.useState('');
 
+  const {
+    data: submissionByIdData,
+    isLoadingdata: isLoadingsubmissionByIdData,
+    setData: setSubmissionByIdData,
+    resetData: resetSubmissionByIdData,
+  } = useSubmissionById(id);
+  const {
+    data: commentsByIdData,
+    isLoadingdata: isLoadingcommentsByIdData,
+    setData: setCommentsByIdData,
+    resetData: resetCommentsByIdData,
+  } = useCommentsById(id);
+  const {
+    data: overAllCommentsById,
+    isLoadingdata: isLoadingoverAllCommentsById,
+    setData: setOverAllCommentsById,
+    resetData: resetOverAllCommentsById,
+  } = useOverAllCommentsById(id);
+  const {
+    data: otherDraftsById,
+    isLoadingdata: isLoadingotherDraftsById,
+    setData: setOtherDraftsById,
+    resetData: resetOtherDraftsById,
+  } = useOtherDraftsById(id);
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
+
+
+
   useEffect(() => {
     setIsLoading(true);
-    Promise.all([
-      getSubmissionById(id),
-      getComments(id),
-      fetchClassWithStudentsAndTeachers(),
-      getOverComments(id),
-      getOtherDrafts(id),
-    ])
-      .then(
-        ([
-          submissionsResult,
-          commentsResult,
-          classWithTeacherAndStudentsResult,
-          overAllCommentsResult,
-          otherDrafts,
-        ]) => {
-          setOtherDrafts(otherDrafts);
-          setSubmission(submissionsResult);
-          console.log('submission', submissionsResult);
-
-          const allComments = commentsResult?.map((c) => {
-            return { ...c };
-          });
-          const feedbackComments = allComments?.filter(
-            (c) => c.type !== 'MARKING_CRITERIA'
-          );
-
-          console.log('feedbackComments', feedbackComments);
-          setGroupedFocusAreaIds(
-            createGroupedFocusAreas(submissionsResult, feedbackComments)
-          );
-          setComments(feedbackComments);
-          const markingCriteriaFeedback = allComments?.filter(
-            (c) => c.type === 'MARKING_CRITERIA'
-          );
-          setMarkingCriteriaFeedback(markingCriteriaFeedback);
-
-          const initialState = classWithTeacherAndStudentsResult.reduce(
-            (acc, classItem) => {
-              acc[classItem.id] = {
-                checked: false,
-                students: classItem.students.reduce((studentAcc, student) => {
-                  let bool =
-                    submissionsResult.studentId === student.id ? true : false;
-                  studentAcc[student.id] = bool;
-                  return studentAcc;
-                }, {}),
-              };
-              return acc;
-            },
-            {}
-          );
-          setCheckedState(initialState);
-          setOverallComments(overAllCommentsResult);
-          setClassesAndStudents(classWithTeacherAndStudentsResult);
-          const allTeachers = _.flatten(
-            classWithTeacherAndStudentsResult.map((c) => c.teachers)
-          );
-          const uniqueTeachers = _.uniqBy(allTeachers, 'id');
-          setTeachers(uniqueTeachers);
-        }
-      )
-      .finally(() => {
-        if (!isTeacher) {
-          setIsLoading(false);
-        }
-      });
   }, [id]);
 
-  const commentBankIds = submission?.assignment?.questions
+  
+  const commentBankIds = submissionByIdData?.assignment?.questions
     .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
     .map((q) => q.commentBankId);
 
-  useEffect(() => {
-    if (isTeacher && submission && submission?.assignment.id) {
-      // alert("sub" + JSON.stringify(submission.assignment)
+  const {
+    data: allSubmissions,
+    isLoadingdata: isLoadingallSubmissions,
+    resetData: resetAllSubmissions,
+  } = useAllSubmisssionsById(submissionByIdData?.assignment.id, isTeacher);
 
-      const commentBankPromises = commentBankIds.map(getCommentBank);
+  const {
+    data: commentBanksData,
+    isLoadingdata: isLoadingcommentBanksData,
+    resetData: resetCommentBanksData,
+  } = useCommentBanksById(commentBankIds, isTeacher);
 
-      Promise.all([
-        getSubmissionsByAssignmentId(submission.assignment.id),
-        ...commentBankPromises,
-      ])
-        .then(([allSubmissions, ...commentBanks]) => {
-          setSmartAnnotations(
-            commentBanks.filter((cb) => cb !== undefined && cb !== null)
-          );
-          setStudents(extractStudents(allSubmissions));
-          let currentSubmissionIndex = 0;
-          const allExceptCurrent = allSubmissions.map((r, index) => {
-            if (r.id != submission.id) {
-              return r;
-            } else {
-              currentSubmissionIndex = index;
-            }
-          });
+   const isDataLoading =
+     isLoadingsubmissionByIdData ||
+     isLoadingcommentsByIdData ||
+     isLoadingoverAllCommentsById ||
+     isLoadingotherDraftsById ||
+     isLoadingclassData ||
+     (isTeacher &&
+       (isLoadingallSubmissions ||
+         isLoadingcommentBanksData));
 
-          let nextSubmissionIndex = currentSubmissionIndex + 1;
-          while (
-            nextSubmissionIndex > 0 &&
-            nextSubmissionIndex < allExceptCurrent.length
-          ) {
-            if (allExceptCurrent[nextSubmissionIndex]?.status === 'SUBMITTED') {
-              break;
-            } else {
-              nextSubmissionIndex++;
-            }
-          }
-          if (nextSubmissionIndex >= allExceptCurrent.length) {
-            nextSubmissionIndex = 0;
-          }
 
-          const nextUrl = allExceptCurrent[nextSubmissionIndex]
-            ? '#submissions/' + allExceptCurrent[nextSubmissionIndex]?.id
-            : '/';
-
-          setNextUrl(nextUrl);
-          const studentName =
-            allSubmissions.find((r) => r.id === submission.assignment.id)
-              ?.studentName ?? null;
-
-          setStudentName(studentName);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
-  }, [submission]);
-
-  const allCommentBanks = smartAnnotations?.flatMap(
-    (annotation, index) =>
-      annotation.smartComments.filter((smartComment) =>
-        commentBankIds?.includes(annotation.id)
-      )
-    // .map((smartComment, innerIndex) => (
-    //   <SmartAnotation
-    //     key={`${index}-${innerIndex}`}
-    //     smartAnnotation={smartComment}
-    //     onSuggestionClick={methods.handleShortcutAddCommentSmartAnnotaion}
-    //   />
-    // ))
+  const markingCriteriaFeedback = commentsByIdData?.filter(
+    (c) => c.type === 'MARKING_CRITERIA'
   );
+  const feedbackComments = commentsByIdData?.filter(
+          (c) => c.type !== 'MARKING_CRITERIA'
+        );
+
+
+  const allTeachers = _.flatten(classData?.map((c) => c.teachers));
+  const uniqueTeachers = _.uniqBy(allTeachers, 'id');
+
+
+  const initialCheckedState = classData?.reduce((acc, classItem) => {
+    acc[classItem.id] = {
+      checked: false,
+      students: classItem.students.reduce((studentAcc, student) => {
+        let bool = submissionByIdData?.studentId === student.id ? true : false;
+        studentAcc[student.id] = bool;
+        return studentAcc;
+      }, {}),
+    };
+    return acc;
+  }, {});
+
+  
+
 
   useEffect(() => {
-    const unblock = history.block((location, action) => {
+    if (!isDataLoading) {
+      setGroupedFocusAreaIds(
+        createGroupedFocusAreas(submissionByIdData, feedbackComments)
+      );
+
+      if (classData && submissionByIdData) {
+        
+        setCheckedState(initialCheckedState);
+        
+      }
+      if (!isTeacher) {
+        setIsLoading(false);
+      }
+    }
+  }, [isDataLoading, id]);
+
+const students = extractStudents(allSubmissions);
+
+ useEffect(() => {
+   if (!isDataLoading && allSubmissions) {
+   
+
+     let currentSubmissionIndex = 0;
+     const allExceptCurrent = allSubmissions?.filter((r, index) => {
+       if (r.id !== submissionByIdData.id) {
+         return r;
+       } else {
+         currentSubmissionIndex = index;
+         return false;
+       }
+     });
+
+     let nextSubmissionIndex = currentSubmissionIndex + 1;
+     while (
+       nextSubmissionIndex > 0 &&
+       nextSubmissionIndex < allExceptCurrent?.length
+     ) {
+       if (allExceptCurrent[nextSubmissionIndex]?.status === 'SUBMITTED') {
+         break;
+       } else {
+         nextSubmissionIndex++;
+       }
+     }
+     if (nextSubmissionIndex >= allExceptCurrent.length) {
+       nextSubmissionIndex = 0;
+     }
+
+     const nextUrl = allExceptCurrent[nextSubmissionIndex]
+       ? '#submissions/' + allExceptCurrent[nextSubmissionIndex]?.id
+       : '/';
+     setNextUrl(nextUrl);
+     setIsLoading(false);
+   }
+ }, [isDataLoading, id]);
+  
+  const deleteDraftPage = async (submissionId, pendingLocation) => {
+    await deleteSubmissionById(submissionId).then(() => {
+      if (pendingLocation) {
+       goToNewUrl(pendingLocation, history, unblockRef);
+      }
+      setPageLeavePopup(false);
+    });
+  };
+
+  useEffect(() => {
+    unblockRef.current = history.block((location, action) => {
       if (
-        submission?.status === 'REVIEWED' &&
-        submission?.type === 'DOCUMENT' &&
-        submission?.studentId === getUserId() &&
-        (submission?.feedbackOnFeedback === null ||
-          submission?.feedbackOnFeedback === undefined)
+        submissionByIdData?.status === 'REVIEWED' &&
+        submissionByIdData?.type === 'DOCUMENT' &&
+        submissionByIdData?.studentId === getUserId() &&
+        (submissionByIdData?.feedbackOnFeedback === null ||
+          submissionByIdData?.feedbackOnFeedback === undefined)
       ) {
         setPendingLocation(location);
         setFeedbackReviewPopup(true);
         return false;
       }
-      if (submission?.status === 'DRAFT' && submission?.type === 'DOCUMENT') {
+      if (
+        submissionByIdData?.status === 'DRAFT' &&
+        submissionByIdData?.type === 'DOCUMENT'
+      ) {
         if (
-          !submission?.answers &&
-          submission?.assignment.title === 'Untitled Question'
+          !submissionByIdData?.answers &&
+          submissionByIdData?.assignment.title === 'Untitled Question'
         ) {
-          deleteDraftPage(submission.id, location);
+          deleteDraftPage(submissionByIdData.id, location);
           return false;
         } else {
           setPendingLocation(location);
@@ -306,70 +305,55 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
 
     return () => {
-      unblock();
+       if (unblockRef.current) {
+         unblockRef.current();
+       }
     };
-  }, [submission, feedbackReviewPopup, history]);
+  }, [submissionByIdData, feedbackReviewPopup, history]);
 
-  const deleteDraftPage = async (submissionId, pendingLocation) => {
-    await deleteSubmissionById(submissionId).then(() => {
-      if (pendingLocation) {
-        goToNewUrl(pendingLocation);
-      }
-      setPageLeavePopup(false);
-    });
-  };
+  
+   const updateGroupedFocusAreaIds = (serialNumber, focusAreaId) => {
+     const isPresent = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
+     if (!isPresent) {
+       setGroupedFocusAreaIds((prevState) => {
+         return {
+           ...prevState,
+           [serialNumber]: [...prevState[serialNumber], focusAreaId],
+         };
+       });
+       console.log('updateGroupedFocusAreaIds', groupedFocusAreaIds);
+     }
+   };
 
-  const updateGroupedFocusAreaIds = (serialNumber, focusAreaId) => {
-    const isPresent = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
-    if (!isPresent) {
-      setGroupedFocusAreaIds((prevState) => {
-        return {
-          ...prevState,
-          [serialNumber]: [...prevState[serialNumber], focusAreaId],
-        };
-      });
-      console.log('updateGroupedFocusAreaIds', groupedFocusAreaIds);
-    }
-  };
+   function createGroupedFocusAreas(submissionByIdData, feedbackComments) {
+     const flattenedQuestions = flatMap(
+       submissionByIdData?.assignment?.questions,
+       (question) =>
+         question?.focusAreaIds?.map((focusAreaId) => ({
+           serialNumber: question.serialNumber,
+           focusAreaId,
+         }))
+     );
 
-  function createGroupedFocusAreas(submission, feedbackComments) {
-    const flattenedQuestions = flatMap(
-      submission?.assignment?.questions,
-      (question) =>
-        question.focusAreaIds?.map((focusAreaId) => ({
-          serialNumber: question.serialNumber,
-          focusAreaId,
-        }))
-    );
+     const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
+     const grouped = Object.keys(groupedBySerialNumber).reduce(
+       (grouped, serialNumber) => {
+         grouped[serialNumber] = [];
+         return grouped;
+       },
+       {}
+     );
 
-    const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
-    const grouped = Object.keys(groupedBySerialNumber).reduce(
-      (grouped, serialNumber) => {
-        grouped[serialNumber] = [];
-        return grouped;
-      },
-      {}
-    );
-
-    feedbackComments.forEach((comment) => {
-      if (comment.type === 'FOCUS_AREA') {
-        const { questionSerialNumber, focusAreaId } = comment;
-        if (grouped[questionSerialNumber]) {
-          grouped[questionSerialNumber].push(focusAreaId);
-        }
-      }
-    });
-    console.log('grouped', grouped);
-    return grouped;
-  }
-
-  const saveDraftPage = () => {
-    if (pendingLocation) {
-      goToNewUrl(pendingLocation);
-    }
-    setPageLeavePopup(false);
-  };
-
+     feedbackComments.forEach((comment) => {
+       if (comment.type === 'FOCUS_AREA') {
+         const { questionSerialNumber, focusAreaId } = comment;
+         if (grouped[questionSerialNumber]) {
+           grouped[questionSerialNumber].push(focusAreaId);
+         }
+       }
+     });
+     return grouped;
+   }
   if (isLoading) {
     return (
       <>
@@ -377,51 +361,40 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       </>
     );
   }
-  const handleFeedbackOnFeedback = (feedbackOnFeedback) => () => {
-    provideFeedbackOnFeedback(submission.id, feedbackOnFeedback).then((res) => {
-      setSubmission((old) => {
-        return { ...old, feedbackOnFeedback: res.feedbackOnFeedback };
-      });
-      setFeedbackReviewPopup(false);
-      if (pendingLocation !== undefined || pendingLocation !== null) {
-        history.replace(pendingLocation);
-      }
-    });
+
+  const allCommentBanks = commentBanksData
+    ?.filter((cb) => cb !== undefined && cb !== null)
+    ?.flatMap((annotation) =>
+      annotation.smartComments.filter((smartComment) =>
+        commentBankIds?.includes(annotation.id)
+      )
+    );
+
+
+  const saveDraftPage = () => {
+    if (pendingLocation) {
+      goToNewUrl(pendingLocation, history, unblockRef);
+    }
+    setPageLeavePopup(false);
   };
 
-  async function fetchClassWithStudentsAndTeachers() {
-    try {
-      const classesWithStudents = await getClassesWithStudents();
-
-      const teacherPromises = _.flatMap(classesWithStudents, (classItem) => {
-        return getTeachersForClass(classItem.id).then((teachers) => {
-          return { ...classItem, teachers };
+  const handleFeedbackOnFeedback = (feedbackOnFeedback) => () => {
+    provideFeedbackOnFeedback(submissionByIdData.id, feedbackOnFeedback).then(
+      (res) => {
+        setSubmissionByIdData((old) => {
+          return { ...old, feedbackOnFeedback: res.feedbackOnFeedback };
         });
-      });
+        setFeedbackReviewPopup(false);
+        if (pendingLocation !== undefined || pendingLocation !== null) {
+          history.replace(pendingLocation);
+        }
+      }
+    );
+  };
 
-      return await Promise.all(teacherPromises);
-    } catch (error) {
-      console.error(
-        'Error fetching classes with students and teachers:',
-        error
-      );
-      throw error;
-    }
-  }
 
-  const initialCheckedState = classesAndStudents.reduce((acc, classItem) => {
-    acc[classItem.id] = {
-      checked: false,
-      students: classItem.students.reduce((studentAcc, student) => {
-        let bool = submission.studentId === student.id ? true : false;
-        studentAcc[student.id] = bool;
-        return studentAcc;
-      }, {}),
-    };
-    return acc;
-  }, {});
 
-  const pageMode = getPageMode(isTeacher, getUserId(), submission);
+  const pageMode = getPageMode(isTeacher, getUserId(), submissionByIdData);
 
   const handleEditingComment = (flag) => {
     setEditingComment(flag);
@@ -438,7 +411,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
   function handleAddComment() {
     if (!document.getElementById('newCommentInput').value) return;
-    addFeedback(submission.id, {
+    addFeedback(submissionByIdData.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: document.getElementById('newCommentInput').value,
       range: selectedRange,
@@ -449,7 +422,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       sharedWithStudents: [],
     }).then((response) => {
       if (response) {
-        setComments([...comments, response]);
+        setCommentsByIdData([
+          ...markingCriteriaFeedback,
+          ...feedbackComments,
+          response,
+        ]);
         highlightByComment(response);
         setShowNewComment(false);
       }
@@ -457,7 +434,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   function handleShortcutAddComment(commentText) {
-    addFeedback(submission.id, {
+    addFeedback(submissionByIdData.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: commentText.trim(),
       range: selectedRange,
@@ -468,7 +445,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       sharedWithStudents: [],
     }).then((response) => {
       if (response) {
-        setComments([...comments, response]);
+        setCommentsByIdData([
+          ...markingCriteriaFeedback,
+          ...feedbackComments,
+          response,
+        ]);
         highlightByComment(response);
         setShowNewComment(false);
       }
@@ -476,7 +457,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   function handleShortcutAddCommentSmartAnnotaion(commentText) {
-    addFeedback(submission.id, {
+    addFeedback(submissionByIdData.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: commentText,
       range: selectedRange,
@@ -487,7 +468,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       sharedWithStudents: [],
     }).then((response) => {
       if (response) {
-        setComments([...comments, response]);
+        setCommentsByIdData([
+          ...markingCriteriaFeedback,
+          ...feedbackComments,
+          response,
+        ]);
         highlightByComment(response);
         setShowNewComment(false);
       }
@@ -495,7 +480,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   function handleFocusAreaComment(focusArea) {
-    addFeedback(submission.id, {
+    addFeedback(submissionByIdData.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: focusArea.title,
       range: selectedRange,
@@ -509,7 +494,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }).then((response) => {
       if (response) {
         updateGroupedFocusAreaIds(newCommentSerialNumber, focusArea.id);
-        setComments([...comments, response]);
+        setCommentsByIdData([
+          ...markingCriteriaFeedback,
+          ...feedbackComments,
+          response,
+        ]);
         highlightByComment(response);
         setShowNewComment(false);
         setShowFloatingDialogue(false);
@@ -520,7 +509,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const addExemplerComment = () => {
     const comment = exemplarComment || 'No comment';
 
-    addFeedback(submission.id, {
+    addFeedback(submissionByIdData.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: comment,
       range: selectedRange,
@@ -531,7 +520,11 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       sharedWithStudents: getSharedStudentIds(),
     }).then((response) => {
       if (response) {
-        setComments([...comments, response]);
+        setCommentsByIdData([
+          ...markingCriteriaFeedback,
+          ...feedbackComments,
+          response,
+        ]);
         highlightByComment(response);
         setShowNewComment(false);
         setExemplerComment('');
@@ -573,7 +566,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         students: Object.fromEntries(
           Object.entries(checkedState[classId]?.students || {}).map(
             ([studentId, _]) => {
-              if (submission.studentId === studentId) {
+              if (submissionByIdData.studentId === studentId) {
                 return [studentId, true];
               }
               return [studentId, currentClassCheckedState];
@@ -666,7 +659,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
             <Line141 src="/img/line-14@2x.png" />
           </ClassTitleBox>
           <StudentContainer>
-            {classesAndStudents.map((classItem) => (
+            {classData.map((classItem) => (
               <div key={classItem.id}>
                 <ClassBox>
                   <CheckboxBordered
@@ -686,13 +679,15 @@ export default function FeedbacksRoot({ isDocumentPage }) {
                             checkedState[classItem.id]?.students[student.id] ||
                             false
                           }
-                          disabled={submission.studentId === student.id}
+                          disabled={submissionByIdData?.studentId === student.id}
                           onChange={() =>
                             handleStudentCheck(classItem.id, student.id)
                           }
                         />
                         {student.name}{' '}
-                        {submission.studentId === student.id ? '(author)' : ''}
+                        {submissionByIdData?.studentId === student.id
+                          ? '(author)'
+                          : ''}
                       </label>
                     </ListItem>
                   ))}
@@ -731,7 +726,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
                 setExemplerComment('');
                 setCheckedState(initialCheckedState);
               }}
-              smartAnnotations={smartAnnotations}
+              smartAnnotations={commentBanksData?.filter(
+                (cb) => cb !== undefined && cb !== null
+              )}
             />
           </DialogActions>
         </ActionButtonsContainer>
@@ -746,33 +743,36 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   function handleDeleteComment(commentId) {
-    deleteFeedback(submission.id, commentId).then((response) => {
-      setComments((oldComments) => {
-        const deletedComment = oldComments.find((c) => c.id == commentId);
-        const quill =
-          quillRefs.current[deletedComment.questionSerialNumber - 1];
-        const newComments = oldComments.filter((c) => c.id != commentId);
-        const updatedFeedbackComments = newComments?.filter(
-          (c) => c.type !== 'MARKING_CRITERIA'
+    deleteFeedback(submissionByIdData.id, commentId).then((response) => {
+      setCommentsByIdData((prevComments) => {
+        const otherComments = prevComments.filter(
+          (comment) => comment.type !== 'MARKING_CRITERIA'
         );
+        const markingCriteriaComments = prevComments.filter(
+          (comment) => comment.type === 'MARKING_CRITERIA'
+        );
+        
+        let updatedComments = otherComments.filter((c) => c.id != commentId);
         setGroupedFocusAreaIds(
-          createGroupedFocusAreas(submission, updatedFeedbackComments)
+          createGroupedFocusAreas(submissionByIdData, updatedComments)
         );
-        return newComments;
-      })
+        return [...updatedComments, ...markingCriteriaComments];
+      });
     });
-
   }
 
   function handleResolvedComment(commentId) {
-    const updatedComments = comments.map((comment) => {
+    const updatedComments = feedbackComments.map((comment) => {
       if (comment.id === commentId) {
         resolveFeedback(commentId);
         return { ...comment, status: 'RESOLVED' };
       }
       return comment;
     });
-    setComments(updatedComments);
+    setCommentsByIdData([
+      ...markingCriteriaFeedback,
+      ...updatedComments
+    ]);
   }
 
   function handleReplyComment(
@@ -792,14 +792,14 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       markingCriteria: defaultMarkingCriteria,
       sharedWithStudents: sharedWithStudents,
     };
-    const addReplyComments = comments.map((comment) => {
+    const addReplyComments = feedbackComments.map((comment) => {
       if (comment.id === commentId) {
         const commentToUpdate =
           comment.replies === undefined
             ? { ...comment, replies: [replyCommentObject] }
             : { ...comment, replies: [...comment.replies, replyCommentObject] };
 
-        updateFeedback(submission.id, commentId, {
+        updateFeedback(submissionByIdData.id, commentId, {
           ...commentToUpdate,
           questionSerialNumber: commentToUpdate.questionSerialNumber,
           feedback: commentToUpdate.comment,
@@ -813,10 +813,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           sharedWithStudents: commentToUpdate.sharedWithStudents,
         }).then((response) => {
           if (response) {
-            const updatedComments = comments.map((c) =>
+            const updatedComments = feedbackComments.map((c) =>
               c.id === commentId ? commentToUpdate : c
             );
-            setComments(updatedComments);
+            setCommentsByIdData([
+              ...markingCriteriaFeedback,
+              ...updatedComments,
+            ]);
           }
         });
       }
@@ -829,14 +832,14 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   function updateParentComment(comment, commentId) {
-    const updatedComment = comments.map((c) => {
+    const updatedComment = feedbackComments.map((c) => {
       if (c.id === commentId) {
         const commentToUpdate = {
           ...c,
           comment: comment,
           sharedWithStudents: getSharedStudentIds(),
         };
-        updateFeedback(submission.id, commentId, {
+        updateFeedback(submissionByIdData.id, commentId, {
           questionSerialNumber: commentToUpdate.questionSerialNumber,
           feedback: commentToUpdate.comment,
           range: commentToUpdate.range,
@@ -852,10 +855,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           reviewerId: commentToUpdate.reviewerId,
         }).then((response) => {
           if (response) {
-            const updatedComments = comments.map((c) =>
+            const updatedComments = feedbackComments.map((c) =>
               c.id === commentId ? commentToUpdate : c
             );
-            setComments(updatedComments);
+            setCommentsByIdData([
+              ...markingCriteriaFeedback,
+              ...updatedComments,
+            ]);
           }
         });
       }
@@ -873,7 +879,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     comment,
     sharedWithStudents
   ) {
-    const updatedReplyComment = comments.map((c) => {
+    const updatedReplyComment = feedbackComments.map((c) => {
       if (c.id === commentId) {
         const updatedReplies = [...c.replies];
         updatedReplies[replyCommentIndex] = {
@@ -882,7 +888,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         };
         const commentToUpdate = { ...c, replies: updatedReplies };
 
-        updateFeedback(submission.id, commentId, {
+        updateFeedback(submissionByIdData.id, commentId, {
           questionSerialNumber: c.questionSerialNumber,
           feedback: c.comment,
           range: c.range,
@@ -894,10 +900,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           sharedWithStudents: sharedWithStudents,
         }).then((response) => {
           if (response) {
-            const updatedComments = comments.map((c) =>
+            const updatedComments = feedbackComments.map((c) =>
               c.id === commentId ? commentToUpdate : c
             );
-            setComments(updatedComments);
+            setCommentsByIdData([
+              ...markingCriteriaFeedback,
+              ...updatedComments,
+            ]);
           }
         });
       }
@@ -906,12 +915,12 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   function handleDeleteReplyComment(commentId, replyCommentIndex) {
-    const deleteReplyComment = comments.map((c) => {
+    const deleteReplyComment = feedbackComments.map((c) => {
       if (c.id === commentId) {
         const updatedReplies = [...c.replies];
         updatedReplies.splice(replyCommentIndex, 1);
         const commentToUpdate = { ...c, replies: updatedReplies };
-        updateFeedback(submission.id, commentId, {
+        updateFeedback(submissionByIdData.id, commentId, {
           questionSerialNumber: c.questionSerialNumber,
           feedback: c.comment,
           range: c.range,
@@ -923,10 +932,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           sharedWithStudents: c.sharedWithStudents,
         }).then((response) => {
           if (response) {
-            const updatedComments = comments.map((c) =>
+            const updatedComments = feedbackComments.map((c) =>
               c.id === commentId ? commentToUpdate : c
             );
-            setComments(updatedComments);
+            setCommentsByIdData([
+              ...markingCriteriaFeedback,
+              ...updatedComments,
+            ]);
           }
         });
       }
@@ -937,7 +949,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const validateMarkingCriteria = () => {
     let valid = true;
 
-    submission.assignment.questions.some((question, index) => {
+    submissionByIdData.assignment.questions.some((question, index) => {
       if (question?.markingCriteria?.criterias) {
         let criterias = question.markingCriteria.criterias;
         if (!isNullOrEmpty(markingCriteriaFeedback)) {
@@ -970,7 +982,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedStrengths: [],
           selectedTargets: [],
         };
-        
+
         if (!isNullOrEmpty(markingCriteriaFeedback)) {
           let submitedMarkingCriteria = findMarkingCriteria(
             markingCriteriaFeedback,
@@ -1006,13 +1018,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     return valid;
   };
 
-  function convertToSelectedAttribute(selectedArray) {
-    return selectedArray?.map((item, index) => ({
-      index,
-      criteria: item.criteria,
-      attribute: item.attribute,
-    }));
-  }
+
 
   function handleSubmissionReviewed() {
     setShowSubmitPopup(false);
@@ -1024,13 +1030,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   function submitReview() {
-    markSubmsissionReviewed(submission.id).then((_) => {
-      queryClient.invalidateQueries(['notifications']);
-      queryClient.invalidateQueries(['tasks']);
-      queryClient.invalidateQueries(['assignments']);
-      queryClient.invalidateQueries((queryKey) => {
-        return queryKey.includes('class');
-      });
+    markSubmsissionReviewed(submissionByIdData.id).then((_) => {
+      
 
       toast(
         <Toast
@@ -1038,10 +1039,22 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           link={
             window.location.href.includes('documentsReview')
               ? '/documentsReview/'
-              : '/submissions/' + submission.id
+              : '/submissions/' + submissionByIdData?.id
           }
         />
       );
+      queryClient.invalidateQueries(['notifications']);
+      queryClient.invalidateQueries(['tasks']);
+      queryClient.invalidateQueries(['assignments']);
+      queryClient.invalidateQueries((queryKey) => {
+        return queryKey.includes('class');
+      });
+      resetSubmissionByIdData();
+      resetCommentsByIdData();
+      resetOverAllCommentsById();
+      resetOtherDraftsById();
+      resetAllSubmissions();
+      resetCommentBanksData();
       if (isTeacher) {
         window.location.href = nextUrl === '/' ? '/#' : nextUrl;
       } else {
@@ -1050,81 +1063,100 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   }
 
+  
+
   function submitMarkingCriteriaFeedback(
     question,
     markingCriteriaRequest,
     QuestionIndex
   ) {
-
     let submitedMarkingCriteria = markingCriteriaFeedback?.find(
       (markingCriteria) =>
         markingCriteria?.questionSerialNumber === question.serialNumber
     );
-    if (submitedMarkingCriteria?.id) {
-      updateFeedback(submission.id, submitedMarkingCriteria.id, markingCriteriaRequest)
-        .then((response) => {
-          setMarkingCriteriaFeedback((prev) => {
-            const existingIndex = prev.findIndex(
-              (markingCriteria) =>
-                markingCriteria.questionSerialNumber === question.serialNumber
-            );
 
-            if (existingIndex !== -1) {
-              return prev.map((item, index) =>
-                index === existingIndex ? { ...item, ...response } : item
-              );
-            } else {
-              return [
-                ...prev,
-                { ...response, questionSerialNumber: question.serialNumber },
-              ];
+    const updateLocalFeedbackState = (response) => {
+      setCommentsByIdData((prevComments) => {
+        
+        const otherComments = prevComments.filter(
+          (comment) => comment.type !== 'MARKING_CRITERIA'
+        );
+        const markingCriteriaComments = prevComments.filter(
+          (comment) => comment.type === 'MARKING_CRITERIA'
+        );
+
+        
+        const updatedMarkingCriteriaComments = markingCriteriaComments.map(
+          (comment) => {
+            if (comment.id === response.id) {
+              return { ...comment, ...response };
             }
-          });
+            return comment;
+          }
+        );
+
+      
+        if (
+          !markingCriteriaComments.find((comment) => comment.id === response.id)
+        ) {
+          updatedMarkingCriteriaComments.push(response);
+        }
+
+       
+        return [...otherComments, ...updatedMarkingCriteriaComments];
+      });
+    };
+
+    if (submitedMarkingCriteria?.id) {
+      updateFeedback(
+        submissionByIdData?.id,
+        submitedMarkingCriteria.id,
+        markingCriteriaRequest
+      )
+        .then((response) => {
+          updateLocalFeedbackState(response);
         })
         .catch((error) => {
           console.error('Error in updateFeedback:', error);
         });
     } else {
-      return addFeedback(submission.id, markingCriteriaRequest).then((response) => {
-        setMarkingCriteriaFeedback((prev) => {
-          const existingIndex = prev.findIndex(
-            (markingCriteria) =>
-              markingCriteria.questionSerialNumber === question.serialNumber
-          );
-
-          if (existingIndex !== -1) {
-            return prev.map((item, index) =>
-              index === existingIndex ? { ...item, ...response } : item
-            );
-          } else {
-            return [
-              ...prev,
-              { ...response, questionSerialNumber: question.serialNumber },
-            ];
-          }
+      addFeedback(submissionByIdData?.id, markingCriteriaRequest)
+        .then((response) => {
+          updateLocalFeedbackState(response);
+        })
+        .catch((error) => {
+          console.error('Error in addFeedback:', error);
         });
-      });
     }
   }
+
 
   function handleRequestResubmission() {
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
     if (validateMarkingCriteria()) {
-      markSubmissionRequestSubmission(submission.id).then((_) => {
+      markSubmissionRequestSubmission(submissionByIdData?.id).then((_) => {
+        
+        toast(
+          <Toast
+            message={'Resubmission requested...'}
+            link={'/submissions/' + submissionByIdData?.id}
+          />
+        );
+
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
         queryClient.invalidateQueries(['assignments']);
         queryClient.invalidateQueries((queryKey) => {
           return queryKey.includes('class');
         });
-        toast(
-          <Toast
-            message={'Resubmission requested...'}
-            link={'/submissions/' + submission.id}
-          />
-        );
+        resetSubmissionByIdData();
+        resetCommentsByIdData();
+        resetOverAllCommentsById();
+        resetOtherDraftsById();
+        resetAllSubmissions();
+        resetCommentBanksData();
         if (isTeacher) {
           window.location.href = nextUrl === '/' ? '/#' : nextUrl;
           window.location.reload();
@@ -1136,7 +1168,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   const addOverallFeedback = (questionSerialNumber, comment, audio) => {
-    addFeedback(submission.id, {
+    addFeedback(submissionByIdData.id, {
       questionSerialNumber: questionSerialNumber,
       feedback: comment,
       range: {
@@ -1145,34 +1177,47 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       },
       audio: audio,
       type: 'OVERALL_COMMENT',
-    }).then((response) => {
-      if (response) {
-        setOverallComments([...overallComments, response]);
-      }
-    });
+    })
+      .then((response) => {
+        if (response) {
+          setOverAllCommentsById([...overAllCommentsById, response]);
+        }
+      })
+      .catch((err) => {
+        toast(
+          <Toast
+            message={`Error adding feedback: ${err.message}`}
+          />
+        );
+        
+      });;
   };
 
   const updateOverAllFeedback = (feedbackId, feedbackText, audio) => {
-    const feedbackToUpdate = overallComments.find(
+    const feedbackToUpdate = overAllCommentsById.find(
       (feedback) => feedback.id === feedbackId
     );
     if (feedbackToUpdate === null || feedbackToUpdate === undefined) {
       return;
     }
 
-    updateFeedback(submission.id, feedbackId, {
+    updateFeedback(submissionByIdData?.id, feedbackId, {
       ...feedbackToUpdate,
       feedback: feedbackText,
       audio: audio,
-    }).then((response) => {
-      setOverallComments((o) =>
-        o.map((feedback) => {
-          return feedback.id === feedbackId
-            ? { ...feedback, comment: feedbackText, audio: audio }
-            : feedback;
-        })
-      );
-    });
+    })
+      .then((response) => {
+        setOverAllCommentsById((prevComments) =>
+          prevComments.map((feedback) => {
+            return feedback.id === feedbackId
+              ? { ...feedback, comment: feedbackText, audio: audio }
+              : feedback;
+          })
+        );
+      })
+      .catch((err) => {
+         toast(<Toast message={`Error updating feedback: ${err.message}`} />);
+      });
   };
 
   const handleSaveSubmissionForReview = () => {
@@ -1185,27 +1230,34 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     toast(<Toast message={'Submitting task...'} />);
 
     setTimeout(() => {
-      submitAssignment(submission.id).then((_) => {
+      submitAssignment(submissionByIdData.id).then((_) => {
+        
+
+        toast(
+          <Toast
+            message={'Task submitted...'}
+            link={'/submissions/' + submissionByIdData.id}
+          />
+        );
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
         queryClient.invalidateQueries(['assignments']);
         queryClient.invalidateQueries((queryKey) => {
           return queryKey.includes('class');
         });
-
-        toast(
-          <Toast
-            message={'Task submitted...'}
-            link={'/submissions/' + submission.id}
-          />
-        );
+        resetSubmissionByIdData();
+        resetCommentsByIdData();
+        resetOverAllCommentsById();
+        resetOtherDraftsById();
+        resetAllSubmissions();
+        resetCommentBanksData();
         window.location.href = '/#';
         setShowLoader(false);
       });
     }, 4000);
   };
   function disableAllEditors() {
-    submission.assignment.questions
+    submissionByIdData.assignment.questions
       .filter((question) => question.type === 'TEXT')
       .forEach((question) => {
         const quill = quillRefs.current[question.serialNumber - 1];
@@ -1222,20 +1274,27 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setShowLoader(true);
     toast(<Toast message={'Submitting task...'} />);
     setTimeout(() => {
-      markSubmsissionClosed(submission.id).then((_) => {
+      markSubmsissionClosed(submissionByIdData?.id).then((_) => {
+        
+
+        toast(
+          <Toast
+            message={'Task completed...'}
+            link={'/submissions/' + submissionByIdData?.id}
+          />
+        );
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
         queryClient.invalidateQueries(['assignments']);
         queryClient.invalidateQueries((queryKey) => {
           return queryKey.includes('class');
         });
-
-        toast(
-          <Toast
-            message={'Task completed...'}
-            link={'/submissions/' + submission.id}
-          />
-        );
+        resetSubmissionByIdData();
+      resetCommentsByIdData();
+      resetOverAllCommentsById();
+      resetOtherDraftsById();
+      resetAllSubmissions();
+      resetCommentBanksData();
         window.location.href = '/#';
         setShowLoader(false);
       });
@@ -1256,7 +1315,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }
 
-
   const reviewerSelectionChange =
     (visibleComment, serialNumber) => (selection) => {
       if (!selection.range) {
@@ -1265,7 +1323,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       if (
         pageMode === 'DRAFT' &&
         isNullOrEmpty(
-          _.flatMap(submission.assignment.questions, (q) => q.focusAreas || [])
+          _.flatMap(
+            submissionByIdData?.assignment.questions,
+            (q) => q.focusAreas || []
+          )
         )
       ) {
         return;
@@ -1291,7 +1352,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     if (
       pageMode === 'DRAFT' &&
       isNullOrEmpty(
-        _.flatMap(submission.assignment.questions, (q) => q.focusAreas || [])
+        _.flatMap(
+          submissionByIdData?.assignment.questions,
+          (q) => q.focusAreas || []
+        )
       )
     ) {
       return;
@@ -1335,8 +1399,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }
 
   const unhighlightComment = () => {
-    if (comments.length > 0 && commentHighlight) {
-      comments.map((comment) => {
+    if (feedbackComments.length > 0 && commentHighlight) {
+      feedbackComments.map((comment) => {
         const div = document.getElementById('comment_' + comment.id);
         div.style.background = '#FFFFFF';
         div.style.border = '1px solid #E5E5E5';
@@ -1351,9 +1415,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setShowNewComment(false);
   };
 
-  const studentUpdate = (student) => {
-    setStudentName(student);
-  };
+
 
   const onSelectionChange = reviewerSelectionChange;
 
@@ -1369,7 +1431,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         };
       });
       const selectedItemIndex = menuItems.findIndex((menuItem) => {
-        return menuItem.id === submission.id;
+        return menuItem.id === submissionByIdData?.id;
       });
       return (
         <>
@@ -1385,61 +1447,61 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   };
 
   const downloadPDF = () => {
-    downloadSubmissionPdf(submission.id);
+    downloadSubmissionPdf(submissionByIdData?.id);
   };
 
   function submissionStatusLabel() {
     return getStatusMessage(
-      submission,
+      submissionByIdData,
       isTeacher
         ? 'TEACHER'
-        : getUserId() === submission.studentId
+        : getUserId() === submissionByIdData?.studentId
         ? 'SELF'
         : 'PEER'
     );
   }
 
-  function getStatusMessage(submission, viewer) {
-    if (submission.status === 'DRAFT') {
+  function getStatusMessage(submissionByIdData, viewer) {
+    if (submissionByIdData?.status === 'DRAFT') {
       return (
         'Created by ' +
-        submission.assignment.teacherName +
+        submissionByIdData?.assignment.teacherName +
         ' | Due on ' +
-        formattedDate(submission.assignment.dueAt)
+        formattedDate(submissionByIdData?.assignment.dueAt)
       );
     }
-    if (submission.status === 'SUBMITTED') {
+    if (submissionByIdData?.status === 'SUBMITTED') {
       let submitter;
       if (viewer === 'PEER') {
         submitter = 'your peer';
       } else if (viewer === 'SELF') {
         submitter = 'you';
       } else {
-        submitter = submission.studentName;
+        submitter = submissionByIdData?.studentName;
       }
       return (
         'Submitted by ' +
         submitter +
         ' | Review due on ' +
-        formattedDate(submission.assignment.reviewDueAt)
+        formattedDate(submissionByIdData?.assignment.reviewDueAt)
       );
     }
     if (
-      submission.status === 'REVIEWED' ||
-      submission.status === 'RESUBMISSION_REQUESTED'
+      submissionByIdData?.status === 'REVIEWED' ||
+      submissionByIdData?.status === 'RESUBMISSION_REQUESTED'
     ) {
       let reviewer;
-      if (submission.assignment.reviewedBy === 'TEACHER') {
+      if (submissionByIdData?.assignment.reviewedBy === 'TEACHER') {
         if (viewer === 'TEACHER') {
           reviewer = 'you';
         } else {
-          reviewer = submission.assignment.teacherName;
+          reviewer = submissionByIdData?.assignment.teacherName;
         }
       } else {
         if (viewer === 'PEER') {
           reviewer = 'you';
         } else {
-          if (isJeddAIUser(submission.reviewerId)) {
+          if (isJeddAIUser(submissionByIdData?.reviewerId)) {
             reviewer = 'JEDDAI';
           } else {
             reviewer = 'your peer';
@@ -1450,27 +1512,31 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         'Reviewed by ' +
         reviewer +
         ' on ' +
-        formattedDate(submission.reviewedAt)
+        formattedDate(submissionByIdData?.reviewedAt)
       );
     }
 
-    if (submission.status === 'CLOSED') {
+    if (submissionByIdData?.status === 'CLOSED') {
       let closedBy;
       if (viewer === 'PEER') {
         closedBy = 'your peer';
       } else if (viewer === 'SELF') {
         closedBy = 'you';
       } else {
-        closedBy = submission.studentName;
+        closedBy = submissionByIdData?.studentName;
       }
       return (
-        'Closed by ' + closedBy + ' on ' + formattedDate(submission.closedAt)
+        'Closed by ' +
+        closedBy +
+        ' on ' +
+        formattedDate(submissionByIdData?.closedAt)
       );
     }
   }
 
   function handleMarkingCriteriaLevelFeedback(QuestionIndex, markingCriteria) {
-    const currentQuestion = submission.assignment.questions[QuestionIndex];
+    const currentQuestion =
+      submissionByIdData?.assignment.questions[QuestionIndex];
 
     submitMarkingCriteriaFeedback(
       currentQuestion,
@@ -1479,41 +1545,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     );
   }
 
-  const handleStrengthsTargetsFeedback = (
-    QuestionIndex,
-    selectedStrengths,
-    selectedTargets
-  ) => {
-    const currentQuestion = submission.assignment.questions[QuestionIndex];
-
-    const markingCriteriaRequest = currentQuestion.markingCriteria;
-
-    markingCriteriaRequest.selectedStrengths =
-      convertToSelectedAttribute(selectedStrengths);
-    markingCriteriaRequest.selectedTargets =
-      convertToSelectedAttribute(selectedTargets);
-
-    setNewMarkingCriterias((previousState) => {
-      const updatedMarkingCriterias = [...previousState];
-
-      if (!updatedMarkingCriterias[QuestionIndex]) {
-        updatedMarkingCriterias[QuestionIndex] = {};
-      }
-      updatedMarkingCriterias[QuestionIndex] = {
-        ...updatedMarkingCriterias[QuestionIndex],
-        selectedStrengths: markingCriteriaRequest.selectedStrengths,
-        selectedTargets: markingCriteriaRequest.selectedTargets,
-      };
-
-      return updatedMarkingCriterias;
-    });
-
-    submitMarkingCriteriaFeedback(
-      currentQuestion,
-      markingCriteriaRequest,
-      QuestionIndex
-    );
-  };
+  
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
   };
@@ -1537,8 +1569,12 @@ const validateFocusAreas = () => {
   let valid = true;
   let errorMessage = '';
 
-  for (let index = 0; index < submission.assignment.questions.length; index++) {
-    const question = submission.assignment.questions[index];
+  for (
+    let index = 0;
+    index < submissionByIdData?.assignment?.questions?.length;
+    index++
+  ) {
+    const question = submissionByIdData?.assignment?.questions[index];
     const currentFocusAreas = question?.focusAreas || [];
     const selectedFocusAreas = groupedFocusAreaIds[index + 1] || [];
     console.log('currentFocusAreas', currentFocusAreas);
@@ -1584,8 +1620,8 @@ const checkFocusAreas = () => {
   };
   const jeddAI = () => {
     const q = quillRefs.current[0];
-    return askJeddAI(submission.id, q.getText()).then((res) => {
-      setSubmission((old) => ({
+    return askJeddAI(submissionByIdData?.id, q.getText()).then((res) => {
+      setSubmissionByIdData((old) => ({
         ...old,
         status: res.status,
         feedbackRequestType: res.feedbackRequestType,
@@ -1594,13 +1630,13 @@ const checkFocusAreas = () => {
       let interval;
 
       function getAndUpdateSubmission() {
-        getSubmissionById(submission.id).then((response) => {
+        getSubmissionById(submissionByIdData?.id).then((response) => {
           if (response) {
             if (response.status !== 'FEEDBACK_ACCEPTED') {
               clearInterval(interval);
               window.location.reload();
             }
-            setSubmission(response);
+            setSubmissionByIdData(response);
           }
         });
       }
@@ -1620,8 +1656,7 @@ const checkFocusAreas = () => {
   };
 
   const methods = {
-    comments,
-    setComments,
+    comments: feedbackComments,
     submissionStatusLabel,
     handleDeleteComment,
     handleShareWithClass,
@@ -1639,7 +1674,6 @@ const checkFocusAreas = () => {
     handleCommentSelected,
     createTasksDropDown,
     onSelectionChange,
-    studentUpdate,
     unhighlightComment,
     downloadPDF,
     handleResolvedComment,
@@ -1649,7 +1683,6 @@ const checkFocusAreas = () => {
     updateParentComment,
     updateChildComment,
     handleMarkingCriteriaLevelFeedback,
-    handleStrengthsTargetsFeedback,
     showSubmitPopuphandler,
     setUpdateExemplarComment,
     convertToCheckedState,
@@ -1664,12 +1697,14 @@ const checkFocusAreas = () => {
   return (
     <FeedbackContext.Provider
       value={{
-        smartAnnotations,
+        smartAnnotations: commentBanksData?.filter(
+          (cb) => cb !== undefined && cb !== null
+        ),
         showNewComment,
         newCommentSerialNumber,
         markingCriteriaFeedback,
-        overallComments,
-        comments,
+        overallComments: overAllCommentsById,
+        comments: feedbackComments,
         showFloatingDialogue,
         setShowFloatingDialogue,
         allCommentBanks,
@@ -1700,7 +1735,9 @@ const checkFocusAreas = () => {
           closeBtnText={'Delete'}
           textContent={'Do you want to save this document? '}
           buttonText={'Save'}
-          hidePopup={() => deleteDraftPage(submission.id, pendingLocation)}
+          hidePopup={() =>
+            deleteDraftPage(submissionByIdData?.id, pendingLocation)
+          }
           confirmButtonAction={saveDraftPage}
         />
       )}
@@ -1713,7 +1750,12 @@ const checkFocusAreas = () => {
           confirmButtonAction={proceedToSave}
         />
       )}
-      <Header breadcrumbs={[submission.assignment.title, submission.status]} />
+      <Header
+        breadcrumbs={[
+          submissionByIdData?.assignment.title,
+          submissionByIdData?.status,
+        ]}
+      />
 
       <FeedbackTeacherLaptop
         {...{
@@ -1725,20 +1767,20 @@ const checkFocusAreas = () => {
           shortcuts,
           newCommentFrameRef,
           methods,
-          comments: comments ? comments : [],
-          submission,
-          setSubmission,
+          comments: feedbackComments ? feedbackComments : [],
+          submission: submissionByIdData,
+          setSubmission: setSubmissionByIdData,
           sharewithclassdialog,
           ...feedbacksFeedbackTeacherLaptopData,
           MARKING_METHODOLOGY_TYPE,
           selectedRange,
-          classesAndStudents,
-          teachers,
+          classesAndStudents: classData,
+          teachers: uniqueTeachers,
           selectedComment,
-          overallComments,
+          overallComments: overAllCommentsById,
           markingCriteriaFeedback,
-          otherDrafts,
-          setOtherDrafts,
+          otherDrafts: otherDraftsById,
+          setOtherDrafts: setOtherDraftsById,
           groupedFocusAreaIds,
         }}
       />

@@ -136,9 +136,8 @@ export const getOverallComment = (overallComments, QuestionIndex) => {
 
 
 export const goToNewUrl = (pendingLocation, history, unblockRef) => {
-  console.log('pendingLocation', pendingLocation);
   if (unblockRef?.current) {
-    unblockRef.current(); // Temporarily unblock history navigation
+    unblockRef.current(); 
   }
   const port =
     window.location.port &&
@@ -154,7 +153,6 @@ export const goToNewUrl = (pendingLocation, history, unblockRef) => {
   }${port}?code=${getUserId()}${path}`;
   console.log('path', path, newUrl);
 
-  // window.history.pushState('', '', newUrl);
-  // window.location.reload();
+  
   history.push(pendingLocation.pathname);
 };

@@ -115,7 +115,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [showFloatingDialogue, setShowFloatingDialogue] = useState(false);
   const defaultMarkingCriteria = getDefaultCriteria();
   const unblockRef = useRef(null);
-
+  const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState();
+  const [showFocusAreaPopUp, setShowFocusArePopUp] = React.useState(false);
+  const [showFocusAreaPopUpText, setShowFocusArePopUpText] = React.useState('');
 
   const {
     data: submissionByIdData,
@@ -143,14 +145,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   } = useOtherDraftsById(id);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
 
-  console.log(
-    'outise',
-    submissionByIdData,
-    commentsByIdData,
-    overAllCommentsById,
-    otherDraftsById,
-    classData
-  );
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -213,7 +208,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
 
   useEffect(() => {
     if (!isDataLoading) {
-      
+      setGroupedFocusAreaIds(
+        createGroupedFocusAreas(submissionByIdData, feedbackComments)
+      );
 
       if (classData && submissionByIdData) {
         
@@ -227,11 +224,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }, [isDataLoading, id]);
 
 const students = extractStudents(allSubmissions);
-
-
-
-
-  
 
  useEffect(() => {
    if (!isDataLoading && allSubmissions) {
@@ -333,11 +325,11 @@ const students = extractStudents(allSubmissions);
      }
    };
 
-   function createGroupedFocusAreas(submission, feedbackComments) {
+   function createGroupedFocusAreas(submissionByIdData, feedbackComments) {
      const flattenedQuestions = flatMap(
-       submission?.assignment?.questions,
+       submissionByIdData?.assignment?.questions,
        (question) =>
-         question.focusAreaIds?.map((focusAreaId) => ({
+         question?.focusAreaIds?.map((focusAreaId) => ({
            serialNumber: question.serialNumber,
            focusAreaId,
          }))
@@ -360,7 +352,6 @@ const students = extractStudents(allSubmissions);
          }
        }
      });
-     console.log('grouped', grouped);
      return grouped;
    }
   if (isLoading) {
@@ -502,6 +493,7 @@ const students = extractStudents(allSubmissions);
       sharedWithStudents: [],
     }).then((response) => {
       if (response) {
+        updateGroupedFocusAreaIds(newCommentSerialNumber, focusArea.id);
         setCommentsByIdData([
           ...markingCriteriaFeedback,
           ...feedbackComments,
@@ -759,7 +751,11 @@ const students = extractStudents(allSubmissions);
         const markingCriteriaComments = prevComments.filter(
           (comment) => comment.type === 'MARKING_CRITERIA'
         );
+        
         let updatedComments = otherComments.filter((c) => c.id != commentId);
+        setGroupedFocusAreaIds(
+          createGroupedFocusAreas(submissionByIdData, updatedComments)
+        );
         return [...updatedComments, ...markingCriteriaComments];
       });
     });
@@ -1573,8 +1569,12 @@ const validateFocusAreas = () => {
   let valid = true;
   let errorMessage = '';
 
-  for (let index = 0; index < submission.assignment.questions.length; index++) {
-    const question = submission.assignment.questions[index];
+  for (
+    let index = 0;
+    index < submissionByIdData?.assignment?.questions?.length;
+    index++
+  ) {
+    const question = submissionByIdData?.assignment?.questions[index];
     const currentFocusAreas = question?.focusAreas || [];
     const selectedFocusAreas = groupedFocusAreaIds[index + 1] || [];
     console.log('currentFocusAreas', currentFocusAreas);

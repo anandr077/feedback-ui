@@ -15,7 +15,6 @@ import Rubricsnew from '../../../static/img/Rubricsnew.svg';
 import Strengthsnew from '../../../static/img/Strengthsnew.svg';
 import { useHistory } from 'react-router-dom';
 
-
 function MarkingCriteriaCard(props) {
   const {
     markingCriteria,
@@ -25,7 +24,6 @@ function MarkingCriteriaCard(props) {
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
   const history = useHistory();
-
 
   function navigateToMarkingCriteriaUrl(id, type) {
     history.push(markingCriteriaUrl(id, type));
@@ -81,5 +79,3 @@ function MarkingCriteriaCard(props) {
 }
 
 export default MarkingCriteriaCard;
-
-

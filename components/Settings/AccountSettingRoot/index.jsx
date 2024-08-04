@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactiveRender, { isMobileView } from '../../ReactiveRender';
 import AccountSettingsMarkingCriteriaDeskt from '../AccountSettingsMarkingCriteriaDeskt';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+
 import MarkingCriteriaCard from '../MarkingCriteriaCard';
 import {
   deleteMarkingCriteria,
@@ -9,7 +9,6 @@ import {
 } from '../../../service.js';
 import Loader from '../../Loader';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
-
 import Toast from '../../Toast/index.js';
 import { toast } from 'react-toastify';
 import { useMarkingCriterias } from '../../state/hooks.js';
@@ -32,7 +31,7 @@ export default function AccountSettingsRoot(props) {
         let UpdatedMarkingCriteras = markingCriterias.filter(
           (criteria) => criteria.id === markingCriteriaId
         );
-        setMarkingCriterias(updatedMarkingCriteria);
+        setMarkingCriterias(UpdatedMarkingCriteras);
       })
       .catch((error) => {
         toast(<Toast message={'Error deleting marking criteria'} />);

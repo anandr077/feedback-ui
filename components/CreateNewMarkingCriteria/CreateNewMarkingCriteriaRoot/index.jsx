@@ -19,38 +19,33 @@ import { useMarkingCriterias } from '../../state/hooks';
 
 export default function CreateNewMarkingCriteriaRoot(props) {
   const { markingCriteriaId } = useParams();
-
   const [isLoading, setIsLoading] = React.useState(true);
   const [isUpdating, setIsUpdating] = React.useState(false);
-
   const [markingCriteria, setMarkingCriteria] = useState(getDefaultCriteria);
   const history = useHistory();
   const mobileView = isMobileView();
 
-
-  
-   const {
-         data: markingCriterias,
-         isLoadingdata: isLoadingMarkingCriterias,
-         setData: setMarkingCriterias,
-         resetData: resetMarkingCriterias,
-     } = useMarkingCriterias();
+  const {
+    data: markingCriterias,
+    isLoadingdata: isLoadingMarkingCriterias,
+    setData: setMarkingCriterias,
+    resetData: resetMarkingCriterias,
+  } = useMarkingCriterias();
 
   React.useEffect(() => {
-      console.log('markingCriteriaId', markingCriteriaId);
-      if (markingCriteriaId === 'new'){
+    if (markingCriteriaId === 'new') {
+      setIsLoading(false);
+    }
+    if (markingCriterias) {
+      const loadedMarkingCriteria = markingCriterias.filter(
+        (criteria) => criteria.id === markingCriteriaId
+      );
+      if (loadedMarkingCriteria.length > 0) {
+        setMarkingCriteria(loadedMarkingCriteria[0]);
+        setIsUpdating(true);
         setIsLoading(false);
       }
-      if (markingCriterias) {
-          const loadedMarkingCriteria = markingCriterias.filter(
-            (criteria) => criteria.id === markingCriteriaId
-          );
-          if (loadedMarkingCriteria.length > 0) {
-            setMarkingCriteria(loadedMarkingCriteria[0]);
-            setIsUpdating(true);
-            setIsLoading(false);
-          } 
-        }
+    }
   }, [markingCriterias]);
 
   function addCriteria() {
@@ -59,7 +54,6 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       ...markingCriteria,
       criterias: [...markingCriteria.criterias, newCriteria],
     });
-
   }
 
   function deleteCriteria(criteriaId) {
@@ -195,31 +189,47 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       const action = isUpdating
         ? updateMarkingCriteria(newMarkingCriteria, markingCriteriaId)
         : createNewMarkingCriteria(newMarkingCriteria);
-        action
-          .then((response) => {
-            console.log('Success:', response);
-             toast(
-               <Toast
-                 message={
-                   isUpdating
-                     ? 'Marking criteria updated'
-                     : 'Marking criteria created'
-                 }
-               />
-             );
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-            toast(
-              <Toast
-                message={
-                  isUpdating
-                    ? 'Error in updating marking criteria'
-                    : 'Error in creating marking criteria'
+      action
+        .then((response) => {
+          if (isUpdating) {
+            const updatedMarkingCriterias = markingCriterias.map(
+              (markingCriteria, index) => {
+                if (markingCriteria.id === markingCriteriaId) {
+                  return {
+                    ...markingCriteria,
+                    ...newMarkingCriteria,
+                  };
                 }
-              />
+                return markingCriteria;
+              }
             );
-          });
+            setMarkingCriterias(updatedMarkingCriterias);
+          } else {
+            resetMarkingCriterias();
+          }
+
+          toast(
+            <Toast
+              message={
+                isUpdating
+                  ? 'Marking criteria updated'
+                  : 'Marking criteria created'
+              }
+            />
+          );
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          toast(
+            <Toast
+              message={
+                isUpdating
+                  ? 'Error in updating marking criteria'
+                  : 'Error in creating marking criteria'
+              }
+            />
+          );
+        });
 
       history.push('/settings');
     } else {
@@ -351,4 +361,3 @@ export default function CreateNewMarkingCriteriaRoot(props) {
     </>
   );
 }
-

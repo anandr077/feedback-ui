@@ -14,6 +14,7 @@ export function createGlobalState(queryKey, queryFunction) {
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      keepPreviousData: true,
       enabled: condition,
       staleTime: 3600000,
       cacheTime: 3600000,

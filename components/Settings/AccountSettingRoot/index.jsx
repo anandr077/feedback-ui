@@ -5,9 +5,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import MarkingCriteriaCard from '../MarkingCriteriaCard';
 import {
   deleteMarkingCriteria,
- 
   createNewMarkingCriteria,
-  
 } from '../../../service.js';
 import Loader from '../../Loader';
 import MarkingMethodologyDialog from '../../CreateNewMarkingCriteria/SelectMarkingMethodologyDialog';
@@ -20,18 +18,20 @@ export default function AccountSettingsRoot(props) {
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
 
-    const {
-      data: markingCriterias,
-      isLoadingdata: isLoadingMarkingCriterias,
-      setData: setMarkingCriterias,
-      resetData: resetMarkingCriterias,
-    } = useMarkingCriterias();
+  const {
+    data: markingCriterias,
+    isLoadingdata: isLoadingMarkingCriterias,
+    setData: setMarkingCriterias,
+    resetData: resetMarkingCriterias,
+  } = useMarkingCriterias();
 
   const deleteMarkingCriteriaHandler = (markingCriteriaId) => {
     deleteMarkingCriteria(markingCriteriaId)
       .then(() => {
         toast(<Toast message={'Marking criteria deleted'} />);
-        let UpdatedMarkingCriteras = markingCriterias.filter((criteria) => criteria.id === markingCriteriaId);
+        let UpdatedMarkingCriteras = markingCriterias.filter(
+          (criteria) => criteria.id === markingCriteriaId
+        );
         setMarkingCriterias(updatedMarkingCriteria);
       })
       .catch((error) => {
@@ -70,7 +70,6 @@ export default function AccountSettingsRoot(props) {
       });
   };
 
-
   if (isLoadingMarkingCriterias) {
     return (
       <>
@@ -88,8 +87,6 @@ export default function AccountSettingsRoot(props) {
       />
     )
   );
-
-  
 
   return (
     <>
@@ -111,6 +108,3 @@ function markingCriteriaUrl(id, type) {
     ? `/markingCriterias/rubrics/${id}`
     : `/markingTemplates/strengths-and-targets/${id}`;
 }
-
-
-

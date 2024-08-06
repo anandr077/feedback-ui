@@ -50,6 +50,7 @@ import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
 import FocusAreasLabel from '../../../components2/FocusAreasLabel';
 import { isShowMarkingCriteriaSidebar } from '../FeedbacksRoot/rules';
+import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -88,6 +89,9 @@ function FeedbackTeacherLaptop(props) {
     otherDrafts,
     setOtherDrafts,
     groupedFocusAreaIds,
+    feedbanksData,
+    showFeedbackBanksPopUp,
+    setFeedbackBanksPopUp
   } = props;
   console.log('submission', submission);
   console.log('props', props);
@@ -271,6 +275,25 @@ function FeedbackTeacherLaptop(props) {
 
   return (
     <>
+     {
+        showFeedbackBanksPopUp && (
+        <Dialog open={showFeedbackBanksPopUp} onClose={() => setFeedbackBanksPopUp(false)}>
+        <DialogContent>
+        <QuestionFieldSelection 
+           label='Comment Bank'
+           items = {feedbanksData}
+           tooltipText = "Select a comment bank to save you time when reviewing a student's work. After highlighting a section of a student's response, simply click one of the suggested comments from the drop-down selection"
+          onItemSelected = {updateCommentBank}
+          currentFieldId ={questionDetails?.commentBankId}
+          link = {'/commentbanks'}
+          linkText ='Go to comment banks'
+          selectedIndex={selectedCommentBankIndex}
+          serialNumber={serialNumber}
+          handlePreview={handleCommentBankPreview}
+          />
+        </DialogContent>
+      </Dialog>)
+      }
       {loader(showLoader)}
       <PageContainer>
         <>

@@ -30,6 +30,7 @@ import {
 } from './style';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import { useHistory } from 'react-router-dom';
+import QuestionFieldSelection from './QuestionFieldSelection';
 
 export default function TheoryQuestionFrame(props) {
   const {
@@ -129,106 +130,34 @@ export default function TheoryQuestionFrame(props) {
         </FocusAreasFrame>
 
         <MarkingCriteriaSelectionContainer>
-          <QuestionMarkContainer>
-            <Label>Marking Template</Label>
-            <QuestionTooltip
-              text={
-                "Select a Rubric (R) or list of Strengths and Targets (S&T) to use as overall feedback for this task. After reading a student's response, click on the applicable performance level/s or strengths and targets"
-              }
-              img={questionMark}
-            />
-          </QuestionMarkContainer>
-          <MarkingCriteriaAndListFrame>
-            <MarkingCriteriaFrame>
-              {questionDetails?.markingCriteria?.title ? (
-                <DropdownMenu
-                  fullWidth={true}
-                  menuItems={appendFunction(allMarkingCriterias)}
-                  selectedIndex={selectedMarkingCriteriaIndex}
-                  onItemSelected={(item) => {
-                    updateMarkingCriteria(serialNumber, item);
-                  }}
-                  setIsChanged={setIsChanged}
-                  defaultSearch={true}
-                ></DropdownMenu>
-              ) : (
-                <DropdownMenu
-                  fullWidth={true}
-                  menuItems={appendFunction(allMarkingCriterias)}
-                  primaryText="Select Marking Criteria"
-                  onItemSelected={(item) => {
-                    updateMarkingCriteria(serialNumber, item);
-                  }}
-                  setIsChanged={setIsChanged}
-                ></DropdownMenu>
-              )}
-              <Preview
-                onClick={() => {
-                  handleMarkingCriteriaPreview(questionDetails.markingCriteria);
-                }}
-              >
-                <img
-                  src="/icons/preview-eye.png"
-                  alt="eye"
-                  style={{ width: '32px', height: '32px' }}
-                />
-              </Preview>
-            </MarkingCriteriaFrame>
-            <MarkingCriteriaList onClick={() => history.push('/settings')}>
-              Go to marking templates
-            </MarkingCriteriaList>
-          </MarkingCriteriaAndListFrame>
+          <QuestionFieldSelection 
+           label='Marking Template'
+           items = {appendFunction(allMarkingCriterias)}
+           tooltipText = "Select a Rubric (R) or list of Strengths and Targets (S&T) to use as overall feedback for this task. After reading a student's response, click on the applicable performance level/s or strengths and targets"
+          onItemSelected = {updateMarkingCriteria}
+          setIsChanged ={setIsChanged}
+          currentFieldId ={questionDetails?.markingCriteria}
+          link = {'/settings'}
+          linkText ='Go to marking templates'
+          selectedIndex={selectedMarkingCriteriaIndex}
+          serialNumber={serialNumber}
+          handlePreview={handleMarkingCriteriaPreview}
+          />
         </MarkingCriteriaSelectionContainer>
         <MarkingCriteriaSelectionContainer>
-          <QuestionMarkContainer>
-            <Label>Comment Bank</Label>
-            <QuestionTooltip
-              text={
-                "Select a comment bank to save you time when reviewing a student's work. After highlighting a section of a student's response, simply click one of the suggested comments from the drop-down selection"
-              }
-              img={questionMark}
-            />
-          </QuestionMarkContainer>
-          <MarkingCriteriaAndListFrame>
-            <MarkingCriteriaFrame>
-              {questionDetails.commentBankId ? (
-                <DropdownMenu
-                  fullWidth={true}
-                  menuItems={allCommentBanks}
-                  selectedIndex={selectedCommentBankIndex}
-                  onItemSelected={(item) => {
-                    updateCommentBank(serialNumber, item);
-                  }}
-                  setIsChanged={setIsChanged}
-                  defaultSearch={true}
-                ></DropdownMenu>
-              ) : (
-                <DropdownMenu
-                  fullWidth={true}
-                  menuItems={allCommentBanks}
-                  primaryText="Select Comment Bank"
-                  onItemSelected={(item) => {
-                    updateCommentBank(serialNumber, item);
-                  }}
-                  setIsChanged={setIsChanged}
-                ></DropdownMenu>
-              )}
-              <Preview
-                onClick={() => {
-                  handleCommentBankPreview(questionDetails.commentBankId);
-                }}
-              >
-                <img
-                  src="/icons/preview-eye.png"
-                  alt="eye"
-                  style={{ width: '32px', height: '32px' }}
-                />
-              </Preview>
-            </MarkingCriteriaFrame>
-            <MarkingCriteriaList onClick={() => history.push('/commentbanks')}>
-              Go to comment banks
-            </MarkingCriteriaList>
-          </MarkingCriteriaAndListFrame>
+          <QuestionFieldSelection 
+           label='Comment Bank'
+           items = {allCommentBanks}
+           tooltipText = "Select a comment bank to save you time when reviewing a student's work. After highlighting a section of a student's response, simply click one of the suggested comments from the drop-down selection"
+          onItemSelected = {updateCommentBank}
+          setIsChanged ={setIsChanged}
+          currentFieldId ={questionDetails?.commentBankId}
+          link = {'/commentbanks'}
+          linkText ='Go to comment banks'
+          selectedIndex={selectedCommentBankIndex}
+          serialNumber={serialNumber}
+          handlePreview={handleCommentBankPreview}
+          />
         </MarkingCriteriaSelectionContainer>
       </Frame12891>
     </SmalllQuestionFrame>

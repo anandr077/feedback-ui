@@ -39,6 +39,7 @@ function SmartAnotation(props) {
     teacherId,
     open = false,
     setSmartAnnotationeditIndex,
+    addOption = true,
   } = props;
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentSmartAnnotation, setCurrentSmartAnnotation] =
@@ -227,7 +228,7 @@ function SmartAnotation(props) {
               ></TextInputEditable>
             </TextBox>
           )}
-          <Line14 src="/img/line-14.png" alt="Line 14" />
+          {addOption && <Line14 src="/img/line-14.png" alt="Line 14" />}
 
           {settingsMode ? (
             <ButtonContainer>
@@ -241,13 +242,13 @@ function SmartAnotation(props) {
               </SubmitButton>
             </ButtonWrapper>
           ) : (
-             (
+             ( addOption ? 
               <ButtonContainer>
                 <PlusImage src="/img/add-violet.svg" alt="plus" />
                 <ButtonLabel onClick={() => setNewSmartAnnotationEdit(true)}>
                   Other suggestion
                 </ButtonLabel>
-              </ButtonContainer>
+              </ButtonContainer> : null
             )
           )}
         </SmartAnnotationContainer>

@@ -264,6 +264,7 @@ const answerFrames = (
   const [questionSlide, setQuestionSlide] = React.useState(true);
   const [inputValue, setInputValue] = React.useState('Type your question');
   const inputRef = React.useRef(null);
+  console.log('submission?.assignment',submission?.assignment);
 
   React.useEffect(() => {
     if (submission?.assignment?.title) {

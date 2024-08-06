@@ -43,7 +43,6 @@ import {
   TabsPlusText,
   Title1,
 } from './style';
-import SecondSidebar from '../SecondSidebar';
 import {
   createNewFeedbackBank,
   createNewMarkingCriteria,
@@ -52,8 +51,6 @@ import {
   getFeedbackBanks,
   updateSmartAnnotation,
 } from '../../service';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import SmartAnotation from '../SmartAnnotations';
 import Loader from '../Loader';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import EmptyBankIcon from '../../static/img/emptyBank.svg';
@@ -71,6 +68,7 @@ import { toast } from 'react-toastify';
 import { isTabletView } from '../ReactiveRender';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
 import MenuButton from '../MenuButton';
+import { useCommentBanks } from '../state/hooks';
 
 const CommentBanks = () => {
   const [smartAnnotations, setSmartAnnotations] = useState();
@@ -79,51 +77,43 @@ const CommentBanks = () => {
   const [feedbackBankId, setFeedbackBankId] = useState(0);
   const [isShowNewBankPopUp, setShowNewBankPopUp] = useState(false);
   const [feedbackBankCreated, setFeedbackBankCreated] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] = useState(0);
   const [isShowMenu, setShowMenu] = React.useState(false);
   const tabletView = isTabletView();
   const selectedRef = useRef(null);
-  const queryClient = useQueryClient();
 
-  const feedbackBankQuery = useQuery({
-    queryKey: ['feedbackBank'],
-    queryFn: async () => {
-      const result = await getFeedbackBanks();
-      return result;
-    },
-    staleTime: 3600000,
-  });
+const {
+  data: feedbanksData,
+  isLoadingdata,
+  setData: setFeedbanksData,
+  resetData,
+} = useCommentBanks();
 
   useEffect(() => {
-    if (feedbackBankQuery.data) {
-      const nonSyatemBanks =
-        feedbackBankQuery.data._embedded.commentbanks.filter(
-          (bank) => !bank.isSystem
-        );
+    if (feedbanksData) {
+      const nonSystemBanks = feedbanksData?._embedded.commentbanks.filter(
+        (bank) => !bank.isSystem
+      ); 
+      const systemBanks = feedbanksData?._embedded.commentbanks.filter(
+        (bank) => bank.isSystem
+      ); 
       setFeedbackBankId(
         feedbackBankCreated
-          ? nonSyatemBanks[nonSyatemBanks.length - 1]?.id
-          : nonSyatemBanks[0]?.id
+          ? nonSystemBanks[nonSystemBanks.length - 1]?.id
+          : nonSystemBanks[0]?.id
       );
-      setSmartAnnotations(
-        feedbackBankQuery.data._embedded.commentbanks.filter(
-          (bank) => !bank.isSystem
-        )
+      setSmartAnnotations(nonSystemBanks);
+      setFeedbackBankId(
+        feedbackBankCreated
+          ? nonSystemBanks[nonSystemBanks.length - 1]?.id
+          : nonSystemBanks[0]?.id
       );
-
-      setSystemSmartAnnotations(
-        feedbackBankQuery.data._embedded.commentbanks.filter(
-          (bank) => bank.isSystem
-        )
-      );
-      setSelectedBank(
-        feedbackBankQuery.data._embedded.commentbanks.filter(
-          (bank) => bank.isSystem
-        )[0]
-      );
+      setSystemSmartAnnotations(systemBanks);
+      setSelectedBank(systemBanks[0]);
+      setIsLoading(false);
     }
-  }, [feedbackBankQuery.data]);
+  }, [feedbanksData]);
 
   const deteteFeedbackBank = (smartAnnotationIndex) => {
     const newSmartAnnotations = smartAnnotations.filter(
@@ -137,7 +127,13 @@ const CommentBanks = () => {
           setFeedbackBankId(newSmartAnnotations[0].id);
         }
 
-        setSmartAnnotations(newSmartAnnotations);
+        setFeedbanksData((old) => ({
+          ...old,
+          _embedded: {
+            ...old._embedded,
+            commentbanks: [...systemSmartAnnotations, ...newSmartAnnotations],
+          },
+        }));
         toast(<Toast message={'Feedback bank deleted'} />);
       })
       .catch(() => {
@@ -155,7 +151,7 @@ const CommentBanks = () => {
 
     createNewFeedbackBank(newObject)
       .then(() => {
-        queryClient.invalidateQueries(['feedbackBank']);
+        resetData();
         toast(<Toast message={'feedback bank cloned'} />);
         setFeedbackBankCreated(true);
       })
@@ -180,8 +176,8 @@ const CommentBanks = () => {
     };
 
     createNewFeedbackBank(newBank)
-      .then(() => {
-        queryClient.invalidateQueries(['feedbackBank']);
+      .then((response) => {
+        resetData();
         setShowNewBankPopUp(false);
         setFeedbackBankCreated(true);
         toast(<Toast message={'New feedback bank created'} />);
@@ -198,11 +194,10 @@ const CommentBanks = () => {
     const { title, smartComments } = newSystemBank;
     const newObject = { title: `Copy of ${title}`, smartComments };
     createNewFeedbackBank(newObject)
-      .then(() => {
-        // setSmartAnnotations([...smartAnnotations, newBank]);
+      .then((responce) => {
         setShowNewBankPopUp(false);
         toast(<Toast message={'New feedback bank created'} />);
-        queryClient.invalidateQueries(['feedbackBank']);
+        resetData();
         setFeedbackBankCreated(true);
       })
       .catch((error) => {
@@ -242,7 +237,14 @@ const CommentBanks = () => {
 
     createNewSmartAnnotation(newObject, feedbackBankId)
       .then((result) => {
-        setSmartAnnotations(newSmartAnnotations);
+
+        setFeedbanksData((old) => ({
+          ...old,
+          _embedded: {
+            ...old._embedded,
+            commentbanks: [...systemSmartAnnotations, ...newSmartAnnotations],
+          },
+        }));
         toast(<Toast message={'Smart annotation created'} />);
       })
       .catch((error) => {
@@ -271,7 +273,13 @@ const CommentBanks = () => {
 
     updateSmartAnnotation(newObject, smartAnnotationIndex)
       .then(() => {
-        setSmartAnnotations(newSmartAnnotations);
+        setFeedbanksData((old) => ({
+          ...old,
+          _embedded: {
+            ...old._embedded,
+            commentbanks: [...systemSmartAnnotations, ...newSmartAnnotations],
+          },
+        }));
         toast(<Toast message={'Feedback bank title updated'} />);
       })
       .catch((error) => {
@@ -305,7 +313,13 @@ const CommentBanks = () => {
 
     updateSmartAnnotation(newObject, feedbackBankId)
       .then(() => {
-        setSmartAnnotations(newSmartAnnotations);
+        setFeedbanksData((old) => ({
+          ...old,
+          _embedded: {
+            ...old._embedded,
+            commentbanks: [...systemSmartAnnotations, ...newSmartAnnotations],
+          },
+        }));
         toast(<Toast message={'Smart annotation updated'} />);
       })
       .catch((error) => {
@@ -314,7 +328,7 @@ const CommentBanks = () => {
   };
 
   const deleteAnnotationHandler = (smartcommentId) => {
-    const NewSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
+    const newSmartAnnotations = smartAnnotations.map((smartAnnotation) => {
       if (smartAnnotation.id === feedbackBankId) {
         return {
           ...smartAnnotation,
@@ -327,7 +341,7 @@ const CommentBanks = () => {
       return smartAnnotation;
     });
 
-    const foundSmartAnnotation = NewSmartAnnotations.find(
+    const foundSmartAnnotation = newSmartAnnotations.find(
       (smartAnnotation) => smartAnnotation.id === feedbackBankId
     );
 
@@ -335,7 +349,13 @@ const CommentBanks = () => {
     const newObject = { title, smartComments };
     updateSmartAnnotation(newObject, feedbackBankId)
       .then(() => {
-        setSmartAnnotations(NewSmartAnnotations);
+        setFeedbanksData((old) => ({
+          ...old,
+          _embedded: {
+            ...old._embedded,
+            commentbanks: [...systemSmartAnnotations, ...newSmartAnnotations],
+          },
+        }));
         toast(<Toast message={'Smart commit deleted'} />);
       })
       .catch((error) => {
@@ -343,7 +363,7 @@ const CommentBanks = () => {
       });
   };
 
-  if (feedbackBankQuery.isLoading) {
+  if (isLoading) {
     return (
       <>
         <Loader />
@@ -522,7 +542,7 @@ const CommentBanks = () => {
                   {
                     <FeedbackArea
                       key={Math.random()}
-                      smartAnnotation={smartAnnotations.find(
+                      smartAnnotation={smartAnnotations?.find(
                         (sa) => sa.id === feedbackBankId
                       )}
                       UpdateSmartAnotationHandler={UpdateSmartAnotationHandler}

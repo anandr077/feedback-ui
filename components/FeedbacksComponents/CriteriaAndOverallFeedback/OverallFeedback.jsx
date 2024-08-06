@@ -27,7 +27,6 @@ function OverallFeedback({
   QuestionIndex,
 }) {
   const { overallComments } = useContext(FeedbackContext);
-  console.log('overallComments', overallComments);
   const userId = getUserId();
   const overallComment = getOverallComment(overallComments, QuestionIndex);
   return (
@@ -59,6 +58,7 @@ function OverallFeedback({
             />
           </OverallFeedbackContainer>
         }
+        open = {true}
       />
     )
   );

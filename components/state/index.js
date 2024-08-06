@@ -11,13 +11,13 @@ export function createGlobalState(queryKey, queryFunction) {
         const result = await (id ? queryFunction(id) : queryFunction());
         return result;
       },
-      refetchInterval: false,
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
-      refetchIntervalInBackground: false,
+      keepPreviousData: true,
       enabled: condition,
       staleTime: 3600000,
+      cacheTime: 3600000,
     });
 
     function setData(data) {

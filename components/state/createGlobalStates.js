@@ -8,12 +8,12 @@ export function createGlobalStates(queryKey, queryFunction) {
       ? queryArray.map((current) => ({
           queryKey: [queryKey, id ? current[id] : current],
           queryFn: () => queryFunction(id ? current[id] : current),
-          refetchInterval: false,
           refetchOnMount: false,
           refetchOnWindowFocus: false,
           refetchOnReconnect: false,
-          staleTime: 3600000,
           enabled: condition,
+          staleTime: 3600000,
+          cacheTime: 3600000,
         }))
       : [];
 

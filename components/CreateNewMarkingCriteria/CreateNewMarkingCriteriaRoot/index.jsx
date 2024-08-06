@@ -15,35 +15,44 @@ import Loader from '../../Loader';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
+import { useMarkingCriterias } from '../../state/hooks';
 
 export default function CreateNewMarkingCriteriaRoot(props) {
   const { markingCriteriaId } = useParams();
-
   const [isLoading, setIsLoading] = React.useState(true);
   const [isUpdating, setIsUpdating] = React.useState(false);
-
-  const [markingCriterias, setMarkingCriterias] = useState(getDefaultCriteria);
+  const [markingCriteria, setMarkingCriteria] = useState(getDefaultCriteria);
   const history = useHistory();
   const mobileView = isMobileView();
 
+  const {
+    data: markingCriterias,
+    isLoadingdata: isLoadingMarkingCriterias,
+    setData: setMarkingCriterias,
+    resetData: resetMarkingCriterias,
+  } = useMarkingCriterias();
+
   React.useEffect(() => {
-    Promise.all([getAllMarkingCriteria()]).then(([result]) => {
-      const loadedMarkingCriteria = result.filter(
+    if (markingCriteriaId === 'new') {
+      setIsLoading(false);
+    }
+    if (markingCriterias) {
+      const loadedMarkingCriteria = markingCriterias.filter(
         (criteria) => criteria.id === markingCriteriaId
       );
       if (loadedMarkingCriteria.length > 0) {
-        setMarkingCriterias(loadedMarkingCriteria[0]);
+        setMarkingCriteria(loadedMarkingCriteria[0]);
         setIsUpdating(true);
+        setIsLoading(false);
       }
-      setIsLoading(false);
-    });
-  }, []);
+    }
+  }, [markingCriterias]);
 
   function addCriteria() {
     const newCriteria = getNewCriteria(markingCriterias.criterias.length);
-    setMarkingCriterias({
-      ...markingCriterias,
-      criterias: [...markingCriterias.criterias, newCriteria],
+    setMarkingCriteria({
+      ...markingCriteria,
+      criterias: [...markingCriteria.criterias, newCriteria],
     });
   }
 
@@ -53,7 +62,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
         return index != criteriaId;
       }
     );
-    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+    setMarkingCriteria({ ...markingCriterias, criterias: newCriterias });
   }
 
   const addLevel = (criteriaId) => {
@@ -71,7 +80,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       }
       return criteria;
     });
-    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+    setMarkingCriteria({ ...markingCriteria, criterias: newCriterias });
   };
 
   const addLevelInBetween = (criteriaId, levelId) => {
@@ -91,7 +100,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       }
       return criteria;
     });
-    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+    setMarkingCriteria({ ...markingCriteria, criterias: newCriterias });
   };
 
   const deleteLevel = (criteriaId, levelId) => {
@@ -106,23 +115,23 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       }
       return criteria;
     });
-    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+    setMarkingCriteria({ ...markingCriteria, criterias: newCriterias });
   };
 
   const validateMarkingCriteria = () => {
     let isValid = true;
-    if (markingCriterias.title === '' || markingCriterias.title === undefined) {
+    if (markingCriteria.title === '' || markingCriteria.title === undefined) {
       toast(
         <Toast message={'Please enter a title for the marking criteria'} />
       );
       isValid = false;
     }
-    if (markingCriterias.criterias.length === 0) {
+    if (markingCriteria.criterias.length === 0) {
       toast(<Toast message={'Please add at least one criteria'} />);
       isValid = false;
     }
 
-    markingCriterias.criterias.forEach((criteria, indexout) => {
+    markingCriteria.criterias.forEach((criteria, indexout) => {
       if (criteria.title === undefined || criteria.title === '') {
         toast(
           <Toast
@@ -162,9 +171,9 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   const saveMarkingCriteria = () => {
     if (validateMarkingCriteria()) {
-      const markingCriteria = {
-        title: markingCriterias.title,
-        criterias: markingCriterias.criterias.map((criteria) => {
+      const newMarkingCriteria = {
+        title: markingCriteria.title,
+        criterias: markingCriteria.criterias.map((criteria) => {
           return {
             title: criteria.title,
             selectedLevel: '',
@@ -177,18 +186,51 @@ export default function CreateNewMarkingCriteriaRoot(props) {
           };
         }),
       };
-      isUpdating
-        ? updateMarkingCriteria(markingCriteria, markingCriteriaId)
-        : createNewMarkingCriteria(markingCriteria);
-
-      toast(
-        <Toast
-          message={
-            isUpdating ? 'Marking criteria updated' : 'Marking criteria created'
+      const action = isUpdating
+        ? updateMarkingCriteria(newMarkingCriteria, markingCriteriaId)
+        : createNewMarkingCriteria(newMarkingCriteria);
+      action
+        .then((response) => {
+          if (isUpdating) {
+            const updatedMarkingCriterias = markingCriterias.map(
+              (markingCriteria, index) => {
+                if (markingCriteria.id === markingCriteriaId) {
+                  return {
+                    ...markingCriteria,
+                    ...newMarkingCriteria,
+                  };
+                }
+                return markingCriteria;
+              }
+            );
+            setMarkingCriterias(updatedMarkingCriterias);
+          } else {
+            resetMarkingCriterias();
           }
-        />
-      );
-      window.localStorage.setItem('markingCriteria', 'true');
+
+          toast(
+            <Toast
+              message={
+                isUpdating
+                  ? 'Marking criteria updated'
+                  : 'Marking criteria created'
+              }
+            />
+          );
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          toast(
+            <Toast
+              message={
+                isUpdating
+                  ? 'Error in updating marking criteria'
+                  : 'Error in creating marking criteria'
+              }
+            />
+          );
+        });
+
       history.push('/settings');
     } else {
       return;
@@ -210,11 +252,11 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const handleTitleChange = (event) => {
-    setMarkingCriterias({ ...markingCriterias, title: event.target.value });
+    setMarkingCriteria({ ...markingCriteria, title: event.target.value });
   };
 
   const updateCriteriaTitle = (id, newTitle) => {
-    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === id) {
         return {
           ...criteria,
@@ -223,11 +265,11 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       }
       return criteria;
     });
-    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+    setMarkingCriteria({ ...markingCriteria, criterias: newCriterias });
   };
 
   const updateLevelName = (criteriaId, levelId, newName) => {
-    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === criteriaId) {
         return {
           ...criteria,
@@ -244,14 +286,14 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       }
       return criteria;
     });
-    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+    setMarkingCriteria({ ...markingCriteria, criterias: newCriterias });
   };
 
   const updateLevelDescription = (criteriaId, levelId, newDescription) => {
     if (newDescription.length > 200) {
       return;
     }
-    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === criteriaId) {
         return {
           ...criteria,
@@ -268,10 +310,10 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       }
       return criteria;
     });
-    setMarkingCriterias({ ...markingCriterias, criterias: newCriterias });
+    setMarkingCriteria({ ...markingCriteria, criterias: newCriterias });
   };
 
-  const criterias = markingCriterias.criterias.map((criteria, index) => {
+  const criterias = markingCriteria.criterias.map((criteria, index) => {
     return (
       <CriteriaContainer
         key={index}
@@ -312,11 +354,10 @@ export default function CreateNewMarkingCriteriaRoot(props) {
           deleteMarkingCriteriaMethod,
           handleTitleChange,
           isUpdating,
-          markingCriterias,
+          markingCriteria,
           markingCriteriaId,
         }}
       />
     </>
   );
 }
-

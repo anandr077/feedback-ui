@@ -13,6 +13,7 @@ import {
 } from './style';
 import Rubricsnew from '../../../static/img/Rubricsnew.svg';
 import Strengthsnew from '../../../static/img/Strengthsnew.svg';
+import { useHistory } from 'react-router-dom';
 
 function MarkingCriteriaCard(props) {
   const {
@@ -22,6 +23,17 @@ function MarkingCriteriaCard(props) {
   } = props;
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
+  const history = useHistory();
+
+  function navigateToMarkingCriteriaUrl(id, type) {
+    history.push(markingCriteriaUrl(id, type));
+  }
+  function markingCriteriaUrl(id, type) {
+    return type == 'RUBRICS'
+      ? `/markingTemplates/rubrics/${id}`
+      : `/markingTemplates/strengths-and-targets/${id}`;
+  }
+
   return (
     <MarkingCriteriaEntry isHovered={!markingCriteria?.isSystem ? true : false}>
       <MarkingCriteriaEntryHeading
@@ -67,12 +79,3 @@ function MarkingCriteriaCard(props) {
 }
 
 export default MarkingCriteriaCard;
-
-function navigateToMarkingCriteriaUrl(id, type) {
-  window.location.href = markingCriteriaUrl(id, type);
-}
-function markingCriteriaUrl(id, type) {
-  return type == 'RUBRICS'
-    ? `/#/markingTemplates/rubrics/${id}`
-    : `/#/markingTemplates/strengths-and-targets/${id}`;
-}

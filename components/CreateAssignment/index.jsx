@@ -591,14 +591,21 @@ export default function CreateAssignment(props) {
         return false;
       }
     } else {
-      return true;
+      if(assignment.reviewedBy === 'TEACHER') return true;
+      else{
+        const dueDateContainer = document.getElementById('DnDContainer');
+        dueDateContainer.style.border = '1px solid red';
+
+        toast(<Toast message={'Please add reviewer'} />);
+      }
+
     }
   };
 
   const isAssignmentValid = () => {
     return isTitleValid() &&
+       isClassesValid() &&
       isQuestionsValid() &&
-      isClassesValid() &&
       isDnDValid() &&
       isDateValid()
       ? true

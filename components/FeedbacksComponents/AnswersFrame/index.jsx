@@ -404,7 +404,8 @@ const answerFrames = (
               newCommentFrameRef,
               share,
               question,
-              isFeedback
+              isFeedback,
+              QuestionIndex
             )}
           </QuillContainer>
         </AnswerContainer>
@@ -447,7 +448,8 @@ function createQuill(
   newCommentFrameRef,
   share,
   question,
-  isFeedback
+  isFeedback,
+  QuestionIndex
 ) {
   return (
     <div style={{ width: '100%' }}>
@@ -492,6 +494,7 @@ function createQuill(
         share={share}
         question={question}
         isFeedback={isFeedback}
+        QuestionIndex={QuestionIndex}
       ></QuillEditor>
     </div>
   );

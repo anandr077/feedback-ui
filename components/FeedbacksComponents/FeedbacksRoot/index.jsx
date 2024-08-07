@@ -1719,7 +1719,7 @@ const checkFocusAreas = () => {
         comments: feedbackComments,
         showFloatingDialogue,
         setShowFloatingDialogue,
-        allCommentBanks,
+        allCommentBanks : feedbanksData,
         methods,
         isTeacher,
         quillRefs,
@@ -1728,7 +1728,6 @@ const checkFocusAreas = () => {
         setSelectedText,
         isResetEditorTextSelection,
         setSelectedComment,
-        commentBankTitle : commentBanksData[0].title,
         setFeedbackBanksPopUp,
       }}
     >

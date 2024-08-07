@@ -57,7 +57,8 @@ const CommentBox = ({
   question,
   isFeedback,
   commentHeightRefs,
-  commentBoxContainerHeight
+  commentBoxContainerHeight,
+  QuestionIndex
 }) => {
   const { showNewComment, newCommentSerialNumber, isTeacher } =
     useContext(FeedbackContext);
@@ -151,7 +152,8 @@ const CommentBox = ({
               commentBankIds,
               question,
               selectedRange,
-              getFirstTwoWords
+              getFirstTwoWords,
+              QuestionIndex
             )}
         </MainSideContainer>
       ) : (
@@ -274,7 +276,8 @@ const newCommentFrame = (
   commentBankIds,
   question,
   selectedRange,
-  getFirstTwoWords
+  getFirstTwoWords,
+  QuestionIndex
 ) => {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return selectFocusArea(methods, submission, newCommentSerialNumber);
@@ -288,7 +291,8 @@ const newCommentFrame = (
     question,
     selectedRange,
     submission?.type,
-    getFirstTwoWords
+    getFirstTwoWords,
+    QuestionIndex
   );
 };
 
@@ -301,11 +305,16 @@ function reviewerNewComment(
   question,
   selectedRange,
   submissionType,
-  getFirstTwoWords
+  getFirstTwoWords,
+  QuestionIndex
 ) {
   const { smartAnnotations, setShowFloatingDialogue, allCommentBanks,commentBankTitle,setFeedbackBanksPopUp } =
     useContext(FeedbackContext);
-console.log('allCommentBanks',allCommentBanks);
+
+
+const currentCommentBank = smartAnnotations[QuestionIndex]
+
+
   if (pageMode === 'CLOSED') return <></>;
   return (
     <>
@@ -329,15 +338,15 @@ console.log('allCommentBanks',allCommentBanks);
                 commentBankIds={commentBankIds}
               />
             </CommentContainer>
-            {isShowCommentBanks(allCommentBanks) && (
+            {isShowCommentBanks(currentCommentBank?.smartComments) && (
               <CommentBoxContainer>
                 <ModalHeading>
-                  <h1>{getFirstTwoWords(commentBankTitle)}</h1>
+                  <h1>{getFirstTwoWords(currentCommentBank?.title)}</h1>
                   <ChangeButton onClick={() => setFeedbackBanksPopUp(true)}>Change</ChangeButton>
                 </ModalHeading>
                 <ModalForSelectOption
                   onClose={setShowFloatingDialogue}
-                  optionsToSelect={allCommentBanks}
+                  optionsToSelect={currentCommentBank?.smartComments}
                   onClickOption={methods.handleShortcutAddCommentSmartAnnotaion}
                 />
               </CommentBoxContainer>

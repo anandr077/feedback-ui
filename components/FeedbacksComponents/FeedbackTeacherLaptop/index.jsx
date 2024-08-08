@@ -31,6 +31,8 @@ import {
   CountZoomContainer,
   ZoomContianer,
   ZoomInput,
+  PoupButtons,
+  PoupDialogContent,
 } from './style';
 import { isMobileView, isDesktopView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
@@ -52,9 +54,10 @@ import FocusAreasLabel from '../../../components2/FocusAreasLabel';
 import { isShowMarkingCriteriaSidebar } from '../FeedbacksRoot/rules';
 import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection';
 import CommentBankDialog from '../../Shared/Dialogs/commentBank';
-import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
+import { Dialog, DialogActions, DialogContent } from '@mui/material';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
+import { CancelButton, ProceedButton } from '../../GeneralPopup/style';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -341,7 +344,7 @@ function FeedbackTeacherLaptop(props) {
      {
         showFeedbackBanksPopUp && (
         <Dialog fullWidth={true} open={showFeedbackBanksPopUp} onClose={handleClose}>
-        <DialogContent>
+        <PoupDialogContent>
         <QuestionFieldSelection 
            label='Comment Bank'
            items = {allCommentBanks}
@@ -354,13 +357,11 @@ function FeedbackTeacherLaptop(props) {
           serialNumber={QuestionIndex}
           handlePreview={handleCommentBankPreview}
           />
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button onClick={handleUpdateCommentBankSubmit}>Change</Button>
-        </DialogActions>
+        </PoupDialogContent>
+        <PoupButtons>
+        <ProceedButton onClick={handleClose}> Cancel</ProceedButton>
+          <CancelButton onClick={handleUpdateCommentBankSubmit}>Change</CancelButton>
+        </PoupButtons>
       </Dialog>)
       }
       {loader(showLoader)}

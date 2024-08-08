@@ -52,7 +52,9 @@ import FocusAreasLabel from '../../../components2/FocusAreasLabel';
 import { isShowMarkingCriteriaSidebar } from '../FeedbacksRoot/rules';
 import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection';
 import CommentBankDialog from '../../Shared/Dialogs/commentBank';
-import { Dialog, DialogContent } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
+import { toast } from 'react-toastify';
+import Toast from '../../Toast';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -171,13 +173,13 @@ function FeedbackTeacherLaptop(props) {
 
   const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);
   const [showTeacherPopUp, setShowTeacherPopUp] = React.useState(false);
-
   const [isShowResolved, setShowResolved] = useState(false);
-
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [editorFontSize, setEditorFontSize] = useState(100);
+  const [changedCommentBankId, setChangedCommentBankId] = useState();
+
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -299,17 +301,25 @@ function FeedbackTeacherLaptop(props) {
 
   const updateCommentBank = (serialNumber, item) => {
     console.log('first',serialNumber, item);
-    const newCommentBankId = item.id;
+    setChangedCommentBankId(item.id);
+  }
 
+  const handleClose = () => {
+    setFeedbackBanksPopUp(false);
+    setChangedCommentBankId(null);
+  };
+
+  const handleUpdateCommentBankSubmit = () => {
+    setFeedbackBanksPopUp(false);
     const updatedAssignment = {
       ...submission?.assignment,
       questions: submission.assignment.questions.map((question, index) =>
-        index === serialNumber
-          ? { ...question, commentBankId: newCommentBankId }
+        index === QuestionIndex
+          ? { ...question, commentBankId: changedCommentBankId }
           : question
       ),
     };
-
+    setChangedCommentBankId(null);
     updateAssignment(submission?.assignment.id, updatedAssignment)
     .then((res) => {
       if (res) {
@@ -317,10 +327,12 @@ function FeedbackTeacherLaptop(props) {
           ...old,
           assignment: updatedAssignment,
         }));
+        toast(<Toast message={'Comment bank changed successfully'} />);
     }})
     .catch((error) => {
-      console.error('Error CommentBank:', error);
+      toast(<Toast message={'Error in changing comment bank'} />);
     });
+
   }
 
   return (
@@ -328,7 +340,7 @@ function FeedbackTeacherLaptop(props) {
 
      {
         showFeedbackBanksPopUp && (
-        <Dialog fullWidth={true} open={showFeedbackBanksPopUp} onClose={() => setFeedbackBanksPopUp(false)}>
+        <Dialog fullWidth={true} open={showFeedbackBanksPopUp} onClose={handleClose}>
         <DialogContent>
         <QuestionFieldSelection 
            label='Comment Bank'
@@ -343,6 +355,12 @@ function FeedbackTeacherLaptop(props) {
           handlePreview={handleCommentBankPreview}
           />
         </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button onClick={handleUpdateCommentBankSubmit}>Change</Button>
+        </DialogActions>
       </Dialog>)
       }
       {loader(showLoader)}

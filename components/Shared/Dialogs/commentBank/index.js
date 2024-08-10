@@ -30,7 +30,7 @@ export default function CommentBankDialog({
               <SmartAnotation
                 key={`${innerIndex}`}
                 smartAnnotation={smartComment}
-                addOption={false}
+                addOption = {false}
               />
             ))}
           </SuggestionsContainer>

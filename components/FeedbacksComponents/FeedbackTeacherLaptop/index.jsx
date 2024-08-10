@@ -31,6 +31,8 @@ import {
   CountZoomContainer,
   ZoomContianer,
   ZoomInput,
+  PoupButtons,
+  PoupDialogContent,
 } from './style';
 import { isMobileView, isDesktopView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
@@ -40,7 +42,7 @@ import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 import { useHistory, useLocation } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
-import { createRequestFeddbackType, deleteSubmissionById } from '../../../service';
+import { createRequestFeddbackType, deleteSubmissionById, updateAssignment } from '../../../service';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import ResponsiveFooter from '../../ResponsiveFooter';
 import FeedbackRightSidebar from '../FeedbackRightSidebar';
@@ -50,6 +52,12 @@ import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
 import FocusAreasLabel from '../../../components2/FocusAreasLabel';
 import { isShowMarkingCriteriaSidebar } from '../FeedbacksRoot/rules';
+import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection';
+import CommentBankDialog from '../../Shared/Dialogs/commentBank';
+import { Dialog, DialogActions, DialogContent } from '@mui/material';
+import { toast } from 'react-toastify';
+import Toast from '../../Toast';
+import { CancelButton, ProceedButton } from '../../GeneralPopup/style';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -88,9 +96,13 @@ function FeedbackTeacherLaptop(props) {
     otherDrafts,
     setOtherDrafts,
     groupedFocusAreaIds,
+    feedbanksData,
+    showFeedbackBanksPopUp,
+    setFeedbackBanksPopUp
   } = props;
   console.log('submission', submission);
-  console.log('props', props);
+
+  
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
@@ -116,6 +128,14 @@ function FeedbackTeacherLaptop(props) {
   const [openRightPanel, SetOpenRightPanel] = React.useState(
     isShowMarkingCriteriaSidebar(overallComments, markingCriteriaFeedback) ? 'tab2' : null
   );
+  const allCommentBanks = feedbanksData?._embedded?.commentbanks;
+  const currentCommentBankId = submission?.assignment?.questions[QuestionIndex]?.commentBankId
+  const selectedCommentBankIndex = allCommentBanks?.findIndex(item => item.id === currentCommentBankId);
+  const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] = React.useState(false);
+  const [currentCommentBank, setCurrentCommentBank] = React.useState(allCommentBanks.find(
+    (commentBank) => commentBank.id === currentCommentBankId
+  ));
+
   useEffect(() => {
     if (showNewComment) {
       setFeedback(true);
@@ -156,18 +176,31 @@ function FeedbackTeacherLaptop(props) {
 
   const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);
   const [showTeacherPopUp, setShowTeacherPopUp] = React.useState(false);
-
   const [isShowResolved, setShowResolved] = useState(false);
-
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [editorFontSize, setEditorFontSize] = useState(100);
+  const [changedCommentBankId, setChangedCommentBankId] = useState();
+
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
     setFeedbackMethodTypeDialog(index);
   };
+
+
+  function handleCommentBankPreview(commentBankId) {
+    let commentBank = allCommentBanks.find(
+      (commentBank) => commentBank.id === commentBankId
+    );
+
+    setCurrentCommentBank(commentBank);
+    setCommentBankPreviewDialog(commentBank?.smartComments?.length > 0);
+  }
+
+
+  
   const handleSelectedRequestFeedback = (itemData, type) => {
     const requestData = {
       type: type,
@@ -269,8 +302,68 @@ function FeedbackTeacherLaptop(props) {
     setOpenLefPanel(!openLeftPanel);
   };
 
+  const updateCommentBank = (serialNumber, item) => {
+    console.log('first',serialNumber, item);
+    setChangedCommentBankId(item.id);
+  }
+
+  const handleClose = () => {
+    setFeedbackBanksPopUp(false);
+    setChangedCommentBankId(null);
+  };
+
+  const handleUpdateCommentBankSubmit = () => {
+    setFeedbackBanksPopUp(false);
+    const updatedAssignment = {
+      ...submission?.assignment,
+      questions: submission.assignment.questions.map((question, index) =>
+        index === QuestionIndex
+          ? { ...question, commentBankId: changedCommentBankId }
+          : question
+      ),
+    };
+    setChangedCommentBankId(null);
+    updateAssignment(submission?.assignment.id, updatedAssignment)
+    .then((res) => {
+      if (res) {
+        setSubmission((old) => ({
+          ...old,
+          assignment: updatedAssignment,
+        }));
+        toast(<Toast message={'Comment bank changed'} />);
+    }})
+    .catch((error) => {
+      toast(<Toast message={'Something went wrong'} />);
+    });
+
+  }
+
   return (
     <>
+
+     {
+        showFeedbackBanksPopUp && (
+        <Dialog fullWidth={true} open={showFeedbackBanksPopUp} onClose={handleClose}>
+        <PoupDialogContent>
+        <QuestionFieldSelection 
+           label='Comment Bank'
+           items = {allCommentBanks}
+           tooltipText = "Select a comment bank to save you time when reviewing a student's work. After highlighting a section of a student's response, simply click one of the suggested comments from the drop-down selection"
+          onItemSelected = {updateCommentBank}
+          currentFieldId ={currentCommentBankId}
+          link = {'/commentbanks'}
+          linkText ='Go to comment banks'
+          selectedIndex={selectedCommentBankIndex}
+          serialNumber={QuestionIndex}
+          handlePreview={handleCommentBankPreview}
+          />
+        </PoupDialogContent>
+        <PoupButtons>
+        <ProceedButton onClick={handleClose}> Cancel</ProceedButton>
+          <CancelButton onClick={handleUpdateCommentBankSubmit}>Change</CancelButton>
+        </PoupButtons>
+      </Dialog>)
+      }
       {loader(showLoader)}
       <PageContainer>
         <>
@@ -343,6 +436,12 @@ function FeedbackTeacherLaptop(props) {
         flatMap(classesAndStudents, (classObj) => classObj.students),
         teachers,
         classesAndStudents
+      )}
+      {openCommentBankPreviewDialog && (
+        <CommentBankDialog
+          setCommentBankPreviewDialog={setCommentBankPreviewDialog}
+          commentBank={currentCommentBank}
+        />
       )}
       <>{isMobile && <ResponsiveFooter />}</>
     </>

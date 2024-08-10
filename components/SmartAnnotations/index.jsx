@@ -242,7 +242,7 @@ function SmartAnotation(props) {
               </SubmitButton>
             </ButtonWrapper>
           ) : (
-            ( addOption ? 
+             ( addOption ? 
               <ButtonContainer>
                 <PlusImage src="/img/add-violet.svg" alt="plus" />
                 <ButtonLabel onClick={() => setNewSmartAnnotationEdit(true)}>

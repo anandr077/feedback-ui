@@ -8,8 +8,8 @@ import {
 } from './accordionStyle';
 import SubAccordion from './SubAccordion';
 
-const Accordion = ({ title, subtopics, body }) => {
-  const [isActive, setIsActive] = useState(false);
+const Accordion = ({ title, subtopics, body,open=false  }) => {
+  const [isActive, setIsActive] = useState(open);
 
   const toggleAccordion = () => {
     setIsActive(!isActive);

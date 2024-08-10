@@ -36,6 +36,7 @@ const QuillEditor = React.forwardRef(
       share,
       question,
       isFeedback,
+      QuestionIndex
     },
     ref
   ) => {
@@ -329,6 +330,7 @@ const QuillEditor = React.forwardRef(
             isFeedback={isFeedback}
             commentHeightRefs={commentHeightRefs}
             commentBoxContainerHeight={totalCommentHeight}
+            QuestionIndex={QuestionIndex}
           />
         )}
       </div>

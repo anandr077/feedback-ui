@@ -226,3 +226,8 @@ export const QuestionMarkContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
 `;
+
+export const PreviewIcon = styled.img`
+  width: 32px;
+  height: 32px;
+`;

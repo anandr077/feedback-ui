@@ -75,7 +75,9 @@ import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
 import { allCriteriaHaveSelectedLevels } from './rules.js';
-import { useAllSubmisssionsById, useClassData, useCommentBanksById,  useCommentsById, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import { useAllSubmisssionsById, useClassData, useCommentBanks, useCommentBanksById,  useCommentsById, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import { DialogContent } from '@mui/material';
+import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection.jsx';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -118,6 +120,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState();
   const [showFocusAreaPopUp, setShowFocusArePopUp] = React.useState(false);
   const [showFocusAreaPopUpText, setShowFocusArePopUpText] = React.useState('');
+  const [showFeedbackBanksPopUp, setFeedbackBanksPopUp] = React.useState(false);
 
   const {
     data: submissionByIdData,
@@ -168,6 +171,14 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     resetData: resetCommentBanksData,
   } = useCommentBanksById(commentBankIds, isTeacher);
 
+
+  const {
+    data: feedbanksData,
+    isLoadingdata : isLoadingfeedbanks,
+    setData: setFeedbanksData,
+    resetData,
+  } = useCommentBanks();
+
    const isDataLoading =
      isLoadingsubmissionByIdData ||
      isLoadingcommentsByIdData ||
@@ -176,7 +187,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
      isLoadingclassData ||
      (isTeacher &&
        (isLoadingallSubmissions ||
-         isLoadingcommentBanksData));
+         isLoadingcommentBanksData || isLoadingfeedbanks));
 
 
   const markingCriteriaFeedback = commentsByIdData?.filter(
@@ -261,6 +272,8 @@ const students = extractStudents(allSubmissions);
      setIsLoading(false);
    }
  }, [isDataLoading, id]);
+
+ console.log('commentBanksData',commentBanksData);
   
   const deleteDraftPage = async (submissionId, pendingLocation) => {
     await deleteSubmissionById(submissionId).then(() => {
@@ -1577,8 +1590,7 @@ const validateFocusAreas = () => {
     const question = submissionByIdData?.assignment?.questions[index];
     const currentFocusAreas = question?.focusAreas || [];
     const selectedFocusAreas = groupedFocusAreaIds[index + 1] || [];
-    console.log('currentFocusAreas', currentFocusAreas);
-    console.log('selectedFocusAreas', selectedFocusAreas);
+    
 
     if (
       selectedFocusAreas.length === 0 ||
@@ -1707,7 +1719,7 @@ const checkFocusAreas = () => {
         comments: feedbackComments,
         showFloatingDialogue,
         setShowFloatingDialogue,
-        allCommentBanks,
+        allCommentBanks : feedbanksData,
         methods,
         isTeacher,
         quillRefs,
@@ -1716,6 +1728,7 @@ const checkFocusAreas = () => {
         setSelectedText,
         isResetEditorTextSelection,
         setSelectedComment,
+        setFeedbackBanksPopUp,
       }}
     >
       {showSubmitPopup &&
@@ -1741,6 +1754,8 @@ const checkFocusAreas = () => {
           confirmButtonAction={saveDraftPage}
         />
       )}
+
+     
       {showFocusAreaPopUp && (
         <GeneralPopup
           title="Submit task"
@@ -1782,6 +1797,9 @@ const checkFocusAreas = () => {
           otherDrafts: otherDraftsById,
           setOtherDrafts: setOtherDraftsById,
           groupedFocusAreaIds,
+          feedbanksData,
+          showFeedbackBanksPopUp,
+          setFeedbackBanksPopUp
         }}
       />
     </FeedbackContext.Provider>

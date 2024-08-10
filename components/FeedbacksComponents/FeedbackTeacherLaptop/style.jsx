@@ -4,6 +4,7 @@ import {
   feedbacksIbmplexsansNormalShark20px,
   IbmplexsansNormalShark16px,
 } from '../../../styledMixins';
+import { DialogActions, DialogContent} from '@mui/material';
 
 export const AwaitFeedbackContainer = styled.div`
   display: flex;
@@ -1020,4 +1021,11 @@ export const Frame1364ButtonText = styled.div`
   line-height: 26px;
   letter-spacing: 0em;
   text-align: center;
+`;
+export const PoupButtons = styled(DialogActions)`
+  gap:10px;
+  
+`;
+export const PoupDialogContent = styled(DialogContent)`
+  padding:20px 24px 0px 24px !important;
 `;

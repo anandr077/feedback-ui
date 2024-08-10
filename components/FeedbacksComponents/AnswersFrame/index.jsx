@@ -264,6 +264,7 @@ const answerFrames = (
   const [questionSlide, setQuestionSlide] = React.useState(true);
   const [inputValue, setInputValue] = React.useState('Type your question');
   const inputRef = React.useRef(null);
+  console.log('submission?.assignment',submission?.assignment);
 
   React.useEffect(() => {
     if (submission?.assignment?.title) {
@@ -403,7 +404,8 @@ const answerFrames = (
               newCommentFrameRef,
               share,
               question,
-              isFeedback
+              isFeedback,
+              QuestionIndex
             )}
           </QuillContainer>
         </AnswerContainer>
@@ -446,7 +448,8 @@ function createQuill(
   newCommentFrameRef,
   share,
   question,
-  isFeedback
+  isFeedback,
+  QuestionIndex
 ) {
   return (
     <div style={{ width: '100%' }}>
@@ -491,6 +494,7 @@ function createQuill(
         share={share}
         question={question}
         isFeedback={isFeedback}
+        QuestionIndex={QuestionIndex}
       ></QuillEditor>
     </div>
   );

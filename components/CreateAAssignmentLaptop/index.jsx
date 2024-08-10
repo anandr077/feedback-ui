@@ -66,7 +66,7 @@ import Footer from '../Footer';
 import GoBack2 from '../GoBack2';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/question-mark.svg';
-import { useHistory } from 'react-router-dom';
+
 
 function CreateAAssignmentLaptop(props) {
   const {
@@ -92,22 +92,7 @@ function CreateAAssignmentLaptop(props) {
 
   const smallScreenView = isSmallScreen();
   const mobileView = isMobileView();
-  const history = useHistory();
 
-  useEffect(() => {
-    const unblock = history.block((location, action) => {
-      if (assignment.status === 'DRAFT' && isChanged) {
-        setPendingLocation(location);
-        setSaveAsDraftPopup(true);
-        return false;
-      }
-      return true;
-    });
-
-    return () => {
-      unblock();
-    };
-  }, [history, isChanged]);
 
   function titleAndSaveButtons(assignment, saveDraft, publish) {
     const title =

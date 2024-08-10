@@ -39,7 +39,7 @@ function SmartAnotation(props) {
     teacherId,
     open = false,
     setSmartAnnotationeditIndex,
-    addOption = true,
+    addOption = true
   } = props;
   const [isExpanded, setIsExpanded] = useState(false);
   const [currentSmartAnnotation, setCurrentSmartAnnotation] =

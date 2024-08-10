@@ -372,6 +372,7 @@ function MarkingCriteria({
                 )}
             </MarkingCriteriaSection>
           }
+          open = {true}
         />
       )}
     </>

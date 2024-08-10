@@ -7,10 +7,6 @@ import {
   getMarkingMethodology,
   updateMarkingCriteria,
 } from '../../../service';
-import {
-  useHistory,
-  useParams,
-} from 'react-router-dom/cjs/react-router-dom.min';
 import Loader from '../../Loader';
 
 import React, { useState } from 'react';
@@ -72,6 +68,8 @@ import Toast from '../../Toast';
 import MenuButton from '../../MenuButton';
 import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar';
 import Header from '../../Header2';
+import { useMarkingCriterias } from '../../state/hooks';
+import { useHistory, useParams } from 'react-router-dom';
 
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
@@ -97,14 +95,28 @@ export default function CreateNewStrengthAndTargets() {
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
 
-  useEffect(() => {
-    Promise.all([getMarkingMethodologyForId(markingMethodologyId)]).then(
-      ([result]) => {
-        setMarkingMethodology(result[0]);
+  const {
+    data: markingCriterias,
+    isLoadingdata: isLoadingMarkingCriterias,
+    setData: setMarkingCriterias,
+    resetData: resetMarkingCriterias,
+  } = useMarkingCriterias();
+
+  React.useEffect(() => {
+    console.log('markingCriteriaId', markingMethodologyId);
+    if (markingMethodologyId === 'new') {
+      setIsLoading(false);
+    }
+    if (markingCriterias) {
+      const loadedMarkingCriteria = markingCriterias.filter(
+        (criteria) => criteria.id === markingMethodologyId
+      );
+      if (loadedMarkingCriteria.length > 0) {
+        setMarkingMethodology(loadedMarkingCriteria[0]);
         setIsLoading(false);
       }
-    );
-  }, []);
+    }
+  }, [markingCriterias]);
 
   if (isLoading) {
     return (
@@ -141,15 +153,6 @@ export default function CreateNewStrengthAndTargets() {
       };
       return newMarkingTemplate;
     });
-  };
-
-  const removeCriteria = (indexToDelete) => {
-    const updatedData = { ...markingMethodology };
-    updatedData.strengthsTargetsCriterias =
-      markingMethodology.strengthsTargetsCriterias.filter(
-        (_, index) => index !== indexToDelete
-      );
-    setMarkingMethodology(updatedData);
   };
 
   const handleAddOption = (index, type) => {
@@ -213,139 +216,6 @@ export default function CreateNewStrengthAndTargets() {
     setMarkingMethodology(updatedData);
   };
 
-  const createStrengthsAndTargets = (criteria, index) => {
-    return (
-      <div className="strength-and-target-container">
-        <div className="strength">
-          <div className="strength-text">Strengths</div>
-          {criteria.strengths.map((value, childIndex) => {
-            return (
-              <div className="criteria-option">
-                {input(
-                  value,
-                  handleCriteriaOptionChange,
-                  childIndex,
-                  index,
-                  STRENGTHS,
-                  markingMethodology.title
-                )}
-                {childIndex >= 1 && (
-                  <div
-                    className="remove-option"
-                    onClick={() =>
-                      removeAddOption(childIndex, index, STRENGTHS)
-                    }
-                  >
-                    <img src="/icons/delete-vector.svg" alt="delete" />
-                    Remove
-                  </div>
-                )}
-              </div>
-            );
-          })}
-
-          <div
-            className="add-criteria"
-            onClick={() => handleAddOption(index, STRENGTHS)}
-            style={{ width: 'fit-content' }}
-          >
-            + Add option
-          </div>
-        </div>
-        <div className="target">
-          <div className="target-text">Targets</div>
-          {criteria.targets.map((value, childIndex) => {
-            return (
-              <div className="criteria-option">
-                <input
-                  type="text"
-                  className="title-input"
-                  placeholder="You need to..."
-                  value={markingMethodology.title !== '' ? value : ''}
-                  onChange={(e) =>
-                    handleCriteriaOptionChange(e, childIndex, index, TARGETS)
-                  }
-                  style={{ fontWeight: 'bold' }}
-                />
-                {childIndex >= 1 && (
-                  <div
-                    className="remove-option"
-                    onClick={() => removeAddOption(childIndex, index, TARGETS)}
-                  >
-                    <img src="/icons/delete-vector.svg" alt="delete" />
-                    Remove
-                  </div>
-                )}
-              </div>
-            );
-          })}
-          <div
-            className="add-criteria"
-            onClick={() => handleAddOption(index, TARGETS)}
-            style={{ width: 'fit-content' }}
-          >
-            + Add option
-          </div>
-        </div>
-      </div>
-    );
-  };
-  const createCriteria = (criteria, index) => {
-    return (
-      <>
-        <div className="criteria-container">
-          <div className="remove-and-criteria">
-            <div className="criteria">Evaluation Area</div>
-            <div className="remove" onClick={() => removeCriteria(index)}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="17"
-                viewBox="0 0 16 17"
-                fill="none"
-              >
-                <path
-                  d="M2.5918 13.8327L13.2585 3.16602M13.2585 13.8327L2.5918 3.16602"
-                  stroke="#8A1C1C"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>{' '}
-              Remove
-            </div>
-          </div>
-          <input
-            type="text"
-            className="title-input"
-            placeholder="Enter an evaluation area for this set of strengths and targets"
-            value={criteria?.title || ''}
-            onChange={(e) => handleCriteriaChange(e, index)}
-            style={{ marginTop: '20px' }}
-          />
-          {createStrengthsAndTargets(criteria, index)}
-        </div>
-      </>
-    );
-  };
-
-
-
-  const allCriteriaFrames = () => {
-    return (
-      <div className="form-container">
-        <div className="subheading">Strengths and Targets</div>
-        <div className="border"></div>
-        {markingMethodology?.strengthsTargetsCriterias?.map((criteria, index) =>
-          createCriteria(criteria, index)
-        )}
-        <div className="add-criteria" onClick={() => handleAddCriteria()}>
-          + Add evaluation area
-        </div>
-      </div>
-    );
-  };
-
   function validateStrengthsTargets(strengthAndTargetdata) {
     if (!strengthAndTargetdata.title.trim()) {
       toast(<Toast message={'Please enter title for marking criteria'} />);
@@ -385,6 +255,8 @@ export default function CreateNewStrengthAndTargets() {
     }
     if (markingMethodologyId === 'new') {
       createNewMarkingCriteria(markingMethodology).then((response) => {
+        console.log('createNewMarkingCriteria', response);
+        resetMarkingCriterias();
         toast(
           <Toast
             message={'Strengths and targets created'}
@@ -399,6 +271,7 @@ export default function CreateNewStrengthAndTargets() {
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
         (response) => {
+          console.log('updateMarkingCriteria', response);
           toast(
             <Toast
               message={'Strengths and Targets Updated'}
@@ -407,6 +280,19 @@ export default function CreateNewStrengthAndTargets() {
               }
             />
           );
+
+          const updatedMarkingCriterias = markingCriterias.map(
+            (markingCriteria, index) => {
+              if (markingCriteria.id === markingMethodologyId) {
+                return {
+                  ...markingCriteria,
+                  ...markingMethodology,
+                };
+              }
+              return markingCriteria;
+            }
+          );
+          setMarkingCriterias(updatedMarkingCriterias);
           history.push('/settings');
         }
       );
@@ -644,80 +530,5 @@ export default function CreateNewStrengthAndTargets() {
   );
 }
 
-const handleDelete = (id) => {
-  deleteMarkingCriteria(id).then(() => {
-    window.location.href = '/#/settings';
-  });
-};
 
-const titleAndSaveButton = (saveData, markingMethodologyId = 'new') => {
-  return (
-    <div className="heading">
-      <div className="heading-text">Create new marking template</div>
-      <div className="delete-and-save">
-        {markingMethodologyId != 'new' ? (
-          <div
-            className="delete"
-            onClick={() => handleDelete(markingMethodologyId)}
-          >
-            <img src="/icons/trashcan.svg" alt="icon-trash" />
-            <div>Delete</div>
-          </div>
-        ) : (
-          ''
-        )}
-        <button className="save" onClick={() => saveData()}>
-          {markingMethodologyId === 'new' ? 'Save criteria' : 'Update criteria'}
-        </button>
-      </div>
-    </div>
-  );
-};
 
-const inputTitle = (title, onChange) => {
-  return (
-    <input
-      type="text"
-      className="title-input"
-      placeholder="Name a marking template"
-      value={title}
-      onChange={onChange}
-    />
-  );
-};
-
-function input(
-  value,
-  handleCriteriaOptionChange,
-  childIndex,
-  index,
-  STRENGTHS,
-  title
-) {
-  return (
-    <input
-      type="text"
-      className="title-input"
-      placeholder=" You have effectively..."
-      value={title !== '' ? value : ''}
-      onChange={(e) =>
-        handleCriteriaOptionChange(e, childIndex, index, STRENGTHS)
-      }
-      style={{ fontWeight: 'bold' }}
-    />
-  );
-}
-
-const getMarkingMethodologyForId = async (id) => {
-  if (id === 'new') {
-    return [
-      {
-        title: 'New Marking Template',
-        type: 'STRENGTHS_TARGETS',
-        strengthsTargetsCriterias: [{ ...Strengths_And_Traget_Data }],
-      },
-    ];
-  } else {
-    return await getMarkingMethodology(id);
-  }
-};

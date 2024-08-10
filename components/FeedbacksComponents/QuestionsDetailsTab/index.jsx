@@ -30,14 +30,14 @@ const QuestionsDetailsTab = ({
     <QuestionDetailsContainer openRightPanel={openRightPanel}>
       <RightSidebarHeading title={'Questions'} handleClose={handleClose} />
       <QuestionSection>
-        {submission.assignment.questions.map((question, idx) => {
+        {submission?.assignment.questions.map((question, idx) => {
           return (
             <QuestionBody onClick={() => questionClick(idx)}>
               <Heading>
-                <SerialNumber>Question {question.serialNumber}</SerialNumber>
+                <SerialNumber>Question {question?.serialNumber}</SerialNumber>
                 <img src={QuestionIndex === idx ? PurpleTick : GrayTick} />
               </Heading>
-              <Question>{question.question}</Question>
+              <Question>{question?.question}</Question>
             </QuestionBody>
           );
         })}

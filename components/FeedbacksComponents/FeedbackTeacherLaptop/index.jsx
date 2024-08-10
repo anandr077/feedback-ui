@@ -14,7 +14,6 @@ import Loader from '../../Loader';
 import { answersFrame } from '../AnswersFrame';
 import {Footer} from './Footer';
 import './FeedbackTeacherLaptop.css';
-import { contextBar, contextBarForPortfolioDocument } from './contextBar';
 import FeedbackFrame from './feedbackFrame';
 import {
   Frame1315,
@@ -32,6 +31,8 @@ import {
   CountZoomContainer,
   ZoomContianer,
   ZoomInput,
+  PoupButtons,
+  PoupDialogContent,
 } from './style';
 import { isMobileView, isDesktopView } from '../../ReactiveRender';
 import WelcomeOverlayMobile from '../../../components2/WelcomeOverlayMobile';
@@ -41,7 +42,7 @@ import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 import { useHistory, useLocation } from 'react-router-dom';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
-import { createRequestFeddbackType, deleteSubmissionById } from '../../../service';
+import { createRequestFeddbackType, deleteSubmissionById, updateAssignment } from '../../../service';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import ResponsiveFooter from '../../ResponsiveFooter';
 import FeedbackRightSidebar from '../FeedbackRightSidebar';
@@ -51,6 +52,12 @@ import FeedbackRightSideSlidingTabs from '../FeedbackRightSideSlidingTabs';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
 import FocusAreasLabel from '../../../components2/FocusAreasLabel';
 import { isShowMarkingCriteriaSidebar } from '../FeedbacksRoot/rules';
+import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection';
+import CommentBankDialog from '../../Shared/Dialogs/commentBank';
+import { Dialog, DialogActions, DialogContent } from '@mui/material';
+import { toast } from 'react-toastify';
+import Toast from '../../Toast';
+import { CancelButton, ProceedButton } from '../../GeneralPopup/style';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -88,24 +95,30 @@ function FeedbackTeacherLaptop(props) {
     markingCriteriaFeedback,
     otherDrafts,
     setOtherDrafts,
+    groupedFocusAreaIds,
+    feedbanksData,
+    showFeedbackBanksPopUp,
+    setFeedbackBanksPopUp
   } = props;
+  console.log('submission', submission);
+
+  
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
-  const questions = submission.assignment.questions;
+  const questions = submission?.assignment.questions;
   const [isFeedback, setFeedback] = React.useState(
-    !(
+    !(questions && 
       questions[QuestionIndex]?.focusAreas &&
       questions[QuestionIndex]?.focusAreas.length !== 0
     )
   );
   const [isFocusAreas, setFocusAreas] = React.useState(
-    questions[QuestionIndex]?.focusAreas &&
+    questions &&
+      questions[QuestionIndex]?.focusAreas &&
       questions[QuestionIndex]?.focusAreas.length !== 0
   );
-  const [groupedFocusAreaIds, setGroupedFocusAreaIds] = React.useState(() =>
-    createGroupedFocusAreas(submission)
-  );
+  
   const [openLeftPanel, setOpenLefPanel] = useState(false);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
@@ -115,6 +128,14 @@ function FeedbackTeacherLaptop(props) {
   const [openRightPanel, SetOpenRightPanel] = React.useState(
     isShowMarkingCriteriaSidebar(overallComments, markingCriteriaFeedback) ? 'tab2' : null
   );
+  const allCommentBanks = feedbanksData?._embedded?.commentbanks;
+  const currentCommentBankId = submission?.assignment?.questions[QuestionIndex]?.commentBankId
+  const selectedCommentBankIndex = allCommentBanks?.findIndex(item => item.id === currentCommentBankId);
+  const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] = React.useState(false);
+  const [currentCommentBank, setCurrentCommentBank] = React.useState(allCommentBanks.find(
+    (commentBank) => commentBank.id === currentCommentBankId
+  ));
+
   useEffect(() => {
     if (showNewComment) {
       setFeedback(true);
@@ -155,18 +176,31 @@ function FeedbackTeacherLaptop(props) {
 
   const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);
   const [showTeacherPopUp, setShowTeacherPopUp] = React.useState(false);
-
   const [isShowResolved, setShowResolved] = useState(false);
-
   const [isShowSelectType, setShowSelectType] = useState(false);
   const [showFeedbackButtons, setShowFeedbackButtons] = useState(false);
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [editorFontSize, setEditorFontSize] = useState(100);
+  const [changedCommentBankId, setChangedCommentBankId] = useState();
+
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
     setFeedbackMethodTypeDialog(index);
   };
+
+
+  function handleCommentBankPreview(commentBankId) {
+    let commentBank = allCommentBanks.find(
+      (commentBank) => commentBank.id === commentBankId
+    );
+
+    setCurrentCommentBank(commentBank);
+    setCommentBankPreviewDialog(commentBank?.smartComments?.length > 0);
+  }
+
+
+  
   const handleSelectedRequestFeedback = (itemData, type) => {
     const requestData = {
       type: type,
@@ -232,24 +266,7 @@ function FeedbackTeacherLaptop(props) {
     setOpenLefPanel(!isStudentReviewRoute && documentsRoute);
   }, [location.pathname]);
 
-  const handleCheckboxChange = (serialNumber, focusAreaId) => {
-    const isChecked = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
-    setGroupedFocusAreaIds((prevState) => {
-      if (!isChecked) {
-        return {
-          ...prevState,
-          [serialNumber]: [...prevState[serialNumber], focusAreaId],
-        };
-      } else {
-        return {
-          ...prevState,
-          [serialNumber]: prevState[serialNumber].filter(
-            (id) => id !== focusAreaId
-          ),
-        };
-      }
-    });
-  };
+
 
 
     const getNextQuestionId = (currentId) => {
@@ -285,13 +302,73 @@ function FeedbackTeacherLaptop(props) {
     setOpenLefPanel(!openLeftPanel);
   };
 
+  const updateCommentBank = (serialNumber, item) => {
+    console.log('first',serialNumber, item);
+    setChangedCommentBankId(item.id);
+  }
+
+  const handleClose = () => {
+    setFeedbackBanksPopUp(false);
+    setChangedCommentBankId(null);
+  };
+
+  const handleUpdateCommentBankSubmit = () => {
+    setFeedbackBanksPopUp(false);
+    const updatedAssignment = {
+      ...submission?.assignment,
+      questions: submission.assignment.questions.map((question, index) =>
+        index === QuestionIndex
+          ? { ...question, commentBankId: changedCommentBankId }
+          : question
+      ),
+    };
+    setChangedCommentBankId(null);
+    updateAssignment(submission?.assignment.id, updatedAssignment)
+    .then((res) => {
+      if (res) {
+        setSubmission((old) => ({
+          ...old,
+          assignment: updatedAssignment,
+        }));
+        toast(<Toast message={'Comment bank changed'} />);
+    }})
+    .catch((error) => {
+      toast(<Toast message={'Something went wrong'} />);
+    });
+
+  }
+
   return (
     <>
+
+     {
+        showFeedbackBanksPopUp && (
+        <Dialog fullWidth={true} open={showFeedbackBanksPopUp} onClose={handleClose}>
+        <PoupDialogContent>
+        <QuestionFieldSelection 
+           label='Comment Bank'
+           items = {allCommentBanks}
+           tooltipText = "Select a comment bank to save you time when reviewing a student's work. After highlighting a section of a student's response, simply click one of the suggested comments from the drop-down selection"
+          onItemSelected = {updateCommentBank}
+          currentFieldId ={currentCommentBankId}
+          link = {'/commentbanks'}
+          linkText ='Go to comment banks'
+          selectedIndex={selectedCommentBankIndex}
+          serialNumber={QuestionIndex}
+          handlePreview={handleCommentBankPreview}
+          />
+        </PoupDialogContent>
+        <PoupButtons>
+        <ProceedButton onClick={handleClose}> Cancel</ProceedButton>
+          <CancelButton onClick={handleUpdateCommentBankSubmit}>Change</CancelButton>
+        </PoupButtons>
+      </Dialog>)
+      }
       {loader(showLoader)}
       <PageContainer>
         <>
           {sharewithclassdialog}
-          {(otherDrafts || submission.studentsSubmissions) && sidebar()}
+          {(otherDrafts || submission?.studentsSubmissions) && sidebar()}
           <Frame1388
             mobileView={isMobile}
             desktopView={isDesktop}
@@ -307,7 +384,6 @@ function FeedbackTeacherLaptop(props) {
               pageMode,
               quillRefs,
               smallMarkingCriteria,
-              handleCheckboxChange,
               groupedFocusAreaIds,
               commentsForSelectedTab,
               setShowResolved,
@@ -349,11 +425,10 @@ function FeedbackTeacherLaptop(props) {
           isMobile={isMobile} 
           editorFontSize={editorFontSize} 
           setEditorFontSize={setEditorFontSize}
-          answers={submission.answers} 
+          answers={submission?.answers} 
           questionIndex={QuestionIndex} 
         />
       </PageContainer>
-
       {handleFeedbackMethodTypeDialog(
         feedbackMethodTypeDialog,
         setFeedbackMethodTypeDialog,
@@ -361,6 +436,12 @@ function FeedbackTeacherLaptop(props) {
         flatMap(classesAndStudents, (classObj) => classObj.students),
         teachers,
         classesAndStudents
+      )}
+      {openCommentBankPreviewDialog && (
+        <CommentBankDialog
+          setCommentBankPreviewDialog={setCommentBankPreviewDialog}
+          commentBank={currentCommentBank}
+        />
       )}
       <>{isMobile && <ResponsiveFooter />}</>
     </>
@@ -381,14 +462,14 @@ function FeedbackTeacherLaptop(props) {
             setSelectedSubject={setSelectedSubject}
             selectedSubject={selectedSubject}
             groupedAndSortedData={groupedAndSortedData}
-            currentSubmissionId={submission.id}
+            currentSubmissionId={submission?.id}
             deleteQuestionFunction={deleteQuestionFunction}
           />
         )}
 
         {((isTeacher && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) ||
           otherDrafts ||
-          submission.studentsSubmissions) && (
+          submission?.studentsSubmissions) && (
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}
@@ -402,7 +483,7 @@ function FeedbackTeacherLaptop(props) {
             setSelectedSubject={setSelectedSubject}
             selectedSubject={selectedSubject}
             groupedAndSortedData={groupedAndSortedData}
-            currentSubmissionId={submission.id}
+            currentSubmissionId={submission?.id}
           />
         )}
 
@@ -468,28 +549,6 @@ function loader(showLoader) {
   );
 }
 
-function createGroupedFocusAreas(submission) {
-  const flattenedQuestions = flatMap(
-    submission.assignment.questions,
-    (question) =>
-      question.focusAreaIds?.map((focusAreaId) => ({
-        serialNumber: question.serialNumber,
-        focusAreaId,
-      }))
-  );
-
-  const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
-  const grouped = Object.keys(groupedBySerialNumber).reduce(
-    (grouped, serialNumber) => {
-      grouped[serialNumber] = groupedBySerialNumber[serialNumber].map(
-        (item) => item?.focusAreaId
-      );
-      return grouped;
-    },
-    {}
-  );
-  return grouped;
-}
 
 function answersAndFeedbacks(
   isMobile,
@@ -500,7 +559,6 @@ function answersAndFeedbacks(
   pageMode,
   quillRefs,
   smallMarkingCriteria,
-  handleCheckboxChange,
   groupedFocusAreaIds,
   commentsForSelectedTab,
   setShowResolved,
@@ -547,34 +605,14 @@ function answersAndFeedbacks(
     ?.filter((f) => f.questionSerialNumber === QuestionIndex + 1)
     .map((comment) => comment.focusAreaId);
 
-  const question = submission.assignment.questions[QuestionIndex];
+  const question = submission?.assignment.questions[QuestionIndex];
 
-  const matchingFocusAreas = question?.focusAreas?.filter((focusArea) =>
-    focusAreaCommentIds.includes(focusArea.id)
-  );
+  const matchingFocusAreas = question?.focusAreas;
+  
 
   return (
     <Frame1386 id="content">
-      {/* {createContextBar(
-        submission,
-        setSubmission,
-        methods,
-        pageMode,
-        isShowSelectType,
-        setShowSelectType,
-        showFeedbackButtons,
-        setShowFeedbackButtons,
-        methods,
-        isTeacher,
-        pageMode,
-        handleRequestFeedback,
-        showStatusText,
-        classesAndStudents,
-        showStudentPopUp,
-        showTeacherPopUp,
-        setShowStudentPopUp,
-        setShowTeacherPopUp
-      )} */}
+      
       <FeedbackHeader
         submission={submission}
         setSubmission={setSubmission}
@@ -598,12 +636,12 @@ function answersAndFeedbacks(
         commentsForSelectedTab={commentsForSelectedTab}
         isLeftSidebarOpen={openLeftPanel}
       />
-      {submission.type === 'SUBMISSION' &&
-        submission.assignment.questions.length !== 0 && (
+      {submission?.type === 'SUBMISSION' &&
+        submission?.assignment.questions.length !== 0 && (
           <FeedbackQuestionSlider
             setQuestionIndex={setQuestionIndex}
             QuestionIndex={QuestionIndex}
-            questions={submission.assignment.questions}
+            questions={submission?.assignment.questions}
             setFeedback={setFeedback}
             setFocusAreas={setFocusAreas}
           />
@@ -611,7 +649,6 @@ function answersAndFeedbacks(
       <FeedbackBody>
         {isFocusAreas && (
           <FocusAreasLabel
-            handleCheckboxChange={handleCheckboxChange}
             groupedFocusAreaIds={groupedFocusAreaIds}
             serialNumber={question?.serialNumber}
             focusAreas={matchingFocusAreas}
@@ -621,7 +658,6 @@ function answersAndFeedbacks(
           {answersFrame(
             quillRefs,
             smallMarkingCriteria,
-            handleCheckboxChange,
             groupedFocusAreaIds,
             pageMode,
             submission,
@@ -660,9 +696,7 @@ function answersAndFeedbacks(
             handleMarkingCriteriaLevelFeedback={
               methods.handleMarkingCriteriaLevelFeedback
             }
-            handleStrengthsTargetsFeedback={
-              methods.handleStrengthsTargetsFeedback
-            }
+            
             pageMode={pageMode}
             submission={submission}
           />
@@ -682,50 +716,6 @@ function answersAndFeedbacks(
 
 
 
-function createContextBar(
-  submission,
-  setSubmission,
-  methods,
-  pageMode,
-  isShowSelectType,
-  setShowSelectType,
-  showFeedbackButtons,
-  setShowFeedbackButtons,
-  methods,
-  isTeacher,
-  pageMode,
-  handleRequestFeedback,
-  showStatusText,
-  classesAndStudents,
-  showStudentPopUp,
-  showTeacherPopUp,
-  setShowStudentPopUp,
-  setShowTeacherPopUp
-) {
-  if (submission.type === 'DOCUMENT') {
-    return contextBarForPortfolioDocument(
-      isShowSelectType,
-      setShowSelectType,
-      showFeedbackButtons,
-      setShowFeedbackButtons,
-      submission,
-      setSubmission,
-      methods,
-      pageMode,
-      (feedbackMethodType = FeedbackMethodType),
-      handleRequestFeedback,
-      true,
-      classesAndStudents,
-      showStudentPopUp,
-      showTeacherPopUp,
-      setShowStudentPopUp,
-      setShowTeacherPopUp,
-      isTeacher
-    );
-  }
-
-  return contextBar(submission, methods, isTeacher, pageMode);
-}
 
 const handleFeedbackMethodTypeDialog = (
   feedbackMethodType,

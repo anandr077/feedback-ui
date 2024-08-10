@@ -5,8 +5,11 @@ import { React } from 'react';
 import { getCommentsForSubmission } from '../../../service';
 import { getUserId } from '../../../userLocalDetails';
 
+
+
+
 export function extractStudents(tasksResult) {
-  return tasksResult.map((task) => {
+  return tasksResult?.map((task) => {
     return {
       id: task.id,
       name: task.studentName,
@@ -25,53 +28,53 @@ export function extractStudents(tasksResult) {
 }
 
 export function getPageMode(isTeacher, user, submission) {
-  if (submission.type === 'DOCUMENT')
+  if (submission?.type === 'DOCUMENT')
     return getPortfolioPageMode(user, submission);
   if (isTeacher) return getTeacherPageMode(submission);
   return getStudentPageMode(user, submission);
 }
 
 export function getTeacherPageMode(submission) {
-  if (submission.status === 'DRAFT') return 'CLOSED';
+  if (submission?.status === 'DRAFT') return 'CLOSED';
   if (
-    submission.status === 'REVIEWED' ||
-    submission.status === 'RESUBMISSION_REQUESTED'
+    submission?.status === 'REVIEWED' ||
+    submission?.status === 'RESUBMISSION_REQUESTED'
   )
     return 'CLOSED';
-  if (submission.status === 'CLOSED') return 'CLOSED';
-  if (submission.assignment.reviewedBy === 'P2P') {
+  if (submission?.status === 'CLOSED') return 'CLOSED';
+  if (submission?.assignment.reviewedBy === 'P2P') {
     return 'CLOSED';
   }
   return 'REVIEW';
 }
 
 export function getStudentPageMode(user, submission) {
-  if (submission.assignment.reviewedBy === 'P2P') {
+  if (submission?.assignment.reviewedBy === 'P2P') {
     return getP2PPageMode(user, submission);
   }
   return getSelfPageMode(submission);
 }
 
 export function getP2PPageMode(user, submission) {
-  if (user === submission.studentId) {
+  if (user === submission?.studentId) {
     return getSelfPageMode(submission);
   }
-  if (submission.status === 'DRAFT') return 'CLOSED';
-  if (submission.status === 'SUBMITTED') return 'REVIEW';
-  if (submission.status === 'FEEDBACK_ACCEPTED') return 'REVIEW'
+  if (submission?.status === 'DRAFT') return 'CLOSED';
+  if (submission?.status === 'SUBMITTED') return 'REVIEW';
+  if (submission?.status === 'FEEDBACK_ACCEPTED') return 'REVIEW'
   return 'CLOSED';
   
 }
 
 export function getSelfPageMode(submission) {
-  if (submission.status === 'DRAFT') return 'DRAFT';
-  if (submission.status === 'SUBMITTED') return 'CLOSED';
+  if (submission?.status === 'DRAFT') return 'DRAFT';
+  if (submission?.status === 'SUBMITTED') return 'CLOSED';
   if (
-    submission.status === 'REVIEWED' ||
-    submission.status === 'RESUBMISSION_REQUESTED'
+    submission?.status === 'REVIEWED' ||
+    submission?.status === 'RESUBMISSION_REQUESTED'
   )
     return 'REVISE';
-  if (submission.status === 'CLOSED') return 'CLOSED';
+  if (submission?.status === 'CLOSED') return 'CLOSED';
   return 'CLOSED';
 }
 
@@ -122,17 +125,20 @@ export const findMarkingCriteria = (
 };
 
 export const getOverallComment = (overallComments, QuestionIndex) => {
-  if (overallComments.length === 0) {
+  if (overallComments?.length === 0) {
     return null;
   }
-  return overallComments.find(
+  return overallComments?.find(
     (comment) => comment?.questionSerialNumber === QuestionIndex + 1
   );
 }
 
 
 
-export const goToNewUrl = (pendingLocation) => {
+export const goToNewUrl = (pendingLocation, history, unblockRef) => {
+  if (unblockRef?.current) {
+    unblockRef.current(); 
+  }
   const port =
     window.location.port &&
     window.location.port !== '80' &&
@@ -145,7 +151,8 @@ export const goToNewUrl = (pendingLocation) => {
   const newUrl = `${window.location.protocol}//${
     window.location.hostname
   }${port}?code=${getUserId()}${path}`;
+  console.log('path', path, newUrl);
 
-  window.history.pushState('', '', newUrl);
-  window.location.reload();
+  
+  history.push(pendingLocation.pathname);
 };

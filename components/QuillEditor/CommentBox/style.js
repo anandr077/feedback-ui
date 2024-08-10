@@ -181,3 +181,13 @@ export const ModalHeading = styled.div`
 }
 `;
 
+export const ChangeButton = styled.div`
+  text-align: center;
+  white-space: nowrap;
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: var(--font-size-s);
+  line-height: 24px;
+  color: rgba(145, 139, 151, 1);
+  cursor: pointer;
+`;

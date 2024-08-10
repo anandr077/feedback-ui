@@ -18,6 +18,7 @@ import {
   Crown,
   ExemplarComponent,
   MainSideContainer,
+  ChangeButton,
 } from './style';
 import CommentIcon from '../../../static/img/graysinglecomment.svg';
 import ShareIcon from '../../../static/img/24grayshare.svg';
@@ -40,6 +41,7 @@ import {
   isShowCommentBanks,
 } from '../../FeedbacksComponents/FeedbacksRoot/rules';
 import { useOutsideAlerter } from '../../../components2/CustomHooks/useOutsideAlerter';
+import { getFirstTwoWords } from '../../../utils/strings';
 
 const CommentBox = ({
   pageMode,
@@ -55,7 +57,8 @@ const CommentBox = ({
   question,
   isFeedback,
   commentHeightRefs,
-  commentBoxContainerHeight
+  commentBoxContainerHeight,
+  QuestionIndex
 }) => {
   const { showNewComment, newCommentSerialNumber, isTeacher } =
     useContext(FeedbackContext);
@@ -64,7 +67,7 @@ const CommentBox = ({
   const role = getUserRole();
   const resizeObserver = useRef(null);
 
-  let commentBankIds = submission.assignment.questions
+  let commentBankIds = submission?.assignment.questions
     .filter((item) => item.serialNumber === newCommentSerialNumber)
     .map((item) => item.commentBankId);
 
@@ -132,7 +135,7 @@ const CommentBox = ({
             <Option onClick={() => setOpenCommentbox(!openCommentBox)}>
               <img src={CommentIcon} />
             </Option>
-            {isShareWithClass(role, submission.type) && (
+            {isShareWithClass(role, submission?.type) && (
               <Option onClick={onShareWithClassClick}>
                 <img src={ShareIcon} />
               </Option>
@@ -148,7 +151,9 @@ const CommentBox = ({
               share,
               commentBankIds,
               question,
-              selectedRange
+              selectedRange,
+              getFirstTwoWords,
+              QuestionIndex
             )}
         </MainSideContainer>
       ) : (
@@ -195,7 +200,7 @@ const CommentBox = ({
                       openShareWithStudentDialog={methods.handleShareWithClass}
                       convertToCheckedState={methods.convertToCheckedState}
                       updateExemplarComment={methods.setUpdateExemplarComment}
-                      studentId={submission.studentId}
+                      studentId={submission?.studentId}
                       selectedComment={selectedComment}
                     />
                   ) : isFeedback && comment.status !== 'RESOLVED' ? (
@@ -219,7 +224,7 @@ const CommentBox = ({
                       openShareWithStudentDialog={methods.handleShareWithClass}
                       convertToCheckedState={methods.convertToCheckedState}
                       updateExemplarComment={methods.setUpdateExemplarComment}
-                      studentId={submission.studentId}
+                      studentId={submission?.studentId}
                       selectedComment={selectedComment}
                     />
                   ) : comment.status === 'RESOLVED' ? (
@@ -243,7 +248,7 @@ const CommentBox = ({
                       openShareWithStudentDialog={methods.handleShareWithClass}
                       convertToCheckedState={methods.convertToCheckedState}
                       updateExemplarComment={methods.setUpdateExemplarComment}
-                      studentId={submission.studentId}
+                      studentId={submission?.studentId}
                       selectedComment={selectedComment}
                     />
                   ) : (
@@ -270,7 +275,9 @@ const newCommentFrame = (
   share,
   commentBankIds,
   question,
-  selectedRange
+  selectedRange,
+  getFirstTwoWords,
+  QuestionIndex
 ) => {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return selectFocusArea(methods, submission, newCommentSerialNumber);
@@ -283,7 +290,9 @@ const newCommentFrame = (
     commentBankIds,
     question,
     selectedRange,
-    submission.type
+    submission?.type,
+    getFirstTwoWords,
+    QuestionIndex
   );
 };
 
@@ -295,10 +304,16 @@ function reviewerNewComment(
   commentBankIds,
   question,
   selectedRange,
-  submissionType
+  submissionType,
+  getFirstTwoWords,
+  QuestionIndex
 ) {
-  const { smartAnnotations, setShowFloatingDialogue, allCommentBanks } =
+  const { smartAnnotations, setShowFloatingDialogue, allCommentBanks,commentBankTitle,setFeedbackBanksPopUp } =
     useContext(FeedbackContext);
+
+
+const currentCommentBank = smartAnnotations[QuestionIndex]
+
 
   if (pageMode === 'CLOSED') return <></>;
   return (
@@ -323,14 +338,15 @@ function reviewerNewComment(
                 commentBankIds={commentBankIds}
               />
             </CommentContainer>
-            {isShowCommentBanks(allCommentBanks) && (
+            {isShowCommentBanks(currentCommentBank?.smartComments) && (
               <CommentBoxContainer>
                 <ModalHeading>
-                  <h1>Comment Bank</h1>
+                  <h1>{getFirstTwoWords(currentCommentBank?.title)}</h1>
+                  <ChangeButton onClick={() => setFeedbackBanksPopUp(true)}>Change</ChangeButton>
                 </ModalHeading>
                 <ModalForSelectOption
                   onClose={setShowFloatingDialogue}
-                  optionsToSelect={allCommentBanks}
+                  optionsToSelect={currentCommentBank?.smartComments}
                   onClickOption={methods.handleShortcutAddCommentSmartAnnotaion}
                 />
               </CommentBoxContainer>
@@ -363,7 +379,7 @@ function selectFocusArea(methods, submission, newCommentSerialNumber) {
 
   const focusAreas = uniqBy(
     allFocusAreas?.filter((fa) => {
-      return submission.assignment.questions[
+      return submission?.assignment.questions[
         newCommentSerialNumber - 1
       ]?.focusAreaIds?.includes(fa.id);
     }),

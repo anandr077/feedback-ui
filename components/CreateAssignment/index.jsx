@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import Radio from '@mui/material/Radio';
@@ -47,11 +47,13 @@ import { toast } from 'react-toastify';
 import Toast from '../Toast';
 import Header from '../Header2';
 import { goToNewUrl } from '../FeedbacksComponents/FeedbacksRoot/functions';
+import { useHistory } from 'react-router-dom';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
 export default function CreateAssignment(props) {
   const UserId = getUserId();
+  const unblockRef = useRef(null);
   const queryClient = useQueryClient();
   const { assignmentId } = useParams();
 
@@ -106,6 +108,7 @@ export default function CreateAssignment(props) {
     mobileView ? 'Select' : 'Select Comment Bank'
   );
   const [pendingLocation, setPendingLocation] = React.useState(null);
+  const history = useHistory();
 
   const getStudentById = (id) => {
     return Object.values(allClassStudents)
@@ -125,6 +128,25 @@ export default function CreateAssignment(props) {
 
     return a;
   };
+
+  
+
+  React.useEffect(() => {
+    unblockRef.current = history.block((location, action) => {
+      if (assignment.status === 'DRAFT' && isChanged) {
+        setPendingLocation(location);
+        setSaveAsDraftPopup(true);
+        return false;
+      }
+      return true;
+    });
+
+    return () => {
+      if (unblockRef.current) {
+        unblockRef.current();
+      }
+   };
+  }, [history, isChanged]);
   React.useEffect(() => {
     Promise.all([
       getClasses(),
@@ -202,6 +224,7 @@ export default function CreateAssignment(props) {
   }
 
   function handleMarkingCriteriaPreview(markingCriteria) {
+    console.log('markingCriteria',markingCriteria)
     setCurrentMarkingCriteria(markingCriteria);
     setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
@@ -443,7 +466,7 @@ export default function CreateAssignment(props) {
         });
 
         toast(<Toast message={'Task saved'} />);
-        if (pendingLocation) goToNewUrl(pendingLocation);
+        if (pendingLocation)  goToNewUrl(pendingLocation, history, unblockRef);;
         return;
       } else {
         toast(<Toast message={'Could not save task'} />);
@@ -591,14 +614,21 @@ export default function CreateAssignment(props) {
         return false;
       }
     } else {
-      return true;
+      if(assignment.reviewedBy === 'TEACHER') return true;
+      else{
+        const dueDateContainer = document.getElementById('DnDContainer');
+        dueDateContainer.style.border = '1px solid red';
+
+        toast(<Toast message={'Please add reviewer'} />);
+      }
+
     }
   };
 
   const isAssignmentValid = () => {
     return isTitleValid() &&
+       isClassesValid() &&
       isQuestionsValid() &&
-      isClassesValid() &&
       isDnDValid() &&
       isDateValid()
       ? true

@@ -27,7 +27,6 @@ function OverallFeedback({
   QuestionIndex,
 }) {
   const { overallComments } = useContext(FeedbackContext);
-  console.log('overallComments', overallComments);
   const userId = getUserId();
   const overallComment = getOverallComment(overallComments, QuestionIndex);
   return (
@@ -54,11 +53,12 @@ function OverallFeedback({
               serialNumber={QuestionIndex + 1}
               overallComment={overallComment}
               updateOverAllFeedback={updateOverAllFeedback}
-              reviewer={submission.reviewerId}
+              reviewer={submission?.reviewerId}
               userId={userId}
             />
           </OverallFeedbackContainer>
         }
+        open = {true}
       />
     )
   );

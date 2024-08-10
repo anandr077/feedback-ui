@@ -330,10 +330,10 @@ function FeedbackTeacherLaptop(props) {
           ...old,
           assignment: updatedAssignment,
         }));
-        toast(<Toast message={'Comment bank changed successfully'} />);
+        toast(<Toast message={'Comment bank changed'} />);
     }})
     .catch((error) => {
-      toast(<Toast message={'Error in changing comment bank'} />);
+      toast(<Toast message={'Something went wrong'} />);
     });
 
   }

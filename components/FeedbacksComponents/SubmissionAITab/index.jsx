@@ -22,7 +22,7 @@ const SubmissionAITab = ({ handleClose, openRightPanel ,showLottie}) => {
         handleClose={handleClose}
       />
       <SubmissionBody>
-        {!showLottie ? 
+        {showLottie ? 
         <LottieContainer>
         <lottie-player
           autoplay

@@ -15,7 +15,9 @@ export const MainContainer = styled.div`
 export const InnerContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  @media (min-width: 1024px) {
+    justify-content: space-between;
+  }
   width: 100%;
   min-height: 90vh;
   position: relative;

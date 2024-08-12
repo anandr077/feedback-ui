@@ -3,9 +3,12 @@ import { MainContainer, TopSection, Button } from './style';
 import ExclamationIcon from '../../../static/img/exclamation.svg';
 import PurpleExclamationIcon from '../../../static/img/purpleExclamationIcon.svg';
 import CommentsIcon from '../../../static/img/gray_message_2.svg';
+import AIActive from '../../../static/img/AI-Active.svg';
+import AI from '../../../static/img/AI.svg';
 import PurpleCommentsIcon from '../../../static/img/purplemessage.svg';
 import TasksIcon from '../../../static/img/task.svg';
 import {
+  isShowAITab,
   isShowMarkingCriteriaAndOverallFeedbackButton,
   isShowQuestionsTab,
   isShowTaskDetailsButton,
@@ -70,9 +73,14 @@ const FeedbackRightSidebar = ({
             <img src={openRightPanel === 'tab3' ? TasksIcon : TasksIcon} />
           </Button>
         )}
-        {/* <Button isActive={openRightPanel === 'tab4'} onClick={() => handleClick('tab4')}>
-          <img src={ClockIcon} />
-        </Button> */}
+        {
+          isShowAITab(submission?.type) && (
+          <Button isActive={openRightPanel === 'tab4'} onClick={() => handleClick('tab4')}>
+          <img src={openRightPanel === 'tab4' ? AIActive : AI} />
+          </Button>
+          )
+        }
+        
       </TopSection>
     </MainContainer>
   );

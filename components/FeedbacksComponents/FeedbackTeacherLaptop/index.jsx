@@ -98,7 +98,10 @@ function FeedbackTeacherLaptop(props) {
     groupedFocusAreaIds,
     feedbanksData,
     showFeedbackBanksPopUp,
-    setFeedbackBanksPopUp
+    setFeedbackBanksPopUp,
+    openRightPanel,
+    SetOpenRightPanel,
+    showLottie,
   } = props;
   console.log('submission', submission);
 
@@ -125,9 +128,6 @@ function FeedbackTeacherLaptop(props) {
   const drawerWidth = 219;
   const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
-  const [openRightPanel, SetOpenRightPanel] = React.useState(
-    isShowMarkingCriteriaSidebar(overallComments, markingCriteriaFeedback) ? 'tab2' : null
-  );
   const allCommentBanks = feedbanksData?._embedded?.commentbanks;
   const currentCommentBankId = submission?.assignment?.questions[QuestionIndex]?.commentBankId
   const selectedCommentBankIndex = allCommentBanks?.findIndex(item => item.id === currentCommentBankId);
@@ -135,6 +135,10 @@ function FeedbackTeacherLaptop(props) {
   const [currentCommentBank, setCurrentCommentBank] = React.useState(allCommentBanks.find(
     (commentBank) => commentBank.id === currentCommentBankId
   ));
+
+  useEffect(() => {
+    SetOpenRightPanel(isShowMarkingCriteriaSidebar(overallComments, markingCriteriaFeedback) ? 'tab2' : null)
+  },[])
 
   useEffect(() => {
     if (showNewComment) {
@@ -416,7 +420,8 @@ function FeedbackTeacherLaptop(props) {
               QuestionIndex,
               setQuestionIndex,
               openLeftPanel,
-              setOtherDrafts
+              setOtherDrafts,
+              showLottie
             )}
           </Frame1388>
         </>
@@ -591,7 +596,8 @@ function answersAndFeedbacks(
   QuestionIndex,
   setQuestionIndex,
   openLeftPanel,
-  setOtherDrafts
+  setOtherDrafts,
+  showLottie
 ) {
   const handleRightSidebarClick = (tab) => {
     SetOpenRightPanel(tab);
@@ -686,6 +692,7 @@ function answersAndFeedbacks(
             methods={methods}
             setQuestionIndex={setQuestionIndex}
             pageMode={pageMode}
+            showLottie={showLottie}
           />
           <CriteriaAndOverallFeedback
             handleClick={handleRightSidebarClick}

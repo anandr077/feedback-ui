@@ -121,6 +121,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [showFocusAreaPopUp, setShowFocusArePopUp] = React.useState(false);
   const [showFocusAreaPopUpText, setShowFocusArePopUpText] = React.useState('');
   const [showFeedbackBanksPopUp, setFeedbackBanksPopUp] = React.useState(false);
+  const [openRightPanel, SetOpenRightPanel] = React.useState();
+  const [showLottie, SetShowLottie] = React.useState(false);
 
   const {
     data: submissionByIdData,
@@ -1631,6 +1633,7 @@ const checkFocusAreas = () => {
     setShowFocusArePopUp(false);
   };
   const jeddAI = () => {
+
     const q = quillRefs.current[0];
     return askJeddAI(submissionByIdData?.id, q.getText()).then((res) => {
       setSubmissionByIdData((old) => ({
@@ -1639,6 +1642,8 @@ const checkFocusAreas = () => {
         feedbackRequestType: res.feedbackRequestType,
         answers: res.answers,
       }));
+      SetOpenRightPanel('tab4');
+      SetShowLottie(true);
       let interval;
 
       function getAndUpdateSubmission() {
@@ -1799,7 +1804,10 @@ const checkFocusAreas = () => {
           groupedFocusAreaIds,
           feedbanksData,
           showFeedbackBanksPopUp,
-          setFeedbackBanksPopUp
+          setFeedbackBanksPopUp,
+          openRightPanel,
+          SetOpenRightPanel,
+          showLottie,
         }}
       />
     </FeedbackContext.Provider>

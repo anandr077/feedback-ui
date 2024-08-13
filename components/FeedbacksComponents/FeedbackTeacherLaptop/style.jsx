@@ -4,7 +4,7 @@ import {
   feedbacksIbmplexsansNormalShark20px,
   IbmplexsansNormalShark16px,
 } from '../../../styledMixins';
-import { DialogActions, DialogContent} from '@mui/material';
+import { DialogActions, DialogContent } from '@mui/material';
 
 export const AwaitFeedbackContainer = styled.div`
   display: flex;
@@ -506,6 +506,12 @@ export const Frame1366 = styled.div`
   align-self: stretch;
   gap: 16px;
   height: 100%;
+`;
+
+export const MarkingCriteriaAndCommentBankContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0px 0px 10px 0px;
 `;
 
 export const QuestionContainer = styled.div`
@@ -1023,9 +1029,8 @@ export const Frame1364ButtonText = styled.div`
   text-align: center;
 `;
 export const PoupButtons = styled(DialogActions)`
-  gap:10px;
-  
+  gap: 10px;
 `;
 export const PoupDialogContent = styled(DialogContent)`
-  padding:20px 24px 0px 24px !important;
+  padding: 20px 24px 0px 24px !important;
 `;

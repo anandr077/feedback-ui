@@ -30,6 +30,7 @@ import {
   QuillContainer,
   AnswerContainer,
   Line,
+  MarkingCriteriaAndCommentBankContainer,
 } from '../FeedbackTeacherLaptop/style';
 import { linkify } from '../../../utils/linkify';
 import OverallFeedback from '../../OverallFeedback';
@@ -44,9 +45,13 @@ import DownWhite from '../../../static/img/angledownwhite20.svg';
 import RefreshIcon from '../../../static/img/24refresh-circle-green.svg';
 import { updateAssignment } from '../../../service';
 import {
+  appendFunction,
   isShowCommentInstructions,
   isShowFocusAreaInstructions,
+  isTeacher,
 } from '../FeedbacksRoot/rules';
+import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection';
+import { MarkingCriteriaSelectionContainer } from '../../TheoryQuestionFrame/style';
 
 export function answersFrame(
   quillRefs,
@@ -67,7 +72,9 @@ export function answersFrame(
   isFeedback,
   isFocusAreas,
   openLeftPanel,
-  setOtherDrafts
+  setOtherDrafts,
+  handleCommentBankPreview,
+  handleMarkingCriteriaPreview
 ) {
   return (
     <AnswersFrame
@@ -85,7 +92,6 @@ export function answersFrame(
       handleEditorMounted={methods.handleEditorMounted}
       addOverallFeedback={methods.addOverallFeedback}
       updateOverAllFeedback={methods.updateOverAllFeedback}
-      
       comments={methods.comments}
       editorFontSize={editorFontSize}
       selectedComment={selectedComment}
@@ -99,6 +105,8 @@ export function answersFrame(
       isFocusAreas={isFocusAreas}
       openLeftPanel={openLeftPanel}
       setOtherDrafts={setOtherDrafts}
+      handleCommentBankPreview={handleCommentBankPreview}
+      handleMarkingCriteriaPreview={handleMarkingCriteriaPreview}
     ></AnswersFrame>
   );
 }
@@ -130,6 +138,8 @@ function AnswersFrame(props) {
     isFocusAreas,
     openLeftPanel,
     setOtherDrafts,
+    handleCommentBankPreview,
+    handleMarkingCriteriaPreview
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
@@ -165,7 +175,9 @@ function AnswersFrame(props) {
           newCommentFrameRef,
           share,
           isFeedback,
-          isFocusAreas
+          isFocusAreas,
+          handleCommentBankPreview,
+          handleMarkingCriteriaPreview
         )}
       </Frame1367>
       {submission?.type !== 'DOCUMENT' &&
@@ -258,13 +270,16 @@ const answerFrames = (
   QuestionIndex,
   newCommentFrameRef,
   share,
-  isFeedback
+  isFeedback,
+  handleCommentBankPreview,
+  handleMarkingCriteriaPreview
 ) => {
-  const { overallComments } = useContext(FeedbackContext);
+  const { overallComments, allCommentBanks,allMarkingCriterias } = useContext(FeedbackContext);
+  console.log('allCommentBanks', allCommentBanks);
   const [questionSlide, setQuestionSlide] = React.useState(true);
   const [inputValue, setInputValue] = React.useState('Type your question');
   const inputRef = React.useRef(null);
-  console.log('submission?.assignment',submission?.assignment);
+  console.log('submission?.assignment', submission?.assignment);
 
   React.useEffect(() => {
     if (submission?.assignment?.title) {
@@ -335,8 +350,11 @@ const answerFrames = (
     submission,
     setSubmission,
     pageMode,
-    comments,
+    comments
   )(answer);
+
+  const updateCommentBank = () => {};
+  const updateMarkingCriteria = () => {};
 
   return (
     <>
@@ -345,19 +363,53 @@ const answerFrames = (
           <QuestionContainer>
             {QuestionHeadingContainer(setQuestionSlide, questionSlide)}
             {pageMode === 'DRAFT' ? (
-              <QuestionInputBox
-                ref={inputRef}
-                slide={questionSlide}
-                type="text"
-                value={inputValue}
-                onChange={(e) => {
-                  handleInputChange(e);
-                  autoResize(e);
-                }}
-                onBlur={() => {
-                  updateAssignmentTitle(inputValue);
-                }}
-              />
+              <>
+                <QuestionInputBox
+                  ref={inputRef}
+                  slide={questionSlide}
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    autoResize(e);
+                  }}
+                  onBlur={() => {
+                    updateAssignmentTitle(inputValue);
+                  }}
+                />
+                {isTeacher && (
+                  <MarkingCriteriaAndCommentBankContainer>
+                    <MarkingCriteriaSelectionContainer padding={'0px 80px'} slide={questionSlide}>
+                      <QuestionFieldSelection
+                        label="Marking Template"
+                        items={appendFunction(allMarkingCriterias)}
+                        tooltipText="Select a Rubric (R) or list of Strengths and Targets (S&T) to use as overall feedback for this task. After reading a student's response, click on the applicable performance level/s or strengths and targets"
+                        onItemSelected={updateMarkingCriteria}
+                        currentFieldId={question?.markingCriteria}
+                        link={'/settings'}
+                        linkText="Go to marking templates"
+                        selectedIndex={0}
+                        serialNumber={QuestionIndex}
+                        handlePreview={handleMarkingCriteriaPreview}
+                      />
+                    </MarkingCriteriaSelectionContainer>
+                    <MarkingCriteriaSelectionContainer padding={'0px 80px'} slide={questionSlide}>
+                      <QuestionFieldSelection
+                        label="Comment Bank"
+                        items={allCommentBanks}
+                        tooltipText="Select a comment bank to save you time when reviewing a student's work. After highlighting a section of a student's response, simply click one of the suggested comments from the drop-down selection"
+                        onItemSelected={updateCommentBank}
+                        currentFieldId={question?.commentBankId}
+                        link={'/commentbanks'}
+                        linkText="Go to comment banks"
+                        selectedIndex={0}
+                        serialNumber={QuestionIndex}
+                        handlePreview={handleCommentBankPreview}
+                      />
+                    </MarkingCriteriaSelectionContainer>
+                  </MarkingCriteriaAndCommentBankContainer>
+                )}
+              </>
             ) : (
               <QuestionText
                 slide={questionSlide}

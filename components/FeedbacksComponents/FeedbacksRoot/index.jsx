@@ -75,7 +75,7 @@ import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
 import { allCriteriaHaveSelectedLevels } from './rules.js';
-import { useAllSubmisssionsById, useClassData, useCommentBanks, useCommentBanksById,  useCommentsById, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import { useAllSubmisssionsById, useClassData, useCommentBanks, useCommentBanksById,  useCommentsById, useMarkingCriterias, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 import { DialogContent } from '@mui/material';
 import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection.jsx';
 
@@ -178,6 +178,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setData: setFeedbanksData,
     resetData,
   } = useCommentBanks();
+  
+  const {
+    data: markingCriterias,
+    isLoadingdata: isLoadingMarkingCriterias,
+    setData: setMarkingCriterias,
+    resetData: resetMarkingCriterias,
+  } = useMarkingCriterias();
 
    const isDataLoading =
      isLoadingsubmissionByIdData ||
@@ -187,7 +194,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
      isLoadingclassData ||
      (isTeacher &&
        (isLoadingallSubmissions ||
-         isLoadingcommentBanksData || isLoadingfeedbanks));
+         isLoadingcommentBanksData || isLoadingfeedbanks || isLoadingMarkingCriterias));
 
 
   const markingCriteriaFeedback = commentsByIdData?.filter(
@@ -1719,7 +1726,7 @@ const checkFocusAreas = () => {
         comments: feedbackComments,
         showFloatingDialogue,
         setShowFloatingDialogue,
-        allCommentBanks : feedbanksData,
+        allCommentBanks : feedbanksData?._embedded?.commentbanks,
         methods,
         isTeacher,
         quillRefs,
@@ -1729,6 +1736,7 @@ const checkFocusAreas = () => {
         isResetEditorTextSelection,
         setSelectedComment,
         setFeedbackBanksPopUp,
+        allMarkingCriterias:markingCriterias,
       }}
     >
       {showSubmitPopup &&

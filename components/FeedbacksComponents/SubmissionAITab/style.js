@@ -27,11 +27,12 @@ export const SubmissionBody = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px 16px;
-  gap : 20px;
+  gap: 20px;
 `;
 
 export const LottieContainer = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 0px;
@@ -40,34 +41,42 @@ export const LottieContainer = styled.div`
   height: 122px;
 `;
 
-export const AIImage =  styled.img`
-width: 255px;
-height: 209px;
-gap: 0px;
-opacity: 0px;
+export const AIImage = styled.img`
+  width: 255px;
+  height: 209px;
+  gap: 0px;
+  opacity: 0px;
 `;
 
 export const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-padding: 20px 16px 20px 16px;
-gap: 10px;
-border-radius: 8px 0px 0px 0px;
-opacity: 0px;
-background: var(--color-neutral-80, #F2F1F3);
+  padding: 20px 16px 20px 16px;
+  gap: 10px;
+  border-radius: 8px 0px 0px 0px;
+  opacity: 0px;
+  background: var(--color-neutral-80, #f2f1f3);
   ul {
     list-style-type: disc;
     padding-left: 20px;
   }
 
   li {
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
     font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 600;
-  font-size:13px;
-  line-height: 19px;
-  color:var(--color-neutral-500, #4B464F);
-
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 19px;
+    color: var(--color-neutral-500, #4b464f);
   }
+`;
 
-  `;
+export const StyledText = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20.8px;
+  letter-spacing: -0.01em;
+  text-align: left;
+  color: #7b7382;
+`;

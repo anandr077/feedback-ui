@@ -5,6 +5,7 @@ import {
   LottieContainer,
   AIImage,
   TextContainer,
+  StyledText,
 } from './style';
 import RightSidebarHeading from '../RightSidebarHeading';
 import '@lottiefiles/lottie-player';
@@ -30,6 +31,7 @@ const SubmissionAITab = ({ handleClose, openRightPanel ,showLottie}) => {
           mode="normal"
           src="./icons/Scanning.json"
         ></lottie-player>
+         <StyledText>Scanning the document</StyledText>
         </LottieContainer> :
          <>
         <AIImage src={AIFeedbackImage} alt="AI Feedback Image" />

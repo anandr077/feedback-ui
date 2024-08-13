@@ -28,10 +28,11 @@ const SubmissionAITab = ({ handleClose, openRightPanel ,showLottie}) => {
           autoplay
           loop
           mode="normal"
+          style={{width:'122px', height:'122px'}}
           src="./icons/Scanning.json"
         ></lottie-player>
-        </LottieContainer> : <>
-
+        </LottieContainer> :
+         <>
         <AIImage src={AIFeedbackImage} alt="AI Feedback Image" />
         <TextContainer>
           <ul>

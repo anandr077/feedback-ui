@@ -4,7 +4,7 @@ export const SwitchContainer = styled.div`
   display: flex;
   align-items: center;
   user-select: none;
-  border: 1px solid #C9C6CC;
+  border: ${(props) => props.showBorder ? '1px solid #C9C6CC' : null};
   padding: 6px 8px 6px 12px;
   border-radius: 27px;
 `;

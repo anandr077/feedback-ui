@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   CheckboxContainer,
   CheckBoxText,
@@ -25,32 +25,57 @@ import { isTabletView } from '../ReactiveRender';
 import { useClasses } from '../state/hooks';
 import CheckboxBordered from '../CheckboxBordered';
 import Loader from '../Loader';
+import ToggleSwitchWithOneOption from '../../components2/ToggleSwitchWithOneOption';
 
 function JeddAI() {
   const [isShowMenu, setShowMenu] = useState(false);
   const tabletView = isTabletView();
-  const [jeddAIChecked, setJeddAIChecked] = useState(true);
-  const [rubricChecked, setRubricChecked] = useState(true);
-  const [showTitleBody, setShowTitleBody] = useState(true);
-  const [checkedClasses, setCheckedClasses] = useState({});
+  const [toggleStates, setToggleStates] = useState({});
+  const [titleVisibility, setTitleVisibility] = useState({});
 
-  const handleJeddAIChange = (event) => {
-    setJeddAIChecked(event.target.checked);
-    setRubricChecked(event.target.checked);
-  };
-  const handleRubricChange = (event) => {
-    setRubricChecked(event.target.checked);
-  };
-  const toggleSction = (event) => {
-    setShowTitleBody(!showTitleBody);
-  };
 
   const {
     data: classesData,
-    isLoadingdata: isLoadingClassesData,
-    setData: setClassesData,
-    resetData: resetClassesData,
+    isLoadingdata: isLoadingClassesData
   } = useClasses();
+
+  useEffect(() => {
+    if (classesData) {
+      const initialToggleStates = {};
+      const initialTitleVisibility = {};
+
+      classesData.forEach((clazz) => {
+        initialToggleStates[clazz.id] = {
+          jeddAI: true,
+          rubric: true,
+        };
+        initialTitleVisibility[clazz.id] = true; 
+      });
+
+      setToggleStates(initialToggleStates);
+      setTitleVisibility(initialTitleVisibility);
+    }
+
+  }, [classesData]);
+
+  const handleToggleChange = (classId, toggleType) => (event) => {
+    const { checked } = event.target;
+    setToggleStates((prevState) => ({
+      ...prevState,
+      [classId]: {
+        ...prevState[classId],
+        [toggleType]: checked,
+      },
+    }));
+  };
+
+  const toggleSection = (classId) => () => {
+    setTitleVisibility((prevState) => ({
+      ...prevState,
+      [classId]: !prevState[classId],
+    }));
+  };
+
 
   if (isLoadingClassesData) {
     return (
@@ -60,28 +85,6 @@ function JeddAI() {
     );
   }
 
-  const handleClassCheckboxChange = (classId, isChecked) => {
-    setCheckedClasses((prevCheckedClasses) => ({
-      ...prevCheckedClasses,
-      [classId]: isChecked,
-    }));
-  };
-
-  const checkboxes = classesData?.map((clazz) => {
-    return (
-      <CheckboxContainer>
-        <CheckboxBordered
-          key={clazz.id}
-          id={clazz.id}
-          checked={!!checkedClasses[clazz.id]}
-          onChange={(e) =>
-            handleClassCheckboxChange(clazz.id, e.target.checked)
-          }
-        />
-        <CheckBoxText>{clazz.title}</CheckBoxText>
-      </CheckboxContainer>
-    );
-  });
 
   return (
     <>
@@ -97,39 +100,38 @@ function JeddAI() {
             </HeadingAndFilterContainer>
           )}
           <RightContainer>
-            <TitleContainer>
-              <TitleAndArrow>
-                <ToggleArrow
-                  src={toggledown}
-                  checked={showTitleBody}
-                  onClick={toggleSction}
-                />
-                <Title>JeddAI</Title>
-              </TitleAndArrow>
-              <StyledSwitch
-                checked={jeddAIChecked}
-                onChange={handleJeddAIChange}
-                inputProps={{ 'aria-label': 'controlled' }}
-              />
-            </TitleContainer>
-            {showTitleBody && (
-              <TitleContainerBody isActive={jeddAIChecked}>
-                <RubricsContainer>
-                  <Title>Rubric marking for students</Title>
-                  <StyledSwitch
-                    checked={rubricChecked}
-                    onChange={handleRubricChange}
-                    inputProps={{ 'aria-label': 'controlled' }}
+          {classesData?.map((clazz) => (
+            <React.Fragment key={clazz.id}>
+              <TitleContainer>
+                <TitleAndArrow onClick={toggleSection(clazz.id)}>
+                  <ToggleArrow
+                    src={toggledown}
+                    checked={titleVisibility[clazz.id]}
+                    
                   />
-                </RubricsContainer>
-                <ClassesContainer>
-                  <Title>Enable JeddAI for classes</Title>
-                  <ClassesCheckboxContainer>
-                    {checkboxes}
-                  </ClassesCheckboxContainer>
-                </ClassesContainer>
-              </TitleContainerBody>
-            )}
+                  <Title>{clazz.title}</Title>
+                </TitleAndArrow>
+              </TitleContainer>
+              {titleVisibility[clazz.id] && (
+                <TitleContainerBody>
+                  <RubricsContainer isActive={toggleStates[clazz.id]?.jeddAI}>
+                    <Title>Enable JeddAI</Title>
+                    <ToggleSwitchWithOneOption
+                      onChecked={toggleStates[clazz.id]?.jeddAI}
+                      onChangeFn={handleToggleChange(clazz.id, 'jeddAI')}
+                    />
+                  </RubricsContainer>
+                  <RubricsContainer isActive={toggleStates[clazz.id]?.rubric}>
+                    <Title>Rubric marking for students</Title>
+                    <ToggleSwitchWithOneOption
+                      onChecked={toggleStates[clazz.id]?.rubric}
+                      onChangeFn={handleToggleChange(clazz.id, 'rubric')}
+                    />
+                  </RubricsContainer>
+                </TitleContainerBody>
+              )}
+            </React.Fragment>
+          ))}
           </RightContainer>
         </InnerContainer>
       </MainContainer>

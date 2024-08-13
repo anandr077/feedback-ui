@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { IbmplexsansNormalShark20px } from '../../styledMixins';
-import { Switch } from '@mui/material';
 
 export const MainContainer = styled.div`
   width: 100%;
@@ -52,58 +51,14 @@ export const TitleContainer = styled.div`
   justify-content: space-between;
 `;
 
-export const StyledSwitch = styled(Switch)`
-  & .MuiSwitch-root {
-    width: 48px !important;
-    height: 28px !important;
-    padding: 0;
-  }
 
-  & .MuiSwitch-switchBase {
-    padding: 1px;
-    margin: 1px;
-    top: 10px;
-    transform: translateX(2px);
-
-    &.Mui-checked {
-      transform: translateX(23px);
-      color: #fff;
-
-      & + .MuiSwitch-track {
-        background-color: #7200e0;
-        opacity: 1;
-        border: none;
-      }
-
-      & .MuiSwitch-thumb {
-        width: 20px;
-        height: 20px;
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
-      }
-    }
-  }
-
-  & .MuiSwitch-thumb {
-    width: 20px;
-    height: 20px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-  }
-
-  & .MuiSwitch-track {
-    height: 20px;
-    border-radius: 13px;
-    background-color: #bdbdbd;
-    opacity: 1;
-    transition: background-color 0.3s ease;
-  }
-`;
 
 export const TitleAndArrow = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
 `;
 export const Title = styled.p`
   font-family: IBM Plex Sans;
@@ -125,8 +80,7 @@ export const ToggleArrow = styled.img`
 `;
 
 export const TitleContainerBody = styled.div`
-  opacity: ${({ isActive }) => (isActive ? '1' : '0.5')};
-  pointer-events: ${({ isActive }) => (isActive ? 'auto' : 'none')};
+ 
 `;
 export const RubricsContainer = styled.div`
   padding: 20px 20px 20px 60px;
@@ -137,8 +91,9 @@ export const RubricsContainer = styled.div`
   justify-content: space-between;
   border: 0px 0px 1px 0px;
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
-  background: var(--color-neutral-white, #ffffff);
+  background: #FBF7FE;
   align-items: center;
+  opacity: ${({ isActive }) => (isActive ? '1' : '0.5')};
 `;
 export const ClassesContainer = styled.div`
   display: flex;

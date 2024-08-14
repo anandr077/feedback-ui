@@ -38,7 +38,8 @@ export const LottieContainer = styled.div`
   padding: 0px;
   z-index: 1;
   width: auto;
-  height: 122px;
+  height: 200px;
+  margin-top: 50px;
 `;
 
 export const AIImage = styled.img`

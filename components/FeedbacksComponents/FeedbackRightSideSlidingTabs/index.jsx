@@ -2,7 +2,7 @@ import React from 'react';
 import FeedbackTaskDetails from '../FeedbackTaskDetails';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
 import QuestionsDetailsTab from '../QuestionsDetailsTab';
-import SubmissionAITab from '../SubmissionAITab';
+import JeddAITab from '../JeddAITab';
 
 const FeedbackRightSideSlidingTabs = ({
   handleRightSidebarClick,
@@ -40,7 +40,7 @@ const FeedbackRightSideSlidingTabs = ({
         QuestionIndex={QuestionIndex}
         setQuestionIndex={setQuestionIndex}
       />
-      <SubmissionAITab
+      <JeddAITab
         handleClose={handleRightSidebarClick}
         openRightPanel={openRightPanel}
         showLottie={showLottie}

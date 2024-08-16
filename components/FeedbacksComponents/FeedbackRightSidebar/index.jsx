@@ -8,7 +8,7 @@ import AI from '../../../static/img/AI.svg';
 import PurpleCommentsIcon from '../../../static/img/purplemessage.svg';
 import TasksIcon from '../../../static/img/task.svg';
 import {
-  isShowAITab,
+  isShowJeddAITab,
   isShowMarkingCriteriaAndOverallFeedbackButton,
   isShowQuestionsTab,
   isShowTaskDetailsButton,
@@ -74,7 +74,7 @@ const FeedbackRightSidebar = ({
           </Button>
         )}
         {
-          isShowAITab(submission?.type) && (
+          isShowJeddAITab(submission?.type) && (
           <Button isActive={openRightPanel === 'tab4'} onClick={() => handleClick('tab4')}>
           <img src={openRightPanel === 'tab4' ? AIActive : AI} />
           </Button>

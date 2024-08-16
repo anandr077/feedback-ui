@@ -21,7 +21,7 @@ const lottieAnimations = [
   { src: './icons/Finaliasing.json', text: 'Finalising the document' },
 ];
 
-const SubmissionAITab = ({ handleClose, openRightPanel, showLottie }) => {
+const JeddAITab = ({ handleClose, openRightPanel, showLottie }) => {
   const [currentAnimationIndex, setCurrentAnimationIndex] = useState(0);
 
   useEffect(() => {
@@ -77,4 +77,4 @@ const SubmissionAITab = ({ handleClose, openRightPanel, showLottie }) => {
   );
 };
 
-export default SubmissionAITab;
+export default JeddAITab;

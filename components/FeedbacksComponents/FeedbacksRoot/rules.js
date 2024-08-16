@@ -132,7 +132,7 @@ export const isShowMarkingCriteriaAndOverallFeedbackButton = (
 export const isShowQuestionsTab = (submissionType) => {
   return submissionType !== 'DOCUMENT';
 };
-export const isShowAITab = (submissionType) => {
+export const isShowJeddAITab = (submissionType) => {
   return submissionType === 'DOCUMENT';
 };
 

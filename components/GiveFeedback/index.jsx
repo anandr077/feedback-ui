@@ -115,32 +115,6 @@ function GiveFeedback() {
     }
   };
 
-  // const communityTasksQuery = useQuery({
-  //   queryKey: ['communityTasks'],
-  //   queryFn: async () => {
-  //     const result = await getCommunityTasks();
-  //     return result;
-  //   },
-  //   staleTime: 3600000,
-  // });
-  // const giveFeedbackCompletedTasksQuery = useQuery({
-  //   queryKey: ['GiveFeedbackCompletedTasks'],
-  //   queryFn: async () => {
-  //     const result = await getGiveFeedbackCompletedTasks();
-  //     return result;
-  //   },
-  //   staleTime: 3600000,
-  // });
-
-  // const getStudentStatsQuery = useQuery({
-  //   queryKey: ['StudentStats'],
-  //   queryFn: async () => {
-  //     const result = await getStudentStats();
-  //     return result;
-  //   },
-  //   staleTime: 3600000,
-  // });
-
 
   const {
     data: communityTasksData,

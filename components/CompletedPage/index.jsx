@@ -50,6 +50,7 @@ import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
 import { getUserRole } from '../../userLocalDetails.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 import { getLocalStorage } from '../../utils/function.js';
+import { useAssignmentsAll, useCompletedAll } from '../state/hooks.js';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
@@ -60,24 +61,21 @@ export default function CompletedPage() {
   const [isShowMenu, setShowMenu] = React.useState(false);
   const tabletView = isTabletView();
   const isTeacher = getUserRole() === 'TEACHER';
+  const [isLoading, setIsLoading] = useState(true);
 
-  const assignmentsQuery = useQuery({
-    queryKey: ['assignments'],
-    queryFn: async () => {
-      const result = await getAssignments();
-      return result;
-    },
-    staleTime: 3600000,
-  });
 
-  const completedTasksQuery = useQuery({
-    queryKey: ['completedTasks'],
-    queryFn: async () => {
-      const result = await getCompletedTasks();
-      return result;
-    },
-    staleTime: 3600000,
-  });
+  const {
+    data: allAssignmentData,
+    isLoadingData: isAllAssignmentDataLoading, 
+  } = useAssignmentsAll();
+  
+  const {
+    data: allCompletedTasksData,
+    isLoadingData: isAllCompletedTasksDataLoading, 
+  } = useCompletedAll();
+
+
+ 
 
   const completedTaskFunc = (filteredTasks) =>{
     const newCompletedTask = filteredTasks.flatMap(task => {
@@ -99,8 +97,8 @@ export default function CompletedPage() {
   }
 
   React.useEffect(() => {
-    if (isTeacher && assignmentsQuery.data) {
-      const filteredTasks = assignmentsQuery.data.filter(task => {
+    if (isTeacher && allAssignmentData) {
+      const filteredTasks = allAssignmentData.filter(task => {
         const dueAtDate = new Date(task.dueAt); 
         const currentDate = new Date();
         return task.status === "PUBLISHED" && dueAtDate < currentDate
@@ -108,20 +106,19 @@ export default function CompletedPage() {
       const completedTask = completedTaskFunc(filteredTasks)
       setTasks(completedTask);
       setFilteredTasks(completedTask);
+      setIsLoading(false);
     }
-    else if (completedTasksQuery.data) {
-      setTasks(completedTasksQuery.data);
-      setFilteredTasks(completedTasksQuery.data);
+    else if (allCompletedTasksData) {
+      setTasks(allCompletedTasksData);
+      setFilteredTasks(allCompletedTasksData);
+      setIsLoading(false);
     }
-  }, [assignmentsQuery.data, completedTasksQuery.data]);
+  }, [allAssignmentData, allCompletedTasksData]);
 
-  if (assignmentsQuery.isLoading) {
+  if (isLoading) {
     return <Loader />;
   }
 
-  if(completedTasksQuery.isLoading){
-    return <Loader />;
-  }
 
   const setSelectedValue = (type, selectValue) => {
     if (type === 'classes') {

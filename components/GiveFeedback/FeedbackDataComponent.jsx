@@ -40,17 +40,24 @@ import { requestedTime } from '../../utils/requestedTime';
 import { toast } from 'react-toastify';
 import Toast from '../Toast';
 import { Avatar } from '@boringer-avatars/react';
+import { useCommunityTasks } from '../state/hooks';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
-  const queryClient = useQueryClient();
+
+  const {
+    data: communityTasksData,
+    isLoadingdata: isLoadingCommunityTasksData,
+    setData: setCommunityTasksData,
+    resetData: resetCommunityTasksData,
+  } = useCommunityTasks();
+
+
+
   const acceptMutation = useMutation({
     mutationFn: acceptFeedbackRequest,
 
     onSuccess: (data, variables) => {
-      queryClient.refetchQueries({ queryKey: ['communityTasks'] });
-      queryClient.refetchQueries({
-        queryKey: ['GiveFeedbackCompletedTasks'],
-      });
+      resetCommunityTasksData();
     },
     onSettled: () => {},
   });
@@ -61,18 +68,14 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
     onSuccess: (data, variables) => {
       const submissionId = variables;
 
-      const previousCommunityTasks = queryClient.getQueryData([
-        'communityTasks',
-      ]);
-      const updatedCommunityTasks = previousCommunityTasks.filter(
+     
+      const updatedCommunityTasks = communityTasksData.filter(
         (n) => n.submissionId !== submissionId
       );
-      queryClient.setQueryData(['communityTasks'], updatedCommunityTasks);
+      setCommunityTasksData(updatedCommunityTasks);
     },
 
     onSettled: () => {
-      queryClient.refetchQueries({ queryKey: ['communityTasks'] });
-
       toast(<Toast message={'Feedback request dismissed'} />);
     },
   });

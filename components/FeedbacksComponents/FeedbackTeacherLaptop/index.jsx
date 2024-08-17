@@ -98,11 +98,14 @@ function FeedbackTeacherLaptop(props) {
     groupedFocusAreaIds,
     feedbanksData,
     showFeedbackBanksPopUp,
-    setFeedbackBanksPopUp
+    setFeedbackBanksPopUp,
+    openRightPanel,
+    setOpenRightPanel,
+    showLottie,
   } = props;
   console.log('submission', submission);
 
-  
+
   const isMobile = isMobileView();
   const isDesktop = isDesktopView();
   const [QuestionIndex, setQuestionIndex] = React.useState(0);
@@ -118,23 +121,24 @@ function FeedbackTeacherLaptop(props) {
       questions[QuestionIndex]?.focusAreas &&
       questions[QuestionIndex]?.focusAreas.length !== 0
   );
-  
+
   const [openLeftPanel, setOpenLefPanel] = useState(false);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
   const drawerWidth = 219;
   const { showNewComment, newCommentSerialNumber } =
     useContext(FeedbackContext);
-  const [openRightPanel, SetOpenRightPanel] = React.useState(
-    isShowMarkingCriteriaSidebar(overallComments, markingCriteriaFeedback) ? 'tab2' : null
-  );
   const allCommentBanks = feedbanksData?._embedded?.commentbanks;
   const currentCommentBankId = submission?.assignment?.questions[QuestionIndex]?.commentBankId
   const selectedCommentBankIndex = allCommentBanks?.findIndex(item => item.id === currentCommentBankId);
   const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] = React.useState(false);
   const [currentCommentBank, setCurrentCommentBank] = React.useState(allCommentBanks.find(
-    (commentBank) => commentBank.id === currentCommentBankId
+      (commentBank) => commentBank.id === currentCommentBankId
   ));
+
+  useEffect(() => {
+    setOpenRightPanel(isShowMarkingCriteriaSidebar(overallComments, markingCriteriaFeedback) ? 'tab2' : null)
+  },[])
 
   useEffect(() => {
     if (showNewComment) {
@@ -200,7 +204,7 @@ function FeedbackTeacherLaptop(props) {
   }
 
 
-  
+
   const handleSelectedRequestFeedback = (itemData, type) => {
     const requestData = {
       type: type,
@@ -269,28 +273,28 @@ function FeedbackTeacherLaptop(props) {
 
 
 
-    const getNextQuestionId = (currentId) => {
-      const currentIndex = otherDrafts.findIndex(
-        (question) => question.submissionId === currentId
-      );
-      const nextIndex =
-        currentIndex + 1 < otherDrafts.length ? currentIndex + 1 : 0;
-      return otherDrafts[nextIndex]?.submissionId;
-    };
+  const getNextQuestionId = (currentId) => {
+    const currentIndex = otherDrafts.findIndex(
+      (question) => question.submissionId === currentId
+    );
+    const nextIndex =
+      currentIndex + 1 < otherDrafts.length ? currentIndex + 1 : 0;
+    return otherDrafts[nextIndex]?.submissionId;
+  };
 
-    const deleteQuestionFunction = (deleteQuestionId) => {
-      deleteSubmissionById(deleteQuestionId).then(() => {
-        if (deleteQuestionId === submission.id) {
-          const nextId = getNextQuestionId(deleteQuestionId);
-          navigate.push(`/documents/${nextId}`);
-        } else {
-          const filteredOtherDrafts = otherDrafts.filter(
-            (question) => question.submissionId !== deleteQuestionId
-          );
-          setOtherDrafts(filteredOtherDrafts);
-        }
-      });
-    };
+  const deleteQuestionFunction = (deleteQuestionId) => {
+    deleteSubmissionById(deleteQuestionId).then(() => {
+      if (deleteQuestionId === submission.id) {
+        const nextId = getNextQuestionId(deleteQuestionId);
+        navigate.push(`/documents/${nextId}`);
+      } else {
+        const filteredOtherDrafts = otherDrafts.filter(
+          (question) => question.submissionId !== deleteQuestionId
+        );
+        setOtherDrafts(filteredOtherDrafts);
+      }
+    });
+  };
 
   function handleToggleUpdate() {
     setFeedback((prev) => !prev);
@@ -303,7 +307,6 @@ function FeedbackTeacherLaptop(props) {
   };
 
   const updateCommentBank = (serialNumber, item) => {
-    console.log('first',serialNumber, item);
     setChangedCommentBankId(item.id);
   }
 
@@ -324,17 +327,17 @@ function FeedbackTeacherLaptop(props) {
     };
     setChangedCommentBankId(null);
     updateAssignment(submission?.assignment.id, updatedAssignment)
-    .then((res) => {
-      if (res) {
-        setSubmission((old) => ({
-          ...old,
-          assignment: updatedAssignment,
-        }));
-        toast(<Toast message={'Comment bank changed'} />);
+      .then((res) => {
+        if (res) {
+          setSubmission((old) => ({
+            ...old,
+            assignment: updatedAssignment,
+          }));
+          toast(<Toast message={'Comment bank changed'} />);
     }})
-    .catch((error) => {
-      toast(<Toast message={'Something went wrong'} />);
-    });
+      .catch((error) => {
+        toast(<Toast message={'Something went wrong'} />);
+      });
 
   }
 
@@ -344,8 +347,8 @@ function FeedbackTeacherLaptop(props) {
      {
         showFeedbackBanksPopUp && (
         <Dialog fullWidth={true} open={showFeedbackBanksPopUp} onClose={handleClose}>
-        <PoupDialogContent>
-        <QuestionFieldSelection 
+          <PoupDialogContent>
+            <QuestionFieldSelection
            label='Comment Bank'
            items = {allCommentBanks}
            tooltipText = "Select a comment bank to save you time when reviewing a student's work. After highlighting a section of a student's response, simply click one of the suggested comments from the drop-down selection"
@@ -353,15 +356,15 @@ function FeedbackTeacherLaptop(props) {
           currentFieldId ={currentCommentBankId}
           link = {'/commentbanks'}
           linkText ='Go to comment banks'
-          selectedIndex={selectedCommentBankIndex}
-          serialNumber={QuestionIndex}
-          handlePreview={handleCommentBankPreview}
-          />
-        </PoupDialogContent>
-        <PoupButtons>
-        <ProceedButton onClick={handleClose}> Cancel</ProceedButton>
+              selectedIndex={selectedCommentBankIndex}
+              serialNumber={QuestionIndex}
+              handlePreview={handleCommentBankPreview}
+            />
+          </PoupDialogContent>
+          <PoupButtons>
+            <ProceedButton onClick={handleClose}> Cancel</ProceedButton>
           <CancelButton onClick={handleUpdateCommentBankSubmit}>Change</CancelButton>
-        </PoupButtons>
+          </PoupButtons>
       </Dialog>)
       }
       {loader(showLoader)}
@@ -412,21 +415,22 @@ function FeedbackTeacherLaptop(props) {
               selectedRange,
               handleToggleUpdate,
               openRightPanel,
-              SetOpenRightPanel,
+              setOpenRightPanel,
               QuestionIndex,
               setQuestionIndex,
               openLeftPanel,
-              setOtherDrafts
+              setOtherDrafts,
+              showLottie
             )}
           </Frame1388>
         </>
-        <Footer 
-          openLeftPanel={openLeftPanel} 
-          isMobile={isMobile} 
-          editorFontSize={editorFontSize} 
+        <Footer
+          openLeftPanel={openLeftPanel}
+          isMobile={isMobile}
+          editorFontSize={editorFontSize}
           setEditorFontSize={setEditorFontSize}
-          answers={submission?.answers} 
-          questionIndex={QuestionIndex} 
+          answers={submission?.answers}
+          questionIndex={QuestionIndex}
         />
       </PageContainer>
       {handleFeedbackMethodTypeDialog(
@@ -587,20 +591,21 @@ function answersAndFeedbacks(
   selectedRange,
   handleToggleUpdate,
   openRightPanel,
-  SetOpenRightPanel,
+  setOpenRightPanel,
   QuestionIndex,
   setQuestionIndex,
   openLeftPanel,
-  setOtherDrafts
+  setOtherDrafts,
+  showLottie
 ) {
   const handleRightSidebarClick = (tab) => {
-    SetOpenRightPanel(tab);
+    setOpenRightPanel(tab);
   };
 
   const focusAreaComments = comments?.filter(
     (comment) => comment.type === 'FOCUS_AREA'
   );
-  
+
   const focusAreaCommentIds = focusAreaComments
     ?.filter((f) => f.questionSerialNumber === QuestionIndex + 1)
     .map((comment) => comment.focusAreaId);
@@ -608,7 +613,6 @@ function answersAndFeedbacks(
   const question = submission?.assignment.questions[QuestionIndex];
 
   const matchingFocusAreas = question?.focusAreas;
-  
 
   return (
     <Frame1386 id="content">
@@ -686,6 +690,7 @@ function answersAndFeedbacks(
             methods={methods}
             setQuestionIndex={setQuestionIndex}
             pageMode={pageMode}
+            showLottie={showLottie}
           />
           <CriteriaAndOverallFeedback
             handleClick={handleRightSidebarClick}
@@ -696,7 +701,6 @@ function answersAndFeedbacks(
             handleMarkingCriteriaLevelFeedback={
               methods.handleMarkingCriteriaLevelFeedback
             }
-            
             pageMode={pageMode}
             submission={submission}
           />

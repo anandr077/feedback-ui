@@ -401,6 +401,10 @@ export const getCommentsForSubmission = async (submissionId) =>
   await getApi(baseUrl + '/submissions/' + submissionId + '/comments');
 export const getModelResponsesForClass = async (classId) =>
   await getApi(baseUrl + '/classes/' + classId + '/modelResponses');
+export const getClassSettingForClass = async (classId) =>
+  await getApi(baseUrl + '/classsettings/' + classId );
+export const updateClassSettingForClass = async (classId,classSetting) =>
+  await putApi(baseUrl + '/classsettings/' + classId, classSetting);
 export const getStudentsForClass = async (classId) =>
   await getApi(baseUrl + '/classes/' + classId + '/students');
 export const getTeachersForClass = async (classId) =>

@@ -1,6 +1,24 @@
 import _ from 'lodash';
 import { createGlobalState } from '.';
-import { getAllMarkingCriteria, getAssignments, getClasses, getClassesWithStudents, getCommentBank, getCommentsForSubmission, getCompletedTasks, getCommunityTasks, getFeedbackBanks, getGiveFeedbackCompletedTasks, getOtherDrafts, getOverComments, getStudentStats, getSubmissionById, getSubmissionsByAssignmentId, getTeachersForClass } from '../../service';
+import {
+  getAllMarkingCriteria,
+  getAssignments,
+  getClasses,
+  getClassesWithStudents,
+  getCommentBank,
+  getCommentsForSubmission,
+  getCompletedTasks,
+  getCommunityTasks,
+  getFeedbackBanks,
+  getGiveFeedbackCompletedTasks,
+  getOtherDrafts,
+  getOverComments,
+  getStudentStats,
+  getSubmissionById,
+  getSubmissionsByAssignmentId,
+  getTeachersForClass,
+  getClassSettingForClass,
+} from '../../service';
 import { createGlobalStates } from './createGlobalStates';
 
 export const useAllSubmisssionsById = createGlobalState(
@@ -12,6 +30,10 @@ export const useOtherDraftsById = createGlobalState('otherDraftsById', getOtherD
 export const useCommentBanksById = createGlobalStates(
   'feedbackBanksById',
   getCommentBank
+);
+export const useClassSettingById = createGlobalStates(
+  'classSettingById',
+  getClassSettingForClass
 );
 export const useAssignmentsAll = createGlobalState('assignments', getAssignments);
 export const useCompletedAll = createGlobalState('completedTasks', getCompletedTasks);
@@ -41,12 +63,10 @@ export const useStudentStats = createGlobalState(
   getStudentStats
 );
 
-
 export const useCommentsById = createGlobalState(
   'commentsById',
   getCommentsForSubmission
 );
-
 
 export const useOverAllCommentsById = createGlobalState(
   'overAllCommentsById',

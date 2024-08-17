@@ -22,10 +22,11 @@ import toggledown from '../../static/img/toggledown.svg';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
 import MenuButton from '../MenuButton';
 import { isTabletView } from '../ReactiveRender';
-import { useClasses } from '../state/hooks';
+import { useClasses, useClassSettingById } from '../state/hooks';
 import CheckboxBordered from '../CheckboxBordered';
 import Loader from '../Loader';
 import ToggleSwitchWithOneOption from '../../components2/ToggleSwitchWithOneOption';
+import { updateClassSettingForClass } from '../../service';
 
 function JeddAI() {
   const [isShowMenu, setShowMenu] = useState(false);
@@ -33,40 +34,49 @@ function JeddAI() {
   const [toggleStates, setToggleStates] = useState({});
   const [titleVisibility, setTitleVisibility] = useState({});
 
-
+  const { data: classesData, isLoadingdata: isLoadingClassesData } =
+    useClasses();
   const {
-    data: classesData,
-    isLoadingdata: isLoadingClassesData
-  } = useClasses();
+    data: classSettingData,
+    isLoadingdata: isLoadingClassSettingData,
+    resetData,
+  } = useClassSettingById(classesData, true, 'id');
 
   useEffect(() => {
     if (classesData) {
-      const initialToggleStates = {};
       const initialTitleVisibility = {};
 
       classesData.forEach((clazz) => {
-        initialToggleStates[clazz.id] = {
-          jeddAI: true,
-          rubric: true,
-        };
-        initialTitleVisibility[clazz.id] = true; 
+        initialTitleVisibility[clazz.id] = true;
       });
 
-      setToggleStates(initialToggleStates);
       setTitleVisibility(initialTitleVisibility);
     }
-
   }, [classesData]);
 
   const handleToggleChange = (classId, toggleType) => (event) => {
     const { checked } = event.target;
-    setToggleStates((prevState) => ({
-      ...prevState,
-      [classId]: {
-        ...prevState[classId],
-        [toggleType]: checked,
-      },
-    }));
+
+    let { jeddAIEnabled, rubricEnabled } = classSettingData[classId - 1];
+    let updatedClassSetting = {};
+    if (toggleType === 'jeddAIEnabled') {
+      updatedClassSetting = {
+        id: classId,
+        jeddAIEnabled: checked,
+        rubricEnabled: checked,
+      };
+    } else {
+      updatedClassSetting = {
+        id: classId,
+        jeddAIEnabled: jeddAIEnabled,
+        rubricEnabled: checked,
+      };
+    }
+
+    updateClassSettingForClass(classId, updatedClassSetting).then((res) => {
+     
+      resetData();
+    });
   };
 
   const toggleSection = (classId) => () => {
@@ -76,15 +86,13 @@ function JeddAI() {
     }));
   };
 
-
-  if (isLoadingClassesData) {
+  if (isLoadingClassSettingData) {
     return (
       <>
         <Loader />
       </>
     );
   }
-
 
   return (
     <>
@@ -100,38 +108,53 @@ function JeddAI() {
             </HeadingAndFilterContainer>
           )}
           <RightContainer>
-          {classesData?.map((clazz) => (
-            <React.Fragment key={clazz.id}>
-              <TitleContainer>
-                <TitleAndArrow onClick={toggleSection(clazz.id)}>
-                  <ToggleArrow
-                    src={toggledown}
-                    checked={titleVisibility[clazz.id]}
-                    
-                  />
-                  <Title>{clazz.title}</Title>
-                </TitleAndArrow>
-              </TitleContainer>
-              {titleVisibility[clazz.id] && (
-                <TitleContainerBody>
-                  <RubricsContainer isActive={toggleStates[clazz.id]?.jeddAI}>
-                    <Title>Enable JeddAI</Title>
-                    <ToggleSwitchWithOneOption
-                      onChecked={toggleStates[clazz.id]?.jeddAI}
-                      onChangeFn={handleToggleChange(clazz.id, 'jeddAI')}
+            {classesData?.map((clazz) => (
+              <React.Fragment key={clazz.id}>
+                <TitleContainer>
+                  <TitleAndArrow onClick={toggleSection(clazz.id)}>
+                    <ToggleArrow
+                      src={toggledown}
+                      checked={titleVisibility[clazz.id]}
                     />
-                  </RubricsContainer>
-                  <RubricsContainer isActive={toggleStates[clazz.id]?.rubric}>
-                    <Title>Rubric marking for students</Title>
-                    <ToggleSwitchWithOneOption
-                      onChecked={toggleStates[clazz.id]?.rubric}
-                      onChangeFn={handleToggleChange(clazz.id, 'rubric')}
-                    />
-                  </RubricsContainer>
-                </TitleContainerBody>
-              )}
-            </React.Fragment>
-          ))}
+                    <Title>{clazz.title}</Title>
+                  </TitleAndArrow>
+                </TitleContainer>
+                {titleVisibility[clazz.id] && (
+                  <TitleContainerBody>
+                    <RubricsContainer
+                      isActive={classSettingData[clazz.id - 1]?.jeddAIEnabled}
+                    >
+                      <Title>Enable JeddAI</Title>
+                      <ToggleSwitchWithOneOption
+                        onChecked={
+                          classSettingData[clazz.id - 1]?.jeddAIEnabled ===
+                          'true'
+                        }
+                        onChangeFn={handleToggleChange(
+                          clazz.id,
+                          'jeddAIEnabled'
+                        )}
+                      />
+                    </RubricsContainer>
+                    <RubricsContainer
+                      isActive={classSettingData[clazz.id - 1]?.rubricEnabled}
+                    >
+                      <Title>Rubric marking for students</Title>
+                      <ToggleSwitchWithOneOption
+                        onChecked={
+                          classSettingData[clazz.id - 1]?.rubricEnabled ===
+                          'true'
+                        }
+                        onChangeFn={handleToggleChange(
+                          clazz.id,
+                          'rubricEnabled'
+                        )}
+                      />
+                    </RubricsContainer>
+                  </TitleContainerBody>
+                )}
+              </React.Fragment>
+            ))}
           </RightContainer>
         </InnerContainer>
       </MainContainer>

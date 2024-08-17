@@ -33,6 +33,7 @@ import { getUserRole } from '../../userLocalDetails';
 import MenuButton from '../MenuButton';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
 import { getLocalStorage } from '../../utils/function';
+import { useCommunityTasks, useGiveFeedbackCompletedTasks, useStudentStats } from '../state/hooks';
 
 function GiveFeedback() {
   const [showHistory, setShowHistory] = React.useState(false);
@@ -114,46 +115,42 @@ function GiveFeedback() {
     }
   };
 
-  const communityTasksQuery = useQuery({
-    queryKey: ['communityTasks'],
-    queryFn: async () => {
-      const result = await getCommunityTasks();
-      return result;
-    },
-    staleTime: 3600000,
-  });
-  const giveFeedbackCompletedTasksQuery = useQuery({
-    queryKey: ['GiveFeedbackCompletedTasks'],
-    queryFn: async () => {
-      const result = await getGiveFeedbackCompletedTasks();
-      return result;
-    },
-    staleTime: 3600000,
-  });
 
-  const getStudentStatsQuery = useQuery({
-    queryKey: ['StudentStats'],
-    queryFn: async () => {
-      const result = await getStudentStats();
-      return result;
-    },
-    staleTime: 3600000,
-  });
+  const {
+    data: communityTasksData,
+    isLoadingdata: isLoadingCommunityTasksData,
+    setData: setCommunityTasksData,
+    resetData: resetCommunityTasksData,
+  } = useCommunityTasks();
+  
+  const {
+    data: giveFeedbackCompletedTasksData,
+    isLoadingdata: isLoadingGiveFeedbackCompletedTasksData,
+    setData: setGiveFeedbackCompletedTasksData,
+    resetData: resetGiveFeedbackCompletedTasksData,
+  } = useGiveFeedbackCompletedTasks();
+  
+  const {
+    data: studentStatsData,
+    isLoadingdata: isLoadingStudentStatsData,
+    setData: setStudentStatsData,
+    resetData: resetStudentStatsData,
+  } = useStudentStats();
 
   React.useEffect(() => {
-    if (communityTasksQuery.data) {
-      setCommunityTasks(communityTasksQuery.data);
+    if (communityTasksData) {
+      setCommunityTasks(communityTasksData);
     }
-    if (giveFeedbackCompletedTasksQuery.data) {
-      setGiveFeedbackCompletedTasks(giveFeedbackCompletedTasksQuery.data);
+    if (giveFeedbackCompletedTasksData) {
+      setGiveFeedbackCompletedTasks(giveFeedbackCompletedTasksData);
     }
-    if (getStudentStatsQuery.data) {
-      setStudentStats(getStudentStatsQuery.data);
+    if (studentStatsData) {
+      setStudentStats(studentStatsData);
     }
   }, [
-    communityTasksQuery,
-    giveFeedbackCompletedTasksQuery,
-    getStudentStatsQuery,
+    communityTasksData,
+    giveFeedbackCompletedTasksData,
+    studentStatsData,
   ]);
 
   let statesData = ['NSW', 'VIC', 'QLD', 'NT', 'SA', 'TAS', 'WA'];
@@ -167,9 +164,9 @@ function GiveFeedback() {
     'Reflective',
   ];
   if (
-    communityTasksQuery.isLoading ||
-    giveFeedbackCompletedTasksQuery.isLoading ||
-    getStudentStatsQuery.isLoading
+    isLoadingCommunityTasksData ||
+    isLoadingGiveFeedbackCompletedTasksData ||
+    isLoadingStudentStatsData
   ) {
     return (
       <>
@@ -273,8 +270,7 @@ function GiveFeedback() {
                     : filteredData(communityTasks)
                 }
                 pathName={pathName}
-                giveFeedbackCompletedTasks={giveFeedbackCompletedTasks}
-                setGiveFeedbackCompletedTasks={setGiveFeedbackCompletedTasks}
+               
               />
             </LeftContentContainer>
             {/* <RightContentContainer>

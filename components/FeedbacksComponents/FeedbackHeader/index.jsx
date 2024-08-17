@@ -265,6 +265,7 @@ function submitButtonOnDocument(
   showTeacherPopUp,
   setShowTeacherPopUp
 ) {
+  
   if (pageMode === 'DRAFT') {
     return (
       <>
@@ -339,11 +340,7 @@ function submitButtonOnDocument(
           {<JeddAiImageForAnimation src="/img/jeddleaiIcon.svg" />}
           <Label16pxSmall>
             <div>JeddAI is working on your feedback</div>
-            <div>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+            
           </Label16pxSmall>
         </JeddAiAnimatedTextContainer>
       );

@@ -2,7 +2,7 @@ import React from 'react';
 import FeedbackTaskDetails from '../FeedbackTaskDetails';
 import CriteriaAndOverallFeedback from '../CriteriaAndOverallFeedback';
 import QuestionsDetailsTab from '../QuestionsDetailsTab';
-import SubmissionHistoryTab from '../SubmissionHistoryTab';
+import JeddAITab from '../JeddAITab';
 
 const FeedbackRightSideSlidingTabs = ({
   handleRightSidebarClick,
@@ -11,7 +11,8 @@ const FeedbackRightSideSlidingTabs = ({
   QuestionIndex,
   methods,
   setQuestionIndex,
-  pageMode
+  pageMode,
+  showLottie
 }) => {
   
   return (
@@ -39,9 +40,10 @@ const FeedbackRightSideSlidingTabs = ({
         QuestionIndex={QuestionIndex}
         setQuestionIndex={setQuestionIndex}
       />
-      <SubmissionHistoryTab
+      <JeddAITab
         handleClose={handleRightSidebarClick}
         openRightPanel={openRightPanel}
+        showLottie={showLottie}
       />
     </>
   );

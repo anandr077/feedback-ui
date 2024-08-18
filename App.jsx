@@ -204,7 +204,7 @@ function App() {
                   <Route path="/commentbanks">
                     <ProtectedCommentbanks />
                   </Route>
-                  <Route path="/JeddAI">
+                  <Route path="/jeddai">
                     <ProtectedJeddAI />
                   </Route>
                   <Route path="/404">

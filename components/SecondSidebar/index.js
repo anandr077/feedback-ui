@@ -210,8 +210,8 @@ const SecondSidebar = ({ id, setShowMenu }) => {
       icon: AIUnSelected,
       selectedIcon: AISelected,
       title: 'JeddAI',
-      link: '/JeddAI',
-      matchLink: '/JeddAI',
+      link: '/jeddai',
+      matchLink: '/jeddai',
     },
   ];
 
@@ -238,7 +238,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
           subLinks: [subLinks[6], subLinks[7],subLinks[10]],
         },
         {
-          link: '/JeddAI',
+          link: '/jeddai',
           subLinks: [subLinks[6], subLinks[7],subLinks[10]],
         },
       ]
@@ -310,7 +310,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
           subLinks: [subLinks[6], subLinks[7],subLinks[10]],
         },
         {
-          link: '/JeddAI',
+          link: '/jeddai',
           subLinks: [subLinks[6], subLinks[7],subLinks[10]],
         },
         {

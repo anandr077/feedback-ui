@@ -16,7 +16,7 @@ import {
   getStudentStats,
   getSubmissionById,
   getSubmissionsByAssignmentId,
-  getTeachersForClass,
+  getTeachersForClass, getModelResponses,
   getClassSettingForClass,
   getIsJeddAIEnabled,
 } from '../../service';
@@ -79,6 +79,10 @@ export const useCommentsById = createGlobalState(
 export const useOverAllCommentsById = createGlobalState(
   'overAllCommentsById',
   getOverComments
+);
+export const useModelResponces = createGlobalState(
+  'modelResponces',
+  getModelResponses
 );
 
 export const useSubmissionById = createGlobalState(

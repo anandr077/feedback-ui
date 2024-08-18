@@ -122,9 +122,7 @@ const Frame1413 = styled.div`
   flex-direction: column;
   align-items: flex-start;
   position: relative;
-  // width: 60%;
-  // height: 90vh;
-
+  height: 90vh;
   flex: ${({ secondDivEmpty }) => (!secondDivEmpty ? '1' : '0 0 60%')};
   overflow-y: scroll;
   &::-webkit-scrollbar {

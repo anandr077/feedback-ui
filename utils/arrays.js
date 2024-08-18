@@ -10,7 +10,7 @@ export const isNullOrEmpty = (arr) => {
 
 export function arrayFromArrayOfObject(givenArray, key) {
   let arr = [];
-  givenArray.map((obj) => {
+  givenArray?.map((obj) => {
     if (!arr.includes(obj[key])) {
       arr.push(obj[key]);
     }

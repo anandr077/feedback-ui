@@ -207,6 +207,7 @@ export const account = async () => {
   window.open(jeddleBaseUrl + '/account');
 };
 export const getTasks = async () => await getApi(baseUrl + '/tasks');
+export const getIsJeddAIEnabled = async () => await getApi(baseUrl + '/users/isJeddAIEnabled');
 export const getCommunityTasks = async () =>
   await getApi(baseUrl + '/communityTasks');
 export const getGiveFeedbackCompletedTasks = async () =>

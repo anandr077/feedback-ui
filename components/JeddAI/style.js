@@ -84,16 +84,14 @@ export const TitleContainerBody = styled.div`
 `;
 export const RubricsContainer = styled.div`
   padding: 20px 20px 20px 60px;
-  border: 0px 0px 1px 0px;
-  opacity: 0.5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border: 0px 0px 1px 0px;
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
   background: #FBF7FE;
   align-items: center;
   opacity: ${({ isActive }) => (isActive ? '1' : '0.5')};
+  pointer-events: ${({ isEnabled }) => (isEnabled ? 'auto' : 'none')};
 `;
 export const ClassesContainer = styled.div`
   display: flex;

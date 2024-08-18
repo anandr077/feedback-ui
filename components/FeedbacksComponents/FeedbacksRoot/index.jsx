@@ -75,7 +75,7 @@ import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
 import { allCriteriaHaveSelectedLevels, isShowJeddAITab } from './rules.js';
-import { useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import { useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 import { DialogContent } from '@mui/material';
 import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection.jsx';
 import { getLocalStorage } from '../../../utils/function.js';
@@ -132,13 +132,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     resetData: resetSubmissionByIdData,
   } = useSubmissionById(id);
 
-  const {
-    data: classSettingData,
-    isLoadingdata: isLoadingClassSettingData,
-    resetData : resetClassSettingData,
-  } = useClassSettingById(getLocalStorage('classes') ? getLocalStorage('classes'):[] , isShowJeddAITab(submissionByIdData?.type), 'id');
-
-  console.log('classSettingData',classSettingData,isLoadingClassSettingData);
+  
   const {
     data: commentsByIdData,
     isLoadingdata: isLoadingcommentsByIdData,
@@ -158,8 +152,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     resetData: resetOtherDraftsById,
   } = useOtherDraftsById(id);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
+  const { data: isJeddAIEnabled, isLoadingdata: isLoadingJeddAIEnabled } = useIsJeddAIEnabled();
  
-
 
   useEffect(() => {
     setIsLoading(true);
@@ -196,7 +190,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     isLoadingoverAllCommentsById ||
     isLoadingotherDraftsById ||
     isLoadingclassData ||
-    isLoadingClassSettingData ||
+    isLoadingJeddAIEnabled||
     (isTeacher &&
       (isLoadingallSubmissions ||
          isLoadingcommentBanksData || isLoadingfeedbanks));
@@ -1741,7 +1735,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         isResetEditorTextSelection,
         setSelectedComment,
         setFeedbackBanksPopUp,
-        classSettingData,
+        isJeddAIEnabled
       }}
     >
       {showSubmitPopup &&

@@ -6,7 +6,6 @@ import {
 import AntSwitch from '../../components/FeedbacksComponents/AntSwitch';
 
 const ToggleSwitchWithOneOption = ({ text=null, onChecked, onChangeFn }) => {
-  console.log('onChecked',onChecked);
 
   return (
     <SwitchContainer showBorder={text}>

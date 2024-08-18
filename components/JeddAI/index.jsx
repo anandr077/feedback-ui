@@ -42,6 +42,7 @@ function JeddAI() {
     resetData,
   } = useClassSettingById(classesData, true, 'id');
 
+
   useEffect(() => {
     if (classesData) {
       const initialTitleVisibility = {};
@@ -56,7 +57,6 @@ function JeddAI() {
 
   const handleToggleChange = (classId, toggleType) => (event) => {
     const { checked } = event.target;
-
     let { jeddAIEnabled, rubricEnabled } = classSettingData[classId - 1];
     let updatedClassSetting = {};
     if (toggleType === 'jeddAIEnabled') {
@@ -122,13 +122,13 @@ function JeddAI() {
                 {titleVisibility[clazz.id] && (
                   <TitleContainerBody>
                     <RubricsContainer
-                      isActive={classSettingData[clazz.id - 1]?.jeddAIEnabled}
+                      isActive={classSettingData[clazz.id - 1]?.jeddAIEnabled }
+                      isEnabled = {true}
                     >
                       <Title>Enable JeddAI</Title>
                       <ToggleSwitchWithOneOption
                         onChecked={
-                          classSettingData[clazz.id - 1]?.jeddAIEnabled ===
-                          'true'
+                          classSettingData[clazz.id - 1]?.jeddAIEnabled 
                         }
                         onChangeFn={handleToggleChange(
                           clazz.id,
@@ -138,12 +138,12 @@ function JeddAI() {
                     </RubricsContainer>
                     <RubricsContainer
                       isActive={classSettingData[clazz.id - 1]?.rubricEnabled}
+                      isEnabled={classSettingData[clazz.id - 1]?.jeddAIEnabled}                    
                     >
                       <Title>Rubric marking for students</Title>
                       <ToggleSwitchWithOneOption
                         onChecked={
-                          classSettingData[clazz.id - 1]?.rubricEnabled ===
-                          'true'
+                          classSettingData[clazz.id - 1]?.rubricEnabled
                         }
                         onChangeFn={handleToggleChange(
                           clazz.id,

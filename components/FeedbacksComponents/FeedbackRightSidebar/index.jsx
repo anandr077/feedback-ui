@@ -4,7 +4,7 @@ import ExclamationIcon from '../../../static/img/exclamation.svg';
 import PurpleExclamationIcon from '../../../static/img/purpleExclamationIcon.svg';
 import CommentsIcon from '../../../static/img/gray_message_2.svg';
 import AIActive from '../../../static/img/AI-Active.svg';
-import AI from '../../../static/img/AI.svg';
+import AI from '../../../static/img/ai.svg';
 import PurpleCommentsIcon from '../../../static/img/purplemessage.svg';
 import TasksIcon from '../../../static/img/task.svg';
 import {

@@ -74,10 +74,11 @@ import Header from '../../Header2/index.jsx';
 import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
-import { allCriteriaHaveSelectedLevels } from './rules.js';
-import { useAllSubmisssionsById, useClassData, useCommentBanks, useCommentBanksById,  useCommentsById, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import { allCriteriaHaveSelectedLevels, isShowJeddAITab } from './rules.js';
+import { useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 import { DialogContent } from '@mui/material';
 import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection.jsx';
+import { getLocalStorage } from '../../../utils/function.js';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -130,6 +131,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setData: setSubmissionByIdData,
     resetData: resetSubmissionByIdData,
   } = useSubmissionById(id);
+
+  
   const {
     data: commentsByIdData,
     isLoadingdata: isLoadingcommentsByIdData,
@@ -149,8 +152,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     resetData: resetOtherDraftsById,
   } = useOtherDraftsById(id);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
-
-
+  const { data: isJeddAIEnabled, isLoadingdata: isLoadingJeddAIEnabled } = useIsJeddAIEnabled();
+ 
 
   useEffect(() => {
     setIsLoading(true);
@@ -187,6 +190,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     isLoadingoverAllCommentsById ||
     isLoadingotherDraftsById ||
     isLoadingclassData ||
+    isLoadingJeddAIEnabled||
     (isTeacher &&
       (isLoadingallSubmissions ||
          isLoadingcommentBanksData || isLoadingfeedbanks));
@@ -1731,6 +1735,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         isResetEditorTextSelection,
         setSelectedComment,
         setFeedbackBanksPopUp,
+        isJeddAIEnabled
       }}
     >
       {showSubmitPopup &&

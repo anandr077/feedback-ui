@@ -456,7 +456,15 @@ export default function CreateAssignment(props) {
 
   const saveDraft = () => {
     if (showSaveAsDraftPopup) setSaveAsDraftPopup(false);
-    updateAssignment(assignment.id, assignment).then((res) => {
+    let updatedAssignment = { ...assignment };
+    if (updatedAssignment.reviewedBy === 'NONE') {
+    updatedAssignment.reviewedBy = 'TEACHER';
+    setAssignment((prevAssignment) => ({
+      ...prevAssignment,
+      reviewedBy: 'TEACHER',
+    }));
+  }
+    updateAssignment(assignment.id, updatedAssignment).then((res) => {
       if (res.status === 'DRAFT') {
         queryClient.invalidateQueries(['notifications']);
         queryClient.invalidateQueries(['tasks']);
@@ -466,7 +474,7 @@ export default function CreateAssignment(props) {
         });
 
         toast(<Toast message={'Task saved'} />);
-        if (pendingLocation)  goToNewUrl(pendingLocation, history, unblockRef);;
+        if (pendingLocation)  goToNewUrl(pendingLocation, history, unblockRef);
         return;
       } else {
         toast(<Toast message={'Could not save task'} />);
@@ -764,7 +772,7 @@ export default function CreateAssignment(props) {
     setSaveAsDraftPopup(false);
   };
   const cancelSaveAsDraftPopup = () => {
-    if (pendingLocation) goToNewUrl(pendingLocation);
+    if (pendingLocation) goToNewUrl(pendingLocation, history, unblockRef);
     setSaveAsDraftPopup(false);
   };
   const showPublishPopuphandler = (assignmentId) => {

@@ -58,15 +58,13 @@ const JeddAITab = ({ handleClose, openRightPanel, showLottie }) => {
             <TextContainer>
               <ul>
                 <li>
-                  Sorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Submit a draft to JeddAI for instant feedback
                 </li>
                 <li>
-                  Nunc vulputate libero et velit interdum, ac aliquet odio
-                  mattis.
+                  JeddAI offers practical and reliable feedback on your work by using teacher-trained marking models
                 </li>
                 <li>
-                  Class aptent taciti sociosqu ad litora torquent per conubia
-                  nostra, per inceptos himenaeos.
+                  Remember to look at both the specific suggestions and overall comments to maximise your results
                 </li>
               </ul>
             </TextContainer>

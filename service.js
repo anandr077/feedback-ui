@@ -403,7 +403,7 @@ export const getCommentsForSubmission = async (submissionId) =>
 export const getModelResponsesForClass = async (classId) =>
   await getApi(baseUrl + '/classes/' + classId + '/modelResponses');
 export const getClassSettingForClass = async (classId) =>
-  await getApi(baseUrl + '/classsettings/' + classId );
+  await getApi(baseUrl + '/classes/' + classId + '/settings');
 export const updateClassSettingForClass = async (classId,classSetting) =>
   await putApi(baseUrl + '/classsettings/' + classId, classSetting);
 export const getStudentsForClass = async (classId) =>

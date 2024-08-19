@@ -139,6 +139,7 @@ function isSettingItems(role, location, checkIsActive){
     '/markingTemplates/strengths-and-targets',
     '/markingTemplates/rubrics',
     '/commentbanks',
+    '/jeddai'
   ];
 
   return{

@@ -45,7 +45,7 @@ function JeddAI() {
 
 
   useEffect(() => {
-    if (!isLoadingClassSettingData) {
+    if (!isLoadingClassSettingData && classesData) {
       const initialTitleVisibility = {};
 
       classesData.forEach((clazz) => {
@@ -57,10 +57,10 @@ function JeddAI() {
     }
   }, [isLoadingClassSettingData]);
 
-  const handleToggleChange = (classId, toggleType) => (event) => {
+
+  const handleToggleChange = (classId, toggleType) => async (event) => {
     const { checked } = event.target;
-    let { jeddAIEnabled, rubricEnabled } =
-      classSettingData[Number(classId) - 1];
+    let { jeddAIEnabled, rubricEnabled } = classSettingData.find(setting => setting.id === classId);
     let updatedClassSetting = {};
     if (toggleType === 'jeddAIEnabled') {
       updatedClassSetting = {
@@ -76,9 +76,13 @@ function JeddAI() {
       };
     }
 
-    updateClassSettingForClass(classId, updatedClassSetting).then((res) => {
+    try {
+      await updateClassSettingForClass(classId, updatedClassSetting);
       resetData();
-    });
+    } catch (error) {
+      console.error("Error updating class setting:", error);
+      
+    } 
   };
 
   const toggleSection = (classId) => () => {
@@ -110,7 +114,9 @@ function JeddAI() {
             </HeadingAndFilterContainer>
           )}
           <RightContainer>
-            {classesData?.map((clazz) => (
+            {classesData?.map((clazz) => {
+            const setting = classSettingData?.find(setting => setting.id === clazz.id)
+            return (
               <React.Fragment key={clazz.id}>
                 <TitleContainer>
                   <TitleAndArrow onClick={toggleSection(clazz.id)}>
@@ -125,14 +131,14 @@ function JeddAI() {
                   <TitleContainerBody>
                     <RubricsContainer
                       isActive={
-                        classSettingData[Number(clazz.id) - 1]?.jeddAIEnabled
+                        setting?.jeddAIEnabled
                       }
                       isEnabled={true}
                     >
                       <Title>Enable JeddAI</Title>
                       <ToggleSwitchWithOneOption
                         onChecked={
-                          classSettingData[Number(clazz.id) - 1]?.jeddAIEnabled
+                          setting?.jeddAIEnabled
                         }
                         onChangeFn={handleToggleChange(
                           clazz.id,
@@ -142,16 +148,16 @@ function JeddAI() {
                     </RubricsContainer>
                     <RubricsContainer
                       isActive={
-                        classSettingData[Number(clazz.id) - 1]?.rubricEnabled
+                        setting?.rubricEnabled
                       }
                       isEnabled={
-                        classSettingData[Number(clazz.id) - 1]?.jeddAIEnabled
+                        setting?.jeddAIEnabled
                       }
                     >
                       <Title>Rubric marking for students</Title>
                       <ToggleSwitchWithOneOption
                         onChecked={
-                          classSettingData[Number(clazz.id) - 1]?.rubricEnabled
+                          setting?.rubricEnabled
                         }
                         onChangeFn={handleToggleChange(
                           clazz.id,
@@ -162,7 +168,8 @@ function JeddAI() {
                   </TitleContainerBody>
                 )}
               </React.Fragment>
-            ))}
+            )}
+            )}
           </RightContainer>
         </InnerContainer>
       </MainContainer>

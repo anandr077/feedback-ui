@@ -98,6 +98,11 @@ export const LeftContentContainer = styled.div`
   @media (max-width: 1024px) {
     width: 100%;
   }
+  height: 90vh;
+   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export const RightContentContainer = styled.div`
   display: flex;

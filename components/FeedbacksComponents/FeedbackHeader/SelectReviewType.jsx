@@ -27,9 +27,10 @@ import ai from '../../../static/img/ai.svg';
 import rightarrow from '../../../static/img/Vector13.svg';
 import expert from '../../../static/img/Expert-check.svg';
 import profileCircle from '../../../static/img/profile-circle.svg';
-import { createRequestFeddbackType } from '../../../service';
+import { createRequestFeddbackType, getIsJeddAIEnabled } from '../../../service';
 import { isNonSchoolStudent } from '../../MainSidebar/rules';
 import { getLocalStorage } from '../../../utils/function';
+import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 const SelectReviewType = ({
   submission,
@@ -56,6 +57,11 @@ const SelectReviewType = ({
   const localClasses = getLocalStorage('classes');
   const showClassMate = uniqueStudents.length > 0;
   const showTeacher = uniqueTeachers.length > 0;
+
+  const { isJeddAIEnabled } = React.useContext(FeedbackContext);
+ 
+    
+
   const requestFeedback = (submissionId, requestType) => (id) => {
     createRequestFeddbackType(submissionId, {
       type: requestType,
@@ -130,18 +136,20 @@ const SelectReviewType = ({
             />
           </Frame1334>
           <Frame5053>
-            <Frame5053Card1
-              bg="jeddai"
-              onClick={() => {
-                methods.jeddAI().then(() => ClosePopUp());
-              }}
-            >
-              <Frame5053Card1Img src={ai} />
-              <CardContainer>
-                <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
-                <CardPara2>Immediate feedback using AI</CardPara2>
-              </CardContainer>
-            </Frame5053Card1>
+            {isJeddAIEnabled && (
+              <Frame5053Card1
+                bg="jeddai"
+                onClick={() => {
+                  methods.jeddAI().then(() => ClosePopUp());
+                }}
+              >
+                <Frame5053Card1Img src={ai} />
+                <CardContainer>
+                  <Frame5053Card1Para>JeddAI</Frame5053Card1Para>
+                  <CardPara2>Immediate feedback using AI</CardPara2>
+                </CardContainer>
+              </Frame5053Card1>
+            )}
             {showTeacher && !isTeacher && (
               <Frame5053Card2 onClick={ShowTeacher}>
                 <Frame5053Card2Data>

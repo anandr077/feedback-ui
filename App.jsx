@@ -44,6 +44,7 @@ import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
 import { shouldShowComponent } from './rules';
 import { getLocalStorage } from './utils/function';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import JeddAI from './components/JeddAI';
 
 function App() {
   const role = getUserRole();
@@ -97,6 +98,7 @@ function App() {
   const ProtectedCompletedRoot = middleware(CompletedPage);
 
   const ProtectedCommentbanks = middleware(CommentBanks);
+  const ProtectedJeddAI = middleware(JeddAI);
 
   const portfolioClient = new QueryClient();
 
@@ -201,6 +203,9 @@ function App() {
                   </Route>
                   <Route path="/commentbanks">
                     <ProtectedCommentbanks />
+                  </Route>
+                  <Route path="/jeddai">
+                    <ProtectedJeddAI />
                   </Route>
                   <Route path="/404">
                     <PageNotFound />

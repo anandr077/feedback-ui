@@ -33,6 +33,7 @@ function JeddAI() {
   const tabletView = isTabletView();
   const [toggleStates, setToggleStates] = useState({});
   const [titleVisibility, setTitleVisibility] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const { data: classesData, isLoadingdata: isLoadingClassesData } =
     useClasses();
@@ -44,7 +45,7 @@ function JeddAI() {
 
 
   useEffect(() => {
-    if (classesData) {
+    if (!isLoadingClassSettingData) {
       const initialTitleVisibility = {};
 
       classesData.forEach((clazz) => {
@@ -52,12 +53,14 @@ function JeddAI() {
       });
 
       setTitleVisibility(initialTitleVisibility);
+      setIsLoading(false);
     }
-  }, [classesData]);
+  }, [isLoadingClassSettingData]);
 
   const handleToggleChange = (classId, toggleType) => (event) => {
     const { checked } = event.target;
-    let { jeddAIEnabled, rubricEnabled } = classSettingData[classId - 1];
+    let { jeddAIEnabled, rubricEnabled } =
+      classSettingData[Number(classId) - 1];
     let updatedClassSetting = {};
     if (toggleType === 'jeddAIEnabled') {
       updatedClassSetting = {
@@ -74,7 +77,6 @@ function JeddAI() {
     }
 
     updateClassSettingForClass(classId, updatedClassSetting).then((res) => {
-     
       resetData();
     });
   };
@@ -86,7 +88,7 @@ function JeddAI() {
     }));
   };
 
-  if (isLoadingClassSettingData) {
+  if (isLoading) {
     return (
       <>
         <Loader />
@@ -122,13 +124,15 @@ function JeddAI() {
                 {titleVisibility[clazz.id] && (
                   <TitleContainerBody>
                     <RubricsContainer
-                      isActive={classSettingData[clazz.id - 1]?.jeddAIEnabled }
-                      isEnabled = {true}
+                      isActive={
+                        classSettingData[Number(clazz.id) - 1]?.jeddAIEnabled
+                      }
+                      isEnabled={true}
                     >
                       <Title>Enable JeddAI</Title>
                       <ToggleSwitchWithOneOption
                         onChecked={
-                          classSettingData[clazz.id - 1]?.jeddAIEnabled 
+                          classSettingData[Number(clazz.id) - 1]?.jeddAIEnabled
                         }
                         onChangeFn={handleToggleChange(
                           clazz.id,
@@ -137,13 +141,17 @@ function JeddAI() {
                       />
                     </RubricsContainer>
                     <RubricsContainer
-                      isActive={classSettingData[clazz.id - 1]?.rubricEnabled}
-                      isEnabled={classSettingData[clazz.id - 1]?.jeddAIEnabled}                    
+                      isActive={
+                        classSettingData[Number(clazz.id) - 1]?.rubricEnabled
+                      }
+                      isEnabled={
+                        classSettingData[Number(clazz.id) - 1]?.jeddAIEnabled
+                      }
                     >
                       <Title>Rubric marking for students</Title>
                       <ToggleSwitchWithOneOption
                         onChecked={
-                          classSettingData[clazz.id - 1]?.rubricEnabled
+                          classSettingData[Number(clazz.id) - 1]?.rubricEnabled
                         }
                         onChangeFn={handleToggleChange(
                           clazz.id,

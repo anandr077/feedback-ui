@@ -78,6 +78,9 @@ import { allCriteriaHaveSelectedLevels } from './rules.js';
 import { useAllSubmisssionsById, useClassData, useCommentBanks, useCommentBanksById,  useCommentsById, useMarkingCriterias, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 import { DialogContent } from '@mui/material';
 import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection.jsx';
+import JeddAIFeedbackTypeSelection from '../JeddAIFeedbackTypeSelection/index.jsx';
+import PreviewDialog from '../../Shared/Dialogs/preview/previewCard.jsx';
+import CommentBankDialog from '../../Shared/Dialogs/commentBank/index.js';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -121,6 +124,15 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [showFocusAreaPopUp, setShowFocusArePopUp] = React.useState(false);
   const [showFocusAreaPopUpText, setShowFocusArePopUpText] = React.useState('');
   const [showFeedbackBanksPopUp, setFeedbackBanksPopUp] = React.useState(false);
+  const [showJeddAIFeedbackTypeSelectionPopUp, setShowJeddAIFeedbackTypeSelectionPopUp] = useState(false);
+  const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
+  React.useState(false);
+const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] =
+  React.useState(false);
+const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(
+  []
+);
+const [currentCommentBank, setCurrentCommentBank] = React.useState([]);
 
   const {
     data: submissionByIdData,
@@ -1666,6 +1678,23 @@ const checkFocusAreas = () => {
     });
   };
 
+  
+  const updateCommentBank = () => {};
+  const updateMarkingCriteria = () => {};
+
+  function handleMarkingCriteriaPreview(markingCriteria) {
+    setCurrentMarkingCriteria(markingCriteria);
+    setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
+  }
+  function handleCommentBankPreview(commentBankId) {
+    let commentBank = allCommentBanks.find(
+      (commentBank) => commentBank.id === commentBankId
+    );
+
+    setCurrentCommentBank(commentBank);
+    setCommentBankPreviewDialog(commentBank?.smartComments?.length > 0);
+  }
+
   const isResetEditorTextSelection = () => {
     setShowFloatingDialogue(false);
     setNewCommentSerialNumber(0);
@@ -1709,6 +1738,7 @@ const checkFocusAreas = () => {
     updateOverAllFeedback,
     jeddAI,
     checkFocusAreas,
+    setShowJeddAIFeedbackTypeSelectionPopUp,
   };
 
   const shortcuts = getShortcuts();
@@ -1749,6 +1779,18 @@ const checkFocusAreas = () => {
           onClickOutside={handleFeedbackOnFeedback('DISLIKE')}
         />
       )}
+      {openMarkingCriteriaPreviewDialog && currentMarkingCriteria?.type && (
+        <PreviewDialog
+          setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
+          markingCriterias={currentMarkingCriteria}
+        />
+      )}
+      {openCommentBankPreviewDialog && (
+        <CommentBankDialog
+          setCommentBankPreviewDialog={setCommentBankPreviewDialog}
+          commentBank={currentCommentBank}
+        />
+      )}
 
       {pageLeavePopup && (
         <GeneralPopup
@@ -1762,8 +1804,20 @@ const checkFocusAreas = () => {
           confirmButtonAction={saveDraftPage}
         />
       )}
-
-     
+      {showJeddAIFeedbackTypeSelectionPopUp && (
+        <JeddAIFeedbackTypeSelection
+        allMarkingCriterias={markingCriterias}
+        allCommentBanks={feedbanksData?._embedded?.commentbanks}
+          hidePopup={() =>
+            setShowJeddAIFeedbackTypeSelectionPopUp(false)
+          }
+          updateMarkingCriteria={updateMarkingCriteria}
+          updateCommentBank={updateCommentBank}
+          handleCommentBankPreview={handleCommentBankPreview}
+          handleMarkingCriteriaPreview={handleMarkingCriteriaPreview}
+          question={null}
+        />
+      )}
       {showFocusAreaPopUp && (
         <GeneralPopup
           title="Submit task"

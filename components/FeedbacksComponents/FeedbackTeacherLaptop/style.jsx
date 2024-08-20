@@ -511,7 +511,7 @@ export const Frame1366 = styled.div`
 export const MarkingCriteriaAndCommentBankContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0px 0px 10px 0px;
+  gap: 4px;
 `;
 
 export const QuestionContainer = styled.div`

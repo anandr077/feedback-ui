@@ -56,9 +56,9 @@ export const SelectionCard = styled.div`
   gap: 4px;
   border-radius: 8px;
   border: 1px;
-  opacity: 0px;
   background: var(--color-purple-70, #fbf7fe);
   border: 1px solid var(--color-purple-80, #f1e6fc);
+  cursor: ${({ onClick }) => (onClick ? 'pointer' : 'initial')};
 `;
 
 export const SelectionCardHeadingText = styled.p`

@@ -15,6 +15,7 @@ import {
   DivisionPartDots,
   DivisionPartText,
   MainContainer,
+  SaveButton,
   SelectionCard,
   SelectionCardHeadingText,
   SelectionCardText,
@@ -38,7 +39,25 @@ function JeddAIFeedbackTypeSelection(props) {
     handleMarkingCriteriaPreview,
     handleCommentBankPreview,
     question,
+    currentCommentBank,
+    currentMarkingCriteria,
+    submit,
   } = props;
+
+  console.log('currentCommentBank',currentCommentBank,currentMarkingCriteria)
+  if (allMarkingCriterias[0].id != 'no_marking_criteria') {
+    allMarkingCriterias.unshift({
+      title: 'Select Marking Criteria',
+      id: 'no_marking_criteria',
+    });
+  }
+
+  if (allCommentBanks[0].id != 'no_comment_criteria') {
+    allCommentBanks.unshift({
+      title: 'Select Feedback Bank',
+      id: 'no_comment_criteria',
+    });
+  }
   return (
     <Dialog open={open} onClose={() => hidePopup()}>
       <MainContainer>
@@ -48,17 +67,17 @@ function JeddAIFeedbackTypeSelection(props) {
             <TitlePartText>
               Get Feedback - Select Marking Template
             </TitlePartText>
-            <QuestionTooltip
-              text={
-                'See where your class is struggling the most with their writing'
-              }
-              img={questionMark}
-            />
+            <QuestionTooltip text={''} img={questionMark} />
           </TitlePart>
           <PopupTitleImg onClick={() => hidePopup()} src={closecircle} />
         </TitleContainer>
         <ContentPart>
-          <SelectionCard>
+          <SelectionCard
+            onClick={() => {
+              hidePopup();
+              submit(false);
+            }}
+          >
             <SelectionCardHeadingText>
               Let JeddAI decide
             </SelectionCardHeadingText>
@@ -73,21 +92,19 @@ function JeddAIFeedbackTypeSelection(props) {
           </DivisionPart>
           <SelectionCard>
             <SelectionCardHeadingText>
-              Select a marking template
+              Select a feedback templates 
             </SelectionCardHeadingText>
             <SelectionCardText>
-              Ask JeddAI to use the selected marking template in its feedback
+              Ask JeddAI to use the selected feedback templates in its feedback
             </SelectionCardText>
             <MarkingCriteriaAndCommentBankContainer>
-              <MarkingCriteriaSelectionContainer
-                slide={true}
-              >
+              <MarkingCriteriaSelectionContainer>
                 <QuestionFieldSelection
                   label="Marking Template"
                   items={appendFunction(allMarkingCriterias)}
                   tooltipText="Select a Rubric (R) or list of Strengths and Targets (S&T) to use as overall feedback for this task. After reading a student's response, click on the applicable performance level/s or strengths and targets"
                   onItemSelected={updateMarkingCriteria}
-                  currentFieldId={question?.markingCriteria}
+                  currentFieldId={currentMarkingCriteria?.id}
                   link={'/settings'}
                   linkText="Go to marking templates"
                   selectedIndex={0}
@@ -96,15 +113,13 @@ function JeddAIFeedbackTypeSelection(props) {
                   showHeading={false}
                 />
               </MarkingCriteriaSelectionContainer>
-              <MarkingCriteriaSelectionContainer
-                slide={true}
-              >
+              <MarkingCriteriaSelectionContainer>
                 <QuestionFieldSelection
                   label="Comment Bank"
                   items={allCommentBanks}
                   tooltipText="Select a comment bank to save you time when reviewing a student's work. After highlighting a section of a student's response, simply click one of the suggested comments from the drop-down selection"
                   onItemSelected={updateCommentBank}
-                  currentFieldId={question?.commentBankId}
+                  currentFieldId={currentCommentBank?.id}
                   link={'/commentbanks'}
                   linkText="Go to comment banks"
                   selectedIndex={0}
@@ -114,6 +129,11 @@ function JeddAIFeedbackTypeSelection(props) {
                 />
               </MarkingCriteriaSelectionContainer>
             </MarkingCriteriaAndCommentBankContainer>
+            <SaveButton isDisabled = {!(currentCommentBank?.smartComments != null && currentMarkingCriteria?.teacherId != null) }
+            onClick={() => {
+              hidePopup();
+              submit(true);
+            }}>Get Feedback</SaveButton>
           </SelectionCard>
         </ContentPart>
       </MainContainer>

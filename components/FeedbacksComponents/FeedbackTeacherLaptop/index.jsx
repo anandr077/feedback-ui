@@ -133,7 +133,7 @@ function FeedbackTeacherLaptop(props) {
   const currentCommentBankId = submission?.assignment?.questions[QuestionIndex]?.commentBankId
   const selectedCommentBankIndex = allCommentBanks?.findIndex(item => item.id === currentCommentBankId);
   const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] = React.useState(false);
-  const [currentCommentBank, setCurrentCommentBank] = React.useState(allCommentBanks.find(
+  const [currentCommentBank, setCurrentCommentBank] = React.useState(allCommentBanks?.find(
     (commentBank) => commentBank.id === currentCommentBankId
   ));
 

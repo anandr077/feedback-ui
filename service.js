@@ -653,14 +653,14 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     title,
     documentType: 'Analytical',
   });
-export const askJeddAI = async (submissionId, cleanAnswer, subject, type) =>
+export const askJeddAI = async (submissionId, cleanAnswer,markingCriteriaId,feedbackBankId) =>
   await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
     state: getLocalStorage('state'),
     year: getLocalStorage('year'),
     cleanAnswer: cleanAnswer,
+    markingCriteriaId: markingCriteriaId,
+    feedbackBankId: feedbackBankId,
   });
-
-
 
 
 export const getAllSubjects = [{ title: 'English' }];

@@ -129,10 +129,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   React.useState(false);
 const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] =
   React.useState(false);
-const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(
-  []
-);
-const [currentCommentBank, setCurrentCommentBank] = React.useState([]);
+const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(null);
+const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
 
   const {
     data: submissionByIdData,
@@ -1649,9 +1647,16 @@ const checkFocusAreas = () => {
     setShowFocusArePopUpText('');
     setShowFocusArePopUp(false);
   };
-  const jeddAI = () => {
+
+  
+  const jeddAI = (includeFeedbackMethods) => {
     const q = quillRefs.current[0];
-    return askJeddAI(submissionByIdData?.id, q.getText()).then((res) => {
+    const args = [submissionByIdData?.id, q.getText()];
+  if (includeFeedbackMethods) {
+    args.push(currentMarkingCriteria?.id, currentCommentBank?.id);
+  }
+
+    return askJeddAI(...args).then((res) => {
       setSubmissionByIdData((old) => ({
         ...old,
         status: res.status,
@@ -1679,20 +1684,18 @@ const checkFocusAreas = () => {
   };
 
   
-  const updateCommentBank = () => {};
-  const updateMarkingCriteria = () => {};
-
-  function handleMarkingCriteriaPreview(markingCriteria) {
+  function updateMarkingCriteria(id, markingCriteria) {
     setCurrentMarkingCriteria(markingCriteria);
-    setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
-  function handleCommentBankPreview(commentBankId) {
-    let commentBank = allCommentBanks.find(
-      (commentBank) => commentBank.id === commentBankId
-    );
-
+  function updateCommentBank(id, commentBank) {
     setCurrentCommentBank(commentBank);
-    setCommentBankPreviewDialog(commentBank?.smartComments?.length > 0);
+  }
+
+  function handleMarkingCriteriaPreview(id) {
+    setMarkingCriteriaPreviewDialog(Object.keys(currentMarkingCriteria).length > 0);
+  }
+  function handleCommentBankPreview() {
+    setCommentBankPreviewDialog(currentCommentBank?.smartComments?.length > 0);
   }
 
   const isResetEditorTextSelection = () => {
@@ -1815,7 +1818,9 @@ const checkFocusAreas = () => {
           updateCommentBank={updateCommentBank}
           handleCommentBankPreview={handleCommentBankPreview}
           handleMarkingCriteriaPreview={handleMarkingCriteriaPreview}
-          question={null}
+          currentCommentBank={currentCommentBank}
+          currentMarkingCriteria={currentMarkingCriteria}
+          submit={jeddAI}
         />
       )}
       {showFocusAreaPopUp && (

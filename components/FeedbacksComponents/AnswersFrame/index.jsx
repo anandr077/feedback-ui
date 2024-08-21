@@ -377,38 +377,7 @@ const answerFrames = (
                     updateAssignmentTitle(inputValue);
                   }}
                 />
-                {isTeacher && (
-                  <MarkingCriteriaAndCommentBankContainer>
-                    <MarkingCriteriaSelectionContainer padding={'0px 80px'} slide={questionSlide}>
-                      <QuestionFieldSelection
-                        label="Marking Template"
-                        items={appendFunction(allMarkingCriterias)}
-                        tooltipText="Select a Rubric (R) or list of Strengths and Targets (S&T) to use as overall feedback for this task. After reading a student's response, click on the applicable performance level/s or strengths and targets"
-                        onItemSelected={updateMarkingCriteria}
-                        currentFieldId={question?.markingCriteria}
-                        link={'/settings'}
-                        linkText="Go to marking templates"
-                        selectedIndex={0}
-                        serialNumber={QuestionIndex}
-                        handlePreview={handleMarkingCriteriaPreview}
-                      />
-                    </MarkingCriteriaSelectionContainer>
-                    <MarkingCriteriaSelectionContainer padding={'0px 80px'} slide={questionSlide}>
-                      <QuestionFieldSelection
-                        label="Comment Bank"
-                        items={allCommentBanks}
-                        tooltipText="Select a comment bank to save you time when reviewing a student's work. After highlighting a section of a student's response, simply click one of the suggested comments from the drop-down selection"
-                        onItemSelected={updateCommentBank}
-                        currentFieldId={question?.commentBankId}
-                        link={'/commentbanks'}
-                        linkText="Go to comment banks"
-                        selectedIndex={0}
-                        serialNumber={QuestionIndex}
-                        handlePreview={handleCommentBankPreview}
-                      />
-                    </MarkingCriteriaSelectionContainer>
-                  </MarkingCriteriaAndCommentBankContainer>
-                )}
+              
               </>
             ) : (
               <QuestionText

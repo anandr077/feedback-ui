@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { IbmplexsansSemiBoldWhite16px } from '../../../styledMixins';
 
 export const MainContainer = styled.div`
   width: 515px;
@@ -26,6 +27,7 @@ export const TitlePart = styled.div`
   flex-direction: row;
   justify-content: space-between;
   gap: 10px;
+  align-items: center;
 `;
 export const TitlePartText = styled.p`
   font-family: IBM Plex Sans;
@@ -95,4 +97,22 @@ export const DivisionPartText = styled.p`
   line-height: 16.9px;
   text-align: center;
   color: #7b7382;
+`;
+export const SaveButton = styled.div`
+  ${IbmplexsansSemiBoldWhite16px}
+  font-size: var(--font-size-l);
+  font-weight: 500;
+  line-height: 20px;
+  display: inline-flex;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 30px;
+  border: 1px solid var(--light-mode-purple, #7200e0);
+  background: var(--light-mode-purple, #7200e0);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+   opacity: ${({ isDisabled }) => (isDisabled ? '0.5' : '1')};
+  pointer-events: ${(props) => props.isDisabled ? 'none' : 'auto'}
 `;

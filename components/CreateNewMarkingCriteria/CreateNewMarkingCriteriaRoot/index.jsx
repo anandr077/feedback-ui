@@ -49,7 +49,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   }, [markingCriterias]);
 
   function addCriteria() {
-    const newCriteria = getNewCriteria(markingCriterias.criterias.length);
+    const newCriteria = getNewCriteria(markingCriteria.criterias.length);
     setMarkingCriteria({
       ...markingCriteria,
       criterias: [...markingCriteria.criterias, newCriteria],
@@ -57,7 +57,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   }
 
   function deleteCriteria(criteriaId) {
-    const newCriterias = markingCriterias.criterias.filter(
+    const newCriterias = markingCriteria.criterias.filter(
       (criteria, index) => {
         return index != criteriaId;
       }
@@ -67,11 +67,11 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   const addLevel = (criteriaId) => {
     const newLevel = {
-      id: markingCriterias.criterias[criteriaId].levels.length,
+      id: markingCriteria.criterias[criteriaId].levels.length,
       name: '',
       description: '',
     };
-    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === criteriaId) {
         return {
           ...criteria,
@@ -85,11 +85,11 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   const addLevelInBetween = (criteriaId, levelId) => {
     const newLevel = {
-      id: markingCriterias.criterias[criteriaId].levels.length,
+      id: markingCriteria.criterias[criteriaId].levels.length,
       name: '',
       description: '',
     };
-    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === criteriaId) {
         const newLevels = [...criteria.levels];
         newLevels.splice(levelId + 1, 0, newLevel);
@@ -104,7 +104,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const deleteLevel = (criteriaId, levelId) => {
-    const newCriterias = markingCriterias.criterias.map((criteria, index) => {
+    const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === criteriaId) {
         return {
           ...criteria,
@@ -129,9 +129,12 @@ export default function CreateNewMarkingCriteriaRoot(props) {
     if (markingCriteria.criterias.length === 0) {
       toast(<Toast message={'Please add at least one criteria'} />);
       isValid = false;
+      return ;
     }
 
-    markingCriteria.criterias.forEach((criteria, indexout) => {
+    for (let indexout = 0; indexout < markingCriteria.criterias.length; indexout++) {
+      const criteria = markingCriteria.criterias[indexout];
+  
       if (criteria.title === undefined || criteria.title === '') {
         toast(
           <Toast
@@ -139,32 +142,35 @@ export default function CreateNewMarkingCriteriaRoot(props) {
           />
         );
         isValid = false;
+        return; 
       }
-      criteria.levels.forEach((level) => {
+  
+      for (let level of criteria.levels) {
         if (level.name == undefined || level.name === '') {
           toast(
             <Toast
-              message={`Please enter a name for all level in criteria ${
+              message={`Please enter a name for all levels in criteria ${
                 indexout + 1
               }`}
             />
           );
           isValid = false;
+          return; 
         }
-      });
-      criteria.levels.forEach((level) => {
+  
         if (level.description == undefined || level.description === '') {
           toast(
             <Toast
-              message={`Please enter a description for all level in criteria ${
+              message={`Please enter a description for all levels in criteria ${
                 indexout + 1
               }`}
             />
           );
           isValid = false;
+          return;
         }
-      });
-    });
+      }
+    }
 
     return isValid;
   };

@@ -65,7 +65,7 @@ function JeddAIFeedbackTypeSelection(props) {
           <TitlePart>
             <TitlePartImg src={messages} />
             <TitlePartText>
-              Get Feedback - Select Marking Template
+              Get Feedback - Select Settings
             </TitlePartText>
             <QuestionTooltip text={''} img={questionMark} />
           </TitlePart>
@@ -82,7 +82,7 @@ function JeddAIFeedbackTypeSelection(props) {
               Let JeddAI decide
             </SelectionCardHeadingText>
             <SelectionCardText>
-              JeddAI will use its own marking templates to give feedback
+              JeddAI will use its own settings to give feedback
             </SelectionCardText>
           </SelectionCard>
           <DivisionPart>
@@ -92,10 +92,10 @@ function JeddAIFeedbackTypeSelection(props) {
           </DivisionPart>
           <SelectionCard>
             <SelectionCardHeadingText>
-              Select a feedback templates 
+              Select settings
             </SelectionCardHeadingText>
             <SelectionCardText>
-              Ask JeddAI to use the selected feedback templates in its feedback
+              Ask JeddAI to use the selected settings in its feedback
             </SelectionCardText>
             <MarkingCriteriaAndCommentBankContainer>
               <MarkingCriteriaSelectionContainer>

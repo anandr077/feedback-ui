@@ -87,7 +87,7 @@ export const DivisionPart = styled.div`
 `;
 export const DivisionPartDots = styled.div`
   width: 50%;
-  border-bottom: 1px dotted #c9c6cc;
+  border-bottom: 1px dashed #c9c6cc;
   height: 0;
 `;
 export const DivisionPartText = styled.p`

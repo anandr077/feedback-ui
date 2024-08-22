@@ -14,9 +14,9 @@ import Loader from '../Loader';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 import Toast from '../Toast/index.js';
 import { toast } from 'react-toastify';
+import { useModelResponces } from '../state/hooks.js';
 
 export default function ExemplarResponsesPage(props) {
-  const [exemplarResponses, setExemplarResponses] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [id, setId] = React.useState(null);
   const [classes, setClasses] = React.useState([]);
@@ -29,23 +29,25 @@ export default function ExemplarResponsesPage(props) {
     const exemplarResponseId = new URLSearchParams(l.search).get('id');
     setId(exemplarResponseId);
   }, []);
-  React.useEffect(() => {
-    getModelResponses().then((result) => {
-      if (result) {
-        console.log('the result is', result)
-        setExemplarResponses(result);
-        setClasses(arrayFromArrayOfObject(result, 'classTitle'));
-        setIsLoading(false);
-      }
-    });
-  }, []);
+
+  const {
+    data: modelResponcesData,
+    isLoadingdata: isLoadingModelResponces,
+    setData: setModelResponces,
+    resetData,
+  } = useModelResponces();
 
   React.useEffect(() => {
-    const createGroup = groupBy(exemplarResponses, (task) =>
-      dateOnly(task.reviewedAt)
-    );
-    setGroups(createGroup);
-  }, [exemplarResponses]);
+    if (modelResponcesData) {
+      
+      const createGroup = groupBy(modelResponcesData, (task) =>
+        dateOnly(task.reviewedAt)
+      );
+      setGroups(createGroup);
+      setClasses(arrayFromArrayOfObject(modelResponcesData, 'classTitle'));
+      setIsLoading(false);
+    }
+  }, [modelResponcesData]);
 
   if (isLoading) {
     return (
@@ -57,7 +59,7 @@ export default function ExemplarResponsesPage(props) {
 
   const handleAddToFavourite = (id) => {
     addToFavouriteList(id).then((result) => {
-      setExemplarResponses((prev) => {
+      setModelResponces((prev) => {
         return prev.map((task) => {
           if (task.id === id) {
             return {
@@ -74,7 +76,7 @@ export default function ExemplarResponsesPage(props) {
 
   const handleRemoveFromFavourite = (id) => {
     removeFromFavouriteList(id).then((result) => {
-      setExemplarResponses((prev) => {
+      setModelResponces((prev) => {
         return prev.map((task) => {
           if (task.id === id) {
             return {
@@ -92,8 +94,7 @@ export default function ExemplarResponsesPage(props) {
   const onAccept = (taskId) => {
     publishModelResponse(taskId).then((res) => {
       if (res.status === 'PUBLISHED') {
-        // setPublishActionCompleted(taskId, 'PUBLISHED', true);
-        setExemplarResponses((prev) => {
+        setModelResponces((prev) => {
           return prev.map((task) => {
             if (task.id === taskId) {
               return {
@@ -105,7 +106,6 @@ export default function ExemplarResponsesPage(props) {
             }
           });
         });
-        // onSlideChange();
         toast(<Toast message={'Response shared'} link={res.link} />);
       } else {
         return;
@@ -115,7 +115,7 @@ export default function ExemplarResponsesPage(props) {
   const onDecline = (taskId) => {
     denyModelResponse(taskId).then((res) => {
       if (res.status === 'DENIED') {
-        setExemplarResponses((prev) => {
+        setModelResponces((prev) => {
           return prev.map((task) => {
             if (task.id === taskId) {
               return {
@@ -127,18 +127,16 @@ export default function ExemplarResponsesPage(props) {
             }
           });
         });
-        // onSlideChange();
         toast(<Toast message={"Response won't be shared"} link={res.link} />);
       } else {
         return;
       }
     });
   };
-  console.log('the classes is', classes)
   return (
     <CompletedRoot
       title="Exemplars"
-      tasks={exemplarResponses}
+      tasks={modelResponcesData}
       groups={groups}
       exemplar={true}
       id={id}

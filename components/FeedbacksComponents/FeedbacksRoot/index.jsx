@@ -74,10 +74,11 @@ import Header from '../../Header2/index.jsx';
 import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
-import { allCriteriaHaveSelectedLevels } from './rules.js';
-import { useAllSubmisssionsById, useClassData, useCommentBanks, useCommentBanksById,  useCommentsById, useMarkingCriterias, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import { allCriteriaHaveSelectedLevels, isShowJeddAITab } from './rules.js';
+import { useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useMarkingCriterias, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 import { DialogContent } from '@mui/material';
 import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection.jsx';
+import { getLocalStorage } from '../../../utils/function.js';
 import JeddAIFeedbackTypeSelection from '../JeddAIFeedbackTypeSelection/index.jsx';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard.jsx';
 import CommentBankDialog from '../../Shared/Dialogs/commentBank/index.js';
@@ -124,6 +125,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [showFocusAreaPopUp, setShowFocusArePopUp] = React.useState(false);
   const [showFocusAreaPopUpText, setShowFocusArePopUpText] = React.useState('');
   const [showFeedbackBanksPopUp, setFeedbackBanksPopUp] = React.useState(false);
+  const [openRightPanel, setOpenRightPanel] = React.useState();
+  const [showLottie, setShowLottie] = React.useState(false);
   const [showJeddAIFeedbackTypeSelectionPopUp, setShowJeddAIFeedbackTypeSelectionPopUp] = useState(false);
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
   React.useState(false);
@@ -138,6 +141,8 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
     setData: setSubmissionByIdData,
     resetData: resetSubmissionByIdData,
   } = useSubmissionById(id);
+
+  
   const {
     data: commentsByIdData,
     isLoadingdata: isLoadingcommentsByIdData,
@@ -157,14 +162,14 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
     resetData: resetOtherDraftsById,
   } = useOtherDraftsById(id);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
-
-
+  const { data: isJeddAIEnabled, isLoadingdata: isLoadingJeddAIEnabled } = useIsJeddAIEnabled();
+ 
 
   useEffect(() => {
     setIsLoading(true);
   }, [id]);
 
-  
+
   const commentBankIds = submissionByIdData?.assignment?.questions
     .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
     .map((q) => q.commentBankId);
@@ -196,14 +201,15 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
     resetData: resetMarkingCriterias,
   } = useMarkingCriterias();
 
-   const isDataLoading =
-     isLoadingsubmissionByIdData ||
-     isLoadingcommentsByIdData ||
-     isLoadingoverAllCommentsById ||
-     isLoadingotherDraftsById ||
-     isLoadingclassData ||
-     (isTeacher &&
-       (isLoadingallSubmissions ||
+  const isDataLoading =
+    isLoadingsubmissionByIdData ||
+    isLoadingcommentsByIdData ||
+    isLoadingoverAllCommentsById ||
+    isLoadingotherDraftsById ||
+    isLoadingclassData ||
+    isLoadingJeddAIEnabled||
+    (isTeacher &&
+      (isLoadingallSubmissions ||
          isLoadingcommentBanksData || isLoadingfeedbanks || isLoadingMarkingCriterias));
 
 
@@ -211,8 +217,8 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
     (c) => c.type === 'MARKING_CRITERIA'
   );
   const feedbackComments = commentsByIdData?.filter(
-          (c) => c.type !== 'MARKING_CRITERIA'
-        );
+    (c) => c.type !== 'MARKING_CRITERIA'
+  );
 
 
   const allTeachers = _.flatten(classData?.map((c) => c.teachers));
@@ -251,51 +257,50 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
     }
   }, [isDataLoading, id]);
 
-const students = extractStudents(allSubmissions);
+  const students = extractStudents(allSubmissions);
 
- useEffect(() => {
-   if (!isDataLoading && allSubmissions) {
+  useEffect(() => {
+    if (!isDataLoading && allSubmissions) {
    
 
-     let currentSubmissionIndex = 0;
-     const allExceptCurrent = allSubmissions?.filter((r, index) => {
-       if (r.id !== submissionByIdData.id) {
-         return r;
-       } else {
-         currentSubmissionIndex = index;
-         return false;
-       }
-     });
+      let currentSubmissionIndex = 0;
+      const allExceptCurrent = allSubmissions?.filter((r, index) => {
+        if (r.id !== submissionByIdData.id) {
+          return r;
+        } else {
+          currentSubmissionIndex = index;
+          return false;
+        }
+      });
 
-     let nextSubmissionIndex = currentSubmissionIndex + 1;
-     while (
-       nextSubmissionIndex > 0 &&
-       nextSubmissionIndex < allExceptCurrent?.length
-     ) {
-       if (allExceptCurrent[nextSubmissionIndex]?.status === 'SUBMITTED') {
-         break;
-       } else {
-         nextSubmissionIndex++;
-       }
-     }
-     if (nextSubmissionIndex >= allExceptCurrent.length) {
-       nextSubmissionIndex = 0;
-     }
+      let nextSubmissionIndex = currentSubmissionIndex + 1;
+      while (
+        nextSubmissionIndex > 0 &&
+        nextSubmissionIndex < allExceptCurrent?.length
+      ) {
+        if (allExceptCurrent[nextSubmissionIndex]?.status === 'SUBMITTED') {
+          break;
+        } else {
+          nextSubmissionIndex++;
+        }
+      }
+      if (nextSubmissionIndex >= allExceptCurrent.length) {
+        nextSubmissionIndex = 0;
+      }
 
-     const nextUrl = allExceptCurrent[nextSubmissionIndex]
-       ? '#submissions/' + allExceptCurrent[nextSubmissionIndex]?.id
-       : '/';
-     setNextUrl(nextUrl);
-     setIsLoading(false);
-   }
- }, [isDataLoading, id]);
+      const nextUrl = allExceptCurrent[nextSubmissionIndex]
+        ? '#submissions/' + allExceptCurrent[nextSubmissionIndex]?.id
+        : '/';
+      setNextUrl(nextUrl);
+      setIsLoading(false);
+    }
+  }, [isDataLoading, id]);
 
- console.log('commentBanksData',commentBanksData);
-  
+
   const deleteDraftPage = async (submissionId, pendingLocation) => {
     await deleteSubmissionById(submissionId).then(() => {
       if (pendingLocation) {
-       goToNewUrl(pendingLocation, history, unblockRef);
+        goToNewUrl(pendingLocation, history, unblockRef);
       }
       setPageLeavePopup(false);
     });
@@ -335,55 +340,55 @@ const students = extractStudents(allSubmissions);
     });
 
     return () => {
-       if (unblockRef.current) {
-         unblockRef.current();
-       }
+      if (unblockRef.current) {
+        unblockRef.current();
+      }
     };
   }, [submissionByIdData, feedbackReviewPopup, history]);
 
-  
-   const updateGroupedFocusAreaIds = (serialNumber, focusAreaId) => {
-     const isPresent = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
-     if (!isPresent) {
-       setGroupedFocusAreaIds((prevState) => {
-         return {
-           ...prevState,
-           [serialNumber]: [...prevState[serialNumber], focusAreaId],
-         };
-       });
-       console.log('updateGroupedFocusAreaIds', groupedFocusAreaIds);
-     }
-   };
 
-   function createGroupedFocusAreas(submissionByIdData, feedbackComments) {
-     const flattenedQuestions = flatMap(
-       submissionByIdData?.assignment?.questions,
-       (question) =>
-         question?.focusAreaIds?.map((focusAreaId) => ({
-           serialNumber: question.serialNumber,
-           focusAreaId,
-         }))
-     );
+  const updateGroupedFocusAreaIds = (serialNumber, focusAreaId) => {
+    const isPresent = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
+    if (!isPresent) {
+      setGroupedFocusAreaIds((prevState) => {
+        return {
+          ...prevState,
+          [serialNumber]: [...prevState[serialNumber], focusAreaId],
+        };
+      });
+      console.log('updateGroupedFocusAreaIds', groupedFocusAreaIds);
+    }
+  };
 
-     const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
-     const grouped = Object.keys(groupedBySerialNumber).reduce(
-       (grouped, serialNumber) => {
-         grouped[serialNumber] = [];
-         return grouped;
-       },
-       {}
-     );
+  function createGroupedFocusAreas(submissionByIdData, feedbackComments) {
+    const flattenedQuestions = flatMap(
+      submissionByIdData?.assignment?.questions,
+      (question) =>
+        question?.focusAreaIds?.map((focusAreaId) => ({
+          serialNumber: question.serialNumber,
+          focusAreaId,
+        }))
+    );
 
-     feedbackComments.forEach((comment) => {
-       if (comment.type === 'FOCUS_AREA') {
-         const { questionSerialNumber, focusAreaId } = comment;
-         if (grouped[questionSerialNumber]) {
-           grouped[questionSerialNumber].push(focusAreaId);
-         }
-       }
-     });
-     return grouped;
-   }
+    const groupedBySerialNumber = groupBy(flattenedQuestions, 'serialNumber');
+    const grouped = Object.keys(groupedBySerialNumber).reduce(
+      (grouped, serialNumber) => {
+        grouped[serialNumber] = [];
+        return grouped;
+      },
+      {}
+    );
+
+    feedbackComments.forEach((comment) => {
+      if (comment.type === 'FOCUS_AREA') {
+        const { questionSerialNumber, focusAreaId } = comment;
+        if (grouped[questionSerialNumber]) {
+          grouped[questionSerialNumber].push(focusAreaId);
+        }
+      }
+    });
+    return grouped;
+  }
   if (isLoading) {
     return (
       <>
@@ -781,7 +786,7 @@ const students = extractStudents(allSubmissions);
         const markingCriteriaComments = prevComments.filter(
           (comment) => comment.type === 'MARKING_CRITERIA'
         );
-        
+
         let updatedComments = otherComments.filter((c) => c.id != commentId);
         setGroupedFocusAreaIds(
           createGroupedFocusAreas(submissionByIdData, updatedComments)
@@ -1115,7 +1120,7 @@ const students = extractStudents(allSubmissions);
           (comment) => comment.type === 'MARKING_CRITERIA'
         );
 
-        
+
         const updatedMarkingCriteriaComments = markingCriteriaComments.map(
           (comment) => {
             if (comment.id === response.id) {
@@ -1125,14 +1130,14 @@ const students = extractStudents(allSubmissions);
           }
         );
 
-      
+
         if (
           !markingCriteriaComments.find((comment) => comment.id === response.id)
         ) {
           updatedMarkingCriteriaComments.push(response);
         }
 
-       
+
         return [...otherComments, ...updatedMarkingCriteriaComments];
       });
     };
@@ -1246,7 +1251,7 @@ const students = extractStudents(allSubmissions);
         );
       })
       .catch((err) => {
-         toast(<Toast message={`Error updating feedback: ${err.message}`} />);
+        toast(<Toast message={`Error updating feedback: ${err.message}`} />);
       });
   };
 
@@ -1320,11 +1325,11 @@ const students = extractStudents(allSubmissions);
           return queryKey.includes('class');
         });
         resetSubmissionByIdData();
-      resetCommentsByIdData();
-      resetOverAllCommentsById();
-      resetOtherDraftsById();
-      resetAllSubmissions();
-      resetCommentBanksData();
+        resetCommentsByIdData();
+        resetOverAllCommentsById();
+        resetOtherDraftsById();
+        resetAllSubmissions();
+        resetCommentBanksData();
         window.location.href = '/#';
         setShowLoader(false);
       });
@@ -1444,8 +1449,6 @@ const students = extractStudents(allSubmissions);
   const hideNewCommentDiv = () => {
     setShowNewComment(false);
   };
-
-
 
   const onSelectionChange = reviewerSelectionChange;
 
@@ -1575,7 +1578,7 @@ const students = extractStudents(allSubmissions);
     );
   }
 
-  
+
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
   };
@@ -1595,46 +1598,46 @@ const students = extractStudents(allSubmissions);
     }
   };
 
-const validateFocusAreas = () => {
-  let valid = true;
-  let errorMessage = '';
+  const validateFocusAreas = () => {
+    let valid = true;
+    let errorMessage = '';
 
-  for (
-    let index = 0;
-    index < submissionByIdData?.assignment?.questions?.length;
-    index++
-  ) {
-    const question = submissionByIdData?.assignment?.questions[index];
-    const currentFocusAreas = question?.focusAreas || [];
-    const selectedFocusAreas = groupedFocusAreaIds[index + 1] || [];
+    for (
+      let index = 0;
+      index < submissionByIdData?.assignment?.questions?.length;
+      index++
+    ) {
+      const question = submissionByIdData?.assignment?.questions[index];
+      const currentFocusAreas = question?.focusAreas || [];
+      const selectedFocusAreas = groupedFocusAreaIds[index + 1] || [];
     
 
-    if (
-      selectedFocusAreas.length === 0 ||
-      currentFocusAreas.length !== selectedFocusAreas.length
-    ) {
+      if (
+        selectedFocusAreas.length === 0 ||
+        currentFocusAreas.length !== selectedFocusAreas.length
+      ) {
       errorMessage = 'Some focus areas are not selected. Do you want to submit';
-      valid = false;
-      break; // Stop iterating
+        valid = false;
+        break; // Stop iterating
+      }
     }
-  }
 
-  if (!valid) {
-    setShowFocusArePopUpText(errorMessage);
-  }
+    if (!valid) {
+      setShowFocusArePopUpText(errorMessage);
+    }
 
-  console.log('valid', valid);
-  return valid;
-};
+    console.log('valid', valid);
+    return valid;
+  };
 
-const checkFocusAreas = () => {
-  if (!validateFocusAreas()) {
-    console.log('valid entered');
-    setShowFocusArePopUp(true);
-  } else {
-    showSubmitPopuphandler('SubmitForReview');
-  }
-};
+  const checkFocusAreas = () => {
+    if (!validateFocusAreas()) {
+      console.log('valid entered');
+      setShowFocusArePopUp(true);
+    } else {
+      showSubmitPopuphandler('SubmitForReview');
+    }
+  };
 
 
   const proceedToSave = () => {
@@ -1663,6 +1666,8 @@ const checkFocusAreas = () => {
         feedbackRequestType: res.feedbackRequestType,
         answers: res.answers,
       }));
+      setOpenRightPanel('tab4');
+      setShowLottie(true);
       let interval;
 
       function getAndUpdateSubmission() {
@@ -1769,6 +1774,7 @@ const checkFocusAreas = () => {
         isResetEditorTextSelection,
         setSelectedComment,
         setFeedbackBanksPopUp,
+        isJeddAIEnabled,
         allMarkingCriterias:markingCriterias,
       }}
     >
@@ -1866,7 +1872,10 @@ const checkFocusAreas = () => {
           groupedFocusAreaIds,
           feedbanksData,
           showFeedbackBanksPopUp,
-          setFeedbackBanksPopUp
+          setFeedbackBanksPopUp,
+          openRightPanel,
+          setOpenRightPanel,
+          showLottie,
         }}
       />
     </FeedbackContext.Provider>

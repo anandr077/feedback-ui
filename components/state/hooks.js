@@ -1,17 +1,51 @@
 import _ from 'lodash';
 import { createGlobalState } from '.';
-import { getAllMarkingCriteria, getClassesWithStudents, getCommentBank, getCommentsForSubmission, getFeedbackBanks, getOtherDrafts, getOverComments, getSubmissionById, getSubmissionsByAssignmentId, getTeachersForClass } from '../../service';
+import {
+  getAllMarkingCriteria,
+  getAssignments,
+  getClasses,
+  getClassesWithStudents,
+  getCommentBank,
+  getCommentsForSubmission,
+  getCompletedTasks,
+  getCommunityTasks,
+  getFeedbackBanks,
+  getGiveFeedbackCompletedTasks,
+  getOtherDrafts,
+  getOverComments,
+  getStudentStats,
+  getSubmissionById,
+  getSubmissionsByAssignmentId,
+  getTeachersForClass, getModelResponses,
+  getClassSettingForClass,
+  getIsJeddAIEnabled,
+} from '../../service';
 import { createGlobalStates } from './createGlobalStates';
 
 export const useAllSubmisssionsById = createGlobalState(
   'submissionsByAssignmentId',
   getSubmissionsByAssignmentId
 );
-export const useOtherDraftsById = createGlobalState('otherDraftsById', getOtherDrafts);
+export const useOtherDraftsById = createGlobalState(
+  'otherDraftsById',
+  getOtherDrafts
+);
 
 export const useCommentBanksById = createGlobalStates(
   'feedbackBanksById',
   getCommentBank
+);
+export const useClassSettingById = createGlobalStates(
+  'classSettingById',
+  getClassSettingForClass
+);
+export const useAssignmentsAll = createGlobalState(
+  'assignments',
+  getAssignments
+);
+export const useCompletedAll = createGlobalState(
+  'completedTasks',
+  getCompletedTasks
 );
 export const useCommentBanks = createGlobalState(
   'feedbackBanks',
@@ -22,22 +56,44 @@ export const useMarkingCriterias = createGlobalState(
   getAllMarkingCriteria
 );
 
+export const useCommunityTasks = createGlobalState(
+  'communityTasks',
+  getCommunityTasks
+);
+
+export const useGiveFeedbackCompletedTasks = createGlobalState(
+  'giveFeedbackCompletedTasks',
+  getGiveFeedbackCompletedTasks
+);
+
+export const useStudentStats = createGlobalState(
+  'studentStats',
+  getStudentStats
+);
+
 export const useCommentsById = createGlobalState(
   'commentsById',
   getCommentsForSubmission
 );
 
-
 export const useOverAllCommentsById = createGlobalState(
   'overAllCommentsById',
   getOverComments
+);
+export const useModelResponces = createGlobalState(
+  'modelResponces',
+  getModelResponses
 );
 
 export const useSubmissionById = createGlobalState(
   'submissionById',
   getSubmissionById
 );
-
+export const useClasses = createGlobalState('classes', getClasses);
+export const useIsJeddAIEnabled = createGlobalState(
+  'IsJeddAIEnabled',
+  getIsJeddAIEnabled
+);
 
 async function fetchClassWithStudentsAndTeachers() {
   try {

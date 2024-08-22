@@ -207,6 +207,7 @@ export const account = async () => {
   window.open(jeddleBaseUrl + '/account');
 };
 export const getTasks = async () => await getApi(baseUrl + '/tasks');
+export const getIsJeddAIEnabled = async () => await getApi(baseUrl + '/users/isJeddAIEnabled');
 export const getCommunityTasks = async () =>
   await getApi(baseUrl + '/communityTasks');
 export const getGiveFeedbackCompletedTasks = async () =>
@@ -401,6 +402,10 @@ export const getCommentsForSubmission = async (submissionId) =>
   await getApi(baseUrl + '/submissions/' + submissionId + '/comments');
 export const getModelResponsesForClass = async (classId) =>
   await getApi(baseUrl + '/classes/' + classId + '/modelResponses');
+export const getClassSettingForClass = async (classId) =>
+  await getApi(baseUrl + '/classes/' + classId + '/settings');
+export const updateClassSettingForClass = async (classId,classSetting) =>
+  await putApi(baseUrl + '/classsettings/' + classId, classSetting);
 export const getStudentsForClass = async (classId) =>
   await getApi(baseUrl + '/classes/' + classId + '/students');
 export const getTeachersForClass = async (classId) =>

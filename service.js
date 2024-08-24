@@ -232,6 +232,8 @@ export const getStudentsStatsByClassId = async (classId) =>
   await getApi(baseUrl + '/classes/' + classId + '/studentStats');
 export const getAssignments = async () =>
   await getApi(baseUrl + '/assignments');
+export const getDocuments = async () =>
+  await getApi(baseUrl + '/submissions/documents');
 export const getDocumentReviews = async () =>
   await getApi(baseUrl + '/document-review-tasks');
 export const startSubmission = async (assignmentDetails) =>

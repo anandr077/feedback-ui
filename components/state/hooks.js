@@ -19,6 +19,7 @@ import {
   getTeachersForClass, getModelResponses,
   getClassSettingForClass,
   getIsJeddAIEnabled,
+  getDocuments,
 } from '../../service';
 import { createGlobalStates } from './createGlobalStates';
 
@@ -46,6 +47,10 @@ export const useAssignmentsAll = createGlobalState(
 export const useCompletedAll = createGlobalState(
   'completedTasks',
   getCompletedTasks
+);
+export const useAllDocuments = createGlobalState(
+  'allDocuments',
+  getDocuments
 );
 export const useCommentBanks = createGlobalState(
   'feedbackBanks',

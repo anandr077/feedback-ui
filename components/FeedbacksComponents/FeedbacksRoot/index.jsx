@@ -75,7 +75,7 @@ import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
 import { allCriteriaHaveSelectedLevels, isShowJeddAITab } from './rules.js';
-import { useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import { useAllDocuments, useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 import { DialogContent } from '@mui/material';
 import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection.jsx';
 import { getLocalStorage } from '../../../utils/function.js';
@@ -145,12 +145,17 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setData: setOverAllCommentsById,
     resetData: resetOverAllCommentsById,
   } = useOverAllCommentsById(id);
+
+
+  
   const {
-    data: otherDraftsById,
-    isLoadingdata: isLoadingotherDraftsById,
-    setData: setOtherDraftsById,
-    resetData: resetOtherDraftsById,
-  } = useOtherDraftsById(id);
+    data: allDocumentsData,
+    isLoadingdata: isLoadingDocumentsData,
+    setData: setAllDocuments,
+    resetData: resetAllDocuments,
+  } = useAllDocuments();
+
+
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const { data: isJeddAIEnabled, isLoadingdata: isLoadingJeddAIEnabled } = useIsJeddAIEnabled();
  
@@ -188,7 +193,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     isLoadingsubmissionByIdData ||
     isLoadingcommentsByIdData ||
     isLoadingoverAllCommentsById ||
-    isLoadingotherDraftsById ||
+    isLoadingDocumentsData ||
     isLoadingclassData ||
     isLoadingJeddAIEnabled||
     (isTeacher &&
@@ -1070,7 +1075,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       resetSubmissionByIdData();
       resetCommentsByIdData();
       resetOverAllCommentsById();
-      resetOtherDraftsById();
+      resetAllDocuments();
       resetAllSubmissions();
       resetCommentBanksData();
       if (isTeacher) {
@@ -1172,7 +1177,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         resetSubmissionByIdData();
         resetCommentsByIdData();
         resetOverAllCommentsById();
-        resetOtherDraftsById();
+        resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
         if (isTeacher) {
@@ -1266,7 +1271,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         resetSubmissionByIdData();
         resetCommentsByIdData();
         resetOverAllCommentsById();
-        resetOtherDraftsById();
+        resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
         window.location.href = '/#';
@@ -1310,7 +1315,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         resetSubmissionByIdData();
         resetCommentsByIdData();
         resetOverAllCommentsById();
-        resetOtherDraftsById();
+        resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
         window.location.href = '/#';
@@ -1801,8 +1806,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedComment,
           overallComments: overAllCommentsById,
           markingCriteriaFeedback,
-          otherDrafts: otherDraftsById,
-          setOtherDrafts: setOtherDraftsById,
+          otherDrafts: allDocumentsData,
+          setOtherDrafts: setAllDocuments,
           groupedFocusAreaIds,
           feedbanksData,
           showFeedbackBanksPopUp,

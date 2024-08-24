@@ -38,6 +38,7 @@ import Download from '../../static/img/Down.svg';
 import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf';
 import Loader from '../Loader';
 import DeleteGetFeedbackPopup from '../DeleteGetFeedbackPopUp';
+import { addDocumentToPortfolio } from '../../service';
 const drawerWidth = 219;
 
 function IndepentdentUserSidebar({
@@ -115,6 +116,16 @@ function IndepentdentUserSidebar({
     
   };
 
+  const addDocument = () => {
+    addDocumentToPortfolio(null, null, 'Untitled Question').then((response) => {
+      
+      const fullUrl = `${window.location.origin}${window.location.pathname}${window.location.search}#/documents/${response.id}`;
+      window.open(fullUrl, '_blank');
+      console.log('fullUrl',fullUrl);
+
+    });
+  }
+
   return (
     <>
       {showDeletePopup && (
@@ -125,7 +136,7 @@ function IndepentdentUserSidebar({
         />
       )}
       <SidebarContainer drawerWidth={drawerWidth} open={open}>
-        <DrawerHeader onClick={() => window.open('#/getFeedback', '_blank')}>
+        <DrawerHeader onClick={() => addDocument()}>
           + New Draft
         </DrawerHeader>
         <DividerContainer>

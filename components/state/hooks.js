@@ -27,10 +27,7 @@ export const useAllSubmisssionsById = createGlobalState(
   'submissionsByAssignmentId',
   getSubmissionsByAssignmentId
 );
-export const useOtherDraftsById = createGlobalState(
-  'otherDraftsById',
-  getOtherDrafts
-);
+
 
 export const useCommentBanksById = createGlobalStates(
   'feedbackBanksById',

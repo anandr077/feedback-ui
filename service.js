@@ -247,8 +247,7 @@ export const getOverComments = async (id) =>
 export const getPortfolioSubjects = async () =>
   await getApi(baseUrl + '/students/drafts');
 
-export const getOtherDrafts = async (id) =>
-  await getApi(baseUrl + '/submissions/' + id + '/otherDrafts');
+
 
 export const addFeedback = async (submissionId, comment) =>
   await postApi(

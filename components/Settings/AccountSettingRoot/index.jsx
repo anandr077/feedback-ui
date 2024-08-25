@@ -27,11 +27,11 @@ export default function AccountSettingsRoot(props) {
   const deleteMarkingCriteriaHandler = (markingCriteriaId) => {
     deleteMarkingCriteria(markingCriteriaId)
       .then(() => {
-        toast(<Toast message={'Marking criteria deleted'} />);
         let UpdatedMarkingCriteras = markingCriterias.filter(
-          (criteria) => criteria.id === markingCriteriaId
+          (criteria) => criteria.id != markingCriteriaId
         );
         setMarkingCriterias(UpdatedMarkingCriteras);
+        toast(<Toast message={'Marking criteria deleted'} />);
       })
       .catch((error) => {
         toast(<Toast message={'Error deleting marking criteria'} />);

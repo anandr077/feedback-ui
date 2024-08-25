@@ -284,15 +284,14 @@ function FeedbackTeacherLaptop(props) {
 
   const deleteQuestionFunction = (deleteQuestionId) => {
     deleteSubmissionById(deleteQuestionId).then(() => {
+      const filteredOtherDrafts = otherDrafts.filter(
+        (question) => question.submissionId !== deleteQuestionId
+      );
+      setOtherDrafts(filteredOtherDrafts);
       if (deleteQuestionId === submission.id) {
         const nextId = getNextQuestionId(deleteQuestionId);
         navigate.push(`/documents/${nextId}`);
-      } else {
-        const filteredOtherDrafts = otherDrafts.filter(
-          (question) => question.submissionId !== deleteQuestionId
-        );
-        setOtherDrafts(filteredOtherDrafts);
-      }
+      } 
     });
   };
 

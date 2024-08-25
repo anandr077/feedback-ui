@@ -47,6 +47,21 @@ import {
   isShowCommentInstructions,
   isShowFocusAreaInstructions,
 } from '../FeedbacksRoot/rules';
+import {
+  StyledBox,
+  StyledMainTabList,
+  StyledTab,
+  StyledTabPanel,
+  TabContextComponent,
+  TabsContainer,
+  TabText,
+} from './style';
+import { Tab } from '@mui/material';
+import Box from '@mui/material/Box';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import HandWritten from './HandWritten';
 
 export function answersFrame(
   quillRefs,
@@ -85,7 +100,6 @@ export function answersFrame(
       handleEditorMounted={methods.handleEditorMounted}
       addOverallFeedback={methods.addOverallFeedback}
       updateOverAllFeedback={methods.updateOverAllFeedback}
-      
       comments={methods.comments}
       editorFontSize={editorFontSize}
       selectedComment={selectedComment}
@@ -264,7 +278,8 @@ const answerFrames = (
   const [questionSlide, setQuestionSlide] = React.useState(true);
   const [inputValue, setInputValue] = React.useState('Type your question');
   const inputRef = React.useRef(null);
-  console.log('submission?.assignment',submission?.assignment);
+  const [mainTab, setMainTab] = React.useState('1');
+  console.log('submission?.assignment', submission?.assignment);
 
   React.useEffect(() => {
     if (submission?.assignment?.title) {
@@ -335,8 +350,12 @@ const answerFrames = (
     submission,
     setSubmission,
     pageMode,
-    comments,
+    comments
   )(answer);
+
+  const handleMainChange = (event, newValue) => {
+    setMainTab(newValue);
+  };
 
   return (
     <>
@@ -377,37 +396,112 @@ const answerFrames = (
           </QuestionContainer>
         )}
         <AnswerContainer>
-          <QuestionTitleBox>Response</QuestionTitleBox>
-
-          <QuillContainer
-            onClick={() => {
-              onSelectionChange(
-                createVisibleComments(commentsForSelectedTab),
-                answer.serialNumber
-              )(quillRefs.current[answer.serialNumber - 1].getSelection());
-            }}
-            id={'quillContainer_' + submission?.id + '_' + answer.serialNumber}
-          >
-            {createQuill(
-              pageMode,
-              'quillContainer_' + submission?.id + '_' + answer.serialNumber,
-              submission,
-              answer,
-              answerValue,
-              commentsForSelectedTab,
-              debounce,
-              handleEditorMounted,
-              editorFontSize,
-              selectedComment,
-              methods,
-              selectedRange,
-              newCommentFrameRef,
-              share,
-              question,
-              isFeedback,
-              QuestionIndex
-            )}
-          </QuillContainer>
+          <QuestionTitleBox>Respons</QuestionTitleBox>
+          {pageMode === 'DRAFT' ? (
+            <TabsContainer>
+              <TabContextComponent value={mainTab}>
+                <StyledBox sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                  <StyledMainTabList
+                    onChange={handleMainChange}
+                    aria-label="lab API tabs example"
+                  >
+                    <StyledTab
+                      label={
+                        <TabText active={mainTab === '1'}>Typed</TabText>
+                      }
+                      value="1"
+                    />
+                    <StyledTab
+                      label={
+                        <TabText active={mainTab === '2'}>
+                          Handwritten
+                        </TabText>
+                      }
+                      value="2"
+                    />
+                  </StyledMainTabList>
+                </StyledBox>
+                <StyledTabPanel value="1">
+                  <QuillContainer
+                    onClick={() => {
+                      onSelectionChange(
+                        createVisibleComments(commentsForSelectedTab),
+                        answer.serialNumber
+                      )(
+                        quillRefs.current[
+                          answer.serialNumber - 1
+                        ].getSelection()
+                      );
+                    }}
+                    id={
+                      'quillContainer_' +
+                      submission?.id +
+                      '_' +
+                      answer.serialNumber
+                    }
+                  >
+                    {createQuill(
+                      pageMode,
+                      'quillContainer_' +
+                        submission?.id +
+                        '_' +
+                        answer.serialNumber,
+                      submission,
+                      answer,
+                      answerValue,
+                      commentsForSelectedTab,
+                      debounce,
+                      handleEditorMounted,
+                      editorFontSize,
+                      selectedComment,
+                      methods,
+                      selectedRange,
+                      newCommentFrameRef,
+                      share,
+                      question,
+                      isFeedback,
+                      QuestionIndex
+                    )}
+                  </QuillContainer>
+                </StyledTabPanel>
+                <StyledTabPanel value="2">
+                  <HandWritten />
+                </StyledTabPanel>
+              </TabContextComponent>
+            </TabsContainer>
+          ) : (
+            <QuillContainer
+              onClick={() => {
+                onSelectionChange(
+                  createVisibleComments(commentsForSelectedTab),
+                  answer.serialNumber
+                )(quillRefs.current[answer.serialNumber - 1].getSelection());
+              }}
+              id={
+                'quillContainer_' + submission?.id + '_' + answer.serialNumber
+              }
+            >
+              {createQuill(
+                pageMode,
+                'quillContainer_' + submission?.id + '_' + answer.serialNumber,
+                submission,
+                answer,
+                answerValue,
+                commentsForSelectedTab,
+                debounce,
+                handleEditorMounted,
+                editorFontSize,
+                selectedComment,
+                methods,
+                selectedRange,
+                newCommentFrameRef,
+                share,
+                question,
+                isFeedback,
+                QuestionIndex
+              )}
+            </QuillContainer>
+          )}
         </AnswerContainer>
       </Frame1366>
     </>

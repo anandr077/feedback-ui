@@ -6,31 +6,30 @@ import { addDocumentToPortfolio } from '../../service';
 import { useAllDocuments } from '../state/hooks';
 import Loader from '../Loader';
 
-export default function  NewDocPage({}) {
+export default function NewDocPage({}) {
+  const { data: allDocumentsData, isLoadingdata: isLoadingDocumentsData ,resetData,setData} =
+    useAllDocuments();
 
-  const {
-    data: allDocumentsData,
-    isLoadingdata: isLoadingDocumentsData, 
-  } = useAllDocuments();
-  
+  console.log('allDocumentsData',allDocumentsData);
 
   const history = useHistory();
-  const { id } = useParams();
 
 
-  if (isLoadingDocumentsData && !id) {
+  if (isLoadingDocumentsData) {
     return (
       <>
         <Loader />
       </>
     );
-  } 
-  if (id === undefined || id === null) {
-    if (allDocumentsData && allDocumentsData.length > 0) {
-      history.push(`/documents/${allDocumentsData[0].submissionId}`);
-      return null; 
-    }
+  }
+
+  if (allDocumentsData && allDocumentsData.length > 0) {
+    history.push(`/documents/${allDocumentsData[0].submissionId}`);
+    return null;
   } else {
-    return <FeedbacksRoot isDocumentPage={true} />;
+    addDocumentToPortfolio(null, null, 'Untitled Question').then((response) => {
+      console.log('firstResponse', response);
+      history.push(`/documents/${response.id}`);
+    });
   }
 }

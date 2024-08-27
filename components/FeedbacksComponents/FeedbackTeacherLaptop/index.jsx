@@ -284,10 +284,18 @@ function FeedbackTeacherLaptop(props) {
 
   const deleteQuestionFunction = (deleteQuestionId) => {
     deleteSubmissionById(deleteQuestionId).then(() => {
+      console.log('otherDrafts',otherDrafts);
+
       const filteredOtherDrafts = otherDrafts.filter(
         (question) => question.submissionId !== deleteQuestionId
       );
+      console.log('filteredOtherDrafts',filteredOtherDrafts);
       setOtherDrafts(filteredOtherDrafts);
+      if(filteredOtherDrafts.length === 0){
+        navigate.push(`/getFeedback`)
+        return;
+      }
+      
       if (deleteQuestionId === submission.id) {
         const nextId = getNextQuestionId(deleteQuestionId);
         navigate.push(`/documents/${nextId}`);

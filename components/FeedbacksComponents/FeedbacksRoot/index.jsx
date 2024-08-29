@@ -307,22 +307,22 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setFeedbackReviewPopup(true);
         return false;
       }
-      if (
-        submissionByIdData?.status === 'DRAFT' &&
-        submissionByIdData?.type === 'DOCUMENT'
-      ) {
-        if (
-          !submissionByIdData?.answers &&
-          submissionByIdData?.assignment.title === 'Untitled Question'
-        ) {
-          deleteDraftPage(submissionByIdData.id, location);
-          return false;
-        } else {
-          setPendingLocation(location);
-          setPageLeavePopup(true);
-          return false;
-        }
-      }
+      // if (
+      //   submissionByIdData?.status === 'DRAFT' &&
+      //   submissionByIdData?.type === 'DOCUMENT'
+      // ) {
+      //   if (
+      //     !submissionByIdData?.answers &&
+      //     submissionByIdData?.assignment.title === 'Untitled Question'
+      //   ) {
+      //     deleteDraftPage(submissionByIdData.id, location);
+      //     return false;
+      //   } else {
+      //     setPendingLocation(location);
+      //     setPageLeavePopup(true);
+      //     return false;
+      //   }
+      // }
 
       return true;
     });

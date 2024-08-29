@@ -233,7 +233,7 @@ function App() {
             theme="dark"
           />
         </Router>
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
   );

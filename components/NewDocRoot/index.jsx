@@ -1,13 +1,12 @@
 import {
   useHistory,
-  useParams,
 } from 'react-router-dom/cjs/react-router-dom.min';
 import { addDocumentToPortfolio } from '../../service';
 import { useAllDocuments } from '../state/hooks';
 import Loader from '../Loader';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function NewDocPage({}) {
+export default function NewDocPage() {
   const {
     data: allDocumentsData,
     isLoadingdata: isLoadingDocumentsData,
@@ -15,42 +14,31 @@ export default function NewDocPage({}) {
     setData,
   } = useAllDocuments();
 
-  console.log('allDocumentsData', allDocumentsData);
-
   const history = useHistory();
+  const [hasCreatedDocument, setHasCreatedDocument] = useState(false);
 
   useEffect(() => {
-    if (allDocumentsData) {
+    if (!isLoadingDocumentsData) {
       if (allDocumentsData && allDocumentsData.length > 0) {
         history.push(`/documents/${allDocumentsData[0].submissionId}`);
-        return;
-      } else {
-        addDocumentToPortfolio(null, null, 'Untitled Question').then(
-          (response) => {
-            console.log('firstResponse', response);
-            history.push(`/documents/${response.id}`);
+      } else if (!hasCreatedDocument) {
+        const createDocument = async () => {
+          try {
+            const response = await addDocumentToPortfolio(null, null, 'Untitled Question');
+            await resetData(); // Fetch the updated list of documents
+            setHasCreatedDocument(true);
+          } catch (error) {
+            console.error('Error creating document:', error);
           }
-        );
+        };
+        createDocument();
       }
     }
-  }, []);
+  }, [isLoadingDocumentsData, allDocumentsData, hasCreatedDocument, history, resetData]);
 
-  if (isLoadingDocumentsData) {
-    return (
-      <>
-        <Loader />
-      </>
-    );
+  if (isLoadingDocumentsData || !hasCreatedDocument) {
+    return <Loader />;
   }
 
-  // if (allDocumentsData && allDocumentsData.length > 0) {
-  //   history.push(`/documents/${allDocumentsData[0].submissionId}`);
-  //   return null;
-  // } else {
-  //   addDocumentToPortfolio(null, null, 'Untitled Question').then((response) => {
-  //     console.log('firstResponse', response);
-  //     history.push(`/documents/${response.id}`);
-  //   });
-  // }
   return null;
 }

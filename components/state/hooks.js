@@ -20,6 +20,7 @@ import {
   getClassSettingForClass,
   getIsJeddAIEnabled,
   getDocuments,
+  getNotifications,
 } from '../../service';
 import { createGlobalStates } from './createGlobalStates';
 
@@ -48,6 +49,10 @@ export const useCompletedAll = createGlobalState(
 export const useAllDocuments = createGlobalState(
   'allDocuments',
   getDocuments
+);
+export const useNotifications = createGlobalState(
+  'notifications',
+  getNotifications
 );
 export const useCommentBanks = createGlobalState(
   'feedbackBanks',

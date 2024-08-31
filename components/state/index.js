@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export function createGlobalState(queryKey, queryFunction) {
-  return function (id = null, condition = true) {
+  return function (id = null, condition = true, time = 3600000 ) {
     const queryClient = useQueryClient();
     const fullQueryKey = id ? [queryKey, id] : [queryKey];
 
@@ -16,8 +16,8 @@ export function createGlobalState(queryKey, queryFunction) {
       refetchOnReconnect: false,
       keepPreviousData: true,
       enabled: condition,
-      staleTime: 3600000,
-      cacheTime: 3600000,
+      staleTime: time,
+      cacheTime: time,
     });
 
     function setData(data) {

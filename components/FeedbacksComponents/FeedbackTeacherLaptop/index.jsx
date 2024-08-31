@@ -292,11 +292,14 @@ function FeedbackTeacherLaptop(props) {
       console.log('filteredOtherDrafts',filteredOtherDrafts);
       setOtherDrafts(filteredOtherDrafts);
       if(filteredOtherDrafts.length === 0){
+        console.log("navigate to getFeedback");
         navigate.push(`/getFeedback`)
+        
         return;
       }
       
       if (deleteQuestionId === submission.id) {
+        console.log("navigate to documents");
         const nextId = getNextQuestionId(deleteQuestionId);
         navigate.push(`/documents/${nextId}`);
       } 

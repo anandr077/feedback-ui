@@ -285,8 +285,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   }, [isDataLoading, id]);
 
 
-  const deleteDraftPage = async (submissionId, pendingLocation) => {
-    await deleteSubmissionById(submissionId).then(() => {
+  const deleteDraftPage = (submissionId, pendingLocation) => {
+    console.log('deleteDraftPage', submissionId, pendingLocation);
+    deleteSubmissionById(submissionId).then(() => {
       if (pendingLocation) {
         goToNewUrl(pendingLocation, history, unblockRef);
       }
@@ -294,46 +295,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     });
   };
 
-  useEffect(() => {
-    unblockRef.current = history.block((location, action) => {
-      if (
-        submissionByIdData?.status === 'REVIEWED' &&
-        submissionByIdData?.type === 'DOCUMENT' &&
-        submissionByIdData?.studentId === getUserId() &&
-        (submissionByIdData?.feedbackOnFeedback === null ||
-          submissionByIdData?.feedbackOnFeedback === undefined)
-      ) {
-        setPendingLocation(location);
-        setFeedbackReviewPopup(true);
-        return false;
-      }
-      // if (
-      //   submissionByIdData?.status === 'DRAFT' &&
-      //   submissionByIdData?.type === 'DOCUMENT'
-      // ) {
-      //   if (
-      //     !submissionByIdData?.answers &&
-      //     submissionByIdData?.assignment.title === 'Untitled Question'
-      //   ) {
-      //     deleteDraftPage(submissionByIdData.id, location);
-      //     return false;
-      //   } else {
-      //     setPendingLocation(location);
-      //     setPageLeavePopup(true);
-      //     return false;
-      //   }
-      // }
-
-      return true;
-    });
-
-    return () => {
-      if (unblockRef.current) {
-        unblockRef.current();
-      }
-    };
-  }, [submissionByIdData, feedbackReviewPopup, history]);
-
+  
 
   const updateGroupedFocusAreaIds = (serialNumber, focusAreaId) => {
     const isPresent = groupedFocusAreaIds[serialNumber].includes(focusAreaId);

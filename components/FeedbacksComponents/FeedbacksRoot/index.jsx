@@ -86,7 +86,7 @@ const MARKING_METHODOLOGY_TYPE = {
 };
 const isTeacher = getUserRole() === 'TEACHER';
 
-export default function FeedbacksRoot({ isDocumentPage }) {
+export default function FeedbacksRoot() {
   const history = useHistory();
   const [pendingLocation, setPendingLocation] = useState(null);
   const queryClient = useQueryClient();
@@ -284,16 +284,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }, [isDataLoading, id]);
 
-
-  const deleteDraftPage = async (submissionId, pendingLocation) => {
-    await deleteSubmissionById(submissionId).then(() => {
-      if (pendingLocation) {
-        goToNewUrl(pendingLocation, history, unblockRef);
-      }
-      setPageLeavePopup(false);
-    });
-  };
-
   useEffect(() => {
     unblockRef.current = history.block((location, action) => {
       if (
@@ -307,23 +297,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setFeedbackReviewPopup(true);
         return false;
       }
-      if (
-        submissionByIdData?.status === 'DRAFT' &&
-        submissionByIdData?.type === 'DOCUMENT'
-      ) {
-        if (
-          !submissionByIdData?.answers &&
-          submissionByIdData?.assignment.title === 'Untitled Question'
-        ) {
-          deleteDraftPage(submissionByIdData.id, location);
-          return false;
-        } else {
-          setPendingLocation(location);
-          setPageLeavePopup(true);
-          return false;
-        }
-      }
-
       return true;
     });
 
@@ -334,6 +307,19 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     };
   }, [submissionByIdData, feedbackReviewPopup, history]);
 
+
+
+  const deleteDraftPage = (submissionId, pendingLocation) => {
+    console.log('deleteDraftPage', submissionId, pendingLocation);
+    deleteSubmissionById(submissionId).then(() => {
+      if (pendingLocation) {
+        goToNewUrl(pendingLocation, history, unblockRef);
+      }
+      setPageLeavePopup(false);
+    });
+  };
+
+  
 
   const updateGroupedFocusAreaIds = (serialNumber, focusAreaId) => {
     const isPresent = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
@@ -1079,9 +1065,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       resetAllSubmissions();
       resetCommentBanksData();
       if (isTeacher) {
-        window.location.href = nextUrl === '/' ? '/#' : nextUrl;
+        history.push(nextUrl === '/' ? '/#' : nextUrl);
       } else {
-        window.location.href = '/#';
+        history.push('/#');
       }
     });
   }
@@ -1181,10 +1167,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         resetAllSubmissions();
         resetCommentBanksData();
         if (isTeacher) {
-          window.location.href = nextUrl === '/' ? '/#' : nextUrl;
-          window.location.reload();
+          history.push(nextUrl === '/' ? '/#' : nextUrl);
         } else {
-          window.location.href = '/#';
+          history.push('/#')
         }
       });
     }
@@ -1274,7 +1259,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        window.location.href = '/#';
+        history.push('/#');
         setShowLoader(false);
       });
     }, 4000);
@@ -1318,7 +1303,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        window.location.href = '/#';
+        history.push('/#');
         setShowLoader(false);
       });
     }, 4000);

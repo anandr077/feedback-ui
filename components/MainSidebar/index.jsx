@@ -24,6 +24,7 @@ import {
   checkIsActive,
 } from './rules';
 import { getLocalStorage } from '../../utils/function';
+import { useAllDocuments } from '../state/hooks';
 
 const MainSidebar = () => {
   const history = useHistory();
@@ -33,15 +34,22 @@ const MainSidebar = () => {
   const isExpert = isTeacherWithoutClass(role, localClasses);
   const homePageLink = isExpert ? '/giveFeedback' : '/tasks';
 
+
   const isShowTaskItems = !isNonSchoolStudent(role, localClasses);
   const isShowClassItems = isClassItems(role, localClasses);
   const isShowGetFeedbackItems = !isTeacherWithoutClass(role, localClasses);
   const isShowSettingItems = isShowSetting(role);
+ const {
+    data: allDocumentsData,
+    isLoadingdata: isLoadingDocumentsData,
+    resetData,
+    setData,
+  } = useAllDocuments();
 
   const sideNavItems = [
     isShowTaskItems && taskItems(role, homePageLink, location, checkIsActive),
     isShowClassItems && classItems(location, checkIsActive),
-    isShowGetFeedbackItems && getFeedbackItems(role, location, checkIsActive),
+    isShowGetFeedbackItems && getFeedbackItems(role, location, checkIsActive,allDocumentsData),
     isShowSettingItems && isSettingItems(role, location, checkIsActive),
   ].filter(Boolean);
 
@@ -119,8 +127,10 @@ function classItems(location, checkIsActive){
   }
 }
 
-function getFeedbackItems(role, location, checkIsActive){
+function getFeedbackItems(role, location, checkIsActive,allDocumentsData){
   const paths = ['/getFeedback', '/documents'];
+
+  const goToNewDocPage = allDocumentsData && allDocumentsData.length > 0;
 
   return {
     icon: `${role === 'STUDENT' ? getfeedbackIcon : jeddaiIcon}`,
@@ -129,7 +139,7 @@ function getFeedbackItems(role, location, checkIsActive){
     }`,
     isActive: checkIsActive(location, paths),
     name: `${role === 'STUDENT' ? 'Get Feedback' : 'Use JeddAI'}`,
-    link: '/getFeedback',
+    link: goToNewDocPage ? `/documents/${allDocumentsData[0].submissionId}`: '/getFeedback',
   }
 }
 

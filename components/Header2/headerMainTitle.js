@@ -52,6 +52,10 @@ export const headerMainTitle = [
     documentName: 'documentName',
   },
   {
+    link: '/getFeedback',
+    title: role === 'TEACHER' ? 'Use JeddAI' : 'Get Feedback',
+  },
+  {
     link: '/classes',
     title: 'Class Insights',
   },

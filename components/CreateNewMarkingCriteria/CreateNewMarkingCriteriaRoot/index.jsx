@@ -104,6 +104,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const deleteLevel = (criteriaId, levelId) => {
+    
     const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === criteriaId) {
         return {
@@ -115,6 +116,9 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       }
       return criteria;
     });
+    if (newCriterias[criteriaId].levels.length === 0) {
+      newCriterias.splice(criteriaId, 1);
+    }
     setMarkingCriteria({ ...markingCriteria, criterias: newCriterias });
   };
 

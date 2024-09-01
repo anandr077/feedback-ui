@@ -1,36 +1,54 @@
-import {
-  useHistory,
-  useParams,
-} from 'react-router-dom/cjs/react-router-dom.min';
-import { addDocumentToPortfolio } from '../../service';
-import { useAllDocuments } from '../state/hooks';
+import { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { addDocumentToPortfolio, getDocuments } from '../../service';
 import Loader from '../Loader';
+import { useAllDocuments } from '../state/hooks';
 
-export default function  NewDocPage({}) {
-
+export default function NewDocPage() {
+  const [allDocumentsData, setAllDocumentsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
+  const didEffectRunRef = useRef(false);
   const {
-    data: allDocumentsData,
-    isLoadingdata: isLoadingDocumentsData, 
+   
+    resetData,
+    setData,
   } = useAllDocuments();
+
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        const data = await getDocuments();
+        setAllDocumentsData(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching documents:', error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchDocuments();
+  }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (allDocumentsData.length > 0) {
+    history.push(`/documents/${allDocumentsData[0].submissionId}`);
+  } else {
+    addDocumentToPortfolio(null, null, 'Untitled Question')
+      .then((response) => {
+        history.push(`/documents/${response.id}`);
+        resetData();
+      })
+      .catch((err) => {
+        console.error('Error creating document', err)
+      });
+  }
+
+
   
 
-  const history = useHistory();
-  const { id } = useParams();
-
-
-  if (isLoadingDocumentsData && !id) {
-    return (
-      <>
-        <Loader />
-      </>
-    );
-  } 
-  if (id === undefined || id === null) {
-    if (allDocumentsData && allDocumentsData.length > 0) {
-      history.push(`/documents/${allDocumentsData[0].submissionId}`);
-      return null; 
-    }
-  } else {
-    return <FeedbacksRoot isDocumentPage={true} />;
-  }
+  return null;
 }

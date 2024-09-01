@@ -37,6 +37,7 @@ import { isTeacher, isTeacherWithClass } from './rules.js';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
 import { getFirstFourWords } from '../../utils/strings.js';
 import { getLocalStorage } from '../../utils/function.js';
+import { useNotifications } from '../state/hooks.js';
 
 const Header = ({ breadcrumbs }) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -53,14 +54,13 @@ const Header = ({ breadcrumbs }) => {
   const name = getUserName();
   const localClasses = getLocalStorage('classes');
 
-  const { data: notifications, isLoading } = useQuery({
-    queryKey: ['notifications'],
-    queryFn: async () => {
-      const result = await getNotifications();
-      return result;
-    },
-    staleTime: 60000,
-  });
+
+
+
+  const {
+    data: notifications,
+    isLoadingdata: isLoading,
+  } = useNotifications(id = null, condition = true, time = 300000); 
 
   const handleNewTaskClick = () => {
     history.push('/tasks/new');

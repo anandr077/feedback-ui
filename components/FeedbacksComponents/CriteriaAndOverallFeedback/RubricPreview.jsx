@@ -27,12 +27,12 @@ function RubricPreview({ markingCriteria }) {
             <RubricCardBody>
               <RubricCardBodyHeading >
                 <RubricCardBodyHeadingText>
-                  {criteria.selectedLevel}
+                  {criteria?.selectedLevel}
                 </RubricCardBodyHeadingText>
               </RubricCardBodyHeading>
               <RubricCardBodyTextPart>
                 <RubricCardBodyTextPartText>
-                  {selectedLevel.description}
+                  {selectedLevel?.description}
                 </RubricCardBodyTextPartText>
               </RubricCardBodyTextPart>
             </RubricCardBody>

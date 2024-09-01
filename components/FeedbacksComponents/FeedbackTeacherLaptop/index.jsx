@@ -464,7 +464,7 @@ function FeedbackTeacherLaptop(props) {
   function sidebar() {
     return (
       <>
-        {!isNullOrEmpty(otherDrafts) && (
+        {!isNullOrEmpty(otherDrafts) && location.pathname.includes('/documents/') && (
           <IndepentdentUserSidebar
             open={openLeftPanel}
             subjects={otherDrafts?.map((d) => ({
@@ -481,8 +481,8 @@ function FeedbackTeacherLaptop(props) {
           />
         )}
 
-        {((isTeacher && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) ||
-          otherDrafts ||
+        {((isTeacher  && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) ||
+          (otherDrafts && location.pathname.includes('/documents/')) ||
           submission?.studentsSubmissions) && (
           <DrawerArrow
             onClick={handleDrawer}
@@ -501,8 +501,8 @@ function FeedbackTeacherLaptop(props) {
           />
         )}
 
-        {((isTeacher && pageMode !== 'CLOSED' && pageMode !== 'REVIEW') ||
-          otherDrafts.length > 0) && (
+        {((isTeacher && pageMode !== 'CLOSED'  && pageMode !== 'REVIEW') ||
+          (otherDrafts.length > 0 && location.pathname.includes('/documents/'))) && (
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}

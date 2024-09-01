@@ -86,7 +86,7 @@ const MARKING_METHODOLOGY_TYPE = {
 };
 const isTeacher = getUserRole() === 'TEACHER';
 
-export default function FeedbacksRoot({ isDocumentPage }) {
+export default function FeedbacksRoot() {
   const history = useHistory();
   const [pendingLocation, setPendingLocation] = useState(null);
   const queryClient = useQueryClient();
@@ -283,6 +283,30 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       setIsLoading(false);
     }
   }, [isDataLoading, id]);
+
+  useEffect(() => {
+    unblockRef.current = history.block((location, action) => {
+      if (
+        submissionByIdData?.status === 'REVIEWED' &&
+        submissionByIdData?.type === 'DOCUMENT' &&
+        submissionByIdData?.studentId === getUserId() &&
+        (submissionByIdData?.feedbackOnFeedback === null ||
+          submissionByIdData?.feedbackOnFeedback === undefined)
+      ) {
+        setPendingLocation(location);
+        setFeedbackReviewPopup(true);
+        return false;
+      }
+      return true;
+    });
+
+    return () => {
+      if (unblockRef.current) {
+        unblockRef.current();
+      }
+    };
+  }, [submissionByIdData, feedbackReviewPopup, history]);
+
 
 
   const deleteDraftPage = (submissionId, pendingLocation) => {
@@ -1041,9 +1065,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       resetAllSubmissions();
       resetCommentBanksData();
       if (isTeacher) {
-        window.location.href = nextUrl === '/' ? '/#' : nextUrl;
+        history.push(nextUrl === '/' ? '/#' : nextUrl);
       } else {
-        window.location.href = '/#';
+        history.push('/#');
       }
     });
   }
@@ -1143,10 +1167,9 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         resetAllSubmissions();
         resetCommentBanksData();
         if (isTeacher) {
-          window.location.href = nextUrl === '/' ? '/#' : nextUrl;
-          window.location.reload();
+          history.push(nextUrl === '/' ? '/#' : nextUrl);
         } else {
-          window.location.href = '/#';
+          history.push('/#')
         }
       });
     }
@@ -1236,7 +1259,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        window.location.href = '/#';
+        history.push('/#');
         setShowLoader(false);
       });
     }, 4000);
@@ -1280,7 +1303,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        window.location.href = '/#';
+        history.push('/#');
         setShowLoader(false);
       });
     }, 4000);

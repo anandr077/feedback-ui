@@ -2,12 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { addDocumentToPortfolio, getDocuments } from '../../service';
 import Loader from '../Loader';
+import { useAllDocuments } from '../state/hooks';
 
 export default function NewDocPage() {
   const [allDocumentsData, setAllDocumentsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
   const didEffectRunRef = useRef(false);
+  const {
+   
+    resetData,
+    setData,
+  } = useAllDocuments();
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -34,6 +40,7 @@ export default function NewDocPage() {
     addDocumentToPortfolio(null, null, 'Untitled Question')
       .then((response) => {
         history.push(`/documents/${response.id}`);
+        resetData();
       })
       .catch((err) => {
         console.error('Error creating document', err)

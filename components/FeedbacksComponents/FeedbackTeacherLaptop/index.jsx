@@ -284,15 +284,25 @@ function FeedbackTeacherLaptop(props) {
 
   const deleteQuestionFunction = (deleteQuestionId) => {
     deleteSubmissionById(deleteQuestionId).then(() => {
+      console.log('otherDrafts',otherDrafts);
+
+      const filteredOtherDrafts = otherDrafts.filter(
+        (question) => question.submissionId !== deleteQuestionId
+      );
+      console.log('filteredOtherDrafts',filteredOtherDrafts);
+      setOtherDrafts(filteredOtherDrafts);
+      if(filteredOtherDrafts.length === 0){
+        console.log("navigate to getFeedback");
+        navigate.push(`/getFeedback`)
+        
+        return;
+      }
+      
       if (deleteQuestionId === submission.id) {
+        console.log("navigate to documents");
         const nextId = getNextQuestionId(deleteQuestionId);
         navigate.push(`/documents/${nextId}`);
-      } else {
-        const filteredOtherDrafts = otherDrafts.filter(
-          (question) => question.submissionId !== deleteQuestionId
-        );
-        setOtherDrafts(filteredOtherDrafts);
-      }
+      } 
     });
   };
 
@@ -454,7 +464,7 @@ function FeedbackTeacherLaptop(props) {
   function sidebar() {
     return (
       <>
-        {!isNullOrEmpty(otherDrafts) && (
+        {!isNullOrEmpty(otherDrafts) && location.pathname.includes('/documents/') && (
           <IndepentdentUserSidebar
             open={openLeftPanel}
             subjects={otherDrafts?.map((d) => ({
@@ -471,8 +481,8 @@ function FeedbackTeacherLaptop(props) {
           />
         )}
 
-        {((isTeacher && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) ||
-          otherDrafts ||
+        {((isTeacher  && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) ||
+          (otherDrafts && location.pathname.includes('/documents/')) ||
           submission?.studentsSubmissions) && (
           <DrawerArrow
             onClick={handleDrawer}
@@ -491,8 +501,8 @@ function FeedbackTeacherLaptop(props) {
           />
         )}
 
-        {((isTeacher && pageMode !== 'CLOSED' && pageMode !== 'REVIEW') ||
-          otherDrafts.length > 0) && (
+        {((isTeacher && pageMode !== 'CLOSED'  && pageMode !== 'REVIEW') ||
+          (otherDrafts.length > 0 && location.pathname.includes('/documents/'))) && (
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}

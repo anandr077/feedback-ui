@@ -15,7 +15,7 @@ const VisibilityWrapper = ({ children }) => {
     '#/documents',
     '#/documentsReview',
     '#/markingTemplates',
-    '#/tasks/new'
+    '#/tasks/'
   ];
 
   const showHeader = shouldShowComponent(hideHeaderPaths);

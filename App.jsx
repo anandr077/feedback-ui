@@ -6,6 +6,7 @@ import {
   HashRouter as Router,
   Switch,
 } from 'react-router-dom';
+import { datadogRum } from '@datadog/browser-rum';
 import TeacherClassesRoot from './components/Classes/TeacherClassesRoot';
 import CompletedPage from './components/CompletedPage';
 import CreateAssignment from './components/CreateAssignment';
@@ -56,7 +57,7 @@ function App() {
 
   const mobileView = isMobileView();
 
- 
+
 
   const middleware = (c) => withOnboarding(withAuth(c));
   const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
@@ -81,7 +82,7 @@ function App() {
 
   const portfolioClient = new QueryClient();
 
-
+ 
 
   const Tasks = ({ role }) => {
     const tasks =

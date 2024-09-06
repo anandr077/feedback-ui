@@ -47,6 +47,7 @@ import { getLocalStorage } from './utils/function';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import JeddAI from './components/JeddAI';
 import VisibilityWrapper from './components2/VisibilityWrapper/VisibilityWrapper';
+import { ddRum } from './service';
 
 function App() {
   const role = getUserRole();
@@ -82,7 +83,7 @@ function App() {
 
   const portfolioClient = new QueryClient();
 
- 
+  ddRum()
 
   const Tasks = ({ role }) => {
     const tasks =

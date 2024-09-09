@@ -4,14 +4,13 @@ import Box from '@mui/material/Box';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import { DndContext } from '@dnd-kit/core';
 
 export const TabsContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  //   border-top: 1px solid #f2f2f2;
-  //   border-bottom: 1px solid #f2f2f2;
 `;
 
 export const TabContextComponent = styled(TabContext)`
@@ -33,6 +32,10 @@ export const TabNumber = styled.div`
   height: 20px;
   gap: 0px;
   opacity: 0px;
+`;
+
+export const StyledInput = styled.input`
+  display: none;
 `;
 
 export const TabNumberText = styled.div`
@@ -92,7 +95,7 @@ export const UploadFilesContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 220px;
-  background: var(--color-neutral-white, #ffffff);
+  background: var(--color-neutral-white, #f1e6fc);
   gap: 12px;
 `;
 
@@ -104,4 +107,120 @@ export const UploadFilesText = styled.div`
   text-align: center;
   color: #918b97;
   width: 280px;
+`;
+
+export const OrderPagesMainContainer = styled(DndContext)``;
+export const OrderPagesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 40px 60px;
+`;
+
+export const ImagesContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+`;
+export const ImageContainer = styled.div`
+  width: 155px;
+  padding: 20px 19px 20px 19px;
+  gap: 16px;
+  border-radius: 4px;
+  border: 1px;
+  opacity: 0px;
+  background: #ffffff;
+  border: 1px solid var(--color-neutral-90, #c9c6cc);
+  box-shadow: 0px 2px 2px 0px #00000040;
+  position: relative;
+`;
+export const DeleteIcon = styled.img`
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+`;
+export const StyledImage = styled.img`
+  width: 117px;
+  height: 148px;
+  height: auto;
+`;
+
+export const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border: 0px 0px 1px 0px;
+  background: var(--color-purple-70, #fbf7fe);
+  border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+`;
+
+export const AddButtonContainer = styled.div``;
+export const AddButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 10px 8px;
+  gap: 8px;
+  border-radius: 30px;
+  border: 1px 0px 0px 0px;
+  opacity: 0px;
+  background: var(--color-neutral-white, #ffffff);
+  border: 1px solid var(--color-purple-300, #7200e0);
+  cursor: pointer;
+`;
+
+export const AddButtonImage = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
+export const AddButtonText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  color: var(--color-purple-300, #7200e0);
+`;
+
+export const PreviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 40px 60px;
+`;
+
+export const PreviewImg = styled.img`
+  width: 100%;
+`;
+
+export const CancelAndContinueButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+`;
+
+export const CancelButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  cursor: pointer;
+`;
+
+export const CancelIcon = styled.img`
+  width: 24px;
+  height: 24px;
+  gap: 0px;
+  opacity: 0px;
+`;
+export const CancelButtonText = styled.p`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  color: var(--color-neutral-400, #56515b);
 `;

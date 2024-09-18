@@ -102,6 +102,7 @@ function FeedbackTeacherLaptop(props) {
     openRightPanel,
     setOpenRightPanel,
     showLottie,
+    setSelectedComment,
   } = props;
   console.log('submission', submission);
 
@@ -309,6 +310,7 @@ function FeedbackTeacherLaptop(props) {
   function handleToggleUpdate() {
     setFeedback((prev) => !prev);
     setFocusAreas((prev) => !prev);
+    setSelectedComment(null);
     methods.setShowNewComment(false);
   }
 

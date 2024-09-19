@@ -6,6 +6,7 @@ import {
   HashRouter as Router,
   Switch,
 } from 'react-router-dom';
+import { datadogRum } from '@datadog/browser-rum';
 import TeacherClassesRoot from './components/Classes/TeacherClassesRoot';
 import CompletedPage from './components/CompletedPage';
 import CreateAssignment from './components/CreateAssignment';
@@ -46,6 +47,7 @@ import { getLocalStorage } from './utils/function';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import JeddAI from './components/JeddAI';
 import VisibilityWrapper from './components2/VisibilityWrapper/VisibilityWrapper';
+import { ddRum } from './service';
 
 function App() {
   const role = getUserRole();
@@ -56,7 +58,7 @@ function App() {
 
   const mobileView = isMobileView();
 
- 
+
 
   const middleware = (c) => withOnboarding(withAuth(c));
   const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
@@ -81,7 +83,7 @@ function App() {
 
   const portfolioClient = new QueryClient();
 
-
+  ddRum()
 
   const Tasks = ({ role }) => {
     const tasks =

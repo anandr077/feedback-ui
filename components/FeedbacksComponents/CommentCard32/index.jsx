@@ -167,6 +167,7 @@ function CommentCard32(props) {
   }
   return (
     <CommentCard
+      key={comment.id}
       bgColor={comment.color}
       id={'comment_' + comment.id}
       className={`comment-card-4 ${className || ''}`}

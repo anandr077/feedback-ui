@@ -1800,6 +1800,7 @@ export default function FeedbacksRoot() {
           openRightPanel,
           setOpenRightPanel,
           showLottie,
+          setSelectedComment,
         }}
       />
     </FeedbackContext.Provider>

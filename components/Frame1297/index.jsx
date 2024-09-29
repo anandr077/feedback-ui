@@ -5,7 +5,6 @@ import {
   IbmplexsansNormalShark20px,
 } from '../../styledMixins';
 import DropdownMenu from '../DropdownMenu';
-import { set } from 'lodash';
 import StyledDropDown from '../../components2/StyledDropDown';
 import RedBin from '../../static/img/RedBin.svg';
 
@@ -17,17 +16,36 @@ function Frame1297(props) {
     defaultType,
     deleteQuestionFrameFn,
   } = props;
-  const [type, setType] = React.useState(defaultType);
 
-  const setTypeTheory = () => {
-    setType('TEXT');
-    UpdateQuestionFrame(serialNumber, 'TEXT');
+  // Map 'TEXT' and 'ESSAY' to 'Analytical'
+  const initialType = ['TEXT', 'ESSAY'].includes(defaultType) ? 'Analytical' : defaultType;
+  const [type, setType] = React.useState(initialType);
+
+  const setTypeAnalytical = () => {
+    setType('Analytical');
+    UpdateQuestionFrame(serialNumber, 'Analytical');
   };
 
-  const setTypeEssay = () => {
-    setType('ESSAY');
-    UpdateQuestionFrame(serialNumber, 'ESSAY');
+  const setTypeImaginative = () => {
+    setType('Imaginative');
+    UpdateQuestionFrame(serialNumber, 'Imaginative');
   };
+
+  const setTypeDiscursive = () => {
+    setType('Discursive');
+    UpdateQuestionFrame(serialNumber, 'Discursive');
+  };
+
+  const setTypePersuasive = () => {
+    setType('Persuasive');
+    UpdateQuestionFrame(serialNumber, 'Persuasive');
+  };
+
+  const setTypeReflective = () => {
+    setType('Reflective');
+    UpdateQuestionFrame(serialNumber, 'Reflective');
+  };
+
   return (
     <QuestionPart>
       <Frame12971>
@@ -36,15 +54,18 @@ function Frame1297(props) {
         </Frame1281>
         <DeleteButtonFrame>
           <BinImage src={RedBin} />
-          <DeleteButton onClick={() => deleteQuestionFrameFn(number)}>
+          <DeleteButton onClick={() => deleteQuestionFrameFn(serialNumber)}>
             Delete
           </DeleteButton>
         </DeleteButtonFrame>
       </Frame12971>
       {createQuestionTypeSelector(
         type,
-        setTypeTheory,
-        setTypeEssay
+        setTypeAnalytical,
+        setTypeImaginative,
+        setTypeDiscursive,
+        setTypePersuasive,
+        setTypeReflective
       )}
     </QuestionPart>
   );
@@ -52,25 +73,46 @@ function Frame1297(props) {
 
 const createQuestionTypeSelector = (
   type,
-  setTypeTheory,
-  setTypeEssay
+  setTypeAnalytical,
+  setTypeImaginative,
+  setTypeDiscursive,
+  setTypePersuasive,
+  setTypeReflective
 ) => {
   const menuItems = [
     {
       id: 0,
-      image: '/img/assignment-4@2x.png',
-      title: 'Short response',
-      onClick: setTypeTheory,
+      // image: '/img/assignment-4@2x.png',
+      title: 'Analytical',
+      onClick: setTypeAnalytical,
     },
     {
       id: 1,
-      image: '/img/assignment-4@2x.png',
-      title: 'Extended response',
-      onClick: setTypeEssay,
+      // image: '/img/assignment-4@2x.png',
+      title: 'Imaginative',
+      onClick: setTypeImaginative,
     },
-   
+    {
+      id: 2,
+      // image: '/img/assignment-4@2x.png',
+      title: 'Discursive',
+      onClick: setTypeDiscursive,
+    },
+    {
+      id: 3,
+      // image: '/img/assignment-4@2x.png',
+      title: 'Persuasive',
+      onClick: setTypePersuasive,
+    },
+    {
+      id: 4,
+      // image: '/img/assignment-4@2x.png',
+      title: 'Reflective',
+      onClick: setTypeReflective,
+    },
   ];
-  const selectedIndex = type === 'ESSAY' ? 1 : 0;
+
+  const selectedIndex = menuItems.findIndex((item) => item.title === type);
   return (
     <StyledDropDown
       selectedIndex={selectedIndex}
@@ -112,39 +154,6 @@ const QuestionPart = styled.div`
   flex-direction: column;
   gap: 23px;
 `;
-const DropDown = styled.div`
-  position: absolute;
-  right: 30px;
-  top: 3px;
-  cursor: pointer;
-`;
-
-const RichTextComponents2 = styled.div`
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  gap: 8px;
-
-  position: relative;
-  border-radius: 4px;
-  overflow: hidden;
-  cursor: pointer;
-`;
-
-const Assignment2 = styled.img`
-  position: relative;
-  height: 24px;
-  cursor: pointer;
-`;
-
-const Text = styled.div`
-  ${IbmplexsansNormalShark16px}
-  position: relative;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
-  cursor: pointer;
-`;
 
 const Frame12971 = styled.div`
   display: flex;
@@ -160,42 +169,11 @@ const Frame12971 = styled.div`
   }
 `;
 
-const Frame1287 = styled.div`
+const Frame1281 = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
-  position: relative;
-  flex: 1;
-`;
-
-const Frame1283 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-  align-self: stretch;
-  // cursor: pointer;
-  flex-wrap: wrap;
-`;
-
-const Frame1282 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 8px;
-  position: relative;
-  flex: 1;
-`;
-
-const Text1 = styled.div`
-  ${IbmplexsansNormalShark20px}
-  position: relative;
-  align-self: stretch;
-  margin-top: -1px;
-  letter-spacing: 0;
-  line-height: normal;
+  border-radius: 38px;
+  border: 1px;
+  gap: 10px;
 `;
 
 const ToremIpsumDolorSi = styled.p`
@@ -208,37 +186,6 @@ const ToremIpsumDolorSi = styled.p`
   letter-spacing: normal;
   text-align: left;
   color: #56515b;
-`;
-
-const Frame1281 = styled.div`
-  display: flex;
-  border-radius: 38px;
-  border: 1px;
-  gap: 10px;
-`;
-
-const RichTextComponents1 = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px;
-  position: relative;
-  align-self: stretch;
-  border-radius: 4px;
-  overflow: hidden;
-`;
-
-const Assignment = styled.img`
-  position: relative;
-  min-width: 20px;
-  height: 20px;
-`;
-
-const Frame1284 = styled.img`
-  position: relative;
-  min-width: 28px;
-  height: 28px;
-  cursor: pointer;
 `;
 
 export default Frame1297;

@@ -1265,6 +1265,8 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
     toast(<Toast message={'Submitting task...'} />);
 
     setTimeout(() => {
+      const quill = quillRefs.current[0];
+      // console.log("Get text", quill.getText());
       submitAssignment(submissionByIdData.id).then((_) => {
         
 
@@ -1655,9 +1657,9 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
   const jeddAI = (includeFeedbackMethods) => {
     const q = quillRefs.current[0];
     const args = [submissionByIdData?.id, q.getText()];
-  if (includeFeedbackMethods) {
-    args.push(currentMarkingCriteria?.id, currentCommentBank?.id);
-  }
+    if (includeFeedbackMethods) {
+      args.push(currentMarkingCriteria?.id, currentCommentBank?.id);
+    }
 
     return askJeddAI(...args).then((res) => {
       setSubmissionByIdData((old) => ({

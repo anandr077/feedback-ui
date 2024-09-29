@@ -623,6 +623,8 @@ export default function CreateAssignment(props) {
       }
     } else {
       if(assignment.reviewedBy === 'TEACHER') return true;
+      else if(assignment.reviewedBy === 'JEDDAI') return true;
+      else if(assignment.reviewedBy === 'JEDDAI_ASSISTED') return true;
       else{
         const dueDateContainer = document.getElementById('DnDContainer');
         dueDateContainer.style.border = '1px solid red';
@@ -726,6 +728,32 @@ export default function CreateAssignment(props) {
           <QuestionTooltip
             text={
               "Students mark each other's work anonymously. Use the drag-and-drop feature to pair specific students together"
+            }
+            img={questionMark}
+          />
+        </LableAndImgContainer>
+        <LableAndImgContainer>
+          <StyledFormControlLabel
+            value="JEDDAI"
+            control={<Radio />}
+            label="JeddAI"
+          />
+          <QuestionTooltip
+            text={
+              "JeddAI will provide instant feedback to students"
+            }
+            img={questionMark}
+          />
+        </LableAndImgContainer>
+        <LableAndImgContainer>
+          <StyledFormControlLabel
+            value="JEDDAI_ASSISTED"
+            control={<Radio />}
+            label="AI Assisted" 
+          />
+          <QuestionTooltip
+            text={
+              "JeddAI will provide feedback to students, but teachers will have the final say"
             }
             img={questionMark}
           />

@@ -290,7 +290,7 @@ function submitButtonOnDocument(
             isTeacher
               ? (event) => {
                   event.stopPropagation();
-                  methods.jeddAI();
+                  methods.setShowJeddAIFeedbackTypeSelectionPopUp(true);
                 }
               : (event) => {
                   event.stopPropagation();

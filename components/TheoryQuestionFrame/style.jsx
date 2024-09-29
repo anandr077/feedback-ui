@@ -11,6 +11,7 @@ export const MarkingCriteriaSelectionContainer = styled.div`
   align-items: flex-start;
   width: 100%;
   gap: 16px;
+  padding: ${(props) => props.padding};
 `;
 
 export const FocusAreasFrame = styled.div`

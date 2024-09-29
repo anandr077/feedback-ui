@@ -138,6 +138,18 @@ export const isShowJeddAITab = (submissionType) => {
 
 export const isTeacher = getUserRole() === 'TEACHER';
 
+export const appendFunction = (markingCriterias) => {
+  return markingCriterias.map((item) => {
+    if (item.type === 'STRENGTHS_TARGETS' && !item.title.includes('(S&T)')) {
+      item.title = item.title + ' (S&T)';
+    }
+    if (item.type === 'RUBRICS' && !item.title.includes('(R)')) {
+      item.title = item.title + ' (R)';
+    }
+    return item;
+  });
+};
+
 
 export const isShowOverAllTextFeedback = (pageMode, overallComment) => {
   return pageMode === 'REVIEW' || overallComment != null;

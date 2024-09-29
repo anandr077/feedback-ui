@@ -23,7 +23,7 @@ function RubricPreview({ markingCriteria }) {
         
         return (
           <RubricCard key={index}>
-            <RubricCardHeadingText>{criteria.title}</RubricCardHeadingText>
+            <RubricCardHeadingText>{criteria?.title}</RubricCardHeadingText>
             <RubricCardBody>
               <RubricCardBodyHeading >
                 <RubricCardBodyHeadingText>

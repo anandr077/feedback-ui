@@ -193,7 +193,7 @@ export const DropdownMenu = (props) => {
             fullWidth
           />
         )}
-        {filteredMenuItems.map((item) => {
+        {filteredMenuItems?.map((item) => {
           if (item.heading) {
             return withHeadings(
               item,

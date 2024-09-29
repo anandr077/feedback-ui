@@ -58,6 +58,7 @@ import { Dialog, DialogActions, DialogContent } from '@mui/material';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 import { CancelButton, ProceedButton } from '../../GeneralPopup/style';
+import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -187,6 +188,11 @@ function FeedbackTeacherLaptop(props) {
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [editorFontSize, setEditorFontSize] = useState(100);
   const [changedCommentBankId, setChangedCommentBankId] = useState();
+  const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(
+    []
+  );
+  const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
+  React.useState(false);
 
 
   const handleRequestFeedback = async (index) => {
@@ -202,6 +208,12 @@ function FeedbackTeacherLaptop(props) {
 
     setCurrentCommentBank(commentBank);
     setCommentBankPreviewDialog(commentBank?.smartComments?.length > 0);
+  }
+
+  function handleMarkingCriteriaPreview(markingCriteria) {
+    console.log('markingCriteria',markingCriteria)
+    setCurrentMarkingCriteria(markingCriteria);
+    setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
 
 
@@ -432,7 +444,10 @@ function FeedbackTeacherLaptop(props) {
               setQuestionIndex,
               openLeftPanel,
               setOtherDrafts,
-              showLottie
+              showLottie,
+              handleCommentBankPreview,
+              handleMarkingCriteriaPreview,
+
             )}
           </Frame1388>
         </>
@@ -457,6 +472,12 @@ function FeedbackTeacherLaptop(props) {
         <CommentBankDialog
           setCommentBankPreviewDialog={setCommentBankPreviewDialog}
           commentBank={currentCommentBank}
+        />
+      )}
+       {openMarkingCriteriaPreviewDialog && currentMarkingCriteria?.type && (
+        <PreviewDialog
+          setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
+          markingCriterias={currentMarkingCriteria}
         />
       )}
       <>{isMobile && <ResponsiveFooter />}</>
@@ -608,7 +629,9 @@ function answersAndFeedbacks(
   setQuestionIndex,
   openLeftPanel,
   setOtherDrafts,
-  showLottie
+  showLottie,
+  handleCommentBankPreview,
+  handleMarkingCriteriaPreview
 ) {
   const handleRightSidebarClick = (tab) => {
     setOpenRightPanel(tab);
@@ -690,7 +713,9 @@ function answersAndFeedbacks(
             isFeedback,
             isFocusAreas,
             openLeftPanel,
-            setOtherDrafts
+            setOtherDrafts,
+            handleCommentBankPreview,
+            handleMarkingCriteriaPreview
           )}
         </Frame1368>
         <>

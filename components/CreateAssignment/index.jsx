@@ -646,6 +646,7 @@ export default function CreateAssignment(props) {
   };
 
   const publish = () => {
+    if(isChanged) setIsChanged(false);
     setShowPublishPopup(false);
     if (isAssignmentValid()) {
       updateAssignment(assignment.id, assignment).then((_) => {

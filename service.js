@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { deleteProfileCookies } from './userLocalDetails';
 import { getLocalStorage } from './utils/function';
+import { datadogRum } from '@datadog/browser-rum';
 
 // const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "https://feedbacks-backend-leso2wocda-ts.a.run.app";
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
@@ -10,7 +11,25 @@ const selfBaseUrl =
   process.env.REACT_APP_SELF_BASE_URL ?? 'http://localhost:1234';
 const clientId =
   process.env.REACT_APP_CLIENT_ID ?? 'glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr';
+const env =
+  process.env.REACT_APP_ENV ?? 'dev';
 
+export const ddRum = () => {
+
+  datadogRum.init({
+      applicationId: 'c060e39a-fe15-41c6-b580-158c4d290665',
+      clientToken: 'pub5367c2844dea48390397f6cf72864575',
+      site: 'us5.datadoghq.com',
+      service: 'gojeddle',
+      env: env,
+      sessionSampleRate: 100,
+      sessionReplaySampleRate: 20,
+      trackUserInteractions: true,
+      trackResources: true,
+      trackLongTasks: true,
+      defaultPrivacyLevel: 'mask-user-input',
+  });
+}
 async function fetchData(url, options, headers = {}) {
   const defaultHeaders = new Headers();
   const token = localStorage.getItem('jwtToken');
@@ -232,6 +251,8 @@ export const getStudentsStatsByClassId = async (classId) =>
   await getApi(baseUrl + '/classes/' + classId + '/studentStats');
 export const getAssignments = async () =>
   await getApi(baseUrl + '/assignments');
+export const getDocuments = async () =>
+  await getApi(baseUrl + '/submissions/documents');
 export const getDocumentReviews = async () =>
   await getApi(baseUrl + '/document-review-tasks');
 export const startSubmission = async (assignmentDetails) =>
@@ -245,8 +266,7 @@ export const getOverComments = async (id) =>
 export const getPortfolioSubjects = async () =>
   await getApi(baseUrl + '/students/drafts');
 
-export const getOtherDrafts = async (id) =>
-  await getApi(baseUrl + '/submissions/' + id + '/otherDrafts');
+
 
 export const addFeedback = async (submissionId, comment) =>
   await postApi(

@@ -72,6 +72,8 @@ function DragAndDrop(props) {
   };
 
   useEffect(() => {
+    if (students.length === 0) return; 
+  
     if (!reviewedByList.length || reshuffleStudents > 0) {
       let shuffledStudents = shuffleArray(students);
       let isUniqueAtEachIndex = shuffledStudents.every(
@@ -83,15 +85,18 @@ function DragAndDrop(props) {
           (newReviewer, index) => newReviewer.id !== students[index].id
         );
       }
-
+  
       setInternalReviewedByList(shuffledStudents);
       setReviewedByList(shuffledStudents);
     }
-
-    setTimeout(() => {
+  
+    const timeoutId = setTimeout(() => {
       setReshuffleStudents(0);
     }, 1);
+  
+    return () => clearTimeout(timeoutId);
   }, [students, setReviewedByList, reshuffleStudents]);
+  
 
   function truncateName(name) {
     return name.length > 20 ? (
@@ -114,7 +119,7 @@ function DragAndDrop(props) {
         <Heading>Submitted by</Heading>
         <StudentsContainer>
           {students.map((student) => (
-            <StudentContainer>
+            <StudentContainer key={student.id}>
               <Avatar
                 title={false}
                 size={25}

@@ -76,6 +76,7 @@ import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
 import { allCriteriaHaveSelectedLevels, isShowJeddAITab } from './rules.js';
 import { useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useMarkingCriterias, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import { useAllDocuments, useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 import { DialogContent } from '@mui/material';
 import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection.jsx';
 import { getLocalStorage } from '../../../utils/function.js';
@@ -89,7 +90,7 @@ const MARKING_METHODOLOGY_TYPE = {
 };
 const isTeacher = getUserRole() === 'TEACHER';
 
-export default function FeedbacksRoot({ isDocumentPage }) {
+export default function FeedbacksRoot() {
   const history = useHistory();
   const [pendingLocation, setPendingLocation] = useState(null);
   const queryClient = useQueryClient();
@@ -155,12 +156,17 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
     setData: setOverAllCommentsById,
     resetData: resetOverAllCommentsById,
   } = useOverAllCommentsById(id);
+
+
+  
   const {
-    data: otherDraftsById,
-    isLoadingdata: isLoadingotherDraftsById,
-    setData: setOtherDraftsById,
-    resetData: resetOtherDraftsById,
-  } = useOtherDraftsById(id);
+    data: allDocumentsData,
+    isLoadingdata: isLoadingDocumentsData,
+    setData: setAllDocuments,
+    resetData: resetAllDocuments,
+  } = useAllDocuments();
+
+
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const { data: isJeddAIEnabled, isLoadingdata: isLoadingJeddAIEnabled } = useIsJeddAIEnabled();
  
@@ -205,7 +211,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
     isLoadingsubmissionByIdData ||
     isLoadingcommentsByIdData ||
     isLoadingoverAllCommentsById ||
-    isLoadingotherDraftsById ||
+    isLoadingDocumentsData ||
     isLoadingclassData ||
     isLoadingJeddAIEnabled||
     (isTeacher &&
@@ -296,16 +302,6 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
     }
   }, [isDataLoading, id]);
 
-
-  const deleteDraftPage = async (submissionId, pendingLocation) => {
-    await deleteSubmissionById(submissionId).then(() => {
-      if (pendingLocation) {
-        goToNewUrl(pendingLocation, history, unblockRef);
-      }
-      setPageLeavePopup(false);
-    });
-  };
-
   useEffect(() => {
     unblockRef.current = history.block((location, action) => {
       if (
@@ -319,23 +315,6 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
         setFeedbackReviewPopup(true);
         return false;
       }
-      if (
-        submissionByIdData?.status === 'DRAFT' &&
-        submissionByIdData?.type === 'DOCUMENT'
-      ) {
-        if (
-          !submissionByIdData?.answers &&
-          submissionByIdData?.assignment.title === 'Untitled Question'
-        ) {
-          deleteDraftPage(submissionByIdData.id, location);
-          return false;
-        } else {
-          setPendingLocation(location);
-          setPageLeavePopup(true);
-          return false;
-        }
-      }
-
       return true;
     });
 
@@ -346,6 +325,19 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
     };
   }, [submissionByIdData, feedbackReviewPopup, history]);
 
+
+
+  const deleteDraftPage = (submissionId, pendingLocation) => {
+    console.log('deleteDraftPage', submissionId, pendingLocation);
+    deleteSubmissionById(submissionId).then(() => {
+      if (pendingLocation) {
+        goToNewUrl(pendingLocation, history, unblockRef);
+      }
+      setPageLeavePopup(false);
+    });
+  };
+
+  
 
   const updateGroupedFocusAreaIds = (serialNumber, focusAreaId) => {
     const isPresent = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
@@ -1087,13 +1079,13 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
       resetSubmissionByIdData();
       resetCommentsByIdData();
       resetOverAllCommentsById();
-      resetOtherDraftsById();
+      resetAllDocuments();
       resetAllSubmissions();
       resetCommentBanksData();
       if (isTeacher) {
-        window.location.href = nextUrl === '/' ? '/#' : nextUrl;
+        history.push(nextUrl === '/' ? '/#' : nextUrl);
       } else {
-        window.location.href = '/#';
+        history.push('/#');
       }
     });
   }
@@ -1189,14 +1181,13 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
         resetSubmissionByIdData();
         resetCommentsByIdData();
         resetOverAllCommentsById();
-        resetOtherDraftsById();
+        resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
         if (isTeacher) {
-          window.location.href = nextUrl === '/' ? '/#' : nextUrl;
-          window.location.reload();
+          history.push(nextUrl === '/' ? '/#' : nextUrl);
         } else {
-          window.location.href = '/#';
+          history.push('/#')
         }
       });
     }
@@ -1285,10 +1276,10 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
         resetSubmissionByIdData();
         resetCommentsByIdData();
         resetOverAllCommentsById();
-        resetOtherDraftsById();
+        resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        window.location.href = '/#';
+        history.push('/#');
         setShowLoader(false);
       });
     }, 4000);
@@ -1329,10 +1320,10 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
         resetSubmissionByIdData();
         resetCommentsByIdData();
         resetOverAllCommentsById();
-        resetOtherDraftsById();
+        resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        window.location.href = '/#';
+        history.push('/#');
         setShowLoader(false);
       });
     }, 4000);
@@ -1869,8 +1860,8 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
           selectedComment,
           overallComments: overAllCommentsById,
           markingCriteriaFeedback,
-          otherDrafts: otherDraftsById,
-          setOtherDrafts: setOtherDraftsById,
+          otherDrafts: allDocumentsData,
+          setOtherDrafts: setAllDocuments,
           groupedFocusAreaIds,
           feedbanksData,
           showFeedbackBanksPopUp,
@@ -1878,6 +1869,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
           openRightPanel,
           setOpenRightPanel,
           showLottie,
+          setSelectedComment,
         }}
       />
     </FeedbackContext.Provider>

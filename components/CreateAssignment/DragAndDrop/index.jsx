@@ -137,12 +137,12 @@ function DragAndDrop(props) {
         <StudentsDnD>
           <Heading>
             Reviewed by
-            {reviewedByList.length > 0 && (
+            {/* {reviewedByList.length > 0 && (
               <ShuffleBtn onClick={triggerReshuffle}>
                 <TooltipSpan>Shuffle</TooltipSpan>
                 <ReshuffleIcon src={ShuffleIcon} />
               </ShuffleBtn>
-            )}
+            )} */}
           </Heading>
           <StudentDnD droppableId="reviewedBy" type="group">
             {(provided) => (

@@ -623,6 +623,8 @@ export default function CreateAssignment(props) {
       }
     } else {
       if(assignment.reviewedBy === 'TEACHER') return true;
+      else if(assignment.reviewedBy === 'JEDDAI') return true;
+      else if(assignment.reviewedBy === 'JEDDAI_ASSISTED') return true;
       else{
         const dueDateContainer = document.getElementById('DnDContainer');
         dueDateContainer.style.border = '1px solid red';
@@ -708,13 +710,39 @@ export default function CreateAssignment(props) {
       >
         <LableAndImgContainer>
           <StyledFormControlLabel
+            value="JEDDAI_ASSISTED"
+            control={<Radio />}
+            label="Teacher (AI assisted)" 
+          />
+          <QuestionTooltip
+            text={
+              "JeddAI will provide feedback to students, but teachers will have the final say"
+            }
+            img={questionMark}
+          />
+        </LableAndImgContainer>
+        <LableAndImgContainer>
+          <StyledFormControlLabel
             value="TEACHER"
             control={<Radio />}
-            label="Teacher Feedback"
+            label="Teacher (Manual)"
             // endIcon={<TitleImage src={questionMark} />}
           />
           <QuestionTooltip
-            text={'Each submission will be reviewed by the class teacher'}
+            text={'Each submission will be reviewed by the teacher'}
+            img={questionMark}
+          />
+        </LableAndImgContainer>
+        <LableAndImgContainer>
+          <StyledFormControlLabel
+            value="JEDDAI"
+            control={<Radio />}
+            label="JeddAI (Instant)"
+          />
+          <QuestionTooltip
+            text={
+              "JeddAI will provide instant feedback to students"
+            }
             img={questionMark}
           />
         </LableAndImgContainer>

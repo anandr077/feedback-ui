@@ -31,6 +31,7 @@ import {
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import { useHistory } from 'react-router-dom';
 import QuestionFieldSelection from './QuestionFieldSelection';
+import { appendFunction } from '../FeedbacksComponents/FeedbacksRoot/rules';
 
 export default function TheoryQuestionFrame(props) {
   const {
@@ -64,17 +65,7 @@ export default function TheoryQuestionFrame(props) {
     return item.id === questionDetails?.commentBankId;
   });
 
-  const appendFunction = (markingCriterias) => {
-    return markingCriterias.map((item) => {
-      if (item.type === 'STRENGTHS_TARGETS' && !item.title.includes('(S&T)')) {
-        item.title = item.title + ' (S&T)';
-      }
-      if (item.type === 'RUBRICS' && !item.title.includes('(R)')) {
-        item.title = item.title + ' (R)';
-      }
-      return item;
-    });
-  };
+
   const handleDeleteFocusArea = (id) => {
     deleteFocusArea(id).then((res) => {
       getFocusAreas().then((focusAreas) => {

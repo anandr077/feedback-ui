@@ -716,7 +716,7 @@ export default function CreateAssignment(props) {
           />
           <QuestionTooltip
             text={
-              "JeddAI will provide feedback to students, but teachers will have the final say"
+              "JeddAI provides instant feedback suggestions that you can review and edit before submitting."
             }
             img={questionMark}
           />
@@ -741,7 +741,7 @@ export default function CreateAssignment(props) {
           />
           <QuestionTooltip
             text={
-              "JeddAI will provide instant feedback to students"
+              "JeddAI provides instant feedback to students without teacher input."
             }
             img={questionMark}
           />

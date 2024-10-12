@@ -12,6 +12,8 @@ import '@lottiefiles/lottie-player';
 import AIFeedbackImage from '../../../static/img/AI-feedback-Image.svg';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
+import { jeddAiReviewText } from './functions';
 
 const lottieAnimations = [
   { src: './icons/Scanning.json', text: 'Scanning the document' },
@@ -21,7 +23,12 @@ const lottieAnimations = [
   { src: './icons/Finaliasing.json', text: 'Finalising the document' },
 ];
 
-const JeddAITab = ({ handleClose, openRightPanel, showLottie }) => {
+const JeddAITab = ({
+  handleClose,
+  openRightPanel,
+  showLottie,
+  handleJeddAIReview,
+}) => {
   const [currentAnimationIndex, setCurrentAnimationIndex] = useState(0);
 
   useEffect(() => {
@@ -55,19 +62,11 @@ const JeddAITab = ({ handleClose, openRightPanel, showLottie }) => {
         ) : (
           <>
             <AIImage src={AIFeedbackImage} alt="AI Feedback Image" />
-            <TextContainer>
-              <ul>
-                <li>
-                  Submit a draft to JeddAI for instant feedback
-                </li>
-                <li>
-                  JeddAI offers practical and reliable feedback on your work by using teacher-trained marking models
-                </li>
-                <li>
-                  Remember to look at both the specific suggestions and overall comments to maximise your results
-                </li>
-              </ul>
-            </TextContainer>
+            <TextContainer>{jeddAiReviewText()}</TextContainer>
+            <RoundedBorderSubmitBtn
+              text="Get Started"
+              onClickFn={() => handleJeddAIReview()}
+            />
           </>
         )}
       </SubmissionBody>

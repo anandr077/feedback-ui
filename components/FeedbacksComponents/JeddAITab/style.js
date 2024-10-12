@@ -25,7 +25,6 @@ export const SubmissionBody = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 20px 16px;
   gap: 20px;
 `;
@@ -47,6 +46,7 @@ export const AIImage = styled.img`
   height: 209px;
   gap: 0px;
   opacity: 0px;
+  margin: 0 auto;
 `;
 
 export const TextContainer = styled.div`

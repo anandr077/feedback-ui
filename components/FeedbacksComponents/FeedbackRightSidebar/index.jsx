@@ -44,6 +44,14 @@ const FeedbackRightSidebar = ({
             />
           </Button>
         )}
+        {isShowJeddAITab(submission?.type, pageMode, isTeacher) && (
+          <Button
+            isActive={openRightPanel === 'tab4'}
+            onClick={() => handleClick('tab4')}
+          >
+            <img src={openRightPanel === 'tab4' ? AIActive : AI} />
+          </Button>
+        )}
         {isShowMarkingCriteriaAndOverallFeedbackButton(
           isTeacher,
           submission?.type,
@@ -73,14 +81,6 @@ const FeedbackRightSidebar = ({
             <img src={openRightPanel === 'tab3' ? TasksIcon : TasksIcon} />
           </Button>
         )}
-        {
-          isShowJeddAITab(submission?.type) && (
-          <Button isActive={openRightPanel === 'tab4'} onClick={() => handleClick('tab4')}>
-          <img src={openRightPanel === 'tab4' ? AIActive : AI} />
-          </Button>
-          )
-        }
-        
       </TopSection>
     </MainContainer>
   );

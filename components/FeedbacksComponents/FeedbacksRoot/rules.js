@@ -132,8 +132,8 @@ export const isShowMarkingCriteriaAndOverallFeedbackButton = (
 export const isShowQuestionsTab = (submissionType) => {
   return submissionType !== 'DOCUMENT';
 };
-export const isShowJeddAITab = (submissionType) => {
-  return submissionType === 'DOCUMENT';
+export const isShowJeddAITab = (submissionType, pageMode, isTeacher) => {
+  return submissionType === 'DOCUMENT' || (pageMode === 'REVIEW' && isTeacher);
 };
 
 export const isTeacher = getUserRole() === 'TEACHER';

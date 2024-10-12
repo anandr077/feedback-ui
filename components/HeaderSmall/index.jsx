@@ -15,6 +15,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import HeaderHelpBar from '../../components2/HeaderHelpBar/index.jsx';
 import HelpSidebar from '../../components2/HelpSidebar';
+import { useNotifications } from '../state/hooks.js';
 
 export default function HeaderSmall(props) {
   const { headerProps } = props;
@@ -23,14 +24,10 @@ export default function HeaderSmall(props) {
   const [isHelpBarOpen, setIsHelpBarOpen] = useState(false);
   const isTeacher = getUserRole() === 'TEACHER';
 
-   const { data: notifications, isLoading } = useQuery({
-    queryKey: ['notifications'],
-    queryFn: async () => {
-      const result = await getNotifications();
-      return result;
-    },
-    staleTime: 60000,
-  });
+  const {
+    data: notifications,
+    isLoadingdata: isLoading,
+  } = useNotifications(id = null, condition = true, time = 300000); 
 
   const handleNotificationClick = () => {
     setIsNotificationOpen(!isNotificationOpen);

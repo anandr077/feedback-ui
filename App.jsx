@@ -6,6 +6,7 @@ import {
   HashRouter as Router,
   Switch,
 } from 'react-router-dom';
+import { datadogRum } from '@datadog/browser-rum';
 import TeacherClassesRoot from './components/Classes/TeacherClassesRoot';
 import CompletedPage from './components/CompletedPage';
 import CreateAssignment from './components/CreateAssignment';
@@ -45,6 +46,8 @@ import { shouldShowComponent } from './rules';
 import { getLocalStorage } from './utils/function';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import JeddAI from './components/JeddAI';
+import VisibilityWrapper from './components2/VisibilityWrapper/VisibilityWrapper';
+import { ddRum } from './service';
 
 function App() {
   const role = getUserRole();
@@ -55,29 +58,7 @@ function App() {
 
   const mobileView = isMobileView();
 
-  useEffect(() => {
-    const handleRouteChange = () => {
-      const hideFooterRoutes = [
-        '#/submissions/',
-        '#/documents/',
-        '#/documentsReview/',
-      ];
-      const hideHeaderPaths = [
-        '#/submissions/',
-        '#/documents/',
-        '#/documentsReview/',
-        '#/tasks/',
-        '#/markingTemplates/',
-      ];
 
-      setShowHeader(shouldShowComponent(hideHeaderPaths));
-      setShowFooter(shouldShowComponent(hideFooterRoutes));
-    };
-    handleRouteChange();
-    window.addEventListener('hashchange', handleRouteChange);
-
-    return () => window.removeEventListener('hashchange', handleRouteChange);
-  }, []);
 
   const middleware = (c) => withOnboarding(withAuth(c));
   const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
@@ -102,7 +83,7 @@ function App() {
 
   const portfolioClient = new QueryClient();
 
-
+  ddRum()
 
   const Tasks = ({ role }) => {
     const tasks =
@@ -140,11 +121,9 @@ function App() {
     <>
       <QueryClientProvider client={portfolioClient}>
         <Router>
-          {/* {<ProtectedHeader />} */}
           <div className="app-container">
             <MainSidebar />
-            <div className="route-container">
-              {showHeader && <Header />}
+            <VisibilityWrapper>
               {mobileView ? (
                 <WelcomeOverlayMobile />
               ) : (
@@ -217,8 +196,7 @@ function App() {
                 </Switch>
               )}
 
-              {showFooter && <ResponsiveFooter />}
-            </div>
+            </VisibilityWrapper>
           </div>
           <ToastContainer
             position="bottom-left"

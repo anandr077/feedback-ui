@@ -58,6 +58,7 @@ import { Dialog, DialogActions, DialogContent } from '@mui/material';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 import { CancelButton, ProceedButton } from '../../GeneralPopup/style';
+import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -102,6 +103,7 @@ function FeedbackTeacherLaptop(props) {
     openRightPanel,
     setOpenRightPanel,
     showLottie,
+    setSelectedComment,
   } = props;
   console.log('submission', submission);
 
@@ -186,6 +188,11 @@ function FeedbackTeacherLaptop(props) {
   const [feedbackMethodTypeDialog, setFeedbackMethodTypeDialog] = useState(-1);
   const [editorFontSize, setEditorFontSize] = useState(100);
   const [changedCommentBankId, setChangedCommentBankId] = useState();
+  const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(
+    []
+  );
+  const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
+  React.useState(false);
 
 
   const handleRequestFeedback = async (index) => {
@@ -201,6 +208,12 @@ function FeedbackTeacherLaptop(props) {
 
     setCurrentCommentBank(commentBank);
     setCommentBankPreviewDialog(commentBank?.smartComments?.length > 0);
+  }
+
+  function handleMarkingCriteriaPreview(markingCriteria) {
+    console.log('markingCriteria',markingCriteria)
+    setCurrentMarkingCriteria(markingCriteria);
+    setMarkingCriteriaPreviewDialog(Object.keys(markingCriteria).length > 0);
   }
 
 
@@ -284,21 +297,32 @@ function FeedbackTeacherLaptop(props) {
 
   const deleteQuestionFunction = (deleteQuestionId) => {
     deleteSubmissionById(deleteQuestionId).then(() => {
+      console.log('otherDrafts',otherDrafts);
+
+      const filteredOtherDrafts = otherDrafts.filter(
+        (question) => question.submissionId !== deleteQuestionId
+      );
+      console.log('filteredOtherDrafts',filteredOtherDrafts);
+      setOtherDrafts(filteredOtherDrafts);
+      if(filteredOtherDrafts.length === 0){
+        console.log("navigate to getFeedback");
+        navigate.push(`/getFeedback`)
+        
+        return;
+      }
+      
       if (deleteQuestionId === submission.id) {
+        console.log("navigate to documents");
         const nextId = getNextQuestionId(deleteQuestionId);
         navigate.push(`/documents/${nextId}`);
-      } else {
-        const filteredOtherDrafts = otherDrafts.filter(
-          (question) => question.submissionId !== deleteQuestionId
-        );
-        setOtherDrafts(filteredOtherDrafts);
-      }
+      } 
     });
   };
 
   function handleToggleUpdate() {
     setFeedback((prev) => !prev);
     setFocusAreas((prev) => !prev);
+    setSelectedComment(null);
     methods.setShowNewComment(false);
   }
 
@@ -420,7 +444,10 @@ function FeedbackTeacherLaptop(props) {
               setQuestionIndex,
               openLeftPanel,
               setOtherDrafts,
-              showLottie
+              showLottie,
+              handleCommentBankPreview,
+              handleMarkingCriteriaPreview,
+
             )}
           </Frame1388>
         </>
@@ -447,6 +474,12 @@ function FeedbackTeacherLaptop(props) {
           commentBank={currentCommentBank}
         />
       )}
+       {openMarkingCriteriaPreviewDialog && currentMarkingCriteria?.type && (
+        <PreviewDialog
+          setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
+          markingCriterias={currentMarkingCriteria}
+        />
+      )}
       <>{isMobile && <ResponsiveFooter />}</>
     </>
   );
@@ -454,7 +487,7 @@ function FeedbackTeacherLaptop(props) {
   function sidebar() {
     return (
       <>
-        {!isNullOrEmpty(otherDrafts) && (
+        {!isNullOrEmpty(otherDrafts) && location.pathname.includes('/documents/') && (
           <IndepentdentUserSidebar
             open={openLeftPanel}
             subjects={otherDrafts?.map((d) => ({
@@ -471,8 +504,8 @@ function FeedbackTeacherLaptop(props) {
           />
         )}
 
-        {((isTeacher && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) ||
-          otherDrafts ||
+        {((isTeacher  && (pageMode !== 'CLOSED' || pageMode !== 'REVIEW')) ||
+          (otherDrafts && location.pathname.includes('/documents/')) ||
           submission?.studentsSubmissions) && (
           <DrawerArrow
             onClick={handleDrawer}
@@ -491,8 +524,8 @@ function FeedbackTeacherLaptop(props) {
           />
         )}
 
-        {((isTeacher && pageMode !== 'CLOSED' && pageMode !== 'REVIEW') ||
-          otherDrafts.length > 0) && (
+        {((isTeacher && pageMode !== 'CLOSED'  && pageMode !== 'REVIEW') ||
+          (otherDrafts.length > 0 && location.pathname.includes('/documents/'))) && (
           <DrawerArrow
             onClick={handleDrawer}
             drawerWidth={drawerWidth}
@@ -596,7 +629,9 @@ function answersAndFeedbacks(
   setQuestionIndex,
   openLeftPanel,
   setOtherDrafts,
-  showLottie
+  showLottie,
+  handleCommentBankPreview,
+  handleMarkingCriteriaPreview
 ) {
   const handleRightSidebarClick = (tab) => {
     setOpenRightPanel(tab);
@@ -678,7 +713,9 @@ function answersAndFeedbacks(
             isFeedback,
             isFocusAreas,
             openLeftPanel,
-            setOtherDrafts
+            setOtherDrafts,
+            handleCommentBankPreview,
+            handleMarkingCriteriaPreview
           )}
         </Frame1368>
         <>

@@ -27,6 +27,7 @@ import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu
 import { getUserRole } from '../../userLocalDetails.js';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 import { getLocalStorage } from '../../utils/function.js';
+import { useNotifications } from '../state/hooks.js';
 
 export default function Header(props) {
   const { headerProps } = props;
@@ -37,14 +38,12 @@ export default function Header(props) {
   const [sliderOpen, setsliderOpen] = useState(false);
   const [fixedTop, setfixedTop] = useState(false);
   const helpBarRef = useRef(null);
-  const { data: notifications, isLoading } = useQuery({
-    queryKey: ['notifications'],
-    queryFn: async () => {
-      const result = await getNotifications();
-      return result;
-    },
-    staleTime: 60000,
-  });
+
+  const {
+    data: notifications,
+    isLoadingdata: isLoading,
+  } = useNotifications(id = null, condition = true, time = 300000); 
+
   const OnFirstButtonClick = (event) => {
     if (event.ctrlKey || event.metaKey) {
       window.open(headerProps.firstButton.redirect, '_blank');

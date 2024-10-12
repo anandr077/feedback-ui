@@ -187,18 +187,16 @@ export default function CreateNewStrengthAndTargets() {
   };
 
   const removeAddOption = (childIndex, index, type) => {
+   
     const updatedData = { ...markingMethodology };
+    const criteria = updatedData.strengthsTargetsCriterias[index];
     if (type === STRENGTHS) {
-      updatedData.strengthsTargetsCriterias[index].strengths.splice(
-        childIndex,
-        1
-      );
+      criteria.strengths.splice(childIndex, 1);
+    } else if (type === TARGETS) {
+      criteria.targets.splice(childIndex, 1);
     }
-    if (type === TARGETS) {
-      updatedData.strengthsTargetsCriterias[index].targets.splice(
-        childIndex,
-        1
-      );
+    if (criteria.strengths.length === 0 && criteria.targets.length === 0) {
+      updatedData.strengthsTargetsCriterias.splice(index, 1);
     }
     setMarkingMethodology(updatedData);
   };

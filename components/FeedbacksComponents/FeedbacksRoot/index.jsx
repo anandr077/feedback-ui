@@ -75,10 +75,14 @@ import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
 import { allCriteriaHaveSelectedLevels, isShowJeddAITab } from './rules.js';
-import { useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import { useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useMarkingCriterias, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import { useAllDocuments, useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 import { DialogContent } from '@mui/material';
 import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection.jsx';
 import { getLocalStorage } from '../../../utils/function.js';
+import JeddAIFeedbackTypeSelection from '../JeddAIFeedbackTypeSelection/index.jsx';
+import PreviewDialog from '../../Shared/Dialogs/preview/previewCard.jsx';
+import CommentBankDialog from '../../Shared/Dialogs/commentBank/index.js';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -86,7 +90,7 @@ const MARKING_METHODOLOGY_TYPE = {
 };
 const isTeacher = getUserRole() === 'TEACHER';
 
-export default function FeedbacksRoot({ isDocumentPage }) {
+export default function FeedbacksRoot() {
   const history = useHistory();
   const [pendingLocation, setPendingLocation] = useState(null);
   const queryClient = useQueryClient();
@@ -124,6 +128,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
   const [showFeedbackBanksPopUp, setFeedbackBanksPopUp] = React.useState(false);
   const [openRightPanel, setOpenRightPanel] = React.useState();
   const [showLottie, setShowLottie] = React.useState(false);
+  const [showJeddAIFeedbackTypeSelectionPopUp, setShowJeddAIFeedbackTypeSelectionPopUp] = useState(false);
+  const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
+  React.useState(false);
+const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] =
+  React.useState(false);
+const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(null);
+const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
 
   const {
     data: submissionByIdData,
@@ -145,12 +156,17 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setData: setOverAllCommentsById,
     resetData: resetOverAllCommentsById,
   } = useOverAllCommentsById(id);
+
+
+  
   const {
-    data: otherDraftsById,
-    isLoadingdata: isLoadingotherDraftsById,
-    setData: setOtherDraftsById,
-    resetData: resetOtherDraftsById,
-  } = useOtherDraftsById(id);
+    data: allDocumentsData,
+    isLoadingdata: isLoadingDocumentsData,
+    setData: setAllDocuments,
+    resetData: resetAllDocuments,
+  } = useAllDocuments();
+
+
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const { data: isJeddAIEnabled, isLoadingdata: isLoadingJeddAIEnabled } = useIsJeddAIEnabled();
  
@@ -183,17 +199,24 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setData: setFeedbanksData,
     resetData,
   } = useCommentBanks();
+  
+  const {
+    data: markingCriterias,
+    isLoadingdata: isLoadingMarkingCriterias,
+    setData: setMarkingCriterias,
+    resetData: resetMarkingCriterias,
+  } = useMarkingCriterias();
 
   const isDataLoading =
     isLoadingsubmissionByIdData ||
     isLoadingcommentsByIdData ||
     isLoadingoverAllCommentsById ||
-    isLoadingotherDraftsById ||
+    isLoadingDocumentsData ||
     isLoadingclassData ||
     isLoadingJeddAIEnabled||
     (isTeacher &&
       (isLoadingallSubmissions ||
-         isLoadingcommentBanksData || isLoadingfeedbanks));
+         isLoadingcommentBanksData || isLoadingfeedbanks || isLoadingMarkingCriterias));
 
 
   const markingCriteriaFeedback = commentsByIdData?.filter(
@@ -279,16 +302,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     }
   }, [isDataLoading, id]);
 
-
-  const deleteDraftPage = async (submissionId, pendingLocation) => {
-    await deleteSubmissionById(submissionId).then(() => {
-      if (pendingLocation) {
-        goToNewUrl(pendingLocation, history, unblockRef);
-      }
-      setPageLeavePopup(false);
-    });
-  };
-
   useEffect(() => {
     unblockRef.current = history.block((location, action) => {
       if (
@@ -302,23 +315,6 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         setFeedbackReviewPopup(true);
         return false;
       }
-      if (
-        submissionByIdData?.status === 'DRAFT' &&
-        submissionByIdData?.type === 'DOCUMENT'
-      ) {
-        if (
-          !submissionByIdData?.answers &&
-          submissionByIdData?.assignment.title === 'Untitled Question'
-        ) {
-          deleteDraftPage(submissionByIdData.id, location);
-          return false;
-        } else {
-          setPendingLocation(location);
-          setPageLeavePopup(true);
-          return false;
-        }
-      }
-
       return true;
     });
 
@@ -329,6 +325,19 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     };
   }, [submissionByIdData, feedbackReviewPopup, history]);
 
+
+
+  const deleteDraftPage = (submissionId, pendingLocation) => {
+    console.log('deleteDraftPage', submissionId, pendingLocation);
+    deleteSubmissionById(submissionId).then(() => {
+      if (pendingLocation) {
+        goToNewUrl(pendingLocation, history, unblockRef);
+      }
+      setPageLeavePopup(false);
+    });
+  };
+
+  
 
   const updateGroupedFocusAreaIds = (serialNumber, focusAreaId) => {
     const isPresent = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
@@ -1070,13 +1079,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       resetSubmissionByIdData();
       resetCommentsByIdData();
       resetOverAllCommentsById();
-      resetOtherDraftsById();
+      resetAllDocuments();
       resetAllSubmissions();
       resetCommentBanksData();
       if (isTeacher) {
-        window.location.href = nextUrl === '/' ? '/#' : nextUrl;
+        history.push(nextUrl === '/' ? '/#' : nextUrl);
       } else {
-        window.location.href = '/#';
+        history.push('/#');
       }
     });
   }
@@ -1172,14 +1181,13 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         resetSubmissionByIdData();
         resetCommentsByIdData();
         resetOverAllCommentsById();
-        resetOtherDraftsById();
+        resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
         if (isTeacher) {
-          window.location.href = nextUrl === '/' ? '/#' : nextUrl;
-          window.location.reload();
+          history.push(nextUrl === '/' ? '/#' : nextUrl);
         } else {
-          window.location.href = '/#';
+          history.push('/#')
         }
       });
     }
@@ -1248,6 +1256,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     toast(<Toast message={'Submitting task...'} />);
 
     setTimeout(() => {
+      const quill = quillRefs.current[0];
+      // console.log("Get text", quill.getText());
       submitAssignment(submissionByIdData.id).then((_) => {
         
 
@@ -1266,10 +1276,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         resetSubmissionByIdData();
         resetCommentsByIdData();
         resetOverAllCommentsById();
-        resetOtherDraftsById();
+        resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        window.location.href = '/#';
+        history.push('/#');
         setShowLoader(false);
       });
     }, 4000);
@@ -1310,10 +1320,10 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         resetSubmissionByIdData();
         resetCommentsByIdData();
         resetOverAllCommentsById();
-        resetOtherDraftsById();
+        resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        window.location.href = '/#';
+        history.push('/#');
         setShowLoader(false);
       });
     }, 4000);
@@ -1633,10 +1643,16 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     setShowFocusArePopUpText('');
     setShowFocusArePopUp(false);
   };
-  const jeddAI = () => {
 
+  
+  const jeddAI = (includeFeedbackMethods) => {
     const q = quillRefs.current[0];
-    return askJeddAI(submissionByIdData?.id, q.getText()).then((res) => {
+    const args = [submissionByIdData?.id, q.getText()];
+    if (includeFeedbackMethods) {
+      args.push(currentMarkingCriteria?.id, currentCommentBank?.id);
+    }
+
+    return askJeddAI(...args).then((res) => {
       setSubmissionByIdData((old) => ({
         ...old,
         status: res.status,
@@ -1664,6 +1680,21 @@ export default function FeedbacksRoot({ isDocumentPage }) {
       }, 10000);
     });
   };
+
+  
+  function updateMarkingCriteria(id, markingCriteria) {
+    setCurrentMarkingCriteria(markingCriteria);
+  }
+  function updateCommentBank(id, commentBank) {
+    setCurrentCommentBank(commentBank);
+  }
+
+  function handleMarkingCriteriaPreview(id) {
+    setMarkingCriteriaPreviewDialog(Object.keys(currentMarkingCriteria).length > 0);
+  }
+  function handleCommentBankPreview() {
+    setCommentBankPreviewDialog(currentCommentBank?.smartComments?.length > 0);
+  }
 
   const isResetEditorTextSelection = () => {
     setShowFloatingDialogue(false);
@@ -1708,6 +1739,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
     updateOverAllFeedback,
     jeddAI,
     checkFocusAreas,
+    setShowJeddAIFeedbackTypeSelectionPopUp,
   };
 
   const shortcuts = getShortcuts();
@@ -1725,7 +1757,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         comments: feedbackComments,
         showFloatingDialogue,
         setShowFloatingDialogue,
-        allCommentBanks : feedbanksData,
+        allCommentBanks : feedbanksData?._embedded?.commentbanks,
         methods,
         isTeacher,
         quillRefs,
@@ -1735,7 +1767,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
         isResetEditorTextSelection,
         setSelectedComment,
         setFeedbackBanksPopUp,
-        isJeddAIEnabled
+        isJeddAIEnabled,
+        allMarkingCriterias:markingCriterias,
       }}
     >
       {showSubmitPopup &&
@@ -1746,6 +1779,18 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           onYes={handleFeedbackOnFeedback('LIKE')}
           onNo={handleFeedbackOnFeedback('DISLIKE')}
           onClickOutside={handleFeedbackOnFeedback('DISLIKE')}
+        />
+      )}
+      {openMarkingCriteriaPreviewDialog && currentMarkingCriteria?.type && (
+        <PreviewDialog
+          setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
+          markingCriterias={currentMarkingCriteria}
+        />
+      )}
+      {openCommentBankPreviewDialog && (
+        <CommentBankDialog
+          setCommentBankPreviewDialog={setCommentBankPreviewDialog}
+          commentBank={currentCommentBank}
         />
       )}
 
@@ -1761,8 +1806,22 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           confirmButtonAction={saveDraftPage}
         />
       )}
-
-
+      {showJeddAIFeedbackTypeSelectionPopUp && (
+        <JeddAIFeedbackTypeSelection
+        allMarkingCriterias={markingCriterias}
+        allCommentBanks={feedbanksData?._embedded?.commentbanks}
+          hidePopup={() =>
+            setShowJeddAIFeedbackTypeSelectionPopUp(false)
+          }
+          updateMarkingCriteria={updateMarkingCriteria}
+          updateCommentBank={updateCommentBank}
+          handleCommentBankPreview={handleCommentBankPreview}
+          handleMarkingCriteriaPreview={handleMarkingCriteriaPreview}
+          currentCommentBank={currentCommentBank}
+          currentMarkingCriteria={currentMarkingCriteria}
+          submit={jeddAI}
+        />
+      )}
       {showFocusAreaPopUp && (
         <GeneralPopup
           title="Submit task"
@@ -1801,8 +1860,8 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           selectedComment,
           overallComments: overAllCommentsById,
           markingCriteriaFeedback,
-          otherDrafts: otherDraftsById,
-          setOtherDrafts: setOtherDraftsById,
+          otherDrafts: allDocumentsData,
+          setOtherDrafts: setAllDocuments,
           groupedFocusAreaIds,
           feedbanksData,
           showFeedbackBanksPopUp,
@@ -1810,6 +1869,7 @@ export default function FeedbacksRoot({ isDocumentPage }) {
           openRightPanel,
           setOpenRightPanel,
           showLottie,
+          setSelectedComment,
         }}
       />
     </FeedbackContext.Provider>

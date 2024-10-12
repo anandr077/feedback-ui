@@ -19,6 +19,8 @@ import {
   getTeachersForClass, getModelResponses,
   getClassSettingForClass,
   getIsJeddAIEnabled,
+  getDocuments,
+  getNotifications,
 } from '../../service';
 import { createGlobalStates } from './createGlobalStates';
 
@@ -26,10 +28,7 @@ export const useAllSubmisssionsById = createGlobalState(
   'submissionsByAssignmentId',
   getSubmissionsByAssignmentId
 );
-export const useOtherDraftsById = createGlobalState(
-  'otherDraftsById',
-  getOtherDrafts
-);
+
 
 export const useCommentBanksById = createGlobalStates(
   'feedbackBanksById',
@@ -46,6 +45,14 @@ export const useAssignmentsAll = createGlobalState(
 export const useCompletedAll = createGlobalState(
   'completedTasks',
   getCompletedTasks
+);
+export const useAllDocuments = createGlobalState(
+  'allDocuments',
+  getDocuments
+);
+export const useNotifications = createGlobalState(
+  'notifications',
+  getNotifications
 );
 export const useCommentBanks = createGlobalState(
   'feedbackBanks',

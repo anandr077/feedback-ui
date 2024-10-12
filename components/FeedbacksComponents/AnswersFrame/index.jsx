@@ -30,6 +30,7 @@ import {
   QuillContainer,
   AnswerContainer,
   Line,
+  MarkingCriteriaAndCommentBankContainer,
 } from '../FeedbackTeacherLaptop/style';
 import { linkify } from '../../../utils/linkify';
 import OverallFeedback from '../../OverallFeedback';
@@ -44,8 +45,10 @@ import DownWhite from '../../../static/img/angledownwhite20.svg';
 import RefreshIcon from '../../../static/img/24refresh-circle-green.svg';
 import { updateAssignment } from '../../../service';
 import {
+  appendFunction,
   isShowCommentInstructions,
   isShowFocusAreaInstructions,
+  isTeacher,
 } from '../FeedbacksRoot/rules';
 import {
   StyledBox,
@@ -62,6 +65,8 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import HandWritten from './HandWritten';
+import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection';
+import { MarkingCriteriaSelectionContainer } from '../../TheoryQuestionFrame/style';
 
 export function answersFrame(
   quillRefs,
@@ -82,7 +87,9 @@ export function answersFrame(
   isFeedback,
   isFocusAreas,
   openLeftPanel,
-  setOtherDrafts
+  setOtherDrafts,
+  handleCommentBankPreview,
+  handleMarkingCriteriaPreview
 ) {
   return (
     <AnswersFrame
@@ -113,6 +120,8 @@ export function answersFrame(
       isFocusAreas={isFocusAreas}
       openLeftPanel={openLeftPanel}
       setOtherDrafts={setOtherDrafts}
+      handleCommentBankPreview={handleCommentBankPreview}
+      handleMarkingCriteriaPreview={handleMarkingCriteriaPreview}
     ></AnswersFrame>
   );
 }
@@ -144,6 +153,8 @@ function AnswersFrame(props) {
     isFocusAreas,
     openLeftPanel,
     setOtherDrafts,
+    handleCommentBankPreview,
+    handleMarkingCriteriaPreview
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
@@ -179,7 +190,9 @@ function AnswersFrame(props) {
           newCommentFrameRef,
           share,
           isFeedback,
-          isFocusAreas
+          isFocusAreas,
+          handleCommentBankPreview,
+          handleMarkingCriteriaPreview
         )}
       </Frame1367>
       {submission?.type !== 'DOCUMENT' &&
@@ -272,9 +285,12 @@ const answerFrames = (
   QuestionIndex,
   newCommentFrameRef,
   share,
-  isFeedback
+  isFeedback,
+  handleCommentBankPreview,
+  handleMarkingCriteriaPreview
 ) => {
-  const { overallComments } = useContext(FeedbackContext);
+  const { overallComments, allCommentBanks,allMarkingCriterias } = useContext(FeedbackContext);
+  console.log('allCommentBanks', allCommentBanks);
   const [questionSlide, setQuestionSlide] = React.useState(true);
   const [inputValue, setInputValue] = React.useState('Type your question');
   const inputRef = React.useRef(null);
@@ -364,19 +380,22 @@ const answerFrames = (
           <QuestionContainer>
             {QuestionHeadingContainer(setQuestionSlide, questionSlide)}
             {pageMode === 'DRAFT' ? (
-              <QuestionInputBox
-                ref={inputRef}
-                slide={questionSlide}
-                type="text"
-                value={inputValue}
-                onChange={(e) => {
-                  handleInputChange(e);
-                  autoResize(e);
-                }}
-                onBlur={() => {
-                  updateAssignmentTitle(inputValue);
-                }}
-              />
+              <>
+                <QuestionInputBox
+                  ref={inputRef}
+                  slide={questionSlide}
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    autoResize(e);
+                  }}
+                  onBlur={() => {
+                    updateAssignmentTitle(inputValue);
+                  }}
+                />
+              
+              </>
             ) : (
               <QuestionText
                 slide={questionSlide}

@@ -484,7 +484,10 @@ const answerFrames = (
                   </QuillContainer>
                 </StyledTabPanel>
                 <StyledTabPanel value="2">
-                  <HandWritten />
+                  <HandWritten 
+                    setSubmission={setSubmission}
+                    submission={submission}
+                  />
                 </StyledTabPanel>
               </TabContextComponent>
             </TabsContainer>

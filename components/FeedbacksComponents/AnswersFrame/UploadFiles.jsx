@@ -3,7 +3,7 @@ import { StyledInput, UploadFilesContainer, UploadFilesText } from './style';
 import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
 import { v4 as uuidv4 } from 'uuid';
 
-function UploadFiles({setSelectedImages, setTabValue}) {
+function UploadFiles({setSelectedImages, setTabValue, selectedImages}) {
 
     const fileInputRef = useRef(null);
 
@@ -19,7 +19,7 @@ function UploadFiles({setSelectedImages, setTabValue}) {
         id: uuidv4(), 
         file,  
       }));
-      setSelectedImages(filesWithIds);
+      setSelectedImages([...selectedImages, ...filesWithIds]);
       setTabValue('2');
     };
 

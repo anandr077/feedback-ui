@@ -25,13 +25,22 @@ import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSu
 import UploadFiles from './UploadFiles';
 import OrderPages from './OrderPages';
 
-function HandWritten() {
-  const [tabValue, setTabValue] = useState('1');
-  const [selectedImages, setSelectedImages] = useState([]);
+function HandWritten({setSubmission, submission}) {
+  const handWrittenFiles = submission?.assignment?.handWrittenFiles || []
+  const [tabValue, setTabValue] = useState(handWrittenFiles.length > 0 ? '2' : '1');
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
-    console.log('newValue', newValue);
   };
+
+  const updateWrittenFiles = (selectedImages) =>{
+    setSubmission((old) =>({
+      ...old,
+      assignment: {
+        ...old.assignment,
+        handWrittenFiles: selectedImages
+      }
+    }))
+  }
 
   const LabelContainer = ({ number, text, active }) => {
     return (
@@ -87,20 +96,21 @@ function HandWritten() {
           </StyledBox>
           <StyledTabPanel value="1">
             <UploadFiles
-              setSelectedImages={setSelectedImages}
+              setSelectedImages={updateWrittenFiles}
               setTabValue={setTabValue}
+              selectedImages={handWrittenFiles}
             />
           </StyledTabPanel>
           <StyledTabPanel value="2">
             <OrderPages
-              selectedImages={selectedImages}
-              setSelectedImages={setSelectedImages}
+              selectedImages={handWrittenFiles}
+              setSelectedImages={updateWrittenFiles}
               setTabValue={setTabValue}
             />
           </StyledTabPanel>
           <StyledTabPanel value="3">
             <PreviewContainer>
-              {selectedImages.map((image) => (
+              {handWrittenFiles.map((image) => (
                 <PreviewImg
                   key={image.id}
                   id={image.id}

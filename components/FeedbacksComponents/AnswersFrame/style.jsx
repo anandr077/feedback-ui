@@ -138,11 +138,17 @@ export const DeleteIcon = styled.img`
   position: absolute;
   right: 5px;
   top: 5px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.5s ease-in;
+
+  :hover{
+    transform: scale(1.1);
+  }
 `;
 export const StyledImage = styled.img`
   width: 117px;
   height: 148px;
-  height: auto;
 `;
 
 export const ButtonsContainer = styled.div`

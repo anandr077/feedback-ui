@@ -34,13 +34,18 @@ const DraggableImage = ({ id, image, onClickFn }) => {
 
   return (
     <ImageContainer ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <DeleteIcon src={Redcross} 
+      <DeleteIcon 
+       src={Redcross} 
+       onPointerDown={(e) => {
+        e.preventDefault();  
+        e.stopPropagation(); 
+       }}
        onClick={(e) => {
           e.preventDefault();
           e.stopPropagation(); 
-          onClickFn(); 
+          onClickFn();
         }} 
-        style={{cursor:'pointer'}}/>
+      />
       <StyledImage
         src={URL.createObjectURL(image.file)}
         alt="Preview"

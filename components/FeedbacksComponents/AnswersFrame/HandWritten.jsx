@@ -21,26 +21,17 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { Box, Tab } from '@mui/material';
-import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
 import UploadFiles from './UploadFiles';
 import OrderPages from './OrderPages';
 
-function HandWritten({setSubmission, submission}) {
-  const handWrittenFiles = submission?.assignment?.handWrittenFiles || []
-  const [tabValue, setTabValue] = useState(handWrittenFiles.length > 0 ? '2' : '1');
+function HandWritten({updateUploadedDocuments, handeWrittenDocuments, isLoading}) {
+  const [tabValue, setTabValue] = useState(handeWrittenDocuments.length > 0 ? '2' : '1');
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
 
-  const updateWrittenFiles = (selectedImages) =>{
-    setSubmission((old) =>({
-      ...old,
-      assignment: {
-        ...old.assignment,
-        handWrittenFiles: selectedImages
-      }
-    }))
-  }
+  console.log('handeWrittenDocuments handeWrittenDocuments', handeWrittenDocuments)
+
 
   const LabelContainer = ({ number, text, active }) => {
     return (
@@ -96,27 +87,31 @@ function HandWritten({setSubmission, submission}) {
           </StyledBox>
           <StyledTabPanel value="1">
             <UploadFiles
-              setSelectedImages={updateWrittenFiles}
+              setSelectedImages={updateUploadedDocuments}
               setTabValue={setTabValue}
-              selectedImages={handWrittenFiles}
+              selectedImages={handeWrittenDocuments} 
             />
           </StyledTabPanel>
           <StyledTabPanel value="2">
-            <OrderPages
-              selectedImages={handWrittenFiles}
-              setSelectedImages={updateWrittenFiles}
-              setTabValue={setTabValue}
-            />
+              <OrderPages
+                selectedImages={handeWrittenDocuments}
+                setSelectedImages={updateUploadedDocuments}
+                setTabValue={setTabValue}
+                isLoading={isLoading}
+              />
           </StyledTabPanel>
           <StyledTabPanel value="3">
             <PreviewContainer>
-              {handWrittenFiles.map((image) => (
-                <PreviewImg
-                  key={image.id}
-                  id={image.id}
-                  src={URL.createObjectURL(image.file)}
-                />
-              ))}
+              {handeWrittenDocuments.map((image) => {
+                console.log('individual handeWrittenDocuments', image)
+                return (
+                  <PreviewImg
+                    key={image.id}
+                    id={image.id}
+                    src={image.url}
+                  />
+                )
+              })}
             </PreviewContainer>
           </StyledTabPanel>
         </TabContextComponent>

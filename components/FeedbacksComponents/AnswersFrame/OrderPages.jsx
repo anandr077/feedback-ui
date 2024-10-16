@@ -47,14 +47,14 @@ const DraggableImage = ({ id, image, onClickFn }) => {
         }} 
       />
       <StyledImage
-        src={URL.createObjectURL(image.file)}
+        src={image.url}
         alt="Preview"
       />
     </ImageContainer>
   );
 };
 
-function OrderPages({ selectedImages, setSelectedImages, setTabValue}) {
+function OrderPages({ selectedImages, setSelectedImages, setTabValue, isLoading}) {
   const sensors = useSensors(useSensor(MouseSensor));
 
   const handleDragEnd = (event) => {
@@ -108,12 +108,17 @@ function OrderPages({ selectedImages, setSelectedImages, setTabValue}) {
         accept="image/*"
         multiple
         ref={fileInputRef} 
+        name="file"
         onChange={handleImageChange}
       />
+      {
+        isLoading ? 'Uploading your file...' : (
       <AddButton onClick={handleButtonClick}>
         <AddButtonImage src={AddIcon}/>
         <AddButtonText>Add more files</AddButtonText>
       </AddButton>
+        )
+      }
       </AddButtonContainer>
       <CancelAndContinueButtonsContainer>
         <CancelButtonContainer onClick={handleCancelButton}>

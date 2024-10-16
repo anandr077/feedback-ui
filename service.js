@@ -688,6 +688,7 @@ export const askJeddAI = async (submissionId, cleanAnswer,markingCriteriaId,feed
   });
 
 
+
 export const getAllSubjects = [{ title: 'English' }];
 export const getAllTypes = [
   { title: 'Analytical' },
@@ -696,3 +697,56 @@ export const getAllTypes = [
   { title: 'Persuasive' },
   { title: 'Reflective' },
 ];
+
+
+export const uploadFileToServer = async (uploadedFile) => {
+  const formData = new FormData();
+  formData.append('file', uploadedFile);
+
+  const token = localStorage.getItem('jwtToken');
+  try {
+    const response = await fetch(`${baseUrl}/files/upload`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+      body: formData,
+    });
+
+    const responseText = await response.text(); 
+
+    if (!response.ok) {
+      throw new Error(responseText); 
+    }
+    return responseText;
+  } catch (error) {
+    if (error instanceof TypeError) {
+      console.error('Network error:', error);
+    } else {
+      console.error('Server error:', error);
+    }
+  }
+};
+
+
+
+export const viewDocument = async (fileId) => {
+  const token = localStorage.getItem('jwtToken');
+
+  try {
+    const response = await fetch(`${baseUrl}/files/view/${fileId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to download file: ${response.statusText}`);
+    }
+    
+    return response.url;
+  } catch (error) {
+    console.error('Error downloading the file:', error);
+  }
+};

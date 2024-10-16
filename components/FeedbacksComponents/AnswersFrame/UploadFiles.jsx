@@ -38,6 +38,7 @@ function UploadFiles({setSelectedImages, setTabValue, selectedImages}) {
         accept="image/*"
         multiple
         ref={fileInputRef} 
+        name="file"
         onChange={handleImageChange}
       />
       <RoundedBorderSubmitBtn

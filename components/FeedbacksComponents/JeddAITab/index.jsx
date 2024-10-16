@@ -13,7 +13,7 @@ import AIFeedbackImage from '../../../static/img/AI-feedback-Image.svg';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
-import { jeddAiReviewText } from './functions';
+import { jeddAiReviewText } from './rules';
 
 const lottieAnimations = [
   { src: './icons/Scanning.json', text: 'Scanning the document' },
@@ -28,6 +28,7 @@ const JeddAITab = ({
   openRightPanel,
   showLottie,
   handleJeddAIReview,
+  submission
 }) => {
   const [currentAnimationIndex, setCurrentAnimationIndex] = useState(0);
 
@@ -62,11 +63,13 @@ const JeddAITab = ({
         ) : (
           <>
             <AIImage src={AIFeedbackImage} alt="AI Feedback Image" />
-            <TextContainer>{jeddAiReviewText()}</TextContainer>
-            <RoundedBorderSubmitBtn
-              text="Get Started"
-              onClickFn={() => handleJeddAIReview()}
-            />
+            <TextContainer>{jeddAiReviewText(submission.jeddaiFeedbackReceivedAt)}</TextContainer>
+            {!submission.jeddaiFeedbackReceivedAt && (
+              <RoundedBorderSubmitBtn
+                text="Get Started"
+                onClickFn={() => handleJeddAIReview()}
+              />
+            )}
           </>
         )}
       </SubmissionBody>

@@ -45,6 +45,7 @@ const FeedbackRightSideSlidingTabs = ({
         openRightPanel={openRightPanel}
         showLottie={showLottie}
         handleJeddAIReview={methods.jeddAI}
+        submission={submission}
       />
     </>
   );

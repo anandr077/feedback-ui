@@ -1669,6 +1669,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
             if (response.jeddaiFeedbackReceivedAt) {
               clearInterval(interval);
               window.location.reload();
+              setShowLottie(false);
             }
             setSubmissionByIdData(response);
           }

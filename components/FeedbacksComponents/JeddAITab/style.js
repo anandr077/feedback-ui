@@ -10,7 +10,7 @@ export const MainContainer = styled.div`
     right: ${(props) => (props.openRightPanel === 'tab4' ? '48px' : '-290px')};
     width: 290px;
   }
-  height: 100%;
+  height: calc(100% + 50px);
   padding: 0;
   border: solid 1px rgba(201, 198, 204, 0.5);
   background-color: #fff;

@@ -1647,7 +1647,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
   
   const jeddAI = (includeFeedbackMethods) => {
     const q = quillRefs.current[0];
-    const args = [submissionByIdData?.id, q.getText()];
+    const args = [submissionByIdData?.id, q?.getText()];
     if (includeFeedbackMethods) {
       args.push(currentMarkingCriteria?.id, currentCommentBank?.id);
     }
@@ -1666,7 +1666,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
       function getAndUpdateSubmission() {
         getSubmissionById(submissionByIdData?.id).then((response) => {
           if (response) {
-            if (response.status !== 'FEEDBACK_ACCEPTED') {
+            if (response.jeddaiFeedbackReceivedAt) {
               clearInterval(interval);
               window.location.reload();
             }

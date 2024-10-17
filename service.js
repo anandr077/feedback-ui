@@ -728,25 +728,7 @@ export const uploadFileToServer = async (uploadedFile) => {
   }
 };
 
-
-
-export const viewDocument = async (fileId) => {
-  const token = localStorage.getItem('jwtToken');
-
-  try {
-    const response = await fetch(`${baseUrl}/files/view/${fileId}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`, 
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to download file: ${response.statusText}`);
-    }
-    
-    return response.url;
-  } catch (error) {
-    console.error('Error downloading the file:', error);
-  }
-};
+export const updateHandWrittenDocumentById = async (submissionId, serialNumber, documentUrls) =>
+  await patchApi(
+    baseUrl + '/submissions/' + submissionId + '/answers/' + serialNumber + "/files", documentUrls
+  )

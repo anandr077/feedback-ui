@@ -23,14 +23,52 @@ import TabPanel from '@mui/lab/TabPanel';
 import { Box, Tab } from '@mui/material';
 import UploadFiles from './UploadFiles';
 import OrderPages from './OrderPages';
+import PreviewButtons from './PreviewButtons';
+import { updateHandWrittenDocumentById, uploadFileToServer } from '../../../service';
 
-function HandWritten({updateUploadedDocuments, handeWrittenDocuments, isLoading}) {
-  const [tabValue, setTabValue] = useState(handeWrittenDocuments.length > 0 ? '2' : '1');
+function HandWritten({submissionId, answer, setSubmission}) {
+  const [files, setFiles] = useState([]);
+  const [isLoading, setIslaoding] = React.useState(false);
+  const [tabValue, setTabValue] = useState(files.length > 0 ? '2' : '1');
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
 
-  console.log('handeWrittenDocuments handeWrittenDocuments', handeWrittenDocuments)
+  const handleFilesSubmissions = async (selectedImages) => {
+    setIslaoding(true)
+
+    try {
+      const updatedDocuments = await Promise.all(
+        selectedImages.map(async (imageObj) => {
+          if (imageObj?.file) {
+            const documentUrl = await uploadFileToServer(imageObj.file);
+
+            return {
+              ...imageObj,
+              url: documentUrl,
+            };
+          }
+        })
+      );
+
+      setFiles(updatedDocuments)   
+
+    } catch (error) {
+      console.error('Error uploading images:', error);
+    } finally {
+      setIslaoding(false);
+    }
+  }
+
+  const handleConvertToText = async () =>{
+    try {
+      const documentUrls = files.map((file) => file.url);
+      const updatedSubmission = await updateHandWrittenDocumentById(submissionId, answer.serialNumber, documentUrls);
+      setSubmission(updatedSubmission);
+    } catch (error) {
+      console.error('Error updating handwritten document:', error);
+    }
+  }
 
 
   const LabelContainer = ({ number, text, active }) => {
@@ -87,23 +125,23 @@ function HandWritten({updateUploadedDocuments, handeWrittenDocuments, isLoading}
           </StyledBox>
           <StyledTabPanel value="1">
             <UploadFiles
-              setSelectedImages={updateUploadedDocuments}
+              setSelectedImages={handleFilesSubmissions}
               setTabValue={setTabValue}
-              selectedImages={handeWrittenDocuments} 
+              selectedImages={files} 
             />
           </StyledTabPanel>
           <StyledTabPanel value="2">
               <OrderPages
-                selectedImages={handeWrittenDocuments}
-                setSelectedImages={updateUploadedDocuments}
+                selectedImages={files}
+                setSelectedImages={handleFilesSubmissions}
                 setTabValue={setTabValue}
                 isLoading={isLoading}
               />
           </StyledTabPanel>
           <StyledTabPanel value="3">
+            <PreviewButtons handleGoBack={setTabValue} onclick={handleConvertToText}/>
             <PreviewContainer>
-              {handeWrittenDocuments.map((image) => {
-                console.log('individual handeWrittenDocuments', image)
+              {files.map((image) => {
                 return (
                   <PreviewImg
                     key={image.id}

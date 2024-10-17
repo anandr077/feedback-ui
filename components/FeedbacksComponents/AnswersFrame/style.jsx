@@ -161,7 +161,11 @@ export const ButtonsContainer = styled.div`
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
 `;
 
-export const AddButtonContainer = styled.div``;
+export const AddButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 export const AddButton = styled.div`
   display: flex;
   flex-direction: row;
@@ -178,6 +182,12 @@ export const AddButton = styled.div`
 export const AddButtonImage = styled.img`
   width: 24px;
   height: 24px;
+`;
+
+export const UpdatingFile = styled.div`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: 16px;
+
 `;
 
 export const AddButtonText = styled.p`

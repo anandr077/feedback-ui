@@ -43,7 +43,7 @@ import CommentGroupIcon from '../../../static/img/commentgroupicon.svg';
 import ColorCircleIcon from '../../../static/img/colorgroupcircle.svg';
 import DownWhite from '../../../static/img/angledownwhite20.svg';
 import RefreshIcon from '../../../static/img/24refresh-circle-green.svg';
-import { updateAssignment, uploadFileToServer, viewDocument } from '../../../service';
+import { updateAssignment, updateHandWrittenDocumentById, uploadFileToServer, viewDocument } from '../../../service';
 import {
   appendFunction,
   isShowCommentInstructions,
@@ -294,7 +294,6 @@ const answerFrames = (
   const [inputValue, setInputValue] = React.useState('Type your question');
   const inputRef = React.useRef(null);
   const [mainTab, setMainTab] = React.useState('1');
-  const [isLoading, setIslaoding] = React.useState(false);
 
   React.useEffect(() => {
     if (submission?.assignment?.title) {
@@ -372,59 +371,6 @@ const answerFrames = (
     setMainTab(newValue);
   };
 
-
-  const handeWrittenDocuments = answer?.handeWrittenDocuments || []
-  const updateUploadedDocuments = async (selectedImages) =>{    
-    setIslaoding(true)
-    try {
-      const updatedImages = await Promise.all(
-        selectedImages.map(async (imageObj) => {
-          if (imageObj.file) {
-            const fileId = await uploadFileToServer(imageObj.file);
-
-            if (fileId) {
-              const documentUrl = await viewDocument(fileId);
-              return {
-                ...imageObj,
-                url: documentUrl,
-              };
-            }
-          }
-        })
-      );
-
-      console.log('the updatedImages', updatedImages)
-  
-      setSubmission((old) => {
-        const updatedAnswers = old.answers.map((ans) => {
-          if (ans.serialNumber === question.serialNumber) {
-            return {
-              ...ans,
-              handeWrittenDocuments: updatedImages, 
-            };
-          }
-          return ans;
-        });
-
-        const doesAnswerExist = old.answers.some(
-          (ans) => ans.serialNumber === question.serialNumber
-        );
-        
-        const finalAnswers = doesAnswerExist
-          ? updatedAnswers
-          : [...updatedAnswers, { ...newAnswer, handeWrittenDocuments: updatedImages }];
-
-        return {
-          ...old,
-          answers: finalAnswers, 
-        };
-      });
-    } catch (error) {
-      console.error('Error uploading images:', error);
-    } finally {
-      setIslaoding(false);
-    }
-  }
 
   return (
     <>
@@ -538,9 +484,9 @@ const answerFrames = (
                 </StyledTabPanel>
                 <StyledTabPanel value="2">
                   <HandWritten 
-                    updateUploadedDocuments={updateUploadedDocuments}
-                    handeWrittenDocuments={handeWrittenDocuments}
-                    isLoading={isLoading}
+                    submissionId={submission.id}
+                    answer={answer}
+                    setSubmission={setSubmission}
                   />
                 </StyledTabPanel>
               </TabContextComponent>

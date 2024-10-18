@@ -34,10 +34,12 @@ import {
   OrderPagesMainContainer,
   StyledImage,
   StyledInput,
-  UpdatingFile
+  StyledLoadingBox,
+  UpdatingFile,
 } from './style';
 import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
 import { v4 as uuidv4 } from 'uuid';
+import PdfIcon from '../../../static/img/pdf_logo.svg';
 
 const DraggableImage = ({ id, image, onClickFn }) => {
   const {
@@ -48,6 +50,18 @@ const DraggableImage = ({ id, image, onClickFn }) => {
     transition,
     isDragging,
   } = useSortable({ id });
+  const [isImageValid, setIsImageValid] = React.useState(null);
+
+  const checkImgUrl = new window.Image();
+  checkImgUrl.src = image.url;
+
+  checkImgUrl.onload = () => {
+    setIsImageValid(true);
+  };
+
+  checkImgUrl.onerror = () => {
+    setIsImageValid(false);
+  };
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -76,7 +90,11 @@ const DraggableImage = ({ id, image, onClickFn }) => {
           onClickFn();
         }}
       />
-      <StyledImage src={image.url} alt="Preview" />
+      {isImageValid ? (
+        <StyledImage src={image.url} alt="Preview" />
+      ) : (
+        <StyledImage src={PdfIcon} alt="Preview" />
+      )}
     </ImageContainer>
   );
 };
@@ -127,7 +145,6 @@ function OrderPages({
   };
 
   const DeleteImage = (id) => {
-    console.log('DeleteImage', id);
     setSelectedImages(selectedImages.filter((img) => img.id !== id));
   };
 
@@ -137,20 +154,16 @@ function OrderPages({
         <AddButtonContainer>
           <StyledInput
             type="file"
-            accept="image/*"
+            accept="image/*,application/pdf"
             multiple
             ref={fileInputRef}
             name="file"
             onChange={handleImageChange}
           />
-          {isLoading ? (
-            <UpdatingFile>Updating your file...</UpdatingFile>
-          ) : (
-            <AddButton onClick={handleButtonClick}>
-              <AddButtonImage src={AddIcon} />
-              <AddButtonText>Add more files</AddButtonText>
-            </AddButton>
-          )}
+          <AddButton onClick={handleButtonClick}>
+            <AddButtonImage src={AddIcon} />
+            <AddButtonText>Add more files</AddButtonText>
+          </AddButton>
         </AddButtonContainer>
         <CancelAndContinueButtonsContainer>
           <CancelButtonContainer onClick={handleCancelButton}>
@@ -183,6 +196,7 @@ function OrderPages({
                     onClickFn={() => DeleteImage(image.id)}
                   />
                 ))}
+                {isLoading && <StyledLoadingBox>File is loading</StyledLoadingBox>}
               </ImagesContainer>
             </SortableContext>
           </OrderPagesContainer>

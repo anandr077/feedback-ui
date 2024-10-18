@@ -11,7 +11,6 @@ function UploadFiles({setSelectedImages, setTabValue, selectedImages}) {
       fileInputRef.current.click();
     };
   
-   
     const handleImageChange = (event) => {
     event.preventDefault(); 
       const files = Array.from(event.target.files || event.dataTransfer.files);
@@ -35,7 +34,7 @@ function UploadFiles({setSelectedImages, setTabValue, selectedImages}) {
     <UploadFilesContainer onDragOver={handleDragOver} onDrop={handleImageChange}>
       <StyledInput
         type="file"
-        accept="image/*"
+        accept="image/*,application/pdf"
         multiple
         ref={fileInputRef} 
         name="file"

@@ -6,11 +6,11 @@ import NoBackgroundAndBorderBtn from '../../../components2/Buttons/NoBackground&
 import arrowLeft from '../../../static/img/arrowleftgray.svg'
 
 
-const PreviewButtons = ({handleGoBack, onclick}) => {
+const PreviewButtons = ({handleGoBack, handleConvertToText}) => {
   return (
     <ButtonsContainer>
       <NoBackgroundAndBorderBtn text={'Go back'} leftIcon={arrowLeft} onclick={()=>handleGoBack("2")}/>
-      <RoundedBorderSubmitBtn text={'Save & Convert to Text'} onClickFn={onclick}/>
+      <RoundedBorderSubmitBtn text={'Save & Convert to Text'} onClickFn={handleConvertToText}/>
     </ButtonsContainer>
   );
 };

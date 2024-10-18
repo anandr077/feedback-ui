@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Tab } from '@mui/material';
 import Box from '@mui/material/Box';
 import TabContext from '@mui/lab/TabContext';
@@ -19,6 +19,9 @@ export const TabContextComponent = styled(TabContext)`
 
 export const StyledBox = styled(Box)`
   width: 100%;
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
 `;
 
 export const TabPart = styled.div`
@@ -151,6 +154,21 @@ export const StyledImage = styled.img`
   height: 148px;
 `;
 
+export const StyledLoadingBox = styled.div`
+  margin-top: 10px;
+  height: 193px;
+  width: 155px;
+  gap: 16px;
+  border-radius: 4px;
+  border: 1px;
+  opacity: 0px;
+  background: #ffffff;
+  border: 1px solid var(--color-neutral-90, #c9c6cc);
+  box-shadow: 0px 2px 2px 0px #00000040;
+  display: grid;
+  place-items: center;
+`;
+
 export const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -184,10 +202,23 @@ export const AddButtonImage = styled.img`
   height: 24px;
 `;
 
+const spaceOutAnimation = keyframes`
+  0%, 100% {
+    letter-spacing: 0; 
+  }
+  33% {
+    letter-spacing: 0.1em; 
+  }
+  66% {
+    letter-spacing: 0.3em; 
+  }
+`;
+
 export const UpdatingFile = styled.div`
   font-family: var(--font-family-ibm_plex_sans);
   font-size: 16px;
-
+  display: inline-block;
+  animation: ${spaceOutAnimation} 3s ease-in-out infinite;
 `;
 
 export const AddButtonText = styled.p`

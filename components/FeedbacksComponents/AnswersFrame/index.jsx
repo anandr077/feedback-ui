@@ -43,7 +43,13 @@ import CommentGroupIcon from '../../../static/img/commentgroupicon.svg';
 import ColorCircleIcon from '../../../static/img/colorgroupcircle.svg';
 import DownWhite from '../../../static/img/angledownwhite20.svg';
 import RefreshIcon from '../../../static/img/24refresh-circle-green.svg';
-import { updateAssignment, updateHandWrittenDocumentById, uploadFileToServer, viewDocument } from '../../../service';
+import trashCanIcon from '../../../static/icons/trash-can.svg';
+import {
+  updateAssignment,
+  updateHandWrittenDocumentById,
+  uploadFileToServer,
+  viewDocument,
+} from '../../../service';
 import {
   appendFunction,
   isShowCommentInstructions,
@@ -67,6 +73,8 @@ import TabPanel from '@mui/lab/TabPanel';
 import HandWritten from './HandWritten';
 import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection';
 import { MarkingCriteriaSelectionContainer } from '../../TheoryQuestionFrame/style';
+import NoBgRoundedBlackBorder from '../../../components2/Buttons/NoBgRoundedBlackBorder';
+import { isDeleteAndRestartButton, isTypedAndHandWrittenTab } from './rules';
 
 export function answersFrame(
   quillRefs,
@@ -154,7 +162,7 @@ function AnswersFrame(props) {
     openLeftPanel,
     setOtherDrafts,
     handleCommentBankPreview,
-    handleMarkingCriteriaPreview
+    handleMarkingCriteriaPreview,
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
@@ -289,7 +297,8 @@ const answerFrames = (
   handleCommentBankPreview,
   handleMarkingCriteriaPreview
 ) => {
-  const { overallComments, allCommentBanks,allMarkingCriterias } = useContext(FeedbackContext);
+  const { overallComments, allCommentBanks, allMarkingCriterias } =
+    useContext(FeedbackContext);
   const [questionSlide, setQuestionSlide] = React.useState(true);
   const [inputValue, setInputValue] = React.useState('Type your question');
   const inputRef = React.useRef(null);
@@ -367,8 +376,28 @@ const answerFrames = (
     comments
   )(answer);
 
+  React.useEffect(() => {
+    if (!answer?.answer?.fileUrls || answer?.answer?.fileUrls.length === 0) {
+      setMainTab('1');
+    }
+  }, [answer?.answer?.fileUrls]);
+
   const handleMainChange = (event, newValue) => {
     setMainTab(newValue);
+  };
+
+  const deleteUploadedFile = async () => {
+    try {
+      const updatedSubmission = await updateHandWrittenDocumentById(
+        submission.id,
+        answer.serialNumber,
+        []
+      );
+      await setSubmission(updatedSubmission);
+      window.location.reload();
+    } catch (error) {
+      console.error('Error updating handwritten document:', error);
+    }
   };
 
 
@@ -393,7 +422,6 @@ const answerFrames = (
                     updateAssignmentTitle(inputValue);
                   }}
                 />
-              
               </>
             ) : (
               <QuestionText
@@ -415,115 +443,88 @@ const answerFrames = (
         )}
         <AnswerContainer>
           <QuestionTitleBox>Respons</QuestionTitleBox>
-          {pageMode === 'DRAFT' ? (
-            <TabsContainer>
-              <TabContextComponent value={mainTab}>
+          <TabsContainer>
+            <TabContextComponent value={mainTab}>
+              {isTypedAndHandWrittenTab(answer?.answer?.fileUrls, pageMode) && (
                 <StyledBox sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <StyledMainTabList
                     onChange={handleMainChange}
                     aria-label="lab API tabs example"
                   >
                     <StyledTab
-                      label={
-                        <TabText active={mainTab === '1'}>Typed</TabText>
-                      }
+                      label={<TabText active={mainTab === '1'}>Typed</TabText>}
                       value="1"
                     />
                     <StyledTab
                       label={
-                        <TabText active={mainTab === '2'}>
-                          Handwritten
-                        </TabText>
+                        <TabText active={mainTab === '2'}>Handwritten</TabText>
                       }
                       value="2"
                     />
                   </StyledMainTabList>
+                  {isDeleteAndRestartButton(
+                    answer?.answer?.fileUrls,
+                    pageMode
+                  ) && (
+                    <NoBgRoundedBlackBorder
+                      leftIcon={trashCanIcon}
+                      onclick={deleteUploadedFile}
+                      text="Delete & Restart"
+                    />
+                  )}
                 </StyledBox>
-                <StyledTabPanel value="1">
-                  <QuillContainer
-                    onClick={() => {
-                      onSelectionChange(
-                        createVisibleComments(commentsForSelectedTab),
-                        answer.serialNumber
-                      )(
-                        quillRefs.current[
-                          answer.serialNumber - 1
-                        ].getSelection()
-                      );
-                    }}
-                    id={
-                      'quillContainer_' +
+              )}
+              <StyledTabPanel value="1">
+                <QuillContainer
+                  onClick={() => {
+                    onSelectionChange(
+                      createVisibleComments(commentsForSelectedTab),
+                      answer.serialNumber
+                    )(
+                      quillRefs.current[answer.serialNumber - 1].getSelection()
+                    );
+                  }}
+                  id={
+                    'quillContainer_' +
+                    submission?.id +
+                    '_' +
+                    answer.serialNumber
+                  }
+                >
+                  {createQuill(
+                    pageMode,
+                    'quillContainer_' +
                       submission?.id +
                       '_' +
-                      answer.serialNumber
-                    }
-                  >
-                    {createQuill(
-                      pageMode,
-                      'quillContainer_' +
-                        submission?.id +
-                        '_' +
-                        answer.serialNumber,
-                      submission,
-                      answer,
-                      answerValue,
-                      commentsForSelectedTab,
-                      debounce,
-                      handleEditorMounted,
-                      editorFontSize,
-                      selectedComment,
-                      methods,
-                      selectedRange,
-                      newCommentFrameRef,
-                      share,
-                      question,
-                      isFeedback,
-                      QuestionIndex
-                    )}
-                  </QuillContainer>
-                </StyledTabPanel>
-                <StyledTabPanel value="2">
-                  <HandWritten 
-                    submissionId={submission.id}
-                    answer={answer}
-                    setSubmission={setSubmission}
-                  />
-                </StyledTabPanel>
-              </TabContextComponent>
-            </TabsContainer>
-          ) : (
-            <QuillContainer
-              onClick={() => {
-                onSelectionChange(
-                  createVisibleComments(commentsForSelectedTab),
-                  answer.serialNumber
-                )(quillRefs.current[answer.serialNumber - 1].getSelection());
-              }}
-              id={
-                'quillContainer_' + submission?.id + '_' + answer.serialNumber
-              }
-            >
-              {createQuill(
-                pageMode,
-                'quillContainer_' + submission?.id + '_' + answer.serialNumber,
-                submission,
-                answer,
-                answerValue,
-                commentsForSelectedTab,
-                debounce,
-                handleEditorMounted,
-                editorFontSize,
-                selectedComment,
-                methods,
-                selectedRange,
-                newCommentFrameRef,
-                share,
-                question,
-                isFeedback,
-                QuestionIndex
-              )}
-            </QuillContainer>
-          )}
+                      answer.serialNumber,
+                    submission,
+                    answer,
+                    answerValue,
+                    commentsForSelectedTab,
+                    debounce,
+                    handleEditorMounted,
+                    editorFontSize,
+                    selectedComment,
+                    methods,
+                    selectedRange,
+                    newCommentFrameRef,
+                    share,
+                    question,
+                    isFeedback,
+                    QuestionIndex
+                  )}
+                </QuillContainer>
+              </StyledTabPanel>
+              <StyledTabPanel value="2">
+                <HandWritten
+                  submissionId={submission.id}
+                  answer={answer}
+                  setSubmission={setSubmission}
+                  setMainTab={setMainTab}
+                />
+              </StyledTabPanel>
+            </TabContextComponent>
+          </TabsContainer>
         </AnswerContainer>
       </Frame1366>
     </>
@@ -615,12 +616,5 @@ function createQuill(
     </div>
   );
 }
-
-const isChecked = (groupedFocusAreaIds, serialNumber, focusAreaId) => {
-  return (
-    !!groupedFocusAreaIds[serialNumber] &&
-    groupedFocusAreaIds[serialNumber].includes(focusAreaId)
-  );
-};
 
 export default AnswersFrame;

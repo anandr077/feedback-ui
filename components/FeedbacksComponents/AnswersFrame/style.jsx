@@ -155,6 +155,7 @@ export const StyledImage = styled.img`
 `;
 
 export const StyledLoadingBox = styled.div`
+  font-family: IBM Plex Sans;
   margin-top: 10px;
   height: 193px;
   width: 155px;

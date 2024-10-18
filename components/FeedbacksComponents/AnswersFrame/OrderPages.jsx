@@ -188,15 +188,17 @@ function OrderPages({
               strategy={rectSortingStrategy}
             >
               <ImagesContainer>
-                {selectedImages.map((image) => (
-                  <DraggableImage
+                {selectedImages.map((image) => {
+                  if (image.url === null) {
+                    return <StyledLoadingBox key={image.id}>Uploading</StyledLoadingBox>;
+                  }
+                  return <DraggableImage
                     key={image.id}
                     id={image.id}
                     image={image}
                     onClickFn={() => DeleteImage(image.id)}
                   />
-                ))}
-                {isLoading && <StyledLoadingBox>File is loading</StyledLoadingBox>}
+                })}
               </ImagesContainer>
             </SortableContext>
           </OrderPagesContainer>

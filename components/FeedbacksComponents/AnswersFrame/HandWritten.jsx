@@ -34,7 +34,7 @@ import { isPreviewButton, isTabSection } from './rules';
 
 function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
   const [files, setFiles] = useState([]);
-  const [isLoading, setIslaoding] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const selectedTabValue = files.length > 0 ? '2' : '1';
   const [tabValue, setTabValue] = useState(selectedTabValue);
 
@@ -47,10 +47,10 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
         url: url,
       }));
 
-      setFiles(newFiles); 
-      setTabValue('3'); 
+      setFiles(newFiles);
+      setTabValue('3');
     } else if (files.length === 0) {
-      setTabValue('1'); 
+      setTabValue('1');
     }
   }, [answer?.answer?.fileUrls]);
 
@@ -58,11 +58,20 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
     setTabValue(newValue);
   };
 
-  const handleFilesSubmissions = async (selectedImages) => {
-    setIslaoding(true);
+  const handleFilesSubmissions = async (newImages) => {
+    setIsLoading(true);
     try {
+      setFiles(oldFiles => [...oldFiles, ...newImages.map((imageObj) =>
+      (
+        {
+          ...imageObj,
+          url: null
+        })
+      )
+      ]
+      );
       const updatedDocuments = await Promise.all(
-        selectedImages.map(async (imageObj) => {
+        newImages.map(async (imageObj) => {
           if (imageObj?.file) {
             const documentUrl = await uploadFileToServer(imageObj.file);
 
@@ -73,12 +82,11 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
           }
         })
       );
-
       setFiles(updatedDocuments);
     } catch (error) {
       console.error('Error uploading images:', error);
     } finally {
-      setIslaoding(false);
+      setIsLoading(false);
     }
   };
 

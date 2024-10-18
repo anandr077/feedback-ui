@@ -103,7 +103,7 @@ function OrderPages({
   selectedImages,
   setSelectedImages,
   setTabValue,
-  isLoading,
+  deleteSelectedFile,
 }) {
   const sensors = useSensors(useSensor(MouseSensor));
 
@@ -132,7 +132,7 @@ function OrderPages({
       id: uuidv4(),
       file,
     }));
-    setSelectedImages([...selectedImages, ...filesWithIds]);
+    setSelectedImages(filesWithIds);
   };
 
   const handleContinueButton = () => {
@@ -142,10 +142,6 @@ function OrderPages({
   const handleCancelButton = () => {
     setSelectedImages([]);
     setTabValue('1');
-  };
-
-  const DeleteImage = (id) => {
-    setSelectedImages(selectedImages.filter((img) => img.id !== id));
   };
 
   return (
@@ -196,7 +192,7 @@ function OrderPages({
                     key={image.id}
                     id={image.id}
                     image={image}
-                    onClickFn={() => DeleteImage(image.id)}
+                    onClickFn={() => deleteSelectedFile(image.id)}
                   />
                 })}
               </ImagesContainer>

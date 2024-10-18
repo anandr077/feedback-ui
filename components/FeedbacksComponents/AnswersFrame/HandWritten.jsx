@@ -61,15 +61,13 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
   const handleFilesSubmissions = async (newImages) => {
     setIsLoading(true);
     try {
-      setFiles(oldFiles => [...oldFiles, ...newImages.map((imageObj) =>
-      (
-        {
+      setFiles(oldFiles => [
+        ...oldFiles, 
+        ...newImages.map((imageObj) => ({
           ...imageObj,
           url: null
-        })
-      )
-      ]
-      );
+        }))
+      ]);
       const updatedDocuments = await Promise.all(
         newImages.map(async (imageObj) => {
           if (imageObj?.file) {
@@ -82,9 +80,8 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
           }
         })
       );
-      setFiles(updatedDocuments);
+      setFiles(oldFiles => [...oldFiles.filter((imageObj)=> imageObj.url !== null), ...updatedDocuments]);
     } catch (error) {
-      console.error('Error uploading images:', error);
     } finally {
       setIsLoading(false);
     }
@@ -105,6 +102,16 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
       console.error('Error updating handwritten document:', error);
     }
   };
+
+  console.log('the files are loadded', files)
+
+  const deleteSelectedFile = async (id) =>{
+    try{
+       setFiles((oldFiles) => oldFiles.filter((old) => old.id !== id))
+    }catch(err){
+
+    }
+  }
 
   const LabelContainer = ({ number, text, active }) => {
     return (
@@ -172,7 +179,7 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
               selectedImages={files}
               setSelectedImages={handleFilesSubmissions}
               setTabValue={setTabValue}
-              isLoading={isLoading}
+              deleteSelectedFile={deleteSelectedFile}
             />
           </StyledTabPanel>
           <StyledTabPanel value="3">

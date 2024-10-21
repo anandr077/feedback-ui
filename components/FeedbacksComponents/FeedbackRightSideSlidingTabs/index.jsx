@@ -44,6 +44,8 @@ const FeedbackRightSideSlidingTabs = ({
         handleClose={handleRightSidebarClick}
         openRightPanel={openRightPanel}
         showLottie={showLottie}
+        handleJeddAIReview={methods.jeddAI}
+        submission={submission}
       />
     </>
   );

@@ -108,6 +108,8 @@ function OrderPages({
 }) {
   const sensors = useSensors(useSensor(MouseSensor));
 
+  console.log('selectedImages is', selectedImages)
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
 

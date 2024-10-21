@@ -445,7 +445,7 @@ const answerFrames = (
           <QuestionTitleBox>Respons</QuestionTitleBox>
           <TabsContainer>
             <TabContextComponent value={mainTab}>
-              {isTypedAndHandWrittenTab(answer?.answer?.fileUrls, pageMode) && (
+              {isTypedAndHandWrittenTab(answer?.answer?.textExtractedAt, pageMode) && (
                 <StyledBox sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <StyledMainTabList
                     onChange={handleMainChange}
@@ -463,7 +463,7 @@ const answerFrames = (
                     />
                   </StyledMainTabList>
                   {isDeleteAndRestartButton(
-                    answer?.answer?.fileUrls,
+                    answer?.answer.textExtractedAt,
                     pageMode
                   ) && (
                     <NoBgRoundedBlackBorder
@@ -521,6 +521,7 @@ const answerFrames = (
                   answer={answer}
                   setSubmission={setSubmission}
                   setMainTab={setMainTab}
+                  pageMode={pageMode}
                 />
               </StyledTabPanel>
             </TabContextComponent>

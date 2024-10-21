@@ -18,7 +18,7 @@ function UploadFiles({handleFilesSubmissions, setTabValue, selectedImages}) {
         id: uuidv4(), 
         file,  
       }));
-      handleFilesSubmissions([...selectedImages, ...filesWithIds]);
+      handleFilesSubmissions([...filesWithIds]);
       setTabValue('2');
     };
 

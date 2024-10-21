@@ -1,15 +1,18 @@
-export const isDeleteAndRestartButton = (fileUrls, pageMode) =>{
-  return fileUrls?.length > 0 && pageMode === "DRAFT";
-}
+export const isDeleteAndRestartButton = (textExtractedAt, pageMode) => {
+  return (pageMode === 'DRAFT' || pageMode === 'REVISE') && textExtractedAt;
+};
 
-export const isUploadTabs = (fileUrls) =>{
-  return fileUrls
-}
+export const isUploadTabs = (pageMode, answer) => {
+  return (pageMode === 'DRAFT' || pageMode === 'REVISE') && (answer?.answer.textExtractedAt === null || answer?.answer.textExtractedAt === undefined);
+};
 
-export const isPreviewButton = (fileUrls) =>{
-  return fileUrls
-}
+export const isPreviewButton = (answer, pageMode) => {
+  return (
+    (pageMode === 'DRAFT' || pageMode === 'REVISE') &&
+    (answer?.answer.textExtractedAt === null || answer?.answer.textExtractedAt === undefined)
+  );
+};
 
-export const isTypedAndHandWrittenTab = (fileUrls, pageMode) =>{
-  return fileUrls?.length > 0 || pageMode === "DRAFT";
-}
+export const isTypedAndHandWrittenTab = (textExtractedAt, pageMode) => {
+  return textExtractedAt || pageMode === 'DRAFT' || pageMode === 'REVISE';
+};

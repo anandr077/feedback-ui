@@ -33,7 +33,7 @@ import {
 import PreviewFiles from './PreviewFiles';
 import { isPreviewButton, isUploadTabs } from './rules';
 
-function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
+function HandWritten({ submissionId, answer, setSubmission, setMainTab, pageMode }) {
   const [files, setFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const selectedTabValue = files.length > 0 ? '2' : '1';
@@ -77,7 +77,6 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
         newImages.map(async (imageObj) => {
           if (imageObj?.file && !imageObj.url) {
             const documentUrl = await uploadFileToServer(imageObj.file);
-
             return {
               ...imageObj,
               url: documentUrl,
@@ -126,6 +125,7 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
     const textExtracted = await extractText(id, serialNumber)
     setSubmission(textExtracted)
     setMainTab("1")
+    window.location.reload();
   }
 
   const handleGoBack = () =>{
@@ -147,7 +147,7 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
     <>
       <TabsContainer>
         <TabContextComponent value={tabValue}>
-          {isUploadTabs(!answer?.answer?.fileUrls) && (
+          {isUploadTabs(pageMode, answer) && (
             <StyledBox sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <StyledTabList
                 onChange={handleChange}
@@ -203,9 +203,9 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
             />
           </StyledTabPanel>
           <StyledTabPanel value="3">
-            {isPreviewButton(!answer?.answer?.fileUrls) && (
+            {isPreviewButton(answer, pageMode) && (
               <PreviewButtons
-                handleGoBack={setTabValue}
+                handleGoBack={handleGoBack}
                 handleConvertToText={()=> handleExtractText(submissionId, answer.serialNumber)}
               />
             )}

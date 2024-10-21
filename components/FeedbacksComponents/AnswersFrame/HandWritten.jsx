@@ -26,11 +26,12 @@ import UploadFiles from './UploadFiles';
 import OrderPages from './OrderPages';
 import PreviewButtons from './PreviewButtons';
 import {
+  extractText,
   updateHandWrittenDocumentById,
   uploadFileToServer,
 } from '../../../service';
 import PreviewFiles from './PreviewFiles';
-import { isPreviewButton, isTabSection } from './rules';
+import { isPreviewButton, isUploadTabs } from './rules';
 
 function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
   const [files, setFiles] = useState([]);
@@ -123,12 +124,12 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
 
   const handleExtractText = async (id, serialNumber) =>{
     const textExtracted = await extractText(id, serialNumber)
-    console.log('hello handleExtractText', id, serialNumber)
+    setSubmission(textExtracted)
+    setMainTab("1")
   }
 
   const handleGoBack = () =>{
     setTabValue("2")
-    console.log('go back ')
   }
 
   const LabelContainer = ({ number, text, active }) => {
@@ -146,8 +147,7 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
     <>
       <TabsContainer>
         <TabContextComponent value={tabValue}>
-          {(
-          //{isTabSection(!answer?.answer?.fileUrls) && (
+          {isUploadTabs(!answer?.answer?.fileUrls) && (
             <StyledBox sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <StyledTabList
                 onChange={handleChange}
@@ -203,16 +203,12 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
             />
           </StyledTabPanel>
           <StyledTabPanel value="3">
-            {/* {isPreviewButton(!answer?.answer?.fileUrls) && (
+            {isPreviewButton(!answer?.answer?.fileUrls) && (
               <PreviewButtons
                 handleGoBack={setTabValue}
-                handleConvertToText={handleAllUrls}
-              />
-            )} */}
-            <PreviewButtons
-                handleGoBack={handleGoBack}
                 handleConvertToText={()=> handleExtractText(submissionId, answer.serialNumber)}
-            />
+              />
+            )}
             <PreviewContainer>
               {files.map((image) => {
                 return (

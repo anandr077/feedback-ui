@@ -2,7 +2,7 @@ export const isDeleteAndRestartButton = (fileUrls, pageMode) =>{
   return fileUrls?.length > 0 && pageMode === "DRAFT";
 }
 
-export const isTabSection = (fileUrls) =>{
+export const isUploadTabs = (fileUrls) =>{
   return fileUrls
 }
 

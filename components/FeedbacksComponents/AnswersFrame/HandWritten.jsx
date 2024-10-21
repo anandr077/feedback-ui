@@ -58,19 +58,23 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
     setTabValue(newValue);
   };
 
-  const handleFilesSubmissions = async (newImages) => {
+  const handleFilesSubmissions = async (newImages, isReorder = false) => {
     setIsLoading(true);
     try {
-      setFiles(oldFiles => [
-        ...oldFiles, 
-        ...newImages.map((imageObj) => ({
-          ...imageObj,
-          url: null
-        }))
-      ]);
+      if(!isReorder){
+        setFiles(oldFiles => [
+          ...oldFiles, 
+          ...newImages.map((imageObj) => ({
+            ...imageObj,
+            url: null
+          }))
+        ]);
+      }else{
+        setFiles([...newImages])
+      }
       const updatedDocuments = await Promise.all(
         newImages.map(async (imageObj) => {
-          if (imageObj?.file) {
+          if (imageObj?.file && !imageObj.url) {
             const documentUrl = await uploadFileToServer(imageObj.file);
 
             return {
@@ -78,9 +82,14 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
               url: documentUrl,
             };
           }
+          return imageObj;
         })
       );
-      setFiles(oldFiles => [...oldFiles.filter((imageObj)=> imageObj.url !== null), ...updatedDocuments]);
+      if(!isReorder){
+        setFiles(oldFiles => [...oldFiles.filter((imageObj)=> imageObj.url !== null), ...updatedDocuments]);
+      }else{
+        setFiles([...updatedDocuments]);
+      }
     } catch (error) {
     } finally {
       setIsLoading(false);
@@ -103,8 +112,6 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
     }
   };
 
-  console.log('the files are loadded', files)
-
   const deleteSelectedFile = async (id) =>{
     try{
        setFiles((oldFiles) => oldFiles.filter((old) => old.id !== id))
@@ -112,6 +119,8 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
 
     }
   }
+
+  console.log('the files after delete checked', files)
 
   const LabelContainer = ({ number, text, active }) => {
     return (
@@ -169,7 +178,7 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
           )}
           <StyledTabPanel value="1">
             <UploadFiles
-              setSelectedImages={handleFilesSubmissions}
+              handleFilesSubmissions={handleFilesSubmissions}
               setTabValue={setTabValue}
               selectedImages={files}
             />
@@ -177,7 +186,7 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
           <StyledTabPanel value="2">
             <OrderPages
               selectedImages={files}
-              setSelectedImages={handleFilesSubmissions}
+              handleFilesSubmissions={handleFilesSubmissions}
               setTabValue={setTabValue}
               deleteSelectedFile={deleteSelectedFile}
             />

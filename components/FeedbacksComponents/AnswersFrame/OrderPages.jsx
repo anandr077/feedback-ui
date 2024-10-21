@@ -101,7 +101,7 @@ const DraggableImage = ({ id, image, onClickFn }) => {
 
 function OrderPages({
   selectedImages,
-  setSelectedImages,
+  handleFilesSubmissions,
   setTabValue,
   deleteSelectedFile,
 }) {
@@ -115,7 +115,7 @@ function OrderPages({
       const newIndex = selectedImages.findIndex((img) => img.id === over.id);
 
       const reorderedImages = arrayMove(selectedImages, oldIndex, newIndex);
-      setSelectedImages(reorderedImages);
+      handleFilesSubmissions(reorderedImages, true);
     }
   };
 
@@ -132,7 +132,7 @@ function OrderPages({
       id: uuidv4(),
       file,
     }));
-    setSelectedImages(filesWithIds);
+    handleFilesSubmissions(filesWithIds);
   };
 
   const handleContinueButton = () => {
@@ -140,7 +140,7 @@ function OrderPages({
   };
 
   const handleCancelButton = () => {
-    setSelectedImages([]);
+    handleFilesSubmissions([]);
     setTabValue('1');
   };
 

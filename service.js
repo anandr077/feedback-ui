@@ -732,3 +732,6 @@ export const updateHandWrittenDocumentById = async (submissionId, serialNumber, 
   await patchApi(
     baseUrl + '/submissions/' + submissionId + '/answers/' + serialNumber + "/files", documentUrls
   )
+
+export const extractText = async (id, serialNumber) =>
+  await patchApi(baseUrl + id + "answers" + serialNumber + "/extractText")

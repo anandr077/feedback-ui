@@ -462,7 +462,7 @@ const answerFrames = (
                       value="2"
                     />
                   </StyledMainTabList>
-                  {isDeleteAndRestartButton(
+                  {/* {isDeleteAndRestartButton(
                     answer?.answer?.fileUrls,
                     pageMode
                   ) && (
@@ -471,7 +471,7 @@ const answerFrames = (
                       onclick={deleteUploadedFile}
                       text="Delete & Restart"
                     />
-                  )}
+                  )} */}
                 </StyledBox>
               )}
               <StyledTabPanel value="1">

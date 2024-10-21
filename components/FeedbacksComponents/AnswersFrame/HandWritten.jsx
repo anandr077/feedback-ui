@@ -96,7 +96,7 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
     }
   };
 
-  const handleConvertToText = async () => {
+  const handleAllUrls = async () => {
     try {
       const documentUrls = files.map((file) => file.url);
       const updatedSubmission = await updateHandWrittenDocumentById(
@@ -104,23 +104,32 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
         answer.serialNumber,
         documentUrls
       );
+      console.log('the documentUrls is', documentUrls)
       await setSubmission(updatedSubmission);
-      setMainTab('1');
-      window.location.reload();
+      setTabValue("3")
     } catch (error) {
       console.error('Error updating handwritten document:', error);
     }
   };
 
   const deleteSelectedFile = async (id) =>{
-    try{
-       setFiles((oldFiles) => oldFiles.filter((old) => old.id !== id))
-    }catch(err){
-
-    }
+    setFiles((oldFiles) => oldFiles.filter((old) => old.id !== id))
   }
 
-  console.log('the files after delete checked', files)
+  const handleCancelButton = async () =>{
+    setFiles([])
+    setTabValue("1")
+  }
+
+  const handleExtractText = async (id, serialNumber) =>{
+    const textExtracted = await extractText(id, serialNumber)
+    console.log('hello handleExtractText', id, serialNumber)
+  }
+
+  const handleGoBack = () =>{
+    setTabValue("2")
+    console.log('go back ')
+  }
 
   const LabelContainer = ({ number, text, active }) => {
     return (
@@ -137,7 +146,8 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
     <>
       <TabsContainer>
         <TabContextComponent value={tabValue}>
-          {isTabSection(!answer?.answer?.fileUrls) && (
+          {(
+          //{isTabSection(!answer?.answer?.fileUrls) && (
             <StyledBox sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <StyledTabList
                 onChange={handleChange}
@@ -187,17 +197,22 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab }) {
             <OrderPages
               selectedImages={files}
               handleFilesSubmissions={handleFilesSubmissions}
-              setTabValue={setTabValue}
+              handleCancelButton={handleCancelButton}
               deleteSelectedFile={deleteSelectedFile}
+              handleAllUrls={handleAllUrls}
             />
           </StyledTabPanel>
           <StyledTabPanel value="3">
-            {isPreviewButton(!answer?.answer?.fileUrls) && (
+            {/* {isPreviewButton(!answer?.answer?.fileUrls) && (
               <PreviewButtons
                 handleGoBack={setTabValue}
-                handleConvertToText={handleConvertToText}
+                handleConvertToText={handleAllUrls}
               />
-            )}
+            )} */}
+            <PreviewButtons
+                handleGoBack={handleGoBack}
+                handleConvertToText={()=> handleExtractText(submissionId, answer.serialNumber)}
+            />
             <PreviewContainer>
               {files.map((image) => {
                 return (

@@ -5,7 +5,6 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 const PreviewPdfFile = ({ url }) => {
-  console.log('the url of pdf is', url)
   const newplugin = defaultLayoutPlugin();
   return (
     <div>

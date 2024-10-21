@@ -102,8 +102,9 @@ const DraggableImage = ({ id, image, onClickFn }) => {
 function OrderPages({
   selectedImages,
   handleFilesSubmissions,
-  setTabValue,
+  handleCancelButton,
   deleteSelectedFile,
+  handleAllUrls
 }) {
   const sensors = useSensors(useSensor(MouseSensor));
 
@@ -135,15 +136,6 @@ function OrderPages({
     handleFilesSubmissions(filesWithIds);
   };
 
-  const handleContinueButton = () => {
-    setTabValue('3');
-  };
-
-  const handleCancelButton = () => {
-    handleFilesSubmissions([]);
-    setTabValue('1');
-  };
-
   return (
     <>
       <ButtonsContainer>
@@ -168,7 +160,7 @@ function OrderPages({
           </CancelButtonContainer>
           <RoundedBorderSubmitBtn
             text={'Continue'}
-            onClickFn={handleContinueButton}
+            onClickFn={()=> handleAllUrls()}
           />
         </CancelAndContinueButtonsContainer>
       </ButtonsContainer>

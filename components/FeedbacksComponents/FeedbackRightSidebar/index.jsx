@@ -44,7 +44,7 @@ const FeedbackRightSidebar = ({
             />
           </Button>
         )}
-        {isShowJeddAITab(submission?.type, pageMode, isTeacher) && (
+        {isShowJeddAITab(submission?.type, pageMode, isTeacher, submission.assignment.reviewedBy) && (
           <Button
             isActive={openRightPanel === 'tab4'}
             onClick={() => handleClick('tab4')}

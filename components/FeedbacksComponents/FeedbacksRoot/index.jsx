@@ -1609,7 +1609,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
         selectedFocusAreas.length === 0 ||
         currentFocusAreas.length !== selectedFocusAreas.length
       ) {
-      errorMessage = 'Some focus areas are not selected. Do you want to submit';
+      errorMessage = 'Some focus areas are not selected. Do you want to submit?';
         valid = false;
         break; // Stop iterating
       }

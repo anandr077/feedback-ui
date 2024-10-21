@@ -1,3 +1,3 @@
-export function showAiFeedbackGenerateButton(submissionType, pageMode, isTeacher){
-   return submissionType === "SUBMISSION" && pageMode === "REVIEW" && isTeacher
+export function showAiFeedbackGenerateButton(submissionType, pageMode, isTeacher, reviewedBy) {
+   return isTeacher && submissionType === "SUBMISSION" && pageMode === "REVIEW" && reviewedBy === 'TEACHER'
 }

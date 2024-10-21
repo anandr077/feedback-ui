@@ -347,7 +347,7 @@ function CreateAAssignmentLaptop(props) {
                 <TaskName>
                   <TaskTitle>Select a class</TaskTitle>
                   <QuestionTooltip
-                    text={'Which classes are you setting this task for ?'}
+                    text={'Which classes are you setting this task for?'}
                     img={questionMark}
                   />
                 </TaskName>

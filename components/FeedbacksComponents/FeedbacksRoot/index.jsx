@@ -1603,13 +1603,13 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
       const question = submissionByIdData?.assignment?.questions[index];
       const currentFocusAreas = question?.focusAreas || [];
       const selectedFocusAreas = groupedFocusAreaIds[index + 1] || [];
-    
+
+      const allSelfAssessmentUsed = currentFocusAreas.every(fa => selectedFocusAreas.includes(fa.id))      
 
       if (
-        selectedFocusAreas.length === 0 ||
-        currentFocusAreas.length !== selectedFocusAreas.length
+        !allSelfAssessmentUsed
       ) {
-      errorMessage = 'Some focus areas are not selected. Do you want to submit?';
+      errorMessage = 'Some self-assessment areas are not selected. Do you want to submit?';
         valid = false;
         break; // Stop iterating
       }

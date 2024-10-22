@@ -347,7 +347,7 @@ function CreateAAssignmentLaptop(props) {
                 <TaskName>
                   <TaskTitle>Select a class</TaskTitle>
                   <QuestionTooltip
-                    text={'Which classes are you setting this task for ?'}
+                    text={'Which classes are you setting this task for?'}
                     img={questionMark}
                   />
                 </TaskName>
@@ -390,14 +390,13 @@ function CreateAAssignmentLaptop(props) {
                     <TaskTitle>Select the feedback method</TaskTitle>
                     <QuestionTooltip
                       text={
-                        'Would you like to personally mark this task, or would you prefer that students provide feedback to each other?'
+                        "Choose between teacher-led feedback (with optional AI-suggestions), peer-to-peer feedback (where students review each other's work) or instant feedback from JeddAI using a teacher-trained AI marking model."
                       }
                       img={questionMark}
                     />
                   </TaskName>
                   <HeadingLine>
-                    Would you like to personally mark this task, or would you
-                    prefer that students provide feedback to each other?
+                    Choose between teacher-led feedback (with optional AI-suggestions), peer-to-peer feedback (where students review each other's work) or instant feedback from JeddAI using a teacher-trained AI marking model.
                   </HeadingLine>
                 </TitleAndSubtitleSubContainer>
 

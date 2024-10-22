@@ -10,7 +10,7 @@ export const MainContainer = styled.div`
     right: ${(props) => (props.openRightPanel === 'tab4' ? '48px' : '-290px')};
     width: 290px;
   }
-  height: 100%;
+  height: calc(100% + 50px);
   padding: 0;
   border: solid 1px rgba(201, 198, 204, 0.5);
   background-color: #fff;
@@ -25,7 +25,6 @@ export const SubmissionBody = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 20px 16px;
   gap: 20px;
 `;
@@ -47,6 +46,7 @@ export const AIImage = styled.img`
   height: 209px;
   gap: 0px;
   opacity: 0px;
+  margin: 0 auto;
 `;
 
 export const TextContainer = styled.div`

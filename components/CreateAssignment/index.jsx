@@ -710,13 +710,39 @@ export default function CreateAssignment(props) {
       >
         <LableAndImgContainer>
           <StyledFormControlLabel
+            value="JEDDAI_ASSISTED"
+            control={<Radio />}
+            label="Teacher (AI-assisted)" 
+          />
+          <QuestionTooltip
+            text={
+              "JeddAI provides instant feedback suggestions that you can review and edit before submitting."
+            }
+            img={questionMark}
+          />
+        </LableAndImgContainer>
+        <LableAndImgContainer>
+          <StyledFormControlLabel
             value="TEACHER"
             control={<Radio />}
-            label="Teacher Feedback"
+            label="Teacher (Manual)"
             // endIcon={<TitleImage src={questionMark} />}
           />
           <QuestionTooltip
-            text={'Each submission will be reviewed by the class teacher'}
+            text={'Each submission will be reviewed by the teacher'}
+            img={questionMark}
+          />
+        </LableAndImgContainer>
+        <LableAndImgContainer>
+          <StyledFormControlLabel
+            value="JEDDAI"
+            control={<Radio />}
+            label="JeddAI (Instant)"
+          />
+          <QuestionTooltip
+            text={
+              "JeddAI provides instant feedback to students without teacher input."
+            }
             img={questionMark}
           />
         </LableAndImgContainer>
@@ -729,32 +755,6 @@ export default function CreateAssignment(props) {
           <QuestionTooltip
             text={
               "Students mark each other's work anonymously. Use the drag-and-drop feature to pair specific students together"
-            }
-            img={questionMark}
-          />
-        </LableAndImgContainer>
-        <LableAndImgContainer>
-          <StyledFormControlLabel
-            value="JEDDAI"
-            control={<Radio />}
-            label="JeddAI"
-          />
-          <QuestionTooltip
-            text={
-              "JeddAI will provide instant feedback to students"
-            }
-            img={questionMark}
-          />
-        </LableAndImgContainer>
-        <LableAndImgContainer>
-          <StyledFormControlLabel
-            value="JEDDAI_ASSISTED"
-            control={<Radio />}
-            label="AI Assisted" 
-          />
-          <QuestionTooltip
-            text={
-              "JeddAI will provide feedback to students, but teachers will have the final say"
             }
             img={questionMark}
           />

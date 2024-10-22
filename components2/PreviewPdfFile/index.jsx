@@ -1,16 +1,13 @@
 import React from 'react';
-import { Viewer, Worker } from '@react-pdf-viewer/core';
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 const PreviewPdfFile = ({ url }) => {
-  const newplugin = defaultLayoutPlugin();
   return (
-    <div>
-      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-        <Viewer fileUrl={url} plugins={[newplugin]} />;
-      </Worker>
+    <div style={{ width: '100%' }}>
+      <object data={url} type="application/pdf" width="100%" height="700px">
+        <p>
+          Alternative text - include a link <a href={url}>to the PDF!</a>
+        </p>
+      </object>
     </div>
   );
 };

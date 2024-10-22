@@ -26,14 +26,13 @@ import UploadFiles from './UploadFiles';
 import OrderPages from './OrderPages';
 import PreviewButtons from './PreviewButtons';
 import {
-  extractText,
   updateHandWrittenDocumentById,
   uploadFileToServer,
 } from '../../../service';
 import PreviewFiles from './PreviewFiles';
 import { isPreviewButton, isUploadTabs } from './rules';
 
-function HandWritten({ submissionId, answer, setSubmission, setMainTab, pageMode }) {
+function HandWritten({ submissionId, answer, setSubmission, handleExtractText, pageMode }) {
   const [files, setFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const selectedTabValue = files.length > 0 ? '2' : '1';
@@ -121,12 +120,6 @@ function HandWritten({ submissionId, answer, setSubmission, setMainTab, pageMode
     setTabValue("1")
   }
 
-  const handleExtractText = async (id, serialNumber) =>{
-    const textExtracted = await extractText(id, serialNumber)
-    setSubmission(textExtracted)
-    setMainTab("1")
-    window.location.reload();
-  }
 
   const handleGoBack = () =>{
     setTabValue("2")

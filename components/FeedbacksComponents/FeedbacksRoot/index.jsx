@@ -1740,6 +1740,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
     jeddAI,
     checkFocusAreas,
     setShowJeddAIFeedbackTypeSelectionPopUp,
+    setIsLoading
   };
 
   const shortcuts = getShortcuts();

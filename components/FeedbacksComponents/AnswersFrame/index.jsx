@@ -45,6 +45,7 @@ import DownWhite from '../../../static/img/angledownwhite20.svg';
 import RefreshIcon from '../../../static/img/24refresh-circle-green.svg';
 import trashCanIcon from '../../../static/icons/trash-can.svg';
 import {
+  extractText,
   updateAssignment,
   updateHandWrittenDocumentById,
   uploadFileToServer,
@@ -388,17 +389,32 @@ const answerFrames = (
 
   const deleteUploadedFile = async () => {
     try {
+      methods.setIsLoading(true);
       const updatedSubmission = await updateHandWrittenDocumentById(
         submission.id,
         answer.serialNumber,
         []
       );
       await setSubmission(updatedSubmission);
-      window.location.reload();
     } catch (error) {
       console.error('Error updating handwritten document:', error);
+    }finally{
+      methods.setIsLoading(false);
     }
   };
+
+  const handleExtractText = async (id, serialNumber) =>{
+    try {
+      methods.setIsLoading(true);
+      const textExtracted = await extractText(id, serialNumber);
+      setSubmission(textExtracted);
+      setMainTab("1");
+    } catch (error) {
+      console.error("Error extracting text:", error);
+    } finally {
+      methods.setIsLoading(false);
+    }
+  }
 
 
   return (
@@ -521,7 +537,7 @@ const answerFrames = (
                   submissionId={submission.id}
                   answer={answer}
                   setSubmission={setSubmission}
-                  setMainTab={setMainTab}
+                  handleExtractText={handleExtractText}
                   pageMode={pageMode}
                 />
               </StyledTabPanel>

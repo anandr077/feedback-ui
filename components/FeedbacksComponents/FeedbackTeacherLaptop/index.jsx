@@ -753,8 +753,8 @@ function answersAndFeedbacks(
           />
         </>
         {
-          showAiFeedbackGenerateButton(submission.type, pageMode, isTeacher, submission.assignment.reviewedBy) &&
-          <AiButton 
+        showAiFeedbackGenerateButton(submission.type, pageMode, isTeacher, submission.assignment.reviewedBy) &&
+        <AiButton 
           handleClick={handleRightSidebarClick}
         />
         }

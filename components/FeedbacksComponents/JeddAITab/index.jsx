@@ -63,13 +63,13 @@ const JeddAITab = ({
         ) : (
           <>
             <AIImage src={AIFeedbackImage} alt="AI Feedback Image" />
-            <TextContainer>{jeddAiReviewText(submission.type)}</TextContainer>
             {isShowGetStartedButton(submission.jeddaiFeedbackReceivedAt, submission.type) && (
               <RoundedBorderSubmitBtn
-                text="Get Started"
+                text="Start Marking"
                 onClickFn={() => handleJeddAIReview()}
               />
             )}
+            <TextContainer>{jeddAiReviewText(submission.type)}</TextContainer>
           </>
         )}
       </SubmissionBody>

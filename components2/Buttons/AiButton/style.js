@@ -9,8 +9,8 @@ export const MainButtonContainer = styled.div`
   z-index: 10;
 
   img{
-    height: 60px;
-    width: 60px;
+    height: 90px;
+    width: 90px;
   }
 
   :hover{

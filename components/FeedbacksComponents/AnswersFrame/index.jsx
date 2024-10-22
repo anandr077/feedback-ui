@@ -464,7 +464,8 @@ const answerFrames = (
                   </StyledMainTabList>
                   {isDeleteAndRestartButton(
                     answer?.answer.textExtractedAt,
-                    pageMode
+                    pageMode,
+                    mainTab
                   ) && (
                     <NoBgRoundedBlackBorder
                       leftIcon={trashCanIcon}

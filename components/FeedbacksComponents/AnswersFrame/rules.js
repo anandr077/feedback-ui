@@ -1,5 +1,5 @@
-export const isDeleteAndRestartButton = (textExtractedAt, pageMode) => {
-  return (pageMode === 'DRAFT' || pageMode === 'REVISE') && textExtractedAt;
+export const isDeleteAndRestartButton = (textExtractedAt, pageMode, mainTab) => {
+  return (pageMode === 'DRAFT' || pageMode === 'REVISE') && textExtractedAt && mainTab === "2";
 };
 
 export const isUploadTabs = (pageMode, answer) => {
@@ -14,5 +14,5 @@ export const isPreviewButton = (answer, pageMode) => {
 };
 
 export const isTypedAndHandWrittenTab = (textExtractedAt, pageMode) => {
-  return textExtractedAt || pageMode === 'DRAFT' || pageMode === 'REVISE';
+  return textExtractedAt || pageMode === 'DRAFT';
 };

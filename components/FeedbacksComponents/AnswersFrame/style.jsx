@@ -188,14 +188,18 @@ export const AddButtonContainer = styled.div`
 export const AddButton = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 10px 8px;
+  padding: 8px 12px;
   gap: 8px;
-  border-radius: 30px;
+  border-radius: 32px;
   border: 1px 0px 0px 0px;
   opacity: 0px;
   background: var(--color-neutral-white, #ffffff);
   border: 1px solid var(--color-purple-300, #7200e0);
   cursor: pointer;
+
+  :hover{
+    background: #f0e4fc;
+  }
 `;
 
 export const AddButtonImage = styled.img`
@@ -228,7 +232,7 @@ export const AddButtonText = styled.p`
   font-weight: 500;
   line-height: 24px;
   text-align: left;
-  color: var(--color-purple-300, #7200e0);
+  color: #7200e0;
 `;
 
 export const PreviewContainer = styled.div`

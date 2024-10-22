@@ -180,7 +180,9 @@ function OrderPages({
               <ImagesContainer>
                 {selectedImages.map((image) => {
                   if (image.url === null) {
-                    return <StyledLoadingBox key={image.id}>Uploading</StyledLoadingBox>;
+                    return <StyledLoadingBox key={image.id}>
+                      <div>Uploading<span></span><span></span><span></span></div>
+                    </StyledLoadingBox>;
                   }
                   return <DraggableImage
                     key={image.id}

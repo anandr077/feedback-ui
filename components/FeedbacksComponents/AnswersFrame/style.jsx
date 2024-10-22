@@ -154,6 +154,15 @@ export const StyledImage = styled.img`
   height: 148px;
 `;
 
+const bounce = keyframes`
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+`;
+
 export const StyledLoadingBox = styled.div`
   font-family: IBM Plex Sans;
   margin-top: 10px;
@@ -164,10 +173,38 @@ export const StyledLoadingBox = styled.div`
   border: 1px;
   opacity: 0px;
   background: #ffffff;
+  color: var(--light-mode-purple);
   border: 1px solid var(--color-neutral-90, #c9c6cc);
   box-shadow: 0px 2px 2px 0px #00000040;
   display: grid;
   place-items: center;
+
+  div {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+
+    span {
+      display: inline-block;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background-color: var(--light-mode-purple);
+      animation: ${bounce} 0.5s cubic-bezier(0.22, 0.68, 0.78, 0.94) infinite;
+    }
+
+    span:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    span:nth-child(2) {
+      animation-delay: 100ms;
+    }
+
+    span:nth-child(3) {
+      animation-delay: 200ms;
+    }
+  }
 `;
 
 export const ButtonsContainer = styled.div`

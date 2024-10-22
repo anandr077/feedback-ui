@@ -442,7 +442,7 @@ const answerFrames = (
           </QuestionContainer>
         )}
         <AnswerContainer>
-          <QuestionTitleBox>Respons</QuestionTitleBox>
+          <QuestionTitleBox>Response</QuestionTitleBox>
           <TabsContainer>
             <TabContextComponent value={mainTab}>
               {isTypedAndHandWrittenTab(answer?.answer?.textExtractedAt, pageMode) && (

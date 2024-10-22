@@ -712,7 +712,7 @@ export default function CreateAssignment(props) {
           <StyledFormControlLabel
             value="JEDDAI_ASSISTED"
             control={<Radio />}
-            label="Teacher (AI assisted)" 
+            label="Teacher (AI-assisted)" 
           />
           <QuestionTooltip
             text={

@@ -59,6 +59,8 @@ import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 import { CancelButton, ProceedButton } from '../../GeneralPopup/style';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
+import AiButton from '../../../components2/Buttons/AiButton';
+import { showAiFeedbackGenerateButton } from './rules';
 
 const FeedbackMethodType = ['Teacher', 'Class', 'Peer'];
 
@@ -750,6 +752,12 @@ function answersAndFeedbacks(
             QuestionIndex={QuestionIndex}
           />
         </>
+        {
+          showAiFeedbackGenerateButton(submission.type, pageMode, isTeacher, submission.assignment.reviewedBy) &&
+          <AiButton 
+          handleClick={handleRightSidebarClick}
+        />
+        }
       </FeedbackBody>
     </Frame1386>
   );

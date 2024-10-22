@@ -1609,7 +1609,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
         selectedFocusAreas.length === 0 ||
         currentFocusAreas.length !== selectedFocusAreas.length
       ) {
-      errorMessage = 'Some focus areas are not selected. Do you want to submit';
+      errorMessage = 'Some focus areas are not selected. Do you want to submit?';
         valid = false;
         break; // Stop iterating
       }
@@ -1647,7 +1647,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
   
   const jeddAI = (includeFeedbackMethods) => {
     const q = quillRefs.current[0];
-    const args = [submissionByIdData?.id, q.getText()];
+    const args = [submissionByIdData?.id, q?.getText()];
     if (includeFeedbackMethods) {
       args.push(currentMarkingCriteria?.id, currentCommentBank?.id);
     }
@@ -1666,9 +1666,10 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
       function getAndUpdateSubmission() {
         getSubmissionById(submissionByIdData?.id).then((response) => {
           if (response) {
-            if (response.status !== 'FEEDBACK_ACCEPTED') {
+            if (response.jeddaiFeedbackReceivedAt) {
               clearInterval(interval);
               window.location.reload();
+              setShowLottie(false);
             }
             setSubmissionByIdData(response);
           }

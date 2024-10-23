@@ -31,9 +31,18 @@ import {
 } from '../../../service';
 import PreviewFiles from './PreviewFiles';
 import { isPreviewButton, isUploadTabs } from './rules';
+import UploadedFilePopup from '../../../components2/UploadedFilePopup';
 
-function HandWritten({ submissionId, answer, setSubmission, handleExtractText, pageMode, isConvertingFile }) {
+function HandWritten({
+  submissionId,
+  answer,
+  setSubmission,
+  handleExtractText,
+  pageMode,
+  isConvertingFile,
+}) {
   const [files, setFiles] = useState([]);
+  const [previewedFileId, setPreviewedFileId] = useState(null);
   const selectedTabValue = files.length > 0 ? '2' : '1';
   const [tabValue, setTabValue] = useState(selectedTabValue);
 
@@ -59,16 +68,16 @@ function HandWritten({ submissionId, answer, setSubmission, handleExtractText, p
 
   const handleFilesSubmissions = async (newImages, isReorder = false) => {
     try {
-      if(!isReorder){
-        setFiles(oldFiles => [
-          ...oldFiles, 
+      if (!isReorder) {
+        setFiles((oldFiles) => [
+          ...oldFiles,
           ...newImages.map((imageObj) => ({
             ...imageObj,
-            url: null
-          }))
+            url: null,
+          })),
         ]);
-      }else{
-        setFiles([...newImages])
+      } else {
+        setFiles([...newImages]);
       }
       const updatedDocuments = await Promise.all(
         newImages.map(async (imageObj) => {
@@ -82,14 +91,17 @@ function HandWritten({ submissionId, answer, setSubmission, handleExtractText, p
           return imageObj;
         })
       );
-      if(!isReorder){
-        setFiles(oldFiles => [...oldFiles.filter((imageObj)=> imageObj.url !== null), ...updatedDocuments]);
-      }else{
+      if (!isReorder) {
+        setFiles((oldFiles) => [
+          ...oldFiles.filter((imageObj) => imageObj.url !== null),
+          ...updatedDocuments,
+        ]);
+      } else {
         setFiles([...updatedDocuments]);
       }
     } catch (error) {
-      console.error("Error while file submission:", error);
-    } 
+      console.error('Error while file submission:', error);
+    }
   };
 
   const handleAllUrls = async () => {
@@ -100,26 +112,28 @@ function HandWritten({ submissionId, answer, setSubmission, handleExtractText, p
         answer.serialNumber,
         documentUrls
       );
-      console.log('the documentUrls is', documentUrls)
       await setSubmission(updatedSubmission);
-      setTabValue("3")
+      setTabValue('3');
     } catch (error) {
       console.error('Error updating handwritten document:', error);
     }
   };
 
-  const deleteSelectedFile = async (id) =>{
-    setFiles((oldFiles) => oldFiles.filter((old) => old.id !== id))
-  }
+  const deleteSelectedFile = async (id) => {
+    setFiles((oldFiles) => oldFiles.filter((old) => old.id !== id));
+  };
 
-  const handleCancelButton = async () =>{
-    setFiles([])
-    setTabValue("1")
-  }
+  const handleCancelButton = async () => {
+    setFiles([]);
+    setTabValue('1');
+  };
 
+  const handleGoBack = () => {
+    setTabValue('2');
+  };
 
-  const handleGoBack = () =>{
-    setTabValue("2")
+  const handlePreviewdFile = (id) =>{
+    setPreviewedFileId(id)
   }
 
   const LabelContainer = ({ number, text, active }) => {
@@ -135,6 +149,14 @@ function HandWritten({ submissionId, answer, setSubmission, handleExtractText, p
 
   return (
     <>
+    {
+      previewedFileId && (
+        <UploadedFilePopup 
+           previewedFileUrl={files.find(file => file.id === previewedFileId)?.url}
+           removePreviewdFile={()=> setPreviewedFileId(null)}
+        />
+      )
+    }
       <TabsContainer>
         <TabContextComponent value={tabValue}>
           {isUploadTabs(pageMode, answer) && (
@@ -191,13 +213,16 @@ function HandWritten({ submissionId, answer, setSubmission, handleExtractText, p
               handleCancelButton={handleCancelButton}
               deleteSelectedFile={deleteSelectedFile}
               handleAllUrls={handleAllUrls}
+              handlePreviewdFile={handlePreviewdFile}
             />
           </StyledTabPanel>
           <StyledTabPanel value="3">
             {isPreviewButton(answer, pageMode) && (
               <PreviewButtons
                 handleGoBack={handleGoBack}
-                handleConvertToText={()=> handleExtractText(submissionId, answer.serialNumber)}
+                handleConvertToText={() =>
+                  handleExtractText(submissionId, answer.serialNumber)
+                }
                 isConvertingFile={isConvertingFile}
               />
             )}

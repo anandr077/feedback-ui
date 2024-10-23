@@ -42,7 +42,7 @@ import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSu
 import { v4 as uuidv4 } from 'uuid';
 import PdfIcon from '../../../static/img/pdf_logo.svg';
 
-const DraggableImage = ({ id, image, onClickFn, fileNumber }) => {
+const DraggableImage = ({ id, image, deleteFile, fileNumber, handlePreviewdFile }) => {
   const {
     attributes,
     listeners,
@@ -88,11 +88,20 @@ const DraggableImage = ({ id, image, onClickFn, fileNumber }) => {
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          onClickFn();
+          deleteFile();
         }}
       />
       <MagnifyingIcon
         src={magnifyingIcon}
+        onPointerDown={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+        onClick={(e)=> {
+          e.preventDefault();
+          e.stopPropagation();
+          handlePreviewdFile();
+        }}
       />
       <FileNumber>{fileNumber}</FileNumber>
       {isImageValid ? (
@@ -109,11 +118,10 @@ function OrderPages({
   handleFilesSubmissions,
   handleCancelButton,
   deleteSelectedFile,
-  handleAllUrls
+  handleAllUrls,
+  handlePreviewdFile
 }) {
   const sensors = useSensors(useSensor(MouseSensor));
-
-  console.log('selectedImages is', selectedImages)
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -193,8 +201,9 @@ function OrderPages({
                     key={image.id}
                     id={image.id}
                     image={image}
-                    onClickFn={() => deleteSelectedFile(image.id)}
+                    deleteFile={() => deleteSelectedFile(image.id)}
                     fileNumber={index + 1}
+                    handlePreviewdFile={()=> handlePreviewdFile(image.id)}
                   />
                 })}
               </ImagesContainer>

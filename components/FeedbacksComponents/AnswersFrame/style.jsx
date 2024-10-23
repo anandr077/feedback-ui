@@ -223,6 +223,7 @@ export const MagnifyingIcon = styled.img`
   right: 30px;
   top: 5px;
   cursor: pointer;
+  pointer-events: auto;
   transition: transform 0.5s ease-in;
 
   :hover{
@@ -381,3 +382,4 @@ export const CancelButtonText = styled.p`
   text-align: left;
   color: var(--color-neutral-400, #56515b);
 `;
+

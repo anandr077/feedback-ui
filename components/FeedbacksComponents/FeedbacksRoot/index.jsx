@@ -131,10 +131,10 @@ export default function FeedbacksRoot() {
   const [showJeddAIFeedbackTypeSelectionPopUp, setShowJeddAIFeedbackTypeSelectionPopUp] = useState(false);
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
   React.useState(false);
-const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] =
+  const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] =
   React.useState(false);
-const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(null);
-const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
+  const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(null);
+  const [currentCommentBank, setCurrentCommentBank] = useState(null);
 
   const {
     data: submissionByIdData,

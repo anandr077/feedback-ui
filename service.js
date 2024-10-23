@@ -718,7 +718,6 @@ export const uploadFileToServer = async (uploadedFile) => {
     if (!response.ok) {
       throw new Error(responseText); 
     }
-    console.log('the url of uploadFileToServer', responseText)
     return responseText;
   } catch (error) {
     if (error instanceof TypeError) {

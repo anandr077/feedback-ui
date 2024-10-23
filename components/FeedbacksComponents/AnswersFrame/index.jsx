@@ -389,7 +389,6 @@ const answerFrames = (
 
   const deleteUploadedFile = async () => {
     try {
-      methods.setIsLoading(true);
       const updatedSubmission = await updateHandWrittenDocumentById(
         submission.id,
         answer.serialNumber,
@@ -398,21 +397,16 @@ const answerFrames = (
       await setSubmission(updatedSubmission);
     } catch (error) {
       console.error('Error updating handwritten document:', error);
-    }finally{
-      methods.setIsLoading(false);
     }
   };
 
   const handleExtractText = async (id, serialNumber) =>{
     try {
-      methods.setIsLoading(true);
       const textExtracted = await extractText(id, serialNumber);
       setSubmission(textExtracted);
       setMainTab("1");
     } catch (error) {
       console.error("Error extracting text:", error);
-    } finally {
-      methods.setIsLoading(false);
     }
   }
 

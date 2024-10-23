@@ -16,6 +16,7 @@ import { CSS } from '@dnd-kit/utilities';
 import AddIcon from '../../../static/icons/add.svg';
 import CancelImg from '../../../static/img/closecircle.svg';
 import Redcross from '../../../static/img/redcross.svg';
+import magnifyingIcon from '../../../static/img/magnifyingIcon.svg';
 import {
   AddButton,
   AddButtonContainer,
@@ -27,7 +28,7 @@ import {
   CancelButtonText,
   CancelIcon,
   DeleteIcon,
-  Image,
+  MagnifyingIcon,
   ImageContainer,
   ImagesContainer,
   OrderPagesContainer,
@@ -35,13 +36,13 @@ import {
   StyledImage,
   StyledInput,
   StyledLoadingBox,
-  UpdatingFile,
+  FileNumber,
 } from './style';
 import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
 import { v4 as uuidv4 } from 'uuid';
 import PdfIcon from '../../../static/img/pdf_logo.svg';
 
-const DraggableImage = ({ id, image, onClickFn }) => {
+const DraggableImage = ({ id, image, onClickFn, fileNumber }) => {
   const {
     attributes,
     listeners,
@@ -90,6 +91,10 @@ const DraggableImage = ({ id, image, onClickFn }) => {
           onClickFn();
         }}
       />
+      <MagnifyingIcon
+        src={magnifyingIcon}
+      />
+      <FileNumber>Page {fileNumber}</FileNumber>
       {isImageValid ? (
         <StyledImage src={image.url} alt="Preview" />
       ) : (
@@ -178,7 +183,7 @@ function OrderPages({
               strategy={rectSortingStrategy}
             >
               <ImagesContainer>
-                {selectedImages.map((image) => {
+                {selectedImages.map((image, index) => {
                   if (image.url === null) {
                     return <StyledLoadingBox key={image.id}>
                       <div>Uploading<span></span><span></span><span></span></div>
@@ -189,6 +194,7 @@ function OrderPages({
                     id={image.id}
                     image={image}
                     onClickFn={() => deleteSelectedFile(image.id)}
+                    fileNumber={index + 1}
                   />
                 })}
               </ImagesContainer>

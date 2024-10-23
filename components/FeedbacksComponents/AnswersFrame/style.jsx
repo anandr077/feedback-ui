@@ -125,6 +125,7 @@ export const ImagesContainer = styled.div`
 `;
 export const ImageContainer = styled.div`
   width: 155px;
+  height: 223px;
   padding: 20px 19px 20px 19px;
   gap: 16px;
   border-radius: 4px;
@@ -149,6 +150,33 @@ export const DeleteIcon = styled.img`
     transform: scale(1.1);
   }
 `;
+
+export const MagnifyingIcon = styled.img`
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 30px;
+  top: 5px;
+  cursor: pointer;
+  transition: transform 0.5s ease-in;
+
+  :hover{
+    transform: scale(1.1);
+  }
+`;
+
+export const FileNumber = styled.p`
+  height: 24px;
+  position: absolute;
+  left: 10px;
+  bottom: -2px;
+  font-family: IBM Plex Sans;
+  font-weight: 600;
+  font-size: var(--font-size-s);
+  line-height: 19px;
+  color: rgba(75, 70, 79, 1);
+` 
+
 export const StyledImage = styled.img`
   width: 117px;
   height: 148px;
@@ -244,24 +272,6 @@ export const AddButtonImage = styled.img`
   height: 24px;
 `;
 
-const spaceOutAnimation = keyframes`
-  0%, 100% {
-    letter-spacing: 0; 
-  }
-  33% {
-    letter-spacing: 0.1em; 
-  }
-  66% {
-    letter-spacing: 0.3em; 
-  }
-`;
-
-export const UpdatingFile = styled.div`
-  font-family: var(--font-family-ibm_plex_sans);
-  font-size: 16px;
-  display: inline-block;
-  animation: ${spaceOutAnimation} 3s ease-in-out infinite;
-`;
 
 export const AddButtonText = styled.p`
   font-family: IBM Plex Sans;

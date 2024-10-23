@@ -17,10 +17,15 @@ export const ButtonContainer = styled.button`
   justify-content: center;
   white-space: nowrap;
   gap: 7px;
-  cursor: pointer;
+  cursor: ${({ isDisabled }) => (isDisabled ? 'not-allowed' : 'pointer')};
+  opacity: ${({ isDisabled }) => (isDisabled ? 0.5 : 1)};
 
   :hover {
     background-color: rgba(80, 0, 157, 1);
+  }
+
+  &:disabled {
+    pointer-events: none;
   }
 `;
 

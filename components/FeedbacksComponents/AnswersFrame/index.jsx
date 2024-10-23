@@ -298,12 +298,11 @@ const answerFrames = (
   handleCommentBankPreview,
   handleMarkingCriteriaPreview
 ) => {
-  const { overallComments, allCommentBanks, allMarkingCriterias } =
-    useContext(FeedbackContext);
   const [questionSlide, setQuestionSlide] = React.useState(true);
   const [inputValue, setInputValue] = React.useState('Type your question');
   const inputRef = React.useRef(null);
   const [mainTab, setMainTab] = React.useState('1');
+  const [isConvertingFile, setIsConvertingFile] = React.useState(false);
 
   React.useEffect(() => {
     if (submission?.assignment?.title) {
@@ -402,11 +401,14 @@ const answerFrames = (
 
   const handleExtractText = async (id, serialNumber) =>{
     try {
+      setIsConvertingFile(true)
       const textExtracted = await extractText(id, serialNumber);
       setSubmission(textExtracted);
       setMainTab("1");
     } catch (error) {
       console.error("Error extracting text:", error);
+    }finally{
+      setIsConvertingFile(false)
     }
   }
 
@@ -460,6 +462,7 @@ const answerFrames = (
                   <StyledMainTabList
                     onChange={handleMainChange}
                     aria-label="lab API tabs example"
+                    isDisabled={isConvertingFile}
                   >
                     <StyledTab
                       label={<TabText active={mainTab === '1'}>Typed</TabText>}
@@ -533,6 +536,7 @@ const answerFrames = (
                   setSubmission={setSubmission}
                   handleExtractText={handleExtractText}
                   pageMode={pageMode}
+                  isConvertingFile={isConvertingFile}
                 />
               </StyledTabPanel>
             </TabContextComponent>

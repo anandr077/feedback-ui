@@ -94,7 +94,7 @@ const DraggableImage = ({ id, image, onClickFn, fileNumber }) => {
       <MagnifyingIcon
         src={magnifyingIcon}
       />
-      <FileNumber>Page {fileNumber}</FileNumber>
+      <FileNumber>{fileNumber}</FileNumber>
       {isImageValid ? (
         <StyledImage src={image.url} alt="Preview" />
       ) : (

@@ -32,9 +32,8 @@ import {
 import PreviewFiles from './PreviewFiles';
 import { isPreviewButton, isUploadTabs } from './rules';
 
-function HandWritten({ submissionId, answer, setSubmission, handleExtractText, pageMode }) {
+function HandWritten({ submissionId, answer, setSubmission, handleExtractText, pageMode, isConvertingFile }) {
   const [files, setFiles] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const selectedTabValue = files.length > 0 ? '2' : '1';
   const [tabValue, setTabValue] = useState(selectedTabValue);
 
@@ -59,7 +58,6 @@ function HandWritten({ submissionId, answer, setSubmission, handleExtractText, p
   };
 
   const handleFilesSubmissions = async (newImages, isReorder = false) => {
-    setIsLoading(true);
     try {
       if(!isReorder){
         setFiles(oldFiles => [
@@ -90,9 +88,8 @@ function HandWritten({ submissionId, answer, setSubmission, handleExtractText, p
         setFiles([...updatedDocuments]);
       }
     } catch (error) {
-    } finally {
-      setIsLoading(false);
-    }
+      console.error("Error while file submission:", error);
+    } 
   };
 
   const handleAllUrls = async () => {
@@ -145,6 +142,7 @@ function HandWritten({ submissionId, answer, setSubmission, handleExtractText, p
               <StyledTabList
                 onChange={handleChange}
                 aria-label="lab API tabs example"
+                isDisabled={isConvertingFile}
               >
                 <StyledTab
                   label={
@@ -200,6 +198,7 @@ function HandWritten({ submissionId, answer, setSubmission, handleExtractText, p
               <PreviewButtons
                 handleGoBack={handleGoBack}
                 handleConvertToText={()=> handleExtractText(submissionId, answer.serialNumber)}
+                isConvertingFile={isConvertingFile}
               />
             )}
             <PreviewContainer>

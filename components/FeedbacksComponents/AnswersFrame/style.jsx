@@ -76,6 +76,11 @@ export const StyledTabPanel = styled(TabPanel)`
 export const StyledMainTabList = styled(TabList)`
   width: 100%;
   padding: 0px 20px !important;
+  ${({ isDisabled }) =>
+    isDisabled &&
+    `pointer-events: none; 
+     opacity: 0.5; 
+    `}
 `;
 export const StyledTabList = styled(TabList)`
   width: 100%;
@@ -85,6 +90,66 @@ export const StyledTabList = styled(TabList)`
     justify-content: center;
     align-items: center;
   }
+
+  ${({ isDisabled }) =>
+    isDisabled &&
+    `pointer-events: none; 
+     opacity: 0.5; 
+    `}
+`;
+
+const bounce = keyframes`
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+`;
+
+export const ConvertingText = styled.div`
+  width: fit-content;
+  height: 40px;
+  padding: 8px 12px;
+  border-radius: 32px;
+  border: none;
+  background-color: var(--light-mode-purple);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: var(--font-size-l);
+  line-height: 24px;
+  color: rgba(255, 255, 255, 1);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  white-space: nowrap;
+  gap: 3px;
+
+    .dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    span {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: white;
+      animation: ${bounce} 0.5s cubic-bezier(0.22, 0.68, 0.78, 0.94) infinite;
+    }
+
+    span:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    span:nth-child(2) {
+      animation-delay: 100ms;
+    }
+
+    span:nth-child(3) {
+      animation-delay: 200ms;
+    }
 `;
 
 export const StyledTab = styled(Tab)`
@@ -168,7 +233,8 @@ export const MagnifyingIcon = styled.img`
 export const FileNumber = styled.p`
   height: 24px;
   position: absolute;
-  left: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   bottom: -2px;
   font-family: IBM Plex Sans;
   font-weight: 600;
@@ -182,14 +248,6 @@ export const StyledImage = styled.img`
   height: 148px;
 `;
 
-const bounce = keyframes`
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-`;
 
 export const StyledLoadingBox = styled.div`
   font-family: IBM Plex Sans;

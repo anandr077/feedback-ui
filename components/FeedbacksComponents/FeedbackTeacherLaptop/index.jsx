@@ -151,7 +151,7 @@ function FeedbackTeacherLaptop(props) {
       } else {
         setOpenRightPanel(null);
       }
-  }, [])
+  }, [submission])
 
   useEffect(() => {
     if (showNewComment) {

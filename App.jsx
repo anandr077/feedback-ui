@@ -42,12 +42,15 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isMobileView } from './components/ReactiveRender';
 import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
-import { shouldShowComponent } from './rules';
+import { isClassData, shouldShowComponent } from './rules';
 import { getLocalStorage } from './utils/function';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import JeddAI from './components/JeddAI';
 import VisibilityWrapper from './components2/VisibilityWrapper/VisibilityWrapper';
 import { ddRum } from './service';
+import { useClassData } from './components/state/hooks';
+import Dashboard from './components/Dashboard';
+import Tasks from './components/Tasks';
 
 function App() {
   const role = getUserRole();
@@ -57,8 +60,6 @@ function App() {
   const [showHeader, setShowHeader] = useState(true);
 
   const mobileView = isMobileView();
-
-
 
   const middleware = (c) => withOnboarding(withAuth(c));
   const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
@@ -73,7 +74,8 @@ function App() {
   const ProtectedSettings = middleware(AccountSettingsRoot);
   const ProtectedHeader = middleware(ResponsiveHeader);
   const ProtectedStrengthAndTarget = middleware(CreateNewStrengthAndTargets);
-
+  const ProtectedDashboard = middleware(Dashboard);
+  const ProtectedTasks = middleware(Tasks);
   const ProtectedGiveFeedback = middleware(GiveFeedback);
   const ProtectedDocRoot = middleware(NewDocPage);
   const ProtectedCompletedRoot = middleware(CompletedPage);
@@ -83,40 +85,8 @@ function App() {
 
   const portfolioClient = new QueryClient();
 
-  ddRum()
+  ddRum();
 
-  const Tasks = ({ role }) => {
-    const tasks =
-      role === 'TEACHER' ? (
-        getLocalStorage('classes') ? (
-          <ProtectedTeacherTaskRoot />
-        ) : (
-          <ProtectedGiveFeedback />
-        )
-      ) : getLocalStorage('classes') ? (
-        <ProtectedStudentTaskRoot />
-      ) : (
-        <ProtectedDocRoot />
-      );
-
-    return <div>{tasks}</div>;
-  };
-  const Dashboard = ({ role }) => {
-    const tasks =
-      role === 'TEACHER' ? (
-        getLocalStorage('classes') ? (
-          <ProtectedTeacherTaskRoot />
-        ) : (
-          <ProtectedGiveFeedback />
-        )
-      ) : getLocalStorage('classes') ? (
-        <ProtectedStudentTaskRoot />
-      ) : (
-        <ProtectedDocRoot />
-      );
-
-    return <div>{tasks}</div>;
-  };
   return (
     <>
       <QueryClientProvider client={portfolioClient}>
@@ -164,7 +134,9 @@ function App() {
                   <Route path="/tasks/:assignmentId">
                     <ProtectedCreateAssignment />
                   </Route>
-                  <Route path="/tasks">{Tasks({ role })}</Route>
+                  <Route path="/tasks">
+                    <ProtectedTasks role={role} />
+                  </Route>
                   <Route path="/sharedresponses">
                     <ProtectedExemplarResponsesPage />
                   </Route>
@@ -190,12 +162,11 @@ function App() {
                     <PageNotFound />
                   </Route>
                   <Route exact path="/">
-                    {Dashboard({ role })}
+                    <ProtectedDashboard role={role} />
                   </Route>
                   <Redirect to="/404" />
                 </Switch>
               )}
-
             </VisibilityWrapper>
           </div>
           <ToastContainer

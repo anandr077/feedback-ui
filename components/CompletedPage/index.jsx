@@ -1,8 +1,4 @@
 import React, {useState} from 'react';
-import { getAssignments, getCompletedTasks } from '../../service.js';
-import CompletedRoot from '../Completed/CompletedRoot';
-import { groupBy, groupedData } from 'lodash';
-import { dateOnly } from '../../dates.js';
 import _ from 'lodash';
 import Loader from '../Loader';
 import {
@@ -34,7 +30,6 @@ import {
 } from './style.js';
 
 import TaskHistoryDataComponent from './TaskHistoryDataComponent.jsx';
-import { useQuery } from '@tanstack/react-query';
 import SortSquare from '../../static/img/sort-square.svg';
 import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf.js';
 import FilterSquare from '../../static/img/filter-square.svg';
@@ -49,8 +44,7 @@ import MenuButton from '../MenuButton/index.jsx';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
 import { getUserRole } from '../../userLocalDetails.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
-import { getLocalStorage } from '../../utils/function.js';
-import { useAssignmentsAll, useCompletedAll } from '../state/hooks.js';
+import { useAssignmentsAll, useClassData, useCompletedAll } from '../state/hooks.js';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
@@ -62,6 +56,7 @@ export default function CompletedPage() {
   const tabletView = isTabletView();
   const isTeacher = getUserRole() === 'TEACHER';
   const [isLoading, setIsLoading] = useState(true);
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
 
 
   const {
@@ -79,7 +74,7 @@ export default function CompletedPage() {
 
   const completedTaskFunc = (filteredTasks) =>{
     const newCompletedTask = filteredTasks.flatMap(task => {
-      const classesCookies = getLocalStorage('classes');
+      const classesCookies = classData;
       const teacherClasses = isTeacher && classesCookies;
       const titles = task.classIds.map(id => {
         const clazz = teacherClasses.find(cls => cls.id === id);

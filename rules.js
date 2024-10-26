@@ -3,6 +3,3 @@ export const shouldShowComponent = (routesToHide) => {
   return !routesToHide.some((route) => currentHash.startsWith(route));
 };
 
-export const isClassData = (classData) =>{
-  return classData !== null && classData !== undefined && classData.length > 0
-}

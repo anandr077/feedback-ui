@@ -11,9 +11,10 @@ import { getUserName } from '../../../userLocalDetails';
 import { Avatar } from '@boringer-avatars/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getUserRole } from '../../../userLocalDetails';
-import Cookies from 'js-cookie';
 import countriesData from '../../../components2/Onboard/countries.json';
 import { getLocalStorage } from '../../../utils/function';
+import { useClassData } from '../../state/hooks';
+import { isNullOrEmpty } from '../../../utils/arrays';
 
 const group1Data = {
   iconHome: '/img/home3-1@2x.png',
@@ -41,6 +42,7 @@ function Navigation(props) {
   const queryClient = useQueryClient();
   const [state, setState] = useState('State');
   const [year, setYear] = useState('Year');
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const defaultCountry = Object.keys(countriesData)[0] || 'Australia';
   const [country, setCountry] = useState(defaultCountry);
   const isTeacher = getUserRole() === 'TEACHER';
@@ -104,19 +106,19 @@ function Navigation(props) {
         />
       </Frame1409>
       <Frame5>
-        {getLocalStorage('classes') && (
+        {!isNullOrEmpty(classData) && (
           <NavElement42 button={headerProps.firstButton} onClick={onCloseFn} />
         )}
-        {getLocalStorage('classes') && (
+        {!isNullOrEmpty(classData) && (
           <NavElement42 button={headerProps.secondButton} onClick={onCloseFn} />
         )}
-        {isTeacher && getLocalStorage('classes') && (
+        {isTeacher && !isNullOrEmpty(classData) && (
           <NavElement42 button={headerProps.thirdButton} onClick={onCloseFn} />
         )}
         {isTeacher && (
           <NavElement42 button={headerProps.fourthButton} onClick={onCloseFn} />
         )}
-        {getLocalStorage('classes') && !isTeacher && (
+        {!isNullOrEmpty(classData) && !isTeacher && (
           <NavElement42 button={headerProps.thirdButton} onClick={onCloseFn} />
         )}
         <NavElement7 text={'View Profile'} onClick={() => account()} />

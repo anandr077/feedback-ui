@@ -27,10 +27,10 @@ import ai from '../../../static/img/ai.svg';
 import rightarrow from '../../../static/img/Vector13.svg';
 import expert from '../../../static/img/Expert-check.svg';
 import profileCircle from '../../../static/img/profile-circle.svg';
-import { createRequestFeddbackType, getIsJeddAIEnabled } from '../../../service';
+import { createRequestFeddbackType } from '../../../service';
 import { isNonSchoolStudent } from '../../MainSidebar/rules';
-import { getLocalStorage } from '../../../utils/function';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
+import { useClassData } from '../../state/hooks';
 
 const SelectReviewType = ({
   submission,
@@ -46,6 +46,7 @@ const SelectReviewType = ({
   setShowStudentPopUp,
   setShowTeacherPopUp,
 }) => {
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const allTeachers = _.flatten(allClasses?.map((c) => c.teachers) || []);
   const uniqueTeachers = _.uniqBy(allTeachers, 'id');
   const allStudents = _.flatten(allClasses?.map((c) => c.students) || []);
@@ -54,7 +55,7 @@ const SelectReviewType = ({
   );
   const isTeacher = getUserRole() === 'TEACHER';
   const role = getUserRole();
-  const localClasses = getLocalStorage('classes');
+  const localClasses = classData;
   const showClassMate = uniqueStudents.length > 0;
   const showTeacher = uniqueTeachers.length > 0;
 

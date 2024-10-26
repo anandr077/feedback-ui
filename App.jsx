@@ -56,23 +56,18 @@ function App() {
   const role = getUserRole();
   const userName = getUserName();
   userName && (document.title = 'Jeddle - ' + userName);
-  const [showFooter, setShowFooter] = useState(true);
-  const [showHeader, setShowHeader] = useState(true);
 
   const mobileView = isMobileView();
 
   const middleware = (c) => withOnboarding(withAuth(c));
-  const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
   const ProtectedTeacherClassesRoot = middleware(TeacherClassesRoot);
   const ProtectedTaskDetail = middleware(TaskDetail);
   const ProtectedCreateAssignment = middleware(CreateAssignment);
-  const ProtectedTeacherTaskRoot = middleware(TeacherTaskRoot);
   const ProtectedFeedbacksRoot = middleware(FeedbacksRoot);
   const ProtectedDocumentRoot = middleware(FeedbacksRoot);
   const ProtectedExemplarResponsesPage = middleware(ExemplarResponsesPage);
   const ProtectedMarkingCriteria = middleware(CreateNewMarkingCriteriaRoot);
   const ProtectedSettings = middleware(AccountSettingsRoot);
-  const ProtectedHeader = middleware(ResponsiveHeader);
   const ProtectedStrengthAndTarget = middleware(CreateNewStrengthAndTargets);
   const ProtectedDashboard = middleware(Dashboard);
   const ProtectedTasks = middleware(Tasks);

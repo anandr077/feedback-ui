@@ -6,10 +6,8 @@ import {
   classesHomeHeaderProps,
   completedHeaderProps,
   giveFeedbackHeaderProps,
-  homeHeaderProps,
   docsHeaderProps,
   taskHeaderProps,
-  teacherHomeHeaderProps,
   teacherStudentTaskHeaderProps,
   teacherGetFeedbackHeaderProps,
   teacherGiveFeedbackHeaderProps,
@@ -17,13 +15,13 @@ import {
 } from '../../utils/headerProps';
 import { getUserRole } from '../../userLocalDetails';
 import { isSmallScreen } from '../ReactiveRender';
-import Cookies from 'js-cookie';
-import { getLocalStorage } from '../../utils/function';
+import { useClassData } from '../state/hooks';
 
 export default function ResponsiveHeader() {
   const location = useLocation();
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
 
-  const headerProps = getHeaderProps(location.pathname);
+  const headerProps = getHeaderProps(location.pathname, classData);
 
   if (isSmallScreen()) {
     return <HeaderSmall headerProps={headerProps} />;
@@ -31,7 +29,7 @@ export default function ResponsiveHeader() {
   return <Header headerProps={headerProps} />;
 }
 
-const getHeaderProps = (location) => {
+const getHeaderProps = (location, classData) => {
   if (location.includes('/settings')) return completedHeaderProps(true);
   if (location.includes('/marking')) return completedHeaderProps(true);
   if (location.includes('/documents/')) return docsHeaderProps();
@@ -47,11 +45,11 @@ const getHeaderProps = (location) => {
     else if (location.includes('/getFeedback'))
       return teacherGetFeedbackHeaderProps;
     else if (location.includes('/giveFeedback'))
-      return getLocalStorage('classes')
+      return classData
         ? teacherGiveFeedbackHeaderProps
         : expertTeacherHomeHeaderProps;
     else if (location.includes('/feedbackHistory'))
-      return getLocalStorage('classes')
+      return classData
         ? teacherGiveFeedbackHeaderProps
         : expertTeacherHomeHeaderProps;
     return assignmentsHeaderProps;
@@ -62,6 +60,6 @@ const getHeaderProps = (location) => {
       return giveFeedbackHeaderProps;
     else if (location.includes('/submissions')) return taskHeaderProps;
 
-    return getLocalStorage('classes') ? taskHeaderProps : docsHeaderProps();
+    return classData ? taskHeaderProps : docsHeaderProps();
   }
 };

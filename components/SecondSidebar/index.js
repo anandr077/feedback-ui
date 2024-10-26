@@ -23,9 +23,10 @@ import { deleteCookie, getUserRole } from '../../userLocalDetails';
 import { isActiveButton, isTeacherWithoutClass } from './rules';
 import { useQuery } from '@tanstack/react-query';
 import { isTabletView } from '../ReactiveRender';
-import { getLocalStorage } from '../../utils/function';
+import { useClassData } from '../state/hooks';
 
 const SecondSidebar = ({ id, setShowMenu }) => {
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const [containerHeight, setContainerHeight] = useState(0);
   const [feedbackRequestsLength, setFeedbackRequestsLength] = useState(0);
   const [studentCompletedTaskLength, setStudentCompletedTaskLength] = useState(0);
@@ -35,7 +36,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
   const location = useLocation();
   const history = useHistory();
   const role = getUserRole();
-  const localClasses = getLocalStorage('classes');
+  const localClasses = classData;
   const isTeacherNoClass = isTeacherWithoutClass(role, localClasses);
   const tabletView = isTabletView();
 

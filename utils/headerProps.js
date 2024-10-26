@@ -7,6 +7,7 @@ import getFeedbackUnselected from '../static/img/getFeedbackunselected.svg';
 import giveFeedbackselected from '../static/img/giveFeedbackselected.svg';
 import giveFeedbackUnselected from '../static/img/giveFeedbackunselected.svg';
 import { getLocalStorage } from './function';
+import { isNullOrEmpty } from './arrays';
 
 const isTeacher = getUserRole() === 'TEACHER';
 
@@ -58,55 +59,6 @@ if (getLocalStorage('classes')) {
   };
 }
 
-let studentTabs;
-
-if (getLocalStorage('classes')) {
-  studentTabs = (first, second, third) => {
-    return {
-      firstButton: {
-        text: 'My Tasks',
-        icon: homeUnselected,
-        iconSelected: homeSelected,
-        selected: first,
-        redirect: '#/',
-      },
-      secondButton: {
-        text: 'Get Feedback',
-        icon: getFeedbackUnselected,
-        iconSelected: getFeedbackselected,
-        selected: second,
-        redirect: '#getFeedback',
-      },
-      thirdButton: {
-        text: 'Give Feedback',
-        icon: giveFeedbackUnselected,
-        iconSelected: giveFeedbackselected,
-        selected: third,
-        redirect: '#giveFeedback',
-      },
-    };
-  };
-} else {
-  studentTabs = (first, second) => {
-    return {
-      firstButton: {
-        text: 'Get Feedback',
-        icon: getFeedbackUnselected,
-        iconSelected: getFeedbackselected,
-        selected: first,
-        redirect: '#/',
-      },
-      secondButton: {
-        text: 'Give Feedback',
-        icon: giveFeedbackUnselected,
-        iconSelected: giveFeedbackselected,
-        selected: second,
-        redirect: '#giveFeedback',
-      },
-    };
-  };
-}
-
 export const expertTeacherHomeHeaderProps = teacherTabs(true);
 export const assignmentsHeaderProps = teacherTabs(true, false, false, false);
 export const classesHomeHeaderProps = teacherTabs(false, true, false, false);
@@ -123,52 +75,93 @@ export const teacherGiveFeedbackHeaderProps = teacherTabs(
   true
 );
 
+const getStudentTabs = (classes) => {
+  let studentTabs;
+
+  if (!isNullOrEmpty(classes)) {
+    studentTabs = (first, second, third) => {
+      return {
+        firstButton: {
+          text: 'My Tasks',
+          icon: homeUnselected,
+          iconSelected: homeSelected,
+          selected: first,
+          redirect: '#/',
+        },
+        secondButton: {
+          text: 'Get Feedback',
+          icon: getFeedbackUnselected,
+          iconSelected: getFeedbackselected,
+          selected: second,
+          redirect: '#getFeedback',
+        },
+        thirdButton: {
+          text: 'Give Feedback',
+          icon: giveFeedbackUnselected,
+          iconSelected: giveFeedbackselected,
+          selected: third,
+          redirect: '#giveFeedback',
+        },
+      };
+    };
+  } else {
+    studentTabs = (first, second) => {
+      return {
+        firstButton: {
+          text: 'Get Feedback',
+          icon: getFeedbackUnselected,
+          iconSelected: getFeedbackselected,
+          selected: first,
+          redirect: '#/',
+        },
+        secondButton: {
+          text: 'Give Feedback',
+          icon: giveFeedbackUnselected,
+          iconSelected: giveFeedbackselected,
+          selected: second,
+          redirect: '#giveFeedback',
+        },
+      };
+    };
+  }
+  return studentTabs
+};
+
 // export const homeHeaderProps = studentTabs(true, false, false);
-export const giveFeedbackHeaderProps = getLocalStorage('classes')
-  ? studentTabs(false, false, true)
-  : studentTabs(false, true);
-export const taskHeaderProps = studentTabs(true, false, false);
-export const teacherStudentTaskHeaderProps = () => {
+export const giveFeedbackHeaderProps = (classData) => {
+  return classData ? getStudentTabs(classData)(false, false, true) : getStudentTabs(classData)(false, true);
+};
+
+export const taskHeaderProps = (classData) =>{
+  return getStudentTabs(classData)(true, false, false)
+};
+export const teacherStudentTaskHeaderProps = (classData) => {
   if (isTeacher) {
     return teacherTabs(true, false, false, false);
   }
-  return getLocalStorage('classes')
-    ? studentTabs(false, false, true)
-    : studentTabs(false, true);
+  return !isNullOrEmpty(classData)
+    ? getStudentTabs(classData)(false, false, true)
+    : getStudentTabs(classData)(false, true);
 };
 
-export const docsHeaderProps = () => {
+export const docsHeaderProps = (classData) => {
   if (isTeacher) {
     return teacherTabs(false, false, true, false);
   }
-  return getLocalStorage('classes')
-    ? studentTabs(false, true, false)
-    : studentTabs(true, false);
+  return !isNullOrEmpty(classData)
+    ? getStudentTabs(classData)(false, true, false)
+    : getStudentTabs(classData)(true, false);
 };
 
-export const documentHeaderProps = (selfDocument) => {
-  if (isTeacher) {
-    return teacherTabs(true, false, false, false);
-  }
-  if (selfDocument) {
-    return getLocalStorage('classes')
-      ? studentTabs(false, false, true)
-      : studentTabs(false, true);
-  }
-  return getLocalStorage('classes')
-    ? studentTabs(false, true, false)
-    : studentTabs(true, false);
-};
-
-export const completedHeaderProps = (exemplar) => {
+export const completedHeaderProps = (exemplar, classData) => {
   if (exemplar) {
     return isTeacher
       ? teacherTabs(false, false, false, false)
-      : getLocalStorage('classes')
-      ? studentTabs(false, false, false)
-      : studentTabs(false, false);
+      : !isNullOrEmpty(classData)
+      ? getStudentTabs(classData)(false, false, false)
+      : getStudentTabs(classData)(false, false);
   }
-  return getLocalStorage('classes')
-    ? studentTabs(false, false, true)
-    : studentTabs(false, true);
+  return !isNullOrEmpty(classData)
+    ? getStudentTabs(classData)(false, false, true)
+    : getStudentTabs(classData)(false, true);
 };

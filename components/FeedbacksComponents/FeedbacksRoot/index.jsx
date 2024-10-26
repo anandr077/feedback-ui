@@ -1853,7 +1853,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
           submission: submissionByIdData,
           setSubmission: setSubmissionByIdData,
           sharewithclassdialog,
-          ...feedbacksFeedbackTeacherLaptopData,
+          ...feedbacksFeedbackTeacherLaptopData(classData),
           MARKING_METHODOLOGY_TYPE,
           selectedRange,
           classesAndStudents: classData,

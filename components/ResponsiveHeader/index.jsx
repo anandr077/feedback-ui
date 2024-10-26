@@ -16,10 +16,15 @@ import {
 import { getUserRole } from '../../userLocalDetails';
 import { isSmallScreen } from '../ReactiveRender';
 import { useClassData } from '../state/hooks';
+import Loader from '../Loader';
 
 export default function ResponsiveHeader() {
   const location = useLocation();
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
+
+  if(isLoadingclassData){
+    return <Loader />
+  }
 
   const headerProps = getHeaderProps(location.pathname, classData);
 
@@ -30,36 +35,35 @@ export default function ResponsiveHeader() {
 }
 
 const getHeaderProps = (location, classData) => {
-  if (location.includes('/settings')) return completedHeaderProps(true);
-  if (location.includes('/marking')) return completedHeaderProps(true);
-  if (location.includes('/documents/')) return docsHeaderProps();
+  if (location.includes('/settings')) return completedHeaderProps(true, classData);
+  if (location.includes('/marking')) return completedHeaderProps(true, classData);
+  if (location.includes('/documents/')) return docsHeaderProps(classData);
   if (location.includes('/documentsReview/'))
-    return teacherStudentTaskHeaderProps();
-  // if (location.includes('/getFeedback')) return docsHeaderProps();
+    return teacherStudentTaskHeaderProps(classData);
 
   const isTeacher = getUserRole() === 'TEACHER';
   if (isTeacher) {
-    if (location.includes('/tasks')) return assignmentsHeaderProps;
-    else if (location.includes('/classes')) return classesHomeHeaderProps;
-    else if (location.includes('/submissions')) return assignmentsHeaderProps;
+    if (location.includes('/tasks')) return assignmentsHeaderProps(classData);
+    else if (location.includes('/classes')) return classesHomeHeaderProps(classData);
+    else if (location.includes('/submissions')) return assignmentsHeaderProps(classData);
     else if (location.includes('/getFeedback'))
-      return teacherGetFeedbackHeaderProps;
+      return teacherGetFeedbackHeaderProps(classData);
     else if (location.includes('/giveFeedback'))
       return classData
-        ? teacherGiveFeedbackHeaderProps
-        : expertTeacherHomeHeaderProps;
+        ? teacherGiveFeedbackHeaderProps(classData)
+        : expertTeacherHomeHeaderProps(classData);
     else if (location.includes('/feedbackHistory'))
       return classData
-        ? teacherGiveFeedbackHeaderProps
-        : expertTeacherHomeHeaderProps;
-    return assignmentsHeaderProps;
+        ? teacherGiveFeedbackHeaderProps(classData)
+        : expertTeacherHomeHeaderProps(classData);
+    return assignmentsHeaderProps(classData);
   } else {
-    if (location.includes('/getFeedback')) return docsHeaderProps();
-    else if (location.includes('/giveFeedback')) return giveFeedbackHeaderProps;
+    if (location.includes('/getFeedback')) return docsHeaderProps(classData);
+    else if (location.includes('/giveFeedback')) return giveFeedbackHeaderProps(classData);
     else if (location.includes('/feedbackHistory'))
-      return giveFeedbackHeaderProps;
-    else if (location.includes('/submissions')) return taskHeaderProps;
+      return giveFeedbackHeaderProps(classData);
+    else if (location.includes('/submissions')) return taskHeaderProps(classData);
 
-    return classData ? taskHeaderProps : docsHeaderProps();
+    return classData ? taskHeaderProps(classData) : docsHeaderProps(classData);
   }
 };

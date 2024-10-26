@@ -18,7 +18,6 @@ import {
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import _ from 'lodash';
 
-import { assignmentsHeaderProps } from '../../utils/headerProps';
 import CheckboxBordered from '../CheckboxBordered';
 import CreateAAssignmentLaptop from '../CreateAAssignmentLaptop';
 import DateSelector from '../DateSelector';
@@ -48,6 +47,7 @@ import Toast from '../Toast';
 import Header from '../Header2';
 import { goToNewUrl } from '../FeedbacksComponents/FeedbacksRoot/functions';
 import { useHistory } from 'react-router-dom';
+import { useClassData } from '../state/hooks';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -56,12 +56,15 @@ export default function CreateAssignment(props) {
   const unblockRef = useRef(null);
   const queryClient = useQueryClient();
   const { assignmentId } = useParams();
-
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [showPublishPopup, setShowPublishPopup] = React.useState(false);
   const [showSaveAsDraftPopup, setSaveAsDraftPopup] = React.useState(false);
   const [isChanged, setIsChanged] = React.useState(false);
 
+  if(isLoadingclassData){
+    return <Loader />
+  }
   const draft = {
     id: uuidv4(),
     title: '',
@@ -862,7 +865,7 @@ export default function CreateAssignment(props) {
           setSaveAsDraftPopup,
           setPendingLocation,
           isChanged,
-          ...createAAssignmentLaptopData,
+          ...createAAssignmentLaptopData(classData),
         }}
       />
       {openFocusAreaDialog && (
@@ -938,11 +941,13 @@ const goBack25Data = {
   className: 'go-back-5',
 };
 
-const createAAssignmentLaptopData = {
-  headerProps: createAssignmentHeaderProps,
-  assignmentSettings: 'Task Settings',
-  feedbackMethod: 'Feedback Method',
-  goBack21Props: goBack24Data,
-  buttons21Props: buttons25Data,
-  goBack22Props: goBack25Data,
+const createAAssignmentLaptopData = (classDatqa) => {
+   return {
+    headerProps: createAssignmentHeaderProps(classDatqa),
+    assignmentSettings: 'Task Settings',
+    feedbackMethod: 'Feedback Method',
+    goBack21Props: goBack24Data,
+    buttons21Props: buttons25Data,
+    goBack22Props: goBack25Data,
+   }
 };

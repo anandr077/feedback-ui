@@ -941,9 +941,9 @@ const goBack25Data = {
   className: 'go-back-5',
 };
 
-const createAAssignmentLaptopData = (classDatqa) => {
+const createAAssignmentLaptopData = (classData) => {
    return {
-    headerProps: createAssignmentHeaderProps(classDatqa),
+    headerProps: createAssignmentHeaderProps(classData),
     assignmentSettings: 'Task Settings',
     feedbackMethod: 'Feedback Method',
     goBack21Props: goBack24Data,

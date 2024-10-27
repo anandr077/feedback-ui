@@ -41,9 +41,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
   const isTeacherNoClass = isTeacherWithoutClass(role, localClasses);
   const tabletView = isTabletView();
 
-  if(isLoadingclassData){
-    return <Loader />
-  }
+  
 
   const completedTasksQuery = useQuery({
     queryKey: ['completedTasks'],
@@ -110,7 +108,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
     assignmentsQuery.data,
     communityTasksQuery.data,
   ]);
-
+  
   useEffect(() => {
     const updateHeight = () => {
       const windowHeight = window.innerHeight;
@@ -125,7 +123,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
       window.removeEventListener('resize', updateHeight);
     };
   }, []);
-
+  
   const handleButtonClick = (link) => {
     if (setShowMenu) {
       setShowMenu(false);
@@ -330,6 +328,9 @@ const SecondSidebar = ({ id, setShowMenu }) => {
           ],
         },
       ];
+  if (isLoadingclassData) {
+    return <Loader />
+  }
   return (
     <MainContainer height={containerHeight}>
       {subRoutes.map((route, idx) => {

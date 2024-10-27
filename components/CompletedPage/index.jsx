@@ -72,8 +72,11 @@ export default function CompletedPage() {
  
 
   const completedTaskFunc = (filteredTasks) =>{
+    if (!filteredTasks) {
+      return [];
+    }
     const newCompletedTask = filteredTasks.flatMap(task => {
-      const classesCookies = classData;
+      const classesCookies = classData || [];
       const teacherClasses = isTeacher && classesCookies;
       const titles = task.classIds.map(id => {
         const clazz = teacherClasses.find(cls => cls.id === id);
@@ -109,9 +112,7 @@ export default function CompletedPage() {
     }
   }, [allAssignmentData, allCompletedTasksData]);
 
-  if (isLoading || isLoadingclassData) {
-    return <Loader />;
-  }
+
 
 
   const setSelectedValue = (type, selectValue) => {
@@ -137,7 +138,9 @@ export default function CompletedPage() {
   const downloadPDF = (Id) => {
     downloadSubmissionPdf(Id);
   };
-
+  if (isLoading || isLoadingclassData || isAllAssignmentDataLoading || isAllCompletedTasksDataLoading) {
+    return <Loader />;
+  }
 
   return (
     <CompletedPageContainer>

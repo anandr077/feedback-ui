@@ -28,7 +28,7 @@ export default function RoundedDropDown({
   const location = useLocation();
 
   const maxLength = menuItems.reduce((maxLength, currentString) => {
-    return currentString.length > maxLength.length ? currentString : maxLength;
+    return currentString?.length > maxLength.length ? currentString : maxLength;
   }, '');
 
   React.useEffect(() => {
@@ -87,9 +87,8 @@ export default function RoundedDropDown({
         <MenuItem value={''} onClick={() => handleMenuSelect('')}>
           {type === 'documentType' ? 'Task Type' : capitalizeFirstLetter(type)}
         </MenuItem>
-        {menuItems
-          .filter((item) =>
-            item.toLowerCase().includes(searchTerm.toLowerCase())
+        {menuItems?.filter((item) =>
+            item?.toLowerCase().includes(searchTerm.toLowerCase())
           )
           .map((filteredItem) => (
             <MenuItem

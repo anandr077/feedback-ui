@@ -15,14 +15,8 @@ import {
   askJeddAI,
   deleteFeedback,
   deleteSubmissionById,
-  getClassesWithStudents,
-  getCommentBank,
   getDefaultCriteria,
-  getOtherDrafts,
-  getOverComments,
   getSubmissionById,
-  getSubmissionsByAssignmentId,
-  getTeachersForClass,
   markSubmissionRequestSubmission,
   markSubmsissionClosed,
   markSubmissionReviewed as markSubmsissionReviewed,
@@ -74,12 +68,9 @@ import Header from '../../Header2/index.jsx';
 import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
-import { allCriteriaHaveSelectedLevels, isShowJeddAITab } from './rules.js';
-import { useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useMarkingCriterias, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import { allCriteriaHaveSelectedLevels } from './rules.js';
+import { useAllSubmisssionsById, useClassData, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useMarkingCriterias, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 import { useAllDocuments, useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
-import { DialogContent } from '@mui/material';
-import QuestionFieldSelection from '../../TheoryQuestionFrame/QuestionFieldSelection.jsx';
-import { getLocalStorage } from '../../../utils/function.js';
 import JeddAIFeedbackTypeSelection from '../JeddAIFeedbackTypeSelection/index.jsx';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard.jsx';
 import CommentBankDialog from '../../Shared/Dialogs/commentBank/index.js';

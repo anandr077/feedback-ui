@@ -1,12 +1,11 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { default as React, default as React, useEffect, useState } from 'react';
+import { default as React, default as React } from 'react';
 import {
   Redirect,
   Route,
   HashRouter as Router,
   Switch,
 } from 'react-router-dom';
-import { datadogRum } from '@datadog/browser-rum';
 import TeacherClassesRoot from './components/Classes/TeacherClassesRoot';
 import CompletedPage from './components/CompletedPage';
 import CreateAssignment from './components/CreateAssignment';
@@ -15,19 +14,13 @@ import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/C
 import ExemplarResponsesPage from './components/ExemplarResponsesPage';
 import FeedbacksRoot from './components/FeedbacksComponents/FeedbacksRoot';
 import PageNotFound from './components/PageNotFound';
-import ResponsiveFooter from './components/ResponsiveFooter';
-import ResponsiveHeader from './components/ResponsiveHeader';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import TaskDetail from './components/StartAssignment/TaskDetail';
-import StudentTaskRoot from './components/StudentTaskRoot';
-import TeacherTaskRoot from './components/TeacherTasks/TeacherTasksRoot';
 import PageNotFound from './components/PageNotFound';
 import { Redirect } from 'react-router-dom';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
 import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
-import ResponsiveHeader from './components/ResponsiveHeader';
-import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getUserName, getUserRole } from './userLocalDetails';
 import GiveFeedback from './components/GiveFeedback';
@@ -35,20 +28,15 @@ import MainPage from './components/MainPage';
 import NewDocPage from './components/NewDocRoot';
 import withAuth from './components/WithAuth';
 import withOnboarding from './components/WithOnboarding';
-import Header from './components/Header2';
 import MainSidebar from './components/MainSidebar';
 import CommentBanks from './components/CommentBanks';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isMobileView } from './components/ReactiveRender';
 import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
-import { isClassData, shouldShowComponent } from './rules';
-import { getLocalStorage } from './utils/function';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import JeddAI from './components/JeddAI';
 import VisibilityWrapper from './components2/VisibilityWrapper/VisibilityWrapper';
 import { ddRum } from './service';
-import { useClassData } from './components/state/hooks';
 import Dashboard from './components/Dashboard';
 import Tasks from './components/Tasks';
 

@@ -1,12 +1,10 @@
 import { getUserRole } from '../userLocalDetails';
-import Cookies from 'js-cookie';
 import homeSelected from '../static/img/HomeSelected.svg';
 import homeUnselected from '../static/img/homeUnselected.svg';
 import getFeedbackselected from '../static/img/getFeedbackselected.svg';
 import getFeedbackUnselected from '../static/img/getFeedbackunselected.svg';
 import giveFeedbackselected from '../static/img/giveFeedbackselected.svg';
 import giveFeedbackUnselected from '../static/img/giveFeedbackunselected.svg';
-import { getLocalStorage } from './function';
 import { isNullOrEmpty } from './arrays';
 
 const isTeacher = getUserRole() === 'TEACHER';

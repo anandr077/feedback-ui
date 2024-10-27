@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavElement42 from '../NavElement42';
-import NavElement52 from '../NavElement52';
-import NavElement6 from '../NavElement6';
 import NavElement7 from '../NavElement7';
 import NavElement8 from '../NavElement8';
 import styled from 'styled-components';

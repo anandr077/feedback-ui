@@ -17,6 +17,7 @@ import { getUserRole } from '../../userLocalDetails';
 import { isSmallScreen } from '../ReactiveRender';
 import { useClassData } from '../state/hooks';
 import Loader from '../Loader';
+import { isNullOrEmpty } from '../../utils/arrays';
 
 export default function ResponsiveHeader() {
   const location = useLocation();
@@ -49,11 +50,11 @@ const getHeaderProps = (location, classData) => {
     else if (location.includes('/getFeedback'))
       return teacherGetFeedbackHeaderProps(classData);
     else if (location.includes('/giveFeedback'))
-      return classData
+      return !isNullOrEmpty(classData)
         ? teacherGiveFeedbackHeaderProps(classData)
         : expertTeacherHomeHeaderProps(classData);
     else if (location.includes('/feedbackHistory'))
-      return classData
+      return !isNullOrEmpty(classData)
         ? teacherGiveFeedbackHeaderProps(classData)
         : expertTeacherHomeHeaderProps(classData);
     return assignmentsHeaderProps(classData);
@@ -64,6 +65,6 @@ const getHeaderProps = (location, classData) => {
       return giveFeedbackHeaderProps(classData);
     else if (location.includes('/submissions')) return taskHeaderProps(classData);
 
-    return classData ? taskHeaderProps(classData) : docsHeaderProps(classData);
+    return !isNullOrEmpty(classData) ? taskHeaderProps(classData) : docsHeaderProps(classData);
   }
 };

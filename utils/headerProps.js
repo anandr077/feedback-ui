@@ -131,7 +131,7 @@ const getStudentTabs = (classes) => {
 
 // export const homeHeaderProps = studentTabs(true, false, false);
 export const giveFeedbackHeaderProps = (classData) => {
-  return classData ? getStudentTabs(classData)(false, false, true) : getStudentTabs(classData)(false, true);
+  return !isNullOrEmpty(classData) ? getStudentTabs(classData)(false, false, true) : getStudentTabs(classData)(false, true);
 };
 
 export const taskHeaderProps = (classData) =>{

@@ -62,9 +62,7 @@ export default function CreateAssignment(props) {
   const [showSaveAsDraftPopup, setSaveAsDraftPopup] = React.useState(false);
   const [isChanged, setIsChanged] = React.useState(false);
 
-  if(isLoadingclassData){
-    return <Loader />
-  }
+
   const draft = {
     id: uuidv4(),
     title: '',
@@ -218,7 +216,8 @@ export default function CreateAssignment(props) {
   }
   const studentDropdown = assignment.reviewedBy === 'P2P';
 
-  if (isLoading) {
+
+  if (isLoading || isLoadingclassData) {
     return (
       <>
         <Loader />
@@ -941,9 +940,9 @@ const goBack25Data = {
   className: 'go-back-5',
 };
 
-const createAAssignmentLaptopData = (classDatqa) => {
+const createAAssignmentLaptopData = (classData) => {
    return {
-    headerProps: createAssignmentHeaderProps(classDatqa),
+    headerProps: createAssignmentHeaderProps(classData),
     assignmentSettings: 'Task Settings',
     feedbackMethod: 'Feedback Method',
     goBack21Props: goBack24Data,

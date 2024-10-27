@@ -49,7 +49,6 @@ const Header = ({ breadcrumbs }) => {
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const role = getUserRole();
   const name = getUserName();
-  const localClasses = classData;
 
 
 
@@ -149,7 +148,7 @@ const Header = ({ breadcrumbs }) => {
           <HeaderTitle breadcrumbs={breadcrumbs} />
         </LeftSide>
         <RightSide>
-          {isTeacherWithClass(role, localClasses) && (
+          {isTeacherWithClass(role, classData) && (
             <div
               style={{ borderRight: '2px solid #DADADA', paddingRight: '20px' }}
             >

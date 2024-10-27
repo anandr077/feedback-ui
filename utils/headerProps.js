@@ -11,64 +11,68 @@ import { isNullOrEmpty } from './arrays';
 
 const isTeacher = getUserRole() === 'TEACHER';
 
-let teacherTabs;
-if (getLocalStorage('classes')) {
-  teacherTabs = (first, second, third, fourth) => {
-    return {
-      firstButton: {
-        text: 'Tasks',
-        icon: '/icons/assignmentUnselected.png',
-        iconSelected: '/icons/assignmentWhite.png',
-        selected: first,
-        redirect: '#/',
-      },
-      secondButton: {
-        text: 'Classes',
-        icon: '/icons/classesUnselected.png',
-        iconSelected: '/icons/classesWhite.png',
-        selected: second,
-        redirect: '#classes',
-      },
-      thirdButton: {
-        text: 'JeddAI',
-        icon: '/img/ai.svg',
-        iconSelected: '/img/ai.svg',
-        selected: third,
-        redirect: '#getFeedback',
-      },
-      fourthButton: {
-        text: 'Give Feedback',
-        icon: giveFeedbackUnselected,
-        iconSelected: giveFeedbackselected,
-        selected: fourth,
-        redirect: '#giveFeedback',
-      },
+const getTeacherTabs = (classData) =>{
+  let teacherTabs;
+  if (!isNullOrEmpty(classData)) {
+    teacherTabs = (first, second, third, fourth) => {
+      return {
+        firstButton: {
+          text: 'Tasks',
+          icon: '/icons/assignmentUnselected.png',
+          iconSelected: '/icons/assignmentWhite.png',
+          selected: first,
+          redirect: '#/',
+        },
+        secondButton: {
+          text: 'Classes',
+          icon: '/icons/classesUnselected.png',
+          iconSelected: '/icons/classesWhite.png',
+          selected: second,
+          redirect: '#classes',
+        },
+        thirdButton: {
+          text: 'JeddAI',
+          icon: '/img/ai.svg',
+          iconSelected: '/img/ai.svg',
+          selected: third,
+          redirect: '#getFeedback',
+        },
+        fourthButton: {
+          text: 'Give Feedback',
+          icon: giveFeedbackUnselected,
+          iconSelected: giveFeedbackselected,
+          selected: fourth,
+          redirect: '#giveFeedback',
+        },
+      };
     };
-  };
-} else {
-  teacherTabs = (fourth) => {
-    return {
-      fourthButton: {
-        text: 'Give Feedback',
-        icon: giveFeedbackUnselected,
-        iconSelected: giveFeedbackselected,
-        selected: fourth,
-        redirect: '#/',
-      },
+  } else {
+    teacherTabs = (fourth) => {
+      return {
+        fourthButton: {
+          text: 'Give Feedback',
+          icon: giveFeedbackUnselected,
+          iconSelected: giveFeedbackselected,
+          selected: fourth,
+          redirect: '#/',
+        },
+      };
     };
-  };
+  }
+
+  return teacherTabs;
 }
 
-export const expertTeacherHomeHeaderProps = teacherTabs(true);
-export const assignmentsHeaderProps = teacherTabs(true, false, false, false);
-export const classesHomeHeaderProps = teacherTabs(false, true, false, false);
-export const teacherGetFeedbackHeaderProps = teacherTabs(
+export const expertTeacherHomeHeaderProps = (classData) => getTeacherTabs(classData)(true);
+export const assignmentsHeaderProps = (classData) => getTeacherTabs(classData)(true, false, false, false);
+export const classesHomeHeaderProps = (classData) =>  getTeacherTabs(classData)(false, true, false, false);
+export const teacherGetFeedbackHeaderProps = (classData) => getTeacherTabs(classData)(
   false,
   false,
   true,
   false
 );
-export const teacherGiveFeedbackHeaderProps = teacherTabs(
+export const teacherGiveFeedbackHeaderProps = (classData) => getTeacherTabs(classData)(
   false,
   false,
   false,
@@ -137,7 +141,7 @@ export const taskHeaderProps = (classData) =>{
 };
 export const teacherStudentTaskHeaderProps = (classData) => {
   if (isTeacher) {
-    return teacherTabs(true, false, false, false);
+    return getTeacherTabs(classData)(true, false, false, false);
   }
   return !isNullOrEmpty(classData)
     ? getStudentTabs(classData)(false, false, true)
@@ -146,7 +150,7 @@ export const teacherStudentTaskHeaderProps = (classData) => {
 
 export const docsHeaderProps = (classData) => {
   if (isTeacher) {
-    return teacherTabs(false, false, true, false);
+    return getTeacherTabs(classData)(false, false, true, false);
   }
   return !isNullOrEmpty(classData)
     ? getStudentTabs(classData)(false, true, false)
@@ -156,7 +160,7 @@ export const docsHeaderProps = (classData) => {
 export const completedHeaderProps = (exemplar, classData) => {
   if (exemplar) {
     return isTeacher
-      ? teacherTabs(false, false, false, false)
+      ? getTeacherTabs(classData)(false, false, false, false)
       : !isNullOrEmpty(classData)
       ? getStudentTabs(classData)(false, false, false)
       : getStudentTabs(classData)(false, false);

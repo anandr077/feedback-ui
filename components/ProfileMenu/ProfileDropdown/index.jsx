@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
-import Cookies from 'js-cookie';
+import React, { useEffect, useState } from 'react';
 import ProfileDropDownElement from '../ProfileDropDownElement';
 import './ProfileDropdown.css';
 import styled from 'styled-components';

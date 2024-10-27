@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
+import React, { useState } from 'react';
 import {
   DialogueBox,
   DropdownContainer,
@@ -68,9 +67,6 @@ const StateYearDialogue = ({ setStage, editStateYear, onClose }) => {
   const handleCountrySelect = (selectedCountry) => {
     setCountry(selectedCountry);
   };
-
-  const cookieState = getLocalStorage('state');
-  const cookieYear = getLocalStorage('year');
 
   const saveStateYear = () => {
     if (state && year) {

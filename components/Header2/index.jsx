@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   useHistory,
-  useLocation,
 } from 'react-router-dom/cjs/react-router-dom.min';
-import {  getNotifications } from '../../service.js';
-import { getCookie, getUserName, getUserRole } from '../../userLocalDetails.js';
+import { getUserName, getUserRole } from '../../userLocalDetails.js';
 import {
   MainContainer,
   LeftSide,
@@ -35,9 +33,8 @@ import { Avatar } from '@boringer-avatars/react';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 import { isTeacher, isTeacherWithClass } from './rules.js';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
-import { getFirstFourWords } from '../../utils/strings.js';
-import { getLocalStorage } from '../../utils/function.js';
-import { useNotifications } from '../state/hooks.js';
+import { useClassData, useNotifications } from '../state/hooks.js';
+import Loader from '../Loader/index.jsx';
 
 const Header = ({ breadcrumbs }) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -49,10 +46,10 @@ const Header = ({ breadcrumbs }) => {
   const [fixedTop, setfixedTop] = useState(false);
   const notificationBarRef = useRef(null);
   const history = useHistory();
-  const location = useLocation();
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const role = getUserRole();
   const name = getUserName();
-  const localClasses = getLocalStorage('classes');
+  const localClasses = classData;
 
 
 
@@ -131,6 +128,10 @@ const Header = ({ breadcrumbs }) => {
 
     return () => observer.disconnect();
   }, []);
+
+  if(isLoadingclassData){
+    return <Loader />
+  }
 
   return (
     <div

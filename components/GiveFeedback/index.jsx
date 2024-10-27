@@ -17,12 +17,6 @@ import {
 } from './style';
 import FeedbackDataComponent from './FeedbackDataComponent';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import {
-  getCommunityTasks,
-  getGiveFeedbackCompletedTasks,
-  getStudentStats,
-} from '../../service';
 import Loader from '../Loader';
 import FilterSquare from '../../static/img/filter-square.svg';
 import SortSquare from '../../static/img/sort-square.svg';
@@ -36,8 +30,6 @@ import { getLocalStorage } from '../../utils/function';
 import { useCommunityTasks, useGiveFeedbackCompletedTasks, useStudentStats } from '../state/hooks';
 
 function GiveFeedback() {
-  const [showHistory, setShowHistory] = React.useState(false);
-
   const [selectedYear, setSelectedYear] = React.useState('');
   const [selectedSubject, setSelectedSubject] = React.useState('');
   const [selectedState, setSelectedState] = React.useState('');

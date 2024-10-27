@@ -44,7 +44,7 @@ import MenuButton from '../MenuButton/index.jsx';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
 import { getUserRole } from '../../userLocalDetails.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
-import { useAssignmentsAll, useClassData, useCompletedAll } from '../state/hooks.js';
+import { useAssignmentsAll, useClassData, useCompletedAll, useProfile } from '../state/hooks.js';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
@@ -56,6 +56,7 @@ export default function CompletedPage() {
   const isTeacher = getUserRole() === 'TEACHER';
   const [isLoading, setIsLoading] = useState(true);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
+  const { data: profile, isLoadingdata: isLoadingProfile } = useProfile();
 
 
   const {
@@ -138,10 +139,10 @@ export default function CompletedPage() {
   const downloadPDF = (Id) => {
     downloadSubmissionPdf(Id);
   };
-  if (isLoading || isLoadingclassData || isAllAssignmentDataLoading || isAllCompletedTasksDataLoading) {
+  if (isLoading || isLoadingclassData || isAllAssignmentDataLoading || isAllCompletedTasksDataLoading || isLoadingProfile) {
     return <Loader />;
   }
-
+  console.log("Profile", profile)
   return (
     <CompletedPageContainer>
       <MainContainer>

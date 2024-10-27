@@ -11,7 +11,6 @@ import ReactiveRender, {
 import TeacherTasksDesktop from '../TeacherTasksDesktop';
 import { Dialog } from '@mui/material';
 import {
-  assignmentsHeaderProps,
   taskHeaderProps,
 } from '../../../utils/headerProps.js';
 import _ from 'lodash';
@@ -63,6 +62,7 @@ import {
   Frame5086PopUpBody,
 } from '../../GiveFeedback/style.js';
 import MenuButton from '../../MenuButton/index.jsx';
+import { useClassData } from '../../state/hooks.js';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -71,13 +71,17 @@ export default function TeacherTaskRoot() {
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [selectedAssignment, setSelectedAssignment] = React.useState(null);
   const [showDateExtendPopup, setShowDateExtendPopup] = React.useState(false);
-
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [tasksSelected, setTasksSelected] = React.useState(true);
   const [isShowMenu, setShowMenu] = React.useState(false);
   const mobileView = isMobileView();
   const tabletView = isTabletView();
+
+  if(isLoadingclassData){
+    return <Loader />
+  }
 
   const assignmentsQuery = useQuery({
     queryKey: ['assignments'],
@@ -424,7 +428,7 @@ export default function TeacherTaskRoot() {
           MyCalendarFile,
           isShowMenu,
           setShowMenu,
-          ...tasksDesktopData,
+          ...tasksDesktopData(classData),
         }}
       />
     </>
@@ -750,9 +754,11 @@ const frame13043Data = {
 const frame13061Data = {
   frame1304Props: frame13043Data,
 };
-const tasksDesktopData = {
-  title: 'Tasks',
-  frame1306Props: frame13061Data,
-  frame19Props: frame192Data,
-  headerProps: taskHeaderProps,
+const tasksDesktopData = (classData) => {
+  return {
+    title: 'Tasks',
+    frame1306Props: frame13061Data,
+    frame19Props: frame192Data,
+    headerProps: taskHeaderProps(classData),
+  }
 };

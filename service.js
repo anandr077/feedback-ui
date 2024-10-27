@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { deleteProfileCookies } from './userLocalDetails';
 import { getLocalStorage } from './utils/function';
 import { datadogRum } from '@datadog/browser-rum';
@@ -696,3 +695,5 @@ export const getAllTypes = [
   { title: 'Persuasive' },
   { title: 'Reflective' },
 ];
+
+export const getProfile = async () => await getApi(baseUrl + '/users/profile');

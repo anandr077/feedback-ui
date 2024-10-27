@@ -23,9 +23,11 @@ import { deleteCookie, getUserRole } from '../../userLocalDetails';
 import { isActiveButton, isTeacherWithoutClass } from './rules';
 import { useQuery } from '@tanstack/react-query';
 import { isTabletView } from '../ReactiveRender';
-import { getLocalStorage } from '../../utils/function';
+import { useClassData } from '../state/hooks';
+import Loader from '../Loader';
 
 const SecondSidebar = ({ id, setShowMenu }) => {
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const [containerHeight, setContainerHeight] = useState(0);
   const [feedbackRequestsLength, setFeedbackRequestsLength] = useState(0);
   const [studentCompletedTaskLength, setStudentCompletedTaskLength] = useState(0);
@@ -35,9 +37,10 @@ const SecondSidebar = ({ id, setShowMenu }) => {
   const location = useLocation();
   const history = useHistory();
   const role = getUserRole();
-  const localClasses = getLocalStorage('classes');
-  const isTeacherNoClass = isTeacherWithoutClass(role, localClasses);
+  const isTeacherNoClass = isTeacherWithoutClass(role, classData);
   const tabletView = isTabletView();
+
+  
 
   const completedTasksQuery = useQuery({
     queryKey: ['completedTasks'],
@@ -104,7 +107,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
     assignmentsQuery.data,
     communityTasksQuery.data,
   ]);
-
+  
   useEffect(() => {
     const updateHeight = () => {
       const windowHeight = window.innerHeight;
@@ -119,7 +122,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
       window.removeEventListener('resize', updateHeight);
     };
   }, []);
-
+  
   const handleButtonClick = (link) => {
     if (setShowMenu) {
       setShowMenu(false);
@@ -324,6 +327,9 @@ const SecondSidebar = ({ id, setShowMenu }) => {
           ],
         },
       ];
+  if (isLoadingclassData) {
+    return <Loader />
+  }
   return (
     <MainContainer height={containerHeight}>
       {subRoutes.map((route, idx) => {

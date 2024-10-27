@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   OnboardingContainer,
   HeaderFlag,
@@ -9,7 +9,6 @@ import {
   LocationAgeContainer,
   EditBtn,
 } from './headerOnboardingMenuStyle';
-import Cookies from 'js-cookie';
 import OnboardingScreen from './OnboardingScreen';
 import countriesData from './countries.json';
 import { getLocalStorage } from '../../utils/function';

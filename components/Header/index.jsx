@@ -3,7 +3,6 @@ import Notifications from '../Notifications';
 import UserIcon from '../UserIcon';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar';
-import {  getNotifications } from '../../service.js';
 import {
   NavigationContainer,
   HelpbarContainer,
@@ -20,14 +19,14 @@ import {
   SelectedButtonText,
   HeaderButtonSelected,
 } from './HeaderStyle';
-import { useQuery } from '@tanstack/react-query';
 import { useState, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
 import { getUserRole } from '../../userLocalDetails.js';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
-import { getLocalStorage } from '../../utils/function.js';
-import { useNotifications } from '../state/hooks.js';
+import { useClassData, useNotifications } from '../state/hooks.js';
+import { isNullOrEmpty } from '../../utils/arrays.js';
+import Loader from '../Loader/index.jsx';
 
 export default function Header(props) {
   const { headerProps } = props;
@@ -38,6 +37,7 @@ export default function Header(props) {
   const [sliderOpen, setsliderOpen] = useState(false);
   const [fixedTop, setfixedTop] = useState(false);
   const helpBarRef = useRef(null);
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
 
   const {
     data: notifications,
@@ -158,6 +158,10 @@ export default function Header(props) {
     return () => observer.disconnect();
   }, []);
 
+  if(isLoadingclassData){
+    return <Loader />
+  }
+
   return (
     <div
       ref={helpBarRef}
@@ -172,7 +176,7 @@ export default function Header(props) {
           <Frame1343 src="/icons/header-logo.png" alt="Frame 1343" />
         </a>
         <Frame5>
-          {getLocalStorage('classes') && (
+          {!isNullOrEmpty(classData) && (
             <>
               {headerProps.firstButton.selected ? (
                 <HeaderButtonSelected onClick={OnFirstButtonClick}>
@@ -223,7 +227,7 @@ export default function Header(props) {
             </>
           )}
           {isTeacher &&
-            getLocalStorage('classes') &&
+            !isNullOrEmpty(classData) &&
             (headerProps.thirdButton.selected ? (
               <HeaderButtonSelected onClick={OnThirdButtonClick}>
                 <HeaderButtonInnnerContainer>
@@ -247,7 +251,7 @@ export default function Header(props) {
                 </HeaderButtonInnnerContainer>
               </HeaderButton>
             ))}
-          {getLocalStorage('classes') &&
+          {!isNullOrEmpty(classData) &&
             !isTeacher &&
             (headerProps.thirdButton.selected ? (
               <HeaderButtonSelected onClick={OnThirdButtonClick}>

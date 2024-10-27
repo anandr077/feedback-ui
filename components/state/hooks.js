@@ -21,6 +21,7 @@ import {
   getIsJeddAIEnabled,
   getDocuments,
   getNotifications,
+  getProfile,
 } from '../../service';
 import { createGlobalStates } from './createGlobalStates';
 
@@ -122,4 +123,9 @@ async function fetchClassWithStudentsAndTeachers() {
 export const useClassData = createGlobalState(
   'classData',
   fetchClassWithStudentsAndTeachers
+);
+
+export const useProfile = createGlobalState(
+  'profile',
+  getProfile
 );

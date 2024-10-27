@@ -695,3 +695,5 @@ export const getAllTypes = [
   { title: 'Persuasive' },
   { title: 'Reflective' },
 ];
+
+export const getProfile = async () => await getApi(baseUrl + '/users/profile');

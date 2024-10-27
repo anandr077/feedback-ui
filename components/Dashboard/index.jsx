@@ -2,13 +2,14 @@ import React from 'react';
 import { useClassData } from '../state/hooks';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { isNullOrEmpty } from '../../utils/arrays';
+import Loader from '../Loader';
 
 const Dashboard = ({ role }) => {
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const history = useHistory();
 
   if (isLoadingclassData) {
-    return <h1>Loading...</h1>;
+    return <Loader />;
   }
 
   if (role === 'TEACHER') {

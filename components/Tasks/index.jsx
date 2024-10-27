@@ -5,12 +5,13 @@ import GiveFeedback from '../GiveFeedback';
 import StudentTaskRoot from '../StudentTaskRoot';
 import NewDocPage from '../NewDocRoot';
 import { isNullOrEmpty } from '../../utils/arrays';
+import Loader from '../Loader';
 
 const Tasks = ({ role }) => {
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
 
   if (isLoadingclassData) {
-    return <h1>Loading...</h1>;
+    return <Loader />;
   }
 
   const tasks =

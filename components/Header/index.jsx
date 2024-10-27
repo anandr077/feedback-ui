@@ -26,6 +26,7 @@ import { getUserRole } from '../../userLocalDetails.js';
 import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 import { useClassData, useNotifications } from '../state/hooks.js';
 import { isNullOrEmpty } from '../../utils/arrays.js';
+import Loader from '../Loader/index.jsx';
 
 export default function Header(props) {
   const { headerProps } = props;
@@ -156,6 +157,10 @@ export default function Header(props) {
 
     return () => observer.disconnect();
   }, []);
+
+  if(isLoadingclassData){
+    return <Loader />
+  }
 
   return (
     <div

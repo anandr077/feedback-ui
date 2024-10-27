@@ -24,6 +24,7 @@ import { isActiveButton, isTeacherWithoutClass } from './rules';
 import { useQuery } from '@tanstack/react-query';
 import { isTabletView } from '../ReactiveRender';
 import { useClassData } from '../state/hooks';
+import Loader from '../Loader';
 
 const SecondSidebar = ({ id, setShowMenu }) => {
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
@@ -39,6 +40,10 @@ const SecondSidebar = ({ id, setShowMenu }) => {
   const localClasses = classData;
   const isTeacherNoClass = isTeacherWithoutClass(role, localClasses);
   const tabletView = isTabletView();
+
+  if(isLoadingclassData){
+    return <Loader />
+  }
 
   const completedTasksQuery = useQuery({
     queryKey: ['completedTasks'],

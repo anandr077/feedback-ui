@@ -24,6 +24,7 @@ import {
   checkIsActive,
 } from './rules';
 import { useAllDocuments, useClassData } from '../state/hooks';
+import Loader from '../Loader';
 
 const MainSidebar = () => {
   const history = useHistory();
@@ -56,6 +57,10 @@ const MainSidebar = () => {
   const handlePageRoute = (navLink) => {
     history.push(navLink);
   };
+
+  if(isLoadingclassData){
+    return <Loader />
+  }
 
   return (
     <SidebarContainer>

@@ -13,6 +13,7 @@ import countriesData from '../../../components2/Onboard/countries.json';
 import { getLocalStorage } from '../../../utils/function';
 import { useClassData } from '../../state/hooks';
 import { isNullOrEmpty } from '../../../utils/arrays';
+import Loader from '../../Loader';
 
 const group1Data = {
   iconHome: '/img/home3-1@2x.png',
@@ -44,6 +45,10 @@ function Navigation(props) {
   const defaultCountry = Object.keys(countriesData)[0] || 'Australia';
   const [country, setCountry] = useState(defaultCountry);
   const isTeacher = getUserRole() === 'TEACHER';
+
+  if(isLoadingclassData){
+    return <Loader />
+  }
 
   const findFlagIcon = (state = defaultCountry.state) => {
     const matchingState = countriesData[country].find(

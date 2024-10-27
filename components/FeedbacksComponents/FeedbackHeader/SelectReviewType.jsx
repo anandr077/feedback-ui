@@ -31,6 +31,7 @@ import { createRequestFeddbackType } from '../../../service';
 import { isNonSchoolStudent } from '../../MainSidebar/rules';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import { useClassData } from '../../state/hooks';
+import Loader from '../../Loader';
 
 const SelectReviewType = ({
   submission,
@@ -101,6 +102,10 @@ const SelectReviewType = ({
 
   if (!isShowSelectType) {
     return <></>;
+  }
+
+  if(isLoadingclassData){
+    return <Loader />
   }
 
   return (

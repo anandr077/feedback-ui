@@ -34,6 +34,7 @@ import HelpSidebar from '../../components2/HelpSidebar/index.jsx';
 import { isTeacher, isTeacherWithClass } from './rules.js';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
 import { useClassData, useNotifications } from '../state/hooks.js';
+import Loader from '../Loader/index.jsx';
 
 const Header = ({ breadcrumbs }) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -127,6 +128,10 @@ const Header = ({ breadcrumbs }) => {
 
     return () => observer.disconnect();
   }, []);
+
+  if(isLoadingclassData){
+    return <Loader />
+  }
 
   return (
     <div

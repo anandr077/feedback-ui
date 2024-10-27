@@ -48,7 +48,6 @@ import { useAssignmentsAll, useClassData, useCompletedAll } from '../state/hooks
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
-  const [teacherTask, setTeacherTask] = useState([])
   const [filteredTasks, setFilteredTasks] = React.useState([]);
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
@@ -110,7 +109,7 @@ export default function CompletedPage() {
     }
   }, [allAssignmentData, allCompletedTasksData]);
 
-  if (isLoading) {
+  if (isLoading || isLoadingclassData) {
     return <Loader />;
   }
 

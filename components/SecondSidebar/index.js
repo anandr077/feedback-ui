@@ -37,8 +37,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
   const location = useLocation();
   const history = useHistory();
   const role = getUserRole();
-  const localClasses = classData;
-  const isTeacherNoClass = isTeacherWithoutClass(role, localClasses);
+  const isTeacherNoClass = isTeacherWithoutClass(role, classData);
   const tabletView = isTabletView();
 
   

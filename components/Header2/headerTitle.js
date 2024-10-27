@@ -21,12 +21,11 @@ const role = getUserRole();
 
 function HeaderTitle({ breadcrumbs }) {
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
-  
-  if(isLoadingclassData){
+  if (isLoadingclassData){
     return <Loader />
   }
-  const localClasses = classData;
-  const isExpert = isTeacherWithoutClass(role, localClasses);
+  
+  const isExpert = isTeacherWithoutClass(role, classData);
   const homeTitle = isExpert ? 'Feedback From Me' : 'Classwork';
 
   const headerTitleArray = [
@@ -156,9 +155,11 @@ function HeaderTitle({ breadcrumbs }) {
     currentPathname.startsWith(item.link)
   );
 
-  const pageMainHeader = headerMainTitle(localClasses).find((item) =>
+  const pageMainHeader = headerMainTitle(classData).find((item) =>
     currentPathname.startsWith(item.link)
   );
+
+
 
   return (
     <TitleConatiner>

@@ -14,13 +14,21 @@ import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/24questionbordered.svg';
 import { headerMainTitle } from './headerMainTitle';
 import { getFirstFourWords } from '../../utils/strings';
-import { getLocalStorage } from '../../utils/function';
+import { useClassData } from '../state/hooks';
+import Loader from '../Loader';
 const role = getUserRole();
-const localClasses = getLocalStorage('classes');
-const isExpert = isTeacherWithoutClass(role, localClasses);
-const homeTitle = isExpert ? 'Feedback From Me' : 'Classwork';
+
 
 function HeaderTitle({ breadcrumbs }) {
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
+  
+  if(isLoadingclassData){
+    return <Loader />
+  }
+  const localClasses = classData;
+  const isExpert = isTeacherWithoutClass(role, localClasses);
+  const homeTitle = isExpert ? 'Feedback From Me' : 'Classwork';
+
   const headerTitleArray = [
     {
       link: '/tasks/new',
@@ -148,7 +156,7 @@ function HeaderTitle({ breadcrumbs }) {
     currentPathname.startsWith(item.link)
   );
 
-  const pageMainHeader = headerMainTitle.find((item) =>
+  const pageMainHeader = headerMainTitle(localClasses).find((item) =>
     currentPathname.startsWith(item.link)
   );
 

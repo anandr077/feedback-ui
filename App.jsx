@@ -1,12 +1,11 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { default as React, default as React, useEffect, useState } from 'react';
+import { default as React, default as React } from 'react';
 import {
   Redirect,
   Route,
   HashRouter as Router,
   Switch,
 } from 'react-router-dom';
-import { datadogRum } from '@datadog/browser-rum';
 import TeacherClassesRoot from './components/Classes/TeacherClassesRoot';
 import CompletedPage from './components/CompletedPage';
 import CreateAssignment from './components/CreateAssignment';
@@ -15,19 +14,13 @@ import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/C
 import ExemplarResponsesPage from './components/ExemplarResponsesPage';
 import FeedbacksRoot from './components/FeedbacksComponents/FeedbacksRoot';
 import PageNotFound from './components/PageNotFound';
-import ResponsiveFooter from './components/ResponsiveFooter';
-import ResponsiveHeader from './components/ResponsiveHeader';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import TaskDetail from './components/StartAssignment/TaskDetail';
-import StudentTaskRoot from './components/StudentTaskRoot';
-import TeacherTaskRoot from './components/TeacherTasks/TeacherTasksRoot';
 import PageNotFound from './components/PageNotFound';
 import { Redirect } from 'react-router-dom';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
 import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
-import ResponsiveHeader from './components/ResponsiveHeader';
-import ResponsiveFooter from './components/ResponsiveFooter';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getUserName, getUserRole } from './userLocalDetails';
 import GiveFeedback from './components/GiveFeedback';
@@ -35,45 +28,37 @@ import MainPage from './components/MainPage';
 import NewDocPage from './components/NewDocRoot';
 import withAuth from './components/WithAuth';
 import withOnboarding from './components/WithOnboarding';
-import Header from './components/Header2';
 import MainSidebar from './components/MainSidebar';
 import CommentBanks from './components/CommentBanks';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isMobileView } from './components/ReactiveRender';
 import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
-import { shouldShowComponent } from './rules';
-import { getLocalStorage } from './utils/function';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import JeddAI from './components/JeddAI';
 import VisibilityWrapper from './components2/VisibilityWrapper/VisibilityWrapper';
 import { ddRum } from './service';
+import Dashboard from './components/Dashboard';
+import Tasks from './components/Tasks';
 
 function App() {
   const role = getUserRole();
   const userName = getUserName();
   userName && (document.title = 'Jeddle - ' + userName);
-  const [showFooter, setShowFooter] = useState(true);
-  const [showHeader, setShowHeader] = useState(true);
 
   const mobileView = isMobileView();
 
-
-
   const middleware = (c) => withOnboarding(withAuth(c));
-  const ProtectedStudentTaskRoot = middleware(StudentTaskRoot);
   const ProtectedTeacherClassesRoot = middleware(TeacherClassesRoot);
   const ProtectedTaskDetail = middleware(TaskDetail);
   const ProtectedCreateAssignment = middleware(CreateAssignment);
-  const ProtectedTeacherTaskRoot = middleware(TeacherTaskRoot);
   const ProtectedFeedbacksRoot = middleware(FeedbacksRoot);
   const ProtectedDocumentRoot = middleware(FeedbacksRoot);
   const ProtectedExemplarResponsesPage = middleware(ExemplarResponsesPage);
   const ProtectedMarkingCriteria = middleware(CreateNewMarkingCriteriaRoot);
   const ProtectedSettings = middleware(AccountSettingsRoot);
-  const ProtectedHeader = middleware(ResponsiveHeader);
   const ProtectedStrengthAndTarget = middleware(CreateNewStrengthAndTargets);
-
+  const ProtectedDashboard = middleware(Dashboard);
+  const ProtectedTasks = middleware(Tasks);
   const ProtectedGiveFeedback = middleware(GiveFeedback);
   const ProtectedDocRoot = middleware(NewDocPage);
   const ProtectedCompletedRoot = middleware(CompletedPage);
@@ -83,40 +68,8 @@ function App() {
 
   const portfolioClient = new QueryClient();
 
-  ddRum()
+  ddRum();
 
-  const Tasks = ({ role }) => {
-    const tasks =
-      role === 'TEACHER' ? (
-        getLocalStorage('classes') ? (
-          <ProtectedTeacherTaskRoot />
-        ) : (
-          <ProtectedGiveFeedback />
-        )
-      ) : getLocalStorage('classes') ? (
-        <ProtectedStudentTaskRoot />
-      ) : (
-        <ProtectedDocRoot />
-      );
-
-    return <div>{tasks}</div>;
-  };
-  const Dashboard = ({ role }) => {
-    const tasks =
-      role === 'TEACHER' ? (
-        getLocalStorage('classes') ? (
-          <ProtectedTeacherTaskRoot />
-        ) : (
-          <ProtectedGiveFeedback />
-        )
-      ) : getLocalStorage('classes') ? (
-        <ProtectedStudentTaskRoot />
-      ) : (
-        <ProtectedDocRoot />
-      );
-
-    return <div>{tasks}</div>;
-  };
   return (
     <>
       <QueryClientProvider client={portfolioClient}>
@@ -164,7 +117,9 @@ function App() {
                   <Route path="/tasks/:assignmentId">
                     <ProtectedCreateAssignment />
                   </Route>
-                  <Route path="/tasks">{Tasks({ role })}</Route>
+                  <Route path="/tasks">
+                    <ProtectedTasks role={role} />
+                  </Route>
                   <Route path="/sharedresponses">
                     <ProtectedExemplarResponsesPage />
                   </Route>
@@ -190,12 +145,11 @@ function App() {
                     <PageNotFound />
                   </Route>
                   <Route exact path="/">
-                    {Dashboard({ role })}
+                    <ProtectedDashboard role={role} />
                   </Route>
                   <Redirect to="/404" />
                 </Switch>
               )}
-
             </VisibilityWrapper>
           </div>
           <ToastContainer

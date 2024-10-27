@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { deleteProfileCookies } from './userLocalDetails';
 import { getLocalStorage } from './utils/function';
 import { datadogRum } from '@datadog/browser-rum';

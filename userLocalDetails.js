@@ -1,6 +1,3 @@
-import {
-  getClasses,
-} from './service';
 import { deleteLocalStorage, getLocalStorage, setLocalStorage } from './utils/function';
 
 export const getUserName = () => getLocalStorage('user.name');

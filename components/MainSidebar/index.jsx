@@ -23,14 +23,15 @@ import {
   isTeacherWithoutClass,
   checkIsActive,
 } from './rules';
-import { getLocalStorage } from '../../utils/function';
-import { useAllDocuments } from '../state/hooks';
+import { useAllDocuments, useClassData } from '../state/hooks';
+import Loader from '../Loader';
 
 const MainSidebar = () => {
   const history = useHistory();
   const location = useLocation();
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const role = getUserRole();
-  const localClasses = getLocalStorage('classes');
+  const localClasses = classData;
   const isExpert = isTeacherWithoutClass(role, localClasses);
   const homePageLink = isExpert ? '/giveFeedback' : '/tasks';
 
@@ -56,6 +57,10 @@ const MainSidebar = () => {
   const handlePageRoute = (navLink) => {
     history.push(navLink);
   };
+
+  if(isLoadingclassData){
+    return <Loader />
+  }
 
   return (
     <SidebarContainer>

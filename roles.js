@@ -10,9 +10,7 @@ export const userRole = () => {
         return "TEACHER";
     }
 
-    const classesCookie = classData;
-
-    const classes = classesCookie ? classesCookie : null;
+    const classes = !isNullOrEmpty(classData) ? classesCookie : null;
 
     return  isNullOrEmpty(classes) ? "NONSCHOOLSTUDENT" : "STUDENT";
 }

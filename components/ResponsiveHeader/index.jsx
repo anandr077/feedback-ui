@@ -50,11 +50,11 @@ const getHeaderProps = (location, classData) => {
     else if (location.includes('/getFeedback'))
       return teacherGetFeedbackHeaderProps(classData);
     else if (location.includes('/giveFeedback'))
-      return classData
+      return !isNullOrEmpty(classData)
         ? teacherGiveFeedbackHeaderProps(classData)
         : expertTeacherHomeHeaderProps(classData);
     else if (location.includes('/feedbackHistory'))
-      return classData
+      return !isNullOrEmpty(classData)
         ? teacherGiveFeedbackHeaderProps(classData)
         : expertTeacherHomeHeaderProps(classData);
     return assignmentsHeaderProps(classData);

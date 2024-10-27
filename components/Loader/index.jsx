@@ -33,9 +33,10 @@ const FullPageContainer = styled.div`
 
 
 const LottieContainer = styled.div`
-  width: 150px;
-  height: 150px;
-
+  width: auto;
+  height: 100px;
+  padding: 0px;
+  z-index: 1;
 `;
 
 const StyledText = styled.div`

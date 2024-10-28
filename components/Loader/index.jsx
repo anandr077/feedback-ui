@@ -4,7 +4,7 @@ import '@lottiefiles/lottie-player';
 
 export default function Loader() {
   return (
-    <Container>
+    <FullPageContainer>
       <LottieContainer>
         <lottie-player
           autoplay
@@ -14,32 +14,29 @@ export default function Loader() {
         ></lottie-player>
       </LottieContainer>
       <StyledText>Loading brain power...</StyledText>
-    </Container>
+    </FullPageContainer>
   );
 }
 
-const Container = styled.div`
+const FullPageContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 77vh;
-  // position: fixed;
-  // top: 0;
-  // left: 0;
-  // bottom: 0;
-  // right: 0;
-  // z-index: 1;
+  background-color: rgba(255, 255, 255); 
+  z-index: 9999; 
 `;
 
+
 const LottieContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 0px;
-  z-index: 1;
   width: auto;
   height: 100px;
+  padding: 0px;
+  z-index: 1;
 `;
 
 const StyledText = styled.div`

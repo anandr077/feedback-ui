@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { deleteProfileCookies } from './userLocalDetails';
 import { getLocalStorage } from './utils/function';
 import { datadogRum } from '@datadog/browser-rum';
@@ -735,3 +734,4 @@ export const updateHandWrittenDocumentById = async (submissionId, serialNumber, 
 
 export const extractText = async (id, serialNumber) =>
   await patchApi(baseUrl + "/submissions/" + id + "/answers/" + serialNumber + "/extractText")
+export const getProfile = async () => await getApi(baseUrl + '/users/profile');

@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { default as React, default as React, useState } from 'react';
 import OnboardingScreen from '../../components2/Onboard/OnboardingScreen';
 import { getUserRole } from '../../userLocalDetails';

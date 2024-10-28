@@ -38,6 +38,7 @@ import {
   TitleHeading,
 } from '../FilterSort/style.js';
 import MenuButton from '../MenuButton/index.jsx';
+import { useClassData } from '../state/hooks.js';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
@@ -46,6 +47,7 @@ export default function StudentTaskRoot() {
   const [selectedClass, setSelectedClass] = React.useState('');
   const [tasksSelected, setTasksSelected] = React.useState(true);
    const [isShowMenu, setShowMenu] = React.useState(false);
+   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
 
    const tabletView = isTabletView();
 
@@ -82,7 +84,7 @@ export default function StudentTaskRoot() {
     }
   };
 
-  if (tasksQuery.isLoading || studentClassesQuery.isLoading) {
+  if (tasksQuery.isLoading || studentClassesQuery.isLoading || isLoadingclassData) {
     return (
       <>
         <Loader />
@@ -286,7 +288,7 @@ export default function StudentTaskRoot() {
         MyCalendarFile,
         isShowMenu,
         setShowMenu,
-        ...tasksDesktopData,
+        ...tasksDesktopData(classData),
       }}
     />
   );
@@ -407,10 +409,12 @@ const frame13043Data = {
 const frame13061Data = {
   frame1304Props: frame13043Data,
 };
-const tasksDesktopData = {
-  title: 'Tasks',
-  frame1306Props: frame13061Data,
-  frame19Props: frame192Data,
-  headerProps: taskHeaderProps,
-  arrowright: '/img/arrowright@2x.png',
+const tasksDesktopData = (classData) =>{
+  return {
+    title: 'Tasks',
+    frame1306Props: frame13061Data,
+    frame19Props: frame192Data,
+    headerProps: taskHeaderProps(classData),
+    arrowright: '/img/arrowright@2x.png',
+  }
 };

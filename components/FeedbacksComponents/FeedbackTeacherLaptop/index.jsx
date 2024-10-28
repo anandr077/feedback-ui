@@ -140,9 +140,18 @@ function FeedbackTeacherLaptop(props) {
       (commentBank) => commentBank.id === currentCommentBankId
   ));
 
-  useEffect(() => {
-    setOpenRightPanel(isShowMarkingCriteriaSidebar(overallComments, markingCriteriaFeedback) ? 'tab2' : null)
-  },[])
+  useEffect(()=>{
+    const shouldShowMarkingCriteriaSidebar = isShowMarkingCriteriaSidebar(overallComments, markingCriteriaFeedback);
+    const shouldShowAiFeedbackSidebar = showAiFeedbackGenerateButton(submission.type, pageMode, isTeacher, submission.assignment.reviewedBy);
+      
+    if (shouldShowMarkingCriteriaSidebar) {
+        setOpenRightPanel('tab2');
+      } else if (shouldShowAiFeedbackSidebar) {
+        setOpenRightPanel('tab4');
+      } else {
+        setOpenRightPanel(null);
+      }
+  }, [submission])
 
   useEffect(() => {
     if (showNewComment) {
@@ -753,8 +762,8 @@ function answersAndFeedbacks(
           />
         </>
         {
-          showAiFeedbackGenerateButton(submission.type, pageMode, isTeacher, submission.assignment.reviewedBy) &&
-          <AiButton 
+        showAiFeedbackGenerateButton(submission.type, pageMode, isTeacher, submission.assignment.reviewedBy) &&
+        <AiButton 
           handleClick={handleRightSidebarClick}
         />
         }

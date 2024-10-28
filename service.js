@@ -32,6 +32,10 @@ export const ddRum = () => {
 async function fetchData(url, options, headers = {}) {
   const defaultHeaders = new Headers();
   const token = localStorage.getItem('jwtToken');
+  if (token == null || token == undefined) {
+    redirectToExternalIDP();
+    return;
+  }
   if (token) {
     defaultHeaders.append('Authorization', `Bearer ${token}`);
   }
@@ -520,7 +524,6 @@ function logoutLocal() {
 }
 
 export function redirectToExternalIDP() {
-  setTimeout(() => {
     logoutLocal();
     const externalIDPLoginUrl =
       jeddleBaseUrl +
@@ -531,7 +534,6 @@ export function redirectToExternalIDP() {
       '&redirect_uri=' +
       selfBaseUrl;
     window.location.href = externalIDPLoginUrl;
-  }, 10000);
 }
 
 export const exchangeCodeForToken = async (code) => {
@@ -555,10 +557,12 @@ export const exchangeCodeForToken = async (code) => {
       credentials: 'include',
       headers: mergedHeaders,
     });
-    if (response.status === 401 || response.status === 500) {
-      return redirectToExternalIDP();
+    if (response.status === 401) {
+      setTimeout(() => {
+        redirectToExternalIDP();
+      }, 1000);
     }
-    if (response.status === 404) {
+    if (response.status === 404 || response.status === 500) {
       window.location.href = selfBaseUrl + '/#/404';
       // window.location.reload();
       throw new Error('Page not found');
@@ -677,10 +681,17 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     title,
     documentType: 'Analytical',
   });
+<<<<<<< Updated upstream
 export const askJeddAI = async (submissionId, cleanAnswer,markingCriteriaId,feedbackBankId) =>
   await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
     state: getLocalStorage('state'),
     year: getLocalStorage('year'),
+=======
+export const askJeddAI = async (submissionId, cleanAnswer, markingCriteriaId, feedbackBankId, state, year) =>
+  await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
+    state: state,
+    year: year,
+>>>>>>> Stashed changes
     cleanAnswer: cleanAnswer,
     markingCriteriaId: markingCriteriaId,
     feedbackBankId: feedbackBankId,

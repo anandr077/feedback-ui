@@ -681,17 +681,11 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     title,
     documentType: 'Analytical',
   });
-<<<<<<< Updated upstream
-export const askJeddAI = async (submissionId, cleanAnswer,markingCriteriaId,feedbackBankId) =>
-  await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
-    state: getLocalStorage('state'),
-    year: getLocalStorage('year'),
-=======
-export const askJeddAI = async (submissionId, cleanAnswer, markingCriteriaId, feedbackBankId, state, year) =>
-  await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
-    state: state,
-    year: year,
->>>>>>> Stashed changes
+
+  export const askJeddAI = async (submissionId, cleanAnswer,markingCriteriaId,feedbackBankId) =>
+    await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
+      state: getLocalStorage('state'),
+      year: getLocalStorage('year'),
     cleanAnswer: cleanAnswer,
     markingCriteriaId: markingCriteriaId,
     feedbackBankId: feedbackBankId,

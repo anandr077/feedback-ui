@@ -3,10 +3,6 @@ import { isNullOrEmpty } from "../../utils/arrays"
 export const isClassItems = (role, localClasses) =>{
     return role === 'TEACHER' && !isNullOrEmpty(localClasses)
   }
-  
-  export const isTeacherWithoutClass = (role, localClasses) =>{
-    return role === 'TEACHER' && isNullOrEmpty(localClasses)
-  }
 
   export const isShowSetting = (role) =>{
     return role === 'TEACHER'

@@ -13,9 +13,8 @@ const clientId =
 const env =
   process.env.REACT_APP_ENV ?? 'dev';
 
-let isRedirecting = false; // Track if redirect is in progress
-let lastRedirectTime = 0; // Store the last redirect time
-const COOLDOWN_PERIOD = 10000; // 10 seconds
+let isRedirecting = false;
+const COOLDOWN_PERIOD = 20000;
 
 export const ddRum = () => {
 
@@ -219,13 +218,12 @@ export const deleteFocusArea = async (focusAreaID) => {
 };
 
 export const logout = async () => {
-  await postApi(baseUrl + '/users/logout').then(() => {
-    logoutLocal();
+  logoutLocal();
 
-    window.location.href =
-     jeddleBaseUrl + '/wp-login.php?action=logout&redirect_to=' + selfBaseUrl;
-  });
+  const logoutUrl = `${jeddleBaseUrl}/wp-login.php?action=logout&redirect_to=${selfBaseUrl}?logged_out=true`;
+  window.location.href = logoutUrl;
 };
+
 export const changePassword = async () => {
   window.open(jeddleBaseUrl + '/account/?action=newpassword');
 };
@@ -706,31 +704,25 @@ export const getAllTypes = [
 ];
 
 export const getProfile = async () => await getApi(baseUrl + '/users/profile');
-export function handleRedirect() {
-  const lastRedirectTime = parseInt(localStorage.getItem('lastRedirectTime') || '0', 10);
-  const now = Date.now();
 
-  // Check if the page was redirected recently to avoid loops
-  if (now - lastRedirectTime < COOLDOWN_PERIOD) {
-    console.log('Cooldown active. Skipping redirect.');
-    return; // Skip redirect within the cooldown period
+export function handleRedirect() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isLoggedOut = urlParams.get('logged_out'); // Check if the user was just logged out
+
+  if (isLoggedOut) {
+    console.log('Skipping redirect after logout.');
+    return; // Prevent further redirects due to logout
   }
 
   if (isRedirecting) {
     console.log('Redirect in progress. Skipping.');
-    return; // Prevent concurrent redirects
+    return; // Avoid concurrent redirects
   }
 
-  // Set the redirect flag and store the current time
-  isRedirecting = true;
-  localStorage.setItem('lastRedirectTime', now.toString());
+  isRedirecting = true; // Set the flag
 
-  // Perform the redirect immediately
-  redirectToExternalIDP();
-
-  // Reset the flag after the cooldown period
   setTimeout(() => {
+    redirectToExternalIDP();
     isRedirecting = false;
-    console.log('Ready for next redirect.');
   }, COOLDOWN_PERIOD);
 }

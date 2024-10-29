@@ -377,10 +377,10 @@ const answerFrames = (
   )(answer);
 
   React.useEffect(() => {
-    if (!answer?.answer?.fileUrls || answer?.answer?.fileUrls.length === 0) {
+    if (!answer?.answer?.fileUrls || answer?.answer?.fileUrls.length === 0 || answer?.answer?.answer) {
       setMainTab('1');
     }
-  }, [answer?.answer?.fileUrls]);
+  }, [answer?.answer]);
 
   const handleMainChange = (event, newValue) => {
     setMainTab(newValue);
@@ -404,7 +404,6 @@ const answerFrames = (
       setIsConvertingFile(true)
       const textExtracted = await extractText(id, serialNumber);
       setSubmission(textExtracted);
-      setMainTab("1");
     } catch (error) {
       console.error("Error extracting text:", error);
     }finally{

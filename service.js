@@ -33,7 +33,7 @@ async function fetchData(url, options, headers = {}) {
   const defaultHeaders = new Headers();
   const token = localStorage.getItem('jwtToken');
   if (token == null || token == undefined) {
-    redirectToExternalIDP();
+    handleRedirect();
     return;
   }
   if (token) {
@@ -50,7 +50,7 @@ async function fetchData(url, options, headers = {}) {
     });
 
     if (response.status === 401) {
-      return redirectToExternalIDP();
+      return handleRedirect();
     }
     if (response.status === 404) {
       // window.location.href = selfBaseUrl + '/#/404';
@@ -89,7 +89,7 @@ async function modifyData(url, options = {}) {
   });
 
   if (response.status === 401) {
-    return redirectToExternalIDP();
+    return handleRedirect();
   }
   if (response.status === 404) {
     throw new Error('Page not found');
@@ -559,7 +559,7 @@ export const exchangeCodeForToken = async (code) => {
     });
     if (response.status === 401) {
       setTimeout(() => {
-        redirectToExternalIDP();
+        handleRedirect();
       }, 1000);
     }
     if (response.status === 404 || response.status === 500) {
@@ -702,3 +702,21 @@ export const getAllTypes = [
 ];
 
 export const getProfile = async () => await getApi(baseUrl + '/users/profile');
+let isRedirecting = false;
+
+export function handleRedirect() {
+  if (isRedirecting) {
+    // return Promise.reject(new Error('Redirect already in progress'));
+    return;
+  }
+  
+  isRedirecting = true; // Set the flag
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      redirectToExternalIDP();
+      isRedirecting = false; // Reset the flag after redirect
+      resolve();
+    }, 10000);
+  });
+}

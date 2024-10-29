@@ -13,6 +13,9 @@ const clientId =
 const env =
   process.env.REACT_APP_ENV ?? 'dev';
 
+let isRedirecting = false;
+const COOLDOWN_PERIOD = 20000;
+
 export const ddRum = () => {
 
   datadogRum.init({
@@ -32,6 +35,10 @@ export const ddRum = () => {
 async function fetchData(url, options, headers = {}) {
   const defaultHeaders = new Headers();
   const token = localStorage.getItem('jwtToken');
+  if (token == null || token == undefined) {
+    handleRedirect();
+    return;
+  }
   if (token) {
     defaultHeaders.append('Authorization', `Bearer ${token}`);
   }
@@ -46,7 +53,7 @@ async function fetchData(url, options, headers = {}) {
     });
 
     if (response.status === 401) {
-      return redirectToExternalIDP();
+      return handleRedirect();
     }
     if (response.status === 404) {
       // window.location.href = selfBaseUrl + '/#/404';
@@ -85,7 +92,7 @@ async function modifyData(url, options = {}) {
   });
 
   if (response.status === 401) {
-    return redirectToExternalIDP();
+    return handleRedirect();
   }
   if (response.status === 404) {
     throw new Error('Page not found');
@@ -211,13 +218,12 @@ export const deleteFocusArea = async (focusAreaID) => {
 };
 
 export const logout = async () => {
-  await postApi(baseUrl + '/users/logout').then(() => {
-    logoutLocal();
+  logoutLocal();
 
-    window.location.href =
-     jeddleBaseUrl + '/wp-login.php?action=logout&redirect_to=' + selfBaseUrl;
-  });
+  const logoutUrl = `${jeddleBaseUrl}/wp-login.php?action=logout&redirect_to=${selfBaseUrl}?logged_out=true`;
+  window.location.href = logoutUrl;
 };
+
 export const changePassword = async () => {
   window.open(jeddleBaseUrl + '/account/?action=newpassword');
 };
@@ -520,7 +526,6 @@ function logoutLocal() {
 }
 
 export function redirectToExternalIDP() {
-  setTimeout(() => {
     logoutLocal();
     const externalIDPLoginUrl =
       jeddleBaseUrl +
@@ -531,7 +536,6 @@ export function redirectToExternalIDP() {
       '&redirect_uri=' +
       selfBaseUrl;
     window.location.href = externalIDPLoginUrl;
-  }, 10000);
 }
 
 export const exchangeCodeForToken = async (code) => {
@@ -555,10 +559,12 @@ export const exchangeCodeForToken = async (code) => {
       credentials: 'include',
       headers: mergedHeaders,
     });
-    if (response.status === 401 || response.status === 500) {
-      return redirectToExternalIDP();
+    if (response.status === 401) {
+      setTimeout(() => {
+        handleRedirect();
+      }, 1000);
     }
-    if (response.status === 404) {
+    if (response.status === 404 || response.status === 500) {
       window.location.href = selfBaseUrl + '/#/404';
       // window.location.reload();
       throw new Error('Page not found');
@@ -677,10 +683,11 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     title,
     documentType: 'Analytical',
   });
-export const askJeddAI = async (submissionId, cleanAnswer,markingCriteriaId,feedbackBankId) =>
-  await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
-    state: getLocalStorage('state'),
-    year: getLocalStorage('year'),
+
+  export const askJeddAI = async (submissionId, cleanAnswer,markingCriteriaId,feedbackBankId) =>
+    await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
+      state: getLocalStorage('state'),
+      year: getLocalStorage('year'),
     cleanAnswer: cleanAnswer,
     markingCriteriaId: markingCriteriaId,
     feedbackBankId: feedbackBankId,
@@ -697,3 +704,25 @@ export const getAllTypes = [
 ];
 
 export const getProfile = async () => await getApi(baseUrl + '/users/profile');
+
+export function handleRedirect() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isLoggedOut = urlParams.get('logged_out'); // Check if the user was just logged out
+
+  if (isLoggedOut) {
+    console.log('Skipping redirect after logout.');
+    return; // Prevent further redirects due to logout
+  }
+
+  if (isRedirecting) {
+    console.log('Redirect in progress. Skipping.');
+    return; // Avoid concurrent redirects
+  }
+
+  isRedirecting = true; // Set the flag
+
+  setTimeout(() => {
+    redirectToExternalIDP();
+    isRedirecting = false;
+  }, COOLDOWN_PERIOD);
+}

@@ -1,8 +1,7 @@
 import { Route, Switch, useHistory } from 'react-router-dom';
 import {
   exchangeCodeForToken,
-  logout,
-  redirectToExternalIDP,
+  handleRedirect
 } from '../../service';
 import {
   getUserId,
@@ -37,7 +36,7 @@ const withAuth = (WrappedComponent) => {
         if (code) {
           loginUsing(code);
         } else {
-          redirectToExternalIDP();
+          handleRedirect();
         }
       } else {
         setIsLoading(false);
@@ -55,7 +54,7 @@ function loginUsing(code) {
   exchangeCodeForToken(code)
     .then((result) => {
       if (result === undefined || result === null ) {
-        return redirectToExternalIDP();
+        return handleRedirect();
       }
       setProfileCookies(result);
       window.location.href = '/#/';

@@ -32,6 +32,10 @@ export const ddRum = () => {
 async function fetchData(url, options, headers = {}) {
   const defaultHeaders = new Headers();
   const token = localStorage.getItem('jwtToken');
+  if (token == null || token == undefined) {
+    handleRedirect();
+    return;
+  }
   if (token) {
     defaultHeaders.append('Authorization', `Bearer ${token}`);
   }
@@ -46,7 +50,7 @@ async function fetchData(url, options, headers = {}) {
     });
 
     if (response.status === 401) {
-      return redirectToExternalIDP();
+      return handleRedirect();
     }
     if (response.status === 404) {
       // window.location.href = selfBaseUrl + '/#/404';
@@ -85,7 +89,7 @@ async function modifyData(url, options = {}) {
   });
 
   if (response.status === 401) {
-    return redirectToExternalIDP();
+    return handleRedirect();
   }
   if (response.status === 404) {
     throw new Error('Page not found');
@@ -520,7 +524,6 @@ function logoutLocal() {
 }
 
 export function redirectToExternalIDP() {
-  setTimeout(() => {
     logoutLocal();
     const externalIDPLoginUrl =
       jeddleBaseUrl +
@@ -531,7 +534,6 @@ export function redirectToExternalIDP() {
       '&redirect_uri=' +
       selfBaseUrl;
     window.location.href = externalIDPLoginUrl;
-  }, 10000);
 }
 
 export const exchangeCodeForToken = async (code) => {
@@ -555,10 +557,12 @@ export const exchangeCodeForToken = async (code) => {
       credentials: 'include',
       headers: mergedHeaders,
     });
-    if (response.status === 401 || response.status === 500) {
-      return redirectToExternalIDP();
+    if (response.status === 401) {
+      setTimeout(() => {
+        handleRedirect();
+      }, 1000);
     }
-    if (response.status === 404) {
+    if (response.status === 404 || response.status === 500) {
       window.location.href = selfBaseUrl + '/#/404';
       // window.location.reload();
       throw new Error('Page not found');
@@ -677,10 +681,11 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
     title,
     documentType: 'Analytical',
   });
-export const askJeddAI = async (submissionId, cleanAnswer,markingCriteriaId,feedbackBankId) =>
-  await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
-    state: getLocalStorage('state'),
-    year: getLocalStorage('year'),
+
+  export const askJeddAI = async (submissionId, cleanAnswer,markingCriteriaId,feedbackBankId) =>
+    await postApi(baseUrl + '/submissions/' + submissionId + '/jeddAIFeedback', {
+      state: getLocalStorage('state'),
+      year: getLocalStorage('year'),
     cleanAnswer: cleanAnswer,
     markingCriteriaId: markingCriteriaId,
     feedbackBankId: feedbackBankId,
@@ -735,3 +740,21 @@ export const updateHandWrittenDocumentById = async (submissionId, serialNumber, 
 export const extractText = async (id, serialNumber) =>
   await patchApi(baseUrl + "/submissions/" + id + "/answers/" + serialNumber + "/extractText")
 export const getProfile = async () => await getApi(baseUrl + '/users/profile');
+let isRedirecting = false;
+
+export function handleRedirect() {
+  if (isRedirecting) {
+    // return Promise.reject(new Error('Redirect already in progress'));
+    return;
+  }
+  
+  isRedirecting = true; // Set the flag
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      redirectToExternalIDP();
+      isRedirecting = false; // Reset the flag after redirect
+      resolve();
+    }, 10000);
+  });
+}

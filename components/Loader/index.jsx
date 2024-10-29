@@ -27,12 +27,15 @@ const FullPageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   background-color: rgba(255, 255, 255); 
   z-index: 9999; 
 `;
 
 
 const LottieContainer = styled.div`
+  display: flex;
+  align-items: center;
   width: auto;
   height: 100px;
   padding: 0px;
@@ -40,7 +43,7 @@ const LottieContainer = styled.div`
 `;
 
 const StyledText = styled.div`
-  width: 326px;
+  width: auto;
   height: 26px;
   font-family: 'IBM Plex Sans', sans-serif;
   font-style: normal;

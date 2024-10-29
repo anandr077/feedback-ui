@@ -15,7 +15,7 @@ const env =
 
 let isRedirecting = false; // Track if redirect is in progress
 let lastRedirectTime = 0; // Store the last redirect time
-const COOLDOWN_PERIOD = 10000; // 10 seconds in milliseconds
+const COOLDOWN_PERIOD = 10000; // 10 seconds
 
 export const ddRum = () => {
 
@@ -706,28 +706,31 @@ export const getAllTypes = [
 ];
 
 export const getProfile = async () => await getApi(baseUrl + '/users/profile');
-
 export function handleRedirect() {
+  const lastRedirectTime = parseInt(localStorage.getItem('lastRedirectTime') || '0', 10);
   const now = Date.now();
 
-  if (isRedirecting) {
-    console.log("Redirect in progress, skipping.");
-    return; // Prevent multiple concurrent redirects
-  }
-
+  // Check if the page was redirected recently to avoid loops
   if (now - lastRedirectTime < COOLDOWN_PERIOD) {
-    console.log("Cooldown active. Skipping redirect.");
-    return; // Prevent redirection during cooldown period
+    console.log('Cooldown active. Skipping redirect.');
+    return; // Skip redirect within the cooldown period
   }
 
-  isRedirecting = true; // Set the redirect flag
-  lastRedirectTime = now; // Update the last redirect time
+  if (isRedirecting) {
+    console.log('Redirect in progress. Skipping.');
+    return; // Prevent concurrent redirects
+  }
 
-  redirectToExternalIDP(); // Immediate redirect
+  // Set the redirect flag and store the current time
+  isRedirecting = true;
+  localStorage.setItem('lastRedirectTime', now.toString());
 
-  // Reset the redirect flag after 10 seconds
+  // Perform the redirect immediately
+  redirectToExternalIDP();
+
+  // Reset the flag after the cooldown period
   setTimeout(() => {
     isRedirecting = false;
-    console.log("Ready for next redirect.");
+    console.log('Ready for next redirect.');
   }, COOLDOWN_PERIOD);
 }

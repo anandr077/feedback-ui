@@ -13,6 +13,10 @@ const clientId =
 const env =
   process.env.REACT_APP_ENV ?? 'dev';
 
+let isRedirecting = false; // Track if redirect is in progress
+let lastRedirectTime = 0; // Store the last redirect time
+const COOLDOWN_PERIOD = 10000; // 10 seconds in milliseconds
+
 export const ddRum = () => {
 
   datadogRum.init({
@@ -702,21 +706,28 @@ export const getAllTypes = [
 ];
 
 export const getProfile = async () => await getApi(baseUrl + '/users/profile');
-let isRedirecting = false;
 
 export function handleRedirect() {
-  if (isRedirecting) {
-    // return Promise.reject(new Error('Redirect already in progress'));
-    return;
-  }
-  
-  isRedirecting = true; // Set the flag
+  const now = Date.now();
 
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      redirectToExternalIDP();
-      isRedirecting = false; // Reset the flag after redirect
-      resolve();
-    }, 10000);
-  });
+  if (isRedirecting) {
+    console.log("Redirect in progress, skipping.");
+    return; // Prevent multiple concurrent redirects
+  }
+
+  if (now - lastRedirectTime < COOLDOWN_PERIOD) {
+    console.log("Cooldown active. Skipping redirect.");
+    return; // Prevent redirection during cooldown period
+  }
+
+  isRedirecting = true; // Set the redirect flag
+  lastRedirectTime = now; // Update the last redirect time
+
+  redirectToExternalIDP(); // Immediate redirect
+
+  // Reset the redirect flag after 10 seconds
+  setTimeout(() => {
+    isRedirecting = false;
+    console.log("Ready for next redirect.");
+  }, COOLDOWN_PERIOD);
 }

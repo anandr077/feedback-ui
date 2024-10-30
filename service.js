@@ -14,7 +14,7 @@ const env =
   process.env.REACT_APP_ENV ?? 'dev';
 
 let isRedirecting = false;
-const COOLDOWN_PERIOD = 20000;
+const COOLDOWN_PERIOD = 40000;
 
 export const ddRum = () => {
 

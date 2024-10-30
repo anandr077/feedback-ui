@@ -5,7 +5,7 @@ import { datadogRum } from '@datadog/browser-rum';
 // const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "https://feedbacks-backend-leso2wocda-ts.a.run.app";
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
 const jeddleBaseUrl =
-  process.env.REACT_APP_JEDDLE_BASE_URL ?? 'https://jeddle.duxdigital.net';
+  process.env.REACT_APP_JEDDLE_BASE_URL ?? 'https://jeddle.com';
 const selfBaseUrl =
   process.env.REACT_APP_SELF_BASE_URL ?? 'http://localhost:1234';
 const clientId =
@@ -14,7 +14,7 @@ const env =
   process.env.REACT_APP_ENV ?? 'dev';
 
 let isRedirecting = false;
-const COOLDOWN_PERIOD = 40000;
+const COOLDOWN_PERIOD = 20000;
 
 export const ddRum = () => {
 
@@ -32,18 +32,17 @@ export const ddRum = () => {
       defaultPrivacyLevel: 'mask-user-input',
   });
 }
-async function fetchData(url, options, headers = {}) {
+async function fetchData(url, options = {}, headers = {}) {
   const defaultHeaders = new Headers();
   const token = localStorage.getItem('jwtToken');
-  if (token == null || token == undefined) {
-    handleRedirect();
-    return;
-  }
-  if (token) {
-    defaultHeaders.append('Authorization', `Bearer ${token}`);
+
+  if (!token) {
+    throw new Error('Unauthorized'); // Handle unauthorized access
   }
 
+  defaultHeaders.append('Authorization', `Bearer ${token}`);
   const mergedHeaders = Object.assign(defaultHeaders, headers);
+
   try {
     const response = await fetch(url, {
       ...options,
@@ -52,37 +51,30 @@ async function fetchData(url, options, headers = {}) {
       headers: mergedHeaders,
     });
 
-    if (response.status === 401) {
-      return handleRedirect();
-    }
-    if (response.status === 404) {
-      // window.location.href = selfBaseUrl + '/#/404';
-      // window.location.reload();
-      // throw new Error('Page not found');
-    } else if (response.status === 500) {
-      window.location.href = selfBaseUrl + '/#/404';
-      window.location.reload();
-      throw new Error('Server error');
-    } else if (!response.ok) {
-      // window.location.href = selfBaseUrl + '/#/404';
-      // window.location.reload();
-      // throw new Error(`HTTP error! status: ${response.status}`);
+    if (!response.ok) {
+      const error = new Error(`HTTP error! status: ${response.status}`);
+      error.status = response.status;
+      throw error;
     }
 
     const isJson =
       response.headers.get('content-type')?.includes('application/json') ||
       response.headers.get('content-type')?.includes('application/hal+json');
     const data = isJson ? await response.json() : null;
+
     if (data === null) {
-      window.location.href = selfBaseUrl + '/#/404';
-      window.location.reload();
-      throw new Error('Page not found');
+      const error = new Error('Page not found');
+      error.status = 404;
+      throw error;
     }
+
     return data;
   } catch (error) {
-    console.error(error);
+    console.error('Fetch error:', error);
+    throw error; // Ensure the error propagates to React Query's onError handling
   }
 }
+
 
 async function modifyData(url, options = {}) {
   const response = await fetch(url, {
@@ -720,9 +712,6 @@ export function handleRedirect() {
   }
 
   isRedirecting = true; // Set the flag
+  redirectToExternalIDP();
 
-  setTimeout(() => {
-    redirectToExternalIDP();
-    isRedirecting = false;
-  }, COOLDOWN_PERIOD);
 }

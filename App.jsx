@@ -36,7 +36,7 @@ import { isMobileView } from './components/ReactiveRender';
 import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
 import JeddAI from './components/JeddAI';
 import VisibilityWrapper from './components2/VisibilityWrapper/VisibilityWrapper';
-import { ddRum } from './service';
+import { ddRum, handleRedirect } from './service';
 import Dashboard from './components/Dashboard';
 import Tasks from './components/Tasks';
 
@@ -66,7 +66,21 @@ function App() {
   const ProtectedCommentbanks = middleware(CommentBanks);
   const ProtectedJeddAI = middleware(JeddAI);
 
-  const portfolioClient = new QueryClient();
+  const portfolioClient = new QueryClient(
+    defaultOptions= {
+      queries: {
+        retry: (failureCount, error) => {
+          // Stop retries if status is 401
+          return !(error.status === 401);
+        },
+        onError: (error) => {
+          if (error.status === 401) {
+            handleRedirect();
+          }
+        },
+      },
+    },
+  );
 
   ddRum();
 

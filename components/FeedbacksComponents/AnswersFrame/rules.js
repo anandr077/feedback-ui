@@ -6,10 +6,11 @@ export const isUploadTabs = (pageMode, answer) => {
   return (pageMode === 'DRAFT' || pageMode === 'REVISE') && (answer?.answer.textExtractedAt === null || answer?.answer.textExtractedAt === undefined);
 };
 
-export const isPreviewButton = (answer, pageMode) => {
+export const isPreviewButton = (answer, pageMode, filesLength) => {
   return (
     (pageMode === 'DRAFT' || pageMode === 'REVISE') &&
     (answer?.answer.textExtractedAt === null || answer?.answer.textExtractedAt === undefined)
+    && filesLength !== 0
   );
 };
 

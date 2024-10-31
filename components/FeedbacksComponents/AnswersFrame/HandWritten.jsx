@@ -5,6 +5,7 @@ import {
   StyledTab,
   StyledTabList,
   StyledTabPanel,
+  NoPreviewText,
   TabContextComponent,
   TabNumber,
   TabNumberText,
@@ -132,9 +133,9 @@ function HandWritten({
     setTabValue('2');
   };
 
-  const handlePreviewdFile = (id) =>{
-    setPreviewedFileId(id)
-  }
+  const handlePreviewdFile = (id) => {
+    setPreviewedFileId(id);
+  };
 
   const LabelContainer = ({ number, text, active }) => {
     return (
@@ -149,14 +150,14 @@ function HandWritten({
 
   return (
     <>
-    {
-      previewedFileId && (
-        <UploadedFilePopup 
-           previewedFileUrl={files.find(file => file.id === previewedFileId)?.url}
-           removePreviewdFile={()=> setPreviewedFileId(null)}
+      {previewedFileId && (
+        <UploadedFilePopup
+          previewedFileUrl={
+            files.find((file) => file.id === previewedFileId)?.url
+          }
+          removePreviewdFile={() => setPreviewedFileId(null)}
         />
-      )
-    }
+      )}
       <TabsContainer>
         <TabContextComponent value={tabValue}>
           {isUploadTabs(pageMode, answer) && (
@@ -217,7 +218,10 @@ function HandWritten({
             />
           </StyledTabPanel>
           <StyledTabPanel value="3">
-            {isPreviewButton(answer, pageMode) && (
+            {files.length === 0 && (
+              <NoPreviewText>Nothing to preview</NoPreviewText>
+            )}
+            {isPreviewButton(answer, pageMode, files.length) && (
               <PreviewButtons
                 handleGoBack={handleGoBack}
                 handleConvertToText={() =>

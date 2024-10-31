@@ -42,7 +42,13 @@ import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSu
 import { v4 as uuidv4 } from 'uuid';
 import PdfIcon from '../../../static/img/pdf_logo.svg';
 
-const DraggableImage = ({ id, image, deleteFile, fileNumber, handlePreviewdFile }) => {
+const DraggableImage = ({
+  id,
+  image,
+  deleteFile,
+  fileNumber,
+  handlePreviewdFile,
+}) => {
   const {
     attributes,
     listeners,
@@ -97,7 +103,7 @@ const DraggableImage = ({ id, image, deleteFile, fileNumber, handlePreviewdFile 
           e.preventDefault();
           e.stopPropagation();
         }}
-        onClick={(e)=> {
+        onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
           handlePreviewdFile();
@@ -119,10 +125,9 @@ function OrderPages({
   handleCancelButton,
   deleteSelectedFile,
   handleAllUrls,
-  handlePreviewdFile
+  handlePreviewdFile,
 }) {
   const sensors = useSensors(useSensor(MouseSensor));
-
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
@@ -173,10 +178,12 @@ function OrderPages({
             <CancelIcon src={CancelImg} />
             <CancelButtonText>Cancel</CancelButtonText>
           </CancelButtonContainer>
-          <RoundedBorderSubmitBtn
-            text={'Continue'}
-            onClickFn={()=> handleAllUrls()}
-          />
+          {selectedImages.length !== 0 && (
+            <RoundedBorderSubmitBtn
+              text={'Continue'}
+              onClickFn={() => handleAllUrls()}
+            />
+          )}
         </CancelAndContinueButtonsContainer>
       </ButtonsContainer>
       {selectedImages.length > 0 && (
@@ -193,18 +200,26 @@ function OrderPages({
               <ImagesContainer>
                 {selectedImages.map((image, index) => {
                   if (image.url === null) {
-                    return <StyledLoadingBox key={image.id}>
-                      <div>Uploading<span></span><span></span><span></span></div>
-                    </StyledLoadingBox>;
+                    return (
+                      <StyledLoadingBox key={image.id}>
+                        <div>
+                          Uploading<span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </StyledLoadingBox>
+                    );
                   }
-                  return <DraggableImage
-                    key={image.id}
-                    id={image.id}
-                    image={image}
-                    deleteFile={() => deleteSelectedFile(image.id)}
-                    fileNumber={index + 1}
-                    handlePreviewdFile={()=> handlePreviewdFile(image.id)}
-                  />
+                  return (
+                    <DraggableImage
+                      key={image.id}
+                      id={image.id}
+                      image={image}
+                      deleteFile={() => deleteSelectedFile(image.id)}
+                      fileNumber={index + 1}
+                      handlePreviewdFile={() => handlePreviewdFile(image.id)}
+                    />
+                  );
                 })}
               </ImagesContainer>
             </SortableContext>

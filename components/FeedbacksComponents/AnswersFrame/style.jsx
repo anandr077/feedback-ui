@@ -73,6 +73,16 @@ export const StyledTabPanel = styled(TabPanel)`
   padding: 0px !important;
 `;
 
+export const NoPreviewText = styled.h1`
+  font-family: IBM Plex Sans;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: center;
+  margin-top: 20px;
+  color: ${(props) => (props.active ? '#7200e0' : '#918B97')};
+`;
+
 export const StyledMainTabList = styled(TabList)`
   width: 100%;
   padding: 0px 20px !important;

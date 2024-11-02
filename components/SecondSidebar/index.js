@@ -19,8 +19,8 @@ import closeicon from '../../static/img/closecircle.svg';
 import AISelected from '../../static/img/AISelected.svg';
 import AIUnSelected from '../../static/img/AIUnSelected.svg';
 
-import { deleteCookie, getUserRole } from '../../userLocalDetails';
-import { isActiveButton, isTeacherWithoutClass } from './rules';
+import { getUserRole } from '../../userLocalDetails';
+import { isActiveButton, isJeddAIFeedback, isTeacherWithoutClass } from './rules';
 import { useQuery } from '@tanstack/react-query';
 import { isTabletView } from '../ReactiveRender';
 import { useClassData } from '../state/hooks';
@@ -217,7 +217,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
       matchLink: '/jeddai',
     },
   ];
-
+  const jeddAiSublink = isJeddAIFeedback(classData.length, subLinks[10]) 
   const subRoutes = isTeacherNoClass
     ? [
         {
@@ -234,15 +234,15 @@ const SecondSidebar = ({ id, setShowMenu }) => {
         },
         {
           link: '/settings',
-          subLinks: [subLinks[6], subLinks[7],subLinks[10]],
+          subLinks: [subLinks[6], subLinks[7], jeddAiSublink],
         },
         {
           link: '/commentbanks',
-          subLinks: [subLinks[6], subLinks[7],subLinks[10]],
+          subLinks: [subLinks[6], subLinks[7], jeddAiSublink],
         },
         {
           link: '/jeddai',
-          subLinks: [subLinks[6], subLinks[7],subLinks[10]],
+          subLinks: [subLinks[6], subLinks[7], jeddAiSublink],
         },
       ]
     : [
@@ -298,23 +298,23 @@ const SecondSidebar = ({ id, setShowMenu }) => {
         },
         {
           link: '/settings',
-          subLinks: [subLinks[6], subLinks[7],subLinks[10]],
+          subLinks: [subLinks[6], subLinks[7], jeddAiSublink],
         },
         {
           link: `/markingTemplates/rubrics/${id}`,
-          subLinks: [subLinks[8], subLinks[7],subLinks[10]],
+          subLinks: [subLinks[8], subLinks[7], jeddAiSublink],
         },
         {
           link: `/markingTemplates/strengths-and-targets/${id}`,
-          subLinks: [subLinks[9], subLinks[7],subLinks[10]],
+          subLinks: [subLinks[9], subLinks[7], jeddAiSublink],
         },
         {
           link: '/commentbanks',
-          subLinks: [subLinks[6], subLinks[7],subLinks[10]],
+          subLinks: [subLinks[6], subLinks[7], jeddAiSublink],
         },
         {
           link: '/jeddai',
-          subLinks: [subLinks[6], subLinks[7],subLinks[10]],
+          subLinks: [subLinks[6], subLinks[7], jeddAiSublink],
         },
         {
           link: '/completed',

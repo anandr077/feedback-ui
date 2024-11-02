@@ -12,3 +12,7 @@ export const isActiveButton = (subLink, pathname, isTeacherNoClass) => {
       subLink.matchLink === '/giveFeedback')
   );
 };
+
+export const isJeddAIFeedback = (classLength, jeddAISublink) =>{
+  return classLength ? jeddAISublink : null;
+}

@@ -20,11 +20,14 @@ import AISelected from '../../static/img/AISelected.svg';
 import AIUnSelected from '../../static/img/AIUnSelected.svg';
 
 import { getUserRole } from '../../userLocalDetails';
-import { isActiveButton, isJeddAIFeedback, isTeacherWithoutClass } from './rules';
+import { isActiveButton, isJeddAIFeedback } from './rules';
+import { getUserRole } from '../../userLocalDetails';
+import { isActiveButton } from './rules';
 import { useQuery } from '@tanstack/react-query';
 import { isTabletView } from '../ReactiveRender';
 import { useClassData } from '../state/hooks';
 import Loader from '../Loader';
+import { isTeacherWithoutClass } from '../../rules';
 
 const SecondSidebar = ({ id, setShowMenu }) => {
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();

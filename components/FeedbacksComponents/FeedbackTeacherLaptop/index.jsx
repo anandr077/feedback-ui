@@ -204,7 +204,6 @@ function FeedbackTeacherLaptop(props) {
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
   React.useState(false);
   const [isSavingAnswer, setIsSavingAnswer] = useState(false);
-  console.log('isSavingAnswer in feedback', isSavingAnswer)
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -376,6 +375,9 @@ function FeedbackTeacherLaptop(props) {
 
   }
 
+  const selectedAnswer = submission?.answers?.find(answer => answer.serialNumber === QuestionIndex + 1);
+  const wordCount = selectedAnswer?.answer?.wordCount ?? 0;
+
   return (
     <>
 
@@ -463,13 +465,10 @@ function FeedbackTeacherLaptop(props) {
           </Frame1388>
         </>
         <Footer
-          openLeftPanel={openLeftPanel}
           isMobile={isMobile}
-          editorFontSize={editorFontSize}
-          setEditorFontSize={setEditorFontSize}
-          answers={submission?.answers}
-          questionIndex={QuestionIndex}
-          isSavingAnswer={isSavingAnswer}
+          zoomPercentage={editorFontSize}
+          onZoomPercentageChange={setEditorFontSize}
+          lebel={isSavingAnswer ? 'Saving...' : `${wordCount} ${wordCount === 1 ? 'word' : 'words'}`}
         />
       </PageContainer>
       {handleFeedbackMethodTypeDialog(

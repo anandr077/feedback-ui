@@ -25,7 +25,6 @@ export const createDebounceFunction = (submission, setSubmission, pageMode, comm
 };
 const handleDebounce = (comments, submission, setSubmission, answer, setIsSavingAnswer) => (contents, highlights) => {
   setIsSavingAnswer(true)
-  //console.log('the answer is saving')
   const highlightsWithCommentIds = Object.keys(highlights).map(key => ({
     commentId: key,
     range: highlights[key][0].range
@@ -36,6 +35,5 @@ const handleDebounce = (comments, submission, setSubmission, answer, setIsSaving
   }).then((updatedSubmission) => {
     setSubmission(updatedSubmission);
     setIsSavingAnswer(false)
-    //console.log('the answer is saved')
   });
 };

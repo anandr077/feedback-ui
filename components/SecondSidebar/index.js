@@ -21,7 +21,6 @@ import AIUnSelected from '../../static/img/AIUnSelected.svg';
 
 import { getUserRole } from '../../userLocalDetails';
 import { isActiveButton, isJeddAIFeedback } from './rules';
-import { getUserRole } from '../../userLocalDetails';
 import { isActiveButton } from './rules';
 import { useQuery } from '@tanstack/react-query';
 import { isTabletView } from '../ReactiveRender';

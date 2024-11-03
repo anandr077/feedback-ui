@@ -131,7 +131,7 @@ function HeaderTitle({ breadcrumbs }) {
       link: '/jeddai',
       title: 'JeddAI',
       teacherTooltip:
-        "",
+        "Control who can access JeddAI",
     },
     {
       link: '/documents/',

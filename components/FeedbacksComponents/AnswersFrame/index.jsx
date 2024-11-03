@@ -414,7 +414,8 @@ const answerFrames = (
               share,
               question,
               isFeedback,
-              QuestionIndex
+              QuestionIndex,
+              setIsSavingAnswer
             )}
           </QuillContainer>
         </AnswerContainer>
@@ -458,7 +459,8 @@ function createQuill(
   share,
   question,
   isFeedback,
-  QuestionIndex
+  QuestionIndex,
+  setIsSavingAnswer
 ) {
   return (
     <div style={{ width: '100%' }}>
@@ -504,6 +506,7 @@ function createQuill(
         question={question}
         isFeedback={isFeedback}
         QuestionIndex={QuestionIndex}
+        setIsDiable={setIsSavingAnswer}
       ></QuillEditor>
     </div>
   );

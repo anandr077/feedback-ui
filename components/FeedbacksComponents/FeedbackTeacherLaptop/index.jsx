@@ -125,7 +125,6 @@ function FeedbackTeacherLaptop(props) {
       questions[QuestionIndex]?.focusAreas &&
       questions[QuestionIndex]?.focusAreas.length !== 0
   );
-
   const [openLeftPanel, setOpenLefPanel] = useState(false);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
@@ -204,7 +203,8 @@ function FeedbackTeacherLaptop(props) {
   );
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
   React.useState(false);
-
+  const [isSavingAnswer, setIsSavingAnswer] = useState(false);
+  console.log('isSavingAnswer in feedback', isSavingAnswer)
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -458,7 +458,7 @@ function FeedbackTeacherLaptop(props) {
               showLottie,
               handleCommentBankPreview,
               handleMarkingCriteriaPreview,
-
+              setIsSavingAnswer
             )}
           </Frame1388>
         </>
@@ -469,6 +469,7 @@ function FeedbackTeacherLaptop(props) {
           setEditorFontSize={setEditorFontSize}
           answers={submission?.answers}
           questionIndex={QuestionIndex}
+          isSavingAnswer={isSavingAnswer}
         />
       </PageContainer>
       {handleFeedbackMethodTypeDialog(
@@ -642,12 +643,12 @@ function answersAndFeedbacks(
   setOtherDrafts,
   showLottie,
   handleCommentBankPreview,
-  handleMarkingCriteriaPreview
+  handleMarkingCriteriaPreview,
+  setIsSavingAnswer
 ) {
   const handleRightSidebarClick = (tab) => {
     setOpenRightPanel(tab);
   };
-
   const focusAreaComments = comments?.filter(
     (comment) => comment.type === 'FOCUS_AREA'
   );
@@ -726,7 +727,8 @@ function answersAndFeedbacks(
             openLeftPanel,
             setOtherDrafts,
             handleCommentBankPreview,
-            handleMarkingCriteriaPreview
+            handleMarkingCriteriaPreview,
+            setIsSavingAnswer
           )}
         </Frame1368>
         <>

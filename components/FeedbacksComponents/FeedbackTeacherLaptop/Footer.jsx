@@ -10,7 +10,8 @@ export function Footer({
   editorFontSize,
   setEditorFontSize,
   answers,
-  questionIndex
+  questionIndex,
+  isSavingAnswer,
 }) {
   const selectedAnswer = answers?.find(answer => answer.serialNumber === questionIndex + 1);
   const wordCount = selectedAnswer?.answer?.wordCount ?? 0;
@@ -18,7 +19,8 @@ export function Footer({
   return (
     <CountZoomContainer open={openLeftPanel} mobileView={isMobile}>
       <div>
-        {wordCount} {wordCount === 1 ? 'word' : 'words'}
+        {isSavingAnswer ? 'Saving...' : `${wordCount} ${wordCount === 1 ? 'word' : 'words'}`}
+        
       </div>
       <ZoomContianer>
         Zoom

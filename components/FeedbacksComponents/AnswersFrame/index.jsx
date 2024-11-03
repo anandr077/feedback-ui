@@ -74,7 +74,8 @@ export function answersFrame(
   openLeftPanel,
   setOtherDrafts,
   handleCommentBankPreview,
-  handleMarkingCriteriaPreview
+  handleMarkingCriteriaPreview,
+  setIsSavingAnswer
 ) {
   return (
     <AnswersFrame
@@ -107,6 +108,7 @@ export function answersFrame(
       setOtherDrafts={setOtherDrafts}
       handleCommentBankPreview={handleCommentBankPreview}
       handleMarkingCriteriaPreview={handleMarkingCriteriaPreview}
+      setIsSavingAnswer={setIsSavingAnswer}
     ></AnswersFrame>
   );
 }
@@ -139,7 +141,8 @@ function AnswersFrame(props) {
     openLeftPanel,
     setOtherDrafts,
     handleCommentBankPreview,
-    handleMarkingCriteriaPreview
+    handleMarkingCriteriaPreview,
+    setIsSavingAnswer
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
@@ -155,17 +158,12 @@ function AnswersFrame(props) {
         {answerFrames(
           quillRefs,
           setOtherDrafts,
-          smallMarkingCriteria,
-          groupedFocusAreaIds,
           pageMode,
           submission,
           setSubmission,
           commentsForSelectedTab,
           onSelectionChange,
-          handleMarkingCriteriaLevelFeedback,
           handleEditorMounted,
-          addOverallFeedback,
-          updateOverAllFeedback,
           comments,
           editorFontSize,
           selectedComment,
@@ -175,9 +173,7 @@ function AnswersFrame(props) {
           newCommentFrameRef,
           share,
           isFeedback,
-          isFocusAreas,
-          handleCommentBankPreview,
-          handleMarkingCriteriaPreview
+          setIsSavingAnswer
         )}
       </Frame1367>
       {submission?.type !== 'DOCUMENT' &&
@@ -251,17 +247,12 @@ const createModules = (pageMode) => {
 const answerFrames = (
   quillRefs,
   setOtherDrafts,
-  smallMarkingCriteria,
-  groupedFocusAreaIds,
   pageMode,
   submission,
   setSubmission,
   commentsForSelectedTab,
   onSelectionChange,
-  handleMarkingCriteriaLevelFeedback,
   handleEditorMounted,
-  addOverallFeedback,
-  updateOverAllFeedback,
   comments,
   editorFontSize,
   selectedComment,
@@ -271,8 +262,7 @@ const answerFrames = (
   newCommentFrameRef,
   share,
   isFeedback,
-  handleCommentBankPreview,
-  handleMarkingCriteriaPreview
+  setIsSavingAnswer
 ) => {
   const { overallComments, allCommentBanks,allMarkingCriterias } = useContext(FeedbackContext);
   console.log('allCommentBanks', allCommentBanks);
@@ -280,7 +270,7 @@ const answerFrames = (
   const [inputValue, setInputValue] = React.useState('Type your question');
   const inputRef = React.useRef(null);
   console.log('submission?.assignment', submission?.assignment);
-
+  console.log('setIsSavingAnswer setIsSavingAnswer', setIsSavingAnswer)
   React.useEffect(() => {
     if (submission?.assignment?.title) {
       setInputValue(submission?.assignment.title);
@@ -350,11 +340,10 @@ const answerFrames = (
     submission,
     setSubmission,
     pageMode,
-    comments
+    comments,
+    setIsSavingAnswer
   )(answer);
 
-  const updateCommentBank = () => {};
-  const updateMarkingCriteria = () => {};
 
   return (
     <>

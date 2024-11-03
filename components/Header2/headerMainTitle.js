@@ -1,5 +1,5 @@
+import { isTeacherWithoutClass } from '../../rules';
 import { getUserRole } from '../../userLocalDetails';
-import { isTeacherWithoutClass } from './rules';
 
 
 

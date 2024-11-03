@@ -7,7 +7,7 @@ import {
   TitleConatiner,
   TitleMain,
 } from './HeaderStyle';
-import { isTeacher, isTeacherWithoutClass } from './rules';
+import { isTeacher } from './rules';
 import React from 'react';
 import arrowRightMini from '../../static/img/arrowRightMini.svg';
 import QuestionTooltip from '../../components2/QuestionTooltip';
@@ -16,6 +16,7 @@ import { headerMainTitle } from './headerMainTitle';
 import { getFirstFourWords } from '../../utils/strings';
 import { useClassData } from '../state/hooks';
 import Loader from '../Loader';
+import { isTeacherWithoutClass } from '../../rules';
 const role = getUserRole();
 
 

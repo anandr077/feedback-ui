@@ -193,7 +193,9 @@ console.log('overallComment', overallComment);
           placeholder="Give feedback here..."
           style={{
             minHeight: '104px',
+            maxHeight: '400px'
           }}
+          isEditing={true}
           onChange={(e) => {
             setIsEditing(true);
             textAreaAutoResize(e, inputRef);

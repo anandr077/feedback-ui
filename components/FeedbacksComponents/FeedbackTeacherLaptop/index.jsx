@@ -460,7 +460,8 @@ function FeedbackTeacherLaptop(props) {
               showLottie,
               handleCommentBankPreview,
               handleMarkingCriteriaPreview,
-              setIsSavingAnswer
+              setIsSavingAnswer,
+              isSavingAnswer
             )}
           </Frame1388>
         </>
@@ -643,7 +644,8 @@ function answersAndFeedbacks(
   showLottie,
   handleCommentBankPreview,
   handleMarkingCriteriaPreview,
-  setIsSavingAnswer
+  setIsSavingAnswer,
+  isSavingAnswer
 ) {
   const handleRightSidebarClick = (tab) => {
     setOpenRightPanel(tab);
@@ -685,6 +687,7 @@ function answersAndFeedbacks(
         isShowResolved={isShowResolved}
         commentsForSelectedTab={commentsForSelectedTab}
         isLeftSidebarOpen={openLeftPanel}
+        isDisable={isSavingAnswer}
       />
       {submission?.type === 'SUBMISSION' &&
         submission?.assignment.questions.length !== 0 && (

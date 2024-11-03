@@ -10,6 +10,8 @@ export const FeedbackHeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  opacity: ${props => props.isDisable ? 0.3 : 1};
+  pointer-events: ${props => props.isDisable ? 'none' : 'auto'};
 `;
 
 export const LeftSection = styled.div`

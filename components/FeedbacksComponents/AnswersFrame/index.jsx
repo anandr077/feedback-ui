@@ -270,7 +270,6 @@ const answerFrames = (
   const [inputValue, setInputValue] = React.useState('Type your question');
   const inputRef = React.useRef(null);
   console.log('submission?.assignment', submission?.assignment);
-  console.log('setIsSavingAnswer setIsSavingAnswer', setIsSavingAnswer)
   React.useEffect(() => {
     if (submission?.assignment?.title) {
       setInputValue(submission?.assignment.title);

@@ -128,6 +128,12 @@ function HeaderTitle({ breadcrumbs }) {
         "A customisable bank of comments to provide faster feedback when making a student's work",
     },
     {
+      link: '/jeddai',
+      title: 'JeddAI',
+      teacherTooltip:
+        "Control who can access JeddAI",
+    },
+    {
       link: '/documents/',
       teacherTooltip: 'Get comprehensive feedback on your work from JeddAI',
       studentTooltip: 'Request feedback from JeddAI, teachers or your friends on your work',

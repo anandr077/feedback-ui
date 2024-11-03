@@ -92,6 +92,11 @@ export const headerMainTitle = (localClasses) =>{
       homeLink: '/settings',
     },
     {
+      link: '/jeddai',
+      title: 'Feeback Tools',
+      homeLink: '/settings',
+    },
+    {
       link: '/',
       title: role === 'TEACHER' ? 'Tasks' : 'School Work',
       homeLink: homeLink,

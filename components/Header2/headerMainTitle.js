@@ -1,5 +1,5 @@
-import { isTeacherWithoutClass } from '../../rules';
 import { getUserRole } from '../../userLocalDetails';
+import { isTeacherWithoutClass } from './rules';
 
 
 
@@ -88,11 +88,6 @@ export const headerMainTitle = (localClasses) =>{
     },
     {
       link: '/commentbanks',
-      title: 'Feeback Tools',
-      homeLink: '/settings',
-    },
-    {
-      link: '/jeddai',
       title: 'Feeback Tools',
       homeLink: '/settings',
     },

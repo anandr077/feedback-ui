@@ -21,7 +21,23 @@ export const TextFeedback = styled.textarea`
   line-height: 24px;
   font-weight: 400;
   font-family: var(--font-family-ibm_plex_sans);
-  overflow: hidden;
+  overflow-y: ${(props) => (props.isEditing ? 'scroll' : 'hidden')};
+  overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f0f0f0; 
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #c1bebe; 
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #666; 
+  }
+
   ::placeholder {
     color: rgba(145, 139, 151, 1);
   }

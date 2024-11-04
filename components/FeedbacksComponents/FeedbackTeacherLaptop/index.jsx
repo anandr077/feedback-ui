@@ -687,7 +687,7 @@ function answersAndFeedbacks(
         isShowResolved={isShowResolved}
         commentsForSelectedTab={commentsForSelectedTab}
         isLeftSidebarOpen={openLeftPanel}
-        isDisable={isSavingAnswer}
+        isDisabled={isSavingAnswer}
       />
       {submission?.type === 'SUBMISSION' &&
         submission?.assignment.questions.length !== 0 && (

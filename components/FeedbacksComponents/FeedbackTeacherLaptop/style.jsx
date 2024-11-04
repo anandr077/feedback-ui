@@ -254,7 +254,7 @@ export const CountZoomContainer = styled.div`
 `;
 
 
-export const Lebel = styled.div`
+export const CountContainer = styled.div`
   font-family: var(--font-family-ibm_plex_sans);
 `;
 

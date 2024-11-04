@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   CountZoomContainer,
-  Lebel
+  CountContainer
 } from './style';
 import Zoom from '../../../components2/Zoom';
 export function Footer({
@@ -14,9 +14,9 @@ export function Footer({
 
   return (
     <CountZoomContainer mobileView={isMobile}>
-      <Lebel>
+      <CountContainer>
         {lebel}
-      </Lebel>
+      </CountContainer>
       <Zoom 
         zoomPercentage={zoomPercentage}
         onZoomPercentageChange={onZoomPercentageChange}

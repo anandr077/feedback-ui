@@ -22,6 +22,9 @@ const UploadedFilePopup = ({ previewedFileUrl, removePreviewdFile }) => {
     setOpen(false);
     removePreviewdFile();
   };
+
+  console.log('the isImageValid is', isImageValid)
+  console.log('the previewedFileUrl is', previewedFileUrl)
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogContent>

@@ -31,7 +31,7 @@ import {
   uploadFileToServer,
 } from '../../../service';
 import PreviewFiles from './PreviewFiles';
-import { isPreviewButton, isUploadTabs } from './rules';
+import { isPreviewButton, isTabAccessable, isUploadTabs } from './rules';
 import UploadedFilePopup from '../../../components2/UploadedFilePopup';
 
 function HandWritten({
@@ -46,10 +46,11 @@ function HandWritten({
   const [previewedFileId, setPreviewedFileId] = useState(null);
   const selectedTabValue = files.length > 0 ? '2' : '1';
   const [tabValue, setTabValue] = useState(selectedTabValue);
+  const [isUploadingFiles, setIsUploadingFiles] = useState(false);
 
   useEffect(() => {
     const hasUploadedDocuments = answer?.answer?.fileUrls;
-
+    
     if (hasUploadedDocuments) {
       const newFiles = hasUploadedDocuments.map((url) => ({
         id: uuidv4(),
@@ -69,6 +70,7 @@ function HandWritten({
 
   const handleFilesSubmissions = async (newImages, isReorder = false) => {
     try {
+      setIsUploadingFiles(true);
       if (!isReorder) {
         setFiles((oldFiles) => [
           ...oldFiles,
@@ -100,6 +102,7 @@ function HandWritten({
       } else {
         setFiles([...updatedDocuments]);
       }
+      setIsUploadingFiles(false);
     } catch (error) {
       console.error('Error while file submission:', error);
     }
@@ -121,7 +124,14 @@ function HandWritten({
   };
 
   const deleteSelectedFile = async (id) => {
-    setFiles((oldFiles) => oldFiles.filter((old) => old.id !== id));
+    setFiles((oldFiles)=> {
+      const updatedFiles = oldFiles.filter((old) => old.id !== id);
+
+      if(updatedFiles.length === 0){
+        setTabValue('1')
+      }
+      return updatedFiles;
+    })
   };
 
   const handleCancelButton = async () => {
@@ -137,7 +147,7 @@ function HandWritten({
     setPreviewedFileId(id);
   };
 
-  const LabelContainer = ({ number, text, active }) => {
+  const LabelContainer = ({ number, text, active}) => {
     return (
       <TabPart>
         <TabNumber>
@@ -178,6 +188,7 @@ function HandWritten({
                   value="1"
                 />
                 <StyledTab
+                  isDisabled={isTabAccessable(files.length)}
                   label={
                     <LabelContainer
                       number="2"
@@ -188,14 +199,15 @@ function HandWritten({
                   value="2"
                 />
                 <StyledTab
-                  label={
-                    <LabelContainer
-                      number="3"
-                      text="Preview"
-                      active={tabValue === '3'}
-                    />
-                  }
-                  value="3"
+                    isDisabled={isTabAccessable(files.length, isUploadingFiles)}
+                    label={
+                      <LabelContainer
+                        number="3"
+                        text="Preview"
+                        active={tabValue === '3'}
+                      />
+                    }
+                    value="3"
                 />
               </StyledTabList>
             </StyledBox>
@@ -204,17 +216,17 @@ function HandWritten({
             <UploadFiles
               handleFilesSubmissions={handleFilesSubmissions}
               setTabValue={setTabValue}
-              selectedImages={files}
             />
           </StyledTabPanel>
           <StyledTabPanel value="2">
             <OrderPages
-              selectedImages={files}
+              selectedFiles={files}
               handleFilesSubmissions={handleFilesSubmissions}
               handleCancelButton={handleCancelButton}
               deleteSelectedFile={deleteSelectedFile}
               handleAllUrls={handleAllUrls}
               handlePreviewdFile={handlePreviewdFile}
+              isUploadingFiles={isUploadingFiles}
             />
           </StyledTabPanel>
           <StyledTabPanel value="3">

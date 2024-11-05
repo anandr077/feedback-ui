@@ -17,3 +17,11 @@ export const isPreviewButton = (answer, pageMode, filesLength) => {
 export const isTypedAndHandWrittenTab = (textExtractedAt, pageMode) => {
   return textExtractedAt || pageMode === 'DRAFT';
 };
+
+export const isContinueButtonAccessible = (uploadedFileLength) =>{
+  return uploadedFileLength !== 0
+}
+
+export const isTabAccessable = (fileLength, isUploadingFiles=false) =>{
+   return fileLength === 0 || isUploadingFiles
+}

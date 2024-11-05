@@ -411,6 +411,7 @@ const answerFrames = (
     }
   }
 
+  console.log('isTypedAndHandWrittenTab(answer?.answer?.textExtractedAt, pageMode)', isTypedAndHandWrittenTab(answer?.answer?.textExtractedAt, pageMode))
 
   return (
     <>

@@ -3,7 +3,7 @@ import { StyledInput, UploadFilesContainer, UploadFilesText } from './style';
 import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
 import { v4 as uuidv4 } from 'uuid';
 
-function UploadFiles({handleFilesSubmissions, setTabValue, selectedImages}) {
+function UploadFiles({handleFilesSubmissions, setTabValue}) {
 
     const fileInputRef = useRef(null);
 
@@ -45,10 +45,6 @@ function UploadFiles({handleFilesSubmissions, setTabValue, selectedImages}) {
         onClickFn={handleButtonClick}
       />
       <UploadFilesText>Or drop files here</UploadFilesText>
-      <UploadFilesText>
-        (Files should be in .pdf, .jpeg or .png format. Maximum file upload
-        size: 5mb)
-      </UploadFilesText>
      
     </UploadFilesContainer>
   );

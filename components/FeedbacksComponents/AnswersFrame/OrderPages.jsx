@@ -28,6 +28,7 @@ import {
   CancelButtonText,
   CancelIcon,
   DeleteIcon,
+  FileName,
   MagnifyingIcon,
   ImageContainer,
   ImagesContainer,
@@ -41,6 +42,7 @@ import {
 import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
 import { v4 as uuidv4 } from 'uuid';
 import PdfIcon from '../../../static/img/pdf_logo.svg';
+import { isContinueButtonAccessible } from './rules';
 
 const DraggableImage = ({
   id,
@@ -69,7 +71,6 @@ const DraggableImage = ({
   checkImgUrl.onerror = () => {
     setIsImageValid(false);
   };
-
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -78,6 +79,11 @@ const DraggableImage = ({
     cursor: isDragging ? 'grabbing' : 'grab',
   };
 
+  const fileName = image?.file?.name 
+  ? image.file.name.split('.')[0] 
+  : image?.name?.split('.')[0] || '';
+  
+  console.log('the iamge is check', image)
   return (
     <ImageContainer
       ref={setNodeRef}
@@ -85,6 +91,9 @@ const DraggableImage = ({
       {...attributes}
       {...listeners}
     >
+      <FileName>
+        {fileName?.length > 10 ? fileName.slice(0, 10) + '...' : fileName}
+      </FileName>
       <DeleteIcon
         src={Redcross}
         onPointerDown={(e) => {
@@ -120,22 +129,23 @@ const DraggableImage = ({
 };
 
 function OrderPages({
-  selectedImages,
+  selectedFiles,
   handleFilesSubmissions,
   handleCancelButton,
   deleteSelectedFile,
   handleAllUrls,
   handlePreviewdFile,
+  isUploadingFiles,
 }) {
   const sensors = useSensors(useSensor(MouseSensor));
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      const oldIndex = selectedImages.findIndex((img) => img.id === active.id);
-      const newIndex = selectedImages.findIndex((img) => img.id === over.id);
+      const oldIndex = selectedFiles.findIndex((img) => img.id === active.id);
+      const newIndex = selectedFiles.findIndex((img) => img.id === over.id);
 
-      const reorderedImages = arrayMove(selectedImages, oldIndex, newIndex);
+      const reorderedImages = arrayMove(selectedFiles, oldIndex, newIndex);
       handleFilesSubmissions(reorderedImages, true);
     }
   };
@@ -170,7 +180,7 @@ function OrderPages({
           />
           <AddButton onClick={handleButtonClick}>
             <AddButtonImage src={AddIcon} />
-            <AddButtonText>Add more files</AddButtonText>
+            <AddButtonText>Add files</AddButtonText>
           </AddButton>
         </AddButtonContainer>
         <CancelAndContinueButtonsContainer>
@@ -178,15 +188,16 @@ function OrderPages({
             <CancelIcon src={CancelImg} />
             <CancelButtonText>Cancel</CancelButtonText>
           </CancelButtonContainer>
-          {selectedImages.length !== 0 && (
+          {isContinueButtonAccessible(selectedFiles.length) && (
             <RoundedBorderSubmitBtn
               text={'Continue'}
               onClickFn={() => handleAllUrls()}
+              isDisabled={isUploadingFiles}
             />
           )}
         </CancelAndContinueButtonsContainer>
       </ButtonsContainer>
-      {selectedImages.length > 0 && (
+      {selectedFiles.length > 0 && (
         <OrderPagesMainContainer
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -194,11 +205,11 @@ function OrderPages({
         >
           <OrderPagesContainer>
             <SortableContext
-              items={selectedImages.map((image) => image.id)}
+              items={selectedFiles.map((image) => image.id)}
               strategy={rectSortingStrategy}
             >
               <ImagesContainer>
-                {selectedImages.map((image, index) => {
+                {selectedFiles.map((image, index) => {
                   if (image.url === null) {
                     return (
                       <StyledLoadingBox key={image.id}>

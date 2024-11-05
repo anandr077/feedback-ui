@@ -12,7 +12,6 @@ const RoundedBorderSubmitBtn = ({
     <ButtonContainer
       onClick={onClickFn}
       disabled={isDisabled}
-      isDisabled={isDisabled}
     >
       {leftIcon && <LeftImage src={leftIcon} />}
       {text}

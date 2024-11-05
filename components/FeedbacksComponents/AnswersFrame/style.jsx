@@ -165,6 +165,8 @@ export const ConvertingText = styled.div`
 export const StyledTab = styled(Tab)`
   text-transform: none !important;
   font-family: IBM Plex Sans !important;
+  pointer-events: ${props => props.isDisabled ? 'none' : 'auto'};
+  opacity: ${props => props.isDisabled ? 0.4 : 1};
 `;
 
 export const UploadFilesContainer = styled.div`
@@ -224,6 +226,17 @@ export const DeleteIcon = styled.img`
   :hover{
     transform: scale(1.1);
   }
+`;
+
+export const FileName = styled.p`
+  font-family: IBM Plex Sans;
+  font-weight: 600;
+  font-size: var(--font-size-s);
+  line-height: 19px;
+  color: rgba(75, 70, 79, 1);
+  position: absolute;
+  left: 10px;
+  top: 3px;
 `;
 
 export const MagnifyingIcon = styled.img`

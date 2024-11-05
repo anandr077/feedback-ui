@@ -86,11 +86,6 @@ export const NoPreviewText = styled.h1`
 export const StyledMainTabList = styled(TabList)`
   width: 100%;
   padding: 0px 20px !important;
-  ${({ isDisabled }) =>
-    isDisabled &&
-    `pointer-events: none; 
-     opacity: 0.5; 
-    `}
 `;
 export const StyledTabList = styled(TabList)`
   width: 100%;
@@ -100,12 +95,6 @@ export const StyledTabList = styled(TabList)`
     justify-content: center;
     align-items: center;
   }
-
-  ${({ isDisabled }) =>
-    isDisabled &&
-    `pointer-events: none; 
-     opacity: 0.5; 
-    `}
 `;
 
 const bounce = keyframes`

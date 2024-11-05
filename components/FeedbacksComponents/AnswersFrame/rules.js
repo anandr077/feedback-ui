@@ -22,6 +22,15 @@ export const isContinueButtonAccessible = (uploadedFileLength) =>{
   return uploadedFileLength !== 0
 }
 
-export const isTabAccessable = (fileLength, isUploadingFiles=false) =>{
-   return fileLength === 0 || isUploadingFiles
+export const isUploadTabDisabled = (isConvertingFile=false) =>{
+  return isConvertingFile
+}
+
+export const isOrderTabDisabled = (fileLength, isConvertingFile=false) =>{
+  return fileLength === 0 || isConvertingFile
+}
+
+
+export const isPreviewTabDisabled = (fileLength, isUploadingFiles=false) =>{
+  return fileLength === 0 || isUploadingFiles 
 }

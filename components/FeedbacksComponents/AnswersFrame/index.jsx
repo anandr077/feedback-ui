@@ -411,8 +411,6 @@ const answerFrames = (
     }
   }
 
-  console.log('isTypedAndHandWrittenTab(answer?.answer?.textExtractedAt, pageMode)', isTypedAndHandWrittenTab(answer?.answer?.textExtractedAt, pageMode))
-
   return (
     <>
       <Frame1366>
@@ -462,17 +460,18 @@ const answerFrames = (
                   <StyledMainTabList
                     onChange={handleMainChange}
                     aria-label="lab API tabs example"
-                    isDisabled={isConvertingFile}
                   >
                     <StyledTab
                       label={<TabText active={mainTab === '1'}>Typed</TabText>}
                       value="1"
+                      isDisabled={isConvertingFile}
                     />
                     <StyledTab
                       label={
                         <TabText active={mainTab === '2'}>Handwritten</TabText>
                       }
                       value="2"
+                      isDisabled={isConvertingFile}
                     />
                   </StyledMainTabList>
                   {isDeleteAndRestartButton(

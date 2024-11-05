@@ -83,7 +83,7 @@ const DraggableImage = ({
   ? image.file.name.split('.')[0] 
   : image?.name?.split('.')[0] || '';
   
-  console.log('the iamge is check', image)
+
   return (
     <ImageContainer
       ref={setNodeRef}

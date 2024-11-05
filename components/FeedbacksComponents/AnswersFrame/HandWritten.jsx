@@ -31,7 +31,7 @@ import {
   uploadFileToServer,
 } from '../../../service';
 import PreviewFiles from './PreviewFiles';
-import { isPreviewButton, isTabAccessable, isUploadTabs } from './rules';
+import { isOrderTabDisabled, isPreviewButton, isPreviewTabDisabled, isUploadTabDisabled, isUploadTabs } from './rules';
 import UploadedFilePopup from '../../../components2/UploadedFilePopup';
 
 function HandWritten({
@@ -175,9 +175,9 @@ function HandWritten({
               <StyledTabList
                 onChange={handleChange}
                 aria-label="lab API tabs example"
-                isDisabled={isConvertingFile}
               >
                 <StyledTab
+                  isDisabled={isUploadTabDisabled(isConvertingFile)}
                   label={
                     <LabelContainer
                       number="1"
@@ -188,7 +188,7 @@ function HandWritten({
                   value="1"
                 />
                 <StyledTab
-                  isDisabled={isTabAccessable(files.length)}
+                  isDisabled={isOrderTabDisabled(files.length, isConvertingFile)}
                   label={
                     <LabelContainer
                       number="2"
@@ -199,7 +199,7 @@ function HandWritten({
                   value="2"
                 />
                 <StyledTab
-                    isDisabled={isTabAccessable(files.length, isUploadingFiles)}
+                    isDisabled={isPreviewTabDisabled(files.length, isUploadingFiles)}
                     label={
                       <LabelContainer
                         number="3"

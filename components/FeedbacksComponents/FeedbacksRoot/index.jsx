@@ -1074,7 +1074,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
       resetAllSubmissions();
       resetCommentBanksData();
       if (isTeacher) {
-        history.push(nextUrl === '/' ? '/#' : nextUrl);
+        window.location.href = nextUrl === '/' ? '/#' : nextUrl;
       } else {
         history.push('/#');
       }

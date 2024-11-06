@@ -31,6 +31,6 @@ export const isOrderTabDisabled = (fileLength, isConvertingFile=false) =>{
 }
 
 
-export const isPreviewTabDisabled = (fileLength, isUploadingFiles=false) =>{
-  return fileLength === 0 || isUploadingFiles 
+export const isPreviewTabDisabled = (fileLength, isUpdatingHandWrittenFiles=false) =>{
+  return fileLength === 0 || isUpdatingHandWrittenFiles 
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import {
   StyledBox,
@@ -33,6 +33,7 @@ import {
 import PreviewFiles from './PreviewFiles';
 import { isOrderTabDisabled, isPreviewButton, isPreviewTabDisabled, isUploadTabDisabled, isUploadTabs } from './rules';
 import UploadedFilePopup from '../../../components2/UploadedFilePopup';
+import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
 function HandWritten({
   submissionId,
@@ -40,13 +41,12 @@ function HandWritten({
   setSubmission,
   handleExtractText,
   pageMode,
-  isConvertingFile,
 }) {
+  const { isUpdatingHandWrittenFiles, setIsUpdatingHandWrittenFiles } = useContext(FeedbackContext);
   const [files, setFiles] = useState([]);
   const [previewedFileId, setPreviewedFileId] = useState(null);
   const selectedTabValue = files.length > 0 ? '2' : '1';
   const [tabValue, setTabValue] = useState(selectedTabValue);
-  const [isUploadingFiles, setIsUploadingFiles] = useState(false);
 
   useEffect(() => {
     const hasUploadedDocuments = answer?.answer?.fileUrls;
@@ -70,7 +70,7 @@ function HandWritten({
 
   const handleFilesSubmissions = async (newImages, isReorder = false) => {
     try {
-      setIsUploadingFiles(true);
+      setIsUpdatingHandWrittenFiles(true);
       if (!isReorder) {
         setFiles((oldFiles) => [
           ...oldFiles,
@@ -102,7 +102,7 @@ function HandWritten({
       } else {
         setFiles([...updatedDocuments]);
       }
-      setIsUploadingFiles(false);
+      setIsUpdatingHandWrittenFiles(false);
     } catch (error) {
       console.error('Error while file submission:', error);
     }
@@ -177,7 +177,7 @@ function HandWritten({
                 aria-label="lab API tabs example"
               >
                 <StyledTab
-                  isDisabled={isUploadTabDisabled(isConvertingFile)}
+                  isDisabled={isUploadTabDisabled(isUpdatingHandWrittenFiles)}
                   label={
                     <LabelContainer
                       number="1"
@@ -188,7 +188,7 @@ function HandWritten({
                   value="1"
                 />
                 <StyledTab
-                  isDisabled={isOrderTabDisabled(files.length, isConvertingFile)}
+                  isDisabled={isOrderTabDisabled(files.length, isUpdatingHandWrittenFiles)}
                   label={
                     <LabelContainer
                       number="2"
@@ -199,7 +199,7 @@ function HandWritten({
                   value="2"
                 />
                 <StyledTab
-                    isDisabled={isPreviewTabDisabled(files.length, isUploadingFiles)}
+                    isDisabled={isPreviewTabDisabled(files.length, isUpdatingHandWrittenFiles)}
                     label={
                       <LabelContainer
                         number="3"
@@ -226,7 +226,7 @@ function HandWritten({
               deleteSelectedFile={deleteSelectedFile}
               handleAllUrls={handleAllUrls}
               handlePreviewdFile={handlePreviewdFile}
-              isUploadingFiles={isUploadingFiles}
+              isUpdatingHandWrittenFiles={isUpdatingHandWrittenFiles}
             />
           </StyledTabPanel>
           <StyledTabPanel value="3">
@@ -239,7 +239,7 @@ function HandWritten({
                 handleConvertToText={() =>
                   handleExtractText(submissionId, answer.serialNumber)
                 }
-                isConvertingFile={isConvertingFile}
+                isUpdatingHandWrittenFiles={isUpdatingHandWrittenFiles}
               />
             )}
             <PreviewContainer>

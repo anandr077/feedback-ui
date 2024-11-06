@@ -217,17 +217,6 @@ export const DeleteIcon = styled.img`
   }
 `;
 
-export const FileName = styled.p`
-  font-family: IBM Plex Sans;
-  font-weight: 600;
-  font-size: var(--font-size-s);
-  line-height: 19px;
-  color: rgba(75, 70, 79, 1);
-  position: absolute;
-  left: 10px;
-  top: 3px;
-`;
-
 export const MagnifyingIcon = styled.img`
   width: 24px;
   height: 24px;

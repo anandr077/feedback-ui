@@ -298,11 +298,11 @@ const answerFrames = (
   handleCommentBankPreview,
   handleMarkingCriteriaPreview
 ) => {
+  const { isUpdatingHandWrittenFiles, setIsUpdatingHandWrittenFiles } = React.useContext(FeedbackContext);
   const [questionSlide, setQuestionSlide] = React.useState(true);
   const [inputValue, setInputValue] = React.useState('Type your question');
   const inputRef = React.useRef(null);
   const [mainTab, setMainTab] = React.useState('1');
-  const [isConvertingFile, setIsConvertingFile] = React.useState(false);
 
   React.useEffect(() => {
     if (submission?.assignment?.title) {
@@ -401,13 +401,13 @@ const answerFrames = (
 
   const handleExtractText = async (id, serialNumber) =>{
     try {
-      setIsConvertingFile(true)
+      setIsUpdatingHandWrittenFiles(true)
       const textExtracted = await extractText(id, serialNumber);
       setSubmission(textExtracted);
     } catch (error) {
       console.error("Error extracting text:", error);
     }finally{
-      setIsConvertingFile(false)
+      setIsUpdatingHandWrittenFiles(false)
     }
   }
 
@@ -464,14 +464,14 @@ const answerFrames = (
                     <StyledTab
                       label={<TabText active={mainTab === '1'}>Typed</TabText>}
                       value="1"
-                      isDisabled={isConvertingFile}
+                      isDisabled={isUpdatingHandWrittenFiles}
                     />
                     <StyledTab
                       label={
                         <TabText active={mainTab === '2'}>Handwritten</TabText>
                       }
                       value="2"
-                      isDisabled={isConvertingFile}
+                      isDisabled={isUpdatingHandWrittenFiles}
                     />
                   </StyledMainTabList>
                   {isDeleteAndRestartButton(
@@ -535,7 +535,6 @@ const answerFrames = (
                   setSubmission={setSubmission}
                   handleExtractText={handleExtractText}
                   pageMode={pageMode}
-                  isConvertingFile={isConvertingFile}
                 />
               </StyledTabPanel>
             </TabContextComponent>

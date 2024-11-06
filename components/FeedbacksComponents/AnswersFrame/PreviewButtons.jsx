@@ -7,7 +7,7 @@ import arrowLeft from '../../../static/img/arrowleftgray.svg';
 const PreviewButtons = ({
   handleGoBack,
   handleConvertToText,
-  isConvertingFile,
+  isUpdatingHandWrittenFiles,
 }) => {
   return (
     <ButtonsContainer>
@@ -15,9 +15,9 @@ const PreviewButtons = ({
         text={'Go back'}
         leftIcon={arrowLeft}
         onclick={() => handleGoBack()}
-        isDisabled={isConvertingFile}
+        isDisabled={isUpdatingHandWrittenFiles}
       />
-      {isConvertingFile ? (
+      {isUpdatingHandWrittenFiles ? (
         <ConvertingText>
             File is uploading
             <div className="dots">

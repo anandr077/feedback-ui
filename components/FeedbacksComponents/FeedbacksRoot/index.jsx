@@ -125,6 +125,7 @@ export default function FeedbacksRoot() {
   React.useState(false);
   const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(null);
   const [currentCommentBank, setCurrentCommentBank] = useState(null);
+  const [isUpdatingHandWrittenFiles, setIsUpdatingHandWrittenFiles] = useState(false);
 
   const {
     data: submissionByIdData,
@@ -1760,6 +1761,8 @@ export default function FeedbacksRoot() {
         setFeedbackBanksPopUp,
         isJeddAIEnabled,
         allMarkingCriterias:markingCriterias,
+        isUpdatingHandWrittenFiles, 
+        setIsUpdatingHandWrittenFiles
       }}
     >
       {showSubmitPopup &&

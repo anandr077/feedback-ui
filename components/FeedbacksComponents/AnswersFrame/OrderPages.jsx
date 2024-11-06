@@ -28,7 +28,6 @@ import {
   CancelButtonText,
   CancelIcon,
   DeleteIcon,
-  FileName,
   MagnifyingIcon,
   ImageContainer,
   ImagesContainer,
@@ -79,11 +78,6 @@ const DraggableImage = ({
     cursor: isDragging ? 'grabbing' : 'grab',
   };
 
-  const fileName = image?.file?.name 
-  ? image.file.name.split('.')[0] 
-  : image?.name?.split('.')[0] || '';
-  
-
   return (
     <ImageContainer
       ref={setNodeRef}
@@ -91,9 +85,6 @@ const DraggableImage = ({
       {...attributes}
       {...listeners}
     >
-      <FileName>
-        {fileName?.length > 10 ? fileName.slice(0, 10) + '...' : fileName}
-      </FileName>
       <DeleteIcon
         src={Redcross}
         onPointerDown={(e) => {
@@ -135,7 +126,7 @@ function OrderPages({
   deleteSelectedFile,
   handleAllUrls,
   handlePreviewdFile,
-  isUploadingFiles,
+  isUpdatingHandWrittenFiles,
 }) {
   const sensors = useSensors(useSensor(MouseSensor));
   const handleDragEnd = (event) => {
@@ -192,7 +183,7 @@ function OrderPages({
             <RoundedBorderSubmitBtn
               text={'Continue'}
               onClickFn={() => handleAllUrls()}
-              isDisabled={isUploadingFiles}
+              isDisabled={isUpdatingHandWrittenFiles}
             />
           )}
         </CancelAndContinueButtonsContainer>

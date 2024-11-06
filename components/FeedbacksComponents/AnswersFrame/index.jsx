@@ -298,7 +298,7 @@ const answerFrames = (
   handleCommentBankPreview,
   handleMarkingCriteriaPreview
 ) => {
-  const { isUpdatingHandWrittenFiles, setIsUpdatingHandWrittenFiles } = React.useContext(FeedbackContext);
+  const { isUpdatingHandWrittenFiles, setIsUpdatingHandWrittenFiles, isResetEditorTextSelection } = React.useContext(FeedbackContext);
   const [questionSlide, setQuestionSlide] = React.useState(true);
   const [inputValue, setInputValue] = React.useState('Type your question');
   const inputRef = React.useRef(null);
@@ -383,6 +383,7 @@ const answerFrames = (
   }, [answer?.answer]);
 
   const handleMainChange = (event, newValue) => {
+    isResetEditorTextSelection()
     setMainTab(newValue);
   };
 

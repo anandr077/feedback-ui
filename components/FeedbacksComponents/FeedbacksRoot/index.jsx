@@ -473,6 +473,7 @@ export default function FeedbacksRoot() {
       }
     });
   }
+  console.log('selectedRange selectedRange', selectedRange)
 
   function handleShortcutAddCommentSmartAnnotaion(commentText) {
     addFeedback(submissionByIdData.id, {

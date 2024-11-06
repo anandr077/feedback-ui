@@ -7,7 +7,7 @@ import {
   TitleConatiner,
   TitleMain,
 } from './HeaderStyle';
-import { isTeacher } from './rules';
+import { isTeacher, isTeacherWithoutClass } from './rules';
 import React from 'react';
 import arrowRightMini from '../../static/img/arrowRightMini.svg';
 import QuestionTooltip from '../../components2/QuestionTooltip';
@@ -16,7 +16,6 @@ import { headerMainTitle } from './headerMainTitle';
 import { getFirstFourWords } from '../../utils/strings';
 import { useClassData } from '../state/hooks';
 import Loader from '../Loader';
-import { isTeacherWithoutClass } from '../../rules';
 const role = getUserRole();
 
 
@@ -126,12 +125,6 @@ function HeaderTitle({ breadcrumbs }) {
       title: 'Comment Banks',
       teacherTooltip:
         "A customisable bank of comments to provide faster feedback when making a student's work",
-    },
-    {
-      link: '/jeddai',
-      title: 'JeddAI',
-      teacherTooltip:
-        "Control who can access JeddAI",
     },
     {
       link: '/documents/',

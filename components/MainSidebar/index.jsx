@@ -20,11 +20,11 @@ import {
   isNonSchoolStudent,
   isShowSetting,
   isClassItems,
+  isTeacherWithoutClass,
   checkIsActive,
 } from './rules';
 import { useAllDocuments, useClassData } from '../state/hooks';
 import Loader from '../Loader';
-import { isTeacherWithoutClass } from '../../rules';
 
 const MainSidebar = () => {
   const history = useHistory();

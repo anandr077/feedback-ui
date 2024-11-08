@@ -58,9 +58,7 @@ function loginUsing(code) {
       }
       setProfileCookies(result);
       window.location.href = '/#/';
-    })
-    .catch((e) => {
-      window.location.href = 'https://jeddle.com/jedd-ai/';
+      // history.push('/#');
     });
 }
 export default withAuth;

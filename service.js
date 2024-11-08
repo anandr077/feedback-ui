@@ -1,6 +1,5 @@
 import { deleteProfileCookies, getUserRole } from './userLocalDetails';
 import { getLocalStorage } from './utils/function';
-import { datadogRum } from '@datadog/browser-rum';
 
 // const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "https://feedbacks-backend-leso2wocda-ts.a.run.app";
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
@@ -13,66 +12,90 @@ const clientId =
 const env =
   process.env.REACT_APP_ENV ?? 'dev';
 
-let isLoggedOut = false;
+export let isLoggedOut = false;
 let isRedirecting = false;
 const COOLDOWN_PERIOD = 10000;
 
-export const ddRum = () => {
 
-  datadogRum.init({
-      applicationId: 'c060e39a-fe15-41c6-b580-158c4d290665',
-      clientToken: 'pub5367c2844dea48390397f6cf72864575',
-      site: 'us5.datadoghq.com',
-      service: 'gojeddle',
-      env: env,
-      sessionSampleRate: 100,
-      sessionReplaySampleRate: 20,
-      trackUserInteractions: true,
-      trackResources: true,
-      trackLongTasks: true,
-      defaultPrivacyLevel: 'mask-user-input',
-  });
-}
+
 async function fetchData(url, options = {}, headers = {}) {
-  const defaultHeaders = new Headers();
   const token = localStorage.getItem('jwtToken');
 
-  if (!token) {
-    if (isLoggedOut) {
-      return;
-    }
-    return handleRedirect();
-  }
-
-  defaultHeaders.append('Authorization', `Bearer ${token}`);
-  const mergedHeaders = Object.assign(defaultHeaders, headers);
+  const createHeaders = () => {
+    return {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }),
+      ...headers,
+    };
+  };
 
   try {
     const response = await fetch(url, {
       ...options,
-      withCredentials: true,
-      credentials: 'include',
-      headers: mergedHeaders,
+      headers: createHeaders(),
+    });
+
+
+    if (!response.ok) {
+      console.error('API request failed:', response);
+      if (response.status === 401) {
+        // Handle unauthorized access (e.g., token expired)
+        localStorage.clear();
+        window.location.href = '/';
+      }
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'API request failed');
+    }
+
+    // Parse JSON response
+    return response.json();
+  } catch (error) {
+    console.error('Fetch error:', error);
+    throw error; // Ensure the error propagates to React Query's onError handling
+  }
+}
+
+async function modifyData(url, options = {}) {
+  const token = localStorage.getItem('jwtToken');
+
+  const createHeaders = () => {
+    return {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }),
+      // Include any headers passed in options
+      ...options.headers,
+    };
+  };
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers: createHeaders(),
     });
 
     if (!response.ok) {
-      const error = new Error(`HTTP error! status: ${response.status}`);
-      error.status = response.status;
-      throw error;
+      console.error('API request failed:', response);
+
+      if (response.status === 401) {
+        // Handle unauthorized access (e.g., token expired)
+        localStorage.clear();
+        window.location.href = '/';
+        return;
+      } else if (response.status === 404) {
+        throw new Error('Page not found');
+      } else if (response.status === 500) {
+        throw new Error('Server error');
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Error occurred: ${response.status}`);
+      }
     }
 
-    const isJson =
-      response.headers.get('content-type')?.includes('application/json') ||
-      response.headers.get('content-type')?.includes('application/hal+json');
-    const data = isJson ? await response.json() : null;
-
-    // if (data === null) {
-    //   const error = new Error('Page not found');
-    //   error.status = 404;
-    //   throw error;
-    // }
-
-    return data;
+    // Parse JSON response
+    const isJson = response.headers
+      .get('content-type')
+      ?.includes('application/json');
+    return isJson ? await response.json() : null;
   } catch (error) {
     console.error('Fetch error:', error);
     throw error; // Ensure the error propagates to React Query's onError handling
@@ -80,36 +103,7 @@ async function fetchData(url, options = {}, headers = {}) {
 }
 
 
-async function modifyData(url, options = {}) {
-  const response = await fetch(url, {
-    ...options,
-    withCredentials: true,
-    credentials: 'include',
-  });
 
-  if (response.status === 401) {
-    return handleRedirect();
-  }
-  if (response.status === 404) {
-    throw new Error('Page not found');
-  }
-  if (response.status === 404) {
-    throw new Error('Page not found');
-  } else if (response.status === 500) {
-    throw new Error('Server error');
-  } else if (!response.ok) {
-    const errorData = await response.json();
-    throw {
-      message: errorData.message || `Error occurred: ${response.status}`,
-      ...errorData,
-    };
-  }
-
-  const isJson = response.headers
-    .get('content-type')
-    ?.includes('application/json');
-  return isJson ? await response.json() : null;
-}
 const fetchApi = async (url, options, headers) => {
   return fetchData(url, options, headers);
 };
@@ -281,11 +275,6 @@ export const updateFeedback = async (submissionId, commentId, comment) =>
     comment
   );
 
-export const docsMoveToFolder = async (submissionId, classId, folderId) =>
-  await patchApi(baseUrl + '/submissions/' + submissionId + '/moveToFolder', {
-    classId: classId,
-    folderId: folderId,
-  });
 export const resolveFeedback = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/comment/' + feedbackId + '/resolve');
 
@@ -514,6 +503,7 @@ export const createRequestFeddbackType = async (
   );
 function logoutLocal() {
   isLoggedOut = true;
+  localStorage.clear();
   deleteProfileCookies();
   localStorage.removeItem('jwtToken');
   localStorage.removeItem('onboardingShown');
@@ -531,57 +521,59 @@ export function redirectToExternalIDP() {
       selfBaseUrl + '?redirect_at=' + Date.now();
     window.location.href = externalIDPLoginUrl;
 }
+export const exchangeCodeForToken = (code) =>
+  fetchData(baseUrl+`/users/exchange/${code}`);
 
-export const exchangeCodeForToken = async (code) => {
-  const url = `${baseUrl}/users/exchange/${code}`;
-  const defaultHeaders = new Headers();
-  const token = localStorage.getItem('jwtToken');
+// export const exchangeCodeForToken = async (code) => {
+//   const url = `${baseUrl}/users/exchange/${code}`;
+//   const defaultHeaders = new Headers();
+//   const token = localStorage.getItem('jwtToken');
 
-  if (token) {
-    return token;
-  }
+//   if (token) {
+//     return token;
+//   }
 
-  const options = {};
-  const headers = {};
+//   const options = {};
+//   const headers = {};
 
-  const mergedHeaders = Object.assign(defaultHeaders, headers);
+//   const mergedHeaders = Object.assign(defaultHeaders, headers);
 
-  try {
-    const response = await fetch(url, {
-      ...options,
-      withCredentials: true,
-      credentials: 'include',
-      headers: mergedHeaders,
-    });
-    if (response.status === 401) {
-      setTimeout(() => {
-        handleRedirect();
-      }, 1000);
-    }
-    if (response.status === 404 || response.status === 500) {
-      // window.location.href = selfBaseUrl + '/#/404';
-      // window.location.reload();
-      throw new Error('Page not found');
-    } else if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+//   try {
+//     const response = await fetch(url, {
+//       ...options,
+//       withCredentials: true,
+//       credentials: 'include',
+//       headers: mergedHeaders,
+//     });
+//     if (response.status === 401) {
+//       setTimeout(() => {
+//         handleRedirect();
+//       }, 1000);
+//     }
+//     if (response.status === 404 || response.status === 500) {
+//       // window.location.href = selfBaseUrl + '/#/404';
+//       // window.location.reload();
+//       throw new Error('Page not found');
+//     } else if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
 
-    const isJson =
-      response.headers.get('content-type')?.includes('application/json') ||
-      response.headers.get('content-type')?.includes('application/hal+json');
-    const data = isJson ? await response.json() : null;
+//     const isJson =
+//       response.headers.get('content-type')?.includes('application/json') ||
+//       response.headers.get('content-type')?.includes('application/hal+json');
+//     const data = isJson ? await response.json() : null;
 
-    if (data === null) {
-      // window.location.href = selfBaseUrl + '/#/404';
-      // window.location.reload();
-      // throw new Error('Page not found');
-    }
-    return data;
-  } catch (error) {
-    console.error("Error", error);
-    throw new Error(`An error occurred while fetching data: ${error.message}`);
-  }
-};
+//     if (data === null) {
+//       // window.location.href = selfBaseUrl + '/#/404';
+//       // window.location.reload();
+//       // throw new Error('Page not found');
+//     }
+//     return data;
+//   } catch (error) {
+//     console.error("Error", error);
+//     throw new Error(`An error occurred while fetching data: ${error.message}`);
+//   }
+// };
 
 export const getShortcuts = () => {
   const shortcuts = [
@@ -722,3 +714,4 @@ export function handleRedirect() {
   redirectToExternalIDP();
 
 }
+

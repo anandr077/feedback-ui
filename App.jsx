@@ -66,21 +66,22 @@ function App() {
   const ProtectedCommentbanks = middleware(CommentBanks);
   const ProtectedJeddAI = middleware(JeddAI);
 
-  const portfolioClient = new QueryClient(
-    defaultOptions= {
+  const portfolioClient = new QueryClient({
+    defaultOptions: {
       queries: {
         retry: (failureCount, error) => {
-          // Stop retries if status is 401
-          return !(error.status === 401);
+          console.log('retry error', error);
+          return !(error.status === 401);  // Stop retries if status is 401
         },
         onError: (error) => {
+          console.log('error', error);
           if (error.status === 401) {
             handleRedirect();
           }
         },
       },
     },
-  );
+  });
 
   ddRum();
 

@@ -1,4 +1,4 @@
-import { deleteProfileCookies } from './userLocalDetails';
+import { deleteProfileCookies, getUserRole } from './userLocalDetails';
 import { getLocalStorage } from './utils/function';
 import { datadogRum } from '@datadog/browser-rum';
 
@@ -9,12 +9,13 @@ const jeddleBaseUrl =
 const selfBaseUrl =
   process.env.REACT_APP_SELF_BASE_URL ?? 'http://localhost:1234';
 const clientId =
-  process.env.REACT_APP_CLIENT_ID ?? 'glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr';
+  process.env.REACT_APP_CLIENT_ID ?? 'KjdJNoiRHNrJIxDvvGRDsQwKImCQKBdF';
 const env =
   process.env.REACT_APP_ENV ?? 'dev';
 
+let isLoggedOut = false;
 let isRedirecting = false;
-const COOLDOWN_PERIOD = 20000;
+const COOLDOWN_PERIOD = 10000;
 
 export const ddRum = () => {
 
@@ -37,7 +38,10 @@ async function fetchData(url, options = {}, headers = {}) {
   const token = localStorage.getItem('jwtToken');
 
   if (!token) {
-    throw new Error('Unauthorized'); // Handle unauthorized access
+    if (isLoggedOut) {
+      return;
+    }
+    return handleRedirect();
   }
 
   defaultHeaders.append('Authorization', `Bearer ${token}`);
@@ -62,11 +66,11 @@ async function fetchData(url, options = {}, headers = {}) {
       response.headers.get('content-type')?.includes('application/hal+json');
     const data = isJson ? await response.json() : null;
 
-    if (data === null) {
-      const error = new Error('Page not found');
-      error.status = 404;
-      throw error;
-    }
+    // if (data === null) {
+    //   const error = new Error('Page not found');
+    //   error.status = 404;
+    //   throw error;
+    // }
 
     return data;
   } catch (error) {
@@ -196,9 +200,6 @@ export const downloadSubmission = async (submissionId) => {
   }
 };
 
-export const getCommentBanks = async () => {
-  return getApi(baseUrl + '/commentbanks?projection=commentBanksProjection');
-};
 export const deleteFeedback = async (submissionId, commentId) => {
   return deleteApi(
     baseUrl + '/submissions/' + submissionId + '/feedbacks/' + commentId
@@ -212,7 +213,7 @@ export const deleteFocusArea = async (focusAreaID) => {
 export const logout = async () => {
   logoutLocal();
 
-  const logoutUrl = `${jeddleBaseUrl}/wp-login.php?action=logout&redirect_to=${selfBaseUrl}?logged_out=true`;
+  const logoutUrl = `${jeddleBaseUrl}/wp-login.php?action=logout`;
   window.location.href = logoutUrl;
 };
 
@@ -512,6 +513,7 @@ export const createRequestFeddbackType = async (
     requestFeddbackType
   );
 function logoutLocal() {
+  isLoggedOut = true;
   deleteProfileCookies();
   localStorage.removeItem('jwtToken');
   localStorage.removeItem('onboardingShown');
@@ -526,7 +528,7 @@ export function redirectToExternalIDP() {
       '&state=' +
       Date.now() +
       '&redirect_uri=' +
-      selfBaseUrl;
+      selfBaseUrl + '?redirect_at=' + Date.now();
     window.location.href = externalIDPLoginUrl;
 }
 
@@ -557,7 +559,7 @@ export const exchangeCodeForToken = async (code) => {
       }, 1000);
     }
     if (response.status === 404 || response.status === 500) {
-      window.location.href = selfBaseUrl + '/#/404';
+      // window.location.href = selfBaseUrl + '/#/404';
       // window.location.reload();
       throw new Error('Page not found');
     } else if (!response.ok) {
@@ -570,13 +572,13 @@ export const exchangeCodeForToken = async (code) => {
     const data = isJson ? await response.json() : null;
 
     if (data === null) {
-      window.location.href = selfBaseUrl + '/#/404';
+      // window.location.href = selfBaseUrl + '/#/404';
       // window.location.reload();
-      throw new Error('Page not found');
+      // throw new Error('Page not found');
     }
     return data;
   } catch (error) {
-    console.error(error);
+    console.error("Error", error);
     throw new Error(`An error occurred while fetching data: ${error.message}`);
   }
 };
@@ -700,10 +702,15 @@ export const getProfile = async () => await getApi(baseUrl + '/users/profile');
 export function handleRedirect() {
   const urlParams = new URLSearchParams(window.location.search);
   const isLoggedOut = urlParams.get('logged_out'); // Check if the user was just logged out
+  const lastRedirect = urlParams.get('redirect_at'); // Check if the user was just logged out
 
   if (isLoggedOut) {
     console.log('Skipping redirect after logout.');
     return; // Prevent further redirects due to logout
+  }
+  if (new Date().getTime() - lastRedirect < COOLDOWN_PERIOD) {
+    console.log('Skipping redirect due to cooldown.');
+    return; // Prevent further redirects due to cooldown
   }
 
   if (isRedirecting) {

@@ -26,7 +26,6 @@ import { getUserName, getUserRole, setProfileCookies } from './userLocalDetails'
 import GiveFeedback from './components/GiveFeedback';
 import MainPage from './components/MainPage';
 import NewDocPage from './components/NewDocRoot';
-import withOnboarding from './components/WithOnboarding';
 import MainSidebar from './components/MainSidebar';
 import CommentBanks from './components/CommentBanks';
 import { ToastContainer } from 'react-toastify';
@@ -35,16 +34,21 @@ import { isMobileView } from './components/ReactiveRender';
 import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
 import JeddAI from './components/JeddAI';
 import VisibilityWrapper from './components2/VisibilityWrapper/VisibilityWrapper';
-import { exchangeCodeForToken, handleRedirect, isLoggedOut } from './service';
+import { exchangeCodeForToken, isLoggedOut } from './service';
 import Dashboard from './components/Dashboard';
 import Tasks from './components/Tasks';
 import queryString from 'query-string';
 import { ddRum } from './dd';
+import { getLocalStorage } from './utils/function';
+import OnboardingScreen from './components2/Onboard/OnboardingScreen';
+import Loader from './components/Loader';
 
 function App() {
 
   const exchangeInProgress = useRef(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
   useEffect(() => {
     if (isLoggedOut) {
       return;
@@ -81,7 +85,22 @@ function App() {
       setIsAuthenticated(true);
     }
   }, []);
+  useEffect(() => {
+    if (isAuthenticated) {
+      const defaultShowOnboarding =
+        getUserRole() === 'STUDENT' &&
+        (getLocalStorage('state') === undefined || getLocalStorage('state') === null) &&
+        !localStorage.getItem('onboardingShown');
 
+      if (defaultShowOnboarding) {
+        setShowOnboarding(true);
+        localStorage.setItem('onboardingShown', true);
+      }
+    }
+  }, [isAuthenticated]);
+  const closeOnboarding = () => {
+    setShowOnboarding(false);
+  };
   const externalIDPUrl = () => {
     const selfBaseUrl =
       process.env.REACT_APP_SELF_BASE_URL ?? 'http://localhost:1234';
@@ -102,7 +121,7 @@ function App() {
 
 
   if (!isAuthenticated) {
-    return <div>Authenticating...</div>;
+    return <Loader />;
   }
   const role = getUserRole();
   const userName = getUserName();
@@ -152,8 +171,13 @@ function App() {
     <>
       <QueryClientProvider client={client}>
         <Router>
+          
           <div className="app-container">
+
             <MainSidebar />
+            {showOnboarding && (
+              <OnboardingScreen editStateYear={false} onClose={closeOnboarding} />
+            )}
             <VisibilityWrapper>
               {mobileView ? (
                 <WelcomeOverlayMobile />

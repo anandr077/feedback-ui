@@ -509,71 +509,8 @@ function logoutLocal() {
   localStorage.removeItem('onboardingShown');
 }
 
-export function redirectToExternalIDP() {
-    logoutLocal();
-    const externalIDPLoginUrl =
-      jeddleBaseUrl +
-      '/wp-json/moserver/authorize?response_type=code&client_id=' +
-      clientId +
-      '&state=' +
-      Date.now() +
-      '&redirect_uri=' +
-      selfBaseUrl + '?redirect_at=' + Date.now();
-    window.location.href = externalIDPLoginUrl;
-}
 export const exchangeCodeForToken = (code) =>
   fetchData(baseUrl+`/users/exchange/${code}`);
-
-// export const exchangeCodeForToken = async (code) => {
-//   const url = `${baseUrl}/users/exchange/${code}`;
-//   const defaultHeaders = new Headers();
-//   const token = localStorage.getItem('jwtToken');
-
-//   if (token) {
-//     return token;
-//   }
-
-//   const options = {};
-//   const headers = {};
-
-//   const mergedHeaders = Object.assign(defaultHeaders, headers);
-
-//   try {
-//     const response = await fetch(url, {
-//       ...options,
-//       withCredentials: true,
-//       credentials: 'include',
-//       headers: mergedHeaders,
-//     });
-//     if (response.status === 401) {
-//       setTimeout(() => {
-//         handleRedirect();
-//       }, 1000);
-//     }
-//     if (response.status === 404 || response.status === 500) {
-//       // window.location.href = selfBaseUrl + '/#/404';
-//       // window.location.reload();
-//       throw new Error('Page not found');
-//     } else if (!response.ok) {
-//       throw new Error(`HTTP error! status: ${response.status}`);
-//     }
-
-//     const isJson =
-//       response.headers.get('content-type')?.includes('application/json') ||
-//       response.headers.get('content-type')?.includes('application/hal+json');
-//     const data = isJson ? await response.json() : null;
-
-//     if (data === null) {
-//       // window.location.href = selfBaseUrl + '/#/404';
-//       // window.location.reload();
-//       // throw new Error('Page not found');
-//     }
-//     return data;
-//   } catch (error) {
-//     console.error("Error", error);
-//     throw new Error(`An error occurred while fetching data: ${error.message}`);
-//   }
-// };
 
 export const getShortcuts = () => {
   const shortcuts = [
@@ -690,28 +627,4 @@ export const getAllTypes = [
 ];
 
 export const getProfile = async () => await getApi(baseUrl + '/users/profile');
-
-export function handleRedirect() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const isLoggedOut = urlParams.get('logged_out'); // Check if the user was just logged out
-  const lastRedirect = urlParams.get('redirect_at'); // Check if the user was just logged out
-
-  if (isLoggedOut) {
-    console.log('Skipping redirect after logout.');
-    return; // Prevent further redirects due to logout
-  }
-  if (new Date().getTime() - lastRedirect < COOLDOWN_PERIOD) {
-    console.log('Skipping redirect due to cooldown.');
-    return; // Prevent further redirects due to cooldown
-  }
-
-  if (isRedirecting) {
-    console.log('Redirect in progress. Skipping.');
-    return; // Avoid concurrent redirects
-  }
-
-  isRedirecting = true; // Set the flag
-  redirectToExternalIDP();
-
-}
 

@@ -1075,7 +1075,7 @@ export default function FeedbacksRoot() {
       resetAllSubmissions();
       resetCommentBanksData();
       if (isTeacher) {
-        history.push(nextUrl === '/' ? '/#' : nextUrl);
+        window.location.href = nextUrl === '/' ? '/#' : nextUrl;
       } else {
         history.push('/#');
       }

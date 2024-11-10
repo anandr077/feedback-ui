@@ -19,7 +19,7 @@ const PreviewButtons = ({
       />
       {isUpdatingHandWrittenFiles ? (
         <ConvertingText>
-            File is uploading
+            Converting
             <div className="dots">
               <span></span><span></span><span></span>
             </div>

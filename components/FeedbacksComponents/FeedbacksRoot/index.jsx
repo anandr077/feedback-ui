@@ -69,8 +69,7 @@ import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
 import { allCriteriaHaveSelectedLevels } from './rules.js';
-import { useAllSubmisssionsById, useClassData, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useMarkingCriterias, useOtherDraftsById, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
-import { useAllDocuments, useAllSubmisssionsById, useClassData, useClassSettingById, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import { useAllDocuments, useAllSubmisssionsById, useMarkingCriterias, useClassData, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 import JeddAIFeedbackTypeSelection from '../JeddAIFeedbackTypeSelection/index.jsx';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard.jsx';
 import CommentBankDialog from '../../Shared/Dialogs/commentBank/index.js';
@@ -122,10 +121,11 @@ export default function FeedbacksRoot() {
   const [showJeddAIFeedbackTypeSelectionPopUp, setShowJeddAIFeedbackTypeSelectionPopUp] = useState(false);
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
   React.useState(false);
-const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] =
+  const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] =
   React.useState(false);
-const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(null);
-const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
+  const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(null);
+  const [currentCommentBank, setCurrentCommentBank] = useState(null);
+  const [isUpdatingHandWrittenFiles, setIsUpdatingHandWrittenFiles] = useState(false);
 
   const {
     data: submissionByIdData,
@@ -473,6 +473,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
       }
     });
   }
+  console.log('selectedRange selectedRange', selectedRange)
 
   function handleShortcutAddCommentSmartAnnotaion(commentText) {
     addFeedback(submissionByIdData.id, {
@@ -1074,7 +1075,7 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
       resetAllSubmissions();
       resetCommentBanksData();
       if (isTeacher) {
-        history.push(nextUrl === '/' ? '/#' : nextUrl);
+        window.location.href = nextUrl === '/' ? '/#' : nextUrl;
       } else {
         history.push('/#');
       }
@@ -1761,6 +1762,8 @@ const [currentCommentBank, setCurrentCommentBank] = React.useState(null);
         setFeedbackBanksPopUp,
         isJeddAIEnabled,
         allMarkingCriterias:markingCriterias,
+        isUpdatingHandWrittenFiles, 
+        setIsUpdatingHandWrittenFiles
       }}
     >
       {showSubmitPopup &&

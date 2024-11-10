@@ -49,10 +49,6 @@ export default function StudentTaskRoot() {
    const [isShowMenu, setShowMenu] = React.useState(false);
    const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
 
-   if(isLoadingclassData){
-    return <Loader />
-   }
-
    const tabletView = isTabletView();
 
   const tasksQuery = useQuery({
@@ -88,7 +84,7 @@ export default function StudentTaskRoot() {
     }
   };
 
-  if (tasksQuery.isLoading || studentClassesQuery.isLoading) {
+  if (tasksQuery.isLoading || studentClassesQuery.isLoading || isLoadingclassData) {
     return (
       <>
         <Loader />

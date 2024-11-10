@@ -617,6 +617,7 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
   });
 
 
+
 export const getAllSubjects = [{ title: 'English' }];
 export const getAllTypes = [
   { title: 'Analytical' },
@@ -626,5 +627,42 @@ export const getAllTypes = [
   { title: 'Reflective' },
 ];
 
+
+export const uploadFileToServer = async (uploadedFile) => {
+  const formData = new FormData();
+  formData.append('file', uploadedFile);
+
+  const token = localStorage.getItem('jwtToken');
+  try {
+    const response = await fetch(`${baseUrl}/files/upload`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+      body: formData,
+    });
+
+    const responseText = await response.text(); 
+
+    if (!response.ok) {
+      throw new Error(responseText); 
+    }
+    return responseText;
+  } catch (error) {
+    if (error instanceof TypeError) {
+      console.error('Network error:', error);
+    } else {
+      console.error('Server error:', error);
+    }
+  }
+};
+
+export const updateHandWrittenDocumentById = async (submissionId, serialNumber, documentUrls) =>
+  await patchApi(
+    baseUrl + '/submissions/' + submissionId + '/answers/' + serialNumber + "/files", documentUrls
+  )
+
+export const extractText = async (id, serialNumber) =>
+  await patchApi(baseUrl + "/submissions/" + id + "/answers/" + serialNumber + "/extractText")
 export const getProfile = async () => await getApi(baseUrl + '/users/profile');
 

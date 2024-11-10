@@ -78,6 +78,8 @@ export const RightSection = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+  pointer-events: ${props => props.isDisabled ? 'none' : 'auto'};
+  opacity: ${props => props.isDisabled ? 0.5 : 1};
 `;
 
 export const ArrowBtn = styled.div`

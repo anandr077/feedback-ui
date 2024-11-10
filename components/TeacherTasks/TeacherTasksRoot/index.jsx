@@ -79,9 +79,7 @@ export default function TeacherTaskRoot() {
   const mobileView = isMobileView();
   const tabletView = isTabletView();
 
-  if(isLoadingclassData){
-    return <Loader />
-  }
+
 
   const assignmentsQuery = useQuery({
     queryKey: ['assignments'],
@@ -151,7 +149,8 @@ export default function TeacherTaskRoot() {
   if (
     assignmentsQuery.isLoading ||
     teacherClassesQuery.isLoading ||
-    documentReviewTasksQuery.isLoading
+    documentReviewTasksQuery.isLoading ||
+    isLoadingclassData
   ) {
     return (
       <>

@@ -40,7 +40,7 @@ import {
 } from './style';
 import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
 import { v4 as uuidv4 } from 'uuid';
-import PdfIcon from '../../../static/img/pdf_logo.svg';
+import PdfIcon from '../../../static/img/no-image.svg';
 import { isContinueButtonAccessible } from './rules';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';

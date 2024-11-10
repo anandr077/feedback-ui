@@ -139,10 +139,13 @@ function GiveFeedback() {
     if (studentStatsData) {
       setStudentStats(studentStatsData);
     }
+    resetCommunityTasksData()
+    resetGiveFeedbackCompletedTasksData()
   }, [
     communityTasksData,
     giveFeedbackCompletedTasksData,
     studentStatsData,
+    location
   ]);
 
   let statesData = ['NSW', 'VIC', 'QLD', 'NT', 'SA', 'TAS', 'WA'];

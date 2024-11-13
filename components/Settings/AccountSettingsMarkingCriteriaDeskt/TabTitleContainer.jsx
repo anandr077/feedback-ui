@@ -4,6 +4,7 @@ import Copy from '../../../static/img/Copy.svg';
 import TabsDelete from '../../../static/img/tabs-delete.svg';
 import DownLoadCommentBankIcon from '../../../static/img/Download.svg';
 import { BankTitleeditTitle, TabContainer, TabTitle, TabsImage } from './style';
+import QuestionTooltip from '../../../components2/QuestionTooltip';
 
 function TabTitleContainer({
   bank,
@@ -47,29 +48,26 @@ function TabTitleContainer({
 
             {showIcon && (
               <>
-                {(
-                  <TabsImage
-                    onClick={() => setEditingTitle(true)}
-                    src={Rename}
-                  />
-                )}
-                <TabsImage
-                  onClick={() => createCloneFeedbankBank(bank.id)}
-                  src={Copy}
+                <QuestionTooltip
+                  text={'Rename'}
+                  img={Rename}
+                  onClickFn={() => setEditingTitle(bank.id)}
                 />
-
-                {(
-                  <TabsImage
-                    onClick={() => deteteFeedbackBank(bank.id)}
-                    src={TabsDelete}
-                  />
-                )}
-                {(
-                  <TabsImage
-                    onClick={() => downloadCommentBankData(bank.id)}
-                    src={DownLoadCommentBankIcon}
-                  />
-                )}
+                <QuestionTooltip
+                  text={'Copy'}
+                  img={Copy}
+                  onClickFn={() => createCloneFeedbankBank(bank.id)}
+                />
+                <QuestionTooltip
+                  text={'Delete'}
+                  img={TabsDelete}
+                  onClickFn={() => deteteFeedbackBank(bank.id)}
+                />
+                <QuestionTooltip
+                  text={'Download'}
+                  img={DownLoadCommentBankIcon}
+                  onClickFn={() => downloadCommentBankData(bank.id)}
+                />
               </>
             )}
           </>

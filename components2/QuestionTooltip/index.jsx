@@ -5,10 +5,10 @@ import {
 } from './style'
 import { Tooltip } from '@mui/material'
 
-const QuestionTooltip = ({text, img}) => {
+const QuestionTooltip = ({text, img, onClickFn = () => {}}) => {
 
   return (
-    <TooltipContainer>
+    <TooltipContainer onClick={onClickFn}>
         <Tooltip title={text} placement={"top"}>
           <TitleImage src={img} />
         </Tooltip>

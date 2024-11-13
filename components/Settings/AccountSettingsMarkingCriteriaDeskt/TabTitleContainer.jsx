@@ -64,7 +64,7 @@ function TabTitleContainer({
                   onClickFn={() => deteteFeedbackBank(bank.id)}
                 />
                 <QuestionTooltip
-                  text={'Download'}
+                  text={'Export'}
                   img={DownLoadCommentBankIcon}
                   onClickFn={() => downloadCommentBankData(bank.id)}
                 />

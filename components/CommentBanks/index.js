@@ -3,6 +3,9 @@ import {
   BankCommentTitle,
   ButtonConatiner,
   ButtonText,
+  CardContainer,
+  ImportFileLabel,
+  ImportFile,
   Card,
   CardImg,
   CardImgCont,
@@ -52,7 +55,6 @@ import {
   updateSmartAnnotation,
 } from '../../service';
 import Loader from '../Loader';
-import QuestionTooltip from '../../components2/QuestionTooltip';
 import EmptyBankIcon from '../../static/img/emptyBank.svg';
 import Plus from '../../static/img/Plus.svg';
 import Pluslight from '../../static/img/Pluslight.svg';
@@ -69,6 +71,7 @@ import { isTabletView } from '../ReactiveRender';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
 import MenuButton from '../MenuButton';
 import { useCommentBanks } from '../state/hooks';
+import CommentBankDialog from '../Shared/Dialogs/commentBank';
 
 const CommentBanks = () => {
   const [smartAnnotations, setSmartAnnotations] = useState();
@@ -79,7 +82,9 @@ const CommentBanks = () => {
   const [feedbackBankCreated, setFeedbackBankCreated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] = useState(0);
-  const [isShowMenu, setShowMenu] = React.useState(false);
+  const [isShowMenu, setShowMenu] = useState(false);
+  const [isShowExportCommentBank, setIsShowExportCommentBank] = useState(false);
+  const [importedCommentBank, setImportedCommentBank] = useState({})
   const tabletView = isTabletView();
   const selectedRef = useRef(null);
 
@@ -160,7 +165,7 @@ const {
       });
   };
 
-  const createFeedbackBank = () => {
+  const createFeedbackBank = (feedbackBank = undefined) => {
     const newBank = {
       title: 'Untitled feedback bank',
       smartComments: [
@@ -175,7 +180,7 @@ const {
       ],
     };
 
-    createNewFeedbackBank(newBank)
+    createNewFeedbackBank(feedbackBank || newBank)
       .then((response) => {
         resetData();
         setShowNewBankPopUp(false);
@@ -388,6 +393,34 @@ const {
     URL.revokeObjectURL(url);
   }
 
+  const handleCommentBankImport = (event) =>{
+    const file = event.target.files[0];
+    
+    if (file && file.type === "application/json") {
+      const reader = new FileReader();
+  
+      reader.onload = (e) => {
+        try {
+          const jsonData = JSON.parse(e.target.result);
+          console.log("JSON Content:", jsonData);
+          setImportedCommentBank(jsonData)
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+      };
+  
+      reader.onerror = (error) => {
+        console.error("File reading error:", error);
+      };
+  
+      reader.readAsText(file);
+      setShowNewBankPopUp(false)
+      setIsShowExportCommentBank(true)
+    } else {
+      toast(<Toast message={'Please upload a valid comment bank file.'}/>);
+    }
+  }
+
   if (isLoading) {
     return (
       <>
@@ -421,12 +454,21 @@ const {
           </PopupTitleContainer>
           <PopupDialogContentBox>
             <PopupDialogContentBoxLeft>
-              <Card onClick={() => createFeedbackBank()}>
-                <CardImgCont>
-                  <CardImg src={PlusBlue} />
-                </CardImgCont>
-                <CardTitle>Create Your Own</CardTitle>
-              </Card>
+              <CardContainer>
+                <Card onClick={() => createFeedbackBank()}>
+                  <CardImgCont>
+                    <CardImg src={PlusBlue} />
+                  </CardImgCont>
+                  <CardTitle>Create Your Own</CardTitle>
+                </Card>
+                <ImportFileLabel>
+                  <CardImgCont>
+                    <CardImg src={PlusBlue} />
+                  </CardImgCont>
+                  <CardTitle>Import</CardTitle>
+                  <ImportFile type="file" onChange={handleCommentBankImport} />
+                </ImportFileLabel>
+              </CardContainer>
               {systemSmartAnnotations.length > 0 && (
                 <BankCommentTitle style={{ borderTop: '1px solid #C9C6CC80' }}>
                   Use a template
@@ -508,6 +550,14 @@ const {
 
   return (
     <>
+      {isShowExportCommentBank && (
+        <CommentBankDialog 
+          commentBank={importedCommentBank}
+          setCommentBankPreviewDialog={setIsShowExportCommentBank}
+          showActionButton={true}
+          onActionButtonClick={()=> createFeedbackBank(importedCommentBank)}
+        />
+      )}
       {isShowNewBankPopUp && (
         <NewBankPopContainer setShowNewBankPopUp={setShowNewBankPopUp} />
       )}

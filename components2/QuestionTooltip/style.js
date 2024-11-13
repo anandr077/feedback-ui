@@ -7,6 +7,7 @@ export const TooltipContainer = styled.div`
 `;
 
 export const TitleImage = styled.img`
+  max-height: 25px;
   padding: 2px 2px 2px 2px;
   cursor: pointer;
 `;

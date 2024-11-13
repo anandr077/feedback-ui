@@ -72,6 +72,7 @@ import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
 import MenuButton from '../MenuButton';
 import { useCommentBanks } from '../state/hooks';
 import CommentBankDialog from '../Shared/Dialogs/commentBank';
+import { convertToJsonAndDownlaod } from '../../components2/convertToJsonAndDownload';
 
 const CommentBanks = () => {
   const [smartAnnotations, setSmartAnnotations] = useState();
@@ -380,17 +381,7 @@ const {
       title: annotation.title,
       smartComments: annotation.smartComments
     };
-    const jsonResult = JSON.stringify(extractedData, null, 2);
-
-    const blob = new Blob([jsonResult], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${annotation.title.split(' ').join('_')}.json`;
-    link.click();
-
-    URL.revokeObjectURL(url);
+    convertToJsonAndDownlaod(extractedData)
   }
 
   const handleCommentBankImport = (event) =>{

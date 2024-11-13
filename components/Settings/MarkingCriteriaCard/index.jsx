@@ -14,6 +14,7 @@ import {
 import Rubricsnew from '../../../static/img/Rubricsnew.svg';
 import Strengthsnew from '../../../static/img/Strengthsnew.svg';
 import { useHistory } from 'react-router-dom';
+import { convertToJsonAndDownlaod } from '../../../components2/convertToJsonAndDownload';
 
 function MarkingCriteriaCard(props) {
   const {
@@ -32,6 +33,14 @@ function MarkingCriteriaCard(props) {
     return type == 'RUBRICS'
       ? `/markingTemplates/rubrics/${id}`
       : `/markingTemplates/strengths-and-targets/${id}`;
+  }
+
+  const downloadMarkingCriteria = (markingCriteria) =>{
+    const extractedData = {
+      title: markingCriteria.title,
+      strengthsTargetsCriterias: markingCriteria.strengthsTargetsCriterias
+    }
+    convertToJsonAndDownlaod(extractedData)
   }
 
   return (
@@ -65,6 +74,7 @@ function MarkingCriteriaCard(props) {
             deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
             cloneMarkingCriteria={cloneMarkingCriteria}
             setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
+            downloadMarkingCriteria={downloadMarkingCriteria}
           />
         </RightContainer>
       </MarkingCriteriaEntryHeading>

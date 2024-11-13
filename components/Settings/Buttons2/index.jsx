@@ -7,6 +7,8 @@ import {
   DeleteButtonContainer,
 } from './style';
 import preview from '../../../static/img/preview.svg';
+import DownLoadCommentBankIcon from '../../../static/img/Download.svg';
+import QuestionTooltip from '../../../components2/QuestionTooltip';
 
 function Buttons2(props) {
   const {
@@ -14,48 +16,35 @@ function Buttons2(props) {
     deleteMarkingCriteriaHandler,
     cloneMarkingCriteria,
     setMarkingCriteriaPreviewDialog,
+    downloadMarkingCriteria
   } = props;
 
   return (
     <ButtonsContainer>
-      <TooltipWrapper>
-        <Buttons
-          onClick={(e) => {
-            setMarkingCriteriaPreviewDialog(true);
-            e.stopPropagation();
-          }}
-        >
-          <img
-            src={preview}
-            alt="preview"
-            style={{
-              cursor: 'pointer',
-              height: '15px',
-              width: '15px',
-            }}
-          />
-        </Buttons>
-        <span className="tooltip-text">Preview</span>
-      </TooltipWrapper>
-      <TooltipWrapper>
-        <Buttons
-          onClick={(e) => {
-            cloneMarkingCriteria();
-            e.stopPropagation();
-          }}
-        >
-          <img
-            src="/img/copy@2x.png"
-            alt="copy"
-            style={{
-              cursor: 'pointer',
-              height: '15px',
-              width: '15px',
-            }}
-          />
-        </Buttons>
-        <span className="tooltip-text">Duplicate & Edit</span>
-      </TooltipWrapper>
+      <QuestionTooltip
+        text={'Export'}
+        img={DownLoadCommentBankIcon}
+        onClickFn={(e) => {
+          downloadMarkingCriteria(markingCriteria);
+          e.stopPropagation();
+        }}
+      />
+      <QuestionTooltip
+        text={'Preview'}
+        img={preview}
+        onClickFn={(e) => {
+          setMarkingCriteriaPreviewDialog(true);
+          e.stopPropagation();
+        }}
+      />
+      <QuestionTooltip
+        text={'Duplicate & Edit'}
+        img={"/img/copy@2x.png"}
+        onClickFn={(e) => {
+          cloneMarkingCriteria();
+          e.stopPropagation();
+        }}
+      />
       <TooltipWrapper>
         <DeleteButtonContainer
           onClick={(e) => {

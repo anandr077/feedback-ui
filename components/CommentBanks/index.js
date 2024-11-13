@@ -363,6 +363,31 @@ const {
       });
   };
 
+  const downloadCommentBankData = (bankId) =>{
+    const annotation  = smartAnnotations.find((annotation) => annotation.id === bankId)
+
+    if (!annotation) {
+      console.error(`No annotation found with bankId: ${bankId}`);
+      return;
+    }
+  
+    const extractedData = {
+      title: annotation.title,
+      smartComments: annotation.smartComments
+    };
+    const jsonResult = JSON.stringify(extractedData, null, 2);
+
+    const blob = new Blob([jsonResult], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${annotation.title.split(' ').join('_')}.json`;
+    link.click();
+
+    URL.revokeObjectURL(url);
+  }
+
   if (isLoading) {
     return (
       <>
@@ -525,6 +550,7 @@ const {
                             deteteFeedbackBank={deteteFeedbackBank}
                             createCloneFeedbankBank={createCloneFeedbankBank}
                             showIcon={feedbackBankId === bank.id}
+                            downloadCommentBankData={downloadCommentBankData}
                           />
                         }
                       />

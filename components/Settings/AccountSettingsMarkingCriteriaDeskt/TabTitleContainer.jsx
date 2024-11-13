@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import Rename from '../../../static/img/Rename.svg';
 import Copy from '../../../static/img/Copy.svg';
 import TabsDelete from '../../../static/img/tabs-delete.svg';
+import DownLoadCommentBankIcon from '../../../static/img/Download.svg';
 import { BankTitleeditTitle, TabContainer, TabTitle, TabsImage } from './style';
 
 function TabTitleContainer({
   bank,
   UpdateSmartBankTitleHandler,
   deteteFeedbackBank,
-  showIcon,
   createCloneFeedbankBank,
+  showIcon,
+  downloadCommentBankData
 }) {
   const [editTitle, setEditTitle] = useState(bank.title);
 
@@ -60,6 +62,12 @@ function TabTitleContainer({
                   <TabsImage
                     onClick={() => deteteFeedbackBank(bank.id)}
                     src={TabsDelete}
+                  />
+                )}
+                {(
+                  <TabsImage
+                    onClick={() => downloadCommentBankData(bank.id)}
+                    src={DownLoadCommentBankIcon}
                   />
                 )}
               </>

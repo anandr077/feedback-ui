@@ -73,6 +73,7 @@ import MenuButton from '../MenuButton';
 import { useCommentBanks } from '../state/hooks';
 import CommentBankDialog from '../Shared/Dialogs/commentBank';
 import { convertToJsonAndDownlaod } from '../../components2/convertToJsonAndDownload';
+import { importJsonFile } from '../../components2/importJsonFile';
 
 const CommentBanks = () => {
   const [smartAnnotations, setSmartAnnotations] = useState();
@@ -84,7 +85,7 @@ const CommentBanks = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] = useState(0);
   const [isShowMenu, setShowMenu] = useState(false);
-  const [isShowExportCommentBank, setIsShowExportCommentBank] = useState(false);
+  const [isShowImportCommentBankPopup, setIsShowImportCommentBankPopup] = useState(false);
   const [importedCommentBank, setImportedCommentBank] = useState({})
   const tabletView = isTabletView();
   const selectedRef = useRef(null);
@@ -384,31 +385,14 @@ const {
     convertToJsonAndDownlaod(extractedData)
   }
 
-  const handleCommentBankImport = (event) =>{
-    const file = event.target.files[0];
-    
-    if (file && file.type === "application/json") {
-      const reader = new FileReader();
-  
-      reader.onload = (e) => {
-        try {
-          const jsonData = JSON.parse(e.target.result);
-          console.log("JSON Content:", jsonData);
-          setImportedCommentBank(jsonData)
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-        }
-      };
-  
-      reader.onerror = (error) => {
-        console.error("File reading error:", error);
-      };
-  
-      reader.readAsText(file);
-      setShowNewBankPopUp(false)
-      setIsShowExportCommentBank(true)
-    } else {
-      toast(<Toast message={'Please upload a valid comment bank file.'}/>);
+  const handleCommentBankImport = async (event) =>{
+    try {
+      const importedJsonFile = await importJsonFile(event);
+      setImportedCommentBank(importedJsonFile);
+      setShowNewBankPopUp(false);
+      setIsShowImportCommentBankPopup(true);
+    } catch (error) {
+      console.error("Error importing comment bank:", error);
     }
   }
 
@@ -541,10 +525,10 @@ const {
 
   return (
     <>
-      {isShowExportCommentBank && (
+      {isShowImportCommentBankPopup && (
         <CommentBankDialog 
           commentBank={importedCommentBank}
-          setCommentBankPreviewDialog={setIsShowExportCommentBank}
+          setCommentBankPreviewDialog={setIsShowImportCommentBankPopup}
           showActionButton={true}
           onActionButtonClick={()=> createFeedbackBank(importedCommentBank)}
         />

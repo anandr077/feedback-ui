@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Buttons from '../Buttons';
 import {
   MarkingCriteriaList,
@@ -6,7 +6,13 @@ import {
   MainContainer,
   InnerContainer,
   RightContainer,
+  RightSideHeader,
   CreateButtonCont,
+  ImportFileLabel,
+  CardImgCont,
+  CardImg,
+  CardTitle,
+  ImportFile,
   PlusIcon,
   PlusText,
   PopUpContainer,
@@ -24,11 +30,18 @@ import { useHistory } from 'react-router-dom';
 import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar';
 import MenuButton from '../../MenuButton';
 import { isTabletView } from '../../ReactiveRender';
+import { importJsonFile } from '../../../components2/importJsonFile';
+import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
+import { validateStrengthsTargets } from '../../../components2/validateFunctions';
+import { createNewMarkingCriteria } from '../../../service';
+import { toast } from 'react-toastify';
+import Toast from '../../Toast';
 
-function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList }) {
-  const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
-    React.useState(false);
-  const [isShowMenu, setShowMenu] = React.useState(false);
+function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarkingCriterias }) {
+  const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] = useState(false);
+  const [isShowMenu, setShowMenu] = useState(false);
+  const [isShowExportMarkingCriteriaPopup, setIsShowExportMarkingCriteriaPopup] = useState(false)
+  const [importedMarkingCriteria, setImportedMarkingCriteria] = useState({})
   const tabletView = isTabletView();
   const divRef = useRef(null);
   const history = useHistory();
@@ -46,8 +59,51 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList }) {
     };
   }, []);
 
+  const handleMarkingCriteriaImport = async (event) =>{
+    try{
+      const importedJsonFile = await importJsonFile(event);
+      setImportedMarkingCriteria(importedJsonFile)
+      setIsShowExportMarkingCriteriaPopup(true)
+    }catch(err){
+      console.error("Error importing comment bank:", err);
+    }
+  }
+
+  const handleCreateMarkingCriteria = (markingCriterias) =>{
+    if(markingCriterias.type === 'STRENGTHS_TARGETS'){
+      if (!validateStrengthsTargets(markingCriterias)) {
+        return;
+      }
+
+      createNewMarkingCriteria(markingCriterias).then((response) => {
+        console.log('createNewMarkingCriteria', response);
+        resetMarkingCriterias();
+        toast(
+          <Toast
+            message={'Strengths and targets created'}
+            link={
+              '/markingTemplates/strengths-and-targets/' + response.id.value
+            }
+          />
+        );
+
+        history.push('/settings');
+      });
+    }
+    console.log(markingCriterias)
+    setIsShowExportMarkingCriteriaPopup(false)
+  }
+
   return (
     <MainContainer>
+      {isShowExportMarkingCriteriaPopup && (
+        <PreviewDialog
+          setMarkingCriteriaPreviewDialog={setIsShowExportMarkingCriteriaPopup}
+          markingCriterias={importedMarkingCriteria}
+          showActionButton={true}
+          onActionButtonClick={handleCreateMarkingCriteria}
+        />
+      )}
       <ImprovedSecondarySideBar
         isShowMenu={isShowMenu}
         setShowMenu={setShowMenu}
@@ -60,37 +116,49 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList }) {
         )}
         <RightContainer>
           <Frame1302>
-            <CreateButtonCont
-              onClick={() => setOpenMarkingMethodologyDialog(true)}
-              selected={openMarkingMethodologyDialog}
-            >
-              <PlusIcon src={PlusViolet} />
-              <PlusIconHover src={AddNewHover} />
-              <PlusText>New Marking Template</PlusText>
-              {openMarkingMethodologyDialog && (
-                <PopUpContainer ref={divRef}>
-                  <PopUpCard
-                    onClick={() =>
-                      history.push('/markingTemplates/rubrics/new')
-                    }
-                    style={{ borderBottom: '1px solid  #C9C6CC80' }}
-                  >
-                    <PopUpCardImg src={Rubricsnew} />
-                    <PopUpCardText>Rubric</PopUpCardText>
-                  </PopUpCard>
-                  <PopUpCard
-                    onClick={() =>
-                      history.push(
-                        '/markingTemplates/strengths-and-targets/new'
-                      )
-                    }
-                  >
-                    <PopUpCardImg src={Strengthsnew} />
-                    <PopUpCardText>Strengths and Targets</PopUpCardText>
-                  </PopUpCard>
-                </PopUpContainer>
-              )}
-            </CreateButtonCont>
+            <RightSideHeader>
+              <CreateButtonCont
+                onClick={() => setOpenMarkingMethodologyDialog(true)}
+                selected={openMarkingMethodologyDialog}
+              >
+                <PlusIcon src={PlusViolet} />
+                <PlusIconHover src={AddNewHover} />
+                <PlusText>New Marking Template</PlusText>
+                {openMarkingMethodologyDialog && (
+                  <PopUpContainer ref={divRef}>
+                    <PopUpCard
+                      onClick={() =>
+                        history.push('/markingTemplates/rubrics/new')
+                      }
+                      style={{ borderBottom: '1px solid  #C9C6CC80' }}
+                    >
+                      <PopUpCardImg src={Rubricsnew} />
+                      <PopUpCardText>Rubric</PopUpCardText>
+                    </PopUpCard>
+                    <PopUpCard
+                      onClick={() =>
+                        history.push(
+                          '/markingTemplates/strengths-and-targets/new'
+                        )
+                      }
+                    >
+                      <PopUpCardImg src={Strengthsnew} />
+                      <PopUpCardText>Strengths and Targets</PopUpCardText>
+                    </PopUpCard>
+                  </PopUpContainer>
+                )}
+              </CreateButtonCont>
+              <ImportFileLabel>
+                <CardImgCont>
+                  <CardImg src={PlusViolet} />
+                </CardImgCont>
+                <CardTitle>Import</CardTitle>
+                <ImportFile
+                  type="file"
+                  onChange={handleMarkingCriteriaImport}
+                />
+              </ImportFileLabel>
+            </RightSideHeader>
 
             <MarkingCriteriaList>{markingCriteriaList}</MarkingCriteriaList>
           </Frame1302>

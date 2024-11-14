@@ -6,8 +6,8 @@ import SmartAnotation from '../../../SmartAnnotations';
 import RectangularBigBtn from '../../../../components2/Buttons/RectangularbigBtn'
 
 export default function CommentBankDialog({
-  setCommentBankPreviewDialog,
   commentBank,
+  setCommentBankPreviewDialog,
   showActionButton=false,
   onActionButtonClick = () => {} 
 }) {

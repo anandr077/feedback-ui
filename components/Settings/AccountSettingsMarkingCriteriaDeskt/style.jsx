@@ -434,16 +434,22 @@ export const PlusIconHover = styled.img`
   display: none;
 `;
 
-export const CreateButtonCont = styled.div`
+export const RightSideHeader = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border: 0px 0px 1px 0px;
+  border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
+`;
+
+export const CreateButtonCont = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 16px 20px;
   gap: 8px;
-  border: 0px 0px 1px 0px;
   opacity: 0px;
-  border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
   cursor: pointer;
   position: relative;
   background-color: ${(props) => (props.selected ? '#f2f1f380' : '#fff')};
@@ -462,6 +468,40 @@ export const CreateButtonCont = styled.div`
       display: block;
     }
   }
+`;
+
+export const ImportFileLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  text-align: center;
+`;
+
+export const ImportFile = styled.input`
+  display: none; 
+`;
+
+export const CardImgCont = styled.div`
+  padding: 8px;
+  gap: 2px;
+  border-radius: 4px;
+  border: 1;
+  border: 1px solid #c9c6cc;
+`;
+export const CardImg = styled.img`
+  width: 30px;
+  height: 30px;
+`;
+
+export const CardTitle = styled.div`
+  font-family: IBM Plex Sans;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #4b464f;
 `;
 
 export const PlusText = styled.p`

@@ -38,7 +38,10 @@ function MarkingCriteriaCard(props) {
   const downloadMarkingCriteria = (markingCriteria) =>{
     const extractedData = {
       title: markingCriteria.title,
-      strengthsTargetsCriterias: markingCriteria.strengthsTargetsCriterias
+      type: markingCriteria.type,
+      ...(markingCriteria.type === "STRENGTHS_TARGETS" 
+        ? { strengthsTargetsCriterias: markingCriteria.strengthsTargetsCriterias } 
+        : { criterias: markingCriteria.criterias })
     }
     convertToJsonAndDownlaod(extractedData)
   }

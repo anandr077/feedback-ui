@@ -32,7 +32,7 @@ import MenuButton from '../../MenuButton';
 import { isTabletView } from '../../ReactiveRender';
 import { importJsonFile } from '../../../components2/importJsonFile';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
-import { validateStrengthsTargets } from '../../../components2/validateFunctions';
+import { validateMarkingCriteria, validateStrengthsTargets } from '../../../components2/validateFunctions';
 import { createNewMarkingCriteria } from '../../../service';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
@@ -72,6 +72,9 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
   const handleCreateMarkingCriteria = (markingCriterias) =>{
     if(markingCriterias.type === 'STRENGTHS_TARGETS'){
       if (!validateStrengthsTargets(markingCriterias)) {
+        toast(
+          <Toast message={'Strengths and targets are not valid'}/>
+        );
         return;
       }
 
@@ -86,11 +89,26 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
             }
           />
         );
-
-        history.push('/settings');
       });
-    }
-    console.log(markingCriterias)
+    }else{
+      if(!validateMarkingCriteria(markingCriterias)){
+        toast(
+          <Toast message={'Marking criterias are not valid'}/>
+        );
+        return;
+      }
+      createNewMarkingCriteria(markingCriterias).then((response) => {
+        resetMarkingCriterias();
+        toast(
+          <Toast
+            message={'New Marking Criteria created'}
+            link={
+              '/markingTemplates/strengths-and-targets/' + response.id.value
+            }
+          />
+        );
+      })}
+    history.push('/settings');
     setIsShowExportMarkingCriteriaPopup(false)
   }
 

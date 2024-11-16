@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import Rename from '../../../static/img/Rename.svg';
-import Copy from '../../../static/img/Copy.svg';
-import TabsDelete from '../../../static/img/tabs-delete.svg';
-import DownloadCommentBankIcon from '../../../static/img/Download.svg';
 import { BankTitleeditTitle, TabContainer, TabTitle, TabsImage } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
+import { useResizedImage } from '../../../components2/resizeImage';
+import Loader from '../../Loader';
 
 function TabTitleContainer({
   bank,
@@ -15,8 +13,9 @@ function TabTitleContainer({
   downloadCommentBank
 }) {
   const [editTitle, setEditTitle] = useState(bank.title);
-
   const [editingTitle, setEditingTitle] = useState(false);
+  const resizedImages = useResizedImage();
+ 
 
   const handleTitleTextChange = (event) => {
     setEditTitle(event.target.value);
@@ -31,6 +30,10 @@ function TabTitleContainer({
     setEditingTitle(false);
     UpdateSmartBankTitleHandler(editTitle, bank.id);
   };
+
+  if(!resizedImages){
+    return <Loader />
+  }
 
   return (
     <>
@@ -50,22 +53,22 @@ function TabTitleContainer({
               <>
                 <QuestionTooltip
                   text={'Export'}
-                  img={DownloadCommentBankIcon}
+                  img={resizedImages.export}
                   onClickFn={() => downloadCommentBank(bank.id)}
                 />
                 <QuestionTooltip
                   text={'Rename'}
-                  img={Rename}
+                  img={resizedImages.rename}
                   onClickFn={() => setEditingTitle(bank.id)}
                 />
                 <QuestionTooltip
                   text={'Copy'}
-                  img={Copy}
+                  img={resizedImages.copy}
                   onClickFn={() => createCloneFeedbankBank(bank.id)}
                 />
                 <QuestionTooltip
                   text={'Delete'}
-                  img={TabsDelete}
+                  img={resizedImages.delete}
                   onClickFn={() => deteteFeedbackBank(bank.id)}
                 />
               </>

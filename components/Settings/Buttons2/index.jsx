@@ -6,9 +6,9 @@ import {
   Arrowright,
   DeleteButtonContainer,
 } from './style';
-import preview from '../../../static/img/preview.svg';
-import DownloadCommentBankIcon from '../../../static/img/Download.svg';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
+import { useResizedImage } from '../../../components2/resizeImage';
+import Loader from '../../Loader';
 
 function Buttons2(props) {
   const {
@@ -18,12 +18,18 @@ function Buttons2(props) {
     setMarkingCriteriaPreviewDialog,
     downloadMarkingCriteria
   } = props;
+  const resizedImages = useResizedImage();
+
+  if(!resizedImages){
+    return <Loader />
+  }
+
 
   return (
     <ButtonsContainer>
       <QuestionTooltip
         text={'Export'}
-        img={DownloadCommentBankIcon}
+        img={resizedImages.export}
         onClickFn={(e) => {
           downloadMarkingCriteria(markingCriteria);
           e.stopPropagation();
@@ -31,7 +37,7 @@ function Buttons2(props) {
       />
       <QuestionTooltip
         text={'Preview'}
-        img={preview}
+        img={resizedImages.preview}
         onClickFn={(e) => {
           setMarkingCriteriaPreviewDialog(true);
           e.stopPropagation();
@@ -39,7 +45,7 @@ function Buttons2(props) {
       />
       <QuestionTooltip
         text={'Duplicate & Edit'}
-        img={"/img/copy@2x.png"}
+        img={resizedImages.copy}
         onClickFn={(e) => {
           cloneMarkingCriteria();
           e.stopPropagation();
@@ -56,7 +62,7 @@ function Buttons2(props) {
           isHovered={!markingCriteria?.isSystem ? true : false}
         >
           {!markingCriteria?.isSystem ? (
-            <Arrowright src="/icons/delete-logo.svg" alt="delete" />
+            <Arrowright src={resizedImages.delete} alt="delete" />
           ) : (
             <Arrowright
               src="/icons/taskDeleteIcon.png"

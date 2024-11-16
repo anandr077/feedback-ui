@@ -1,12 +1,12 @@
-export const convertToJsonAndDownlaod = (data) =>{
+export const exportJsonFile = (data, title) =>{
     const jsonResult = JSON.stringify(data, null, 2);
 
     const blob = new Blob([jsonResult], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 
     const link = document.createElement('a');
-    const sanitizedTitle = data.title 
-    ? data.title.replace(/[\/\\:*?"<>|]/g, '').split(' ').join('_') 
+    const sanitizedTitle = title 
+    ? title.replace(/[\/\\:*?"<>|]/g, '').split(' ').join('_') 
     : 'Downloaded_File';
   
     link.href = url;

@@ -73,7 +73,7 @@ import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
 import MenuButton from '../MenuButton';
 import { useCommentBanks } from '../state/hooks';
 import CommentBankDialog from '../Shared/Dialogs/commentBank';
-import { convertToJsonAndDownlaod } from '../../components2/convertToJsonAndDownload';
+import { exportJsonFile } from '../../components2/convertToJsonAndDownload';
 import { importJsonFile } from '../../components2/importJsonFile';
 
 const CommentBanks = () => {
@@ -385,7 +385,7 @@ const {
       title: annotation.title,
       smartComments: annotation.smartComments,
     };
-    convertToJsonAndDownlaod(extractedCommentBank);
+    exportJsonFile(extractedCommentBank, extractedCommentBank.title);
   };
 
   const handleCommentBankImport = async (event) =>{

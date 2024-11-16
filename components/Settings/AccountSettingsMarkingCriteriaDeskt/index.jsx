@@ -80,16 +80,11 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
       }
 
       createNewMarkingCriteria(markingCriterias).then((response) => {
-        console.log('createNewMarkingCriteria', response);
         resetMarkingCriterias();
         toast(
-          <Toast
-            message={'Strengths and targets created'}
-            link={
-              '/markingTemplates/strengths-and-targets/' + response.id.value
-            }
-          />
+          <Toast message={'Strengths and targets created'}/>
         );
+        history.push(`/markingTemplates/strengths-and-targets/${response.id.value}`)
       });
     }else{
       if(!validateMarkingCriteria(markingCriterias)){
@@ -101,15 +96,10 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
       createNewMarkingCriteria(markingCriterias).then((response) => {
         resetMarkingCriterias();
         toast(
-          <Toast
-            message={'New Marking Criteria created'}
-            link={
-              '/markingTemplates/strengths-and-targets/' + response.id.value
-            }
-          />
+          <Toast message={'New Marking Criteria created'} />
         );
+        history.push(`/markingTemplates/rubrics/${response.id.value}`)
       })}
-    history.push('/settings');
     setIsShowExportMarkingCriteriaPopup(false)
   }
 

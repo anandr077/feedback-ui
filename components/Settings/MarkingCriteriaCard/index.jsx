@@ -14,7 +14,7 @@ import {
 import Rubricsnew from '../../../static/img/Rubricsnew.svg';
 import Strengthsnew from '../../../static/img/Strengthsnew.svg';
 import { useHistory } from 'react-router-dom';
-import { convertToJsonAndDownlaod } from '../../../components2/convertToJsonAndDownload';
+import { exportJsonFile } from '../../../components2/convertToJsonAndDownload';
 
 function MarkingCriteriaCard(props) {
   const {
@@ -43,7 +43,7 @@ function MarkingCriteriaCard(props) {
         ? { strengthsTargetsCriterias: markingCriteria.strengthsTargetsCriterias } 
         : { criterias: markingCriteria.criterias })
     }
-    convertToJsonAndDownlaod(extractedMarkingCriteria)
+    exportJsonFile(extractedMarkingCriteria, extractedMarkingCriteria.title)
   }
 
   return (

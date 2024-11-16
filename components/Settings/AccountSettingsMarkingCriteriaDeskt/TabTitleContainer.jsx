@@ -49,6 +49,11 @@ function TabTitleContainer({
             {showIcon && (
               <>
                 <QuestionTooltip
+                  text={'Export'}
+                  img={DownloadCommentBankIcon}
+                  onClickFn={() => downloadCommentBank(bank.id)}
+                />
+                <QuestionTooltip
                   text={'Rename'}
                   img={Rename}
                   onClickFn={() => setEditingTitle(bank.id)}
@@ -62,11 +67,6 @@ function TabTitleContainer({
                   text={'Delete'}
                   img={TabsDelete}
                   onClickFn={() => deteteFeedbackBank(bank.id)}
-                />
-                <QuestionTooltip
-                  text={'Export'}
-                  img={DownloadCommentBankIcon}
-                  onClickFn={() => downloadCommentBank(bank.id)}
                 />
               </>
             )}

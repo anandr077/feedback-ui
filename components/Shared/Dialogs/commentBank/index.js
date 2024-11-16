@@ -41,9 +41,9 @@ export default function CommentBankDialog({
             ))}
           </SuggestionsContainer>
           {showActionButton && (
-            <ActionButton>
+            <ActionButtonContainer>
               <RectangularBigBtn text='Import' onClickFn={handleButtonClick}/>
-            </ActionButton>
+            </ActionButtonContainer>
           )}
         </DialogContent>
       </Dialog>
@@ -51,7 +51,7 @@ export default function CommentBankDialog({
   );
 }
 
-const ActionButton = styled.div`
+const ActionButtonContainer = styled.div`
    margin-top: 10px;
 `;
 

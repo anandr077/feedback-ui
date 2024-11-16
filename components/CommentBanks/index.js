@@ -73,7 +73,7 @@ import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
 import MenuButton from '../MenuButton';
 import { useCommentBanks } from '../state/hooks';
 import CommentBankDialog from '../Shared/Dialogs/commentBank';
-import { exportJsonFile } from '../../components2/convertToJsonAndDownload';
+import { exportJsonFile } from '../../components2/exportJsonFile';
 import { importJsonFile } from '../../components2/importJsonFile';
 
 const CommentBanks = () => {

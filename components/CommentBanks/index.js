@@ -62,6 +62,7 @@ import TabTitleContainer from '../Settings/AccountSettingsMarkingCriteriaDeskt/T
 import { getUserId } from '../../userLocalDetails';
 import closecircle from '../../static/img/closecircle.svg';
 import PlusBlue from '../../static/img/Plus-blue.svg';
+import DownloadIcon from '../../static/img/Download.svg';
 import Doc from '../../static/img/doc.svg';
 import PreviewIcon from '../../static/img/preview.svg';
 import FeedbackArea from './FeedbackArea';
@@ -370,20 +371,22 @@ const {
       });
   };
 
-  const downloadCommentBankData = (bankId) =>{
-    const annotation  = smartAnnotations.find((annotation) => annotation.id === bankId)
+  const downloadCommentBank = (bankId) => {
+    const annotation = smartAnnotations.find(
+      (annotation) => annotation.id === bankId
+    );
 
     if (!annotation) {
       console.error(`No annotation found with bankId: ${bankId}`);
       return;
     }
-  
-    const extractedData = {
+
+    const extractedCommentBank = {
       title: annotation.title,
-      smartComments: annotation.smartComments
+      smartComments: annotation.smartComments,
     };
-    convertToJsonAndDownlaod(extractedData)
-  }
+    convertToJsonAndDownlaod(extractedCommentBank);
+  };
 
   const handleCommentBankImport = async (event) =>{
     try {
@@ -438,7 +441,7 @@ const {
                 </Card>
                 <ImportFileLabel>
                   <CardImgCont>
-                    <CardImg src={PlusBlue} />
+                    <CardImg src={DownloadIcon} rotate={true}/>
                   </CardImgCont>
                   <CardTitle>Import</CardTitle>
                   <ImportFile type="file" onChange={handleCommentBankImport} />
@@ -575,7 +578,7 @@ const {
                             deteteFeedbackBank={deteteFeedbackBank}
                             createCloneFeedbankBank={createCloneFeedbankBank}
                             showIcon={feedbackBankId === bank.id}
-                            downloadCommentBankData={downloadCommentBankData}
+                            downloadCommentBank={downloadCommentBank}
                           />
                         }
                       />

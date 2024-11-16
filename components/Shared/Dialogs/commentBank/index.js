@@ -17,7 +17,7 @@ export default function CommentBankDialog({
     setCommentBankPreviewDialog(false);
   };
 
-  const handleActionButton = () =>{
+  const handleButtonClick = () =>{
     onActionButtonClick()
     setCommentBankPreviewDialog(false);
   }
@@ -42,7 +42,7 @@ export default function CommentBankDialog({
           </SuggestionsContainer>
           {showActionButton && (
             <ActionButton>
-              <RectangularBigBtn text='Import' onClickFn={handleActionButton}/>
+              <RectangularBigBtn text='Import' onClickFn={handleButtonClick}/>
             </ActionButton>
           )}
         </DialogContent>

@@ -36,14 +36,14 @@ function MarkingCriteriaCard(props) {
   }
 
   const downloadMarkingCriteria = (markingCriteria) =>{
-    const extractedData = {
+    const extractedMarkingCriteria = {
       title: markingCriteria.title,
       type: markingCriteria.type,
       ...(markingCriteria.type === "STRENGTHS_TARGETS" 
         ? { strengthsTargetsCriterias: markingCriteria.strengthsTargetsCriterias } 
         : { criterias: markingCriteria.criterias })
     }
-    convertToJsonAndDownlaod(extractedData)
+    convertToJsonAndDownlaod(extractedMarkingCriteria)
   }
 
   return (

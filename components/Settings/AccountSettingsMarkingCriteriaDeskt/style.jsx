@@ -444,7 +444,7 @@ export const RightSideHeader = styled.div`
   border-bottom: 1px solid var(--color-neutral-alpha-90, #c9c6cc80);
 `;
 
-export const CreateButtonCont = styled.div`
+export const CreateButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -492,6 +492,7 @@ export const CardImgCont = styled.div`
 export const CardImg = styled.img`
   width: 30px;
   height: 30px;
+  transform: ${props => props.rotate ? 'rotate(180deg)' : '0'};
 `;
 
 export const CardTitle = styled.div`

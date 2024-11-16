@@ -7,7 +7,7 @@ import {
   InnerContainer,
   RightContainer,
   RightSideHeader,
-  CreateButtonCont,
+  CreateButtonContainer,
   ImportFileLabel,
   CardImgCont,
   CardImg,
@@ -23,6 +23,7 @@ import {
   HeadingAndFilterContainer,
 } from './style';
 import PlusViolet from '../../../static/img/Plus-violet.svg';
+import DownlaodIcon from '../../../static/img/Download.svg';
 import AddNewHover from '../../../static/img/AddNewHover.svg';
 import Rubricsnew from '../../../static/img/Rubricsnew.svg';
 import Strengthsnew from '../../../static/img/Strengthsnew.svg';
@@ -59,15 +60,15 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
     };
   }, []);
 
-  const handleMarkingCriteriaImport = async (event) =>{
-    try{
+  const handleMarkingCriteriaImport = async (event) => {
+    try {
       const importedJsonFile = await importJsonFile(event);
-      setImportedMarkingCriteria(importedJsonFile)
-      setIsShowExportMarkingCriteriaPopup(true)
-    }catch(err){
-      console.error("Error importing comment bank:", err);
+      setImportedMarkingCriteria(importedJsonFile);
+      setIsShowExportMarkingCriteriaPopup(true);
+    } catch (err) {
+      console.error('Error importing comment bank:', err);
     }
-  }
+  };
 
   const handleCreateMarkingCriteria = (markingCriterias) =>{
     if(markingCriterias.type === 'STRENGTHS_TARGETS'){
@@ -135,7 +136,7 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
         <RightContainer>
           <Frame1302>
             <RightSideHeader>
-              <CreateButtonCont
+              <CreateButtonContainer
                 onClick={() => setOpenMarkingMethodologyDialog(true)}
                 selected={openMarkingMethodologyDialog}
               >
@@ -165,10 +166,10 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
                     </PopUpCard>
                   </PopUpContainer>
                 )}
-              </CreateButtonCont>
+              </CreateButtonContainer>
               <ImportFileLabel>
                 <CardImgCont>
-                  <CardImg src={PlusViolet} />
+                  <CardImg src={DownlaodIcon} rotate={true} />
                 </CardImgCont>
                 <CardTitle>Import</CardTitle>
                 <ImportFile

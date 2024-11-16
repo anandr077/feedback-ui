@@ -7,7 +7,7 @@ import {
   DeleteButtonContainer,
 } from './style';
 import preview from '../../../static/img/preview.svg';
-import DownLoadCommentBankIcon from '../../../static/img/Download.svg';
+import DownloadCommentBankIcon from '../../../static/img/Download.svg';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 
 function Buttons2(props) {
@@ -23,7 +23,7 @@ function Buttons2(props) {
     <ButtonsContainer>
       <QuestionTooltip
         text={'Export'}
-        img={DownLoadCommentBankIcon}
+        img={DownloadCommentBankIcon}
         onClickFn={(e) => {
           downloadMarkingCriteria(markingCriteria);
           e.stopPropagation();

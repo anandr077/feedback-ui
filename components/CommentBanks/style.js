@@ -371,6 +371,7 @@ export const CardImgCont = styled.div`
 export const CardImg = styled.img`
   width: 30px;
   height: 30px;
+  transform: ${props => props.rotate ? 'rotate(180deg)' : '0'};
 `;
 export const CardImgDoc = styled.img`
   width: 46px;

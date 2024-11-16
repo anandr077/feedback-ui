@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Rename from '../../../static/img/Rename.svg';
 import Copy from '../../../static/img/Copy.svg';
 import TabsDelete from '../../../static/img/tabs-delete.svg';
-import DownLoadCommentBankIcon from '../../../static/img/Download.svg';
+import DownloadCommentBankIcon from '../../../static/img/Download.svg';
 import { BankTitleeditTitle, TabContainer, TabTitle, TabsImage } from './style';
 import QuestionTooltip from '../../../components2/QuestionTooltip';
 
@@ -12,7 +12,7 @@ function TabTitleContainer({
   deteteFeedbackBank,
   createCloneFeedbankBank,
   showIcon,
-  downloadCommentBankData
+  downloadCommentBank
 }) {
   const [editTitle, setEditTitle] = useState(bank.title);
 
@@ -65,8 +65,8 @@ function TabTitleContainer({
                 />
                 <QuestionTooltip
                   text={'Export'}
-                  img={DownLoadCommentBankIcon}
-                  onClickFn={() => downloadCommentBankData(bank.id)}
+                  img={DownloadCommentBankIcon}
+                  onClickFn={() => downloadCommentBank(bank.id)}
                 />
               </>
             )}

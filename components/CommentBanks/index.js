@@ -73,8 +73,8 @@ import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
 import MenuButton from '../MenuButton';
 import { useCommentBanks } from '../state/hooks';
 import CommentBankDialog from '../Shared/Dialogs/commentBank';
-import { exportJsonFile } from '../../components2/exportJsonFile';
-import { importJsonFile } from '../../components2/importJsonFile';
+import { importJsonFile, exportJsonFile } from '../../components2/markingCriteria';
+
 
 const CommentBanks = () => {
   const [smartAnnotations, setSmartAnnotations] = useState();

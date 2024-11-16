@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 import { useMarkingCriterias } from '../../state/hooks';
-import { validateMarkingCriteria } from '../../../components2/validateFunctions';
+import { validateRubric } from '../../../components2/markingCriteria';
 
 export default function CreateNewMarkingCriteriaRoot(props) {
   const { markingCriteriaId } = useParams();
@@ -126,7 +126,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   
 
   const saveMarkingCriteria = () => {
-    if (validateMarkingCriteria(markingCriteria)) {
+    if (validateRubric(markingCriteria)) {
       const newMarkingCriteria = {
         title: markingCriteria.title,
         criterias: markingCriteria.criterias.map((criteria) => {

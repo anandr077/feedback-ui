@@ -70,7 +70,7 @@ import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar';
 import Header from '../../Header2';
 import { useMarkingCriterias } from '../../state/hooks';
 import { useHistory, useParams } from 'react-router-dom';
-import { validateStrengthsTargets } from '../../../components2/validateFunctions';
+import { validateStrengthsTargets } from '../../../components2/markingCriteria';
 
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';

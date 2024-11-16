@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import Toast from "../components/Toast";
 
-export const validateMarkingCriteria = (markingCriteria) => {
+export const validateRubric = (markingCriteria) => {
     let isValid = true;
     if (markingCriteria.title === '' || markingCriteria.title === undefined) {
       toast(
@@ -91,3 +91,55 @@ export function validateStrengthsTargets(strengthAndTargetdata) {
     }
     return true;
   }
+
+
+
+export function importJsonFile(event) {
+  return new Promise((resolve, reject) => {
+    const file = event.target.files[0];
+
+    if (file && file.type === 'application/json') {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        try {
+          const jsonData = JSON.parse(e.target.result);
+          resolve(jsonData);
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+          reject(error);
+        }
+      };
+
+      reader.onerror = (error) => {
+        console.error('File reading error:', error);
+        reject(error);
+      };
+
+      reader.readAsText(file);
+    } else {
+      toast(<Toast message={'Please upload a valid comment bank file.'} />);
+      reject(new Error('Invalid file type'));
+    }
+  });
+}
+
+
+export const exportJsonFile = (data, title) =>{
+  const jsonResult = JSON.stringify(data, null, 2);
+
+  const blob = new Blob([jsonResult], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  const sanitizedTitle = title 
+  ? title.replace(/[\/\\:*?"<>|]/g, '').split(' ').join('_') 
+  : 'Downloaded_File';
+
+  link.href = url;
+  link.download = `${sanitizedTitle}.json`;
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
+

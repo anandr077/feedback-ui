@@ -31,9 +31,8 @@ import { useHistory } from 'react-router-dom';
 import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar';
 import MenuButton from '../../MenuButton';
 import { isTabletView } from '../../ReactiveRender';
-import { importJsonFile } from '../../../components2/importJsonFile';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard';
-import { validateMarkingCriteria, validateStrengthsTargets } from '../../../components2/validateFunctions';
+import { importJsonFile, validateRubric, validateStrengthsTargets } from '../../../components2/markingCriteria';
 import { createNewMarkingCriteria } from '../../../service';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
@@ -87,7 +86,7 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
         history.push(`/markingTemplates/strengths-and-targets/${response.id.value}`)
       });
     }else{
-      if(!validateMarkingCriteria(markingCriterias)){
+      if(!validateRubric(markingCriterias)){
         toast(
           <Toast message={'Marking criterias are not valid'}/>
         );

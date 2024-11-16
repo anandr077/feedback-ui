@@ -441,10 +441,14 @@ const {
                 </Card>
                 <ImportFileLabel>
                   <CardImgCont>
-                    <CardImg src={DownloadIcon} rotate={true}/>
+                    <CardImg src={DownloadIcon} rotate={true} />
                   </CardImgCont>
                   <CardTitle>Import</CardTitle>
-                  <ImportFile type="file" onChange={handleCommentBankImport} />
+                  <ImportFile
+                    type="file"
+                    accept=".json"
+                    onChange={handleCommentBankImport}
+                  />
                 </ImportFileLabel>
               </CardContainer>
               {systemSmartAnnotations.length > 0 && (

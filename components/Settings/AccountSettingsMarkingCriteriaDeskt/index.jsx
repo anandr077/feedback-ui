@@ -163,6 +163,7 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
                 <CardTitle>Import</CardTitle>
                 <ImportFile
                   type="file"
+                  accept=".json"
                   onChange={handleMarkingCriteriaImport}
                 />
               </ImportFileLabel>

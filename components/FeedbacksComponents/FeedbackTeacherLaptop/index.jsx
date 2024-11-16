@@ -467,8 +467,8 @@ function FeedbackTeacherLaptop(props) {
         </>
         <Footer
           isMobile={isMobile}
-          zoomPercentage={editorFontSize}
-          onZoomPercentageChange={setEditorFontSize}
+          editorFontSize={editorFontSize}
+          setEditorFontSize={setEditorFontSize}
           lebel={isSavingAnswer ? 'Saving...' : `${wordCount} ${wordCount === 1 ? 'word' : 'words'}`}
         />
       </PageContainer>

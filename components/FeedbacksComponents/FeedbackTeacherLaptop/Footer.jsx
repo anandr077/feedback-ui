@@ -6,8 +6,8 @@ import {
 import Zoom from '../../../components2/Zoom';
 export function Footer({
   isMobile,
-  zoomPercentage,
-  onZoomPercentageChange,
+  editorFontSize,
+  setEditorFontSize,
   lebel
 }) {
   
@@ -18,8 +18,10 @@ export function Footer({
         {lebel}
       </CountContainer>
       <Zoom 
-        zoomPercentage={zoomPercentage}
-        onZoomPercentageChange={onZoomPercentageChange}
+        zoomPercentage={editorFontSize}
+        onZoomPercentageChange={setEditorFontSize}
+        minimumZoom={"50"}
+        maximumZoom={"150"}
       />
     </CountZoomContainer>
   );

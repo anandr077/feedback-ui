@@ -53,7 +53,7 @@ function ProfileDropdown() {
         text="Logout"
         noIcon={true}
         onClick={() => {
-          queryClient.clear();
+          // queryClient.clear();
           logout();
         }}
       />

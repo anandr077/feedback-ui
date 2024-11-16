@@ -1,120 +1,109 @@
-import { deleteProfileCookies } from './userLocalDetails';
+import { deleteProfileCookies, getUserRole } from './userLocalDetails';
 import { getLocalStorage } from './utils/function';
-import { datadogRum } from '@datadog/browser-rum';
 
 // const baseUrl = process.env.REACT_APP_API_BASE_URL ?? "https://feedbacks-backend-leso2wocda-ts.a.run.app";
 const baseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
 const jeddleBaseUrl =
-  process.env.REACT_APP_JEDDLE_BASE_URL ?? 'https://jeddle.duxdigital.net';
+  process.env.REACT_APP_JEDDLE_BASE_URL ?? 'https://jeddle.com';
 const selfBaseUrl =
   process.env.REACT_APP_SELF_BASE_URL ?? 'http://localhost:1234';
 const clientId =
-  process.env.REACT_APP_CLIENT_ID ?? 'glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr';
+  process.env.REACT_APP_CLIENT_ID ?? 'KjdJNoiRHNrJIxDvvGRDsQwKImCQKBdF';
 const env =
   process.env.REACT_APP_ENV ?? 'dev';
 
-let isRedirecting = false; // Track if redirect is in progress
-let lastRedirectTime = 0; // Store the last redirect time
-const COOLDOWN_PERIOD = 10000; // 10 seconds
+export let isLoggedOut = false;
+let isRedirecting = false;
+const COOLDOWN_PERIOD = 10000;
 
-export const ddRum = () => {
 
-  datadogRum.init({
-      applicationId: 'c060e39a-fe15-41c6-b580-158c4d290665',
-      clientToken: 'pub5367c2844dea48390397f6cf72864575',
-      site: 'us5.datadoghq.com',
-      service: 'gojeddle',
-      env: env,
-      sessionSampleRate: 100,
-      sessionReplaySampleRate: 20,
-      trackUserInteractions: true,
-      trackResources: true,
-      trackLongTasks: true,
-      defaultPrivacyLevel: 'mask-user-input',
-  });
-}
-async function fetchData(url, options, headers = {}) {
-  const defaultHeaders = new Headers();
+
+async function fetchData(url, options = {}, headers = {}) {
   const token = localStorage.getItem('jwtToken');
-  if (token == null || token == undefined) {
-    handleRedirect();
-    return;
-  }
-  if (token) {
-    defaultHeaders.append('Authorization', `Bearer ${token}`);
-  }
 
-  const mergedHeaders = Object.assign(defaultHeaders, headers);
+  const createHeaders = () => {
+    return {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }),
+      ...headers,
+    };
+  };
+
   try {
     const response = await fetch(url, {
       ...options,
-      withCredentials: true,
-      credentials: 'include',
-      headers: mergedHeaders,
+      headers: createHeaders(),
     });
 
-    if (response.status === 401) {
-      return handleRedirect();
-    }
-    if (response.status === 404) {
-      // window.location.href = selfBaseUrl + '/#/404';
-      // window.location.reload();
-      // throw new Error('Page not found');
-    } else if (response.status === 500) {
-      window.location.href = selfBaseUrl + '/#/404';
-      window.location.reload();
-      throw new Error('Server error');
-    } else if (!response.ok) {
-      // window.location.href = selfBaseUrl + '/#/404';
-      // window.location.reload();
-      // throw new Error(`HTTP error! status: ${response.status}`);
+
+    if (!response.ok) {
+      console.error('API request failed:', response);
+      if (response.status === 401) {
+        // Handle unauthorized access (e.g., token expired)
+        localStorage.clear();
+        window.location.href = '/';
+      }
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'API request failed');
     }
 
-    const isJson =
-      response.headers.get('content-type')?.includes('application/json') ||
-      response.headers.get('content-type')?.includes('application/hal+json');
-    const data = isJson ? await response.json() : null;
-    if (data === null) {
-      window.location.href = selfBaseUrl + '/#/404';
-      window.location.reload();
-      throw new Error('Page not found');
-    }
-    return data;
+    // Parse JSON response
+    return response.json();
   } catch (error) {
-    console.error(error);
+    console.error('Fetch error:', error);
+    throw error; // Ensure the error propagates to React Query's onError handling
   }
 }
 
 async function modifyData(url, options = {}) {
-  const response = await fetch(url, {
-    ...options,
-    withCredentials: true,
-    credentials: 'include',
-  });
+  const token = localStorage.getItem('jwtToken');
 
-  if (response.status === 401) {
-    return handleRedirect();
-  }
-  if (response.status === 404) {
-    throw new Error('Page not found');
-  }
-  if (response.status === 404) {
-    throw new Error('Page not found');
-  } else if (response.status === 500) {
-    throw new Error('Server error');
-  } else if (!response.ok) {
-    const errorData = await response.json();
-    throw {
-      message: errorData.message || `Error occurred: ${response.status}`,
-      ...errorData,
+  const createHeaders = () => {
+    return {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }),
+      // Include any headers passed in options
+      ...options.headers,
     };
-  }
+  };
 
-  const isJson = response.headers
-    .get('content-type')
-    ?.includes('application/json');
-  return isJson ? await response.json() : null;
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers: createHeaders(),
+    });
+
+    if (!response.ok) {
+      console.error('API request failed:', response);
+
+      if (response.status === 401) {
+        // Handle unauthorized access (e.g., token expired)
+        localStorage.clear();
+        window.location.href = '/';
+        return;
+      } else if (response.status === 404) {
+        throw new Error('Page not found');
+      } else if (response.status === 500) {
+        throw new Error('Server error');
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Error occurred: ${response.status}`);
+      }
+    }
+
+    // Parse JSON response
+    const isJson = response.headers
+      .get('content-type')
+      ?.includes('application/json');
+    return isJson ? await response.json() : null;
+  } catch (error) {
+    console.error('Fetch error:', error);
+    throw error; // Ensure the error propagates to React Query's onError handling
+  }
 }
+
+
+
 const fetchApi = async (url, options, headers) => {
   return fetchData(url, options, headers);
 };
@@ -205,9 +194,6 @@ export const downloadSubmission = async (submissionId) => {
   }
 };
 
-export const getCommentBanks = async () => {
-  return getApi(baseUrl + '/commentbanks?projection=commentBanksProjection');
-};
 export const deleteFeedback = async (submissionId, commentId) => {
   return deleteApi(
     baseUrl + '/submissions/' + submissionId + '/feedbacks/' + commentId
@@ -219,13 +205,12 @@ export const deleteFocusArea = async (focusAreaID) => {
 };
 
 export const logout = async () => {
-  await postApi(baseUrl + '/users/logout').then(() => {
-    logoutLocal();
+  logoutLocal();
 
-    window.location.href =
-     jeddleBaseUrl + '/wp-login.php?action=logout&redirect_to=' + selfBaseUrl;
-  });
+  const logoutUrl = `${jeddleBaseUrl}/wp-login.php?action=logout`;
+  window.location.href = logoutUrl;
 };
+
 export const changePassword = async () => {
   window.open(jeddleBaseUrl + '/account/?action=newpassword');
 };
@@ -290,11 +275,6 @@ export const updateFeedback = async (submissionId, commentId, comment) =>
     comment
   );
 
-export const docsMoveToFolder = async (submissionId, classId, folderId) =>
-  await patchApi(baseUrl + '/submissions/' + submissionId + '/moveToFolder', {
-    classId: classId,
-    folderId: folderId,
-  });
 export const resolveFeedback = async (feedbackId) =>
   await patchApi(baseUrl + '/feedbacks/comment/' + feedbackId + '/resolve');
 
@@ -522,74 +502,15 @@ export const createRequestFeddbackType = async (
     requestFeddbackType
   );
 function logoutLocal() {
+  isLoggedOut = true;
+  localStorage.clear();
   deleteProfileCookies();
   localStorage.removeItem('jwtToken');
   localStorage.removeItem('onboardingShown');
 }
 
-export function redirectToExternalIDP() {
-    logoutLocal();
-    const externalIDPLoginUrl =
-      jeddleBaseUrl +
-      '/wp-json/moserver/authorize?response_type=code&client_id=' +
-      clientId +
-      '&state=' +
-      Date.now() +
-      '&redirect_uri=' +
-      selfBaseUrl;
-    window.location.href = externalIDPLoginUrl;
-}
-
-export const exchangeCodeForToken = async (code) => {
-  const url = `${baseUrl}/users/exchange/${code}`;
-  const defaultHeaders = new Headers();
-  const token = localStorage.getItem('jwtToken');
-
-  if (token) {
-    return token;
-  }
-
-  const options = {};
-  const headers = {};
-
-  const mergedHeaders = Object.assign(defaultHeaders, headers);
-
-  try {
-    const response = await fetch(url, {
-      ...options,
-      withCredentials: true,
-      credentials: 'include',
-      headers: mergedHeaders,
-    });
-    if (response.status === 401) {
-      setTimeout(() => {
-        handleRedirect();
-      }, 1000);
-    }
-    if (response.status === 404 || response.status === 500) {
-      window.location.href = selfBaseUrl + '/#/404';
-      // window.location.reload();
-      throw new Error('Page not found');
-    } else if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const isJson =
-      response.headers.get('content-type')?.includes('application/json') ||
-      response.headers.get('content-type')?.includes('application/hal+json');
-    const data = isJson ? await response.json() : null;
-
-    if (data === null) {
-      window.location.href = selfBaseUrl + '/#/404';
-      // window.location.reload();
-      throw new Error('Page not found');
-    }
-    return data;
-  } catch (error) {
-    console.error(error);
-    throw new Error(`An error occurred while fetching data: ${error.message}`);
-  }
-};
+export const exchangeCodeForToken = (code) =>
+  fetchData(baseUrl+`/users/exchange/${code}`);
 
 export const getShortcuts = () => {
   const shortcuts = [
@@ -696,6 +617,7 @@ export const addDocumentToPortfolio = async (classId, courseId, title) =>
   });
 
 
+
 export const getAllSubjects = [{ title: 'English' }];
 export const getAllTypes = [
   { title: 'Analytical' },
@@ -705,32 +627,42 @@ export const getAllTypes = [
   { title: 'Reflective' },
 ];
 
+
+export const uploadFileToServer = async (uploadedFile) => {
+  const formData = new FormData();
+  formData.append('file', uploadedFile);
+
+  const token = localStorage.getItem('jwtToken');
+  try {
+    const response = await fetch(`${baseUrl}/files/upload`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+      body: formData,
+    });
+
+    const responseText = await response.text(); 
+
+    if (!response.ok) {
+      throw new Error(responseText); 
+    }
+    return responseText;
+  } catch (error) {
+    if (error instanceof TypeError) {
+      console.error('Network error:', error);
+    } else {
+      console.error('Server error:', error);
+    }
+  }
+};
+
+export const updateHandWrittenDocumentById = async (submissionId, serialNumber, documentUrls) =>
+  await patchApi(
+    baseUrl + '/submissions/' + submissionId + '/answers/' + serialNumber + "/files", documentUrls
+  )
+
+export const extractText = async (id, serialNumber) =>
+  await patchApi(baseUrl + "/submissions/" + id + "/answers/" + serialNumber + "/extractText")
 export const getProfile = async () => await getApi(baseUrl + '/users/profile');
-export function handleRedirect() {
-  const lastRedirectTime = parseInt(localStorage.getItem('lastRedirectTime') || '0', 10);
-  const now = Date.now();
 
-  // Check if the page was redirected recently to avoid loops
-  if (now - lastRedirectTime < COOLDOWN_PERIOD) {
-    console.log('Cooldown active. Skipping redirect.');
-    return; // Skip redirect within the cooldown period
-  }
-
-  if (isRedirecting) {
-    console.log('Redirect in progress. Skipping.');
-    return; // Prevent concurrent redirects
-  }
-
-  // Set the redirect flag and store the current time
-  isRedirecting = true;
-  localStorage.setItem('lastRedirectTime', now.toString());
-
-  // Perform the redirect immediately
-  redirectToExternalIDP();
-
-  // Reset the flag after the cooldown period
-  setTimeout(() => {
-    isRedirecting = false;
-    console.log('Ready for next redirect.');
-  }, COOLDOWN_PERIOD);
-}

@@ -43,7 +43,7 @@ import { Avatar } from '@boringer-avatars/react';
 import { useCommunityTasks } from '../state/hooks';
 
 function FeedbackDataComponent({ feedbackData, pathName }) {
-
+  const queryClient = useQueryClient();
   const {
     data: communityTasksData,
     isLoadingdata: isLoadingCommunityTasksData,
@@ -73,6 +73,7 @@ function FeedbackDataComponent({ feedbackData, pathName }) {
         (n) => n.submissionId !== submissionId
       );
       setCommunityTasksData(updatedCommunityTasks);
+      queryClient.invalidateQueries('communityTasksData');
     },
 
     onSettled: () => {

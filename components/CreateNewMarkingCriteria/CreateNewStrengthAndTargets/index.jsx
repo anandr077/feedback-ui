@@ -70,6 +70,7 @@ import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar';
 import Header from '../../Header2';
 import { useMarkingCriterias } from '../../state/hooks';
 import { useHistory, useParams } from 'react-router-dom';
+import { validateStrengthsTargets } from '../../../components2/markingCriteria';
 
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
@@ -214,46 +215,12 @@ export default function CreateNewStrengthAndTargets() {
     setMarkingMethodology(updatedData);
   };
 
-  function validateStrengthsTargets(strengthAndTargetdata) {
-    if (!strengthAndTargetdata.title.trim()) {
-      toast(<Toast message={'Please enter title for marking criteria'} />);
-      return false;
-    }
-    for (const criteria of strengthAndTargetdata.strengthsTargetsCriterias) {
-      if (!criteria.title.trim()) {
-        toast(<Toast message={'Please enter criteria title'} />);
-        return false;
-      }
-
-      if (criteria.strengths.length < 1 || criteria.targets.length < 1) {
-        toast(
-          <Toast
-            message={'You have to enter at least two option for each category'}
-          />
-        );
-        return false;
-      }
-
-      if (
-        criteria.strengths.some((strength) => !strength.trim()) ||
-        criteria.targets.some((target) => !target.trim())
-      ) {
-        toast(
-          <Toast message={'Strength or target option field cannot be empty'} />
-        );
-        return false;
-      }
-    }
-    return true;
-  }
-
   const saveData = () => {
     if (!validateStrengthsTargets(markingMethodology)) {
       return;
     }
     if (markingMethodologyId === 'new') {
       createNewMarkingCriteria(markingMethodology).then((response) => {
-        console.log('createNewMarkingCriteria', response);
         resetMarkingCriterias();
         toast(
           <Toast
@@ -264,12 +231,11 @@ export default function CreateNewStrengthAndTargets() {
           />
         );
 
-        history.push('/settings');
+        history.push(`/markingTemplates/strengths-and-targets/:${response.id.value}`);
       });
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
         (response) => {
-          console.log('updateMarkingCriteria', response);
           toast(
             <Toast
               message={'Strengths and Targets Updated'}
@@ -291,7 +257,7 @@ export default function CreateNewStrengthAndTargets() {
             }
           );
           setMarkingCriterias(updatedMarkingCriterias);
-          history.push('/settings');
+          history.push(`/markingTemplates/strengths-and-targets/:${response.id.value}`);
         }
       );
     }

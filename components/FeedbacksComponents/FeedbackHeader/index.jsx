@@ -82,7 +82,7 @@ const FeedbackHeader = ({
   const isTeacher = getUserRole() === 'TEACHER';
   const [isShowSelectType, setShowSelectType] = useState();
   const [openEditDialogue, setOpenEditDialogue] = useState();
-  const { methods, isResetEditorTextSelection } = useContext(FeedbackContext);
+  const { methods, isResetEditorTextSelection, isUpdatingHandWrittenFiles } = useContext(FeedbackContext);
   const history = useHistory();
   const location = useLocation();
 
@@ -183,7 +183,7 @@ const FeedbackHeader = ({
         )}
       </LeftSection>
 
-      <RightSection>
+      <RightSection isDisabled={isUpdatingHandWrittenFiles}>
         {showResolvedToggle(setShowResolved)(
           commentsForSelectedTab,
           isFeedback,

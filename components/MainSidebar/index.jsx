@@ -25,6 +25,7 @@ import {
 } from './rules';
 import { useAllDocuments, useClassData } from '../state/hooks';
 import Loader from '../Loader';
+import { logout } from '../../service';
 
 const MainSidebar = () => {
   const history = useHistory();
@@ -87,7 +88,7 @@ const MainSidebar = () => {
             })}
         </ul>
       </SideNavbar>
-      <SideBottom href="https://jeddle.com/my-courses/">
+      <SideBottom onClick={logout}>
         <img src={ExitHub} />
         <p>Exit Hub</p>
       </SideBottom>

@@ -6,9 +6,13 @@ const RoundedBorderSubmitBtn = ({
   rightIcon = null,
   text,
   onClickFn,
+  isDisabled = false,
 }) => {
   return (
-    <ButtonContainer onClick={onClickFn}>
+    <ButtonContainer
+      onClick={onClickFn}
+      disabled={isDisabled}
+    >
       {leftIcon && <LeftImage src={leftIcon} />}
       {text}
       {rightIcon && <img src={rightIcon} />}

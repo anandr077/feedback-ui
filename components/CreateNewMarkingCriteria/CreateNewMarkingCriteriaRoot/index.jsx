@@ -163,6 +163,8 @@ export default function CreateNewMarkingCriteriaRoot(props) {
           } else {
             resetMarkingCriterias();
           }
+          
+          history.push(`/markingTemplates/rubrics/:${response.id?.value}`)
 
           toast(
             <Toast
@@ -186,8 +188,6 @@ export default function CreateNewMarkingCriteriaRoot(props) {
             />
           );
         });
-
-      history.push('/settings');
     } else {
       return;
     }

@@ -221,7 +221,6 @@ export default function CreateNewStrengthAndTargets() {
     }
     if (markingMethodologyId === 'new') {
       createNewMarkingCriteria(markingMethodology).then((response) => {
-        console.log('createNewMarkingCriteria', response);
         resetMarkingCriterias();
         toast(
           <Toast
@@ -232,12 +231,11 @@ export default function CreateNewStrengthAndTargets() {
           />
         );
 
-        history.push('/settings');
+        history.push(`/markingTemplates/strengths-and-targets/:${response.id.value}`);
       });
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
         (response) => {
-          console.log('updateMarkingCriteria', response);
           toast(
             <Toast
               message={'Strengths and Targets Updated'}
@@ -259,7 +257,7 @@ export default function CreateNewStrengthAndTargets() {
             }
           );
           setMarkingCriterias(updatedMarkingCriterias);
-          history.push('/settings');
+          history.push(`/markingTemplates/strengths-and-targets/:${response.id.value}`);
         }
       );
     }

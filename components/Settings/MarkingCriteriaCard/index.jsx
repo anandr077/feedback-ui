@@ -14,6 +14,7 @@ import {
 import Rubricsnew from '../../../static/img/Rubricsnew.svg';
 import Strengthsnew from '../../../static/img/Strengthsnew.svg';
 import { useHistory } from 'react-router-dom';
+import { exportJsonFile } from '../../../components2/markingCriteria';
 
 function MarkingCriteriaCard(props) {
   const {
@@ -32,6 +33,17 @@ function MarkingCriteriaCard(props) {
     return type == 'RUBRICS'
       ? `/markingTemplates/rubrics/${id}`
       : `/markingTemplates/strengths-and-targets/${id}`;
+  }
+
+  const downloadMarkingCriteria = (markingCriteria) =>{
+    const extractedMarkingCriteria = {
+      title: markingCriteria.title,
+      type: markingCriteria.type,
+      ...(markingCriteria.type === "STRENGTHS_TARGETS" 
+        ? { strengthsTargetsCriterias: markingCriteria.strengthsTargetsCriterias } 
+        : { criterias: markingCriteria.criterias })
+    }
+    exportJsonFile(extractedMarkingCriteria, extractedMarkingCriteria.title)
   }
 
   return (
@@ -65,6 +77,7 @@ function MarkingCriteriaCard(props) {
             deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
             cloneMarkingCriteria={cloneMarkingCriteria}
             setMarkingCriteriaPreviewDialog={setMarkingCriteriaPreviewDialog}
+            downloadMarkingCriteria={downloadMarkingCriteria}
           />
         </RightContainer>
       </MarkingCriteriaEntryHeading>

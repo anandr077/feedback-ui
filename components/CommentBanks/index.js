@@ -3,6 +3,9 @@ import {
   BankCommentTitle,
   ButtonConatiner,
   ButtonText,
+  CardContainer,
+  ImportFileLabel,
+  ImportFile,
   Card,
   CardImg,
   CardImgCont,
@@ -52,7 +55,6 @@ import {
   updateSmartAnnotation,
 } from '../../service';
 import Loader from '../Loader';
-import QuestionTooltip from '../../components2/QuestionTooltip';
 import EmptyBankIcon from '../../static/img/emptyBank.svg';
 import Plus from '../../static/img/Plus.svg';
 import Pluslight from '../../static/img/Pluslight.svg';
@@ -60,6 +62,7 @@ import TabTitleContainer from '../Settings/AccountSettingsMarkingCriteriaDeskt/T
 import { getUserId } from '../../userLocalDetails';
 import closecircle from '../../static/img/closecircle.svg';
 import PlusBlue from '../../static/img/Plus-blue.svg';
+import DownloadIcon from '../../static/img/Download.svg';
 import Doc from '../../static/img/doc.svg';
 import PreviewIcon from '../../static/img/preview.svg';
 import FeedbackArea from './FeedbackArea';
@@ -69,17 +72,22 @@ import { isTabletView } from '../ReactiveRender';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
 import MenuButton from '../MenuButton';
 import { useCommentBanks } from '../state/hooks';
+import CommentBankDialog from '../Shared/Dialogs/commentBank';
+import { importJsonFile, exportJsonFile } from '../../components2/markingCriteria';
+
 
 const CommentBanks = () => {
   const [smartAnnotations, setSmartAnnotations] = useState();
   const [systemSmartAnnotations, setSystemSmartAnnotations] = useState();
   const [selectedBank, setSelectedBank] = useState();
   const [feedbackBankId, setFeedbackBankId] = useState(0);
-  const [isShowNewBankPopUp, setShowNewBankPopUp] = useState(false);
+  const [isShowNewBankPopUp, setIsShowNewBankPopUp] = useState(false);
   const [feedbackBankCreated, setFeedbackBankCreated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [smartAnnotationeditIndex, setSmartAnnotationeditIndex] = useState(0);
-  const [isShowMenu, setShowMenu] = React.useState(false);
+  const [isShowMenu, setShowMenu] = useState(false);
+  const [isShowImportCommentBankPopup, setIsShowImportCommentBankPopup] = useState(false);
+  const [importedCommentBank, setImportedCommentBank] = useState({})
   const tabletView = isTabletView();
   const selectedRef = useRef(null);
 
@@ -160,7 +168,7 @@ const {
       });
   };
 
-  const createFeedbackBank = () => {
+  const createFeedbackBank = (feedbackBank = undefined) => {
     const newBank = {
       title: 'Untitled feedback bank',
       smartComments: [
@@ -175,10 +183,10 @@ const {
       ],
     };
 
-    createNewFeedbackBank(newBank)
+    createNewFeedbackBank(feedbackBank || newBank)
       .then((response) => {
         resetData();
-        setShowNewBankPopUp(false);
+        setIsShowNewBankPopUp(false);
         setFeedbackBankCreated(true);
         toast(<Toast message={'New feedback bank created'} />);
       })
@@ -195,7 +203,7 @@ const {
     const newObject = { title: `Copy of ${title}`, smartComments };
     createNewFeedbackBank(newObject)
       .then((responce) => {
-        setShowNewBankPopUp(false);
+        setIsShowNewBankPopUp(false);
         toast(<Toast message={'New feedback bank created'} />);
         resetData();
         setFeedbackBankCreated(true);
@@ -363,6 +371,34 @@ const {
       });
   };
 
+  const downloadCommentBank = (bankId) => {
+    const annotation = smartAnnotations.find(
+      (annotation) => annotation.id === bankId
+    );
+
+    if (!annotation) {
+      console.error(`No annotation found with bankId: ${bankId}`);
+      return;
+    }
+
+    const extractedCommentBank = {
+      title: annotation.title,
+      smartComments: annotation.smartComments,
+    };
+    exportJsonFile(extractedCommentBank, extractedCommentBank.title);
+  };
+
+  const handleCommentBankImport = async (event) =>{
+    try {
+      const importedJsonFile = await importJsonFile(event);
+      setImportedCommentBank(importedJsonFile);
+      setIsShowNewBankPopUp(false);
+      setIsShowImportCommentBankPopup(true);
+    } catch (error) {
+      console.error("Error importing comment bank:", error);
+    }
+  }
+
   if (isLoading) {
     return (
       <>
@@ -371,7 +407,7 @@ const {
     );
   }
 
-  const NewBankPopContainer = ({ setShowNewBankPopUp }) => {
+  const NewBankPopContainer = ({ setIsShowNewBankPopUp }) => {
     const selectBankFun = (e, bank) => {
       e.preventDefault();
       setSelectedBank(bank);
@@ -390,18 +426,31 @@ const {
           <PopupTitleContainer>
             <PopupTitle>Add New Comment Bank</PopupTitle>
             <PopupTitleImg
-              onClick={() => setShowNewBankPopUp(false)}
+              onClick={() => setIsShowNewBankPopUp(false)}
               src={closecircle}
             />
           </PopupTitleContainer>
           <PopupDialogContentBox>
             <PopupDialogContentBoxLeft>
-              <Card onClick={() => createFeedbackBank()}>
-                <CardImgCont>
-                  <CardImg src={PlusBlue} />
-                </CardImgCont>
-                <CardTitle>Create Your Own</CardTitle>
-              </Card>
+              <CardContainer>
+                <Card onClick={() => createFeedbackBank()}>
+                  <CardImgCont>
+                    <CardImg src={PlusBlue} />
+                  </CardImgCont>
+                  <CardTitle>Create Your Own</CardTitle>
+                </Card>
+                <ImportFileLabel>
+                  <CardImgCont>
+                    <CardImg src={DownloadIcon} rotate={true} />
+                  </CardImgCont>
+                  <CardTitle>Import</CardTitle>
+                  <ImportFile
+                    type="file"
+                    accept=".json"
+                    onChange={handleCommentBankImport}
+                  />
+                </ImportFileLabel>
+              </CardContainer>
               {systemSmartAnnotations.length > 0 && (
                 <BankCommentTitle style={{ borderTop: '1px solid #C9C6CC80' }}>
                   Use a template
@@ -467,7 +516,7 @@ const {
         <EmptyBankSubHeading>
           To start using comment banks, click below.
         </EmptyBankSubHeading>
-        <EmptyBankContainerButton onClick={() => setShowNewBankPopUp(true)}>
+        <EmptyBankContainerButton onClick={() => setIsShowNewBankPopUp(true)}>
           <TabsPlus src={Plus} />
           <TabsPlusText>New Bank</TabsPlusText>
         </EmptyBankContainerButton>
@@ -483,8 +532,16 @@ const {
 
   return (
     <>
+      {isShowImportCommentBankPopup && (
+        <CommentBankDialog 
+          commentBank={importedCommentBank}
+          setCommentBankPreviewDialog={setIsShowImportCommentBankPopup}
+          showActionButton={true}
+          onActionButtonClick={()=> createFeedbackBank(importedCommentBank)}
+        />
+      )}
       {isShowNewBankPopUp && (
-        <NewBankPopContainer setShowNewBankPopUp={setShowNewBankPopUp} />
+        <NewBankPopContainer setIsShowNewBankPopUp={setIsShowNewBankPopUp} />
       )}
       <MainContainer>
         <ImprovedSecondarySideBar
@@ -525,6 +582,7 @@ const {
                             deteteFeedbackBank={deteteFeedbackBank}
                             createCloneFeedbankBank={createCloneFeedbankBank}
                             showIcon={feedbackBankId === bank.id}
+                            downloadCommentBank={downloadCommentBank}
                           />
                         }
                       />
@@ -532,7 +590,7 @@ const {
                   </StyledTabs>
                   <MoreOptionsContainer>
                     <TabsPlusContainer
-                      onClick={() => setShowNewBankPopUp(true)}
+                      onClick={() => setIsShowNewBankPopUp(true)}
                     >
                       <TabsPlus src={Pluslight} />
                     </TabsPlusContainer>

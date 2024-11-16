@@ -331,16 +331,34 @@ export const PopupDialogContentBoxRight = styled.div`
   }
 `;
 
+export const CardContainer = styled.div`
+  padding: 16px;
+  border: 0 0 1px 0;
+  border-bottom: 1px solid #c9c6cc80;
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ImportFileLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  text-align: center;
+`;
+
+export const ImportFile = styled.input`
+  display: none; 
+`;
+
 export const Card = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding: 16px;
   gap: 10px;
-  border: 0 0 1px 0;
-  border-bottom: 1px solid #c9c6cc80;
-  background: #ffffff;
   cursor: pointer;
 `;
 export const CardImgCont = styled.div`
@@ -353,6 +371,7 @@ export const CardImgCont = styled.div`
 export const CardImg = styled.img`
   width: 30px;
   height: 30px;
+  transform: ${props => props.rotate ? 'rotate(180deg)' : '0'};
 `;
 export const CardImgDoc = styled.img`
   width: 46px;
@@ -423,7 +442,7 @@ export const Commentsuggestion = styled.p`
 
 export const ButtonConatiner = styled(DialogActions)`
 padding: 10px;
-gap: 10px
+gap: 10px;
 border: 1px 0 0 0;
 border-top: 1px solid #C9C6CC80;
 background: #FFFFFF;

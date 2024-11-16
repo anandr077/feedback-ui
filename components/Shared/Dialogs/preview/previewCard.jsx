@@ -4,10 +4,13 @@ import { chain } from 'lodash';
 import { isMobileView } from '../../../ReactiveRender';
 import * as React from 'react';
 import './preview.css';
+import RectangularBigBtn from '../../../../components2/Buttons/RectangularbigBtn';
 
 export default function PreviewDialog({
   setMarkingCriteriaPreviewDialog,
   markingCriterias,
+  showActionButton=false,
+  onActionButtonClick = () => {} 
 }) {
   const [open, setOpen] = React.useState(true);
   const onMobileView = isMobileView();
@@ -77,6 +80,11 @@ export default function PreviewDialog({
                   ))}
                 </div>
               ))}
+            </div>
+          )}
+          {showActionButton && (
+            <div className='action_button'>
+              <RectangularBigBtn text={'Import'} onClickFn={()=>onActionButtonClick(markingCriterias)}/>
             </div>
           )}
         </DialogContent>

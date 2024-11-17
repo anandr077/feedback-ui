@@ -94,38 +94,43 @@ export function validateStrengthsTargets(strengthAndTargetdata) {
 
 
 
-export function importJsonFile(event) {
-  return new Promise((resolve, reject) => {
-    const file = event.target.files[0];
-
-    if (file && file.type === 'application/json') {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        try {
-          const jsonData = JSON.parse(e.target.result);
-          resolve(jsonData);
-        } catch (error) {
-          console.error('Error parsing JSON:', error);
+  export function importJsonFile(event, allowedExtensions) {
+    console.log("allowedExtensions", allowedExtensions)
+    return new Promise((resolve, reject) => {
+      const file = event.target.files[0];
+  
+      // Check if file extension matches any of the allowed extensions
+      const fileExtension = file?.name.split('.').pop().toLowerCase();
+      const isAllowedExtension = allowedExtensions.includes(fileExtension);
+      
+      if (file &&  isAllowedExtension) {
+        const reader = new FileReader();
+  
+        reader.onload = (e) => {
+          try {
+            const jsonData = JSON.parse(e.target.result);
+            resolve(jsonData);
+          } catch (error) {
+            console.error('Error parsing JSON:', error);
+            reject(error);
+          }
+        };
+  
+        reader.onerror = (error) => {
+          console.error('File reading error:', error);
           reject(error);
-        }
-      };
+        };
+  
+        reader.readAsText(file);
+      } else {
+        toast(<Toast message={`Please upload a valid file with a .${allowedExtensions.join(' or .')} extension.`} />);
+        reject(new Error('Invalid file type or file extension'));
+      }
+    });
+  }
+  
 
-      reader.onerror = (error) => {
-        console.error('File reading error:', error);
-        reject(error);
-      };
-
-      reader.readAsText(file);
-    } else {
-      toast(<Toast message={'Please upload a valid comment bank file.'} />);
-      reject(new Error('Invalid file type'));
-    }
-  });
-}
-
-
-export const exportJsonFile = (data, title) =>{
+export const exportJsonFile = (data, title, extension) =>{
   const jsonResult = JSON.stringify(data, null, 2);
 
   const blob = new Blob([jsonResult], { type: 'application/json' });
@@ -137,7 +142,7 @@ export const exportJsonFile = (data, title) =>{
   : 'Downloaded_File';
 
   link.href = url;
-  link.download = `${sanitizedTitle}.json`;
+  link.download = `${sanitizedTitle}.${extension || 'json'}`;
   link.click();
 
   URL.revokeObjectURL(url);

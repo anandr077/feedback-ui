@@ -48,13 +48,11 @@ export const Buttons = styled.div`
 
 export const Arrowright = styled.img`
   position: relative;
-  min-width: 15px;
-  height: 15px;
 `;
 
 export const DeleteButtonContainer = styled.div`
   display: flex;
-  padding: 6px 7px;
+  padding: 6px 0px;
   align-items: flex-start;
   gap: 10px;
 `;

@@ -6,7 +6,9 @@ import {
   Arrowright,
   DeleteButtonContainer,
 } from './style';
-import preview from '../../../static/img/preview.svg';
+import QuestionTooltip from '../../../components2/QuestionTooltip';
+import { useResizedImage } from '../../../components2/resizeImage';
+import Loader from '../../Loader';
 
 function Buttons2(props) {
   const {
@@ -14,48 +16,41 @@ function Buttons2(props) {
     deleteMarkingCriteriaHandler,
     cloneMarkingCriteria,
     setMarkingCriteriaPreviewDialog,
+    downloadMarkingCriteria
   } = props;
+  const resizedImages = useResizedImage();
+
+  if(!resizedImages){
+    return <Loader />
+  }
+
 
   return (
     <ButtonsContainer>
-      <TooltipWrapper>
-        <Buttons
-          onClick={(e) => {
-            setMarkingCriteriaPreviewDialog(true);
-            e.stopPropagation();
-          }}
-        >
-          <img
-            src={preview}
-            alt="preview"
-            style={{
-              cursor: 'pointer',
-              height: '15px',
-              width: '15px',
-            }}
-          />
-        </Buttons>
-        <span className="tooltip-text">Preview</span>
-      </TooltipWrapper>
-      <TooltipWrapper>
-        <Buttons
-          onClick={(e) => {
-            cloneMarkingCriteria();
-            e.stopPropagation();
-          }}
-        >
-          <img
-            src="/img/copy@2x.png"
-            alt="copy"
-            style={{
-              cursor: 'pointer',
-              height: '15px',
-              width: '15px',
-            }}
-          />
-        </Buttons>
-        <span className="tooltip-text">Duplicate & Edit</span>
-      </TooltipWrapper>
+      <QuestionTooltip
+        text={'Export'}
+        img={resizedImages.export}
+        onClickFn={(e) => {
+          downloadMarkingCriteria(markingCriteria);
+          e.stopPropagation();
+        }}
+      />
+      <QuestionTooltip
+        text={'Preview'}
+        img={resizedImages.preview}
+        onClickFn={(e) => {
+          setMarkingCriteriaPreviewDialog(true);
+          e.stopPropagation();
+        }}
+      />
+      <QuestionTooltip
+        text={'Duplicate & Edit'}
+        img={resizedImages.copy}
+        onClickFn={(e) => {
+          cloneMarkingCriteria();
+          e.stopPropagation();
+        }}
+      />
       <TooltipWrapper>
         <DeleteButtonContainer
           onClick={(e) => {
@@ -67,7 +62,7 @@ function Buttons2(props) {
           isHovered={!markingCriteria?.isSystem ? true : false}
         >
           {!markingCriteria?.isSystem ? (
-            <Arrowright src="/icons/delete-logo.svg" alt="delete" />
+            <Arrowright src={resizedImages.delete} alt="delete" />
           ) : (
             <Arrowright
               src="/icons/taskDeleteIcon.png"

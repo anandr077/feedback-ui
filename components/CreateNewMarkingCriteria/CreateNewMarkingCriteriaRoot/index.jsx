@@ -16,6 +16,7 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 import { useMarkingCriterias } from '../../state/hooks';
+import { validateRubric } from '../../../components2/markingCriteria';
 
 export default function CreateNewMarkingCriteriaRoot(props) {
   const { markingCriteriaId } = useParams();
@@ -122,65 +123,10 @@ export default function CreateNewMarkingCriteriaRoot(props) {
     setMarkingCriteria({ ...markingCriteria, criterias: newCriterias });
   };
 
-  const validateMarkingCriteria = () => {
-    let isValid = true;
-    if (markingCriteria.title === '' || markingCriteria.title === undefined) {
-      toast(
-        <Toast message={'Please enter a title for the marking criteria'} />
-      );
-      isValid = false;
-    }
-    if (markingCriteria.criterias.length === 0) {
-      toast(<Toast message={'Please add at least one criteria'} />);
-      isValid = false;
-      return ;
-    }
-
-    for (let indexout = 0; indexout < markingCriteria.criterias.length; indexout++) {
-      const criteria = markingCriteria.criterias[indexout];
   
-      if (criteria.title === undefined || criteria.title === '') {
-        toast(
-          <Toast
-            message={`Please enter a title for criteria ${indexout + 1}`}
-          />
-        );
-        isValid = false;
-        return; 
-      }
-  
-      for (let level of criteria.levels) {
-        if (level.name == undefined || level.name === '') {
-          toast(
-            <Toast
-              message={`Please enter a name for all levels in criteria ${
-                indexout + 1
-              }`}
-            />
-          );
-          isValid = false;
-          return; 
-        }
-  
-        if (level.description == undefined || level.description === '') {
-          toast(
-            <Toast
-              message={`Please enter a description for all levels in criteria ${
-                indexout + 1
-              }`}
-            />
-          );
-          isValid = false;
-          return;
-        }
-      }
-    }
-
-    return isValid;
-  };
 
   const saveMarkingCriteria = () => {
-    if (validateMarkingCriteria()) {
+    if (validateRubric(markingCriteria)) {
       const newMarkingCriteria = {
         title: markingCriteria.title,
         criterias: markingCriteria.criterias.map((criteria) => {
@@ -217,6 +163,8 @@ export default function CreateNewMarkingCriteriaRoot(props) {
           } else {
             resetMarkingCriterias();
           }
+          
+          history.push(`/markingTemplates/rubrics/:${response.id?.value}`)
 
           toast(
             <Toast
@@ -240,8 +188,6 @@ export default function CreateNewMarkingCriteriaRoot(props) {
             />
           );
         });
-
-      history.push('/settings');
     } else {
       return;
     }

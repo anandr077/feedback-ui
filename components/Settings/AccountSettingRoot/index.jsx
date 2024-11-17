@@ -92,6 +92,7 @@ export default function AccountSettingsRoot(props) {
       <AccountSettingsMarkingCriteriaDeskt
         {...{
           markingCriteriaList,
+          resetMarkingCriterias
         }}
       />
       {openMarkingMethodologyDialog && (

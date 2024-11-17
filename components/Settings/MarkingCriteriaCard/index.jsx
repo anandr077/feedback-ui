@@ -43,7 +43,7 @@ function MarkingCriteriaCard(props) {
         ? { strengthsTargetsCriterias: markingCriteria.strengthsTargetsCriterias } 
         : { criterias: markingCriteria.criterias })
     }
-    exportJsonFile(extractedMarkingCriteria, extractedMarkingCriteria.title)
+    exportJsonFile(extractedMarkingCriteria, extractedMarkingCriteria.title, "mc")
   }
 
   return (

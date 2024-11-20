@@ -7,10 +7,15 @@ const SideMenuBar = ({
   menuItems,
   onClickMenuItem,
   currentItem,
+  onCloseOnboarding
 }) => {
   const lastItem = currentItem === menuItems.length - 1;
   const handleNext = () => {
-    onClickMenuItem((prevIdx) => prevIdx + 1);
+    if (lastItem) {
+      onCloseOnboarding(); 
+    } else {
+      onClickMenuItem((prevIdx) => prevIdx + 1); 
+    }
   };
 
   return (

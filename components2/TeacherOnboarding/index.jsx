@@ -6,9 +6,9 @@ import { MainContainer } from './style';
 import OnboardingHomeSection from './OnboardingHomeSection';
 import { sidebarButtonText, mainSectionContent } from './onboardingContents';
 import CloseButton from '../Buttons/CloseButton';
+import { isOnboardingHome } from './rules';
 
-
-const TeacherOnboarding = () => {
+const TeacherOnboarding = ({ onCloseOnboarding }) => {
   const [currentMainSection, setCurrentMainSection] = useState(0);
   const [showOnboardingHomePage, setShowOnboardingHomePage] = useState(true);
   const handleMainSectionChange = (curr) => {
@@ -21,24 +21,28 @@ const TeacherOnboarding = () => {
       sx={{
         '& .MuiDialog-paper': {
           width: 922,
-          maxWidth: '90%'
+          maxWidth: '90%',
         },
         '& .MuiDialogContent-root': {
-            padding: 0, // Removes padding inside DialogContent
-            },
+          padding: 0, // Removes padding inside DialogContent
+        },
       }}
     >
-      {showOnboardingHomePage ? (
-        <OnboardingHomeSection currentSlide={setShowOnboardingHomePage} />
+      {isOnboardingHome(showOnboardingHomePage) ? (
+        <OnboardingHomeSection
+          currentSlide={setShowOnboardingHomePage}
+          onCloseOnboarding={onCloseOnboarding}
+        />
       ) : (
         <DialogContent>
           <MainContainer>
-            <CloseButton onclickFn={()=> console.log('hello')}/>
+            <CloseButton onclickFn={onCloseOnboarding} />
             <SideMenuBar
               menuTitle={"Starter's guide"}
               menuItems={sidebarButtonText}
               currentItem={currentMainSection}
               onClickMenuItem={handleMainSectionChange}
+              onCloseOnboarding={onCloseOnboarding}
             />
             <TeacherOnboardingMainSection
               content={mainSectionContent[currentMainSection]}

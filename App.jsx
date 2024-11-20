@@ -43,12 +43,14 @@ import { getLocalStorage } from './utils/function';
 import OnboardingScreen from './components2/Onboard/OnboardingScreen';
 import Loader from './components/Loader';
 import TeacherOnboarding from './components2/TeacherOnboarding';
+import { isTeacherOnboarding } from './rules';
 
 function App() {
 
   const exchangeInProgress = useRef(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showTeacherOnboarding, setShowTeacherOnboarding] = useState(false);
 
   useEffect(() => {
     if (isLoggedOut) {
@@ -88,20 +90,31 @@ function App() {
   }, []);
   useEffect(() => {
     if (isAuthenticated) {
-      const defaultShowOnboarding =
+      const defaultShowStudentOnboarding =
         getUserRole() === 'STUDENT' &&
         (getLocalStorage('state') === undefined || getLocalStorage('state') === null) &&
         !localStorage.getItem('onboardingShown');
 
-      if (defaultShowOnboarding) {
+      const defaultShowTeacherOnboarding = getUserRole() !== 'STUDENT'
+
+      if (defaultShowStudentOnboarding) {
         setShowOnboarding(true);
         localStorage.setItem('onboardingShown', true);
+      }
+
+      if(defaultShowTeacherOnboarding){
+        setShowTeacherOnboarding(true);
       }
     }
   }, [isAuthenticated]);
   const closeOnboarding = () => {
     setShowOnboarding(false);
   };
+
+  const closeTeacherOnboarding = () =>{
+    setShowTeacherOnboarding(false)
+  };
+
   const externalIDPUrl = () => {
     const selfBaseUrl =
       process.env.REACT_APP_SELF_BASE_URL ?? 'http://localhost:1234';
@@ -172,13 +185,16 @@ function App() {
     <>
       <QueryClientProvider client={client}>
         <Router>
-          
           <div className="app-container">
-
             <MainSidebar />
-            <TeacherOnboarding />
+            {isTeacherOnboarding(showTeacherOnboarding) && (
+              <TeacherOnboarding onCloseOnboarding={closeTeacherOnboarding} />
+            )}
             {showOnboarding && (
-              <OnboardingScreen editStateYear={false} onClose={closeOnboarding} />
+              <OnboardingScreen
+                editStateYear={false}
+                onClose={closeOnboarding}
+              />
             )}
             <VisibilityWrapper>
               {mobileView ? (

@@ -9,10 +9,10 @@ import { MainTitle, Subtitle } from './teacherOnboardingMainSectionStyle';
 import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn';
 import CloseButton from '../Buttons/CloseButton';
 
-const OnboardingHomeSection = ({ currentSlide }) => {
+const OnboardingHomeSection = ({ currentSlide, onCloseOnboarding }) => {
   return (
     <DialogContent>
-      <CloseButton onclickFn={()=> console.log('Hello world')}/>
+      <CloseButton onclickFn={onCloseOnboarding}/>
       <OnbaordingBanner src={TeacherHeroImage} />
       <OnbaordingMainSection>
         <div>

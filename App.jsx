@@ -42,6 +42,7 @@ import { ddRum } from './dd';
 import { getLocalStorage } from './utils/function';
 import OnboardingScreen from './components2/Onboard/OnboardingScreen';
 import Loader from './components/Loader';
+import TeacherOnboarding from './components2/TeacherOnboarding';
 
 function App() {
 
@@ -175,6 +176,7 @@ function App() {
           <div className="app-container">
 
             <MainSidebar />
+            <TeacherOnboarding />
             {showOnboarding && (
               <OnboardingScreen editStateYear={false} onClose={closeOnboarding} />
             )}

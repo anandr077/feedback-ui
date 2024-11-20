@@ -187,7 +187,7 @@ function App() {
         <Router>
           <div className="app-container">
             <MainSidebar />
-            {isTeacherOnboarding(showTeacherOnboarding) && (
+            {isTeacherOnboarding(showTeacherOnboarding, mobileView) && (
               <TeacherOnboarding onCloseOnboarding={closeTeacherOnboarding} />
             )}
             {showOnboarding && (

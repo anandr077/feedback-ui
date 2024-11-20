@@ -24,7 +24,7 @@ const TeacherOnboarding = ({ onCloseOnboarding }) => {
           maxWidth: '90%',
         },
         '& .MuiDialogContent-root': {
-          padding: 0, // Removes padding inside DialogContent
+          padding: 0, 
         },
       }}
     >

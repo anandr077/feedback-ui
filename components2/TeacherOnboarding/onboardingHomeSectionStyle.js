@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
-export const OnbaordingBanner = styled.img``;
+export const OnboardingBanner = styled.img``;
 
-export const OnbaordingMainSection = styled.div`
+export const OnboardingLeft = styled.div``;
+
+export const OnboardingMainSection = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;

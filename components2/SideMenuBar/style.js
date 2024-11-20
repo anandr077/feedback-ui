@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const SidebarContainer = styled.div`
   width: 250px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Title = styled.h1`
@@ -10,10 +12,11 @@ export const Title = styled.h1`
   font-size: var(--font-size-xl);
   line-height: 28px;
   color: rgba(0, 0, 0, 1);
+  margin-bottom: 12px;
 `;
 
 export const MenuContainer = styled.div`
-  margin: 30px 0;
+  flex-grow: 1;
 `;
 
 export const MenuButton = styled.button`

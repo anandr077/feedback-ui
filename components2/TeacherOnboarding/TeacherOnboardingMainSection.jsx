@@ -1,21 +1,31 @@
 import React from 'react';
-import { MainTitle, Subtitle, Header, ButtonContainer } from './teacherOnboardingMainSectionStyle';
+import {
+  OnboardingMainContainer,
+  MainTitle,
+  Subtitle,
+  Header,
+  ButtonContainer,
+  Image,
+} from './teacherOnboardingMainSectionStyle';
 import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn/index';
 import { useHistory } from 'react-router-dom';
 
 const TeacherOnboardingMainSection = ({ content }) => {
   const history = useHistory();
   return (
-    <div>
+    <OnboardingMainContainer>
       <Header>
         <MainTitle>{content.title}</MainTitle>
         <Subtitle>{content.subTitle}</Subtitle>
       </Header>
-      <img src={content.image} />
+      <Image src={content.image} />
       <ButtonContainer>
-      <RoundedBorderSubmitBtn text={content.buttonText} onClickFn={()=> history.push(content.link)}/>
+        <RoundedBorderSubmitBtn
+          text={content.buttonText}
+          onClickFn={() => history.push(content.link)}
+        />
       </ButtonContainer>
-    </div>
+    </OnboardingMainContainer>
   );
 };
 

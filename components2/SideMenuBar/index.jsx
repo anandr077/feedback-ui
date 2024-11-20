@@ -8,7 +8,7 @@ const SideMenuBar = ({
   onClickMenuItem,
   currentItem,
 }) => {
-  const lastItem = currentItem !== menuItems.length - 1;
+  const lastItem = currentItem === menuItems.length - 1;
   const handleNext = () => {
     onClickMenuItem((prevIdx) => prevIdx + 1);
   };

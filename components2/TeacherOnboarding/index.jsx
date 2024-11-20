@@ -21,8 +21,11 @@ const TeacherOnboarding = () => {
       sx={{
         '& .MuiDialog-paper': {
           width: 922,
-          maxWidth: '90%',
+          maxWidth: '90%'
         },
+        '& .MuiDialogContent-root': {
+            padding: 0, // Removes padding inside DialogContent
+            },
       }}
     >
       {showOnboardingHomePage ? (

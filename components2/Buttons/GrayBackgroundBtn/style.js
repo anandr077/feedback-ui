@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Button = styled.button`
+  width: fit-content;
   background-color: rgba(75, 70, 79, 1);
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;

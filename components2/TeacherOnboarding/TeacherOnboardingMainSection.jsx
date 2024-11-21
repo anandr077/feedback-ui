@@ -22,7 +22,7 @@ const TeacherOnboardingMainSection = ({ content }) => {
       <ButtonContainer>
         <RoundedBorderSubmitBtn
           text={content.buttonText}
-          onClickFn={() => history.push(content.link)}
+          onClickFn={() => window.open(content.link, '_blank')}
         />
       </ButtonContainer>
     </OnboardingMainContainer>

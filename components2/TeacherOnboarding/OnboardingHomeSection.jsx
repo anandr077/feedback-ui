@@ -4,16 +4,14 @@ import TeacherHeroImage from '../../static/img/TeacherOnboardingHero.svg';
 import {
   OnboardingBanner,
   OnboardingMainSection,
-  OnboardingLeft
+  OnboardingLeft,
 } from './onboardingHomeSectionStyle';
 import { MainTitle, Subtitle } from './teacherOnboardingMainSectionStyle';
 import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn';
-import CloseButton from '../Buttons/CloseButton';
 
-const OnboardingHomeSection = ({ currentSlide, onCloseOnboarding }) => {
+const OnboardingHomeSection = ({ currentSlide }) => {
   return (
     <DialogContent>
-      <CloseButton onclickFn={onCloseOnboarding}/>
       <OnboardingBanner src={TeacherHeroImage} />
       <OnboardingMainSection>
         <OnboardingLeft>

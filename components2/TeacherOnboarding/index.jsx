@@ -31,7 +31,6 @@ const TeacherOnboarding = ({ onCloseOnboarding }) => {
       {isOnboardingHome(showOnboardingHomePage) ? (
         <OnboardingHomeSection
           currentSlide={setShowOnboardingHomePage}
-          onCloseOnboarding={onCloseOnboarding}
         />
       ) : (
         <DialogContent>

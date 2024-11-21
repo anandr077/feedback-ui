@@ -1,6 +1,8 @@
 import React from 'react';
 import { Title, MenuContainer, MenuButton, SidebarContainer } from './style';
 import GrayBackgroundBtn from '../Buttons/GrayBackgroundBtn';
+import { profileStateYear } from '../../service';
+import { setLocalStorage } from '../../utils/function';
 
 const SideMenuBar = ({
   menuTitle,
@@ -9,10 +11,20 @@ const SideMenuBar = ({
   currentItem,
   onCloseOnboarding
 }) => {
+  const year = 2024;
+  const state = 'NSW'
+
   const lastItem = currentItem === menuItems.length - 1;
   const handleNext = () => {
     if (lastItem) {
-      onCloseOnboarding(); 
+      profileStateYear({
+        year: year,
+        state: state,
+      }).then(() => {
+        setLocalStorage('state', state);
+        setLocalStorage('year', year);
+        onCloseOnboarding(); 
+      });
     } else {
       onClickMenuItem((prevIdx) => prevIdx + 1); 
     }

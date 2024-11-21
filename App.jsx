@@ -34,7 +34,7 @@ import { isMobileView } from './components/ReactiveRender';
 import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
 import JeddAI from './components/JeddAI';
 import VisibilityWrapper from './components2/VisibilityWrapper/VisibilityWrapper';
-import { exchangeCodeForToken, isLoggedOut } from './service';
+import { exchangeCodeForToken, getProfile, isLoggedOut } from './service';
 import Dashboard from './components/Dashboard';
 import Tasks from './components/Tasks';
 import queryString from 'query-string';
@@ -51,6 +51,24 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showTeacherOnboarding, setShowTeacherOnboarding] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
+  const [loadingProfile, setLoadingProfile] = useState(true);
+
+  // console.log('the user profile', userProfile)
+  // useEffect(()=>{
+  //   const fetchData = async () => {
+  //     try {
+  //       const data = await getProfile();
+  //       setUserProfile(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     } finally {
+  //       setLoadingProfile(false);
+  //     }
+  //   };
+    
+  //   fetchData();
+  // }, [])
 
   useEffect(() => {
     if (isLoggedOut) {
@@ -95,16 +113,22 @@ function App() {
         (getLocalStorage('state') === undefined || getLocalStorage('state') === null) &&
         !localStorage.getItem('onboardingShown');
 
-      const defaultShowTeacherOnboarding = getUserRole() !== 'STUDENT'
-
       if (defaultShowStudentOnboarding) {
         setShowOnboarding(true);
         localStorage.setItem('onboardingShown', true);
       }
+    }
 
-      if(defaultShowTeacherOnboarding){
-        setShowTeacherOnboarding(true);
-      }
+    if(isAuthenticated ){
+      // const defaultShowTeacherOnboarding = 
+      // (userProfile.state === null || userProfile.state === undefined) &&
+      // (userProfile.year === null || userProfile.year === undefined);
+
+      // if(defaultShowTeacherOnboarding){
+      //   console.log("the default user profile is", defaultShowTeacherOnboarding)
+      //   setShowTeacherOnboarding(defaultShowTeacherOnboarding);
+      // }
+      setShowTeacherOnboarding(true);
     }
   }, [isAuthenticated]);
   const closeOnboarding = () => {
@@ -187,7 +211,7 @@ function App() {
         <Router>
           <div className="app-container">
             <MainSidebar />
-            {isTeacherOnboarding(showTeacherOnboarding, mobileView) && (
+            {isTeacherOnboarding(showTeacherOnboarding, mobileView, role) && (
               <TeacherOnboarding onCloseOnboarding={closeTeacherOnboarding} />
             )}
             {showOnboarding && (

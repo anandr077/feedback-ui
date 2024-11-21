@@ -14,7 +14,7 @@ export const mainSectionContent = [
       'Add comment banks in the settings and use them to speed up your feedback process',
     image: '/img/createTaskOnboarding.svg',
     buttonText: 'Create New Task',
-    link: '/tasks/new',
+    link: '#/tasks/new',
   },
   {
     title: 'Add Marking Templates',
@@ -22,7 +22,7 @@ export const mainSectionContent = [
       'Add comment banks in the settings and use them to speed up your feedback process',
     image: '/img/markingTemplateOnboarding.svg',
     buttonText: 'New Marking Template',
-    link: '/settings',
+    link: '#/settings',
   },
   {
     title: 'Comment Banks',
@@ -30,7 +30,7 @@ export const mainSectionContent = [
       'Add comment banks in the settings and use them to speed up your feedback process',
     image: '/img/commentBankOnboarding.svg',
     buttonText: 'Add Comment Banks',
-    link: '/commentbanks',
+    link: '#/commentbanks',
   },
   {
     title: 'View Class Insights',
@@ -38,7 +38,7 @@ export const mainSectionContent = [
       'Add comment banks in the settings and use them to speed up your feedback process',
     image: '/img/viewClassInsightsOnboarding.svg',
     buttonText: 'View Insights',
-    link: '/classes',
+    link: '#/classes',
   },
   {
     title: 'AI-assisted marking',
@@ -46,7 +46,7 @@ export const mainSectionContent = [
       'Add comment banks in the settings and use them to speed up your feedback process',
     image: '/img/viewClassInsightsOnboarding.svg',
     buttonText: 'Get Feedback',
-    link: '/getFeedback',
+    link: '#/getFeedback',
   },
   {
     title: 'Exemplars',
@@ -54,6 +54,6 @@ export const mainSectionContent = [
       'Add comment banks in the settings and use them to speed up your feedback process',
     image: '/img/exemplarsOnboarding.svg',
     buttonText: 'View Exemplars',
-    link: '/sharedresponses',
+    link: '#/sharedresponses',
   },
 ];

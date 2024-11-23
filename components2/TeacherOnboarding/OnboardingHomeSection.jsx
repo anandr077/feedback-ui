@@ -8,8 +8,19 @@ import {
 } from './onboardingHomeSectionStyle';
 import { MainTitle, Subtitle } from './teacherOnboardingMainSectionStyle';
 import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn';
+import { profileStateYear } from '../../service';
 
 const OnboardingHomeSection = ({ currentSlide }) => {
+  
+  const handleGetStartedButtonClick = () => {
+    profileStateYear({
+      year: 2024,
+      state: 'NSW',
+    }).then(() => {
+      currentSlide(false);
+    });
+  };
+
   return (
     <DialogContent>
       <OnboardingBanner src={TeacherHeroImage} />
@@ -22,7 +33,7 @@ const OnboardingHomeSection = ({ currentSlide }) => {
         </OnboardingLeft>
         <RoundedBorderSubmitBtn
           text={'Get Started'}
-          onClickFn={() => currentSlide(false)}
+          onClickFn={handleGetStartedButtonClick}
         />
       </OnboardingMainSection>
     </DialogContent>

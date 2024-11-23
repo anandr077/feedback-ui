@@ -43,32 +43,15 @@ import { getLocalStorage } from './utils/function';
 import OnboardingScreen from './components2/Onboard/OnboardingScreen';
 import Loader from './components/Loader';
 import TeacherOnboarding from './components2/TeacherOnboarding';
-import { isTeacherOnboarding } from './rules';
+import { isStudentOnboarding, isTeacherOnboarding } from './rules';
 
 function App() {
 
   const exchangeInProgress = useRef(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showStudentOnboarding, setShowStudentOnboarding] = useState(false);
   const [showTeacherOnboarding, setShowTeacherOnboarding] = useState(false);
-  const [userProfile, setUserProfile] = useState(null);
-  const [loadingProfile, setLoadingProfile] = useState(true);
-
-  // console.log('the user profile', userProfile)
-  // useEffect(()=>{
-  //   const fetchData = async () => {
-  //     try {
-  //       const data = await getProfile();
-  //       setUserProfile(data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     } finally {
-  //       setLoadingProfile(false);
-  //     }
-  //   };
-    
-  //   fetchData();
-  // }, [])
+  const [loadingProfile, setLoadingProfile] = useState(false);
 
   useEffect(() => {
     if (isLoggedOut) {
@@ -114,25 +97,37 @@ function App() {
         !localStorage.getItem('onboardingShown');
 
       if (defaultShowStudentOnboarding) {
-        setShowOnboarding(true);
+        setShowStudentOnboarding(true);
         localStorage.setItem('onboardingShown', true);
       }
     }
+  }, [isAuthenticated]);
 
-    if(isAuthenticated ){
-      // const defaultShowTeacherOnboarding = 
-      // (userProfile.state === null || userProfile.state === undefined) &&
-      // (userProfile.year === null || userProfile.year === undefined);
+  useEffect(() => {
+    if (isAuthenticated) {
+      const fetchUserProfile = async () => {
+        setLoadingProfile(true);
+        try {
+          const userProfile = await getProfile();
 
-      // if(defaultShowTeacherOnboarding){
-      //   console.log("the default user profile is", defaultShowTeacherOnboarding)
-      //   setShowTeacherOnboarding(defaultShowTeacherOnboarding);
-      // }
-      setShowTeacherOnboarding(true);
+          const defaultShowTeacherOnboarding =
+            (userProfile?.state === null || userProfile?.state === undefined) &&
+            (userProfile?.year === null || userProfile?.year === undefined);
+
+          setShowTeacherOnboarding(defaultShowTeacherOnboarding);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoadingProfile(false);
+        }
+      };
+
+      fetchUserProfile();
     }
   }, [isAuthenticated]);
+
   const closeOnboarding = () => {
-    setShowOnboarding(false);
+    setShowStudentOnboarding(false);
   };
 
   const closeTeacherOnboarding = () =>{
@@ -158,7 +153,7 @@ function App() {
   const mobileView = isMobileView();
 
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || loadingProfile) {
     return <Loader />;
   }
   const role = getUserRole();
@@ -214,7 +209,7 @@ function App() {
             {isTeacherOnboarding(showTeacherOnboarding, mobileView, role) && (
               <TeacherOnboarding onCloseOnboarding={closeTeacherOnboarding} />
             )}
-            {showOnboarding && (
+            {isStudentOnboarding(showStudentOnboarding) && (
               <OnboardingScreen
                 editStateYear={false}
                 onClose={closeOnboarding}

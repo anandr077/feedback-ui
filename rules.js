@@ -7,3 +7,7 @@ export const isTeacherOnboarding = (showTeacherOnboarding, mobileView, role) =>{
     return role !== "STUDENT" && showTeacherOnboarding && !mobileView
 }
 
+export const isStudentOnboarding = (showStudentOnboarding) =>{
+  return showStudentOnboarding
+}
+

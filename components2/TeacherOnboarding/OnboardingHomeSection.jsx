@@ -9,17 +9,32 @@ import {
 import { MainTitle, Subtitle } from './teacherOnboardingMainSectionStyle';
 import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn';
 import { profileStateYear } from '../../service';
+import { useProfile } from '../../components/state/hooks';
+import Loader from '../../components/Loader';
 
 const OnboardingHomeSection = ({ currentSlide }) => {
-  
+  const { data: profile, isLoadingdata: isLoadingProfile } = useProfile();
+
+  const noStateYear =
+    (profile?.state === null || profile?.state === undefined) &&
+    (profile?.year === null || profile?.year === undefined);
+
   const handleGetStartedButtonClick = () => {
-    profileStateYear({
-      year: 2024,
-      state: 'NSW',
-    }).then(() => {
+    if (noStateYear) {
+      profileStateYear({
+        year: 2024,
+        state: 'NSW',
+      }).then(() => {
+        currentSlide(false);
+      });
+    } else {
       currentSlide(false);
-    });
+    }
   };
+
+  if (isLoadingProfile) {
+    <Loader />;
+  }
 
   return (
     <DialogContent>

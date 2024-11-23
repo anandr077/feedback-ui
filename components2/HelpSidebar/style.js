@@ -93,3 +93,19 @@ export const HelpOptionsContainer = styled.div`
   scrollbar-width: none;
   -ms-overflow-style: none;
 `;
+
+export const Onboarding = styled.button`
+  border: none;
+  background-color: transparent;
+  color: rgba(114, 0, 224, 1);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 26px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+`;
+
+export const OnboardingIcone = styled.img``;

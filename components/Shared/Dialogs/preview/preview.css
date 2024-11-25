@@ -165,3 +165,7 @@
   border: 1px solid transparent;
   padding: 8px;
 }
+
+.action_button{
+  padding: 10px 0px;
+}

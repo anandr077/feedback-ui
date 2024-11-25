@@ -516,7 +516,8 @@ const answerFrames = (
                     share,
                     question,
                     isFeedback,
-                    QuestionIndex
+                    QuestionIndex,
+                    setIsSavingAnswer
                   )}
                 </QuillContainer>
               </StyledTabPanel>

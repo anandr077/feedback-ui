@@ -58,12 +58,36 @@ export const getBounds = (editor, comments) => {
 
 function getBoundsForComment(editor, comment) {
   if (editor) {
-    const length = comment.range.to - comment.range.from;
-    return editor.getBounds(comment.range.from, length);
+    const contentLength = editor.getLength();
+
+    let from = parseInt(comment.range.from, 10);
+    let to = parseInt(comment.range.to, 10);
+
+    // Validate that 'from' and 'to' are valid numbers and non-negative
+    if (isNaN(from) || isNaN(to) || from < 0 || to < 0) {
+      console.error('Invalid range values:', comment.range);
+      return null;
+    }
+
+    // Ensure 'from' is less than or equal to 'to'
+    if (from > to) {
+      [from, to] = [to, from]; // Swap values
+    }
+
+    // Clamp 'to' to the content length
+    to = Math.min(to, contentLength);
+
+    const length = to - from;
+
+    if (length <= 0) {
+      console.error('Computed length is zero or negative:', length);
+      return null;
+    }
+
+    return editor.getBounds(from, length);
   }
   return null;
 }
-
 
 export const withHeights = (comments) => {
   return comments?.map((comment, index) => {

@@ -73,6 +73,7 @@ import { useAllDocuments, useAllSubmisssionsById, useMarkingCriterias, useClassD
 import JeddAIFeedbackTypeSelection from '../JeddAIFeedbackTypeSelection/index.jsx';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard.jsx';
 import CommentBankDialog from '../../Shared/Dialogs/commentBank/index.js';
+import TopMessageBox from '../../../components2/TopMessageBox/index.jsx';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -1766,6 +1767,7 @@ export default function FeedbacksRoot() {
         setIsUpdatingHandWrittenFiles
       }}
     >
+      <TopMessageBox />
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
       {feedbackReviewPopup && (

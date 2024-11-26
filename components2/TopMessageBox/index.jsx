@@ -30,7 +30,7 @@ const TopMessageBox = () => {
           gap: '10px',
           width: '100%',
           backgroundColor: 'var(--blue-chalk)',
-          color: 'white',
+          color: 'var(--royal-purple)',
           padding: '20px 40px',
           borderRadius: '20px',
         }}

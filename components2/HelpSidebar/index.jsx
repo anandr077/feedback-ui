@@ -10,7 +10,8 @@ import {
   CloseHelpBar,
   HelpOptionsContainer,
   Onboarding,
-  OnboardingIcone
+  OnboardingIcone,
+  VideoLinkTag
 } from './style';
 import Accordion from './Accordion';
 import { isSmallScreen } from '../../components/ReactiveRender';
@@ -95,6 +96,34 @@ function helpSidebarContent(data, handleSearch, handleOnboardingButtonClick) {
           <OnboardingIcone src={onboarding} />
           Onboarding
         </Onboarding>
+        {getUserRole() !== 'STUDENT' && (
+          <>
+            <VideoLinkTag
+              href="https://jeddle.wistia.com/medias/nltfwafxjn"
+              target="_blank"
+            >
+              Getting Started
+            </VideoLinkTag>
+            <VideoLinkTag
+              href="https://jeddle.wistia.com/medias/pxkf4ankwt"
+              target="_blank"
+            >
+              Creating a Task
+            </VideoLinkTag>
+            <VideoLinkTag
+              href="https://jeddle.wistia.com/medias/vj1ioj8188"
+              target="_blank"
+            >
+              Marking a Task
+            </VideoLinkTag>
+            <VideoLinkTag
+              href="https://jeddle.wistia.com/medias/5syf3fudi1"
+              target="_blank"
+            >
+              Class Insights
+            </VideoLinkTag>
+          </>
+        )}
       </HelpOptionsContainer>
     </>
   );

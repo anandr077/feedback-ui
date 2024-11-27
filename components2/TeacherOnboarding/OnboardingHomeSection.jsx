@@ -1,10 +1,9 @@
 import React from 'react';
 import { DialogContent } from '@mui/material';
-import TeacherHeroImage from '../../static/img/TeacherOnboardingHero.svg';
 import {
-  OnboardingBanner,
   OnboardingMainSection,
   OnboardingLeft,
+  OnboardingVideo
 } from './onboardingHomeSectionStyle';
 import { MainTitle, Subtitle } from './teacherOnboardingMainSectionStyle';
 import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn';
@@ -38,7 +37,11 @@ const OnboardingHomeSection = ({ currentSlide }) => {
 
   return (
     <DialogContent>
-      <OnboardingBanner src={TeacherHeroImage} />
+      <OnboardingVideo
+        src="https://fast.wistia.net/embed/iframe/pas1z2rcol"
+        frameborder="0"
+        allowfullscreen
+      ></OnboardingVideo>
       <OnboardingMainSection>
         <OnboardingLeft>
           <MainTitle>Welcome to Jeddle</MainTitle>

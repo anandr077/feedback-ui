@@ -128,6 +128,7 @@ export default function FeedbacksRoot() {
   const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(null);
   const [currentCommentBank, setCurrentCommentBank] = useState(null);
   const [isUpdatingHandWrittenFiles, setIsUpdatingHandWrittenFiles] = useState(false);
+  const [taskAccepted, setTaskAccepted] = useState(false);
 
   const {
     data: submissionByIdData,
@@ -1694,8 +1695,22 @@ export default function FeedbacksRoot() {
   function handleAcceptFeedbackRequest(submissionId){
     acceptFeedbackRequest(submissionId)
     .then((response)=>{
-      setSubmissionByIdData(response)
+      setSubmissionByIdData((prev)=>({
+        ...prev,
+        reviewerId: response.reviewerId,
+        reviewerName: response.reviewerName,
+        status: response.status,
+        feedbackRequestAcceptedAt: response.feedbackRequestAcceptedAt,
+        reviewerName: response.reviewerName
+      }))
     })
+    .catch((error) => {
+      if (error.message.includes("already been accepted")) {
+        setTaskAccepted(true)
+      } else {
+        console.error("An unexpected error occurred:", error);
+      }
+    });
   }
 
   const isResetEditorTextSelection = () => {
@@ -1776,7 +1791,15 @@ export default function FeedbacksRoot() {
       }}
     >
       {isShowBannerBox(submissionByIdData?.status) && (
-        <TopBannerBox onclickFn={()=> handleAcceptFeedbackRequest(submissionByIdData?.id)} />
+        <TopBannerBox
+          onclickFn={() => handleAcceptFeedbackRequest(submissionByIdData?.id)}
+          bannerText={
+            taskAccepted
+              ? 'This feedback request has already been accepted by another teacher.'
+              : 'Do you want to review this task?'
+          }
+          showBannerButton={!taskAccepted}
+        />
       )}
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}

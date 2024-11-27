@@ -11,6 +11,7 @@ import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
 import { FeedbackContext } from './FeedbackContext.js';
 
 import {
+  acceptFeedbackRequest,
   addFeedback,
   askJeddAI,
   deleteFeedback,
@@ -68,12 +69,12 @@ import Header from '../../Header2/index.jsx';
 import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
-import { allCriteriaHaveSelectedLevels } from './rules.js';
+import { allCriteriaHaveSelectedLevels, isShowBannerBox } from './rules.js';
 import { useAllDocuments, useAllSubmisssionsById, useMarkingCriterias, useClassData, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 import JeddAIFeedbackTypeSelection from '../JeddAIFeedbackTypeSelection/index.jsx';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard.jsx';
 import CommentBankDialog from '../../Shared/Dialogs/commentBank/index.js';
-import TopMessageBox from '../../../components2/TopMessageBox/index.jsx';
+import TopBannerBox from '../../../components2/TopBannerBox/index.jsx';
 
 const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
@@ -1690,6 +1691,17 @@ export default function FeedbacksRoot() {
     setCommentBankPreviewDialog(currentCommentBank?.smartComments?.length > 0);
   }
 
+  function handleAcceptFeedbackRequest(submissionId){
+    acceptFeedbackRequest(submissionId)
+    .then((response)=>{
+      setSubmissionByIdData((prev)=>({
+        ...prev,
+        status: response.status,
+        feedbackRequestAcceptedAt: response.feedbackRequestAcceptedAt,
+      }))
+    })
+  }
+
   const isResetEditorTextSelection = () => {
     setShowFloatingDialogue(false);
     setNewCommentSerialNumber(0);
@@ -1751,7 +1763,7 @@ export default function FeedbacksRoot() {
         comments: feedbackComments,
         showFloatingDialogue,
         setShowFloatingDialogue,
-        allCommentBanks : feedbanksData?._embedded?.commentbanks,
+        allCommentBanks: feedbanksData?._embedded?.commentbanks,
         methods,
         isTeacher,
         quillRefs,
@@ -1762,12 +1774,14 @@ export default function FeedbacksRoot() {
         setSelectedComment,
         setFeedbackBanksPopUp,
         isJeddAIEnabled,
-        allMarkingCriterias:markingCriterias,
-        isUpdatingHandWrittenFiles, 
-        setIsUpdatingHandWrittenFiles
+        allMarkingCriterias: markingCriterias,
+        isUpdatingHandWrittenFiles,
+        setIsUpdatingHandWrittenFiles,
       }}
     >
-      <TopMessageBox />
+      {isShowBannerBox(submissionByIdData?.status) && (
+        <TopBannerBox onclickFn={()=> handleAcceptFeedbackRequest(submissionByIdData?.id)} />
+      )}
       {showSubmitPopup &&
         submitPopup(pageMode, hideSubmitPopup, popupText, submissionFunction)}
       {feedbackReviewPopup && (
@@ -1805,11 +1819,9 @@ export default function FeedbacksRoot() {
       )}
       {showJeddAIFeedbackTypeSelectionPopUp && (
         <JeddAIFeedbackTypeSelection
-        allMarkingCriterias={markingCriterias}
-        allCommentBanks={feedbanksData?._embedded?.commentbanks}
-          hidePopup={() =>
-            setShowJeddAIFeedbackTypeSelectionPopUp(false)
-          }
+          allMarkingCriterias={markingCriterias}
+          allCommentBanks={feedbanksData?._embedded?.commentbanks}
+          hidePopup={() => setShowJeddAIFeedbackTypeSelectionPopUp(false)}
           updateMarkingCriteria={updateMarkingCriteria}
           updateCommentBank={updateCommentBank}
           handleCommentBankPreview={handleCommentBankPreview}

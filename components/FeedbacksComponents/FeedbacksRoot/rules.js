@@ -227,3 +227,8 @@ export const isShowMarkingCriteriaSidebar = (
 ) => {
   return overallComments?.length !== 0 || markingCriteriaFeedback?.length !== 0;
 };
+
+
+export const isShowBannerBox = (submissionStatus) => {
+  return submissionStatus === 'SUBMITTED' && getUserRole() === 'TEACHER';
+};

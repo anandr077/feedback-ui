@@ -3,7 +3,7 @@ import { Snackbar, Box, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn';
 
-const TopMessageBox = () => {
+const TopBannerBox = ({onclickFn}) => {
     const [openMessageBox, setOpenMessageBox] = useState(true)
   return (
     <Snackbar
@@ -43,7 +43,7 @@ const TopMessageBox = () => {
         </Typography>
         <RoundedBorderSubmitBtn
           text={'Review'}
-          onClickFn={() => console.log('')}
+          onClickFn={onclickFn}
         />
         <IconButton size="small" onClick={()=> setOpenMessageBox(false)} sx={{ color: 'var(--light-mode-purple)' }}>
           <CloseIcon />
@@ -53,4 +53,4 @@ const TopMessageBox = () => {
   );
 };
 
-export default TopMessageBox;
+export default TopBannerBox;

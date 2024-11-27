@@ -1694,11 +1694,7 @@ export default function FeedbacksRoot() {
   function handleAcceptFeedbackRequest(submissionId){
     acceptFeedbackRequest(submissionId)
     .then((response)=>{
-      setSubmissionByIdData((prev)=>({
-        ...prev,
-        status: response.status,
-        feedbackRequestAcceptedAt: response.feedbackRequestAcceptedAt,
-      }))
+      setSubmissionByIdData(response)
     })
   }
 

@@ -1083,15 +1083,7 @@ export default function FeedbacksRoot() {
       resetCommentBanksData();
       console.log('teh teacher nextUrl', nextUrl)
 
-      console.log('the teacher nextUrl', nextUrl);
-      const sanitizedNextUrl = nextUrl.startsWith('#')
-        ? nextUrl
-        : `#${nextUrl}`;
-      if (isTeacher) {
-        history.push(sanitizedNextUrl === '#/' ? '/#' : sanitizedNextUrl);
-      } else {
-        history.push('/#');
-      }
+      history.push('/#');
     });
   }
 
@@ -1189,13 +1181,8 @@ export default function FeedbacksRoot() {
         resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        console.log('the teacher nextUrl', nextUrl)
-        const sanitizedNextUrl = nextUrl.startsWith('#') ? nextUrl : `#${nextUrl}`;
-        if (isTeacher) {
-          history.push(sanitizedNextUrl === '#/' ? '/#' : sanitizedNextUrl);
-        } else {
-          history.push('/#')
-        }
+        
+        history.push('/#');
       });
     }
   }

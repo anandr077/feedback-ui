@@ -44,7 +44,7 @@ export const mainSectionContent = [
     title: 'AI-assisted marking',
     subTitle:
       'Add comment banks in the settings and use them to speed up your feedback process',
-    image: '/img/viewClassInsightsOnboarding.svg',
+    image: '/img/aiMarkingTutorialImage.svg',
     buttonText: 'Get Feedback',
     link: '#/getFeedback',
   },

@@ -125,7 +125,8 @@ function App() {
             (userProfile?.state === null || userProfile?.state === undefined) &&
             (userProfile?.year === null || userProfile?.year === undefined);
 
-          setShowTeacherOnboarding(defaultShowTeacherOnboarding);
+          //setShowTeacherOnboarding(defaultShowTeacherOnboarding);
+          setShowTeacherOnboarding(true);
         } catch (error) {
           console.error(error);
         } finally {

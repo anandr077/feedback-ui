@@ -59,7 +59,7 @@ import {
 } from './style';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min.js';
+import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
 import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
@@ -69,7 +69,7 @@ import Header from '../../Header2/index.jsx';
 import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
-import { allCriteriaHaveSelectedLevels, isShowBannerBox } from './rules.js';
+import { allCriteriaHaveSelectedLevels, bannerText, isShowBannerBox, isShowBannerButton } from './rules.js';
 import { useAllDocuments, useAllSubmisssionsById, useMarkingCriterias, useClassData, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
 import JeddAIFeedbackTypeSelection from '../JeddAIFeedbackTypeSelection/index.jsx';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard.jsx';
@@ -128,7 +128,7 @@ export default function FeedbacksRoot() {
   const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(null);
   const [currentCommentBank, setCurrentCommentBank] = useState(null);
   const [isUpdatingHandWrittenFiles, setIsUpdatingHandWrittenFiles] = useState(false);
-  const [taskAccepted, setTaskAccepted] = useState(false);
+  const [openReviewApprovalBanner, setOpenReviewApprovalBanner] = useState(true);
 
   const {
     data: submissionByIdData,
@@ -320,6 +320,12 @@ export default function FeedbacksRoot() {
   }, [submissionByIdData, feedbackReviewPopup, history]);
 
 
+  useEffect(()=>{
+    const showBannerBox = allSubmissions?.some((submission) => submission?.id === submissionByIdData?.id)
+    setOpenReviewApprovalBanner(showBannerBox)
+  }, [submissionByIdData, allSubmissions])
+
+
 
   const deleteDraftPage = (submissionId, pendingLocation) => {
     console.log('deleteDraftPage', submissionId, pendingLocation);
@@ -414,7 +420,6 @@ export default function FeedbacksRoot() {
   };
 
 
-
   const pageMode = getPageMode(isTeacher, getUserId(), submissionByIdData);
 
   const handleEditingComment = (flag) => {
@@ -476,7 +481,6 @@ export default function FeedbacksRoot() {
       }
     });
   }
-  console.log('selectedRange selectedRange', selectedRange)
 
   function handleShortcutAddCommentSmartAnnotaion(commentText) {
     addFeedback(submissionByIdData.id, {
@@ -1077,6 +1081,7 @@ export default function FeedbacksRoot() {
       resetAllDocuments();
       resetAllSubmissions();
       resetCommentBanksData();
+      console.log('teh teacher nextUrl', nextUrl)
       if (isTeacher) {
         window.location.href = nextUrl === '/' ? '/#' : nextUrl;
       } else {
@@ -1179,6 +1184,7 @@ export default function FeedbacksRoot() {
         resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
+        console.log('the teacher nextUrl', nextUrl)
         if (isTeacher) {
           history.push(nextUrl === '/' ? '/#' : nextUrl);
         } else {
@@ -1702,14 +1708,18 @@ export default function FeedbacksRoot() {
         status: response.status,
         feedbackRequestAcceptedAt: response.feedbackRequestAcceptedAt,
         reviewerName: response.reviewerName
-      }))
+      }));
     })
     .catch((error) => {
-      if (error.message.includes("already been accepted")) {
-        setTaskAccepted(true)
-      } else {
-        console.error("An unexpected error occurred:", error);
-      }
+      console.log('Error accepting feedback request:', error);
+      resetSubmissionByIdData();
+      toast(
+        <Toast
+          message={
+            'This feedback request has already been accepted by another teacher.'
+          }
+        />
+      );
     });
   }
 
@@ -1720,6 +1730,7 @@ export default function FeedbacksRoot() {
     setSelectedText(null);
     setShowNewComment(false);
   };
+
 
   const methods = {
     comments: feedbackComments,
@@ -1793,12 +1804,10 @@ export default function FeedbacksRoot() {
       {isShowBannerBox(submissionByIdData?.status) && (
         <TopBannerBox
           onclickFn={() => handleAcceptFeedbackRequest(submissionByIdData?.id)}
-          bannerText={
-            taskAccepted
-              ? 'This feedback request has already been accepted by another teacher.'
-              : 'Do you want to review this task?'
-          }
-          showBannerButton={!taskAccepted}
+          bannerText={bannerText(submissionByIdData?.status)}
+          showBannerButton={isShowBannerButton(submissionByIdData?.status)}
+          openBanner={openReviewApprovalBanner}
+          setOpenBanner={setOpenReviewApprovalBanner}
         />
       )}
       {showSubmitPopup &&

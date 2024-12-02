@@ -1,4 +1,4 @@
-import { getUserRole } from '../../../userLocalDetails';
+import { getUserRole, getUserId } from '../../../userLocalDetails';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import { findMarkingCriteria, getOverallComment } from './functions';
 
@@ -232,3 +232,14 @@ export const isShowMarkingCriteriaSidebar = (
 export const isShowBannerBox = (submissionStatus) => {
   return submissionStatus === 'SUBMITTED' && getUserRole() === 'TEACHER';
 };
+
+export const bannerText = (submissionStatus) => {
+  if (submissionStatus === 'SUBMITTED') {
+    return 'Do you want to review this task?';
+  }
+  return '';
+};
+
+export const isShowBannerButton = (submissionStatus) =>{
+  return submissionStatus === 'SUBMITTED'
+}

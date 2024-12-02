@@ -3,12 +3,11 @@ import { Snackbar, Box, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn';
 
-const TopBannerBox = ({ onclickFn, bannerText, showBannerButton=true }) => {
-  const [openMessageBox, setOpenMessageBox] = useState(true);
+const TopBannerBox = ({ onclickFn, bannerText, showBannerButton=true, openBanner, setOpenBanner}) => {
   return (
     <Snackbar
-      open={openMessageBox}
-      onClose={''}
+      open={openBanner}
+      onClose={() => setOpenBanner(true)}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       sx={{
         '& .MuiSnackbarContent-root': {
@@ -47,7 +46,7 @@ const TopBannerBox = ({ onclickFn, bannerText, showBannerButton=true }) => {
 
         <IconButton
           size="small"
-          onClick={() => setOpenMessageBox(false)}
+          onClick={() => setOpenBanner(false)}
           sx={{ color: 'var(--light-mode-purple)' }}
         >
           <CloseIcon />

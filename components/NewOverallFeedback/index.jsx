@@ -69,7 +69,7 @@ const NewOverallFeedback = ({
         textarea.removeEventListener('input', adjustHeight);
       };
     }
-  }, [overallComment, serialNumber]);
+  }, [overallComment, serialNumber, pageMode]);
 
   const onSave = () => {
     let value = inputRef.current.value;

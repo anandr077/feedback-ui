@@ -29,7 +29,6 @@ const SideMenuBar = ({
       <GrayBackgroundBtn
         buttonText={'Previous'}
         onClickFn={handlePreviousButtonClick}
-        isDisable={currentItem === 0}
         showLeftIcon={true}
       />
     </SidebarContainer>

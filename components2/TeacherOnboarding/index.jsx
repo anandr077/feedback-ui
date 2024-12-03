@@ -26,7 +26,13 @@ const TeacherOnboarding = ({ onCloseOnboarding }) => {
 
 
   const handlePreviousButtonClick = () => {
-    handleMainSectionChange((prevIdx) => prevIdx - 1);
+    handleMainSectionChange((prevIdx) => {
+      if (currentMainSection === 0) {
+        setShowOnboardingHomePage(true);
+        return prevIdx;
+      } 
+      return prevIdx - 1;
+    });
   };
 
   return (

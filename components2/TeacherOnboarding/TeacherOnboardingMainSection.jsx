@@ -19,7 +19,7 @@ const TeacherOnboardingMainSection = ({ content, lastItem, handleNextButtonClick
       <ContentSection>
         <Header>
           <MainTitle>{content.title}</MainTitle>
-          <Subtitle>{content.subTitle}</Subtitle>
+          <Subtitle fixedHeight={true}>{content.subTitle}</Subtitle>
         </Header>
         <Image src={content.image} />
         <ButtonContainer>

@@ -5,26 +5,37 @@ import {
   Subtitle,
   Header,
   ButtonContainer,
+  NextButtonContainer,
+  ContentSection,
   Image,
 } from './teacherOnboardingMainSectionStyle';
 import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn/index';
-import { useHistory } from 'react-router-dom';
+import GrayBackgroundBtn from '../Buttons/GrayBackgroundBtn';
 
-const TeacherOnboardingMainSection = ({ content }) => {
-  const history = useHistory();
+const TeacherOnboardingMainSection = ({ content, lastItem, handleNextButtonClick }) => {
+
   return (
     <OnboardingMainContainer>
-      <Header>
-        <MainTitle>{content.title}</MainTitle>
-        <Subtitle>{content.subTitle}</Subtitle>
-      </Header>
-      <Image src={content.image} />
-      <ButtonContainer>
-        <RoundedBorderSubmitBtn
-          text={content.buttonText}
-          onClickFn={() => window.open(content.link, '_blank')}
+      <ContentSection>
+        <Header>
+          <MainTitle>{content.title}</MainTitle>
+          <Subtitle>{content.subTitle}</Subtitle>
+        </Header>
+        <Image src={content.image} />
+        <ButtonContainer>
+          <RoundedBorderSubmitBtn
+            text={content.buttonText}
+            onClickFn={() => window.open(content.link, '_blank')}
+          />
+        </ButtonContainer>
+      </ContentSection>
+      <NextButtonContainer>
+        <GrayBackgroundBtn
+          buttonText={lastItem ? 'Finish' : 'Next'}
+          onClickFn={handleNextButtonClick}
+          showRightIcon={!lastItem}
         />
-      </ButtonContainer>
+      </NextButtonContainer>
     </OnboardingMainContainer>
   );
 };

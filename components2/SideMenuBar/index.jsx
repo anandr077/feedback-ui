@@ -7,17 +7,8 @@ const SideMenuBar = ({
   menuItems,
   onClickMenuItem,
   currentItem,
-  onCloseOnboarding
+  handlePreviousButtonClick
 }) => {
-
-  const lastItem = currentItem === menuItems.length - 1;
-  const handleNextButtonClick = () => {
-    if (lastItem) {
-      onCloseOnboarding(); 
-    } else {
-      onClickMenuItem((prevIdx) => prevIdx + 1); 
-    }
-  };
 
   return (
     <SidebarContainer>
@@ -36,8 +27,10 @@ const SideMenuBar = ({
       </MenuContainer>
 
       <GrayBackgroundBtn
-        buttonText={lastItem ? 'Finish' : 'Next'}
-        onClickFn={handleNextButtonClick}
+        buttonText={'Previous'}
+        onClickFn={handlePreviousButtonClick}
+        isDisable={currentItem === 0}
+        showLeftIcon={true}
       />
     </SidebarContainer>
   );

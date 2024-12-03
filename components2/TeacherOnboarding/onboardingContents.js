@@ -1,17 +1,17 @@
 export const sidebarButtonText = [
   'Create Tasks',
-  'Add Marking Templates',
-  'Add Comment Banks',
+  'Marking Templates',
+  'Comment banks',
   'View Class Insights',
   'AI-Assisted Marking',
-  'Exemplar Responses',
+  'Sharing Exemplars',
 ];
 
 export const mainSectionContent = [
   {
     title: 'Create Tasks',
     subTitle:
-      'Add comment banks in the settings and use them to speed up your feedback process',
+      "Click the 'New Task' button in the top right corner to create, customise and assign a writing task for your classes.",
     image: '/img/createTaskOnboarding.svg',
     buttonText: 'Create New Task',
     link: '#/tasks/new',
@@ -19,7 +19,7 @@ export const mainSectionContent = [
   {
     title: 'Add Marking Templates',
     subTitle:
-      'Add comment banks in the settings and use them to speed up your feedback process',
+      "Use a preloaded marking template or create your own to provide overall feedback for a task in a few clicks. Use either a performance-based rubric OR a specific list of strengths and target areas.",
     image: '/img/markingTemplateOnboarding.svg',
     buttonText: 'New Marking Template',
     link: '#/settings',
@@ -27,7 +27,7 @@ export const mainSectionContent = [
   {
     title: 'Comment Banks',
     subTitle:
-      'Add comment banks in the settings and use them to speed up your feedback process',
+      "Create your own comment banks to speed up the marking process, or add/customise a preloaded comment bank, which can be found in your Marking Tools.",
     image: '/img/commentBankOnboarding.svg',
     buttonText: 'Add Comment Banks',
     link: '#/commentbanks',
@@ -35,23 +35,23 @@ export const mainSectionContent = [
   {
     title: 'View Class Insights',
     subTitle:
-      'Add comment banks in the settings and use them to speed up your feedback process',
+      "Identify skill gaps with real-time insights based on the most common areas of feedback.",
     image: '/img/viewClassInsightsOnboarding.svg',
     buttonText: 'View Insights',
     link: '#/classes',
   },
   {
-    title: 'AI-assisted marking',
+    title: 'AI-Assisted marking',
     subTitle:
-      'Add comment banks in the settings and use them to speed up your feedback process',
+      "Use our teacher-trained AI model to produce instant annotations and feedback on a student submission. You can edit and supplement JeddAI's suggestions before submitting feedback, ensuring that you always have the final say.",
     image: '/img/aiMarkingTutorialImage.svg',
     buttonText: 'Get Feedback',
     link: '#/getFeedback',
   },
   {
-    title: 'Exemplars',
+    title: 'Exemplary Responses',
     subTitle:
-      'Add comment banks in the settings and use them to speed up your feedback process',
+      'Help students learn from each other by sharing work in your class library',
     image: '/img/exemplarsOnboarding.svg',
     buttonText: 'View Exemplars',
     link: '#/sharedresponses',

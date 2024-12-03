@@ -18,7 +18,7 @@ import { isSmallScreen } from '../../components/ReactiveRender';
 import helpdata from './helpdata.json';
 import { userRole } from '../../roles';
 import helpbing from '../../static/img/help-icon.svg';
-import onboarding from '../../static/icons/onboardingIcone.svg';
+import onboarding from '../../static/icons/External _Link.svg';
 import {
   HeadingImage,
   Heading,
@@ -102,24 +102,28 @@ function helpSidebarContent(data, handleSearch, handleOnboardingButtonClick) {
               href="https://jeddle.wistia.com/medias/nltfwafxjn"
               target="_blank"
             >
+              <OnboardingIcone src={onboarding} />
               Getting Started
             </VideoLinkTag>
             <VideoLinkTag
               href="https://jeddle.wistia.com/medias/pxkf4ankwt"
               target="_blank"
             >
+              <OnboardingIcone src={onboarding} />
               Creating a Task
             </VideoLinkTag>
             <VideoLinkTag
               href="https://jeddle.wistia.com/medias/vj1ioj8188"
               target="_blank"
             >
+              <OnboardingIcone src={onboarding} />
               Marking a Task
             </VideoLinkTag>
             <VideoLinkTag
               href="https://jeddle.wistia.com/medias/5syf3fudi1"
               target="_blank"
             >
+              <OnboardingIcone src={onboarding} />
               Class Insights
             </VideoLinkTag>
           </>

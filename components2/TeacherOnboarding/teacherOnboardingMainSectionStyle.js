@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 
 export const OnboardingMainContainer = styled.div`
-  margin: 14px auto;
+  margin-top: 14px;
+  width: 100%;
+  position: relative;
 `;
 
 export const Header = styled.div`
    text-align: center;
    max-width: 472px;
-   margin-bottom: 27px;
+   margin: 0 auto 27px;
 `;
 
 export const MainTitle = styled.h1`
@@ -25,7 +27,7 @@ export const Subtitle = styled.p`
   font-size: var(--font-size-m);
   line-height: 21px;
   color: rgba(86, 81, 91, 1);
-  
+  //height: 80px;
 `;
 
 export const Image = styled.img`
@@ -38,3 +40,14 @@ export const ButtonContainer = styled.div`
   justify-content: center;
   margin-top: 16px;
 `;
+
+export const NextButtonContainer = styled.div`
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+`;
+
+export const ContentSection = styled.div`
+  margin: 0 auto;
+  text-align: center;
+`

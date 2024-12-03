@@ -14,6 +14,21 @@ const TeacherOnboarding = ({ onCloseOnboarding }) => {
   const handleMainSectionChange = (curr) => {
     setCurrentMainSection(curr);
   };
+
+  const lastItem = currentMainSection === sidebarButtonText.length - 1;
+  const handleNextButtonClick = () => {
+    if (lastItem) {
+      onCloseOnboarding(); 
+    } else {
+      handleMainSectionChange((prevIdx) => prevIdx + 1); 
+    }
+  };
+
+
+  const handlePreviousButtonClick = () => {
+    handleMainSectionChange((prevIdx) => prevIdx - 1);
+  };
+
   return (
     <Dialog
       open={true}
@@ -41,10 +56,12 @@ const TeacherOnboarding = ({ onCloseOnboarding }) => {
               menuItems={sidebarButtonText}
               currentItem={currentMainSection}
               onClickMenuItem={handleMainSectionChange}
-              onCloseOnboarding={onCloseOnboarding}
+              handlePreviousButtonClick={handlePreviousButtonClick}
             />
             <TeacherOnboardingMainSection
               content={mainSectionContent[currentMainSection]}
+              lastItem={lastItem}
+              handleNextButtonClick={handleNextButtonClick}
             />
           </MainContainer>
         </DialogContent>

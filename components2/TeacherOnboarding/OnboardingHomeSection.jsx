@@ -3,7 +3,7 @@ import { DialogContent } from '@mui/material';
 import {
   OnboardingMainSection,
   OnboardingLeft,
-  OnboardingVideo
+  OnboardingVideo,
 } from './onboardingHomeSectionStyle';
 import { MainTitle, Subtitle } from './teacherOnboardingMainSectionStyle';
 import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn';
@@ -44,9 +44,9 @@ const OnboardingHomeSection = ({ currentSlide }) => {
       ></OnboardingVideo>
       <OnboardingMainSection>
         <OnboardingLeft>
-          <MainTitle>Welcome to Jeddle</MainTitle>
+          <MainTitle>Welcome to Jeddle's Feedback and Marking Portal</MainTitle>
           <Subtitle>
-            Create Tasks, Give Feedback or Ask JeddAI for Feedback
+            Assign formative writing tasks and give feedback, instantly.
           </Subtitle>
         </OnboardingLeft>
         <RoundedBorderSubmitBtn

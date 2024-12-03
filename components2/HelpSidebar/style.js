@@ -104,7 +104,8 @@ export const Onboarding = styled.button`
   line-height: 26px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
+  padding: 0;
   cursor: pointer;
 
   :hover{
@@ -119,7 +120,9 @@ export const VideoLinkTag = styled.a`
   font-weight: 500;
   font-size: 20px;
   line-height: 26px;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 5px;
   margin: 20px 0px;
 
   :hover{
@@ -127,4 +130,6 @@ export const VideoLinkTag = styled.a`
   }
 `;
 
-export const OnboardingIcone = styled.img``;
+export const OnboardingIcone = styled.img`
+  width: 25px;
+`;

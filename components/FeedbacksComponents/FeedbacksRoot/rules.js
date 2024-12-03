@@ -182,9 +182,6 @@ export const isShowClosedReviewAudioComment = (
   if (pageMode === 'REVISE') {
     return true;
   }
-  if (pageMode === 'CLOSED' && reviewer !== user) {
-    return false;
-  }
   return true;
 };
 

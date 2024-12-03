@@ -21,7 +21,7 @@ export const mainSectionContent = [
     subTitle:
       "Use a preloaded marking template or create your own to provide overall feedback for a task in a few clicks. Use either a performance-based rubric OR a specific list of strengths and target areas.",
     image: '/img/markingTemplateOnboarding.svg',
-    buttonText: 'New Marking Template',
+    buttonText: 'Add Marking Template',
     link: '#/settings',
   },
   {
@@ -45,7 +45,7 @@ export const mainSectionContent = [
     subTitle:
       "Use our teacher-trained AI model to produce instant annotations and feedback on a student submission. You can edit and supplement JeddAI's suggestions before submitting feedback, ensuring that you always have the final say.",
     image: '/img/aiMarkingTutorialImage.svg',
-    buttonText: 'Get Feedback',
+    buttonText: 'Try JeddAI',
     link: '#/getFeedback',
   },
   {

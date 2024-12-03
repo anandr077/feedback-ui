@@ -27,7 +27,7 @@ export const Subtitle = styled.p`
   font-size: var(--font-size-m);
   line-height: 21px;
   color: rgba(86, 81, 91, 1);
-  //height: 80px;
+  height: 80px;
 `;
 
 export const Image = styled.img`

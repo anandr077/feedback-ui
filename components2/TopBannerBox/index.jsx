@@ -38,10 +38,17 @@ const TopBannerBox = ({ onclickFn, bannerText, showBannerButton=true, openBanner
       >
         <Typography
           variant="body1"
-          sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center' }}
+          sx={{
+            fontWeight: 'bold',
+            display: 'flex',
+            alignItems: 'center',
+          }}
         >
-          {bannerText.slice(0, 60)}...
-          <QuestionTooltip text={bannerText} img={questionMark} />
+          {bannerText.slice(0, 130)}...
+          <QuestionTooltip
+            text={bannerText}
+            img={questionMark}
+          />
         </Typography>
         {showBannerButton && (
           <RoundedBorderSubmitBtn text={'Mark Now'} onClickFn={onclickFn} />

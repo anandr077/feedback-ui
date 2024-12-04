@@ -232,7 +232,7 @@ export const isShowBannerBox = (submissionStatus) => {
 
 export const bannerText = (submissionStatus) => {
   if (submissionStatus === 'SUBMITTED') {
-    return 'Do you want to review this task?';
+    return "This response can only be marked by one teacher. By clicking 'Mark Now' you will become the sole marker for this submission. Other teachers will still be able to view the response, but only you can provide feedback.";
   }
   return '';
 };

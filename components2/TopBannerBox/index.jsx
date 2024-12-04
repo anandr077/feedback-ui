@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Snackbar, Box, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn';
+import questionMark from '../../static/img/24questionbordered.svg';
+import QuestionTooltip from '../../components2/QuestionTooltip';
 
 const TopBannerBox = ({ onclickFn, bannerText, showBannerButton=true, openBanner, setOpenBanner}) => {
   return (
@@ -26,7 +28,7 @@ const TopBannerBox = ({ onclickFn, bannerText, showBannerButton=true, openBanner
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: '10px',
+          gap: '5px',
           width: '100%',
           backgroundColor: 'var(--blue-chalk)',
           color: 'var(--royal-purple)',
@@ -36,18 +38,19 @@ const TopBannerBox = ({ onclickFn, bannerText, showBannerButton=true, openBanner
       >
         <Typography
           variant="body1"
-          sx={{ fontWeight: 'bold', marginRight: '15px' }}
+          sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center' }}
         >
-          {bannerText}
+          {bannerText.slice(0, 60)}...
+          <QuestionTooltip text={bannerText} img={questionMark} />
         </Typography>
         {showBannerButton && (
-          <RoundedBorderSubmitBtn text={'Review'} onClickFn={onclickFn} />
+          <RoundedBorderSubmitBtn text={'Mark Now'} onClickFn={onclickFn} />
         )}
 
         <IconButton
           size="small"
           onClick={() => setOpenBanner(false)}
-          sx={{ color: 'var(--light-mode-purple)' }}
+          sx={{ color: 'var(--light-mode-purple)', padding: 0 }}
         >
           <CloseIcon />
         </IconButton>

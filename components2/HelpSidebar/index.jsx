@@ -28,7 +28,8 @@ import { getUserRole } from '../../userLocalDetails';
 
 const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   const isSmallView = isSmallScreen();
-  const [data, setData] = useState(helpdata[userRole()] || []);
+  const role = userRole();
+  const [data, setData] = useState(helpdata[role] || []);
   const [searchQuery, setSearchQuery] = useState('');
   const { setShowStudentOnboarding, setShowTeacherOnboarding } =
     useContext(AppContext);
@@ -42,11 +43,11 @@ const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   const handleSearch = (query) => {
     setSearchQuery(query);
     if (!query) {
-      setData(helpdata[userRole()]);
+      setData(helpdata[role]);
       return;
     }
 
-    const filteredData = helpdata[userRole()].filter(
+    const filteredData = helpdata[role].filter(
       (section) =>
         section.title.toLowerCase().includes(query.toLowerCase()) ||
         section.subtopics.some((subtopic) =>

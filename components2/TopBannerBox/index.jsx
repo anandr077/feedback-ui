@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn';
 import questionMark from '../../static/img/24questionbordered.svg';
 import QuestionTooltip from '../../components2/QuestionTooltip';
+import { BannerTextContainer } from './style';
 
 const TopBannerBox = ({ onclickFn, bannerText, showBannerButton=true, openBanner, setOpenBanner}) => {
   return (
@@ -44,11 +45,8 @@ const TopBannerBox = ({ onclickFn, bannerText, showBannerButton=true, openBanner
             alignItems: 'center',
           }}
         >
-          {bannerText.slice(0, 130)}...
-          <QuestionTooltip
-            text={bannerText}
-            img={questionMark}
-          />
+          <BannerTextContainer>{bannerText}</BannerTextContainer>
+          <QuestionTooltip text={bannerText} img={questionMark} />
         </Typography>
         {showBannerButton && (
           <RoundedBorderSubmitBtn text={'Mark Now'} onClickFn={onclickFn} />

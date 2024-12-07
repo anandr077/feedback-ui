@@ -11,7 +11,6 @@ import {
   HelpOptionsContainer,
   Onboarding,
   OnboardingIcone,
-  VideoLinkTag
 } from './style';
 import Accordion from './Accordion';
 import { isSmallScreen } from '../../components/ReactiveRender';
@@ -25,29 +24,8 @@ import {
 } from '../../components/NotificationsMenu/NotificationsBar/style';
 import { AppContext } from '../../app.context';
 import { getUserRole } from '../../userLocalDetails';
-
-const videoLinks = [
-  {
-    name: 'Getting Started',
-    link: 'https://jeddle.wistia.com/medias/nltfwafxjn',
-    icon: 'icons/External _Link.svg'
-  },
-  {
-    name: 'Creating a Task',
-    link: 'https://jeddle.wistia.com/medias/pxkf4ankwt',
-    icon: 'icons/External _Link.svg'
-  },
-  {
-    name: 'Marking a Task',
-    link: 'https://jeddle.wistia.com/medias/vj1ioj8188',
-    icon: 'icons/External _Link.svg'
-  },
-  {
-    name: 'Class Insights',
-    link: 'https://jeddle.wistia.com/medias/5syf3fudi1',
-    icon: 'icons/External _Link.svg'
-  }
-]
+import { videoLinks } from './tutorialLinks';
+import LinksAccordion from './LinksAccordion';
 
 const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   const isSmallView = isSmallScreen();
@@ -114,20 +92,16 @@ function helpSidebarContent(data, handleSearch, handleOnboardingButtonClick) {
         <SearchIcon src="/img/find-replace.png" />
       </SearchContainer>
       <HelpOptionsContainer>
-        {getUserRole() !== 'STUDENT' &&
-          videoLinks.map((link) => (
-            <VideoLinkTag href={link.link} target="_blank">
-              <OnboardingIcone src={link.icon} />
-              {link.name}
-            </VideoLinkTag>
-          ))}
-        {data.map((section, index) => (
-          <Accordion key={index} {...section} />
-        ))}
         <Onboarding onClick={handleOnboardingButtonClick}>
           <OnboardingIcone src={onboarding} />
           Onboarding
         </Onboarding>
+        {getUserRole() !== 'STUDENT' && (
+          <LinksAccordion links={videoLinks}/>
+        )}
+        {data.map((section, index) => (
+          <Accordion key={index} {...section} />
+        ))}
       </HelpOptionsContainer>
     </>
   );

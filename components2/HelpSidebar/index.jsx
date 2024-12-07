@@ -10,7 +10,7 @@ import {
   CloseHelpBar,
   HelpOptionsContainer,
   Onboarding,
-  OnboardingIcone,
+  OnboardingIcon,
 } from './style';
 import Accordion from './Accordion';
 import { isSmallScreen } from '../../components/ReactiveRender';
@@ -24,8 +24,7 @@ import {
 } from '../../components/NotificationsMenu/NotificationsBar/style';
 import { AppContext } from '../../app.context';
 import { getUserRole } from '../../userLocalDetails';
-import { videoLinks } from './tutorialLinks';
-import LinksAccordion from './LinksAccordion';
+
 
 const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   const isSmallView = isSmallScreen();
@@ -93,12 +92,9 @@ function helpSidebarContent(data, handleSearch, handleOnboardingButtonClick) {
       </SearchContainer>
       <HelpOptionsContainer>
         <Onboarding onClick={handleOnboardingButtonClick}>
-          <OnboardingIcone src={onboarding} />
+          <OnboardingIcon src={onboarding} />
           Onboarding
         </Onboarding>
-        {getUserRole() !== 'STUDENT' && (
-          <LinksAccordion links={videoLinks}/>
-        )}
         {data.map((section, index) => (
           <Accordion key={index} {...section} />
         ))}

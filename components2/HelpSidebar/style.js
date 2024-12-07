@@ -113,42 +113,7 @@ export const Onboarding = styled.button`
   }
 `;
 
-export const VideoLinkTag = styled.a`
-  text-decoration: none;
-  color: rgba(114, 0, 224, 1);
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 26px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  border-radius: 12px;
-  padding: 20px 17px;
-  box-shadow: 0px 0px 4px 3px rgba(114, 0, 224, 0.1);
-  margin: 2px 2px 12px;
-  letter-spacing: -2.5%;
-
-  :hover{
-    text-decoration: underline;
-  }
-`;
-
-export const LinkHeading = styled.p`
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
-  font-size: var(--font-size-xl);
-  letter-spacing: -2.5%;
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 0;
-  border-top: 1px solid #f1e6fc;
-  cursor: pointer;
-`;
-
-
-export const OnboardingIcone = styled.img`
+export const OnboardingIcon = styled.img`
   width: 25px;
 `;
+

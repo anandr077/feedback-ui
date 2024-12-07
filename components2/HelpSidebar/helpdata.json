@@ -359,6 +359,31 @@
   ],
   "TEACHER": [
     {
+      "title": "Tutorials",
+      "subtopics": [
+        {
+          "title": "Getting Started",
+          "link": "https://jeddle.wistia.com/medias/nltfwafxjn",
+          "icon": "icons/External _Link.svg"
+        },
+        {
+          "title": "Creating a Task",
+          "link": "https://jeddle.wistia.com/medias/pxkf4ankwt",
+          "icon": "icons/External _Link.svg"
+        },
+        {
+          "title": "Marking a Task",
+          "link": "https://jeddle.wistia.com/medias/vj1ioj8188",
+          "icon": "icons/External _Link.svg"
+        },
+        {
+          "title": "Class Insights",
+          "link": "https://jeddle.wistia.com/medias/5syf3fudi1",
+          "icon": "icons/External _Link.svg"
+        }
+      ]
+    },
+    {
       "title": "Getting Started",
       "subtopics": [
         {

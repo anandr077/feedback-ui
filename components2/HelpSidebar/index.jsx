@@ -26,6 +26,29 @@ import {
 import { AppContext } from '../../app.context';
 import { getUserRole } from '../../userLocalDetails';
 
+const videoLinks = [
+  {
+    name: 'Getting Started',
+    link: 'https://jeddle.wistia.com/medias/nltfwafxjn',
+    icon: 'icons/External _Link.svg'
+  },
+  {
+    name: 'Creating a Task',
+    link: 'https://jeddle.wistia.com/medias/pxkf4ankwt',
+    icon: 'icons/External _Link.svg'
+  },
+  {
+    name: 'Marking a Task',
+    link: 'https://jeddle.wistia.com/medias/vj1ioj8188',
+    icon: 'icons/External _Link.svg'
+  },
+  {
+    name: 'Class Insights',
+    link: 'https://jeddle.wistia.com/medias/5syf3fudi1',
+    icon: 'icons/External _Link.svg'
+  }
+]
+
 const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   const isSmallView = isSmallScreen();
   const role = userRole();
@@ -75,6 +98,7 @@ const HelpSidebar = ({ onCloseFn, fixedTop }) => {
 
 export default HelpSidebar;
 
+
 function helpSidebarContent(data, handleSearch, handleOnboardingButtonClick) {
   return (
     <>
@@ -90,6 +114,13 @@ function helpSidebarContent(data, handleSearch, handleOnboardingButtonClick) {
         <SearchIcon src="/img/find-replace.png" />
       </SearchContainer>
       <HelpOptionsContainer>
+        {getUserRole() !== 'STUDENT' &&
+          videoLinks.map((link) => (
+            <VideoLinkTag href={link.link} target="_blank">
+              <OnboardingIcone src={link.icon} />
+              {link.name}
+            </VideoLinkTag>
+          ))}
         {data.map((section, index) => (
           <Accordion key={index} {...section} />
         ))}
@@ -97,38 +128,6 @@ function helpSidebarContent(data, handleSearch, handleOnboardingButtonClick) {
           <OnboardingIcone src={onboarding} />
           Onboarding
         </Onboarding>
-        {getUserRole() !== 'STUDENT' && (
-          <>
-            <VideoLinkTag
-              href="https://jeddle.wistia.com/medias/nltfwafxjn"
-              target="_blank"
-            >
-              <OnboardingIcone src={onboarding} />
-              Getting Started
-            </VideoLinkTag>
-            <VideoLinkTag
-              href="https://jeddle.wistia.com/medias/pxkf4ankwt"
-              target="_blank"
-            >
-              <OnboardingIcone src={onboarding} />
-              Creating a Task
-            </VideoLinkTag>
-            <VideoLinkTag
-              href="https://jeddle.wistia.com/medias/vj1ioj8188"
-              target="_blank"
-            >
-              <OnboardingIcone src={onboarding} />
-              Marking a Task
-            </VideoLinkTag>
-            <VideoLinkTag
-              href="https://jeddle.wistia.com/medias/5syf3fudi1"
-              target="_blank"
-            >
-              <OnboardingIcone src={onboarding} />
-              Class Insights
-            </VideoLinkTag>
-          </>
-        )}
       </HelpOptionsContainer>
     </>
   );

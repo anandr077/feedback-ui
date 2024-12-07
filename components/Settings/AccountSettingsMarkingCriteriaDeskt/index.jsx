@@ -61,7 +61,7 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
 
   const handleMarkingCriteriaImport = async (event) => {
     try {
-      const importedJsonFile = await importJsonFile(event);
+      const importedJsonFile = await importJsonFile(event, ['mc']);
       setImportedMarkingCriteria(importedJsonFile);
       setIsShowExportMarkingCriteriaPopup(true);
     } catch (err) {
@@ -163,7 +163,7 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
                 <CardTitle>Import</CardTitle>
                 <ImportFile
                   type="file"
-                  accept=".json"
+                  accept=".mc"
                   onChange={handleMarkingCriteriaImport}
                 />
               </ImportFileLabel>

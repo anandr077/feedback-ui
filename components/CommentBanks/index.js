@@ -385,12 +385,12 @@ const {
       title: annotation.title,
       smartComments: annotation.smartComments,
     };
-    exportJsonFile(extractedCommentBank, extractedCommentBank.title);
+    exportJsonFile(extractedCommentBank, extractedCommentBank.title, "cb");
   };
 
   const handleCommentBankImport = async (event) =>{
     try {
-      const importedJsonFile = await importJsonFile(event);
+      const importedJsonFile = await importJsonFile(event, ["cb"]);
       setImportedCommentBank(importedJsonFile);
       setIsShowNewBankPopUp(false);
       setIsShowImportCommentBankPopup(true);
@@ -446,7 +446,7 @@ const {
                   <CardTitle>Import</CardTitle>
                   <ImportFile
                     type="file"
-                    accept=".json"
+                    accept=".cb"
                     onChange={handleCommentBankImport}
                   />
                 </ImportFileLabel>

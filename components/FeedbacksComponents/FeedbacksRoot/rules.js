@@ -1,4 +1,4 @@
-import { getUserRole } from '../../../userLocalDetails';
+import { getUserRole, getUserId } from '../../../userLocalDetails';
 import { isNullOrEmpty } from '../../../utils/arrays';
 import { findMarkingCriteria, getOverallComment } from './functions';
 
@@ -182,9 +182,6 @@ export const isShowClosedReviewAudioComment = (
   if (pageMode === 'REVISE') {
     return true;
   }
-  if (pageMode === 'CLOSED' && reviewer !== user) {
-    return false;
-  }
   return true;
 };
 
@@ -227,3 +224,19 @@ export const isShowMarkingCriteriaSidebar = (
 ) => {
   return overallComments?.length !== 0 || markingCriteriaFeedback?.length !== 0;
 };
+
+
+export const isShowBannerBox = (submissionStatus) => {
+  return submissionStatus === 'SUBMITTED' && getUserRole() === 'TEACHER';
+};
+
+export const bannerText = (submissionStatus) => {
+  if (submissionStatus === 'SUBMITTED') {
+    return "This response can only be marked by one teacher. By clicking 'Mark Now' you will become the sole marker for this submission. Other teachers will still be able to view the response, but only you can provide feedback.";
+  }
+  return '';
+};
+
+export const isShowBannerButton = (submissionStatus) =>{
+  return submissionStatus === 'SUBMITTED'
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   HelpSidebarContainer,
   Header,
@@ -9,30 +9,45 @@ import {
   HelpSidebarSmallContainer,
   CloseHelpBar,
   HelpOptionsContainer,
+  Onboarding,
+  OnboardingIcone,
+  VideoLinkTag
 } from './style';
 import Accordion from './Accordion';
 import { isSmallScreen } from '../../components/ReactiveRender';
 import helpdata from './helpdata.json';
 import { userRole } from '../../roles';
 import helpbing from '../../static/img/help-icon.svg';
+import onboarding from '../../static/icons/External _Link.svg';
 import {
   HeadingImage,
   Heading,
 } from '../../components/NotificationsMenu/NotificationsBar/style';
+import { AppContext } from '../../app.context';
+import { getUserRole } from '../../userLocalDetails';
 
 const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   const isSmallView = isSmallScreen();
-  const [data, setData] = useState(helpdata[userRole()] || []);
+  const role = userRole();
+  const [data, setData] = useState(helpdata[role] || []);
   const [searchQuery, setSearchQuery] = useState('');
+  const { setShowStudentOnboarding, setShowTeacherOnboarding } =
+    useContext(AppContext);
+
+  const handleOnboardingButtonClick = () => {
+    getUserRole() === 'STUDENT'
+      ? setShowStudentOnboarding(true)
+      : setShowTeacherOnboarding(true);
+  };
 
   const handleSearch = (query) => {
     setSearchQuery(query);
     if (!query) {
-      setData(helpdata[userRole()]);
+      setData(helpdata[role]);
       return;
     }
 
-    const filteredData = helpdata[userRole()].filter(
+    const filteredData = helpdata[role].filter(
       (section) =>
         section.title.toLowerCase().includes(query.toLowerCase()) ||
         section.subtopics.some((subtopic) =>
@@ -46,21 +61,21 @@ const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   return isSmallView ? (
     <HelpSidebarSmallContainer>
       <CloseHelpBar src="/img/close.png" onClick={onCloseFn} />
-      {helpSidebarContent(data, handleSearch)}
+      {helpSidebarContent(data, handleSearch, handleOnboardingButtonClick)}
     </HelpSidebarSmallContainer>
   ) : (
     <HelpSidebarContainer
       onClick={(e) => e.stopPropagation()}
       fixedTop={fixedTop}
     >
-      {helpSidebarContent(data, handleSearch)}
+      {helpSidebarContent(data, handleSearch, handleOnboardingButtonClick)}
     </HelpSidebarContainer>
   );
 };
 
 export default HelpSidebar;
 
-function helpSidebarContent(data, handleSearch) {
+function helpSidebarContent(data, handleSearch, handleOnboardingButtonClick) {
   return (
     <>
       <Header>
@@ -78,6 +93,42 @@ function helpSidebarContent(data, handleSearch) {
         {data.map((section, index) => (
           <Accordion key={index} {...section} />
         ))}
+        <Onboarding onClick={handleOnboardingButtonClick}>
+          <OnboardingIcone src={onboarding} />
+          Onboarding
+        </Onboarding>
+        {getUserRole() !== 'STUDENT' && (
+          <>
+            <VideoLinkTag
+              href="https://jeddle.wistia.com/medias/nltfwafxjn"
+              target="_blank"
+            >
+              <OnboardingIcone src={onboarding} />
+              Getting Started
+            </VideoLinkTag>
+            <VideoLinkTag
+              href="https://jeddle.wistia.com/medias/pxkf4ankwt"
+              target="_blank"
+            >
+              <OnboardingIcone src={onboarding} />
+              Creating a Task
+            </VideoLinkTag>
+            <VideoLinkTag
+              href="https://jeddle.wistia.com/medias/vj1ioj8188"
+              target="_blank"
+            >
+              <OnboardingIcone src={onboarding} />
+              Marking a Task
+            </VideoLinkTag>
+            <VideoLinkTag
+              href="https://jeddle.wistia.com/medias/5syf3fudi1"
+              target="_blank"
+            >
+              <OnboardingIcone src={onboarding} />
+              Class Insights
+            </VideoLinkTag>
+          </>
+        )}
       </HelpOptionsContainer>
     </>
   );

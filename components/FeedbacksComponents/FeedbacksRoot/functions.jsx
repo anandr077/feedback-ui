@@ -45,7 +45,13 @@ export function getTeacherPageMode(submission) {
   if (submission?.assignment.reviewedBy === 'P2P') {
     return 'CLOSED';
   }
-  return 'REVIEW';
+  if (
+    submission?.status === 'FEEDBACK_ACCEPTED' &&
+    submission?.reviewerId === getUserId()
+  ) {
+    return 'REVIEW';
+  }
+  return 'CLOSED';
 }
 
 export function getStudentPageMode(user, submission) {

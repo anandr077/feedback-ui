@@ -48,12 +48,12 @@ export const headerMainTitle = (localClasses) =>{
     },
     {
       link: '/documents',
-      title: role === 'TEACHER' ? 'Use JeddAI' : 'Get Feedback',
+      title: 'Use JeddAI',
       documentName: 'documentName',
     },
     {
       link: '/getFeedback',
-      title: role === 'TEACHER' ? 'Use JeddAI' : 'Get Feedback',
+      title: 'Use JeddAI',
     },
     {
       link: '/classes',

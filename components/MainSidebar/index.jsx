@@ -144,7 +144,7 @@ function getFeedbackItems(role, location, checkIsActive,allDocumentsData){
       role === 'STUDENT' ? activeGetfeedbackIcon : jeddaiIconIcon
     }`,
     isActive: checkIsActive(location, paths),
-    name: `${role === 'STUDENT' ? 'Get Feedback' : 'Use JeddAI'}`,
+    name: 'Use JeddAI',
     link: goToNewDocPage ? `/documents/${allDocumentsData[0].submissionId}`: '/getFeedback',
   }
 }

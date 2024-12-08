@@ -20,7 +20,7 @@ const Dashboard = ({ role }) => {
     }
   } else {
     if (!isNullOrEmpty(classData)) {
-      history.push('/tasks');
+      history.push('/getFeedback');
     } else {
       history.push('/docs');
     }

@@ -8,6 +8,31 @@ export const SubAccordionContainer = styled.div`
   margin: 2px 2px 12px;
 `;
 
+export const SubAccordionLink = styled.a`
+  text-decoration: none;
+  color: rgba(114, 0, 224, 1);
+  font-family: var(--font-family-ibm_plex_sans);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 26px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0px 0px 4px 3px rgba(114, 0, 224, 0.1);
+  margin: 2px 2px 12px;
+  letter-spacing: -2.5%;
+
+  :hover {
+    text-decoration: underline;
+  }
+
+  img{
+    width: 23px;
+  }
+`;
+
 export const SubAccordionTitle = styled.div`
   display: flex;
   justify-content: space-between;

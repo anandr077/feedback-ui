@@ -105,7 +105,7 @@ export const Onboarding = styled.button`
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 0;
+  padding: 20px 0;
   cursor: pointer;
 
   :hover{
@@ -113,23 +113,7 @@ export const Onboarding = styled.button`
   }
 `;
 
-export const VideoLinkTag = styled.a`
-  text-decoration: none;
-  color: rgba(114, 0, 224, 1);
-  font-family: var(--font-family-ibm_plex_sans);
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 26px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin: 20px 0px;
-
-  :hover{
-    text-decoration: underline;
-  }
-`;
-
-export const OnboardingIcone = styled.img`
+export const OnboardingIcon = styled.img`
   width: 25px;
 `;
+

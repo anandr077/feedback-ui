@@ -1,37 +1,28 @@
 import React from 'react';
 import {
   CountZoomContainer,
-  ZoomContianer,
-  ZoomInput
+  CountContainer
 } from './style';
+import Zoom from '../../../components2/Zoom';
 export function Footer({
-  openLeftPanel,
   isMobile,
   editorFontSize,
   setEditorFontSize,
-  answers,
-  questionIndex
+  lebel
 }) {
-  const selectedAnswer = answers?.find(answer => answer.serialNumber === questionIndex + 1);
-  const wordCount = selectedAnswer?.answer?.wordCount ?? 0;
+  
 
   return (
-    <CountZoomContainer open={openLeftPanel} mobileView={isMobile}>
-      <div>
-        {wordCount} {wordCount === 1 ? 'word' : 'words'}
-      </div>
-      <ZoomContianer>
-        Zoom
-        <ZoomInput
-          name="zoom"
-          type="range"
-          min="50"
-          max="150"
-          value={editorFontSize}
-          onChange={(e) => setEditorFontSize(e.target.value)}
-        />
-        {editorFontSize}%
-      </ZoomContianer>
+    <CountZoomContainer mobileView={isMobile}>
+      <CountContainer>
+        {lebel}
+      </CountContainer>
+      <Zoom 
+        zoomPercentage={editorFontSize}
+        onZoomPercentageChange={setEditorFontSize}
+        minimumZoom={"50"}
+        maximumZoom={"150"}
+      />
     </CountZoomContainer>
   );
 }

@@ -22,18 +22,17 @@ import {
 
 const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   const isSmallView = isSmallScreen();
-  const role = userRole();
-  const [data, setData] = useState(helpdata[role] || []);
+  const [data, setData] = useState(helpdata[userRole()] || []);
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (query) => {
     setSearchQuery(query);
     if (!query) {
-      setData(helpdata[role]);
+      setData(helpdata[userRole()]);
       return;
     }
 
-    const filteredData = helpdata[role].filter(
+    const filteredData = helpdata[userRole()].filter(
       (section) =>
         section.title.toLowerCase().includes(query.toLowerCase()) ||
         section.subtopics.some((subtopic) =>

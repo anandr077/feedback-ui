@@ -150,7 +150,7 @@ export const Screen = styled.div`
 export const MainSideContainer = styled.div`
   position: absolute;
   top: 0;
-  right: -340px;
+  right: -320px;
   min-height: 120%;
   width: 360px;
   z-index: 546;
@@ -158,12 +158,16 @@ export const MainSideContainer = styled.div`
 
 export const CommentDiv = styled.div`
   position: absolute;
-  left: 0;
+  left: 20px;
   min-width: 300px;
   padding-left: 60px;
   transition: top 0.3s ease-in-out, transform 0.1s ease-in;
 `;
 
+export const CommentLikeBox = styled.div`
+  position: absolute;
+  left: 0px;
+`;
 
 export const ModalHeading = styled.div`
   display: flex;
@@ -172,13 +176,13 @@ export const ModalHeading = styled.div`
   padding: 0px 12px 6px;
   border-bottom: 1px solid rgba(201, 198, 204, 0.5);
 
-  h1{
-  font-family: var(--font-family-ibm_plex_sans);
-  color: rgba(86, 81, 91, 1);
-  font-weight: 600;
-  font-size: var(--font-size-l);
-  line-height: 17px;
-}
+  h1 {
+    font-family: var(--font-family-ibm_plex_sans);
+    color: rgba(86, 81, 91, 1);
+    font-weight: 600;
+    font-size: var(--font-size-l);
+    line-height: 17px;
+  }
 `;
 
 export const ChangeButton = styled.div`

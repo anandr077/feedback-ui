@@ -125,6 +125,7 @@ function FeedbackTeacherLaptop(props) {
       questions[QuestionIndex]?.focusAreas &&
       questions[QuestionIndex]?.focusAreas.length !== 0
   );
+
   const [openLeftPanel, setOpenLefPanel] = useState(false);
   const [groupedAndSortedData, setGroupedAndSortedData] = React.useState({});
   const [selectedSubject, setSelectedSubject] = React.useState();
@@ -203,7 +204,7 @@ function FeedbackTeacherLaptop(props) {
   );
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
   React.useState(false);
-  const [isSavingAnswer, setIsSavingAnswer] = useState(false);
+
 
   const handleRequestFeedback = async (index) => {
     await setFeedbackMethodTypeDialog(-1);
@@ -375,9 +376,6 @@ function FeedbackTeacherLaptop(props) {
 
   }
 
-  const selectedAnswer = submission?.answers?.find(answer => answer.serialNumber === QuestionIndex + 1);
-  const wordCount = selectedAnswer?.answer?.wordCount ?? 0;
-
   return (
     <>
 
@@ -460,16 +458,17 @@ function FeedbackTeacherLaptop(props) {
               showLottie,
               handleCommentBankPreview,
               handleMarkingCriteriaPreview,
-              setIsSavingAnswer,
-              isSavingAnswer
+
             )}
           </Frame1388>
         </>
         <Footer
+          openLeftPanel={openLeftPanel}
           isMobile={isMobile}
           editorFontSize={editorFontSize}
           setEditorFontSize={setEditorFontSize}
-          lebel={isSavingAnswer ? 'Saving...' : `${wordCount} ${wordCount === 1 ? 'word' : 'words'}`}
+          answers={submission?.answers}
+          questionIndex={QuestionIndex}
         />
       </PageContainer>
       {handleFeedbackMethodTypeDialog(
@@ -643,13 +642,12 @@ function answersAndFeedbacks(
   setOtherDrafts,
   showLottie,
   handleCommentBankPreview,
-  handleMarkingCriteriaPreview,
-  setIsSavingAnswer,
-  isSavingAnswer
+  handleMarkingCriteriaPreview
 ) {
   const handleRightSidebarClick = (tab) => {
     setOpenRightPanel(tab);
   };
+
   const focusAreaComments = comments?.filter(
     (comment) => comment.type === 'FOCUS_AREA'
   );
@@ -687,7 +685,6 @@ function answersAndFeedbacks(
         isShowResolved={isShowResolved}
         commentsForSelectedTab={commentsForSelectedTab}
         isLeftSidebarOpen={openLeftPanel}
-        isDisabled={isSavingAnswer}
       />
       {submission?.type === 'SUBMISSION' &&
         submission?.assignment.questions.length !== 0 && (
@@ -729,8 +726,7 @@ function answersAndFeedbacks(
             openLeftPanel,
             setOtherDrafts,
             handleCommentBankPreview,
-            handleMarkingCriteriaPreview,
-            setIsSavingAnswer
+            handleMarkingCriteriaPreview
           )}
         </Frame1368>
         <>

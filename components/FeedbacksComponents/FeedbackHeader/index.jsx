@@ -76,8 +76,7 @@ const FeedbackHeader = ({
   setShowResolved,
   isShowResolved,
   commentsForSelectedTab,
-  isLeftSidebarOpen,
-  isDisabled
+  isLeftSidebarOpen
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const isTeacher = getUserRole() === 'TEACHER';
@@ -125,7 +124,7 @@ const FeedbackHeader = ({
   };
 
   return (
-    <FeedbackHeaderContainer isDisabled={isDisabled}>
+    <FeedbackHeaderContainer>
       <LeftSection
         moveToRight={isLeftSidebarOpen && submission?.type === 'DOCUMENT'}
       >

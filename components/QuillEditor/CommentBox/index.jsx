@@ -131,7 +131,7 @@ const CommentBox = ({
     setOpenCommentbox(false);
   };
 
-  const onLikeButtoClick = () => {
+  const onLikeButtonClick = () => {
     methods.handleLikeSelectedText();
   };
 
@@ -164,7 +164,7 @@ const CommentBox = ({
               </Option>
             )}
             <Option>
-              <img src={LikeIcon} onClick={onLikeButtoClick} />
+              <img src={LikeIcon} onClick={onLikeButtonClick} />
             </Option>
           </OptionContainer>
           {openCommentBox &&

@@ -468,7 +468,7 @@ export default function FeedbacksRoot() {
       type: 'COMMENT',
       subType: 'LIKE',
       replies: [],
-      markingCriteria: defaultMarkingCriteria,
+      markingCriteria: [],
       sharedWithStudents: [],
     }).then((response)=>{
       if(response){

@@ -16,6 +16,7 @@ import {
   Frame13311,
   CommentDiv,
   CommentLikeBox,
+  RedCloseIcon,
   Crown,
   ExemplarComponent,
   MainSideContainer,
@@ -24,6 +25,7 @@ import {
 import CommentIcon from '../../../static/img/graysinglecomment.svg';
 import LikeIcon from '../../../static/img/like.svg';
 import RoundedBorderLikeIcon from '../../../static/icons/rounded_border_like.svg';
+import RedCLoseIcon from '../../../static/icons/red_close.svg';
 import ShareIcon from '../../../static/img/24grayshare.svg';
 import CommentCard32 from '../../FeedbacksComponents/CommentCard32';
 import SmartAnotation from '../../SmartAnnotations';
@@ -38,6 +40,7 @@ import {
   adjustPositionsForSelectedComment,
   getBounds,
   withHeights,
+  likeTopPosition
 } from './bounds';
 import {
   isShareWithClass,
@@ -45,6 +48,7 @@ import {
 } from '../../FeedbacksComponents/FeedbacksRoot/rules';
 import { useOutsideAlerter } from '../../../components2/CustomHooks/useOutsideAlerter';
 import { getFirstTwoWords } from '../../../utils/strings';
+import { isShowLikeCancelButton } from '../rules';
 
 const CommentBox = ({
   pageMode,
@@ -78,7 +82,7 @@ const CommentBox = ({
     return nestedComments.reduce((acc, group) => acc.concat(group), []);
   };
 
-  const visibleComments = comments.filter((comment) => !comment.isHidden);
+  const visibleComments = comments.filter((comment) => !comment.isHidden && comment.subType !== 'LIKE');
 
   const calculateBounds = () => {
     const groupedComments = getBounds(
@@ -130,6 +134,9 @@ const CommentBox = ({
   const onLikeButtoClick = () => {
     methods.handleLikeSelectedText();
   };
+
+  const likeCommentsWithoutPosition = comments.filter((comment) => !comment.isHidden && comment.subType === 'LIKE');
+  const likeCommentWithTopPosition = likeTopPosition(editor, likeCommentsWithoutPosition);
 
   return (
     <>
@@ -185,19 +192,28 @@ const CommentBox = ({
             }}
             ref={commentHeightRefs}
           >
-            {groupedCommentsWithGap
+            {likeCommentWithTopPosition
               .filter((comment) => comment.subType === 'LIKE')
-              .map((comment, idx) => (
-                <CommentLikeBox
-                  key={idx}
-                  id={`comment-${comment.id}`}
-                  style={{
-                    top: `${comment.topPosition}px`,
-                  }}
-                >
-                  <img src={RoundedBorderLikeIcon} />
-                </CommentLikeBox>
-              ))}
+              .map((comment, idx) => {
+                console.log('before render', comment.topPosition)
+                return (
+                  <CommentLikeBox
+                    key={idx}
+                    id={`comment-${comment.id}`}
+                    style={{
+                      top: `${comment.topPosition}px`,
+                    }}
+                  >
+                    <img src={RoundedBorderLikeIcon} />
+                    {isShowLikeCancelButton(comment, pageMode) && (
+                      <RedCloseIcon
+                        src={RedCLoseIcon}
+                        onClick={() => methods.handleDeleteComment(comment.id)}
+                      />
+                    )}
+                  </CommentLikeBox>
+                )
+              })}
             {groupedCommentsWithGap
               .filter((comment) => comment.subType !== 'LIKE')
               .map((comment, index) => {

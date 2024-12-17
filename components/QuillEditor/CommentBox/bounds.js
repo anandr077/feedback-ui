@@ -74,3 +74,17 @@ export const withHeights = (comments) => {
     return { ...comment, height: height };
   });
 };
+
+export const likeTopPosition = (editor, comments) =>{
+  const likeComments = comments
+  .filter(comment => comment !== null)
+  .sort((a, b) => a.range.from - b.range.from)
+  .map(comment => {
+    const boundsIs = getBoundsForComment(editor, comment);
+    let topPosition = boundsIs?.top || 0;
+
+    return { ...comment, topPosition };
+  });
+
+return likeComments;
+}

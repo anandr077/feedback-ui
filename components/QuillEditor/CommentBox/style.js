@@ -126,6 +126,7 @@ export const Option = styled.button`
 
   :last-child {
     border: none;
+    padding-top: 5px;
   }
   img {
     width: 24px;
@@ -150,9 +151,9 @@ export const Screen = styled.div`
 export const MainSideContainer = styled.div`
   position: absolute;
   top: 0;
-  right: -320px;
+  right: -340px;
   min-height: 120%;
-  width: 360px;
+  width: 380px;
   z-index: 546;
 `;
 
@@ -167,6 +168,14 @@ export const CommentDiv = styled.div`
 export const CommentLikeBox = styled.div`
   position: absolute;
   left: 0px;
+`;
+
+export const RedCloseIcon = styled.img`
+  position: absolute;
+  left: 22px;
+  top: -4px;
+  cursor: pointer;
+  z-index: 50;
 `;
 
 export const ModalHeading = styled.div`

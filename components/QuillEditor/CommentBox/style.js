@@ -179,6 +179,8 @@ export const RedCloseIcon = styled.img`
 export const CommentLikeBox = styled.div`
   position: absolute;
   left: 0px;
+  z-index: 10;
+  cursor: pointer;
 
   &:hover ${RedCloseIcon} {
     display: block;

@@ -169,10 +169,10 @@ export const CommentDiv = styled.div`
 export const RedCloseIcon = styled.img`
   display: none;
   position: absolute;
-  left: 22px;
-  top: -4px;
+  left: 20px;
+  top: -3px;
   cursor: pointer;
-  z-index: 50;
+  z-index: 1;
 `;
 
 

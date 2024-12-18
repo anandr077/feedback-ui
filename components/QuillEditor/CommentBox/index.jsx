@@ -138,6 +138,16 @@ const CommentBox = ({
   const likeCommentsWithoutPosition = comments.filter((comment) => !comment.isHidden && comment.subType === 'LIKE');
   const likeCommentWithTopPosition = likeTopPosition(editor, likeCommentsWithoutPosition);
 
+  const calculateTopPosition = (pageMode) =>{
+    return (topPosition) => {
+      if ((pageMode === 'DRAFT' || pageMode === 'REVISE') && role === "STUDENT") {
+        return topPosition + 50;
+      }
+      return topPosition;
+    };
+  }
+  const topPositionOfComment = calculateTopPosition(pageMode)
+
   return (
     <>
       {showNewComment && isFeedback && pageMode !== 'DRAFT' ? (
@@ -201,7 +211,7 @@ const CommentBox = ({
                     key={idx}
                     id={`comment-${comment.id}`}
                     style={{
-                      top: `${comment.topPosition}px`,
+                      top: `${topPositionOfComment(comment.topPosition)}px`,
                     }}
                   >
                     <img src={RoundedBorderLikeIcon} />
@@ -222,7 +232,7 @@ const CommentBox = ({
                     key={index}
                     id={`comment-${comment.id}`}
                     style={{
-                      top: `${comment.topPosition}px`,
+                      top: `${topPositionOfComment(comment.topPosition)}px`,
                       transform:
                         selectedComment && comment.id === selectedComment.id
                           ? 'translateX(-35px)'

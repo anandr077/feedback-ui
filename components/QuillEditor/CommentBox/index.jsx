@@ -149,6 +149,15 @@ const CommentBox = ({
   }
   const topPositionOfComment = calculateTopPosition(pageMode);
 
+  const groupedLikedComments = likeCommentWithTopPosition
+    .filter((comment) => comment.subType === 'LIKE')
+    .reduce((acc, comment) => {
+      const top = comment.topPosition;
+      if (!acc[top]) acc[top] = [];
+      acc[top].push(comment);
+      return acc;
+    }, {});
+
   return (
     <>
       {showNewComment && isFeedback && pageMode !== 'DRAFT' ? (
@@ -203,31 +212,39 @@ const CommentBox = ({
             }}
             ref={commentHeightRefs}
           >
-            {likeCommentWithTopPosition
-              .filter((comment) => comment.subType === 'LIKE')
-              .map((comment, idx) => {
-                return (
-                  <CommentLikeBox
-                    key={idx}
-                    id={`comment-${comment.id}`}
-                    style={{
-                      top: `${topPositionOfComment(comment.topPosition)}px`,
-                    }}
-                    onClick={() => methods.handleCommentSelected(comment)}
-                  >
-                    <LikeReactIcon
-                      isSelected={isHighlightSelectedComment(selectedComment, comment.id)}
-                      src={RoundedBorderLikeIcon}
-                    />
-                    {isShowLikeCancelButton(comment, pageMode) && (
-                      <RedCloseIcon
-                        src={RedCLoseIcon}
-                        onClick={() => methods.handleDeleteComment(comment.id)}
-                      />
+            {Object.entries(groupedLikedComments).map(([topPosition, comments]) => {
+              const representativeComment = comments[0];
+              return (
+                <CommentLikeBox
+                  key={topPosition}
+                  id={`comment-group-${topPosition}`}
+                  style={{
+                    top: `${topPositionOfComment(topPosition)}px`,
+                  }}
+                  onClick={() => {
+                    comments.forEach((comment) =>
+                      methods.handleCommentSelected(comment)
+                    );
+                  }}
+                >
+                  <LikeReactIcon
+                    isSelected={comments.some((c) =>
+                      isHighlightSelectedComment(selectedComment, c.id)
                     )}
-                  </CommentLikeBox>
-                );
-              })}
+                    src={RoundedBorderLikeIcon}
+                  />
+                  {isShowLikeCancelButton(representativeComment, pageMode) && (
+                    <RedCloseIcon
+                      src={RedCLoseIcon}
+                      onClick={() => {
+        
+                        methods.handleDeleteComment(representativeComment.id);
+                      }}
+                    />
+                  )}
+                </CommentLikeBox>
+              );
+            })}
             {groupedCommentsWithGap
               .filter((comment) => comment.subType !== 'LIKE')
               .map((comment, index) => {

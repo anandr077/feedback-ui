@@ -185,6 +185,11 @@ export const CommentLikeBox = styled.div`
   }
 `;
 
+export const LikeReactIcon = styled.img`
+  transform: ${props => props.isSelected ? 'scale(1.4)' : ''};
+  transition: transform 0.1s ease-in;
+`;
+
 export const ModalHeading = styled.div`
   display: flex;
   justify-content: space-between;

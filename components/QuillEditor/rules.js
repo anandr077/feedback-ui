@@ -7,3 +7,7 @@ export const isShowLikeCancelButton = (comment, pageMode) => {
     pageMode !== 'CLOSED'
   );
 };
+
+export const isHighlightSelectedComment = (selectedComment, commentId) =>{
+  return selectedComment && commentId === selectedComment.id
+}

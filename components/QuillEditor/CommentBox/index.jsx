@@ -16,6 +16,7 @@ import {
   Frame13311,
   CommentDiv,
   CommentLikeBox,
+  LikeReactIcon,
   RedCloseIcon,
   Crown,
   ExemplarComponent,
@@ -48,7 +49,7 @@ import {
 } from '../../FeedbacksComponents/FeedbacksRoot/rules';
 import { useOutsideAlerter } from '../../../components2/CustomHooks/useOutsideAlerter';
 import { getFirstTwoWords } from '../../../utils/strings';
-import { isShowLikeCancelButton } from '../rules';
+import { isHighlightSelectedComment, isShowLikeCancelButton } from '../rules';
 
 const CommentBox = ({
   pageMode,
@@ -146,7 +147,7 @@ const CommentBox = ({
       return topPosition;
     };
   }
-  const topPositionOfComment = calculateTopPosition(pageMode)
+  const topPositionOfComment = calculateTopPosition(pageMode);
 
   return (
     <>
@@ -205,7 +206,6 @@ const CommentBox = ({
             {likeCommentWithTopPosition
               .filter((comment) => comment.subType === 'LIKE')
               .map((comment, idx) => {
-                console.log('before render', comment.topPosition)
                 return (
                   <CommentLikeBox
                     key={idx}
@@ -213,8 +213,12 @@ const CommentBox = ({
                     style={{
                       top: `${topPositionOfComment(comment.topPosition)}px`,
                     }}
+                    onClick={() => methods.handleCommentSelected(comment)}
                   >
-                    <img src={RoundedBorderLikeIcon} />
+                    <LikeReactIcon
+                      isSelected={isHighlightSelectedComment(selectedComment, comment.id)}
+                      src={RoundedBorderLikeIcon}
+                    />
                     {isShowLikeCancelButton(comment, pageMode) && (
                       <RedCloseIcon
                         src={RedCLoseIcon}
@@ -222,7 +226,7 @@ const CommentBox = ({
                       />
                     )}
                   </CommentLikeBox>
-                )
+                );
               })}
             {groupedCommentsWithGap
               .filter((comment) => comment.subType !== 'LIKE')

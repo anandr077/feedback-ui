@@ -165,17 +165,24 @@ export const CommentDiv = styled.div`
   transition: top 0.3s ease-in-out, transform 0.1s ease-in;
 `;
 
-export const CommentLikeBox = styled.div`
-  position: absolute;
-  left: 0px;
-`;
 
 export const RedCloseIcon = styled.img`
+  display: none;
   position: absolute;
   left: 22px;
   top: -4px;
   cursor: pointer;
   z-index: 50;
+`;
+
+
+export const CommentLikeBox = styled.div`
+  position: absolute;
+  left: 0px;
+
+  &:hover ${RedCloseIcon} {
+    display: block;
+  }
 `;
 
 export const ModalHeading = styled.div`

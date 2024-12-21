@@ -175,11 +175,25 @@ export const RedCloseIcon = styled.img`
   z-index: 1;
 `;
 
+export const LikeCount = styled.div`
+  position: absolute;
+  left: 20px;
+  top: -7px;
+  background-color: var(--light-mode-purple);
+  color: white;
+  border-radius: 50%;
+  height: 16px;
+  width: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+`;
+
 
 export const CommentLikeBox = styled.div`
   position: absolute;
   left: 0px;
-  z-index: 10;
+  z-index: 100;
   cursor: pointer;
 
   &:hover ${RedCloseIcon} {

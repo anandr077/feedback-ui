@@ -18,6 +18,7 @@ import {
   CommentLikeBox,
   LikeReactIcon,
   RedCloseIcon,
+  LikeCount,
   Crown,
   ExemplarComponent,
   MainSideContainer,
@@ -72,6 +73,7 @@ const CommentBox = ({
     useContext(FeedbackContext);
   const [openCommentBox, setOpenCommentbox] = useState(false);
   const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
+  const [activeHighlightedComment, setActiveHighlightedComment] = useState({});
   const role = getUserRole();
   const resizeObserver = useRef(null);
 
@@ -158,6 +160,17 @@ const CommentBox = ({
       return acc;
     }, {});
 
+    const handleHighlightCommentGroup = (topPosition, comments) => {
+      setActiveHighlightedComment((prev) => {
+        const currentIndex = prev[topPosition] ?? 0;
+        const newIndex = (currentIndex + 1) % comments.length; 
+        return {
+          ...prev,
+          [topPosition]: newIndex,
+        };
+      });
+    };
+
   return (
     <>
       {showNewComment && isFeedback && pageMode !== 'DRAFT' ? (
@@ -213,18 +226,19 @@ const CommentBox = ({
             ref={commentHeightRefs}
           >
             {Object.entries(groupedLikedComments).map(([topPosition, comments]) => {
-              const representativeComment = comments[0];
+              const commentToDelete = comments[0];
+              const currentIndex = activeHighlightedComment[topPosition] || 0;
+              const activeComment = comments[currentIndex];
               return (
                 <CommentLikeBox
                   key={topPosition}
                   id={`comment-group-${topPosition}`}
                   style={{
-                    top: `${topPositionOfComment(topPosition)}px`,
+                    top: `${topPositionOfComment(+topPosition)}px`,
                   }}
                   onClick={() => {
-                    comments.forEach((comment) =>
-                      methods.handleCommentSelected(comment)
-                    );
+                    handleHighlightCommentGroup(topPosition, comments);
+                    methods.handleCommentSelected(activeComment);
                   }}
                 >
                   <LikeReactIcon
@@ -233,15 +247,18 @@ const CommentBox = ({
                     )}
                     src={RoundedBorderLikeIcon}
                   />
-                  {isShowLikeCancelButton(representativeComment, pageMode) && (
+                  {isShowLikeCancelButton(commentToDelete, pageMode) && (
                     <RedCloseIcon
                       src={RedCLoseIcon}
-                      onClick={() => {
-        
-                        methods.handleDeleteComment(representativeComment.id);
+                      onClick={(e) => {  
+                        e.stopPropagation();
+                        methods.handleDeleteComment(commentToDelete.id);
                       }}
                     />
                   )}
+                  {
+                    comments.length > 1 && <LikeCount>{comments.length}</LikeCount>
+                  }
                 </CommentLikeBox>
               );
             })}

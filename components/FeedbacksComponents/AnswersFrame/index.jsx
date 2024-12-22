@@ -33,7 +33,6 @@ import {
   MarkingCriteriaAndCommentBankContainer,
 } from '../FeedbackTeacherLaptop/style';
 import { linkify } from '../../../utils/linkify';
-import OverallFeedback from '../../OverallFeedback';
 import { createDebounceFunction } from '../FeedbacksRoot/autosave';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import AddCommentFocusAreaInstruction from '../AddCommentFocusAreaInstruction';

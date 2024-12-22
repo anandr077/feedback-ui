@@ -42,8 +42,6 @@ const NewOverallFeedback = ({
   const [isTruncated, setIsTruncated] = useState(false);
   const inputRef = useRef();
 
-
-console.log('overallComment', overallComment);
   useEffect(() => {
     if (inputRef.current) {
       if (overallComment?.comment) {
@@ -71,7 +69,7 @@ console.log('overallComment', overallComment);
         textarea.removeEventListener('input', adjustHeight);
       };
     }
-  }, [overallComment, serialNumber]);
+  }, [overallComment, serialNumber, pageMode]);
 
   const onSave = () => {
     let value = inputRef.current.value;

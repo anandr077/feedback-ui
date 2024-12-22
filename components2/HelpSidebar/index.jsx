@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   HelpSidebarContainer,
   Header,
@@ -9,22 +9,36 @@ import {
   HelpSidebarSmallContainer,
   CloseHelpBar,
   HelpOptionsContainer,
+  Onboarding,
+  OnboardingIcon,
 } from './style';
 import Accordion from './Accordion';
 import { isSmallScreen } from '../../components/ReactiveRender';
 import helpdata from './helpdata.json';
 import { userRole } from '../../roles';
 import helpbing from '../../static/img/help-icon.svg';
+import onboarding from '../../static/icons/External _Link.svg';
 import {
   HeadingImage,
   Heading,
 } from '../../components/NotificationsMenu/NotificationsBar/style';
+import { AppContext } from '../../app.context';
+import { getUserRole } from '../../userLocalDetails';
+
 
 const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   const isSmallView = isSmallScreen();
   const role = userRole();
   const [data, setData] = useState(helpdata[role] || []);
   const [searchQuery, setSearchQuery] = useState('');
+  const { setShowStudentOnboarding, setShowTeacherOnboarding } =
+    useContext(AppContext);
+
+  const handleOnboardingButtonClick = () => {
+    getUserRole() === 'STUDENT'
+      ? setShowStudentOnboarding(true)
+      : setShowTeacherOnboarding(true);
+  };
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -47,21 +61,22 @@ const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   return isSmallView ? (
     <HelpSidebarSmallContainer>
       <CloseHelpBar src="/img/close.png" onClick={onCloseFn} />
-      {helpSidebarContent(data, handleSearch)}
+      {helpSidebarContent(data, handleSearch, handleOnboardingButtonClick)}
     </HelpSidebarSmallContainer>
   ) : (
     <HelpSidebarContainer
       onClick={(e) => e.stopPropagation()}
       fixedTop={fixedTop}
     >
-      {helpSidebarContent(data, handleSearch)}
+      {helpSidebarContent(data, handleSearch, handleOnboardingButtonClick)}
     </HelpSidebarContainer>
   );
 };
 
 export default HelpSidebar;
 
-function helpSidebarContent(data, handleSearch) {
+
+function helpSidebarContent(data, handleSearch, handleOnboardingButtonClick) {
   return (
     <>
       <Header>
@@ -76,6 +91,10 @@ function helpSidebarContent(data, handleSearch) {
         <SearchIcon src="/img/find-replace.png" />
       </SearchContainer>
       <HelpOptionsContainer>
+        <Onboarding onClick={handleOnboardingButtonClick}>
+          <OnboardingIcon src={onboarding} />
+          Onboarding
+        </Onboarding>
         {data.map((section, index) => (
           <Accordion key={index} {...section} />
         ))}

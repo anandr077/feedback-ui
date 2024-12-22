@@ -11,3 +11,7 @@ export const isShowLikeCancelButton = (comment, pageMode) => {
 export const isHighlightSelectedComment = (selectedComment, commentId) =>{
   return selectedComment && commentId === selectedComment.id
 }
+
+export const isShowCommentCount = (commentsLength, isHoveredOrSelected) =>{
+  return commentsLength > 1 && !isHoveredOrSelected
+}

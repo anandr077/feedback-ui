@@ -169,10 +169,10 @@ export const CommentDiv = styled.div`
 export const RedCloseIcon = styled.img`
   display: none;
   position: absolute;
-  left: 20px;
-  top: -3px;
+  right: -3px;
+  top: -5px;
   cursor: pointer;
-  z-index: 1;
+  z-index: 10;
 `;
 
 export const LikeCount = styled.div`
@@ -193,8 +193,23 @@ export const LikeCount = styled.div`
 export const CommentLikeBox = styled.div`
   position: absolute;
   left: 0px;
-  z-index: 100;
+  z-index: 10;
+  
   cursor: pointer;
+
+  ${({ isHoveredOrSelected }) =>
+    isHoveredOrSelected &&   
+  ` border: solid 1px rgba(201, 198, 204, 0.5);
+    background-color: #fff;
+    border-radius: 24px;
+    padding: 0 1px;
+    z-index: 11;
+  `}
+`;
+
+export const LikeCommentWrapper = styled.div`
+  position: ${({ isHoveredOrSelected }) => (isHoveredOrSelected ? 'relative' : 'absolute')};
+  margin: ${({ isHoveredOrSelected }) => (isHoveredOrSelected ? '0 1px 0 0' : '0')};
 
   &:hover ${RedCloseIcon} {
     display: block;
@@ -204,6 +219,10 @@ export const CommentLikeBox = styled.div`
 export const LikeReactIcon = styled.img`
   transform: ${props => props.isSelected ? 'scale(1.4)' : ''};
   transition: transform 0.1s ease-in;
+
+  &:hover{
+    transform: scale(1.4);
+  }
 `;
 
 export const ModalHeading = styled.div`

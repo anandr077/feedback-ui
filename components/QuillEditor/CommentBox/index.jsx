@@ -16,6 +16,7 @@ import {
   Frame13311,
   CommentDiv,
   CommentLikeBox,
+  LikeCommentWrapper,
   LikeReactIcon,
   RedCloseIcon,
   LikeCount,
@@ -50,7 +51,7 @@ import {
 } from '../../FeedbacksComponents/FeedbacksRoot/rules';
 import { useOutsideAlerter } from '../../../components2/CustomHooks/useOutsideAlerter';
 import { getFirstTwoWords } from '../../../utils/strings';
-import { isHighlightSelectedComment, isShowLikeCancelButton } from '../rules';
+import { isHighlightSelectedComment, isShowCommentCount, isShowLikeCancelButton } from '../rules';
 
 const CommentBox = ({
   pageMode,
@@ -73,7 +74,7 @@ const CommentBox = ({
     useContext(FeedbackContext);
   const [openCommentBox, setOpenCommentbox] = useState(false);
   const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
-  const [activeHighlightedComment, setActiveHighlightedComment] = useState({});
+  const [hoveredCommentGroup, setHoveredCommentGroup] = useState(null);
   const role = getUserRole();
   const resizeObserver = useRef(null);
 
@@ -160,17 +161,6 @@ const CommentBox = ({
       return acc;
     }, {});
 
-    const handleHighlightCommentGroup = (topPosition, comments) => {
-      setActiveHighlightedComment((prev) => {
-        const currentIndex = prev[topPosition] ?? 0;
-        const newIndex = (currentIndex + 1) % comments.length; 
-        return {
-          ...prev,
-          [topPosition]: newIndex,
-        };
-      });
-    };
-
   return (
     <>
       {showNewComment && isFeedback && pageMode !== 'DRAFT' ? (
@@ -225,10 +215,10 @@ const CommentBox = ({
             }}
             ref={commentHeightRefs}
           >
-            {Object.entries(groupedLikedComments).map(([topPosition, comments]) => {
-              const commentToDelete = comments[0];
-              const currentIndex = activeHighlightedComment[topPosition] || 0;
-              const activeComment = comments[currentIndex];
+            {Object.entries(groupedLikedComments).map(([topPosition, comments]) => {              
+              const isHoveredOrSelected =
+                hoveredCommentGroup === topPosition ||
+                comments.some((c) => isHighlightSelectedComment(selectedComment, c.id));
               return (
                 <CommentLikeBox
                   key={topPosition}
@@ -236,29 +226,39 @@ const CommentBox = ({
                   style={{
                     top: `${topPositionOfComment(+topPosition)}px`,
                   }}
-                  onClick={() => {
-                    handleHighlightCommentGroup(topPosition, comments);
-                    methods.handleCommentSelected(activeComment);
-                  }}
+                  isHoveredOrSelected={isHoveredOrSelected && comments.length > 1}
+                  onMouseEnter={() => setHoveredCommentGroup(topPosition)}
+                  onMouseLeave={() => setHoveredCommentGroup(null)}
                 >
-                  <LikeReactIcon
-                    isSelected={comments.some((c) =>
-                      isHighlightSelectedComment(selectedComment, c.id)
-                    )}
-                    src={RoundedBorderLikeIcon}
-                  />
-                  {isShowLikeCancelButton(commentToDelete, pageMode) && (
-                    <RedCloseIcon
-                      src={RedCLoseIcon}
-                      onClick={(e) => {  
-                        e.stopPropagation();
-                        methods.handleDeleteComment(commentToDelete.id);
-                      }}
-                    />
+                  {comments.map((comment, index) => (
+                      <LikeCommentWrapper
+                        key={comment.id}
+                        isHoveredOrSelected={isHoveredOrSelected}
+                        onClick={() => {
+                          methods.handleCommentSelected(comment);
+                        }}
+                      >
+                        <LikeReactIcon
+                          isSelected={isHighlightSelectedComment(
+                            selectedComment,
+                            comment.id
+                          )}
+                          src={RoundedBorderLikeIcon}
+                        />
+                        {isShowLikeCancelButton(comment, pageMode) && (
+                          <RedCloseIcon
+                            src={RedCLoseIcon}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              methods.handleDeleteComment(comment.id);
+                            }}
+                          />
+                        )}
+                      </LikeCommentWrapper>
+                    ))}
+                  {isShowCommentCount(comments.length, isHoveredOrSelected) && (
+                    <LikeCount>{comments.length}</LikeCount>
                   )}
-                  {
-                    comments.length > 1 && <LikeCount>{comments.length}</LikeCount>
-                  }
                 </CommentLikeBox>
               );
             })}

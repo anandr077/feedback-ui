@@ -49,9 +49,9 @@ import {
   isShareWithClass,
   isShowCommentBanks,
 } from '../../FeedbacksComponents/FeedbacksRoot/rules';
-import { useOutsideAlerter } from '../../../components2/CustomHooks/useOutsideAlerter';
 import { getFirstTwoWords } from '../../../utils/strings';
 import { isHighlightSelectedComment, isShowCommentCount, isShowLikeCancelButton } from '../rules';
+import { useOutsideAlerter } from '../../../hooks/useOutsideAlerter';
 
 const CommentBox = ({
   pageMode,
@@ -70,13 +70,18 @@ const CommentBox = ({
   commentBoxContainerHeight,
   QuestionIndex,
 }) => {
-  const { showNewComment, newCommentSerialNumber, isTeacher } =
+  const { showNewComment, newCommentSerialNumber, isTeacher, setSelectedComment } =
     useContext(FeedbackContext);
   const [openCommentBox, setOpenCommentbox] = useState(false);
   const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
   const [hoveredCommentGroup, setHoveredCommentGroup] = useState(null);
   const role = getUserRole();
   const resizeObserver = useRef(null);
+  const containerRef = useRef(null);
+
+  useOutsideAlerter(containerRef, () => {
+    setSelectedComment(null);
+  });
 
   let commentBankIds = submission?.assignment.questions
     .filter((item) => item.serialNumber === newCommentSerialNumber)
@@ -206,7 +211,7 @@ const CommentBox = ({
             )}
         </MainSideContainer>
       ) : (
-        <MainSideContainer style={{ height: `${commentBoxContainerHeight}px` }}>
+        <MainSideContainer style={{ height: `${commentBoxContainerHeight}px`}}>
           <div
             style={{
               height: '100%',
@@ -229,6 +234,7 @@ const CommentBox = ({
                   isHoveredOrSelected={isHoveredOrSelected && comments.length > 1}
                   onMouseEnter={() => setHoveredCommentGroup(topPosition)}
                   onMouseLeave={() => setHoveredCommentGroup(null)}
+                  ref={containerRef}
                 >
                   {comments.map((comment, index) => (
                       <LikeCommentWrapper

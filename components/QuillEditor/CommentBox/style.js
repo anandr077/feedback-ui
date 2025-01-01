@@ -167,7 +167,7 @@ export const CommentDiv = styled.div`
 
 
 export const RedCloseIcon = styled.img`
-  display: none;
+  display: block;
   position: absolute;
   right: -3px;
   top: -5px;

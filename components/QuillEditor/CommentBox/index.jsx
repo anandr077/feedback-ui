@@ -79,9 +79,14 @@ const CommentBox = ({
   const role = getUserRole();
   const resizeObserver = useRef(null);
   const containerRef = useRef(null);
+  const outsideLikeClickRef = useRef();
 
   useOutsideAlerter(containerRef, () => {
     setSelectedComment(null);
+  });
+
+  useOutsideAlerter(outsideLikeClickRef, () => {
+    setLikeToDelete(null);
   });
 
   let commentBankIds = submission?.assignment.questions
@@ -256,6 +261,7 @@ const CommentBox = ({
                         {isShowLikeCancelButton(comment, pageMode, likeToDelete) && (
                           <RedCloseIcon
                             src={RedCLoseIcon}
+                            ref={outsideLikeClickRef}
                             onClick={(e) => {
                               e.stopPropagation();
                               methods.handleDeleteComment(comment.id);

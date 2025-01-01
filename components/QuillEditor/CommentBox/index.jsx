@@ -75,6 +75,7 @@ const CommentBox = ({
   const [openCommentBox, setOpenCommentbox] = useState(false);
   const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
   const [hoveredCommentGroup, setHoveredCommentGroup] = useState(null);
+  const [likeToDelete, setLikeToDelete] = useState(null);
   const role = getUserRole();
   const resizeObserver = useRef(null);
   const containerRef = useRef(null);
@@ -242,6 +243,7 @@ const CommentBox = ({
                         isHoveredOrSelected={isHoveredOrSelected}
                         onClick={() => {
                           methods.handleCommentSelected(comment);
+                          setLikeToDelete(comment.id);
                         }}
                       >
                         <LikeReactIcon
@@ -251,7 +253,7 @@ const CommentBox = ({
                           )}
                           src={RoundedBorderLikeIcon}
                         />
-                        {isShowLikeCancelButton(comment, pageMode) && (
+                        {isShowLikeCancelButton(comment, pageMode, likeToDelete) && (
                           <RedCloseIcon
                             src={RedCLoseIcon}
                             onClick={(e) => {

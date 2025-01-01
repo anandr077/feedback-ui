@@ -1,9 +1,11 @@
 import { getUserId } from '../../userLocalDetails';
 
-export const isShowLikeCancelButton = (comment, pageMode) => {
+export const isShowLikeCancelButton = (comment, pageMode, isShowLikeDelete) => {
+  console.log('the comment is', comment)
   return (
     getUserId() === comment.reviewerId &&
     comment.type !== 'FOCUS_AREA' &&
+    isShowLikeDelete === comment.id && 
     pageMode !== 'CLOSED'
   );
 };

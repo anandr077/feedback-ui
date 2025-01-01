@@ -97,8 +97,7 @@ export function answersFrame(
   openLeftPanel,
   setOtherDrafts,
   handleCommentBankPreview,
-  handleMarkingCriteriaPreview,
-  setIsSavingAnswer
+  handleMarkingCriteriaPreview
 ) {
   return (
     <AnswersFrame
@@ -131,7 +130,6 @@ export function answersFrame(
       setOtherDrafts={setOtherDrafts}
       handleCommentBankPreview={handleCommentBankPreview}
       handleMarkingCriteriaPreview={handleMarkingCriteriaPreview}
-      setIsSavingAnswer={setIsSavingAnswer}
     ></AnswersFrame>
   );
 }
@@ -165,7 +163,6 @@ function AnswersFrame(props) {
     setOtherDrafts,
     handleCommentBankPreview,
     handleMarkingCriteriaPreview,
-    setIsSavingAnswer
   } = props;
   const { showNewComment } = React.useContext(FeedbackContext);
   const generalComments = comments?.filter(
@@ -181,12 +178,17 @@ function AnswersFrame(props) {
         {answerFrames(
           quillRefs,
           setOtherDrafts,
+          smallMarkingCriteria,
+          groupedFocusAreaIds,
           pageMode,
           submission,
           setSubmission,
           commentsForSelectedTab,
           onSelectionChange,
+          handleMarkingCriteriaLevelFeedback,
           handleEditorMounted,
+          addOverallFeedback,
+          updateOverAllFeedback,
           comments,
           editorFontSize,
           selectedComment,
@@ -196,7 +198,9 @@ function AnswersFrame(props) {
           newCommentFrameRef,
           share,
           isFeedback,
-          setIsSavingAnswer
+          isFocusAreas,
+          handleCommentBankPreview,
+          handleMarkingCriteriaPreview
         )}
       </Frame1367>
       {submission?.type !== 'DOCUMENT' &&
@@ -270,12 +274,17 @@ const createModules = (pageMode) => {
 const answerFrames = (
   quillRefs,
   setOtherDrafts,
+  smallMarkingCriteria,
+  groupedFocusAreaIds,
   pageMode,
   submission,
   setSubmission,
   commentsForSelectedTab,
   onSelectionChange,
+  handleMarkingCriteriaLevelFeedback,
   handleEditorMounted,
+  addOverallFeedback,
+  updateOverAllFeedback,
   comments,
   editorFontSize,
   selectedComment,
@@ -285,7 +294,8 @@ const answerFrames = (
   newCommentFrameRef,
   share,
   isFeedback,
-  setIsSavingAnswer
+  handleCommentBankPreview,
+  handleMarkingCriteriaPreview
 ) => {
   const { isUpdatingHandWrittenFiles, setIsUpdatingHandWrittenFiles, isResetEditorTextSelection } = React.useContext(FeedbackContext);
   const [questionSlide, setQuestionSlide] = React.useState(true);
@@ -362,8 +372,7 @@ const answerFrames = (
     submission,
     setSubmission,
     pageMode,
-    comments,
-    setIsSavingAnswer
+    comments
   )(answer);
 
   React.useEffect(() => {
@@ -515,8 +524,7 @@ const answerFrames = (
                     share,
                     question,
                     isFeedback,
-                    QuestionIndex,
-                    setIsSavingAnswer
+                    QuestionIndex
                   )}
                 </QuillContainer>
               </StyledTabPanel>
@@ -572,8 +580,7 @@ function createQuill(
   share,
   question,
   isFeedback,
-  QuestionIndex,
-  setIsSavingAnswer
+  QuestionIndex
 ) {
   return (
     <div style={{ width: '100%' }}>
@@ -619,7 +626,6 @@ function createQuill(
         question={question}
         isFeedback={isFeedback}
         QuestionIndex={QuestionIndex}
-        setIsDiable={setIsSavingAnswer}
       ></QuillEditor>
     </div>
   );

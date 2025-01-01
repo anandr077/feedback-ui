@@ -211,9 +211,7 @@ export const LikeCommentWrapper = styled.div`
   position: ${({ isHoveredOrSelected }) => (isHoveredOrSelected ? 'relative' : 'absolute')};
   margin: ${({ isHoveredOrSelected }) => (isHoveredOrSelected ? '0 1px 0 0' : '0')};
 
-  &:hover ${RedCloseIcon} {
-    display: block;
-  }
+
 `;
 
 export const LikeReactIcon = styled.img`

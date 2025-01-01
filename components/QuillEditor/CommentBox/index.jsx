@@ -79,13 +79,13 @@ const CommentBox = ({
   const role = getUserRole();
   const resizeObserver = useRef(null);
   const containerRef = useRef(null);
-  const outsideLikeClickRef = useRef();
+  const outsideLikeDeleteClickRef = useRef();
 
   useOutsideAlerter(containerRef, () => {
     setSelectedComment(null);
   });
 
-  useOutsideAlerter(outsideLikeClickRef, () => {
+  useOutsideAlerter(outsideLikeDeleteClickRef, () => {
     setLikeToDelete(null);
   });
 
@@ -261,7 +261,7 @@ const CommentBox = ({
                         {isShowLikeCancelButton(comment, pageMode, likeToDelete) && (
                           <RedCloseIcon
                             src={RedCLoseIcon}
-                            ref={outsideLikeClickRef}
+                            ref={outsideLikeDeleteClickRef}
                             onClick={(e) => {
                               e.stopPropagation();
                               methods.handleDeleteComment(comment.id);

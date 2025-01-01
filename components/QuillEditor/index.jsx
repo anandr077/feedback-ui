@@ -36,8 +36,7 @@ const QuillEditor = React.forwardRef(
       share,
       question,
       isFeedback,
-      QuestionIndex,
-      setIsDiable
+      QuestionIndex
     },
     ref
   ) => {
@@ -93,7 +92,6 @@ const QuillEditor = React.forwardRef(
           let timeout;
 
           return function (...args) {
-            setIsDiable(true)
             const context = this;
             clearTimeout(timeout);
             timeout = setTimeout(() => func.apply(context, args), wait);

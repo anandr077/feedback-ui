@@ -11,11 +11,11 @@ import {
 } from '../../../service';
 
 
-export const createDebounceFunction = (submission, setSubmission, pageMode, comments, setIsSavingAnswer) => (answer) => {
+export const createDebounceFunction = (submission, setSubmission, pageMode, comments) => (answer) => {
   if (pageMode === 'DRAFT' || pageMode === 'REVISE') {
     return {
       debounceTime: 2000,
-      onDebounce: handleDebounce(comments, submission, setSubmission, answer, setIsSavingAnswer),
+      onDebounce: handleDebounce(comments, submission, setSubmission, answer),
     };
   }
   return {
@@ -23,8 +23,7 @@ export const createDebounceFunction = (submission, setSubmission, pageMode, comm
     onDebounce: console.log,
   };
 };
-const handleDebounce = (comments, submission, setSubmission, answer, setIsSavingAnswer) => (contents, highlights) => {
-  setIsSavingAnswer(true)
+const handleDebounce = (comments, submission, setSubmission, answer) => (contents, highlights) => {
   const highlightsWithCommentIds = Object.keys(highlights).map(key => ({
     commentId: key,
     range: highlights[key][0].range
@@ -34,6 +33,5 @@ const handleDebounce = (comments, submission, setSubmission, answer, setIsSaving
     highlights: highlightsWithCommentIds
   }).then((updatedSubmission) => {
     setSubmission(updatedSubmission);
-    setIsSavingAnswer(false)
   });
 };

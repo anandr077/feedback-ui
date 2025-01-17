@@ -459,6 +459,30 @@ export default function FeedbacksRoot() {
     });
   }
 
+  function handleLikeSelectedText(){
+    addFeedback(submissionByIdData.id, {
+      questionSerialNumber: newCommentSerialNumber,
+      feedback: '',
+      range: selectedRange,
+      selectedText: selectedText,
+      type: 'COMMENT',
+      subType: 'LIKE',
+      replies: [],
+      markingCriteria: [],
+      sharedWithStudents: [],
+    }).then((response)=>{
+      if(response){
+        setCommentsByIdData([
+          ...markingCriteriaFeedback,
+          ...feedbackComments,
+          response,
+        ]);
+        highlightByComment(response);
+        setShowNewComment(false);
+      }
+    })
+  }
+
   function handleShortcutAddComment(commentText) {
     addFeedback(submissionByIdData.id, {
       questionSerialNumber: newCommentSerialNumber,
@@ -1731,6 +1755,7 @@ export default function FeedbacksRoot() {
     handleDeleteComment,
     handleShareWithClass,
     handleAddComment,
+    handleLikeSelectedText,
     setShowNewComment,
     hideNewCommentDiv,
     handleEditorMounted,

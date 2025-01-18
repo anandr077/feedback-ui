@@ -2,8 +2,6 @@ import React, { useRef, useState, useCallback } from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckIcon from '@mui/icons-material/Check';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import DeleteIcon from '@mui/icons-material/Delete';
 import CardContent from '../CardContent';
 import {
   AnchorTag,
@@ -46,6 +44,8 @@ import {
   Popover,
   Typography,
 } from '@mui/material';
+import { toast } from 'react-toastify';
+import Toast from '../Toast';
 
 function TaskCard(props) {
   const [showMoreOptions, setShowMoreOptions] = React.useState(false);
@@ -119,7 +119,6 @@ function TaskCard(props) {
     return styledCardWithLink();
   }
   function styledCardWithLink() {
-    return styledCard();
     if (onAccept) {
       return styledCard();
     }
@@ -256,6 +255,13 @@ function TaskCard(props) {
     showDateExtendPopuphandler(task);
   };
 
+  const handleCopyLink = useCallback(() => {
+    const baseUrl = window.location.origin;
+    const url = `${baseUrl}/${task.link}`;
+    navigator.clipboard.writeText(url);
+    toast(<Toast message="Share Link copied" />);
+  }, [task.link]);
+
   function tagsFrame(task, isOverDue) {
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -268,44 +274,15 @@ function TaskCard(props) {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
-    const handleCopyLink = useCallback(() => {
-      const baseUrl = window.location.origin;
-      const url = `${baseUrl}/${task.link}`;
-      navigator.clipboard.writeText(url);
-    }, [task.link]);
-
-    const moreOptions = () => (
-      <List style={{ padding: '4px 0' }}>
-        <ListItem onClick={handleCopyLink} style={{ padding: '4px 16px' }}>
-          <IconContainer src="/icons/copy-icon.svg" />
-          <div>Share Task</div>
-        </ListItem>
-        <ListItem
-          onClick={(event) => handleDateUpdate(event, task)}
-          style={{ padding: '4px 16px' }}
-        >
-          <IconContainer src="/icons/clock-purple.svg" />
-          <div>Change due time</div>
-        </ListItem>
-        <ListItem
-          onClick={(event) => handleDelete(event, task)}
-          style={{ padding: '4px 16px' }}
-        >
-          <IconContainer src="/icons/delete-purple-icon.svg" />
-          <div>Delete</div>
-        </ListItem>
-      </List>
-    );
-
     if (task.tags && task.tags.length > 0) {
       return (
         <BubbleContainer>
           <StatusBubbleContainer tags={task?.tags ?? []} overdue={isOverDue} />
 
           {role === 'TEACHER' && userId === task.teacherId && (
-            <IconButton aria-describedby={id} onClick={handleClick}>
-              <MoreVertIcon />
-            </IconButton>
+            <DeleteButtonContainer aria-describedby={id} onClick={handleClick}>
+              <IconContainer src="/icons/three-dot.svg" alt="More" />
+            </DeleteButtonContainer>
           )}
           <Popover
             id={id}
@@ -330,9 +307,11 @@ function TaskCard(props) {
     return (
       <>
         {role === 'TEACHER' && userId === task.teacherId && showThreeDots && (
-          <IconButton aria-describedby={id} onClick={handleClick}>
-            <MoreVertIcon />
-          </IconButton>
+          <DeleteButtonContainerOnly>
+            <DeleteButtonContainer aria-describedby={id} onClick={handleClick}>
+              <IconContainer src="/icons/three-dot.svg" alt="delete" />
+            </DeleteButtonContainer>
+          </DeleteButtonContainerOnly>
         )}
         <Popover
           id={id}
@@ -363,20 +342,30 @@ function TaskCard(props) {
       </BubbleContainer>
     );
   }
-  const moreOptions = () => {
-    return (
-      <MoreOptionsWrapper>
-        <MoreOptions onClick={(event) => handleDateUpdate(event, task)}>
-          <IconContainer src="/icons/clock-purple.svg" />
-          <div>Change due time</div>
-        </MoreOptions>
-        <MoreOptions onClick={(event) => handleDelete(event, task)}>
-          <IconContainer src="/icons/delete-purple-icon.svg" />
-          <div>Delete</div>
-        </MoreOptions>
-      </MoreOptionsWrapper>
-    );
-  };
+
+  // action items for task card with PUBLISHED status
+  const moreOptions = () => (
+    <List style={{ padding: '4px 0' }}>
+      <ListItem onClick={handleCopyLink} style={{ padding: '4px 16px' }}>
+        <IconContainer src="/icons/copy-icon.svg" />
+        <div>Share Task</div>
+      </ListItem>
+      <ListItem
+        onClick={(event) => handleDateUpdate(event, task)}
+        style={{ padding: '4px 16px' }}
+      >
+        <ContentCopyIcon />
+        <div>Change due time</div>
+      </ListItem>
+      <ListItem
+        onClick={(event) => handleDelete(event, task)}
+        style={{ padding: '4px 16px' }}
+      >
+        <IconContainer src="/icons/delete-purple-icon.svg" />
+        <div>Delete</div>
+      </ListItem>
+    </List>
+  );
   return (
     <>
       {createTaskCard(

@@ -1,4 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import CheckIcon from '@mui/icons-material/Check';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import DeleteIcon from '@mui/icons-material/Delete';
 import CardContent from '../CardContent';
 import {
   AnchorTag,
@@ -32,13 +37,24 @@ import { isShowProgressBar } from './rules';
 import LinkButton from '../../components2/LinkButton';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
+import {
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Popover,
+  Typography,
+} from '@mui/material';
 
 function TaskCard(props) {
   const [showMoreOptions, setShowMoreOptions] = React.useState(false);
   const [showShareWithStudent, setShowShareWithStudent] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const {
     task,
+    taskLink,
     small,
     exemplar,
     isSelected,
@@ -103,13 +119,14 @@ function TaskCard(props) {
     return styledCardWithLink();
   }
   function styledCardWithLink() {
+    return styledCard();
     if (onAccept) {
       return styledCard();
     }
     return (
       <AnchorTag
         style={{ width: '100%' }}
-        href={(!exemplar && !notification) && task.link}
+        href={!exemplar && !notification && task.link}
       >
         {styledCard()}
       </AnchorTag>
@@ -240,29 +257,99 @@ function TaskCard(props) {
   };
 
   function tagsFrame(task, isOverDue) {
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
+
+    const handleCopyLink = useCallback(() => {
+      const baseUrl = window.location.origin;
+      const url = `${baseUrl}/${task.link}`;
+      navigator.clipboard.writeText(url);
+    }, [task.link]);
+
+    const moreOptions = () => (
+      <List style={{ padding: '4px 0' }}>
+        <ListItem onClick={handleCopyLink} style={{ padding: '4px 16px' }}>
+          <IconContainer src="/icons/copy-icon.svg" />
+          <div>Share Task</div>
+        </ListItem>
+        <ListItem
+          onClick={(event) => handleDateUpdate(event, task)}
+          style={{ padding: '4px 16px' }}
+        >
+          <IconContainer src="/icons/clock-purple.svg" />
+          <div>Change due time</div>
+        </ListItem>
+        <ListItem
+          onClick={(event) => handleDelete(event, task)}
+          style={{ padding: '4px 16px' }}
+        >
+          <IconContainer src="/icons/delete-purple-icon.svg" />
+          <div>Delete</div>
+        </ListItem>
+      </List>
+    );
+
     if (task.tags && task.tags.length > 0) {
       return (
         <BubbleContainer>
           <StatusBubbleContainer tags={task?.tags ?? []} overdue={isOverDue} />
+
           {role === 'TEACHER' && userId === task.teacherId && (
-            <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
-              <IconContainer src="/icons/three-dot.svg" alt="delete" />
-            </DeleteButtonContainer>
+            <IconButton aria-describedby={id} onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
           )}
-          {showMoreOptions && moreOptions()}
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            {moreOptions()}
+          </Popover>
         </BubbleContainer>
       );
     }
+
     return (
       <>
         {role === 'TEACHER' && userId === task.teacherId && showThreeDots && (
-          <DeleteButtonContainerOnly>
-            <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
-              <IconContainer src="/icons/three-dot.svg" alt="delete" />
-            </DeleteButtonContainer>
-          </DeleteButtonContainerOnly>
+          <IconButton aria-describedby={id} onClick={handleClick}>
+            <MoreVertIcon />
+          </IconButton>
         )}
-        {showMoreOptions && moreOptions()}
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          {moreOptions()}
+        </Popover>
       </>
     );
   }
@@ -294,6 +381,7 @@ function TaskCard(props) {
     <>
       {createTaskCard(
         task,
+        taskLink,
         refContainer,
         isSelected,
         exemplar,

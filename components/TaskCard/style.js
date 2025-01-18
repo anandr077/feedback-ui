@@ -153,6 +153,7 @@ export const TaskLink = styled.a`
 
 export const StyledCard = styled.article`
   width: 100%;
+  border:2px solid rgb(223, 9, 9);
   display: flex;
   flex-direction: column;
   align-items: flex-start;

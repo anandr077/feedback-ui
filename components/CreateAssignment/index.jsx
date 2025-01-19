@@ -665,7 +665,7 @@ export default function CreateAssignment(props) {
             });
 
             toast(<Toast message={'Task published'} link={res.link} />);
-            setCreatedTaskLink(res.link)
+            setCreatedTaskLink(res.id)
             setShowCopyLinkPopup(true)
           } else {
             toast(<Toast message={'Task creation failed'} link={res.link} />);
@@ -864,7 +864,7 @@ export default function CreateAssignment(props) {
       {showCopyLinkPopup && (
         <CopyLinkDialog
           handleCoplyLinkClose={handleCoplyLinkClose}
-          link={`${baseUrl}/${createdTaskLink}/start`}
+          link={`${baseUrl}/#/tasks/${createdTaskLink}/start`}
           title={"Last Step: Notify Your Class"}
           para1={"Copy the task link below and share it on your school's LMS so that students can get started."}
           para2={"Students have also been notified via email and can view the task on their account."}

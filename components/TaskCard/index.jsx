@@ -12,8 +12,6 @@ import {
   DeleteButtonContainerOnly,
   Frame12191,
   IconContainer,
-  MoreOptions,
-  MoreOptionsWrapper,
   SLink,
   StyledCard,
   TaskTitle,
@@ -24,6 +22,7 @@ import {
   FavouriteContent,
   StyledCardMain,
   TaskLink,
+  StyledListItem
 } from './style';
 
 import { getUserId, getUserRole } from '../../userLocalDetails';
@@ -264,6 +263,8 @@ function TaskCard(props) {
 
   function tagsFrame(task, isOverDue) {
     const handleClick = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       setAnchorEl(event.currentTarget);
     };
 
@@ -346,24 +347,22 @@ function TaskCard(props) {
   // action items for task card with PUBLISHED status
   const moreOptions = () => (
     <List style={{ padding: '4px 0' }}>
-      <ListItem onClick={handleCopyLink} style={{ padding: '4px 16px' }}>
-        <IconContainer src="/icons/copy-icon.svg" />
-        <div>Share Task</div>
-      </ListItem>
-      <ListItem
+      <StyledListItem onClick={handleCopyLink}>
+        <IconContainer src="/img/Copy.svg" />
+        <div>Share task</div>
+      </StyledListItem>
+      <StyledListItem
         onClick={(event) => handleDateUpdate(event, task)}
-        style={{ padding: '4px 16px' }}
       >
-        <ContentCopyIcon />
+        <IconContainer src="/icons/clock-purple.svg" />
         <div>Change due time</div>
-      </ListItem>
-      <ListItem
+      </StyledListItem>
+      <StyledListItem
         onClick={(event) => handleDelete(event, task)}
-        style={{ padding: '4px 16px' }}
       >
         <IconContainer src="/icons/delete-purple-icon.svg" />
         <div>Delete</div>
-      </ListItem>
+      </StyledListItem>
     </List>
   );
   return (

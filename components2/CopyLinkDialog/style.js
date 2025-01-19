@@ -39,6 +39,7 @@ export const CloseIcon = styled.img`
 `;
 
 export const LinkText = styled.div`
+  font-family: var(--font-family-ibm_plex_sans);
   flex: 1;
   padding: 8px;
   font-size: 14px;

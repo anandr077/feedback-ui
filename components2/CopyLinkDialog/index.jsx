@@ -22,7 +22,6 @@ const copyLinkDialog = ({handleCoplyLinkClose, link, title, para1, para2}) => {
         .writeText(link)
         .then(() => {
           toast(<Toast message={'Share link copied'} />);
-          handleCoplyLinkClose();
         })
         .catch((err) => {
           console.error('Failed to copy: ', err);

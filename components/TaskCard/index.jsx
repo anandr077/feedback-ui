@@ -30,7 +30,7 @@ import StatusBubbleContainer from '../StatusBubblesContainer';
 import BorderedHeart from '../../static/img/Addtofav.svg';
 import RedBgHeart from '../../static/img/favTick.svg';
 import ProgressBar from '../ProgressBar';
-import { isShowProgressBar } from './rules';
+import { isShowProgressBar, isShowShareOption } from './rules';
 import LinkButton from '../../components2/LinkButton';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
@@ -347,19 +347,17 @@ function TaskCard(props) {
   // action items for task card with PUBLISHED status
   const moreOptions = () => (
     <List style={{ padding: '4px 0' }}>
-      <StyledListItem onClick={handleCopyLink}>
-        <IconContainer src="/img/Copy.svg" />
-        <div>Share task</div>
-      </StyledListItem>
-      <StyledListItem
-        onClick={(event) => handleDateUpdate(event, task)}
-      >
+      {isShowShareOption(task.status) && (
+        <StyledListItem onClick={handleCopyLink}>
+          <IconContainer src="/img/Copy.svg" />
+          <div>Share task</div>
+        </StyledListItem>
+      )}
+      <StyledListItem onClick={(event) => handleDateUpdate(event, task)}>
         <IconContainer src="/icons/clock-purple.svg" />
         <div>Change due time</div>
       </StyledListItem>
-      <StyledListItem
-        onClick={(event) => handleDelete(event, task)}
-      >
+      <StyledListItem onClick={(event) => handleDelete(event, task)}>
         <IconContainer src="/icons/delete-purple-icon.svg" />
         <div>Delete</div>
       </StyledListItem>

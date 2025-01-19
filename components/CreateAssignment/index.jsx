@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import Radio from '@mui/material/Radio';
@@ -48,6 +48,7 @@ import Header from '../Header2';
 import { goToNewUrl } from '../FeedbacksComponents/FeedbacksRoot/functions';
 import { useHistory } from 'react-router-dom';
 import { useClassData } from '../state/hooks';
+import CopyLinkDialog from '../../components2/CopyLinkDialog';
 
 const createAssignmentHeaderProps = assignmentsHeaderProps;
 
@@ -60,8 +61,10 @@ export default function CreateAssignment(props) {
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [showPublishPopup, setShowPublishPopup] = React.useState(false);
   const [showSaveAsDraftPopup, setSaveAsDraftPopup] = React.useState(false);
+  const [showCopyLinkPopup, setShowCopyLinkPopup] = useState(false);
+  const [createdTaskLink, setCreatedTaskLink] = useState('')
   const [isChanged, setIsChanged] = React.useState(false);
-
+  const baseUrl = window.location.origin;
 
   const draft = {
     id: uuidv4(),
@@ -662,7 +665,8 @@ export default function CreateAssignment(props) {
             });
 
             toast(<Toast message={'Task published'} link={res.link} />);
-            window.location.href = '#';
+            setCreatedTaskLink(res.link)
+            setShowCopyLinkPopup(true)
           } else {
             toast(<Toast message={'Task creation failed'} link={res.link} />);
             return;
@@ -789,6 +793,10 @@ export default function CreateAssignment(props) {
     />
   );
 
+  const handleCoplyLinkClose = () =>{
+    setShowCopyLinkPopup(false); 
+    window.location.href = '#';
+  }
   const hidedeletePopup = () => {
     setShowDeletePopup(false);
   };
@@ -851,6 +859,15 @@ export default function CreateAssignment(props) {
           textContent="Are you sure you want to publish this task?"
           buttonText="Publish"
           confirmButtonAction={publish}
+        />
+      )}
+      {showCopyLinkPopup && (
+        <CopyLinkDialog
+          handleCoplyLinkClose={handleCoplyLinkClose}
+          link={`${baseUrl}/${createdTaskLink}/start`}
+          title={"Last Step: Notify Your Class"}
+          para1={"Copy the task link below and share it on your school's LMS so that students can get started."}
+          para2={"Students have also been notified via email and can view the task on their account."}
         />
       )}
       <Header breadcrumbs={[assignment?.title]} />

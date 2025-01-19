@@ -256,7 +256,7 @@ function TaskCard(props) {
 
   const handleCopyLink = useCallback(() => {
     const baseUrl = window.location.origin;
-    const url = `${baseUrl}/${task.link}`;
+    const url = `${baseUrl}/${task.link}/start`;
     navigator.clipboard.writeText(url);
     toast(<Toast message="Share Link copied" />);
   }, [task.link]);

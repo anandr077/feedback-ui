@@ -167,6 +167,7 @@ function App() {
     return <Loader />;
   }
   const role = getUserRole();
+  const isTeacher = role === 'TEACHER';
   const userName = getUserName();
   userName && (document.title = 'Jeddle - ' + userName);
 
@@ -265,12 +266,32 @@ function App() {
                     <Route path="/classes/:classIdFromUrl?">
                       <ProtectedTeacherClassesRoot />
                     </Route>
-                    <Route path="/tasks/:assignmentId/start">
-                      <ProtectedTaskDetail />
-                    </Route>
-                    <Route path="/tasks/:assignmentId">
-                      <ProtectedCreateAssignment />
-                    </Route>
+                    <Route
+                      exact
+                      path="/tasks/:assignmentId/start"
+                      render={(props) => {
+                        return isTeacher ? (
+                          <Redirect
+                            to={`/tasks/${props.match.params.assignmentId}`}
+                          />
+                        ) : (
+                          <ProtectedTaskDetail />
+                        );
+                      }}
+                    />
+                    <Route
+                      exact
+                      path="/tasks/:assignmentId"
+                      render={(props) => {
+                        return isTeacher ? (
+                          <ProtectedCreateAssignment />
+                        ) : (
+                          <Redirect
+                            to={`/tasks/${props.match.params.assignmentId}/start`}
+                          />
+                        );
+                      }}
+                    />
                     <Route path="/tasks">
                       <ProtectedTasks role={role} />
                     </Route>

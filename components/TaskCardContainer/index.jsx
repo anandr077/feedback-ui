@@ -10,6 +10,7 @@ function TaskCardContainer(props) {
     setPublishActionCompleted,
     showDeletePopuphandler,
     showDateExtendPopuphandler,
+    assignmentIdForDuplicate
   } = props;
   const location = useLocation();
 
@@ -23,6 +24,7 @@ function TaskCardContainer(props) {
           setPublishActionCompleted={setPublishActionCompleted}
           showDeletePopuphandler={showDeletePopuphandler}
           showDateExtendPopuphandler={showDateExtendPopuphandler}
+          assignmentIdForDuplicate={assignmentIdForDuplicate}
         />
       </a>
     );

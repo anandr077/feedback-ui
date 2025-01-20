@@ -63,6 +63,7 @@ import {
 } from '../../GiveFeedback/style.js';
 import MenuButton from '../../MenuButton/index.jsx';
 import { useClassData } from '../../state/hooks.js';
+import { duplicateAssignment } from '../../../utils/function.js';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -285,6 +286,10 @@ export default function TeacherTaskRoot() {
     setShowDateExtendPopup(false);
   };
 
+  const assignmentIdForDuplicate = (id) =>{
+      duplicateAssignment(id, assignments)
+  }
+
   const FilterSortAndCal = (
     <>
       <MainContainer>
@@ -428,6 +433,7 @@ export default function TeacherTaskRoot() {
           isShowMenu,
           setShowMenu,
           ...tasksDesktopData(classData),
+          assignmentIdForDuplicate,
         }}
       />
     </>

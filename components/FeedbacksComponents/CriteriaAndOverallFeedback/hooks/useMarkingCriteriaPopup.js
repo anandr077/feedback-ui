@@ -8,6 +8,7 @@ export function useMarkingCriteriaPopup() {
 
   return {
     isShowMarkingCrteriaPopUp,
+    setShowMarkingCrteriaPopUp,
     openPopup,
     closePopup,
   }

@@ -33,8 +33,12 @@ function MarkingCriteria({
     handleRubricsChange,
     handleStrengthndTargetChange,
   } = useMarkingCriteria(QuestionIndex, submission);
-  const { isShowMarkingCrteriaPopUp, openPopup, closePopup } =
-    useMarkingCriteriaPopup();
+  const {
+    isShowMarkingCrteriaPopUp,
+    setShowMarkingCrteriaPopUp,
+    openPopup,
+    closePopup,
+  } = useMarkingCriteriaPopup();
 
   const saveMarkingCrieria = () => {
     if (

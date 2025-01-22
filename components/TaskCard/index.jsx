@@ -1,4 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import CheckIcon from '@mui/icons-material/Check';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CardContent from '../CardContent';
 import {
   AnchorTag,
@@ -9,8 +12,6 @@ import {
   DeleteButtonContainerOnly,
   Frame12191,
   IconContainer,
-  MoreOptions,
-  MoreOptionsWrapper,
   SLink,
   StyledCard,
   TaskTitle,
@@ -21,6 +22,7 @@ import {
   FavouriteContent,
   StyledCardMain,
   TaskLink,
+  StyledListItem
 } from './style';
 
 import { getUserId, getUserRole } from '../../userLocalDetails';
@@ -28,17 +30,30 @@ import StatusBubbleContainer from '../StatusBubblesContainer';
 import BorderedHeart from '../../static/img/Addtofav.svg';
 import RedBgHeart from '../../static/img/favTick.svg';
 import ProgressBar from '../ProgressBar';
-import { isShowProgressBar } from './rules';
+import { isShowProgressBar, isShowShareOption } from './rules';
 import LinkButton from '../../components2/LinkButton';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
+import {
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Popover,
+  Typography,
+} from '@mui/material';
+import { toast } from 'react-toastify';
+import Toast from '../Toast';
 
 function TaskCard(props) {
   const [showMoreOptions, setShowMoreOptions] = React.useState(false);
   const [showShareWithStudent, setShowShareWithStudent] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const {
     task,
+    taskLink,
     small,
     exemplar,
     isSelected,
@@ -109,7 +124,7 @@ function TaskCard(props) {
     return (
       <AnchorTag
         style={{ width: '100%' }}
-        href={(!exemplar && !notification) && task.link}
+        href={!exemplar && !notification && task.link}
       >
         {styledCard()}
       </AnchorTag>
@@ -239,30 +254,82 @@ function TaskCard(props) {
     showDateExtendPopuphandler(task);
   };
 
+  const handleCopyLink = useCallback(() => {
+    const baseUrl = window.location.origin;
+    const url = `${baseUrl}/#/tasks/${task.id}/start`;
+    navigator.clipboard.writeText(url);
+    toast(<Toast message="Share link copied" />);
+  }, [task.link]);
+
   function tagsFrame(task, isOverDue) {
+    const handleClick = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
+
     if (task.tags && task.tags.length > 0) {
       return (
         <BubbleContainer>
           <StatusBubbleContainer tags={task?.tags ?? []} overdue={isOverDue} />
+
           {role === 'TEACHER' && userId === task.teacherId && (
-            <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
-              <IconContainer src="/icons/three-dot.svg" alt="delete" />
+            <DeleteButtonContainer aria-describedby={id} onClick={handleClick}>
+              <IconContainer src="/icons/three-dot.svg" alt="More" />
             </DeleteButtonContainer>
           )}
-          {showMoreOptions && moreOptions()}
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            {moreOptions()}
+          </Popover>
         </BubbleContainer>
       );
     }
+
     return (
       <>
         {role === 'TEACHER' && userId === task.teacherId && showThreeDots && (
           <DeleteButtonContainerOnly>
-            <DeleteButtonContainer onClick={(event) => handleMore(event, task)}>
+            <DeleteButtonContainer aria-describedby={id} onClick={handleClick}>
               <IconContainer src="/icons/three-dot.svg" alt="delete" />
             </DeleteButtonContainer>
           </DeleteButtonContainerOnly>
         )}
-        {showMoreOptions && moreOptions()}
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          {moreOptions()}
+        </Popover>
       </>
     );
   }
@@ -276,24 +343,31 @@ function TaskCard(props) {
       </BubbleContainer>
     );
   }
-  const moreOptions = () => {
-    return (
-      <MoreOptionsWrapper>
-        <MoreOptions onClick={(event) => handleDateUpdate(event, task)}>
-          <IconContainer src="/icons/clock-purple.svg" />
-          <div>Change due time</div>
-        </MoreOptions>
-        <MoreOptions onClick={(event) => handleDelete(event, task)}>
-          <IconContainer src="/icons/delete-purple-icon.svg" />
-          <div>Delete</div>
-        </MoreOptions>
-      </MoreOptionsWrapper>
-    );
-  };
+
+  // action items for task card with PUBLISHED status
+  const moreOptions = () => (
+    <List style={{ padding: '4px 0' }}>
+      {isShowShareOption(task.status) && (
+        <StyledListItem onClick={handleCopyLink}>
+          <IconContainer src="/img/Copy.svg" />
+          <div>Share task</div>
+        </StyledListItem>
+      )}
+      <StyledListItem onClick={(event) => handleDateUpdate(event, task)}>
+        <IconContainer src="/icons/clock-purple.svg" />
+        <div>Change due time</div>
+      </StyledListItem>
+      <StyledListItem onClick={(event) => handleDelete(event, task)}>
+        <IconContainer src="/icons/delete-purple-icon.svg" />
+        <div>Delete</div>
+      </StyledListItem>
+    </List>
+  );
   return (
     <>
       {createTaskCard(
         task,
+        taskLink,
         refContainer,
         isSelected,
         exemplar,

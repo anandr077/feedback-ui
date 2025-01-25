@@ -214,7 +214,7 @@ function AnswersFrame(props) {
               <AddCommentFocusAreaInstruction
                 heading="How to use Self-assessment Areas:"
                 firstIcon={RedabcIcon}
-                firstStep="Highlight a section of your response that addresses one of the Self-assessment Areas (check the list of Self-assessment Areas below or in the task details tab)."
+                firstStep="Highlight a section of your response that addresses one of the Self-assessment Areas (check the list of Self-assessment Areas above or in the task details tab)."
                 secondIcon={ColorCircleIcon}
                 secondStep="Click the focus area that matches your selection."
                 thirdIcon={RefreshIcon}

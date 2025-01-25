@@ -35,6 +35,7 @@ function TeacherTasksDesktop(props) {
     isShowMenu,
     setShowMenu,
     MyCalendarFile,
+    assignmentIdForDuplicate,
   } = props;
 
   return (
@@ -67,6 +68,7 @@ function TeacherTasksDesktop(props) {
                   allTasks={awaitingSubmissions}
                   showDeletePopuphandler={showDeletePopuphandler}
                   showDateExtendPopuphandler={showDateExtendPopuphandler}
+                  assignmentIdForDuplicate={assignmentIdForDuplicate}
                 />
               </Frame1354>
               <Frame1354>
@@ -75,6 +77,7 @@ function TeacherTasksDesktop(props) {
                   allTasks={feedbacks}
                   showDeletePopuphandler={showDeletePopuphandler}
                   showDateExtendPopuphandler={showDateExtendPopuphandler}
+                  assignmentIdForDuplicate={assignmentIdForDuplicate}
                 />
               </Frame1354>
             </Frame1359>

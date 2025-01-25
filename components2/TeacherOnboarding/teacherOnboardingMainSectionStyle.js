@@ -24,7 +24,7 @@ export const MainTitle = styled.h1`
 export const Subtitle = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
-  font-size: var(--font-size-m);
+  font-size: 18px;
   line-height: 21px;
   color: rgba(86, 81, 91, 1);
   height: ${props => props.fixedHeight ? '80px' : 'auto'};

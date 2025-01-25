@@ -60,6 +60,7 @@ export default function CreateAssignment(props) {
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [showPublishPopup, setShowPublishPopup] = React.useState(false);
+  const [showUpdatePopup, setShowUpdatePopup] = useState(false);
   const [showSaveAsDraftPopup, setSaveAsDraftPopup] = React.useState(false);
   const [showCopyLinkPopup, setShowCopyLinkPopup] = useState(false);
   const [createdTaskLink, setCreatedTaskLink] = useState('')
@@ -677,6 +678,29 @@ export default function CreateAssignment(props) {
     }
   };
 
+  const updateCurrentAssignment = () =>{
+    if(isChanged) setIsChanged(false);
+    setShowUpdatePopup(false);
+
+    updateAssignment(assignment.id, assignment).then((res) => {
+      if (res.status === 'PUBLISHED') {
+        queryClient.invalidateQueries(['notifications']);
+        queryClient.invalidateQueries(['tasks']);
+        queryClient.invalidateQueries(['assignments']);
+        queryClient.invalidateQueries((queryKey) => {
+          return queryKey.includes('class');
+        });
+
+        toast(<Toast message={'Task updated'} />);
+        window.location.href = '#';
+      } else {
+        toast(<Toast message={'Could not update task'} />);
+        return;
+      }
+
+    })
+  }
+
   const deleteAssignmentHandler = () => {
     updateAssignment(assignment.id, assignment).then((_) => {
       deleteAssignment(assignment.id).then((res) => {
@@ -806,6 +830,9 @@ export default function CreateAssignment(props) {
   const hidePublishPopup = () => {
     setShowPublishPopup(false);
   };
+  const hideUpdatePopup = () => {
+    setShowUpdatePopup(false);
+  };
   const hideSaveAsDraftPopup = () => {
     if (pendingLocation) setPendingLocation(null);
     setSaveAsDraftPopup(false);
@@ -816,6 +843,9 @@ export default function CreateAssignment(props) {
   };
   const showPublishPopuphandler = (assignmentId) => {
     setShowPublishPopup(true);
+  };
+  const showUpdatePopuphandler = (assignmentId) => {
+    setShowUpdatePopup(true);
   };
   const methods = {
     assignment,
@@ -831,6 +861,7 @@ export default function CreateAssignment(props) {
     deleteAssignmentHandler,
     showDeletePopuphandler,
     showPublishPopuphandler,
+    showUpdatePopuphandler
   };
 
   return (
@@ -859,6 +890,15 @@ export default function CreateAssignment(props) {
           textContent="Are you sure you want to publish this task?"
           buttonText="Publish"
           confirmButtonAction={publish}
+        />
+      )}
+      {showUpdatePopup && (
+        <GeneralPopup
+          hidePopup={hideUpdatePopup}
+          title="Update Task"
+          textContent="Are you sure you want to update this task?"
+          buttonText="Update"
+          confirmButtonAction={updateCurrentAssignment}
         />
       )}
       {showCopyLinkPopup && (

@@ -45,6 +45,7 @@ import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
 import { getUserRole } from '../../userLocalDetails.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 import { useAssignmentsAll, useClassData, useCompletedAll, useProfile } from '../state/hooks.js';
+import { duplicateAssignment } from '../../utils/function.js';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
@@ -136,6 +137,10 @@ export default function CompletedPage() {
     return sortedTasks;
   };
 
+  const assignmentIdForDuplicate = (id) => {
+    duplicateAssignment(id, allAssignmentData)
+  };
+
   const downloadPDF = (Id) => {
     downloadSubmissionPdf(Id);
   };
@@ -207,6 +212,7 @@ export default function CompletedPage() {
             <TaskHistoryDataComponent
               downloadPDF={downloadPDF}
               list={filterData(tasks)}
+              assignmentIdForDuplicate={assignmentIdForDuplicate}
             />
           </LeftContentContainer>
         </InnerContainer>

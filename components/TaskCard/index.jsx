@@ -1,7 +1,5 @@
 import React, { useRef, useState, useCallback } from 'react';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import CheckIcon from '@mui/icons-material/Check';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ShareIcon from '@mui/icons-material/Share';
 import CardContent from '../CardContent';
 import {
   AnchorTag,
@@ -30,7 +28,7 @@ import StatusBubbleContainer from '../StatusBubblesContainer';
 import BorderedHeart from '../../static/img/Addtofav.svg';
 import RedBgHeart from '../../static/img/favTick.svg';
 import ProgressBar from '../ProgressBar';
-import { isShowProgressBar, isShowShareOption } from './rules';
+import { isShowDuplicateOption, isShowProgressBar, isShowShareOption } from './rules';
 import LinkButton from '../../components2/LinkButton';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
@@ -68,12 +66,12 @@ function TaskCard(props) {
     onAddToBookmark = () => {},
     onRemoveFromBookmark = () => {},
     notification = false,
+    assignmentIdForDuplicate
   } = props;
   const role = getUserRole();
   const userId = getUserId();
 
   const refContainer = useRef(null);
-
   const isFavouriteFn = (task, user) => {
     return (task?.bookmarkedByStudents || []).includes(user);
   };
@@ -347,9 +345,15 @@ function TaskCard(props) {
   // action items for task card with PUBLISHED status
   const moreOptions = () => (
     <List style={{ padding: '4px 0' }}>
+      {isShowDuplicateOption(task.status) && (
+        <StyledListItem onClick={() => assignmentIdForDuplicate(task.id)}>
+          <IconContainer src="/img/Copy.svg" />
+          <div>Duplicate and edit</div>
+        </StyledListItem>
+      )}
       {isShowShareOption(task.status) && (
         <StyledListItem onClick={handleCopyLink}>
-          <IconContainer src="/img/Copy.svg" />
+          <ShareIcon style={{ fontSize: '18px' }} />
           <div>Share task</div>
         </StyledListItem>
       )}

@@ -161,7 +161,7 @@ function isSettingItems(role, location, checkIsActive){
   return{
     icon: settingIcon,
     activeIcon: activesettingIcon,
-    name: 'Feedback Tools',
+    name: 'Marking Tools',
     isActive: checkIsActive(location, paths),
     link: '/settings',
   }

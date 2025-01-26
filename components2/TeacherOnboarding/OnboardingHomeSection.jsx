@@ -44,9 +44,12 @@ const OnboardingHomeSection = ({ currentSlide }) => {
       ></OnboardingVideo>
       <OnboardingMainSection>
         <OnboardingLeft>
-          <MainTitle>Welcome to Jeddle's Feedback and Marking Portal</MainTitle>
+          <MainTitle>
+            Lighten the load with JeddAI, the ultimate feedback tool for
+            formative assessment.
+          </MainTitle>
           <Subtitle>
-            Assign formative writing tasks and give feedback, instantly.
+            Give feedback to students in less than 60 seconds.
           </Subtitle>
         </OnboardingLeft>
         <RoundedBorderSubmitBtn

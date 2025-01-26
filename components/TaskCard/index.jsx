@@ -28,7 +28,7 @@ import StatusBubbleContainer from '../StatusBubblesContainer';
 import BorderedHeart from '../../static/img/Addtofav.svg';
 import RedBgHeart from '../../static/img/favTick.svg';
 import ProgressBar from '../ProgressBar';
-import { isShowDuplicateOption, isShowProgressBar, isShowShareOption } from './rules';
+import { isShowProgressBar, isShowShareOption } from './rules';
 import LinkButton from '../../components2/LinkButton';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
@@ -345,12 +345,10 @@ function TaskCard(props) {
   // action items for task card with PUBLISHED status
   const moreOptions = () => (
     <List style={{ padding: '4px 0' }}>
-      {isShowDuplicateOption(task.status) && (
-        <StyledListItem onClick={() => assignmentIdForDuplicate(task.id)}>
-          <IconContainer src="/img/Copy.svg" />
-          <div>Duplicate and edit</div>
-        </StyledListItem>
-      )}
+      <StyledListItem onClick={() => assignmentIdForDuplicate(task.id)}>
+        <IconContainer src="/img/Copy.svg" />
+        <div>Duplicate and edit</div>
+      </StyledListItem>
       {isShowShareOption(task.status) && (
         <StyledListItem onClick={handleCopyLink}>
           <ShareIcon style={{ fontSize: '18px' }} />

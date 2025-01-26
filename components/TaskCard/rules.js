@@ -5,7 +5,3 @@ export const isShowProgressBar = (task) => {
 export const isShowShareOption = (taskStatus) => {
     return taskStatus === 'PUBLISHED'
 }
-
-export const isShowDuplicateOption = (taskStatus) => {
-    return taskStatus === 'PUBLISHED'
-}

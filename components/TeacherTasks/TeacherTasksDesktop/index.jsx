@@ -57,6 +57,7 @@ function TeacherTasksDesktop(props) {
                   allTasks={drafts}
                   showDeletePopuphandler={showDeletePopuphandler}
                   showDateExtendPopuphandler={showDateExtendPopuphandler}
+                  assignmentIdForDuplicate={assignmentIdForDuplicate}
                 />
               </Frame1354>
               <Frame1354>

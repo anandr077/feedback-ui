@@ -77,7 +77,7 @@ export default function CreateAssignment(props) {
     reviewers: {},
     dueAt: dayjs().add(3, 'day'),
   };
-  const [assignment, setAssignment] = React.useState(draft);
+  const [assignment, _setAssignment] = React.useState(draft);
 
   const [openFocusAreaDialog, setOpenFocusAreaDialog] = React.useState(false);
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
@@ -114,6 +114,19 @@ export default function CreateAssignment(props) {
   );
   const [pendingLocation, setPendingLocation] = React.useState(null);
   const history = useHistory();
+
+  const setAssignment = (updater) => {
+    _setAssignment((prevState) => {
+      const nextState =
+        typeof updater === "function" ? updater(prevState) : updater;
+
+      console.trace("setAssignment called with:");
+      console.log("Previous state:", prevState);
+      console.log("Next state:", nextState);
+
+      return nextState;
+    });
+  };
 
   const getStudentById = (id) => {
     return Object.values(allClassStudents)
@@ -375,7 +388,7 @@ export default function CreateAssignment(props) {
     return newMarkingCriteria;
   };
 
-  function updateMarkingCriteria(id, markingCriteria) {
+  const updateMarkingCriteria = (id, markingCriteria) => {
     const updatedMarkingCriteriaObj = removeAppendFunction(markingCriteria);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,

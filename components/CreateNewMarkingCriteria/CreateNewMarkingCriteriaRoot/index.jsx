@@ -17,8 +17,11 @@ import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 import { useMarkingCriterias } from '../../state/hooks';
 import { validateRubric } from '../../../components2/markingCriteria';
+import useNavigationBlock from '../../../hooks/useNavigationBlock';
+import GeneralPopup from '../../GeneralPopup';
 
 export default function CreateNewMarkingCriteriaRoot(props) {
+  const {setIsChanged, isOpen, confirmButtonAction, cancelPopup } = useNavigationBlock();
   const { markingCriteriaId } = useParams();
   const [isLoading, setIsLoading] = React.useState(true);
   const [isUpdating, setIsUpdating] = React.useState(false);
@@ -127,6 +130,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   const saveMarkingCriteria = () => {
     if (validateRubric(markingCriteria)) {
+      setIsChanged(false);
       const newMarkingCriteria = {
         title: markingCriteria.title,
         criterias: markingCriteria.criterias.map((criteria) => {
@@ -208,10 +212,12 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const handleTitleChange = (event) => {
+    setIsChanged(true);
     setMarkingCriteria({ ...markingCriteria, title: event.target.value });
   };
 
   const updateCriteriaTitle = (id, newTitle) => {
+    setIsChanged(true);
     const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === id) {
         return {
@@ -225,6 +231,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const updateLevelName = (criteriaId, levelId, newName) => {
+    setIsChanged(true);
     const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === criteriaId) {
         return {
@@ -246,6 +253,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const updateLevelDescription = (criteriaId, levelId, newDescription) => {
+    setIsChanged(true);
     if (newDescription.length > 200) {
       return;
     }
@@ -295,6 +303,17 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   return (
     <>
+      {isOpen && (
+        <GeneralPopup
+          hidePopup={cancelPopup}
+          title="Save The Template"
+          textContent="Do you want to leave without saving?"
+          buttonText="Yes"
+          confirmButtonAction={confirmButtonAction}
+          closeBtnText="No"
+          cancelPopup={cancelPopup}
+        />
+      )}
       <CreateNewMarkingCriteriaDesktop
         {...{
           criterias,

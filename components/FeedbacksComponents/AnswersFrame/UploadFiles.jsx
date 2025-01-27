@@ -19,11 +19,27 @@ function UploadFiles({handleFilesSubmissions, setTabValue}) {
       event.preventDefault(); 
       const files = Array.from(event.target.files || event.dataTransfer.files);
 
+      const ALLOWED_TYPES = [
+        'image/jpeg',
+        'image/png',
+        'image/heic',
+        'image/heif',
+        'application/pdf'
+      ];
+
       const validFiles = files.filter(file => {
         if (file.size > MAX_FILE_SIZE) {
           toast(
             <Toast 
               message={`${file.name} exceeds 5mb file size limit`}
+            />
+          )
+          return false;
+        }
+        if (!ALLOWED_TYPES.includes(file.type)) {
+          toast(
+            <Toast 
+              message={`Only .pdf, .jpeg, .png or .heic/.heif files are accepted, please convert and try again`}
             />
           )
           return false;
@@ -56,7 +72,7 @@ function UploadFiles({handleFilesSubmissions, setTabValue}) {
     <UploadFilesContainer onDragOver={handleDragOver} onDrop={handleImageChange}>
       <StyledInput
         type="file"
-        accept="image/*,application/pdf"
+        accept=".heic, .heif, image/heic, image/heif, image/*, application/pdf"
         multiple
         ref={fileInputRef} 
         name="file"
@@ -68,7 +84,7 @@ function UploadFiles({handleFilesSubmissions, setTabValue}) {
       />
       <UploadFilesText>Or drop files here</UploadFilesText>
       <UploadFilesText>
-        (Files should be in .pdf, .jpeg or .png format. Maximum file upload size: 5mb)
+        (Files should be in .pdf, .jpeg, .png or .heic/.heif format. Maximum file upload size: 5mb)
       </UploadFilesText>
      
     </UploadFilesContainer>

@@ -154,11 +154,27 @@ function OrderPages({
     event.preventDefault();
     const files = Array.from(event.target.files);
 
+    const ALLOWED_TYPES = [
+      'image/jpeg',
+      'image/png',
+      'image/heic',
+      'image/heif',
+      'application/pdf'
+    ];
+
     const validFiles = files.filter(file => {
       if (file.size > MAX_FILE_SIZE) {
         toast(
           <Toast 
             message={`${file.name} exceeds 5mb file size limit`}
+          />
+        )
+        return false;
+      }
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        toast(
+          <Toast 
+            message={`Only .pdf, .jpeg, .png or .heic/.heif files are accepted, please convert and try again`}
           />
         )
         return false;
@@ -179,7 +195,7 @@ function OrderPages({
         <AddButtonContainer>
           <StyledInput
             type="file"
-            accept="image/*,application/pdf"
+            accept=".heic, .heif, image/heic, image/heif, image/*, application/pdf"
             multiple
             ref={fileInputRef}
             name="file"

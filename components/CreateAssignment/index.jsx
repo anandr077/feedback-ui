@@ -77,7 +77,7 @@ export default function CreateAssignment(props) {
     reviewers: {},
     dueAt: dayjs().add(3, 'day'),
   };
-  const [assignment, _setAssignment] = React.useState(draft);
+  const [assignment, setAssignment] = React.useState(draft);
 
   const [openFocusAreaDialog, setOpenFocusAreaDialog] = React.useState(false);
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
@@ -114,19 +114,6 @@ export default function CreateAssignment(props) {
   );
   const [pendingLocation, setPendingLocation] = React.useState(null);
   const history = useHistory();
-
-  const setAssignment = (updater) => {
-    _setAssignment((prevState) => {
-      const nextState =
-        typeof updater === "function" ? updater(prevState) : updater;
-
-      console.trace("setAssignment called with:");
-      console.log("Previous state:", prevState);
-      console.log("Next state:", nextState);
-
-      return nextState;
-    });
-  };
 
   const getStudentById = (id) => {
     return Object.values(allClassStudents)
@@ -705,7 +692,7 @@ export default function CreateAssignment(props) {
         });
 
         toast(<Toast message={'Task updated'} />);
-        window.location.href = '#';
+        history.push('/#')
       } else {
         toast(<Toast message={'Could not update task'} />);
         return;
@@ -719,7 +706,7 @@ export default function CreateAssignment(props) {
       deleteAssignment(assignment.id).then((res) => {
         if (res.status === 'DELETED') {
           toast(<Toast message={'Task deleted'} />);
-          window.location.href = '#';
+          history.push('/#')
         } else {
           toast(<Toast message={'Task deletion failed'} />);
           return;

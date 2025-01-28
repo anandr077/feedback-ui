@@ -130,7 +130,6 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   const saveMarkingCriteria = () => {
     if (validateRubric(markingCriteria)) {
-      setIsNavigationBlocked(false);
       const newMarkingCriteria = {
         title: markingCriteria.title,
         criterias: markingCriteria.criterias.map((criteria) => {
@@ -167,7 +166,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
           } else {
             resetMarkingCriterias();
           }
-          
+          setIsNavigationBlocked(false);
           history.push(`/markingTemplates/rubrics/:${response.id?.value}`)
 
           toast(

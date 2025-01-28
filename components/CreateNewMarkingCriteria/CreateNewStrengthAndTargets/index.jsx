@@ -224,10 +224,10 @@ export default function CreateNewStrengthAndTargets() {
     if (!validateStrengthsTargets(markingMethodology)) {
       return;
     }
-    setIsNavigationBlocked(false);
     if (markingMethodologyId === 'new') {
       createNewMarkingCriteria(markingMethodology).then((response) => {
         resetMarkingCriterias();
+        setIsNavigationBlocked(false);
         toast(
           <Toast
             message={'Strengths and targets created'}
@@ -242,6 +242,7 @@ export default function CreateNewStrengthAndTargets() {
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
         (response) => {
+          setIsNavigationBlocked(false);
           toast(
             <Toast
               message={'Strengths and Targets Updated'}

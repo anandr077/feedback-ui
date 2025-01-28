@@ -195,7 +195,7 @@ function OrderPages({
         <AddButtonContainer>
           <StyledInput
             type="file"
-            accept=".heic, .heif, image/heic, image/heif, image/*, application/pdf"
+            accept=".heic, .HEIC, .heif, .HEIF, image/heic, image/heif, image/*, application/pdf"
             multiple
             ref={fileInputRef}
             name="file"

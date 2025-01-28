@@ -21,7 +21,7 @@ import useNavigationBlock from '../../../hooks/useNavigationBlock';
 import GeneralPopup from '../../GeneralPopup';
 
 export default function CreateNewMarkingCriteriaRoot(props) {
-  const {setIsChanged, isOpen, confirmButtonAction, cancelPopup } = useNavigationBlock();
+  const {setIsNavigationBlocked, isShowNavigationBlockPopup, confirmNavigationChange, cancelNavigationPopup } = useNavigationBlock();
   const { markingCriteriaId } = useParams();
   const [isLoading, setIsLoading] = React.useState(true);
   const [isUpdating, setIsUpdating] = React.useState(false);
@@ -130,7 +130,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   const saveMarkingCriteria = () => {
     if (validateRubric(markingCriteria)) {
-      setIsChanged(false);
+      setIsNavigationBlocked(false);
       const newMarkingCriteria = {
         title: markingCriteria.title,
         criterias: markingCriteria.criterias.map((criteria) => {
@@ -212,12 +212,12 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const handleTitleChange = (event) => {
-    setIsChanged(true);
+    setIsNavigationBlocked(true);
     setMarkingCriteria({ ...markingCriteria, title: event.target.value });
   };
 
   const updateCriteriaTitle = (id, newTitle) => {
-    setIsChanged(true);
+    setIsNavigationBlocked(true);
     const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === id) {
         return {
@@ -231,7 +231,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const updateLevelName = (criteriaId, levelId, newName) => {
-    setIsChanged(true);
+    setIsNavigationBlocked(true);
     const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === criteriaId) {
         return {
@@ -253,7 +253,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const updateLevelDescription = (criteriaId, levelId, newDescription) => {
-    setIsChanged(true);
+    setIsNavigationBlocked(true);
     if (newDescription.length > 200) {
       return;
     }
@@ -303,15 +303,15 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   return (
     <>
-      {isOpen && (
+      {isShowNavigationBlockPopup && (
         <GeneralPopup
-          hidePopup={cancelPopup}
+          hidePopup={cancelNavigationPopup}
           title="Save The Template"
           textContent="Do you want to leave without saving?"
           buttonText="Yes"
-          confirmButtonAction={confirmButtonAction}
+          confirmButtonAction={confirmNavigationChange}
           closeBtnText="No"
-          cancelPopup={cancelPopup}
+          cancelPopup={cancelNavigationPopup}
         />
       )}
       <CreateNewMarkingCriteriaDesktop

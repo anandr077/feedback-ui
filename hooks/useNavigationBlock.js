@@ -5,15 +5,15 @@ export default function useNavigationBlock() {
   const history = useHistory();
   const unblockRef = useRef(null);
 
-  const [isChanged, setIsChanged] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
+  const [isShowNavigationBlockPopup, setIsShowNavigationBlockPopup] = useState(false);
   const [pendingLocation, setPendingLocation] = useState(null);
 
   useEffect(() => {
     unblockRef.current = history.block((location) => {
-      if (isChanged) {
+      if (isNavigationBlocked) {
         setPendingLocation(location);
-        setIsOpen(true);
+        setIsShowNavigationBlockPopup(true);
         return false;
       }
       return true;
@@ -24,9 +24,9 @@ export default function useNavigationBlock() {
         unblockRef.current();
       }
     };
-  }, [history, isChanged]);
+  }, [history, isNavigationBlocked]);
 
-  function confirmButtonAction() {
+  const confirmNavigationChange = () => {
     if (unblockRef.current) {
       unblockRef.current();
     }
@@ -35,16 +35,16 @@ export default function useNavigationBlock() {
     }
   }
 
-  function cancelPopup() {
-    setIsOpen(false);
+  const cancelNavigationPopup = () => {
+    setIsShowNavigationBlockPopup(false);
     setPendingLocation(null);
   }
 
   return {
-    isChanged,
-    setIsChanged,
-    isOpen,
-    confirmButtonAction,
-    cancelPopup,
+    isNavigationBlocked,
+    setIsNavigationBlocked,
+    isShowNavigationBlockPopup,
+    confirmNavigationChange,
+    cancelNavigationPopup,
   };
 }

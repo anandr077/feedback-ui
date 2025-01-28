@@ -93,7 +93,7 @@ export default function CreateNewStrengthAndTargets() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [isShowMenu, setShowMenu] = React.useState(false);
-  const {setIsChanged, isOpen, confirmButtonAction, cancelPopup } = useNavigationBlock();
+  const {setIsNavigationBlocked, isShowNavigationBlockPopup, confirmNavigationChange, cancelNavigationPopup } = useNavigationBlock();
   const tabletView = isTabletView();
   const history = useHistory();
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
@@ -131,14 +131,14 @@ export default function CreateNewStrengthAndTargets() {
   }
 
   const handleCriteriaChange = (e, index) => {
-    setIsChanged(true);
+    setIsNavigationBlocked(true);
     const updatedData = { ...markingMethodology };
     updatedData.strengthsTargetsCriterias[index].title = e.target.value;
     setMarkingMethodology(updatedData);
   };
 
   const handleTitleChange = (e) => {
-    setIsChanged(true);
+    setIsNavigationBlocked(true);
     const updatedData = { ...markingMethodology };
     updatedData.title = e.target.value;
     setMarkingMethodology(updatedData);
@@ -224,7 +224,7 @@ export default function CreateNewStrengthAndTargets() {
     if (!validateStrengthsTargets(markingMethodology)) {
       return;
     }
-    setIsChanged(false);
+    setIsNavigationBlocked(false);
     if (markingMethodologyId === 'new') {
       createNewMarkingCriteria(markingMethodology).then((response) => {
         resetMarkingCriterias();
@@ -279,7 +279,7 @@ export default function CreateNewStrengthAndTargets() {
   };
 
   const handleKeyPressInput = (e, maxLines, text) => {
-    setIsChanged(true);
+    setIsNavigationBlocked(true);
     const lines = text.split('\n');
     if (e.key === 'Enter' && lines.length >= maxLines) {
       e.preventDefault();
@@ -288,15 +288,15 @@ export default function CreateNewStrengthAndTargets() {
 
   return (
     <>
-      {isOpen && (
+      {isShowNavigationBlockPopup && (
         <GeneralPopup
-          hidePopup={cancelPopup}
+          hidePopup={cancelNavigationPopup}
           title="Save The Template"
           textContent="Do you want to leave without saving?"
           buttonText="Yes"
-          confirmButtonAction={confirmButtonAction}
+          confirmButtonAction={confirmNavigationChange}
           closeBtnText="No"
-          cancelPopup={cancelPopup}
+          cancelPopup={cancelNavigationPopup}
         />
       )}
       <Header breadcrumbs={[markingMethodology?.title]} />

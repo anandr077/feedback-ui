@@ -66,6 +66,8 @@ import Footer from '../Footer';
 import GoBack2 from '../GoBack2';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/question-mark.svg';
+import RoundedBorderSubmitBtn from '../../components2/Buttons/RoundedBorderSubmitBtn';
+import { isReadOnly } from './rules';
 
 
 function CreateAAssignmentLaptop(props) {
@@ -85,6 +87,7 @@ function CreateAAssignmentLaptop(props) {
     goBack22Props,
     showDeletePopuphandler,
     showPublishPopuphandler,
+    showUpdatePopuphandler,
     setSaveAsDraftPopup,
     setPendingLocation,
     isChanged,
@@ -118,7 +121,8 @@ function CreateAAssignmentLaptop(props) {
               assignment,
               saveDraft,
               publish,
-              showPublishPopuphandler
+              showPublishPopuphandler,
+              showUpdatePopuphandler
             )}
           </TitleContainer>
           <HeadingLine style={{ display: mobileView ? 'none' : 'flex' }}>
@@ -133,7 +137,8 @@ function CreateAAssignmentLaptop(props) {
     assignment,
     saveDraft,
     publish,
-    showPublishPopuphandler
+    showPublishPopuphandler,
+    showUpdatePopuphandler
   ) => {
     if (assignment.status === 'DRAFT') {
       return (
@@ -166,6 +171,10 @@ function CreateAAssignmentLaptop(props) {
           <IconTrash src="/icons/trashcan.svg" alt="icon-trash" />
           <Delete>Delete</Delete>
         </Frame1322>
+        <RoundedBorderSubmitBtn
+          text="Update"
+          onClickFn={showUpdatePopuphandler}
+        />
       </DeleteButtonContainer>
     );
   };
@@ -174,7 +183,7 @@ function CreateAAssignmentLaptop(props) {
     <MainContainer>
       <Frame1379>
         {titleAndSaveButtons(assignment, saveDraft, publish)}
-        <Frame1378 readOnly={assignment.status != 'DRAFT'}>
+        <Frame1378 readOnly={isReadOnly(assignment)}>
           {!smallScreenView && (
             <StepsPart>
               <StepsContainer>
@@ -433,7 +442,8 @@ function CreateAAssignmentLaptop(props) {
               assignment,
               saveDraft,
               publish,
-              showPublishPopuphandler
+              showPublishPopuphandler,
+              showUpdatePopuphandler
             )}
           </Frame1372>
         </Frame1377>

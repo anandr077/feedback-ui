@@ -102,7 +102,7 @@ export const DeleteButtonContainer = styled.div`
   width: 100%;
   align-items: center;
   justify-content: flex-end;
-  gap: 4px;
+  gap: 10px;
   position: relative;
   cursor: pointer;
 `;

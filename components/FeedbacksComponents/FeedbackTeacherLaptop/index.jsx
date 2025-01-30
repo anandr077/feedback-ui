@@ -146,12 +146,12 @@ function FeedbackTeacherLaptop(props) {
       
     if (shouldShowMarkingCriteriaSidebar) {
         setOpenRightPanel('tab2');
-      } else if (shouldShowAiFeedbackSidebar) {
+      } else if (shouldShowAiFeedbackSidebar || showLottie) {
         setOpenRightPanel('tab4');
       } else {
         setOpenRightPanel(null);
       }
-  }, [submission])
+  }, [submission, showLottie])
 
   useEffect(() => {
     if (showNewComment) {

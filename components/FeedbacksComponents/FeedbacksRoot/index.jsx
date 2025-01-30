@@ -1297,7 +1297,7 @@ export default function FeedbacksRoot() {
         resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        history.push('/#');
+        history.push('/tasks');
         setShowLoader(false);
       });
     }, 4000);

@@ -144,7 +144,11 @@ function App() {
   const closeTeacherOnboarding = () => {
     setShowTeacherOnboarding(false);
   };
-
+  const updateRedirectAt = () =>{
+    const url = new URL(window.location.href); // Get current URL
+    url.searchParams.set('redirect_at', Date.now()); // Update or add `redirect_at`
+    window.history.replaceState({}, '', url.toString()); // Update URL without reloading
+  } 
   const externalIDPUrl = () => {
     const selfBaseUrl =
       process.env.REACT_APP_SELF_BASE_URL ?? 'http://localhost:1234';
@@ -158,9 +162,10 @@ function App() {
       '&state=' +
       Date.now() +
       '&redirect_uri=' +
-      encodeURIComponent(selfBaseUrl + '?redirect_at=' + Date.now())
+      encodeURIComponent(updateRedirectAt())
     );
   };
+ 
   const mobileView = isMobileView();
 
   if (!isAuthenticated || loadingProfile) {

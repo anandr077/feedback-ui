@@ -692,7 +692,6 @@ export default function CreateAssignment(props) {
         });
 
         toast(<Toast message={'Task updated'} />);
-        history.push('/#')
       } else {
         toast(<Toast message={'Could not update task'} />);
         return;

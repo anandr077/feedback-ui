@@ -69,7 +69,9 @@ function App() {
     }
     const token = localStorage.getItem('jwtToken');
     const parsed = queryString.parse(window.location.search);
-
+    if (parsed.redirect) {
+      localStorage.setItem('redirectPath', `/#${parsed.redirect}`);
+    }
     if (parsed.code) {
       if (exchangeInProgress.current) {
         console.log('Exchange already in progress');
@@ -82,6 +84,7 @@ function App() {
         .then((data) => {
           setProfileCookies(data);
           setIsAuthenticated(true);
+          const redirectPath = parsed.redirect ? `/#${parsed.redirect}` : "/";
           window.history.replaceState({}, document.title, '/');
           exchangeInProgress.current = false;
         })
@@ -137,6 +140,18 @@ function App() {
     }
   }, [isAuthenticated]);
 
+   // **NEW: Redirect AFTER login is fully done**
+   useEffect(() => {
+    if (isAuthenticated) {
+      const redirectPath = localStorage.getItem('redirectPath') || '/';
+
+      // Remove stored redirect before navigating
+      localStorage.removeItem('redirectPath');
+
+      console.log(`Redirecting to ${redirectPath}`);
+      window.location.href = redirectPath; // Full redirect for clean navigation
+    }
+  }, [isAuthenticated]);
   const closeOnboarding = () => {
     setShowStudentOnboarding(false);
   };
@@ -144,11 +159,25 @@ function App() {
   const closeTeacherOnboarding = () => {
     setShowTeacherOnboarding(false);
   };
-  const updateRedirectAt = () =>{
-    const url = new URL(window.location.href); // Get current URL
-    url.searchParams.set('redirect_at', Date.now()); // Update or add `redirect_at`
-    window.history.replaceState({}, '', url.toString()); // Update URL without reloading
-  } 
+  
+  const updateRedirectAt = () => {
+    const url = new URL(window.location.href);
+    const hashFragment = window.location.hash.substring(1); // Remove `#`
+
+    // If there's a hash path, move it to `redirect` query parameter
+    if (hashFragment) {
+        url.hash = ''; // Remove hash from URL
+        url.searchParams.set('redirect', hashFragment); // Store hash path in query param
+    }
+
+    // Add or update `redirect_at`
+    url.searchParams.set('redirect_at', Date.now());
+    const res = url.toString()
+    
+    return res;
+  };
+
+
   const externalIDPUrl = () => {
     const selfBaseUrl =
       process.env.REACT_APP_SELF_BASE_URL ?? 'http://localhost:1234';
@@ -162,6 +191,7 @@ function App() {
       '&state=' +
       Date.now() +
       '&redirect_uri=' +
+      // encodeURIComponent(selfBaseUrl + '?redirect_at=' + Date.now())
       encodeURIComponent(updateRedirectAt())
     );
   };

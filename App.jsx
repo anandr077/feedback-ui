@@ -69,9 +69,7 @@ function App() {
     }
     const token = localStorage.getItem('jwtToken');
     const parsed = queryString.parse(window.location.search);
-    if (parsed.redirect) {
-      localStorage.setItem('redirectPath', `/#${parsed.redirect}`);
-    }
+    
     if (parsed.code) {
       if (exchangeInProgress.current) {
         console.log('Exchange already in progress');
@@ -84,9 +82,11 @@ function App() {
         .then((data) => {
           setProfileCookies(data);
           setIsAuthenticated(true);
-          const redirectPath = parsed.redirect ? `/#${parsed.redirect}` : "/";
           window.history.replaceState({}, document.title, '/');
           exchangeInProgress.current = false;
+          if (parsed.redirect) {
+            localStorage.setItem('redirectPath', `/#${parsed.redirect}`);
+          }
         })
         .catch((error) => {
           console.error('Error exchanging code:', error);
@@ -143,13 +143,13 @@ function App() {
    // **NEW: Redirect AFTER login is fully done**
    useEffect(() => {
     if (isAuthenticated) {
-      const redirectPath = localStorage.getItem('redirectPath') || '/';
+      const redirectPath = localStorage.getItem('redirectPath') ;
+      if (redirectPath) {
+        localStorage.removeItem('redirectPath');
 
-      // Remove stored redirect before navigating
-      localStorage.removeItem('redirectPath');
-
-      console.log(`Redirecting to ${redirectPath}`);
-      window.location.href = redirectPath; // Full redirect for clean navigation
+        // alert(`Redirecting to ${redirectPath}`);
+        window.location.href = redirectPath; // Full redirect for clean navigation
+      }
     }
   }, [isAuthenticated]);
   const closeOnboarding = () => {

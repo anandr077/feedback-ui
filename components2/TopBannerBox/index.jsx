@@ -46,7 +46,9 @@ const TopBannerBox = ({ onclickFn, bannerText, showBannerButton=true, openBanner
           }}
         >
           <BannerTextContainer>{bannerText}</BannerTextContainer>
-          <QuestionTooltip text={bannerText} img={questionMark} />
+          {
+            bannerText.length > 75 && <QuestionTooltip text={bannerText} img={questionMark} />
+          }
         </Typography>
         {showBannerButton && (
           <RoundedBorderSubmitBtn text={'Mark Now'} onClickFn={onclickFn} />

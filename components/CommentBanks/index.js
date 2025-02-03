@@ -593,6 +593,7 @@ const {
                       onClick={() => setIsShowNewBankPopUp(true)}
                     >
                       <TabsPlus src={Pluslight} />
+                      <TabsPlusText  >New Bank</TabsPlusText>
                     </TabsPlusContainer>
                   </MoreOptionsContainer>
                 </TabsContainer>

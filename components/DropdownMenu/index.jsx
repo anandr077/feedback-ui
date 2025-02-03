@@ -80,11 +80,6 @@ export const DropdownMenu = (props) => {
       setAnchorEl(null);
     }
   };
-  React.useEffect(() => {
-    if (onItemSelected) {
-      onItemSelected(selectedItem);
-    }
-  }, []);
   return (
     <div style={fullWidth ? { width: '100%' } : {}}>
       <StyledBox

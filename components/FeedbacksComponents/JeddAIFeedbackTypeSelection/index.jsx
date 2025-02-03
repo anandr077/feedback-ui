@@ -102,7 +102,7 @@ function JeddAIFeedbackTypeSelection(props) {
               <MarkingCriteriaSelectionContainer>
                 <QuestionFieldSelection
                   label="Marking Template"
-                  items={appendFunction(allMarkingCriterias).filter(item=>item.type === 'RUBRICS')}
+                  items={(allMarkingCriterias).filter(item=>item.type === 'RUBRICS')}
                   tooltipText="Select a Rubric (R). After reading a student's response, click on the applicable performance level/s or strengths and targets"
                   onItemSelected={updateMarkingCriteria}
                   currentFieldId={currentMarkingCriteria?.id}

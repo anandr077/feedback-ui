@@ -71,6 +71,8 @@ import Header from '../../Header2';
 import { useMarkingCriterias } from '../../state/hooks';
 import { useHistory, useParams } from 'react-router-dom';
 import { validateStrengthsTargets } from '../../../components2/markingCriteria';
+import useNavigationBlock from '../../../hooks/useNavigationBlock';
+import GeneralPopup from '../../GeneralPopup';
 
 const STRENGTHS = 'strengths';
 const TARGETS = 'targets';
@@ -91,6 +93,7 @@ export default function CreateNewStrengthAndTargets() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [isShowMenu, setShowMenu] = React.useState(false);
+  const {setIsNavigationBlocked, isShowNavigationBlockPopup, confirmNavigationChange, cancelNavigationPopup } = useNavigationBlock();
   const tabletView = isTabletView();
   const history = useHistory();
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
@@ -128,12 +131,14 @@ export default function CreateNewStrengthAndTargets() {
   }
 
   const handleCriteriaChange = (e, index) => {
+    setIsNavigationBlocked(true);
     const updatedData = { ...markingMethodology };
     updatedData.strengthsTargetsCriterias[index].title = e.target.value;
     setMarkingMethodology(updatedData);
   };
 
   const handleTitleChange = (e) => {
+    setIsNavigationBlocked(true);
     const updatedData = { ...markingMethodology };
     updatedData.title = e.target.value;
     setMarkingMethodology(updatedData);
@@ -222,6 +227,7 @@ export default function CreateNewStrengthAndTargets() {
     if (markingMethodologyId === 'new') {
       createNewMarkingCriteria(markingMethodology).then((response) => {
         resetMarkingCriterias();
+        setIsNavigationBlocked(false);
         toast(
           <Toast
             message={'Strengths and targets created'}
@@ -236,6 +242,7 @@ export default function CreateNewStrengthAndTargets() {
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
         (response) => {
+          setIsNavigationBlocked(false);
           toast(
             <Toast
               message={'Strengths and Targets Updated'}
@@ -273,6 +280,7 @@ export default function CreateNewStrengthAndTargets() {
   };
 
   const handleKeyPressInput = (e, maxLines, text) => {
+    setIsNavigationBlocked(true);
     const lines = text.split('\n');
     if (e.key === 'Enter' && lines.length >= maxLines) {
       e.preventDefault();
@@ -281,6 +289,17 @@ export default function CreateNewStrengthAndTargets() {
 
   return (
     <>
+      {isShowNavigationBlockPopup && (
+        <GeneralPopup
+          hidePopup={cancelNavigationPopup}
+          title="Save The Template"
+          textContent="Do you want to leave without saving?"
+          buttonText="Yes"
+          confirmButtonAction={confirmNavigationChange}
+          closeBtnText="No"
+          cancelPopup={cancelNavigationPopup}
+        />
+      )}
       <Header breadcrumbs={[markingMethodology?.title]} />
       <MainContainer>
         <ImprovedSecondarySideBar

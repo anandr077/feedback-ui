@@ -371,7 +371,7 @@ export default function FeedbacksRoot() {
       {}
     );
 
-    feedbackComments.forEach((comment) => {
+    feedbackComments?.forEach((comment) => {
       if (comment.type === 'FOCUS_AREA') {
         const { questionSerialNumber, focusAreaId } = comment;
         if (grouped[questionSerialNumber]) {
@@ -1297,7 +1297,7 @@ export default function FeedbacksRoot() {
         resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        history.push('/#');
+        history.push('/tasks');
         setShowLoader(false);
       });
     }, 4000);

@@ -2,8 +2,7 @@ import React, { useRef } from 'react';
 import { StyledInput, UploadFilesContainer, UploadFilesText } from './style';
 import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
 import { v4 as uuidv4 } from 'uuid';
-import { toast } from 'react-toastify';
-import Toast from '../../Toast';
+import { processFiles } from './processFilesToUpload';
 
 function UploadFiles({handleFilesSubmissions, setTabValue}) {
 
@@ -12,46 +11,16 @@ function UploadFiles({handleFilesSubmissions, setTabValue}) {
     const handleButtonClick = () => {
       fileInputRef.current.click();
     };
-  
-    const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
-    const handleImageChange = (event) => {
+    const handleImageChange = async(event) => {
       event.preventDefault(); 
       const files = Array.from(event.target.files || event.dataTransfer.files);
-
-      const ALLOWED_TYPES = [
-        'image/jpeg',
-        'image/png',
-        'image/heic',
-        'image/heif',
-        'application/pdf'
-      ];
-
-      const validFiles = files.filter(file => {
-        if (file.size > MAX_FILE_SIZE) {
-          toast(
-            <Toast 
-              message={`${file.name} exceeds 5mb file size limit`}
-            />
-          )
-          return false;
-        }
-        if (!ALLOWED_TYPES.includes(file.type)) {
-          toast(
-            <Toast 
-              message={`Only .pdf, .jpeg, .png or .heic/.heif files are accepted, please convert and try again`}
-            />
-          )
-          return false;
-        }
-        return true;
-      });
+      const validFiles = await processFiles(files);
 
       if(validFiles.length === 0){
         setTabValue('1');
         return;
       }
-
       const filesWithIds = validFiles.map((file) => ({
         id: uuidv4(), 
         file,  

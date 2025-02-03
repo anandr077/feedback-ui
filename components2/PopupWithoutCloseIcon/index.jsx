@@ -11,6 +11,11 @@ const PopupWithoutCloseIcon = ({text, onYes, onNo, onClickOutside}) => {
           <OutlineBtn text="Yes" leftIcon={'img/like.svg'} leftIconHover={'img/likeWhite.svg'} onClose={onYes} />
           <OutlineBtn text="No" leftIcon={'img/dislike.svg'} leftIconHover={'img/dislikewhite.svg'} onClose={onNo} />
         </ButtonContainer>
+        <Text>
+          <a 
+          style={{color: 'var(--light-mode-purple)'}}
+          href="mailto:ai@jeddle.com">Report</a>
+        </Text>
       </PopupContainer>
     </PopupBackground>
   );

@@ -67,8 +67,9 @@ import GoBack2 from '../GoBack2';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/question-mark.svg';
 import RoundedBorderSubmitBtn from '../../components2/Buttons/RoundedBorderSubmitBtn';
-import { isReadOnly } from './rules';
+import { isTaskNotSetUp, isReadOnly, isFeedbackMethodNotSelected, NoClassSelected } from './rules';
 import TopBannerBox from '../../components2/TopBannerBox';
+import { isNullOrEmpty } from '../../utils/arrays';
 
 
 function CreateAAssignmentLaptop(props) {
@@ -92,13 +93,17 @@ function CreateAAssignmentLaptop(props) {
     setSaveAsDraftPopup,
     setPendingLocation,
     isChanged,
-    submission
+    submissions
   } = props;
 
   const smallScreenView = isSmallScreen();
   const mobileView = isMobileView();
-  const [showBanner, setShowBanner] = useState(submission.length > 0)
-
+  const [showBanner, setShowBanner] = useState(false);
+  const bannerTextForAcceptedAssignment = 'This task can not be updated as students have already started working it.'
+  
+  useEffect(() => {
+    setShowBanner(!isNullOrEmpty(submissions));
+  }, [submissions]);
 
   function titleAndSaveButtons(assignment, saveDraft, publish) {
     const title =
@@ -184,15 +189,16 @@ function CreateAAssignmentLaptop(props) {
 
   return (
     <>
-      <TopBannerBox
-        bannerText={
-          'This task can not be updated as students have already started working it.'
-        }
-        showBannerButton={false}
-        openBanner={showBanner}
-        setOpenBanner={setShowBanner}
-      />
-      <MainContainer notEditable={submission.length > 0}>
+      {showBanner && (
+        <TopBannerBox
+          bannerText={bannerTextForAcceptedAssignment}
+          showBannerButton={false}
+          openBanner={showBanner}
+          setOpenBanner={setShowBanner}
+          showTooltip={bannerTextForAcceptedAssignment > 75}
+        />
+      )}
+      <MainContainer notEditable={submissions.length > 0}>
         <Frame1379>
           {titleAndSaveButtons(assignment, saveDraft, publish)}
           <Frame1378 readOnly={isReadOnly(assignment)}>
@@ -202,20 +208,24 @@ function CreateAAssignmentLaptop(props) {
                   <StepContainer>
                     <StepNum
                       style={{
-                        backgroundColor:
-                          assignment.title === '' ? '#fff' : '#7200E0',
-                        color: assignment.title === '' ? '#918b97' : '#fff',
-                        border:
-                          assignment.title === ''
-                            ? '1.5px solid #918b97'
-                            : '1.5px solid #7200E0',
+                        backgroundColor: isNullOrEmpty(assignment.title)
+                          ? '#fff'
+                          : '#7200E0',
+                        color: isNullOrEmpty(assignment.title)
+                          ? '#918b97'
+                          : '#fff',
+                        border: isNullOrEmpty(assignment.title)
+                          ? '1.5px solid #918b97'
+                          : '1.5px solid #7200E0',
                       }}
                     >
                       1
                     </StepNum>
                     <StepText
                       style={{
-                        color: assignment.title === '' ? '#918b97' : '#7200E0',
+                        color: isNullOrEmpty(assignment.title)
+                          ? '#918b97'
+                          : '#7200E0',
                       }}
                     >
                       Name the task
@@ -224,24 +234,24 @@ function CreateAAssignmentLaptop(props) {
                   <StepContainer>
                     <StepNum
                       style={{
-                        backgroundColor:
-                          assignment.classIds.length === 0 ? '#fff' : '#7200E0',
-                        color:
-                          assignment.classIds.length === 0 ? '#918b97' : '#fff',
-                        border:
-                          assignment.classIds.length === 0
-                            ? '1.5px solid #918b97'
-                            : '1.5px solid #7200E0',
+                        backgroundColor: NoClassSelected(assignment.classIds)
+                          ? '#fff'
+                          : '#7200E0',
+                        color: NoClassSelected(assignment.classIds)
+                          ? '#918b97'
+                          : '#fff',
+                        border: NoClassSelected(assignment.classIds)
+                          ? '1.5px solid #918b97'
+                          : '1.5px solid #7200E0',
                       }}
                     >
                       2
                     </StepNum>
                     <StepText
                       style={{
-                        color:
-                          assignment.classIds.length === 0
-                            ? '#918b97'
-                            : '#7200E0',
+                        color: NoClassSelected(assignment.classIds)
+                          ? '#918b97'
+                          : '#7200E0',
                       }}
                     >
                       Select a class
@@ -250,36 +260,24 @@ function CreateAAssignmentLaptop(props) {
                   <StepContainer>
                     <StepNum
                       style={{
-                        backgroundColor:
-                          assignment.questions &&
-                          assignment.questions.length > 0 &&
-                          assignment.questions[0].question === ''
-                            ? '#fff'
-                            : '#7200E0',
-                        color:
-                          assignment.questions &&
-                          assignment.questions.length > 0 &&
-                          assignment.questions[0].question === ''
-                            ? '#918b97'
-                            : '#fff',
-                        border:
-                          assignment.questions &&
-                          assignment.questions.length > 0 &&
-                          assignment.questions[0].question === ''
-                            ? '1.5px solid #918b97'
-                            : '1.5px solid #7200E0',
+                        backgroundColor: isTaskNotSetUp(assignment.questions)
+                          ? '#fff'
+                          : '#7200E0',
+                        color: isTaskNotSetUp(assignment.questions)
+                          ? '#918b97'
+                          : '#fff',
+                        border: isTaskNotSetUp(assignment.questions)
+                          ? '1.5px solid #918b97'
+                          : '1.5px solid #7200E0',
                       }}
                     >
                       3
                     </StepNum>
                     <StepText
                       style={{
-                        color:
-                          assignment.questions &&
-                          assignment.questions.length > 0 &&
-                          assignment.questions[0].question === ''
-                            ? '#918b97'
-                            : '#7200E0',
+                        color: isTaskNotSetUp(assignment.questions)
+                          ? '#918b97'
+                          : '#7200E0',
                       }}
                     >
                       Set up the task
@@ -288,24 +286,32 @@ function CreateAAssignmentLaptop(props) {
                   <StepContainer>
                     <StepNum
                       style={{
-                        backgroundColor:
-                          assignment.reviewedBy === 'NONE' ? '#fff' : '#7200E0',
-                        color:
-                          assignment.reviewedBy === 'NONE' ? '#918b97' : '#fff',
-                        border:
-                          assignment.reviewedBy === 'NONE'
-                            ? '1.5px solid #918b97'
-                            : '1.5px solid #7200E0',
+                        backgroundColor: isFeedbackMethodNotSelected(
+                          assignment.reviewedBy
+                        )
+                          ? '#fff'
+                          : '#7200E0',
+                        color: isFeedbackMethodNotSelected(
+                          assignment.reviewedBy
+                        )
+                          ? '#918b97'
+                          : '#fff',
+                        border: isFeedbackMethodNotSelected(
+                          assignment.reviewedBy
+                        )
+                          ? '1.5px solid #918b97'
+                          : '1.5px solid #7200E0',
                       }}
                     >
                       4
                     </StepNum>
                     <StepText
                       style={{
-                        color:
-                          assignment.reviewedBy === 'NONE'
-                            ? '#918b97'
-                            : '#7200E0',
+                        color: isFeedbackMethodNotSelected(
+                          assignment.reviewedBy
+                        )
+                          ? '#918b97'
+                          : '#7200E0',
                       }}
                     >
                       Select the feedback method

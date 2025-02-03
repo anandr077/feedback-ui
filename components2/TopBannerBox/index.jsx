@@ -6,7 +6,14 @@ import questionMark from '../../static/img/24questionbordered.svg';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import { BannerTextContainer } from './style';
 
-const TopBannerBox = ({ onclickFn, bannerText, showBannerButton=true, openBanner, setOpenBanner}) => {
+const TopBannerBox = ({
+  onclickFn,
+  bannerText,
+  showBannerButton = true,
+  openBanner,
+  setOpenBanner,
+  showTooltip = true,
+}) => {
   return (
     <Snackbar
       open={openBanner}
@@ -46,9 +53,9 @@ const TopBannerBox = ({ onclickFn, bannerText, showBannerButton=true, openBanner
           }}
         >
           <BannerTextContainer>{bannerText}</BannerTextContainer>
-          {
-            bannerText.length > 75 && <QuestionTooltip text={bannerText} img={questionMark} />
-          }
+          {showTooltip && (
+            <QuestionTooltip text={bannerText} img={questionMark} />
+          )}
         </Typography>
         {showBannerButton && (
           <RoundedBorderSubmitBtn text={'Mark Now'} onClickFn={onclickFn} />

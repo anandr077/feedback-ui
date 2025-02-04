@@ -67,7 +67,7 @@ import GoBack2 from '../GoBack2';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import questionMark from '../../static/img/question-mark.svg';
 import RoundedBorderSubmitBtn from '../../components2/Buttons/RoundedBorderSubmitBtn';
-import { isTaskNotSetUp, isReadOnly, isFeedbackMethodNotSelected, NoClassSelected } from './rules';
+import { isTaskNotSetUp, isReadOnly, isFeedbackMethodNotSelected, noClassSelected } from './rules';
 import TopBannerBox from '../../components2/TopBannerBox';
 import { isNullOrEmpty } from '../../utils/arrays';
 
@@ -234,13 +234,13 @@ function CreateAAssignmentLaptop(props) {
                   <StepContainer>
                     <StepNum
                       style={{
-                        backgroundColor: NoClassSelected(assignment.classIds)
+                        backgroundColor: noClassSelected(assignment.classIds)
                           ? '#fff'
                           : '#7200E0',
-                        color: NoClassSelected(assignment.classIds)
+                        color: noClassSelected(assignment.classIds)
                           ? '#918b97'
                           : '#fff',
-                        border: NoClassSelected(assignment.classIds)
+                        border: noClassSelected(assignment.classIds)
                           ? '1.5px solid #918b97'
                           : '1.5px solid #7200E0',
                       }}
@@ -249,7 +249,7 @@ function CreateAAssignmentLaptop(props) {
                     </StepNum>
                     <StepText
                       style={{
-                        color: NoClassSelected(assignment.classIds)
+                        color: noClassSelected(assignment.classIds)
                           ? '#918b97'
                           : '#7200E0',
                       }}

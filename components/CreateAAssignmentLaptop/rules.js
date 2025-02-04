@@ -5,13 +5,13 @@ export const isReadOnly = (assignment) => {
 };
 
 export const isTaskNotSetUp = (questions) =>{
-  return !isNullOrEmpty(questions) && isNullOrEmpty(questions[0].question)
+  return !isNullOrEmpty(questions) && questions[0].question === '';
 }
 
 export const isFeedbackMethodNotSelected = (reviewedBy) =>{
   return reviewedBy === 'NONE';
 }
 
-export const NoClassSelected = (classIds) =>{
+export const noClassSelected = (classIds) =>{
   return classIds.length === 0;
 }

@@ -365,6 +365,9 @@ export const getSmartAnnotations = async () =>
 export const getFeedbackBanks = async () =>
   await getApi(baseUrl + '/commentbanks?projection=commentBanksProjection');
 
+export const getAllSubmissions = async (id) => 
+  await getApi(baseUrl + '/assignments/' + id + '/allSubmissions')
+
 export const getCommentBank = async (id) => {
   const url = `${baseUrl}/commentbanks/${id}?projection=commentBanksProjection`;
   const token = localStorage.getItem('jwtToken'); // Retrieve the token if available

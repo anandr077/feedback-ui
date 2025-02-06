@@ -206,8 +206,8 @@ function createFocusAreaTags(allFocusAreas, presentFocusAreas) {
     const unitFocusArea = allFocusAreas.find((x) => x.id === focusArea);
     return (
       <Frame1321>
-        <Ellipse141 backgroundColor={unitFocusArea.color}></Ellipse141>
-        <Structure>{unitFocusArea.title}</Structure>
+        <Ellipse141 backgroundColor={unitFocusArea?.color}></Ellipse141>
+        <Structure>{unitFocusArea?.title}</Structure>
       </Frame1321>
     );
   });

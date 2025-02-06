@@ -99,7 +99,7 @@ function CreateAAssignmentLaptop(props) {
   const smallScreenView = isSmallScreen();
   const mobileView = isMobileView();
   const [showBanner, setShowBanner] = useState(false);
-  const bannerTextForAcceptedAssignment = 'This task can not be updated as students have already started working it.'
+  const bannerTextForAcceptedAssignment = 'This task can not be updated as students have already started working on it.'
   
   useEffect(() => {
     setShowBanner(!isNullOrEmpty(submissions));

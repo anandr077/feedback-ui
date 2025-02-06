@@ -1,5 +1,11 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { default as React, default as React, useEffect, useRef, useState } from 'react';
+import {
+  default as React,
+  default as React,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   Redirect,
   Route,
@@ -22,7 +28,11 @@ import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
 import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { getUserName, getUserRole, setProfileCookies } from './userLocalDetails';
+import {
+  getUserName,
+  getUserRole,
+  setProfileCookies,
+} from './userLocalDetails';
 import GiveFeedback from './components/GiveFeedback';
 import MainPage from './components/MainPage';
 import NewDocPage from './components/NewDocRoot';
@@ -34,7 +44,7 @@ import { isMobileView } from './components/ReactiveRender';
 import WelcomeOverlayMobile from './components2/WelcomeOverlayMobile';
 import JeddAI from './components/JeddAI';
 import VisibilityWrapper from './components2/VisibilityWrapper/VisibilityWrapper';
-import { exchangeCodeForToken, isLoggedOut } from './service';
+import { exchangeCodeForToken, getProfile, isLoggedOut } from './service';
 import Dashboard from './components/Dashboard';
 import Tasks from './components/Tasks';
 import queryString from 'query-string';
@@ -42,12 +52,16 @@ import { ddRum } from './dd';
 import { getLocalStorage } from './utils/function';
 import OnboardingScreen from './components2/Onboard/OnboardingScreen';
 import Loader from './components/Loader';
+import TeacherOnboarding from './components2/TeacherOnboarding';
+import { isStudentOnboarding, isTeacherOnboarding } from './rules';
+import { AppContext } from './app.context';
 
 function App() {
-
   const exchangeInProgress = useRef(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showStudentOnboarding, setShowStudentOnboarding] = useState(false);
+  const [showTeacherOnboarding, setShowTeacherOnboarding] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState(false);
 
   useEffect(() => {
     if (isLoggedOut) {
@@ -87,20 +101,50 @@ function App() {
   }, []);
   useEffect(() => {
     if (isAuthenticated) {
-      const defaultShowOnboarding =
+      const defaultShowStudentOnboarding =
         getUserRole() === 'STUDENT' &&
-        (getLocalStorage('state') === undefined || getLocalStorage('state') === null) &&
+        (getLocalStorage('state') === undefined ||
+          getLocalStorage('state') === null) &&
         !localStorage.getItem('onboardingShown');
 
-      if (defaultShowOnboarding) {
-        setShowOnboarding(true);
+      if (defaultShowStudentOnboarding) {
+        setShowStudentOnboarding(true);
         localStorage.setItem('onboardingShown', true);
       }
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const fetchUserProfile = async () => {
+        setLoadingProfile(true);
+        try {
+          const userProfile = await getProfile();
+
+          const defaultShowTeacherOnboarding =
+            (userProfile?.state === null || userProfile?.state === undefined) &&
+            (userProfile?.year === null || userProfile?.year === undefined);
+
+          setShowTeacherOnboarding(defaultShowTeacherOnboarding);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoadingProfile(false);
+        }
+      };
+
+      fetchUserProfile();
+    }
+  }, [isAuthenticated]);
+
   const closeOnboarding = () => {
-    setShowOnboarding(false);
+    setShowStudentOnboarding(false);
   };
+
+  const closeTeacherOnboarding = () => {
+    setShowTeacherOnboarding(false);
+  };
+
   const externalIDPUrl = () => {
     const selfBaseUrl =
       process.env.REACT_APP_SELF_BASE_URL ?? 'http://localhost:1234';
@@ -119,17 +163,16 @@ function App() {
   };
   const mobileView = isMobileView();
 
-
-  if (!isAuthenticated) {
+  if (!isAuthenticated || loadingProfile) {
     return <Loader />;
   }
   const role = getUserRole();
+  const isTeacher = role === 'TEACHER';
   const userName = getUserName();
   userName && (document.title = 'Jeddle - ' + userName);
 
-
   // const middleware = (c) => withOnboarding(c);
-  const middleware = (c) => (c);
+  const middleware = (c) => c;
   const ProtectedTeacherClassesRoot = middleware(TeacherClassesRoot);
   const ProtectedTaskDetail = middleware(TaskDetail);
   const ProtectedCreateAssignment = middleware(CreateAssignment);
@@ -170,103 +213,134 @@ function App() {
   return (
     <>
       <QueryClientProvider client={client}>
-        <Router>
-          
-          <div className="app-container">
-
-            <MainSidebar />
-            {showOnboarding && (
-              <OnboardingScreen editStateYear={false} onClose={closeOnboarding} />
-            )}
-            <VisibilityWrapper>
-              {mobileView ? (
-                <WelcomeOverlayMobile />
-              ) : (
-                <Switch>
-                  <Route path="/docs">
-                    <ProtectedDocRoot />
-                  </Route>
-                  <Route path="/main">
-                    <MainPage />
-                  </Route>
-                  <Route path="/settings">
-                    <ProtectedSettings />
-                  </Route>
-                  <Route path="/markingTemplates/rubrics/:markingCriteriaId">
-                    <ProtectedMarkingCriteria />
-                  </Route>
-                  <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
-                    <ProtectedStrengthAndTarget />
-                  </Route>
-                  <Route path="/getFeedback">
-                    <ProtectedDocRoot />
-                  </Route>
-                  <Route path="/giveFeedback">
-                    <ProtectedGiveFeedback />
-                  </Route>
-                  <Route path="/completed">
-                    <ProtectedCompletedRoot />
-                  </Route>
-                  <Route path="/feedbackHistory">
-                    <ProtectedGiveFeedback />
-                  </Route>
-                  <Route path="/classes/:classIdFromUrl?">
-                    <ProtectedTeacherClassesRoot />
-                  </Route>
-                  <Route path="/tasks/:assignmentId/start">
-                    <ProtectedTaskDetail />
-                  </Route>
-                  <Route path="/tasks/:assignmentId">
-                    <ProtectedCreateAssignment />
-                  </Route>
-                  <Route path="/tasks">
-                    <ProtectedTasks role={role} />
-                  </Route>
-                  <Route path="/sharedresponses">
-                    <ProtectedExemplarResponsesPage />
-                  </Route>
-                  <Route path="/submissions/:id">
-                    <ProtectedFeedbacksRoot isAssignmentPage={false} />
-                  </Route>
-                  <Route path="/docs">
-                    <ProtectedDocumentRoot />
-                  </Route>
-                  <Route path="/documents/:id">
-                    <ProtectedDocumentRoot />
-                  </Route>
-                  <Route path="/documentsReview/:id">
-                    <ProtectedDocumentRoot />
-                  </Route>
-                  <Route path="/commentbanks">
-                    <ProtectedCommentbanks />
-                  </Route>
-                  <Route path="/jeddai">
-                    <ProtectedJeddAI />
-                  </Route>
-                  <Route path="/404">
-                    <PageNotFound />
-                  </Route>
-                  <Route exact path="/">
-                    <ProtectedDashboard role={role} />
-                  </Route>
-                  <Redirect to="/404" />
-                </Switch>
+        <AppContext.Provider
+          value={{
+            setShowStudentOnboarding,
+            setShowTeacherOnboarding,
+          }}
+        >
+          <Router>
+            <div className="app-container">
+              <MainSidebar />
+              {isTeacherOnboarding(showTeacherOnboarding, mobileView, role) && (
+                <TeacherOnboarding onCloseOnboarding={closeTeacherOnboarding} />
               )}
-            </VisibilityWrapper>
-          </div>
-          <ToastContainer
-            position="bottom-left"
-            autoClose={6000}
-            hideProgressBar={true}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable={false}
-            pauseOnHover
-            theme="dark"
-          />
-        </Router>
+              {isStudentOnboarding(showStudentOnboarding) && (
+                <OnboardingScreen
+                  editStateYear={false}
+                  onClose={closeOnboarding}
+                />
+              )}
+              <VisibilityWrapper>
+                {mobileView ? (
+                  <WelcomeOverlayMobile />
+                ) : (
+                  <Switch>
+                    <Route path="/docs">
+                      <ProtectedDocRoot />
+                    </Route>
+                    <Route path="/main">
+                      <MainPage />
+                    </Route>
+                    <Route path="/settings">
+                      <ProtectedSettings />
+                    </Route>
+                    <Route path="/markingTemplates/rubrics/:markingCriteriaId">
+                      <ProtectedMarkingCriteria />
+                    </Route>
+                    <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
+                      <ProtectedStrengthAndTarget />
+                    </Route>
+                    <Route path="/getFeedback">
+                      <ProtectedDocRoot />
+                    </Route>
+                    <Route path="/giveFeedback">
+                      <ProtectedGiveFeedback />
+                    </Route>
+                    <Route path="/completed">
+                      <ProtectedCompletedRoot />
+                    </Route>
+                    <Route path="/feedbackHistory">
+                      <ProtectedGiveFeedback />
+                    </Route>
+                    <Route path="/classes/:classIdFromUrl?">
+                      <ProtectedTeacherClassesRoot />
+                    </Route>
+                    <Route
+                      exact
+                      path="/tasks/:assignmentId/start"
+                      render={(props) => {
+                        return isTeacher ? (
+                          <Redirect
+                            to={`/tasks/${props.match.params.assignmentId}`}
+                          />
+                        ) : (
+                          <ProtectedTaskDetail />
+                        );
+                      }}
+                    />
+                    <Route
+                      exact
+                      path="/tasks/:assignmentId"
+                      render={(props) => {
+                        return isTeacher ? (
+                          <ProtectedCreateAssignment />
+                        ) : (
+                          <Redirect
+                            to={`/tasks/${props.match.params.assignmentId}/start`}
+                          />
+                        );
+                      }}
+                    />
+                    <Route path="/tasks">
+                      <ProtectedTasks role={role} />
+                    </Route>
+                    <Route path="/sharedresponses">
+                      <ProtectedExemplarResponsesPage />
+                    </Route>
+                    <Route path="/submissions/:id">
+                      <ProtectedFeedbacksRoot isAssignmentPage={false} />
+                    </Route>
+                    <Route path="/docs">
+                      <ProtectedDocumentRoot />
+                    </Route>
+                    <Route path="/documents/:id">
+                      <ProtectedDocumentRoot />
+                    </Route>
+                    <Route path="/documentsReview/:id">
+                      <ProtectedDocumentRoot />
+                    </Route>
+                    <Route path="/commentbanks">
+                      <ProtectedCommentbanks />
+                    </Route>
+                    <Route path="/jeddai">
+                      <ProtectedJeddAI />
+                    </Route>
+                    <Route path="/404">
+                      <PageNotFound />
+                    </Route>
+                    <Route exact path="/">
+                      <ProtectedDashboard role={role} />
+                    </Route>
+                    <Redirect to="/404" />
+                  </Switch>
+                )}
+              </VisibilityWrapper>
+            </div>
+            <ToastContainer
+              position="bottom-left"
+              autoClose={6000}
+              hideProgressBar={true}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable={false}
+              pauseOnHover
+              theme="dark"
+            />
+          </Router>
+        </AppContext.Provider>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </>

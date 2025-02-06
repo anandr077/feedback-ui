@@ -15,12 +15,20 @@ import {
   Frame1383,
   Frame13311,
   CommentDiv,
+  CommentLikeBox,
+  LikeCommentWrapper,
+  LikeReactIcon,
+  RedCloseIcon,
+  LikeCount,
   Crown,
   ExemplarComponent,
   MainSideContainer,
   ChangeButton,
 } from './style';
 import CommentIcon from '../../../static/img/graysinglecomment.svg';
+import LikeIcon from '../../../static/img/like.svg';
+import RoundedBorderLikeIcon from '../../../static/icons/rounded_border_like.svg';
+import RedCLoseIcon from '../../../static/icons/red_close.svg';
 import ShareIcon from '../../../static/img/24grayshare.svg';
 import CommentCard32 from '../../FeedbacksComponents/CommentCard32';
 import SmartAnotation from '../../SmartAnnotations';
@@ -35,13 +43,15 @@ import {
   adjustPositionsForSelectedComment,
   getBounds,
   withHeights,
+  likeTopPosition
 } from './bounds';
 import {
   isShareWithClass,
   isShowCommentBanks,
 } from '../../FeedbacksComponents/FeedbacksRoot/rules';
-import { useOutsideAlerter } from '../../../components2/CustomHooks/useOutsideAlerter';
 import { getFirstTwoWords } from '../../../utils/strings';
+import { isHighlightSelectedComment, isShowCommentCount, isShowLikeCancelButton } from '../rules';
+import { useOutsideAlerter } from '../../../hooks/useOutsideAlerter';
 
 const CommentBox = ({
   pageMode,
@@ -58,14 +68,26 @@ const CommentBox = ({
   isFeedback,
   commentHeightRefs,
   commentBoxContainerHeight,
-  QuestionIndex
+  QuestionIndex,
 }) => {
-  const { showNewComment, newCommentSerialNumber, isTeacher } =
+  const { showNewComment, newCommentSerialNumber, isTeacher, setSelectedComment } =
     useContext(FeedbackContext);
   const [openCommentBox, setOpenCommentbox] = useState(false);
   const [groupedCommentsWithGap, setGroupedCommentsWithGap] = useState([]);
+  const [hoveredCommentGroup, setHoveredCommentGroup] = useState(null);
+  const [likeToDelete, setLikeToDelete] = useState(null);
   const role = getUserRole();
   const resizeObserver = useRef(null);
+  const containerRef = useRef(null);
+  const outsideLikeDeleteClickRef = useRef();
+
+  useOutsideAlerter(containerRef, () => {
+    setSelectedComment(null);
+  });
+
+  useOutsideAlerter(outsideLikeDeleteClickRef, () => {
+    setLikeToDelete(null);
+  });
 
   let commentBankIds = submission?.assignment.questions
     .filter((item) => item.serialNumber === newCommentSerialNumber)
@@ -75,7 +97,7 @@ const CommentBox = ({
     return nestedComments.reduce((acc, group) => acc.concat(group), []);
   };
 
-  const visibleComments = comments.filter((comment) => !comment.isHidden);
+  const visibleComments = comments.filter((comment) => !comment.isHidden && comment.subType !== 'LIKE');
 
   const calculateBounds = () => {
     const groupedComments = getBounds(
@@ -89,7 +111,10 @@ const CommentBox = ({
       selectedComment?.id
     );
 
-    if (JSON.stringify(newGroupedCommentsWithGap) !== JSON.stringify(groupedCommentsWithGap)) {
+    if (
+      JSON.stringify(newGroupedCommentsWithGap) !==
+      JSON.stringify(groupedCommentsWithGap)
+    ) {
       setGroupedCommentsWithGap(newGroupedCommentsWithGap);
     }
   };
@@ -103,7 +128,9 @@ const CommentBox = ({
       calculateBounds();
     });
 
-    const commentElement = document.getElementById(`comment-${selectedComment?.id}`);
+    const commentElement = document.getElementById(
+      `comment-${selectedComment?.id}`
+    );
     if (commentElement) {
       resizeObserver.current.observe(commentElement);
     }
@@ -114,11 +141,36 @@ const CommentBox = ({
     };
   }, [selectedComment]);
 
-
-  const onShareWithClassClick = () =>{
+  const onShareWithClassClick = () => {
     methods.handleShareWithClass();
-    setOpenCommentbox(false)
+    setOpenCommentbox(false);
+  };
+
+  const onLikeButtonClick = () => {
+    methods.handleLikeSelectedText();
+  };
+
+  const likeCommentsWithoutPosition = comments.filter((comment) => !comment.isHidden && comment.subType === 'LIKE');
+  const likeCommentWithTopPosition = likeTopPosition(editor, likeCommentsWithoutPosition);
+
+  const calculateTopPosition = (pageMode) =>{
+    return (topPosition) => {
+      if ((pageMode === 'DRAFT' || pageMode === 'REVISE') && role === "STUDENT") {
+        return topPosition + 50;
+      }
+      return topPosition;
+    };
   }
+  const topPositionOfComment = calculateTopPosition(pageMode);
+
+  const groupedLikedComments = likeCommentWithTopPosition
+    .filter((comment) => comment.subType === 'LIKE')
+    .reduce((acc, comment) => {
+      const top = comment.topPosition;
+      if (!acc[top]) acc[top] = [];
+      acc[top].push(comment);
+      return acc;
+    }, {});
 
   return (
     <>
@@ -130,7 +182,12 @@ const CommentBox = ({
             height: '100%',
           }}
         >
-          <Screen onClick={()=> {methods.hideNewCommentDiv(); setOpenCommentbox(false)}}></Screen>
+          <Screen
+            onClick={() => {
+              methods.hideNewCommentDiv();
+              setOpenCommentbox(false);
+            }}
+          ></Screen>
           <OptionContainer>
             <Option onClick={() => setOpenCommentbox(!openCommentBox)}>
               <img src={CommentIcon} />
@@ -140,6 +197,9 @@ const CommentBox = ({
                 <img src={ShareIcon} />
               </Option>
             )}
+            <Option>
+              <img src={LikeIcon} onClick={onLikeButtonClick} />
+            </Option>
           </OptionContainer>
           {openCommentBox &&
             newCommentFrame(
@@ -157,7 +217,7 @@ const CommentBox = ({
             )}
         </MainSideContainer>
       ) : (
-        <MainSideContainer style={{ height: `${commentBoxContainerHeight}px` }}>
+        <MainSideContainer style={{ height: `${commentBoxContainerHeight}px`}}>
           <div
             style={{
               height: '100%',
@@ -166,97 +226,155 @@ const CommentBox = ({
             }}
             ref={commentHeightRefs}
           >
-            {groupedCommentsWithGap.map((comment, index) => {
+            {Object.entries(groupedLikedComments).map(([topPosition, comments]) => {              
+              const isHoveredOrSelected =
+                hoveredCommentGroup === topPosition ||
+                comments.some((c) => isHighlightSelectedComment(selectedComment, c.id));
               return (
-                <CommentDiv
-                  key={index}
-                  id={`comment-${comment.id}`}
+                <CommentLikeBox
+                  key={topPosition}
+                  id={`comment-group-${topPosition}`}
                   style={{
-                    top: `${comment.topPosition}px`,
-                    transform:
-                      selectedComment && comment.id === selectedComment.id
-                        ? 'translateX(-35px)'
-                        : 'none',
+                    top: `${topPositionOfComment(+topPosition)}px`,
                   }}
+                  isHoveredOrSelected={isHoveredOrSelected && comments.length > 1}
+                  onMouseEnter={() => setHoveredCommentGroup(topPosition)}
+                  onMouseLeave={() => setHoveredCommentGroup(null)}
+                  ref={containerRef}
                 >
-                  {comment.type === 'FOCUS_AREA' ? (
-                    <CommentCard32
-                      reviewer={comment.reviewerName}
-                      comment={comment}
-                      onClick={(c) => methods.handleCommentSelected(c)}
-                      onClose={() => {
-                        methods.handleDeleteComment(comment.id);
-                      }}
-                      handleEditingComment={methods.handleEditingComment}
-                      deleteReplyComment={methods.handleDeleteReplyComment}
-                      onResolved={methods.handleResolvedComment}
-                      handleReplyComment={methods.handleReplyComment}
-                      isResolved={comment.status}
-                      showResolveButton={false}
-                      isTeacher={isTeacher}
-                      updateParentComment={methods.updateParentComment}
-                      updateChildComment={methods.updateChildComment}
-                      pageMode={pageMode}
-                      openShareWithStudentDialog={methods.handleShareWithClass}
-                      convertToCheckedState={methods.convertToCheckedState}
-                      updateExemplarComment={methods.setUpdateExemplarComment}
-                      studentId={submission?.studentId}
-                      selectedComment={selectedComment}
-                    />
-                  ) : isFeedback && comment.status !== 'RESOLVED' ? (
-                    <CommentCard32
-                      reviewer={comment.reviewerName}
-                      comment={comment}
-                      onClick={(c) => methods.handleCommentSelected(c)}
-                      onClose={() => {
-                        methods.handleDeleteComment(comment.id);
-                      }}
-                      handleEditingComment={methods.handleEditingComment}
-                      deleteReplyComment={methods.handleDeleteReplyComment}
-                      onResolved={methods.handleResolvedComment}
-                      handleReplyComment={methods.handleReplyComment}
-                      isResolved={comment.status}
-                      showResolveButton={pageMode === 'REVISE'}
-                      isTeacher={isTeacher}
-                      updateParentComment={methods.updateParentComment}
-                      updateChildComment={methods.updateChildComment}
-                      pageMode={pageMode}
-                      openShareWithStudentDialog={methods.handleShareWithClass}
-                      convertToCheckedState={methods.convertToCheckedState}
-                      updateExemplarComment={methods.setUpdateExemplarComment}
-                      studentId={submission?.studentId}
-                      selectedComment={selectedComment}
-                    />
-                  ) : comment.status === 'RESOLVED' ? (
-                    <CommentCard32
-                      reviewer={comment.reviewerName}
-                      comment={comment}
-                      onClick={(c) => methods.handleCommentSelected(c)}
-                      onClose={() => {
-                        methods.handleDeleteComment(comment.id);
-                      }}
-                      handleEditingComment={methods.handleEditingComment}
-                      deleteReplyComment={methods.handleDeleteReplyComment}
-                      onResolved={methods.handleResolvedComment}
-                      handleReplyComment={methods.handleReplyComment}
-                      isResolved={comment.status}
-                      showResolveButton={false}
-                      isTeacher={isTeacher}
-                      updateParentComment={methods.updateParentComment}
-                      updateChildComment={methods.updateChildComment}
-                      pageMode={pageMode}
-                      openShareWithStudentDialog={methods.handleShareWithClass}
-                      convertToCheckedState={methods.convertToCheckedState}
-                      updateExemplarComment={methods.setUpdateExemplarComment}
-                      studentId={submission?.studentId}
-                      selectedComment={selectedComment}
-                    />
-                  ) : (
-                    <></>
+                  {comments.map((comment, index) => (
+                      <LikeCommentWrapper
+                        key={comment.id}
+                        isHoveredOrSelected={isHoveredOrSelected}
+                        onClick={() => {
+                          methods.handleCommentSelected(comment);
+                          setLikeToDelete(comment.id);
+                        }}
+                      >
+                        <LikeReactIcon
+                          isSelected={isHighlightSelectedComment(
+                            selectedComment,
+                            comment.id
+                          )}
+                          src={RoundedBorderLikeIcon}
+                        />
+                        {isShowLikeCancelButton(comment, pageMode, likeToDelete) && (
+                          <RedCloseIcon
+                            src={RedCLoseIcon}
+                            ref={outsideLikeDeleteClickRef}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              methods.handleDeleteComment(comment.id);
+                            }}
+                          />
+                        )}
+                      </LikeCommentWrapper>
+                    ))}
+                  {isShowCommentCount(comments.length, isHoveredOrSelected) && (
+                    <LikeCount>{comments.length}</LikeCount>
                   )}
-                </CommentDiv>
+                </CommentLikeBox>
               );
             })}
+            {groupedCommentsWithGap
+              .filter((comment) => comment.subType !== 'LIKE')
+              .map((comment, index) => {
+                return (
+                  <CommentDiv
+                    key={index}
+                    id={`comment-${comment.id}`}
+                    style={{
+                      top: `${topPositionOfComment(comment.topPosition)}px`,
+                      transform:
+                        selectedComment && comment.id === selectedComment.id
+                          ? 'translateX(-35px)'
+                          : 'none',
+                    }}
+                  >
+                    {comment.type === 'FOCUS_AREA' ? (
+                      <CommentCard32
+                        reviewer={comment.reviewerName}
+                        comment={comment}
+                        onClick={(c) => methods.handleCommentSelected(c)}
+                        onClose={() => {
+                          methods.handleDeleteComment(comment.id);
+                        }}
+                        handleEditingComment={methods.handleEditingComment}
+                        deleteReplyComment={methods.handleDeleteReplyComment}
+                        onResolved={methods.handleResolvedComment}
+                        handleReplyComment={methods.handleReplyComment}
+                        isResolved={comment.status}
+                        showResolveButton={false}
+                        isTeacher={isTeacher}
+                        updateParentComment={methods.updateParentComment}
+                        updateChildComment={methods.updateChildComment}
+                        pageMode={pageMode}
+                        openShareWithStudentDialog={
+                          methods.handleShareWithClass
+                        }
+                        convertToCheckedState={methods.convertToCheckedState}
+                        updateExemplarComment={methods.setUpdateExemplarComment}
+                        studentId={submission?.studentId}
+                        selectedComment={selectedComment}
+                      />
+                    ) : isFeedback && comment.status !== 'RESOLVED' ? (
+                      <CommentCard32
+                        reviewer={comment.reviewerName}
+                        comment={comment}
+                        onClick={(c) => methods.handleCommentSelected(c)}
+                        onClose={() => {
+                          methods.handleDeleteComment(comment.id);
+                        }}
+                        handleEditingComment={methods.handleEditingComment}
+                        deleteReplyComment={methods.handleDeleteReplyComment}
+                        onResolved={methods.handleResolvedComment}
+                        handleReplyComment={methods.handleReplyComment}
+                        isResolved={comment.status}
+                        showResolveButton={pageMode === 'REVISE'}
+                        isTeacher={isTeacher}
+                        updateParentComment={methods.updateParentComment}
+                        updateChildComment={methods.updateChildComment}
+                        pageMode={pageMode}
+                        openShareWithStudentDialog={
+                          methods.handleShareWithClass
+                        }
+                        convertToCheckedState={methods.convertToCheckedState}
+                        updateExemplarComment={methods.setUpdateExemplarComment}
+                        studentId={submission?.studentId}
+                        selectedComment={selectedComment}
+                      />
+                    ) : comment.status === 'RESOLVED' ? (
+                      <CommentCard32
+                        reviewer={comment.reviewerName}
+                        comment={comment}
+                        onClick={(c) => methods.handleCommentSelected(c)}
+                        onClose={() => {
+                          methods.handleDeleteComment(comment.id);
+                        }}
+                        handleEditingComment={methods.handleEditingComment}
+                        deleteReplyComment={methods.handleDeleteReplyComment}
+                        onResolved={methods.handleResolvedComment}
+                        handleReplyComment={methods.handleReplyComment}
+                        isResolved={comment.status}
+                        showResolveButton={false}
+                        isTeacher={isTeacher}
+                        updateParentComment={methods.updateParentComment}
+                        updateChildComment={methods.updateChildComment}
+                        pageMode={pageMode}
+                        openShareWithStudentDialog={
+                          methods.handleShareWithClass
+                        }
+                        convertToCheckedState={methods.convertToCheckedState}
+                        updateExemplarComment={methods.setUpdateExemplarComment}
+                        studentId={submission?.studentId}
+                        selectedComment={selectedComment}
+                      />
+                    ) : (
+                      <></>
+                    )}
+                  </CommentDiv>
+                );
+              })}
           </div>
         </MainSideContainer>
       )}
@@ -308,12 +426,15 @@ function reviewerNewComment(
   getFirstTwoWords,
   QuestionIndex
 ) {
-  const { smartAnnotations, setShowFloatingDialogue, allCommentBanks,commentBankTitle,setFeedbackBanksPopUp } =
-    useContext(FeedbackContext);
+  const {
+    smartAnnotations,
+    setShowFloatingDialogue,
+    allCommentBanks,
+    commentBankTitle,
+    setFeedbackBanksPopUp,
+  } = useContext(FeedbackContext);
 
-
-const currentCommentBank = smartAnnotations[QuestionIndex]
-
+  const currentCommentBank = smartAnnotations[QuestionIndex];
 
   if (pageMode === 'CLOSED') return <></>;
   return (
@@ -342,7 +463,9 @@ const currentCommentBank = smartAnnotations[QuestionIndex]
               <CommentBoxContainer>
                 <ModalHeading>
                   <h1>{getFirstTwoWords(currentCommentBank?.title)}</h1>
-                  <ChangeButton onClick={() => setFeedbackBanksPopUp(true)}>Change</ChangeButton>
+                  <ChangeButton onClick={() => setFeedbackBanksPopUp(true)}>
+                    Change
+                  </ChangeButton>
                 </ModalHeading>
                 <ModalForSelectOption
                   onClose={setShowFloatingDialogue}

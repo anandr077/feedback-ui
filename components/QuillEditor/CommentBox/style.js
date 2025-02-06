@@ -126,6 +126,7 @@ export const Option = styled.button`
 
   :last-child {
     border: none;
+    padding-top: 5px;
   }
   img {
     width: 24px;
@@ -152,18 +153,75 @@ export const MainSideContainer = styled.div`
   top: 0;
   right: -340px;
   min-height: 120%;
-  width: 360px;
+  width: 380px;
   z-index: 546;
 `;
 
 export const CommentDiv = styled.div`
   position: absolute;
-  left: 0;
+  left: 20px;
   min-width: 300px;
   padding-left: 60px;
   transition: top 0.3s ease-in-out, transform 0.1s ease-in;
 `;
 
+
+export const RedCloseIcon = styled.img`
+  display: block;
+  position: absolute;
+  right: -3px;
+  top: -5px;
+  cursor: pointer;
+  z-index: 10;
+`;
+
+export const LikeCount = styled.div`
+  position: absolute;
+  left: 20px;
+  top: -7px;
+  background-color: var(--light-mode-purple);
+  color: white;
+  border-radius: 50%;
+  height: 16px;
+  width: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+`;
+
+
+export const CommentLikeBox = styled.div`
+  position: absolute;
+  left: 0px;
+  z-index: 10;
+  
+  cursor: pointer;
+
+  ${({ isHoveredOrSelected }) =>
+    isHoveredOrSelected &&   
+  ` border: solid 1px rgba(201, 198, 204, 0.5);
+    background-color: #fff;
+    border-radius: 24px;
+    padding: 0 1px;
+    z-index: 11;
+  `}
+`;
+
+export const LikeCommentWrapper = styled.div`
+  position: ${({ isHoveredOrSelected }) => (isHoveredOrSelected ? 'relative' : 'absolute')};
+  margin: ${({ isHoveredOrSelected }) => (isHoveredOrSelected ? '0 1px 0 0' : '0')};
+
+
+`;
+
+export const LikeReactIcon = styled.img`
+  transform: ${props => props.isSelected ? 'scale(1.4)' : ''};
+  transition: transform 0.1s ease-in;
+
+  &:hover{
+    transform: scale(1.4);
+  }
+`;
 
 export const ModalHeading = styled.div`
   display: flex;
@@ -172,13 +230,13 @@ export const ModalHeading = styled.div`
   padding: 0px 12px 6px;
   border-bottom: 1px solid rgba(201, 198, 204, 0.5);
 
-  h1{
-  font-family: var(--font-family-ibm_plex_sans);
-  color: rgba(86, 81, 91, 1);
-  font-weight: 600;
-  font-size: var(--font-size-l);
-  line-height: 17px;
-}
+  h1 {
+    font-family: var(--font-family-ibm_plex_sans);
+    color: rgba(86, 81, 91, 1);
+    font-weight: 600;
+    font-size: var(--font-size-l);
+    line-height: 17px;
+  }
 `;
 
 export const ChangeButton = styled.div`

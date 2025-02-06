@@ -20,11 +20,6 @@ export const AccordionTitle = styled.div`
   cursor: pointer;
 `;
 
-export const AccordionContent = styled.div`
-  overflow: hidden;
-  transition: height 0.6s ease;
-`;
-
 export const SectionContent = styled.div`
   overflow: hidden;
   height: ${(props) => (props.isActive ? 'fit-content' : '0')};

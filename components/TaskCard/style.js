@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import ListItem from '@mui/material/ListItem';
+
 import {
   IbmplexsansMediumElectricViolet20px,
   IbmplexsansMediumWhite16px,
@@ -22,19 +24,6 @@ export const MoreOptionsWrapper = styled.div`
   z-index: 1;
 `;
 
-export const MoreOptions = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: #7200e0;
-  font-size: 14px;
-  font-family: IBM Plex Sans;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
 
 export const IconContainer = styled.img`
   position: relative;
@@ -153,6 +142,7 @@ export const TaskLink = styled.a`
 
 export const StyledCard = styled.article`
   width: 100%;
+  border:2px solid rgb(223, 9, 9);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -257,4 +247,20 @@ export const FavouriteContent = styled.div`
   font-size: var(--font-size-s);
   line-height: 19px;
   transform: scale(1.1);
+`;
+
+
+export const StyledListItem = styled(ListItem)`
+  padding: 4px 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #7200e0;
+  font-size: 14px;
+  font-family: IBM Plex Sans;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;

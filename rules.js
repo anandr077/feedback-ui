@@ -3,3 +3,11 @@ export const shouldShowComponent = (routesToHide) => {
   return !routesToHide.some((route) => currentHash.startsWith(route));
 };
 
+export const isTeacherOnboarding = (showTeacherOnboarding, mobileView, role) =>{
+    return role !== "STUDENT" && showTeacherOnboarding && !mobileView
+}
+
+export const isStudentOnboarding = (showStudentOnboarding) =>{
+  return showStudentOnboarding
+}
+

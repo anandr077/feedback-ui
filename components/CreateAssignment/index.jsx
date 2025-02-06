@@ -14,6 +14,7 @@ import {
   getStudentsForClass,
   getSmartAnnotations,
   getFeedbackBanks,
+  getAllSubmissions
 } from '../../service';
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import _ from 'lodash';
@@ -105,6 +106,7 @@ export default function CreateAssignment(props) {
   const [allClassStudents, setAllClassStudents] = React.useState([]);
   const [classId, setClassId] = React.useState();
   const [updateDueDateTick, setUpdateDueDateTick] = React.useState(false);
+  const [submissions, setSubmissions] = React.useState([]);
   const mobileView = isMobileView();
   const [markingPlaceholder, setMarkingPlaceholder] = React.useState(
     mobileView ? 'Select' : 'Select Marking Template'
@@ -160,6 +162,7 @@ export default function CreateAssignment(props) {
       getAllColors(),
       getAllMarkingCriteria(),
       getFeedbackBanks(),
+      getAllSubmissions(assignmentId)
     ]).then(
       ([
         classesResult,
@@ -168,7 +171,9 @@ export default function CreateAssignment(props) {
         colors,
         markingCriteriasResult,
         commentBanks,
+        allSubmissions
       ]) => {
+        setSubmissions(allSubmissions)
         let userCommentBanks = commentBanks._embedded.commentbanks.filter(
           (commentBank) => commentBank.ownerId === UserId
         );
@@ -921,6 +926,7 @@ export default function CreateAssignment(props) {
           setPendingLocation,
           isChanged,
           ...createAAssignmentLaptopData(classData),
+          submissions
         }}
       />
       {openFocusAreaDialog && (

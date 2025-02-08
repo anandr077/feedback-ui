@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactiveRender, { isMobileView } from '../../ReactiveRender';
 import AccountSettingsMarkingCriteriaDeskt from '../AccountSettingsMarkingCriteriaDeskt';
 
@@ -16,7 +16,7 @@ import { useMarkingCriterias } from '../../state/hooks.js';
 export default function AccountSettingsRoot(props) {
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
-
+  const [sortMarkingCriteria, setSortMarkingCriteria] = useState(true);
   const {
     data: markingCriterias,
     isLoadingdata: isLoadingMarkingCriterias,
@@ -76,23 +76,32 @@ export default function AccountSettingsRoot(props) {
       </>
     );
   }
-  const markingCriteriaList = markingCriterias?.map(
-    (markingCriteria, index) => (
+  const markingCriteriaList = markingCriterias
+    ?.map((markingCriteria, index) => (
       <MarkingCriteriaCard
         key={Math.random()}
         markingCriteria={markingCriteria}
         deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
         cloneMarkingCriteria={() => createMarkingCriteria(markingCriteria)}
       />
-    )
-  );
+    ))
+    .sort((a, b) => {
+      const titleA = a.props.markingCriteria.title.toLowerCase();
+      const titleB = b.props.markingCriteria.title.toLowerCase();
+
+      return sortMarkingCriteria
+        ? titleA.localeCompare(titleB)
+        : titleB.localeCompare(titleA);
+    });
 
   return (
     <>
       <AccountSettingsMarkingCriteriaDeskt
         {...{
           markingCriteriaList,
-          resetMarkingCriterias
+          resetMarkingCriterias,
+          sortMarkingCriteria, 
+          setSortMarkingCriteria
         }}
       />
       {openMarkingMethodologyDialog && (

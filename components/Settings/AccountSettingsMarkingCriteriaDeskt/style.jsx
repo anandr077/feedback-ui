@@ -478,6 +478,12 @@ export const ImportFileLabel = styled.label`
   text-align: center;
 `;
 
+export const RightSideOptions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`;
+
 export const ImportFile = styled.input`
   display: none; 
 `;

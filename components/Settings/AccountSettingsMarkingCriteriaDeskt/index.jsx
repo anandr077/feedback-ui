@@ -9,6 +9,7 @@ import {
   RightSideHeader,
   CreateButtonContainer,
   ImportFileLabel,
+  RightSideOptions,
   CardImgCont,
   CardImg,
   CardTitle,
@@ -36,8 +37,9 @@ import { importJsonFile, validateRubric, validateStrengthsTargets } from '../../
 import { createNewMarkingCriteria } from '../../../service';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
+import SortItems from '../../../components2/SortItems';
 
-function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarkingCriterias }) {
+function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarkingCriterias, sortMarkingCriteria, setSortMarkingCriteria }) {
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] = useState(false);
   const [isShowMenu, setShowMenu] = useState(false);
   const [isShowExportMarkingCriteriaPopup, setIsShowExportMarkingCriteriaPopup] = useState(false)
@@ -45,6 +47,7 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
   const tabletView = isTabletView();
   const divRef = useRef(null);
   const history = useHistory();
+
 
   const handleClickOutside = (event) => {
     if (divRef.current && !divRef.current.contains(event.target)) {
@@ -156,17 +159,25 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
                   </PopUpContainer>
                 )}
               </CreateButtonContainer>
-              <ImportFileLabel>
-                <CardImgCont>
-                  <CardImg src={DownlaodIcon} rotate={true} />
-                </CardImgCont>
-                <CardTitle>Import</CardTitle>
-                <ImportFile
-                  type="file"
-                  accept=".mc"
-                  onChange={handleMarkingCriteriaImport}
+              <RightSideOptions>
+                <SortItems
+                  sortData={sortMarkingCriteria}
+                  setSortData={setSortMarkingCriteria}
+                  firstSortText={'A-Z'}
+                  secondSortText={'Z-A'}
                 />
-              </ImportFileLabel>
+                <ImportFileLabel>
+                  <CardImgCont>
+                    <CardImg src={DownlaodIcon} rotate={true} />
+                  </CardImgCont>
+                  <CardTitle>Import</CardTitle>
+                  <ImportFile
+                    type="file"
+                    accept=".mc"
+                    onChange={handleMarkingCriteriaImport}
+                  />
+                </ImportFileLabel>
+              </RightSideOptions>
             </RightSideHeader>
 
             <MarkingCriteriaList>{markingCriteriaList}</MarkingCriteriaList>

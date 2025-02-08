@@ -123,7 +123,7 @@ export default function TheoryQuestionFrame(props) {
         <MarkingCriteriaSelectionContainer>
           <QuestionFieldSelection 
            label='Marking Template'
-           items = {appendFunction(allMarkingCriterias)}
+           items = {allMarkingCriterias}
            tooltipText = "Select a Rubric (R) or list of Strengths and Targets (S&T) to use as overall feedback for this task. After reading a student's response, click on the applicable performance level/s or strengths and targets"
           onItemSelected = {updateMarkingCriteria}
           setIsChanged ={setIsChanged}

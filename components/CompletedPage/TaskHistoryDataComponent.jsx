@@ -20,7 +20,7 @@ import DownloadLight from '../../static/img/download16purple.svg';
 import { dateOnly } from '../../dates';
 import { Tooltip } from '@mui/material';
 
-function TaskHistoryDataComponent({ list, downloadPDF }) {
+function TaskHistoryDataComponent({ list, downloadPDF, assignmentIdForDuplicate }) {
   const [clickHighLightRow, setClickHighlightRow] = useState(null);
 
   const handleClick = (index) => {
@@ -60,6 +60,15 @@ function TaskHistoryDataComponent({ list, downloadPDF }) {
               <td>{dateOnly(task.completedAt)}</td>
               <td>
                 <div style={{ display: 'flex' }}>
+                  <TaskIconContainer onClick={() => downloadPDF(task.id)}>
+                    <Tooltip
+                      title={'Duplicate and edit'}
+                      placement={'top'}
+                      onClick={() => assignmentIdForDuplicate(task.id)}
+                    >
+                      <DownloadIcon src="/img/Copy.svg" />
+                    </Tooltip>
+                  </TaskIconContainer>
                   <TaskIconContainer onClick={() => downloadPDF(task.id)}>
                     <Tooltip
                       title={'Download'}

@@ -49,9 +49,9 @@ const MainSidebar = () => {
   } = useAllDocuments();
 
   const sideNavItems = [
+    isShowGetFeedbackItems && getFeedbackItems(role, location, checkIsActive,allDocumentsData),
     isShowTaskItems && taskItems(role, homePageLink, location, checkIsActive),
     isShowClassItems && classItems(location, checkIsActive),
-    isShowGetFeedbackItems && getFeedbackItems(role, location, checkIsActive,allDocumentsData),
     isShowSettingItems && isSettingItems(role, location, checkIsActive),
   ].filter(Boolean);
 
@@ -161,7 +161,7 @@ function isSettingItems(role, location, checkIsActive){
   return{
     icon: settingIcon,
     activeIcon: activesettingIcon,
-    name: 'Feedback Tools',
+    name: 'Marking Tools',
     isActive: checkIsActive(location, paths),
     link: '/settings',
   }

@@ -42,7 +42,7 @@
         },
         {
           "title": "Starting a Task",
-          "content": "You can start a task by clicking on the relevant task bubble. If you are completing a written response, you will see a document with space for typing. The task instructions will appear above the document, and if you are required to highlight 'Self-assessment Areas' in your response, they will appear to the right of the document as soon as you highlight a section of your response. If the task is to provide feedback to another student (peer to peer), clicking the task bubble will show you the student's response (anonymously) and provide you with feedback tools on the right-hand side of the page."
+          "content": "You can start a task by clicking on the relevant task bubble. If you are completing a written response, you will see a document with space for typing. The task instructions will appear above the document, and if you are required to highlight 'Self-assessment Areas' in your response, they will appear to the right of the document as soon as you highlight a section of your response. If the task is to provide feedback to another student (peer to peer), clicking the task bubble will show you the student's response (anonymously) and provide you with marking tools on the right-hand side of the page."
         },
         {
           "title": "Self-assessment Areas",
@@ -177,7 +177,7 @@
       "subtopics": [
         {
           "title": "Give Feedback to your Peers",
-          "content": "Click on the 'Give Feedback' to view work that has been submitted by other students in the community. Use our feedback tools by highlighting different sections of the response and selecting the most appropriate comment (or entering one in yourself). The more you help others, the more likely it is that your responses will get feedback from the community."
+          "content": "Click on the 'Give Feedback' to view work that has been submitted by other students in the community. Use our marking tools by highlighting different sections of the response and selecting the most appropriate comment (or entering one in yourself). The more you help others, the more likely it is that your responses will get feedback from the community."
         },
         {
           "title": "Earn Rewards by Helping Others",
@@ -317,7 +317,7 @@
       "subtopics": [
         {
           "title": "Give Feedback to your Peers",
-          "content": "Click on the 'Give Feedback' to view work that has been submitted by other students in the community. Use our feedback tools by highlighting different sections of the response and selecting the most appropriate comment (or entering one in yourself). The more you help others, the more likely it is that your responses will get feedback from the community."
+          "content": "Click on the 'Give Feedback' to view work that has been submitted by other students in the community. Use our marking tools by highlighting different sections of the response and selecting the most appropriate comment (or entering one in yourself). The more you help others, the more likely it is that your responses will get feedback from the community."
         },
         {
           "title": "Earn Rewards by Helping Others",
@@ -388,7 +388,7 @@
       "subtopics": [
         {
           "title": "Where am I?",
-          "content": "Jeddle's 'Feedback Hub' is a platform for creating homework tasks, particularly formative assessment tasks, providing faster feedback for students, and collecting valuable insights on both student and class performance. Teachers can create and assign tasks to students online and either provide feedback themselves (using our customisable feedback tools), facilitate peer-to-peer feedback between students or use Jedd-AI - our AI-marking and feedback tool. Students can use the platform to not only complete homework from a teacher but to submit their own drafts for feedback (from peers, teachers or Jedd-AI)."
+          "content": "Jeddle's 'Feedback Hub' is a platform for creating homework tasks, particularly formative assessment tasks, providing faster feedback for students, and collecting valuable insights on both student and class performance. Teachers can create and assign tasks to students online and either provide feedback themselves (using our customisable marking tools), facilitate peer-to-peer feedback between students or use Jedd-AI - our AI-marking and marking tools. Students can use the platform to not only complete homework from a teacher but to submit their own drafts for feedback (from peers, teachers or Jedd-AI)."
         },
         {
           "title": "Why am I here?",
@@ -447,7 +447,7 @@
       "subtopics": [
         {
           "title": "How do Students Complete a Task?",
-          "content": "Students can start a task by clicking on the relevant task bubble on their 'Homework' page. If they are completing a written response, they will see a blank document with space for typing. The task instructions will appear above the document, and if they are required to highlight 'Self-assessment Areas' in their responses, they will appear to the right of the document as soon as they highlight a relevant section of their response. If the task is to provide feedback to another student (peer to peer), clicking the task bubble will show another student's response (anonymously) and provide the student with feedback tools on the right-hand side of the page. "
+          "content": "Students can start a task by clicking on the relevant task bubble on their 'Homework' page. If they are completing a written response, they will see a blank document with space for typing. The task instructions will appear above the document, and if they are required to highlight 'Self-assessment Areas' in their responses, they will appear to the right of the document as soon as they highlight a relevant section of their response. If the task is to provide feedback to another student (peer to peer), clicking the task bubble will show another student's response (anonymously) and provide the student with marking tools on the right-hand side of the page. "
         }
       ]
     },

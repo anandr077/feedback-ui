@@ -17,8 +17,11 @@ import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 import { useMarkingCriterias } from '../../state/hooks';
 import { validateRubric } from '../../../components2/markingCriteria';
+import useNavigationBlock from '../../../hooks/useNavigationBlock';
+import GeneralPopup from '../../GeneralPopup';
 
 export default function CreateNewMarkingCriteriaRoot(props) {
+  const {setIsNavigationBlocked, isShowNavigationBlockPopup, confirmNavigationChange, cancelNavigationPopup } = useNavigationBlock();
   const { markingCriteriaId } = useParams();
   const [isLoading, setIsLoading] = React.useState(true);
   const [isUpdating, setIsUpdating] = React.useState(false);
@@ -163,7 +166,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
           } else {
             resetMarkingCriterias();
           }
-          
+          setIsNavigationBlocked(false);
           history.push(`/markingTemplates/rubrics/:${response.id?.value}`)
 
           toast(
@@ -208,10 +211,12 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const handleTitleChange = (event) => {
+    setIsNavigationBlocked(true);
     setMarkingCriteria({ ...markingCriteria, title: event.target.value });
   };
 
   const updateCriteriaTitle = (id, newTitle) => {
+    setIsNavigationBlocked(true);
     const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === id) {
         return {
@@ -225,6 +230,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const updateLevelName = (criteriaId, levelId, newName) => {
+    setIsNavigationBlocked(true);
     const newCriterias = markingCriteria.criterias.map((criteria, index) => {
       if (index === criteriaId) {
         return {
@@ -246,6 +252,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   };
 
   const updateLevelDescription = (criteriaId, levelId, newDescription) => {
+    setIsNavigationBlocked(true);
     if (newDescription.length > 200) {
       return;
     }
@@ -295,6 +302,17 @@ export default function CreateNewMarkingCriteriaRoot(props) {
 
   return (
     <>
+      {isShowNavigationBlockPopup && (
+        <GeneralPopup
+        hidePopup={cancelNavigationPopup}
+        title="Unsaved Changes"
+        textContent="You have unsaved changes in your template. If you leave this page, your changes will be lost. Do you want to continue?"
+        buttonText="Leave Without Saving"
+        confirmButtonAction={confirmNavigationChange}
+        closeBtnText="Stay on Page"
+        cancelPopup={cancelNavigationPopup}
+      />
+      )}
       <CreateNewMarkingCriteriaDesktop
         {...{
           criterias,

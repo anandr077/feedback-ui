@@ -14,6 +14,7 @@ import {
   getStudentsForClass,
   getSmartAnnotations,
   getFeedbackBanks,
+  getAllSubmissions
 } from '../../service';
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import _ from 'lodash';
@@ -60,6 +61,7 @@ export default function CreateAssignment(props) {
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const [showDeletePopup, setShowDeletePopup] = React.useState(false);
   const [showPublishPopup, setShowPublishPopup] = React.useState(false);
+  const [showUpdatePopup, setShowUpdatePopup] = useState(false);
   const [showSaveAsDraftPopup, setSaveAsDraftPopup] = React.useState(false);
   const [showCopyLinkPopup, setShowCopyLinkPopup] = useState(false);
   const [createdTaskLink, setCreatedTaskLink] = useState('')
@@ -104,6 +106,7 @@ export default function CreateAssignment(props) {
   const [allClassStudents, setAllClassStudents] = React.useState([]);
   const [classId, setClassId] = React.useState();
   const [updateDueDateTick, setUpdateDueDateTick] = React.useState(false);
+  const [submissions, setSubmissions] = React.useState([]);
   const mobileView = isMobileView();
   const [markingPlaceholder, setMarkingPlaceholder] = React.useState(
     mobileView ? 'Select' : 'Select Marking Template'
@@ -159,6 +162,7 @@ export default function CreateAssignment(props) {
       getAllColors(),
       getAllMarkingCriteria(),
       getFeedbackBanks(),
+      getAllSubmissions(assignmentId)
     ]).then(
       ([
         classesResult,
@@ -167,7 +171,9 @@ export default function CreateAssignment(props) {
         colors,
         markingCriteriasResult,
         commentBanks,
+        allSubmissions
       ]) => {
+        setSubmissions(allSubmissions)
         let userCommentBanks = commentBanks._embedded.commentbanks.filter(
           (commentBank) => commentBank.ownerId === UserId
         );
@@ -374,7 +380,7 @@ export default function CreateAssignment(props) {
     return newMarkingCriteria;
   };
 
-  function updateMarkingCriteria(id, markingCriteria) {
+  const updateMarkingCriteria = (id, markingCriteria) => {
     const updatedMarkingCriteriaObj = removeAppendFunction(markingCriteria);
     setAssignment((prevAssignment) => ({
       ...prevAssignment,
@@ -677,12 +683,37 @@ export default function CreateAssignment(props) {
     }
   };
 
+  const updateCurrentAssignment = () =>{
+    if(isChanged) setIsChanged(false);
+    setShowUpdatePopup(false);
+
+    updateAssignment(assignment.id, assignment).then((res) => {
+      if (res.status === 'PUBLISHED') {
+        queryClient.invalidateQueries(['notifications']);
+        queryClient.invalidateQueries(['tasks']);
+        queryClient.invalidateQueries(['assignments']);
+        queryClient.invalidateQueries((queryKey) => {
+          return queryKey.includes('class');
+        });
+
+        toast(<Toast message={'Task updated'} />);
+      } else {
+        toast(<Toast message={'Could not update task'} />);
+        return;
+      }
+
+    }).catch((error) => {
+      console.error(error);
+      toast(<Toast message="Could not update assignment, please refresh the page and try again." />);
+    });
+  }
+
   const deleteAssignmentHandler = () => {
     updateAssignment(assignment.id, assignment).then((_) => {
       deleteAssignment(assignment.id).then((res) => {
         if (res.status === 'DELETED') {
           toast(<Toast message={'Task deleted'} />);
-          window.location.href = '#';
+          history.push('/#')
         } else {
           toast(<Toast message={'Task deletion failed'} />);
           return;
@@ -806,6 +837,9 @@ export default function CreateAssignment(props) {
   const hidePublishPopup = () => {
     setShowPublishPopup(false);
   };
+  const hideUpdatePopup = () => {
+    setShowUpdatePopup(false);
+  };
   const hideSaveAsDraftPopup = () => {
     if (pendingLocation) setPendingLocation(null);
     setSaveAsDraftPopup(false);
@@ -816,6 +850,9 @@ export default function CreateAssignment(props) {
   };
   const showPublishPopuphandler = (assignmentId) => {
     setShowPublishPopup(true);
+  };
+  const showUpdatePopuphandler = (assignmentId) => {
+    setShowUpdatePopup(true);
   };
   const methods = {
     assignment,
@@ -831,6 +868,7 @@ export default function CreateAssignment(props) {
     deleteAssignmentHandler,
     showDeletePopuphandler,
     showPublishPopuphandler,
+    showUpdatePopuphandler
   };
 
   return (
@@ -861,6 +899,15 @@ export default function CreateAssignment(props) {
           confirmButtonAction={publish}
         />
       )}
+      {showUpdatePopup && (
+        <GeneralPopup
+          hidePopup={hideUpdatePopup}
+          title="Update Task"
+          textContent="Are you sure you want to update this task?"
+          buttonText="Update"
+          confirmButtonAction={updateCurrentAssignment}
+        />
+      )}
       {showCopyLinkPopup && (
         <CopyLinkDialog
           handleCoplyLinkClose={handleCoplyLinkClose}
@@ -882,6 +929,7 @@ export default function CreateAssignment(props) {
           setPendingLocation,
           isChanged,
           ...createAAssignmentLaptopData(classData),
+          submissions
         }}
       />
       {openFocusAreaDialog && (

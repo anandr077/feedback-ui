@@ -69,7 +69,7 @@ function App() {
     }
     const token = localStorage.getItem('jwtToken');
     const parsed = queryString.parse(window.location.search);
-
+    
     if (parsed.code) {
       if (exchangeInProgress.current) {
         console.log('Exchange already in progress');
@@ -84,6 +84,9 @@ function App() {
           setIsAuthenticated(true);
           window.history.replaceState({}, document.title, '/');
           exchangeInProgress.current = false;
+          if (parsed.redirect) {
+            localStorage.setItem('redirectPath', `/#${parsed.redirect}`);
+          }
         })
         .catch((error) => {
           console.error('Error exchanging code:', error);
@@ -137,6 +140,18 @@ function App() {
     }
   }, [isAuthenticated]);
 
+   // **NEW: Redirect AFTER login is fully done**
+   useEffect(() => {
+    if (isAuthenticated) {
+      const redirectPath = localStorage.getItem('redirectPath') ;
+      if (redirectPath) {
+        localStorage.removeItem('redirectPath');
+
+        // alert(`Redirecting to ${redirectPath}`);
+        window.location.href = redirectPath; // Full redirect for clean navigation
+      }
+    }
+  }, [isAuthenticated]);
   const closeOnboarding = () => {
     setShowStudentOnboarding(false);
   };
@@ -144,6 +159,24 @@ function App() {
   const closeTeacherOnboarding = () => {
     setShowTeacherOnboarding(false);
   };
+  
+  const updateRedirectAt = () => {
+    const url = new URL(window.location.href);
+    const hashFragment = window.location.hash.substring(1); // Remove `#`
+
+    // If there's a hash path, move it to `redirect` query parameter
+    if (hashFragment) {
+        url.hash = ''; // Remove hash from URL
+        url.searchParams.set('redirect', hashFragment); // Store hash path in query param
+    }
+
+    // Add or update `redirect_at`
+    url.searchParams.set('redirect_at', Date.now());
+    const res = url.toString()
+    
+    return res;
+  };
+
 
   const externalIDPUrl = () => {
     const selfBaseUrl =
@@ -158,9 +191,11 @@ function App() {
       '&state=' +
       Date.now() +
       '&redirect_uri=' +
-      encodeURIComponent(selfBaseUrl + '?redirect_at=' + Date.now())
+      // encodeURIComponent(selfBaseUrl + '?redirect_at=' + Date.now())
+      encodeURIComponent(updateRedirectAt())
     );
   };
+ 
   const mobileView = isMobileView();
 
   if (!isAuthenticated || loadingProfile) {

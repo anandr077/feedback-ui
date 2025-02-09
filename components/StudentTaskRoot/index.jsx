@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getTasks, getClasses } from '../../service';
 import ReactiveRender, { isTabletView } from '../ReactiveRender';
 import TasksDesktop from '../TasksDesktop';
@@ -46,10 +46,12 @@ export default function StudentTaskRoot() {
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [tasksSelected, setTasksSelected] = React.useState(true);
-   const [isShowMenu, setShowMenu] = React.useState(false);
-   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
-
-   const tabletView = isTabletView();
+  const [isShowMenu, setShowMenu] = React.useState(false);
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
+  const [visibleInProgressCount, setVisibleInProgressCount] = useState(3);
+  const [visibleAssignedCount, setVisibleAssignedCount] = useState(3);
+  const [visibleInReviewCount, setVisibleInReviewCount] = useState(3);
+  const tabletView = isTabletView();
 
   const tasksQuery = useQuery({
     queryKey: ['tasks'],
@@ -109,12 +111,16 @@ export default function StudentTaskRoot() {
       .filter((task) => task.progressStatus === progressStatus)
       .filter((task) => !selectedClass || task.classTitle === selectedClass);
 
-  const assignmedTasks = filterTasksByProgressAndClass(
+  const assignedTasks = filterTasksByProgressAndClass(
     filteredTasks,
     'ASSIGNED'
   );
   const inProgressTasks = filterTasksByProgressAndClass(filteredTasks, 'DRAFT');
   const inReviewTasks = filterTasksByProgressAndClass(filteredTasks, 'REVIEW');
+
+  const visibleInProgressTasks = inProgressTasks.slice(0, visibleInProgressCount);
+  const visibleAssignedTasks = assignedTasks.slice(0, visibleAssignedCount);
+  const visibleInReviewTasks = inReviewTasks.slice(0, visibleInReviewCount);
 
   const classesItems = classes.map((clazz) => {
     return { value: clazz.id, label: clazz.title, category: 'CLASSES' };
@@ -162,6 +168,18 @@ export default function StudentTaskRoot() {
 
     setFilteredTasks(filteredClasses);
   };
+
+  const handleShowMoreTask = (type) =>{
+      if(type === "inDraft"){
+        setVisibleInProgressCount(prev => prev + 3)
+      }
+      if(type === 'Assigned'){
+        setVisibleAssignedCount(prev => prev + 3)
+      }
+      if(type === 'inReview'){
+        setVisibleInReviewCount(prev => prev + 3)
+      }
+  }
 
 
 
@@ -280,12 +298,13 @@ export default function StudentTaskRoot() {
       {...{
         menuItems,
         filterTasks,
-        assignmedTasks,
-        inProgressTasks,
-        inReviewTasks,
+        visibleAssignedTasks,
+        visibleInProgressTasks,
+        visibleInReviewTasks,
         FilterSortAndCal,
         tasksSelected,
         MyCalendarFile,
+        handleShowMoreTask,
         isShowMenu,
         setShowMenu,
         ...tasksDesktopData(classData),

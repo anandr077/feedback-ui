@@ -15,14 +15,15 @@ import {
 } from './style.js';
 
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
+import RoundedBorderSubmitBtn from '../../components2/Buttons/RoundedBorderSubmitBtn/index.jsx';
 
 function TasksDesktop(props) {
   const {
     menuItems,
     filterTasks,
-    assignmedTasks,
-    inProgressTasks,
-    inReviewTasks,
+    visibleAssignedTasks,
+    visibleInProgressTasks,
+    visibleInReviewTasks,
     frame19Props,
     headingFilter,
     arrowright,
@@ -31,6 +32,7 @@ function TasksDesktop(props) {
     isShowMenu,
     setShowMenu,
     MyCalendarFile,
+    handleShowMoreTask
   } = props;
   return (
     <TaskScreenMainContainer>
@@ -49,32 +51,35 @@ function TasksDesktop(props) {
                 <Frame1354>
                   <TaskFrame1353
                     outstanding="Assigned"
-                    number={assignmedTasks.length}
+                    number={visibleAssignedTasks.length}
                   />
                   <TaskCardContainer
-                    allTasks={assignmedTasks}
+                    allTasks={visibleAssignedTasks}
                     className={frame19Props.className}
                   />
+                  <RoundedBorderSubmitBtn text={"Show more"} onClickFn={()=> handleShowMoreTask('Assigned')}/>
                 </Frame1354>
                 <Frame1354>
                   <TaskFrame1353
                     outstanding="In Draft"
-                    number={inProgressTasks.length}
+                    number={visibleInProgressTasks.length}
                   />
                   <TaskCardContainer
-                    allTasks={inProgressTasks}
+                    allTasks={visibleInProgressTasks}
                     className={frame19Props.className}
                   />
+                  <RoundedBorderSubmitBtn text={"Show more"} onClickFn={()=> handleShowMoreTask('inDraft')}/>
                 </Frame1354>
                 <Frame1358>
                   <TaskFrame1353
                     outstanding="In Review"
-                    number={inReviewTasks.length}
+                    number={visibleInReviewTasks.length}
                   />
                   <TaskCardContainer
-                    allTasks={inReviewTasks}
+                    allTasks={visibleInReviewTasks}
                     className={frame19Props.className}
                   />
+                  <RoundedBorderSubmitBtn text={"Show more"} onClickFn={()=> handleShowMoreTask('inReview')}/>
                 </Frame1358>
               </Frame1359>
             </FixedWidthDiv>

@@ -38,8 +38,15 @@ import { createNewMarkingCriteria } from '../../../service';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 import SortItems from '../../../components2/SortItems';
+import NoBgRoundedBlackBorderLight from '../../../components2/Buttons/NoBgRoundedBlackBorderLight';
 
-function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarkingCriterias, sortMarkingCriteria, setSortMarkingCriteria }) {
+function AccountSettingsMarkingCriteriaDeskt({
+  markingCriteriaList,
+  resetMarkingCriterias,
+  sortMarkingCriteria,
+  setSortMarkingCriteria,
+  handleFilterSystemOnes,
+}) {
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] = useState(false);
   const [isShowMenu, setShowMenu] = useState(false);
   const [isShowExportMarkingCriteriaPopup, setIsShowExportMarkingCriteriaPopup] = useState(false)
@@ -160,6 +167,10 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
                 )}
               </CreateButtonContainer>
               <RightSideOptions>
+                <NoBgRoundedBlackBorderLight
+                  text="Only mine"
+                  onclick={handleFilterSystemOnes}
+                />
                 <SortItems
                   sortData={sortMarkingCriteria}
                   setSortData={setSortMarkingCriteria}

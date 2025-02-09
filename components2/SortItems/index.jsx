@@ -24,21 +24,18 @@ const SortItems = ({
 
       <>
         <SortButton
-          style={{
-            backgroundColor: sortItem ? '#51009F' : '',
-            border: '1px solid #8E33E6',
-          }}
+          isClicked={sortItem}
           onClick={() => setSortItem(true)}
         >
-          <SortButtonText style={{ color: sortItem ? '#FFFFFF' : '' }}>
+          <SortButtonText isClicked={sortItem}>
             {firstSortText}
           </SortButtonText>
         </SortButton>
         <SortButton
-          style={{ backgroundColor: !sortItem ? '#51009F' : '' }}
+          isClicked={sortItem === false}
           onClick={() => setSortItem(false)}
         >
-          <SortButtonText style={{ color: !sortItem ? '#FFFFFF' : '' }}>
+          <SortButtonText isClicked={sortItem === false}>
             {secondSortText}
           </SortButtonText>
         </SortButton>

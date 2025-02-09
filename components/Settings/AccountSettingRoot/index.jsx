@@ -16,7 +16,7 @@ import { useMarkingCriterias } from '../../state/hooks.js';
 export default function AccountSettingsRoot(props) {
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
-  const [sortMarkingCriteria, setSortMarkingCriteria] = useState(true);
+  const [sortMarkingCriteria, setSortMarkingCriteria] = useState(null);
   const [isShowSystemMarkingCriteriasOnly, setIsShowSystemMarkingCriteriasOnly] = useState(false);
   const {
     data: markingCriterias,
@@ -90,6 +90,7 @@ export default function AccountSettingsRoot(props) {
       />
     ))
     .sort((a, b) => {
+      if (sortMarkingCriteria === null) return 0;
       const titleA = a.props.markingCriteria.title.toLowerCase();
       const titleB = b.props.markingCriteria.title.toLowerCase();
 

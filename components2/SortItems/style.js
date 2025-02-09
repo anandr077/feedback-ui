@@ -21,6 +21,7 @@ export const SortButton = styled.div`
   border-radius: 25px;
   border: 1px;
   border: 1px solid #7b7382;
+  background-color: ${(props) => props.isClicked ? '#51009F' : ''};
   cursor: pointer;
 `;
 
@@ -34,7 +35,7 @@ export const SortButtonText = styled.div`
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: #7b7382;
+  color: ${(props) => props.isClicked ? '#FFFFFF' : '#7b7382'};
   text-align: center;
 `;
 

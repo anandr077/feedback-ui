@@ -10,8 +10,8 @@ import {
 import SortSquare from '../../static/img/sort-square.svg';
 
 const SortItems = ({
-  sortData,
-  setSortData,
+  sortItem,
+  setSortItem,
   firstSortText,
   secondSortText
 }) => {
@@ -25,20 +25,20 @@ const SortItems = ({
       <>
         <SortButton
           style={{
-            backgroundColor: sortData ? '#51009F' : '',
+            backgroundColor: sortItem ? '#51009F' : '',
             border: '1px solid #8E33E6',
           }}
-          onClick={() => setSortData(true)}
+          onClick={() => setSortItem(true)}
         >
-          <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
+          <SortButtonText style={{ color: sortItem ? '#FFFFFF' : '' }}>
             {firstSortText}
           </SortButtonText>
         </SortButton>
         <SortButton
-          style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-          onClick={() => setSortData(false)}
+          style={{ backgroundColor: !sortItem ? '#51009F' : '' }}
+          onClick={() => setSortItem(false)}
         >
-          <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
+          <SortButtonText style={{ color: !sortItem ? '#FFFFFF' : '' }}>
             {secondSortText}
           </SortButtonText>
         </SortButton>

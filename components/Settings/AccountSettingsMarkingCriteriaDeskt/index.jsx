@@ -41,7 +41,7 @@ import SortItems from '../../../components2/SortItems';
 import NoBgRoundedBlackBorderLight from '../../../components2/Buttons/NoBgRoundedBlackBorderLight';
 
 function AccountSettingsMarkingCriteriaDeskt({
-  markingCriteriaList,
+  filteredAndSortedMarkingCriterias,
   resetMarkingCriterias,
   sortMarkingCriteria,
   setSortMarkingCriteria,
@@ -172,8 +172,8 @@ function AccountSettingsMarkingCriteriaDeskt({
                   onclick={handleFilterSystemOnes}
                 />
                 <SortItems
-                  sortData={sortMarkingCriteria}
-                  setSortData={setSortMarkingCriteria}
+                  sortItem={sortMarkingCriteria}
+                  setSortItem={setSortMarkingCriteria}
                   firstSortText={'A-Z'}
                   secondSortText={'Z-A'}
                 />
@@ -191,7 +191,7 @@ function AccountSettingsMarkingCriteriaDeskt({
               </RightSideOptions>
             </RightSideHeader>
 
-            <MarkingCriteriaList>{markingCriteriaList}</MarkingCriteriaList>
+            <MarkingCriteriaList>{filteredAndSortedMarkingCriterias}</MarkingCriteriaList>
           </Frame1302>
         </RightContainer>
       </InnerContainer>

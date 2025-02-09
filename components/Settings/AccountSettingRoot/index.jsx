@@ -17,7 +17,7 @@ export default function AccountSettingsRoot(props) {
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
   const [sortMarkingCriteria, setSortMarkingCriteria] = useState(true);
-  const [isSystemMarkingCriteria, setIsSystemMarkingCriteria] = useState(false);
+  const [isShowSystemMarkingCriteriasOnly, setIsShowSystemMarkingCriteriasOnly] = useState(false);
   const {
     data: markingCriterias,
     isLoadingdata: isLoadingMarkingCriterias,
@@ -77,9 +77,9 @@ export default function AccountSettingsRoot(props) {
       </>
     );
   }
-  const markingCriteriaList = markingCriterias
+  const filteredAndSortedMarkingCriterias = markingCriterias
     ?.filter((markingCriteria) =>
-      isSystemMarkingCriteria ? markingCriteria.isSystem : true
+      isShowSystemMarkingCriteriasOnly ? markingCriteria.isSystem : true
     )
     .map((markingCriteria, index) => (
       <MarkingCriteriaCard
@@ -100,14 +100,14 @@ export default function AccountSettingsRoot(props) {
 
   
   const handleFilterSystemOnes = () => {
-    setIsSystemMarkingCriteria(!isSystemMarkingCriteria);
+    setIsShowSystemMarkingCriteriasOnly(!isShowSystemMarkingCriteriasOnly);
   };
 
   return (
     <>
       <AccountSettingsMarkingCriteriaDeskt
         {...{
-          markingCriteriaList,
+          filteredAndSortedMarkingCriterias,
           resetMarkingCriterias,
           sortMarkingCriteria, 
           setSortMarkingCriteria,

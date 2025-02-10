@@ -292,13 +292,14 @@ export default function CreateNewStrengthAndTargets() {
       {isShowNavigationBlockPopup && (
         <GeneralPopup
           hidePopup={cancelNavigationPopup}
-          title="Save The Template"
-          textContent="Do you want to leave without saving?"
-          buttonText="Yes"
+          title="Unsaved Changes"
+          textContent="You have unsaved changes in your template. If you leave this page, your changes will be lost. Do you want to continue?"
+          buttonText="Leave Without Saving"
           confirmButtonAction={confirmNavigationChange}
-          closeBtnText="No"
+          closeBtnText="Stay on Page"
           cancelPopup={cancelNavigationPopup}
         />
+          
       )}
       <Header breadcrumbs={[markingMethodology?.title]} />
       <MainContainer>

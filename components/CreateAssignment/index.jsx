@@ -702,7 +702,10 @@ export default function CreateAssignment(props) {
         return;
       }
 
-    })
+    }).catch((error) => {
+      console.error(error);
+      toast(<Toast message="Could not update assignment, please refresh the page and try again." />);
+    });
   }
 
   const deleteAssignmentHandler = () => {

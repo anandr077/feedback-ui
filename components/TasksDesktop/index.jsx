@@ -15,22 +15,27 @@ import {
 } from './style.js';
 
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
+import UnderlinedGrayBtn from '../../components2/Buttons/UnderlinedGrayBtn/index.jsx';
+import { isShowMoreAssignedButton, isShowMoreDraftButton, isShowMoreInReviewButton } from './rules.js';
 
 function TasksDesktop(props) {
   const {
-    menuItems,
-    filterTasks,
-    assignmedTasks,
+    visibleAssignedTasks,
+    visibleInProgressTasks,
+    visibleInReviewTasks,
+    visibleInProgressTaskCount, 
+    visibleAssignedTaskCount,  
+    visibleInReviewTaskCount,
     inProgressTasks,
+    assignedTasks,
     inReviewTasks,
     frame19Props,
-    headingFilter,
-    arrowright,
     FilterSortAndCal,
     tasksSelected,
     isShowMenu,
     setShowMenu,
     MyCalendarFile,
+    handleShowMoreTask,
   } = props;
   return (
     <TaskScreenMainContainer>
@@ -49,12 +54,18 @@ function TasksDesktop(props) {
                 <Frame1354>
                   <TaskFrame1353
                     outstanding="Assigned"
-                    number={assignmedTasks.length}
+                    number={assignedTasks.length}
                   />
                   <TaskCardContainer
-                    allTasks={assignmedTasks}
+                    allTasks={visibleAssignedTasks}
                     className={frame19Props.className}
                   />
+                  {isShowMoreAssignedButton(visibleAssignedTaskCount, assignedTasks) && (
+                    <UnderlinedGrayBtn
+                      text={'Show more'}
+                      onclick={() => handleShowMoreTask('Assigned')}
+                    />
+                  )}
                 </Frame1354>
                 <Frame1354>
                   <TaskFrame1353
@@ -62,9 +73,15 @@ function TasksDesktop(props) {
                     number={inProgressTasks.length}
                   />
                   <TaskCardContainer
-                    allTasks={inProgressTasks}
+                    allTasks={visibleInProgressTasks}
                     className={frame19Props.className}
                   />
+                  {isShowMoreDraftButton(visibleInProgressTaskCount, inProgressTasks) && (
+                    <UnderlinedGrayBtn
+                      text={'Show more'}
+                      onclick={() => handleShowMoreTask('inDraft')}
+                    />
+                  )}
                 </Frame1354>
                 <Frame1358>
                   <TaskFrame1353
@@ -72,9 +89,15 @@ function TasksDesktop(props) {
                     number={inReviewTasks.length}
                   />
                   <TaskCardContainer
-                    allTasks={inReviewTasks}
+                    allTasks={visibleInReviewTasks}
                     className={frame19Props.className}
                   />
+                  {isShowMoreInReviewButton(visibleInReviewTaskCount, inReviewTasks)&& (
+                    <UnderlinedGrayBtn
+                      text={'Show more'}
+                      onclick={() => handleShowMoreTask('inReview')}
+                    />
+                  )}
                 </Frame1358>
               </Frame1359>
             </FixedWidthDiv>

@@ -1,12 +1,12 @@
-import React from 'react'
-import {
-  ButtonContainer
-} from './style';
+import React from 'react';
+import { ButtonContainer, Icon } from './style';
 
-const UnderlinedGrayBtn = ({text, onclick}) => {
+const UnderlinedGrayBtn = ({ text, onclick, rightIcon = null }) => {
   return (
-    <ButtonContainer onClick={onclick}>{text}</ButtonContainer>
-  )
-}
+    <ButtonContainer onClick={onclick}>
+      {text} {rightIcon && <Icon src={rightIcon} />}
+    </ButtonContainer>
+  );
+};
 
-export default UnderlinedGrayBtn
+export default UnderlinedGrayBtn;

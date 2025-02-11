@@ -42,7 +42,7 @@ export default function StudentTaskRoot() {
   const [tasksSelected, setTasksSelected] = React.useState(true);
   const [isShowMenu, setShowMenu] = React.useState(false);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
-  const [visibleInProgressTaskCount, setvisibleInProgressTaskCount] = useState(3);
+  const [visibleInProgressTaskCount, setVisibleInProgressTaskCount] = useState(3);
   const [visibleAssignedTaskCount, setvisibleAssignedTaskCount] = useState(3);
   const [visibleInReviewTaskCount, setvisibleInReviewTaskCount] = useState(3);
   const tabletView = isTabletView();
@@ -165,7 +165,7 @@ export default function StudentTaskRoot() {
 
   const handleShowMoreTask = (type) =>{
       if(type === "inDraft"){
-        setvisibleInProgressTaskCount(prev => prev + 3)
+        setVisibleInProgressTaskCount(prev => prev + 3)
       }
       if(type === 'Assigned'){
         setvisibleAssignedTaskCount(prev => prev + 3)

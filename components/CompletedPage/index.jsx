@@ -30,7 +30,6 @@ import {
 } from './style.js';
 
 import TaskHistoryDataComponent from './TaskHistoryDataComponent.jsx';
-import SortSquare from '../../static/img/sort-square.svg';
 import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf.js';
 import FilterSquare from '../../static/img/filter-square.svg';
 import RoundedDropDown from '../../components2/RoundedDropDown/index.jsx';
@@ -46,11 +45,12 @@ import { getUserRole } from '../../userLocalDetails.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 import { useAssignmentsAll, useClassData, useCompletedAll, useProfile } from '../state/hooks.js';
 import { duplicateAssignment } from '../../utils/function.js';
+import SortItems from '../../components2/SortItems/index.jsx';
 
 export default function CompletedPage() {
   const [tasks, setTasks] = React.useState([]);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
-  const [sortData, setSortData] = React.useState(true);
+  const [sortItem, setSortItem] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [isShowMenu, setShowMenu] = React.useState(false);
   const tabletView = isTabletView();
@@ -131,7 +131,7 @@ export default function CompletedPage() {
     const sortedTasks = filteredTasks.sort((a, b) => {
       const dateA = new Date(a.completedAt).getTime();
       const dateB = new Date(b.completedAt).getTime();
-      return sortData ? dateB - dateA : dateA - dateB;
+      return sortItem ? dateB - dateA : dateA - dateB;
     });
 
     return sortedTasks;
@@ -177,35 +177,12 @@ export default function CompletedPage() {
                 </>
               </FilterContainer>
               <FilterLine />
-              <SortContainer>
-                <SortHeading>
-                  <SortImg src={SortSquare} />
-                  <SortText>Sort by:</SortText>
-                </SortHeading>
-
-                <>
-                  <SortButton
-                    style={{ backgroundColor: sortData ? '#51009F' : '' }}
-                    onClick={() => setSortData(true)}
-                  >
-                    <SortButtonText
-                      style={{ color: sortData ? '#FFFFFF' : '' }}
-                    >
-                      New to Old
-                    </SortButtonText>
-                  </SortButton>
-                  <SortButton
-                    style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-                    onClick={() => setSortData(false)}
-                  >
-                    <SortButtonText
-                      style={{ color: !sortData ? '#FFFFFF' : '' }}
-                    >
-                      Old to New
-                    </SortButtonText>
-                  </SortButton>
-                </>
-              </SortContainer>
+              <SortItems
+                sortItem={sortItem}
+                setSortItem={setSortItem}
+                firstSortText={'New to Old'}
+                secondSortText={'Old to New'}
+              />
             </FilterAndSortContainer>
           </HeadingAndFilterCon>
           <LeftContentContainer>

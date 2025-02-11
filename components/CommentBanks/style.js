@@ -109,7 +109,7 @@ export const TabsPlusText = styled.div`
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: #ffffff;
+  color: #000000;
   text-wrap: nowrap;
 `;
 

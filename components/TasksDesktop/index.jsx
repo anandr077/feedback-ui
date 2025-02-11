@@ -16,7 +16,9 @@ import {
 
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
 import UnderlinedGrayBtn from '../../components2/Buttons/UnderlinedGrayBtn/index.jsx';
-import { isShowMoreAssignedButton, isShowMoreDraftButton, isShowMoreInReviewButton } from './rules.js';
+import { isShowAllAssignmentFunc, isShowAllButton, isShowAllDraftsFunc, isShowAllInReviewFunc } from './rules.js';
+import arrowDown from '../../static/img/arrowdown2.svg';
+import arrowUp from '../../static/img/arrowup2.svg';
 
 function TasksDesktop(props) {
   const {
@@ -37,6 +39,11 @@ function TasksDesktop(props) {
     MyCalendarFile,
     handleShowMoreTask,
   } = props;
+
+  const isShowAllAssignment = isShowAllAssignmentFunc(visibleAssignedTaskCount, assignedTasks);
+  const isShowAllDraft = isShowAllDraftsFunc(visibleInProgressTaskCount, inProgressTasks);
+  const isShowAllInReview = isShowAllInReviewFunc(visibleInReviewTaskCount, inReviewTasks);
+
   return (
     <TaskScreenMainContainer>
       <ImprovedSecondarySideBar
@@ -60,10 +67,16 @@ function TasksDesktop(props) {
                     allTasks={visibleAssignedTasks}
                     className={frame19Props.className}
                   />
-                  {isShowMoreAssignedButton(visibleAssignedTaskCount, assignedTasks) && (
+                  {isShowAllButton(assignedTasks) && (
                     <UnderlinedGrayBtn
-                      text={'Show more'}
-                      onclick={() => handleShowMoreTask('Assigned')}
+                      text={isShowAllAssignment ? 'Show all' : 'Show less'}
+                      onclick={() =>
+                        handleShowMoreTask(
+                          'Assigned',
+                          isShowAllAssignment ? assignedTasks.length : 3
+                        )
+                      }
+                      rightIcon={isShowAllAssignment ? arrowDown : arrowUp}
                     />
                   )}
                 </Frame1354>
@@ -76,10 +89,16 @@ function TasksDesktop(props) {
                     allTasks={visibleInProgressTasks}
                     className={frame19Props.className}
                   />
-                  {isShowMoreDraftButton(visibleInProgressTaskCount, inProgressTasks) && (
+                  {isShowAllButton(inProgressTasks) && (
                     <UnderlinedGrayBtn
-                      text={'Show more'}
-                      onclick={() => handleShowMoreTask('inDraft')}
+                      text={isShowAllDraft ? 'Show all' : 'Show less'}
+                      onclick={() =>
+                        handleShowMoreTask(
+                          'inDraft',
+                          isShowAllDraft ? inProgressTasks.length : 3
+                        )
+                      }
+                      rightIcon={isShowAllDraft ? arrowDown : arrowUp}
                     />
                   )}
                 </Frame1354>
@@ -92,10 +111,16 @@ function TasksDesktop(props) {
                     allTasks={visibleInReviewTasks}
                     className={frame19Props.className}
                   />
-                  {isShowMoreInReviewButton(visibleInReviewTaskCount, inReviewTasks)&& (
+                  {isShowAllButton(inReviewTasks) && (
                     <UnderlinedGrayBtn
-                      text={'Show more'}
-                      onclick={() => handleShowMoreTask('inReview')}
+                      text={isShowAllInReview ? 'Show all' : 'Show less'}
+                      onclick={() =>
+                        handleShowMoreTask(
+                          'inReview',
+                          isShowAllInReview ? inReviewTasks.length : 3
+                        )
+                      }
+                      rightIcon={isShowAllInReview ? arrowDown : arrowUp}
                     />
                   )}
                 </Frame1358>

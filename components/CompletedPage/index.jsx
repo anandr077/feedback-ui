@@ -7,12 +7,6 @@ import {
   FilterAndSortContainer,
   FilterContainer,
   FilterLine,
-  SortButton,
-  SortButtonText,
-  SortContainer,
-  SortHeading,
-  SortImg,
-  SortText,
 } from '../FilterSort/style.js';
 import {
   Title,

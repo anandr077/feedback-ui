@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getTasks, getClasses } from '../../service';
 import ReactiveRender, { isTabletView } from '../ReactiveRender';
 import TasksDesktop from '../TasksDesktop';
@@ -46,10 +46,12 @@ export default function StudentTaskRoot() {
   const [sortData, setSortData] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [tasksSelected, setTasksSelected] = React.useState(true);
-   const [isShowMenu, setShowMenu] = React.useState(false);
-   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
-
-   const tabletView = isTabletView();
+  const [isShowMenu, setShowMenu] = React.useState(false);
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
+  const [visibleInProgressTaskCount, setvisibleInProgressTaskCount] = useState(3);
+  const [visibleAssignedTaskCount, setvisibleAssignedTaskCount] = useState(3);
+  const [visibleInReviewTaskCount, setvisibleInReviewTaskCount] = useState(3);
+  const tabletView = isTabletView();
 
   const tasksQuery = useQuery({
     queryKey: ['tasks'],
@@ -109,12 +111,16 @@ export default function StudentTaskRoot() {
       .filter((task) => task.progressStatus === progressStatus)
       .filter((task) => !selectedClass || task.classTitle === selectedClass);
 
-  const assignmedTasks = filterTasksByProgressAndClass(
+  const assignedTasks = filterTasksByProgressAndClass(
     filteredTasks,
     'ASSIGNED'
   );
   const inProgressTasks = filterTasksByProgressAndClass(filteredTasks, 'DRAFT');
   const inReviewTasks = filterTasksByProgressAndClass(filteredTasks, 'REVIEW');
+
+  const visibleInProgressTasks = inProgressTasks.slice(0, visibleInProgressTaskCount);
+  const visibleAssignedTasks = assignedTasks.slice(0, visibleAssignedTaskCount);
+  const visibleInReviewTasks = inReviewTasks.slice(0, visibleInReviewTaskCount);
 
   const classesItems = classes.map((clazz) => {
     return { value: clazz.id, label: clazz.title, category: 'CLASSES' };
@@ -162,6 +168,18 @@ export default function StudentTaskRoot() {
 
     setFilteredTasks(filteredClasses);
   };
+
+  const handleShowMoreTask = (type) =>{
+      if(type === "inDraft"){
+        setvisibleInProgressTaskCount(prev => prev + 3)
+      }
+      if(type === 'Assigned'){
+        setvisibleAssignedTaskCount(prev => prev + 3)
+      }
+      if(type === 'inReview'){
+        setvisibleInReviewTaskCount(prev => prev + 3)
+      }
+  }
 
 
 
@@ -275,17 +293,23 @@ export default function StudentTaskRoot() {
     }));
 
   const MyCalendarFile = <MyCalendar calenderEvents={calenderEvents} />;
+
   return (
     <TasksDesktop
       {...{
-        menuItems,
-        filterTasks,
-        assignmedTasks,
+        visibleAssignedTasks,
+        visibleInProgressTasks,
+        visibleInReviewTasks,
+        visibleInProgressTaskCount, 
+        visibleAssignedTaskCount,  
+        visibleInReviewTaskCount,
         inProgressTasks,
+        assignedTasks,
         inReviewTasks,
         FilterSortAndCal,
         tasksSelected,
         MyCalendarFile,
+        handleShowMoreTask,
         isShowMenu,
         setShowMenu,
         ...tasksDesktopData(classData),

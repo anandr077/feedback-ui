@@ -39,6 +39,7 @@ import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 import SortItems from '../../../components2/SortItems';
 import NoBgRoundedBlackBorderLight from '../../../components2/Buttons/NoBgRoundedBlackBorderLight';
+import SearchItems from '../../../components2/SearchItems';
 
 function AccountSettingsMarkingCriteriaDeskt({
   filteredAndSortedMarkingCriterias,
@@ -46,6 +47,8 @@ function AccountSettingsMarkingCriteriaDeskt({
   sortMarkingCriteria,
   setSortMarkingCriteria,
   handleFilterSystemOnes,
+  searchMarkingCriteria, 
+  setSearchMarkingCriteria
 }) {
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] = useState(false);
   const [isShowMenu, setShowMenu] = useState(false);
@@ -167,6 +170,11 @@ function AccountSettingsMarkingCriteriaDeskt({
                 )}
               </CreateButtonContainer>
               <RightSideOptions>
+                <SearchItems 
+                  placeholderText={"Search Marking Criteria"}
+                  searchValue={searchMarkingCriteria}
+                  onSearch={setSearchMarkingCriteria}
+                />
                 <NoBgRoundedBlackBorderLight
                   text="Only mine"
                   onclick={handleFilterSystemOnes}

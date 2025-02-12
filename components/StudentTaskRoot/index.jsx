@@ -163,15 +163,15 @@ export default function StudentTaskRoot() {
     setFilteredTasks(filteredClasses);
   };
 
-  const handleShowMoreTask = (type) =>{
+  const handleShowMoreTask = (type, numberOfTasks) =>{
       if(type === "inDraft"){
-        setVisibleInProgressTaskCount(prev => prev + 3)
+        setVisibleInProgressTaskCount(numberOfTasks)
       }
       if(type === 'Assigned'){
-        setvisibleAssignedTaskCount(prev => prev + 3)
+        setvisibleAssignedTaskCount(numberOfTasks)
       }
       if(type === 'inReview'){
-        setvisibleInReviewTaskCount(prev => prev + 3)
+        setvisibleInReviewTaskCount(numberOfTasks)
       }
   }
 

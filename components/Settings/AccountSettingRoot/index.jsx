@@ -18,6 +18,7 @@ export default function AccountSettingsRoot(props) {
     React.useState(false);
   const [sortMarkingCriteria, setSortMarkingCriteria] = useState(null);
   const [isShowSystemMarkingCriteriasOnly, setIsShowSystemMarkingCriteriasOnly] = useState(false);
+  const [searchMarkingCriteria, setSearchMarkingCriteria] = useState('')
   const {
     data: markingCriterias,
     isLoadingdata: isLoadingMarkingCriterias,
@@ -77,27 +78,33 @@ export default function AccountSettingsRoot(props) {
       </>
     );
   }
-  const filteredAndSortedMarkingCriterias = markingCriterias
-    ?.filter((markingCriteria) =>
-      isShowSystemMarkingCriteriasOnly ? markingCriteria.isSystem : true
-    )
-    .map((markingCriteria, index) => (
-      <MarkingCriteriaCard
-        key={Math.random()}
-        markingCriteria={markingCriteria}
-        deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
-        cloneMarkingCriteria={() => createMarkingCriteria(markingCriteria)}
-      />
-    ))
-    .sort((a, b) => {
-      if (sortMarkingCriteria === null) return 0;
-      const titleA = a.props.markingCriteria.title.toLowerCase();
-      const titleB = b.props.markingCriteria.title.toLowerCase();
+  let filteredCriterias = markingCriterias?.filter((criteria) =>
+    isShowSystemMarkingCriteriasOnly ? criteria.isSystem : true
+  ) || [];
 
+  if (searchMarkingCriteria) {
+    filteredCriterias = filteredCriterias.filter((criteria) =>
+      criteria.title.toLowerCase().includes(searchMarkingCriteria.toLowerCase())
+    );
+  }
+  if (sortMarkingCriteria !== null) {
+    filteredCriterias.sort((a, b) => {
+      const titleA = a.title.toLowerCase();
+      const titleB = b.title.toLowerCase();
       return sortMarkingCriteria
         ? titleA.localeCompare(titleB)
         : titleB.localeCompare(titleA);
     });
+  }
+
+  const filteredAndSortedMarkingCriterias = filteredCriterias.map((criteria, index) => (
+    <MarkingCriteriaCard
+      key={criteria.id || index}
+      markingCriteria={criteria}
+      deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
+      cloneMarkingCriteria={() => createMarkingCriteria(criteria)}
+    />
+  ));
 
   
   const handleFilterSystemOnes = () => {
@@ -112,7 +119,9 @@ export default function AccountSettingsRoot(props) {
           resetMarkingCriterias,
           sortMarkingCriteria, 
           setSortMarkingCriteria,
-          handleFilterSystemOnes
+          handleFilterSystemOnes,
+          searchMarkingCriteria, 
+          setSearchMarkingCriteria
         }}
       />
       {openMarkingMethodologyDialog && (

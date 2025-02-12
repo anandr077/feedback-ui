@@ -1,29 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import ArrowUp from '../../static/img/arrowup2.svg';
+import ArrowDown from '../../static/img/arrowdown2.svg';
 
 const ModalForSelectOption = ({
   onClose,
   optionsToSelect,
   onClickOption,
 }) => {
+  const [showCommentSuggestions, setShowCommentSuggestions] = useState(false);
 
   return (
     <MainContainer>
       <ModalContent>
         {optionsToSelect?.map((comment, idx) => (
           <div key={idx}>
-            <CommentTitle>{comment.title}</CommentTitle>
-            {comment?.suggestions?.map((suggestion, index) => (
-              <SuggestionComment
-                key={index}
-                onClick={() => {
-                  onClickOption(comment.title + '\n\n' + suggestion);
-                  onClose(false);   
-                }}
-              >
-                {suggestion}
-              </SuggestionComment>
-            ))}
+            <CommentTitle
+              onClick={() =>
+                setShowCommentSuggestions((prev) =>
+                  prev === idx ? false : idx
+                )
+              }
+            >
+              {comment.title}{' '}
+              <ArrowIcon
+                src={showCommentSuggestions === idx ? ArrowUp : ArrowDown}
+              />
+            </CommentTitle>
+            {showCommentSuggestions === idx &&
+              comment?.suggestions?.map((suggestion, index) => (
+                <SuggestionComment
+                  key={index}
+                  onClick={() => {
+                    onClickOption(comment.title + '\n\n' + suggestion);
+                    onClose(false);
+                  }}
+                >
+                  {suggestion}
+                </SuggestionComment>
+              ))}
           </div>
         ))}
       </ModalContent>
@@ -71,6 +86,10 @@ const CommentTitle = styled.h1`
   font-size: var(--font-size-s);
   line-height: 17px;
   border-bottom: 1px solid rgba(201, 198, 204, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const SuggestionComment = styled.p`
@@ -86,6 +105,10 @@ const SuggestionComment = styled.p`
   &:hover {
     background-color: #f8f8f8;
   }
+`;
+
+const ArrowIcon = styled.img`
+  width: 15px;
 `;
 
 

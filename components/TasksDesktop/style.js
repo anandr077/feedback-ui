@@ -66,6 +66,7 @@ export const Frame1354 = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 0px;
+  padding-bottom: 10px;
   position: relative;
   flex: 1;
   max-height: 100%;
@@ -80,6 +81,7 @@ export const Frame1358 = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 0px;
+  padding-bottom: 10px;
   position: relative;
   flex: 1;
   flex-grow: 1;

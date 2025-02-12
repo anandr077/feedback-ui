@@ -9,6 +9,7 @@ import {
   RightSideHeader,
   CreateButtonContainer,
   ImportFileLabel,
+  RightSideOptions,
   CardImgCont,
   CardImg,
   CardTitle,
@@ -36,8 +37,19 @@ import { importJsonFile, validateRubric, validateStrengthsTargets } from '../../
 import { createNewMarkingCriteria } from '../../../service';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
+import SortItems from '../../../components2/SortItems';
+import NoBgRoundedBlackBorderLight from '../../../components2/Buttons/NoBgRoundedBlackBorderLight';
+import SearchItems from '../../../components2/SearchItems';
 
-function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarkingCriterias }) {
+function AccountSettingsMarkingCriteriaDeskt({
+  filteredAndSortedMarkingCriterias,
+  resetMarkingCriterias,
+  sortMarkingCriteria,
+  setSortMarkingCriteria,
+  handleFilterSystemOnes,
+  searchMarkingCriteria, 
+  setSearchMarkingCriteria
+}) {
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] = useState(false);
   const [isShowMenu, setShowMenu] = useState(false);
   const [isShowExportMarkingCriteriaPopup, setIsShowExportMarkingCriteriaPopup] = useState(false)
@@ -45,6 +57,7 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
   const tabletView = isTabletView();
   const divRef = useRef(null);
   const history = useHistory();
+
 
   const handleClickOutside = (event) => {
     if (divRef.current && !divRef.current.contains(event.target)) {
@@ -156,20 +169,37 @@ function AccountSettingsMarkingCriteriaDeskt({ markingCriteriaList, resetMarking
                   </PopUpContainer>
                 )}
               </CreateButtonContainer>
-              <ImportFileLabel>
-                <CardImgCont>
-                  <CardImg src={DownlaodIcon} rotate={true} />
-                </CardImgCont>
-                <CardTitle>Import</CardTitle>
-                <ImportFile
-                  type="file"
-                  accept=".mc"
-                  onChange={handleMarkingCriteriaImport}
+              <RightSideOptions>
+                <SearchItems 
+                  placeholderText={"Search Marking Criteria"}
+                  searchValue={searchMarkingCriteria}
+                  onSearch={setSearchMarkingCriteria}
                 />
-              </ImportFileLabel>
+                <NoBgRoundedBlackBorderLight
+                  text="Only mine"
+                  onclick={handleFilterSystemOnes}
+                />
+                <SortItems
+                  sortItem={sortMarkingCriteria}
+                  setSortItem={setSortMarkingCriteria}
+                  firstSortText={'A-Z'}
+                  secondSortText={'Z-A'}
+                />
+                <ImportFileLabel>
+                  <CardImgCont>
+                    <CardImg src={DownlaodIcon} rotate={true} />
+                  </CardImgCont>
+                  <CardTitle>Import</CardTitle>
+                  <ImportFile
+                    type="file"
+                    accept=".mc"
+                    onChange={handleMarkingCriteriaImport}
+                  />
+                </ImportFileLabel>
+              </RightSideOptions>
             </RightSideHeader>
 
-            <MarkingCriteriaList>{markingCriteriaList}</MarkingCriteriaList>
+            <MarkingCriteriaList>{filteredAndSortedMarkingCriterias}</MarkingCriteriaList>
           </Frame1302>
         </RightContainer>
       </InnerContainer>

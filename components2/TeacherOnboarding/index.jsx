@@ -7,32 +7,40 @@ import OnboardingHomeSection from './OnboardingHomeSection';
 import { sidebarButtonText, mainSectionContent } from './onboardingContents';
 import CloseButton from '../Buttons/CloseButton';
 import { isOnboardingHome } from './rules';
+import OnboardingIntroduceSection from './OnboardingIntroduceSection';
+import DummyOnboardingSetup from './DummyOnboardingSetup';
 
 const TeacherOnboarding = ({ onCloseOnboarding }) => {
+  const [activeSlide, setActiveSlide] = useState(0);
   const [currentMainSection, setCurrentMainSection] = useState(0);
-  const [showOnboardingHomePage, setShowOnboardingHomePage] = useState(true);
   const handleMainSectionChange = (curr) => {
     setCurrentMainSection(curr);
   };
 
   const lastItem = currentMainSection === sidebarButtonText.length - 1;
   const handleNextButtonClick = () => {
-    if (lastItem) {
-      onCloseOnboarding(); 
-    } else {
-      handleMainSectionChange((prevIdx) => prevIdx + 1); 
+    if (activeSlide === 2) {
+      if (lastItem) {
+        setActiveSlide(3);
+      } else {
+        setCurrentMainSection((prevIdx) => prevIdx + 1);
+      }
     }
   };
 
 
   const handlePreviousButtonClick = () => {
-    handleMainSectionChange((prevIdx) => {
+    if (activeSlide === 2) {
       if (currentMainSection === 0) {
-        setShowOnboardingHomePage(true);
-        return prevIdx;
-      } 
-      return prevIdx - 1;
-    });
+        setActiveSlide(1);
+      } else {
+        setCurrentMainSection((prevIdx) => prevIdx - 1);
+      }
+    }
+  };
+
+  const handleIntroduceSlideChange = (slideNum) => {
+    setActiveSlide(slideNum);
   };
 
   return (
@@ -49,16 +57,20 @@ const TeacherOnboarding = ({ onCloseOnboarding }) => {
         },
       }}
     >
-      {isOnboardingHome(showOnboardingHomePage) ? (
-        <OnboardingHomeSection
-          currentSlide={setShowOnboardingHomePage}
-        />
-      ) : (
+      {activeSlide === 0 && (
+        <OnboardingHomeSection onNext={() => setActiveSlide(1)} />
+      )}
+
+      {activeSlide === 1 && (
+        <OnboardingIntroduceSection onSlideChange={handleIntroduceSlideChange} onCloseOnboarding={onCloseOnboarding}/>
+      )}
+
+      {activeSlide === 2 && (
         <DialogContent>
           <MainContainer>
             <CloseButton onclickFn={onCloseOnboarding} />
             <SideMenuBar
-              menuTitle={"Starter's guide"}
+              menuTitle="Starter's guide"
               menuItems={sidebarButtonText}
               currentItem={currentMainSection}
               onClickMenuItem={handleMainSectionChange}
@@ -71,6 +83,9 @@ const TeacherOnboarding = ({ onCloseOnboarding }) => {
             />
           </MainContainer>
         </DialogContent>
+      )}
+      {activeSlide === 3 && (
+        <DummyOnboardingSetup closeOnboarding={onCloseOnboarding}/>
       )}
     </Dialog>
   );

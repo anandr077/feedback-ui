@@ -29,7 +29,6 @@ import {
   MarkingCriteriaList,
 } from './style';
 import QuestionTooltip from '../../components2/QuestionTooltip';
-import { useHistory } from 'react-router-dom';
 import QuestionFieldSelection from './QuestionFieldSelection';
 import { appendFunction } from '../FeedbacksComponents/FeedbacksRoot/rules';
 
@@ -54,7 +53,6 @@ export default function TheoryQuestionFrame(props) {
     allCommentBanks,
     setIsChanged,
   } = props;
-  const history = useHistory();
 
   const selectedMarkingCriteriaIndex = allMarkingCriterias?.findIndex(
     (item) => {
@@ -123,7 +121,10 @@ export default function TheoryQuestionFrame(props) {
         <MarkingCriteriaSelectionContainer>
           <QuestionFieldSelection 
            label='Marking Template'
-           items = {allMarkingCriterias}
+           items={allMarkingCriterias.map((m) => ({
+              ...m,
+              title: `${m.title} ${m.type === "RUBRICS" ? '(R)' : '(S&T)'}`
+            }))}
            tooltipText = "Select a Rubric (R) or list of Strengths and Targets (S&T) to use as overall feedback for this task. After reading a student's response, click on the applicable performance level/s or strengths and targets"
           onItemSelected = {updateMarkingCriteria}
           setIsChanged ={setIsChanged}

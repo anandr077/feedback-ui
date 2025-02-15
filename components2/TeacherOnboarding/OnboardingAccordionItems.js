@@ -44,27 +44,38 @@ export const accordionItems = [
         </Typography>
         <Typography>With JeddAI, you can:</Typography>
         <ul
-          style={{ listStyleType: 'disc', paddingLeft: '1.5em', marginTop: 0, marginBottom: 10 }}
+          style={{
+            listStyleType: 'disc',
+            paddingLeft: '1.5em',
+            marginTop: 0,
+            marginBottom: 10,
+          }}
         >
           <li>
             <Typography component="span">
-              Set work for your class: Create formative writing tasks
-              with options for self-assessment and peer-to-peer feedback to
-              encourage student reflection and collaboration. Submissions can be
-              typed or handwritten.
+              <Typography component="span" sx={{ fontWeight: 'bold' }}>
+                Set work for your class:
+              </Typography>{' '}
+              Create formative writing tasks with options for self-assessment
+              and peer-to-peer feedback to encourage student reflection and
+              collaboration. Submissions can be typed or handwritten.
             </Typography>
           </li>
           <li>
             <Typography component="span">
-              Accelerate your feedback: Customise rubrics and comment
-              banks to provide detailed, actionable feedback to students in just
-              one click.
+              <Typography component="span" sx={{ fontWeight: 'bold' }}>
+                Accelerate your feedback:
+              </Typography>{' '}
+              Customise rubrics and comment banks to provide detailed,
+              actionable feedback to students in just one click.
             </Typography>
           </li>
           <li>
             <Typography component="span">
-              Use your personal AI-marking assistant: Use our
-              teacher-trained AI-marking assistant to generate feedback
+              <Typography component="span" sx={{ fontWeight: 'bold' }}>
+                Use your personal AI-marking assistant:
+              </Typography>{' '}
+              Use our teacher-trained AI-marking assistant to generate feedback
               suggestions on student work in less than 60 seconds (yes,
               seconds). Specifically, JeddAI can provide a first draft of
               personalised feedback on a student’s response (all of which is
@@ -93,7 +104,14 @@ export const accordionItems = [
           already been registered using details provided by your school
           administrator or head of department.
         </Typography>
-        <ul style={{ listStyleType: 'disc', paddingLeft: '1.5em', marginTop: 0, marginBottom: 10 }}>
+        <ul
+          style={{
+            listStyleType: 'disc',
+            paddingLeft: '1.5em',
+            marginTop: 0,
+            marginBottom: 10,
+          }}
+        >
           <li>
             <Typography component="span">
               To view your classes, navigate to the ‘Class Insights’ tab. Class
@@ -113,10 +131,16 @@ export const accordionItems = [
           case).
         </Typography>
         <Typography>
-          Username: school email address (lower case)
+          <Typography component="span" sx={{ fontWeight: 'bold' }}>
+            Username:
+          </Typography>{' '}
+          school email address (lower case)
         </Typography>
         <Typography paragraph>
-          Password: school email address (lower case)
+          <Typography component="span" sx={{ fontWeight: 'bold' }}>
+            Password:
+          </Typography>{' '}
+          school email address (lower case)
         </Typography>
         <Typography paragraph>
           If you require any changes for your class lists, email us at
@@ -143,11 +167,18 @@ export const accordionItems = [
         <Typography paragraph>
           JeddAI uses your selected rubrics and comment banks to provide:
         </Typography>
-        <ul style={{ listStyleType: 'disc', paddingLeft: '1.5em', marginTop: 0 }}>
+        <ul
+          style={{
+            listStyleType: 'disc',
+            paddingLeft: '1.5em',
+            marginTop: 0,
+            marginBottom: 10,
+          }}
+        >
           <li>
             <Typography component="span">
-              Specific in-text annotations (like comments on a Word
-              Document or Google Docs) with personalised suggestions.
+              Specific in-text annotation (like comments on a Word Document or
+              Google Docs) with personalised suggestions.
             </Typography>
           </li>
           <li>
@@ -157,8 +188,8 @@ export const accordionItems = [
           </li>
           <li>
             <Typography component="span">
-              Indicative grading based on the provided rubric (if enabled
-              in ‘Marking Tools’).
+              Indicative grading based on the provided rubric (if enabled in
+              ‘Marking Tools’).
             </Typography>
           </li>
         </ul>
@@ -193,7 +224,7 @@ export const accordionItems = [
           step-by-step video tutorials for each feature.
         </Typography>
         <Typography paragraph>If you need additional support:</Typography>
-        <ul style={{ listStyleType: 'disc', paddingLeft: '1.5em', marginTop: 0 }}>
+        <ul>
           <li>
             <Typography component="span">
               Click the help icon in the top right corner.
@@ -207,13 +238,15 @@ export const accordionItems = [
           <li>
             <Typography component="span">
               Schedule a personalised onboarding session using this{' '}
-              <a
-                href="https://calendly.com/d/zhj-c6q-pkq/jeddle-demonstration"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                link
-              </a>
+              <Typography component="span" sx={{ fontWeight: 'bold' }}>
+                <a
+                  href="https://calendly.com/d/zhj-c6q-pkq/jeddle-demonstration"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  link
+                </a>
+              </Typography>
               .
             </Typography>
           </li>

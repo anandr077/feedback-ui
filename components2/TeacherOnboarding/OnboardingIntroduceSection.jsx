@@ -53,6 +53,7 @@ const OnboardingIntroduceSection = ({ onSlideChange, onCloseOnboarding }) => {
                 <AccordionDetails
                   sx={{
                     fontFamily: 'IBM Plex Sans, sans-serif',
+                    paddingLeft: '25px',
                     '& *': {
                       fontFamily: 'IBM Plex Sans, sans-serif !important',
                     },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   DialogContent,
   Accordion,
@@ -14,11 +14,17 @@ import {
   ButtonContainer,
   AccordionSection,
   IntroBodySection,
-  AccordionTitle
+  AccordionTitle,
 } from './OnboardingIntroduceStyle';
 import { accordionItems } from './OnboardingAccordionItems';
 
 const OnboardingIntroduceSection = ({ onSlideChange, onCloseOnboarding }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+
   return (
     <DialogContent>
       <CloseButton onclickFn={onCloseOnboarding} />
@@ -30,6 +36,8 @@ const OnboardingIntroduceSection = ({ onSlideChange, onCloseOnboarding }) => {
               <Accordion
                 key={index}
                 disableGutters
+                expanded={expanded === index}
+                onChange={handleChange(index)}
                 sx={{
                   boxShadow: 'none',
                   '&:before': { display: 'none' },
@@ -42,7 +50,16 @@ const OnboardingIntroduceSection = ({ onSlideChange, onCloseOnboarding }) => {
                 >
                   <AccordionTitle>{item.title}</AccordionTitle>
                 </AccordionSummary>
-                <AccordionDetails>{item.content}</AccordionDetails>
+                <AccordionDetails
+                  sx={{
+                    fontFamily: 'IBM Plex Sans, sans-serif',
+                    '& *': {
+                      fontFamily: 'IBM Plex Sans, sans-serif !important',
+                    },
+                  }}
+                >
+                  {item.content}
+                </AccordionDetails>
               </Accordion>
             ))}
           </AccordionSection>

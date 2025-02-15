@@ -42,29 +42,37 @@ export const accordionItems = [
           hours on marking while helping students improve their writing through
           fast and reliable feedback.
         </Typography>
-        <Typography paragraph>With JeddAI, you can:</Typography>
-        <ul>
+        <Typography>With JeddAI, you can:</Typography>
+        <ul
+          style={{ listStyleType: 'disc', paddingLeft: '1.5em', marginTop: 0, marginBottom: 10 }}
+        >
           <li>
-            <b>Set work for your class:</b> Create formative writing tasks with
-            options for self-assessment and peer-to-peer feedback to encourage
-            student reflection and collaboration. Submissions can be typed or
-            handwritten.
+            <Typography component="span">
+              Set work for your class: Create formative writing tasks
+              with options for self-assessment and peer-to-peer feedback to
+              encourage student reflection and collaboration. Submissions can be
+              typed or handwritten.
+            </Typography>
           </li>
           <li>
-            <b>Accelerate your feedback:</b> Customise rubrics and comment banks
-            to provide detailed, actionable feedback to students in just one
-            click.
+            <Typography component="span">
+              Accelerate your feedback: Customise rubrics and comment
+              banks to provide detailed, actionable feedback to students in just
+              one click.
+            </Typography>
           </li>
           <li>
-            <b>Use your personal AI-marking assistant:</b> Use our
-            teacher-trained AI-marking assistant to generate feedback
-            suggestions on student work in less than 60 seconds (yes, seconds).
-            Specifically, JeddAI can provide a first draft of personalised
-            feedback on a student’s response (all of which is tailored to your
-            chosen rubric and comment bank for that task), before allowing you
-            to edit and share those suggestions with the student. Talk about a
-            headstart! This allows students to receive feedback that is timely,
-            relevant, and actionable.
+            <Typography component="span">
+              Use your personal AI-marking assistant: Use our
+              teacher-trained AI-marking assistant to generate feedback
+              suggestions on student work in less than 60 seconds (yes,
+              seconds). Specifically, JeddAI can provide a first draft of
+              personalised feedback on a student’s response (all of which is
+              tailored to your chosen rubric and comment bank for that task),
+              before allowing you to edit and share those suggestions with the
+              student. Talk about a headstart! This allows students to receive
+              feedback that is timely, relevant, and actionable.
+            </Typography>
           </li>
         </ul>
         <Typography paragraph>
@@ -85,7 +93,7 @@ export const accordionItems = [
           already been registered using details provided by your school
           administrator or head of department.
         </Typography>
-        <ul>
+        <ul style={{ listStyleType: 'disc', paddingLeft: '1.5em', marginTop: 0, marginBottom: 10 }}>
           <li>
             <Typography component="span">
               To view your classes, navigate to the ‘Class Insights’ tab. Class
@@ -104,11 +112,11 @@ export const accordionItems = [
           default password is the same as their school email address (lower
           case).
         </Typography>
-        <Typography paragraph>
-          <b>Username:</b> school email address (lower case)
+        <Typography>
+          Username: school email address (lower case)
         </Typography>
         <Typography paragraph>
-          <b>Password:</b> school email address (lower case)
+          Password: school email address (lower case)
         </Typography>
         <Typography paragraph>
           If you require any changes for your class lists, email us at
@@ -133,23 +141,23 @@ export const accordionItems = [
     content: (
       <>
         <Typography paragraph>
-          <b>JeddAI</b> uses your selected rubrics and comment banks to provide:
+          JeddAI uses your selected rubrics and comment banks to provide:
         </Typography>
-        <ul>
+        <ul style={{ listStyleType: 'disc', paddingLeft: '1.5em', marginTop: 0 }}>
           <li>
             <Typography component="span">
-              <b>Specific in-text annotations</b> (like comments on a Word
+              Specific in-text annotations (like comments on a Word
               Document or Google Docs) with personalised suggestions.
             </Typography>
           </li>
           <li>
             <Typography component="span">
-              <b>Overall feedback</b> based on strengths and target areas.
+              Overall feedback based on strengths and target areas.
             </Typography>
           </li>
           <li>
             <Typography component="span">
-              <b>Indicative grading</b> based on the provided rubric (if enabled
+              Indicative grading based on the provided rubric (if enabled
               in ‘Marking Tools’).
             </Typography>
           </li>
@@ -185,7 +193,7 @@ export const accordionItems = [
           step-by-step video tutorials for each feature.
         </Typography>
         <Typography paragraph>If you need additional support:</Typography>
-        <ul>
+        <ul style={{ listStyleType: 'disc', paddingLeft: '1.5em', marginTop: 0 }}>
           <li>
             <Typography component="span">
               Click the help icon in the top right corner.

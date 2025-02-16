@@ -44,7 +44,7 @@ function HeaderTitle({ breadcrumbs }) {
     },
     {
       link: '/giveFeedback',
-      title: isTeacher(role) ? 'Feedback From Me' : 'Help a Friend',
+      title: isTeacher(role) ? 'Feedback Requests' : 'Help a Friend',
       teacherTooltip: 'Provide personalized feedback',
       studentTooltip:
         'Help other students who have requested feedback from the community',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DialogContent } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import {
@@ -18,13 +18,22 @@ import {
 import CloseButton from '../Buttons/CloseButton/index.jsx';
 import { MainTitle, Subtitle } from './teacherOnboardingMainSectionStyle.js';
 import RectangularBigBtn from '../Buttons/RectangularbigBtn/index.jsx';
+import { useClassData } from '../../components/state/hooks.js';
+import Loader from '../../components/Loader/index.jsx';
 
 const DummyOnboardingSetup = ({ closeOnboarding }) => {
   const history = useHistory();
+  const [selectedClassIndex, setSelectedClassIndex] = useState(0);
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
+  console.log('classData classData', classData);
   const handleCreateTaskClick = () => {
     history.push('/tasks/new');
     closeOnboarding();
   };
+
+  if(isLoadingclassData){
+    return <Loader />
+  }
   return (
     <DialogContent>
       <CloseButton onclickFn={closeOnboarding} />
@@ -42,24 +51,29 @@ const DummyOnboardingSetup = ({ closeOnboarding }) => {
           </UserSection>
           <ClassSection>
             <Title>Classes</Title>
-            <span>English 1</span>
-            <span>English 2</span>
+            {classData.map((cls, index) => (
+              <span
+                key={cls.id || index}
+                onClick={() => setSelectedClassIndex(index)}
+                style={{
+                  cursor: 'pointer',
+                  fontWeight: selectedClassIndex === index ? 'bold' : 'normal',
+                  marginRight: '1rem', // Optional: space out class items
+                }}
+              >
+                {cls.title}
+              </span>
+            ))}
           </ClassSection>
           <StudentSection>
             <Title>Students</Title>
             <AllStudents>
-              <Student>
-                <Dot></Dot>
-                <StudentName>Lastname, FirstName</StudentName>
-              </Student>
-              <Student>
-                <Dot></Dot>
-                <StudentName>Lastname, FirstName</StudentName>
-              </Student>
-              <Student>
-                <Dot></Dot>
-                <StudentName>Lastname, FirstName</StudentName>
-              </Student>
+            {classData[selectedClassIndex]?.students?.map((student, i) => (
+                <Student key={student.id || i}>
+                  <Dot />
+                  <StudentName>{student?.name}</StudentName>
+                </Student>
+              ))}
             </AllStudents>
           </StudentSection>
         </MainSection>

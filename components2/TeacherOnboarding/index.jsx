@@ -8,7 +8,7 @@ import { sidebarButtonText, mainSectionContent } from './onboardingContents';
 import CloseButton from '../Buttons/CloseButton';
 import { isOnboardingHome } from './rules';
 import OnboardingIntroduceSection from './OnboardingIntroduceSection';
-import DummyOnboardingSetup from './DummyOnboardingSetup';
+import OnboardingClass from './OnboardingClass.jsx';
 
 const TeacherOnboarding = ({ onCloseOnboarding }) => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -85,7 +85,7 @@ const TeacherOnboarding = ({ onCloseOnboarding }) => {
         </DialogContent>
       )}
       {activeSlide === 3 && (
-        <DummyOnboardingSetup closeOnboarding={onCloseOnboarding}/>
+        <OnboardingClass closeOnboarding={onCloseOnboarding}/>
       )}
     </Dialog>
   );

@@ -31,6 +31,7 @@ export const Title = styled.h3`
   font-size: var(--font-size-m);
   line-height: 21px;
   color: rgba(86, 81, 91, 1);
+  margin-bottom: 8px;
 `;
 
 export const ClassSection = styled.div``;
@@ -61,4 +62,18 @@ export const AllStudents = styled.div`
 export const CreateTaskButton = styled.div`
    width: 220px;
    margin: 0 auto;
+`;
+
+export const ClassName = styled.span`
+   background-color: ${(props) => props.isSelected ? 'rgba(138, 43, 229, 1)' : 'transparent'};
+   border: 1px solid rgba(201, 198, 204, 0.5);
+   height: 36px;
+   border-radius: 30px;
+   padding: 6px 10px;
+   color: ${(props) => props.isSelected ? 'white' : 'rgba(0, 0, 0, 1)'};
+   font-family: var(--font-family-ibm_plex_sans);
+   font-weight: ${(props) => props.isSelected ? '600' : '400'};
+   font-size: var(--font-size-m);
+   line-height: 24px;
+   cursor: pointer;
 `;

@@ -14,14 +14,15 @@ import {
   StudentName,
   AllStudents,
   CreateTaskButton,
-} from './DummyOnboardingSetupStyle.js';
+  ClassName,
+} from './OnboardingClassStyle.js';
 import CloseButton from '../Buttons/CloseButton/index.jsx';
 import { MainTitle, Subtitle } from './teacherOnboardingMainSectionStyle.js';
 import RectangularBigBtn from '../Buttons/RectangularbigBtn/index.jsx';
 import { useClassData } from '../../components/state/hooks.js';
 import Loader from '../../components/Loader/index.jsx';
 
-const DummyOnboardingSetup = ({ closeOnboarding }) => {
+const OnboardingClass = ({ closeOnboarding }) => {
   const history = useHistory();
   const [selectedClassIndex, setSelectedClassIndex] = useState(0);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
@@ -52,17 +53,13 @@ const DummyOnboardingSetup = ({ closeOnboarding }) => {
           <ClassSection>
             <Title>Classes</Title>
             {classData.map((cls, index) => (
-              <span
+              <ClassName
                 key={cls.id || index}
                 onClick={() => setSelectedClassIndex(index)}
-                style={{
-                  cursor: 'pointer',
-                  fontWeight: selectedClassIndex === index ? 'bold' : 'normal',
-                  marginRight: '1rem', // Optional: space out class items
-                }}
+                isSelected={selectedClassIndex === index}
               >
                 {cls.title}
-              </span>
+              </ClassName>
             ))}
           </ClassSection>
           <StudentSection>
@@ -89,4 +86,4 @@ const DummyOnboardingSetup = ({ closeOnboarding }) => {
   );
 };
 
-export default DummyOnboardingSetup;
+export default OnboardingClass;

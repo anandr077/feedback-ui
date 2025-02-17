@@ -50,7 +50,7 @@ const tasks = [
   ,
 ];
 
-const StartOnboarding = () => {
+const StartOnboarding = ({ onCloseOnboarding }) => {
   const history = useHistory();
   return (
     <MainContainer>
@@ -58,7 +58,12 @@ const StartOnboarding = () => {
         <Title>New</Title>
         <Pages>
           {pages.map((page) => (
-            <Page onClick={() => history.push(page.link)}>
+            <Page
+              onClick={() => {
+                history.push(page.link), 
+                onCloseOnboarding();
+              }}
+            >
               <PageIcon src={page.icon} />
               <PageName>{page.name}</PageName>
             </Page>

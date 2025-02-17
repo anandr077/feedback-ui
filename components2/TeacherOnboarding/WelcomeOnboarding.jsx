@@ -21,7 +21,7 @@ const WelcomeOnboarding = ({ onCloseOnboarding }) => {
         return <h1>Hello jeddai</h1>;
       case 'Start':
       default:
-        return <StartOnboarding />;
+        return <StartOnboarding onCloseOnboarding={onCloseOnboarding}/>;
     }
   };
 

@@ -53,8 +53,9 @@ import { getLocalStorage } from './utils/function';
 import OnboardingScreen from './components2/Onboard/OnboardingScreen';
 import Loader from './components/Loader';
 import TeacherOnboarding from './components2/TeacherOnboarding';
-import { isStudentOnboarding, isTeacherOnboarding } from './rules';
+import { isShowWelcomeOnboarding, isStudentOnboarding, isTeacherOnboarding } from './rules';
 import { AppContext } from './app.context';
+import WelcomeOnboarding from './components2/TeacherOnboarding/WelcomeOnboarding';
 
 function App() {
   const exchangeInProgress = useRef(false);
@@ -62,6 +63,7 @@ function App() {
   const [showStudentOnboarding, setShowStudentOnboarding] = useState(false);
   const [showTeacherOnboarding, setShowTeacherOnboarding] = useState(false);
   const [loadingProfile, setLoadingProfile] = useState(false);
+  const [showWelcomeOnboarding, setShowWelcomeOnboarding] = useState(true);
 
   useEffect(() => {
     if (isLoggedOut) {
@@ -159,6 +161,10 @@ function App() {
   const closeTeacherOnboarding = () => {
     setShowTeacherOnboarding(false);
   };
+
+  const closeWelcomeOnboarding = () =>{
+    setShowWelcomeOnboarding(false);
+  }
   
   const updateRedirectAt = () => {
     const url = new URL(window.location.href);
@@ -259,6 +265,9 @@ function App() {
               <MainSidebar />
               {isTeacherOnboarding(showTeacherOnboarding, mobileView, role) && (
                 <TeacherOnboarding onCloseOnboarding={closeTeacherOnboarding} />
+              )}
+              {isShowWelcomeOnboarding(showWelcomeOnboarding, mobileView, role) && (
+                <WelcomeOnboarding onCloseOnboarding={closeWelcomeOnboarding}/>
               )}
               {isStudentOnboarding(showStudentOnboarding) && (
                 <OnboardingScreen

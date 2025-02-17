@@ -15,6 +15,7 @@ import {
   AllStudents,
   CreateTaskButton,
   ClassName,
+  StudentImage
 } from './OnboardingClassStyle.js';
 import CloseButton from '../Buttons/CloseButton/index.jsx';
 import { MainTitle, Subtitle } from './teacherOnboardingMainSectionStyle.js';
@@ -48,7 +49,7 @@ const OnboardingClass = ({ closeOnboarding }) => {
         <MainSection>
           <UserSection>
             <Dot></Dot>
-            <Title>User Name</Title>
+            <Title style={{marginBottom: '0'}}>User Name</Title>
           </UserSection>
           <ClassSection>
             <Title>Classes</Title>
@@ -67,7 +68,7 @@ const OnboardingClass = ({ closeOnboarding }) => {
             <AllStudents>
             {classData[selectedClassIndex]?.students?.map((student, i) => (
                 <Student key={student.id || i}>
-                  <Dot />
+                  <StudentImage src="/img/mask-group-1@2x.png" />
                   <StudentName>{student?.name}</StudentName>
                 </Student>
               ))}

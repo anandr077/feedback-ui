@@ -63,7 +63,7 @@ function App() {
   const [showStudentOnboarding, setShowStudentOnboarding] = useState(false);
   const [showTeacherOnboarding, setShowTeacherOnboarding] = useState(false);
   const [loadingProfile, setLoadingProfile] = useState(false);
-  const [showWelcomeOnboarding, setShowWelcomeOnboarding] = useState(true);
+  const [showWelcomeOnboarding, setShowWelcomeOnboarding] = useState(false);
 
   useEffect(() => {
     if (isLoggedOut) {
@@ -130,7 +130,13 @@ function App() {
             (userProfile?.state === null || userProfile?.state === undefined) &&
             (userProfile?.year === null || userProfile?.year === undefined);
 
-          setShowTeacherOnboarding(defaultShowTeacherOnboarding);
+            if (defaultShowTeacherOnboarding) {
+              setShowTeacherOnboarding(true);
+            } else {
+              if (!localStorage.getItem('welcomeOnboardingShown')) {
+                setShowWelcomeOnboarding(true);
+              }
+            }
         } catch (error) {
           console.error(error);
         } finally {
@@ -163,6 +169,7 @@ function App() {
   };
 
   const closeWelcomeOnboarding = () =>{
+    localStorage.setItem('welcomeOnboardingShown', true);
     setShowWelcomeOnboarding(false);
   }
   

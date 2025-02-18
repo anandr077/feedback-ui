@@ -28,7 +28,6 @@ const StartOnboarding = ({ onCloseOnboarding }) => {
     (time = 300000)
   );
 
-  
   if (isLoading) {
     return <Loader />;
   }
@@ -55,25 +54,30 @@ const StartOnboarding = ({ onCloseOnboarding }) => {
         </Pages>
       </Section>
       <RecentSection>
-        <Title>Recent</Title>
-        <RecentTasks>
-          {recentNotifications.map((notification) => {
-            return (
-              <TaskDetail>
-                <TaskTitle>{notification.title}</TaskTitle>
-                <div onClick={onCloseOnboarding}>
-                  <LinkButton
-                    link={notification.link}
-                    label="View details"
-                    arrowright={arrowRight}
-                    whiteArrowright={whiteArrowright}
-                    notification={true}
-                  />
-                </div>
-              </TaskDetail>
-            );
-          })}
-        </RecentTasks>
+        {recentNotifications.length > 0 && (
+          <>
+            {' '}
+            <Title>Recent</Title>
+            <RecentTasks>
+              {recentNotifications.map((notification) => {
+                return (
+                  <TaskDetail>
+                    <TaskTitle>{notification.title}</TaskTitle>
+                    <div onClick={onCloseOnboarding}>
+                      <LinkButton
+                        link={notification.link}
+                        label="View details"
+                        arrowright={arrowRight}
+                        whiteArrowright={whiteArrowright}
+                        notification={true}
+                      />
+                    </div>
+                  </TaskDetail>
+                );
+              })}
+            </RecentTasks>
+          </>
+        )}
       </RecentSection>
     </MainContainer>
   );

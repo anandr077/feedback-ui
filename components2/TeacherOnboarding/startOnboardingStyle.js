@@ -8,6 +8,7 @@ export const Section = styled.div`
 
 export const RecentSection = styled.div`
   margin-top: 20px;
+  min-height: 260px;
 `;
 
 export const Title = styled.h1`

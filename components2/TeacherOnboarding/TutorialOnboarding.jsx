@@ -8,28 +8,7 @@ import {
   AccordionTitle,
 } from './tutorialOnboardingStyle.js';
 import { MainContainer, Section, Title } from './startOnboardingStyle.js';
-const accordionItems = [
-  {
-    title: 'Feedback',
-    content:
-      "printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap int",
-  },
-  {
-    title: 'Tasks',
-    content:
-      "printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap int",
-  },
-  {
-    title: 'Portfolio',
-    content:
-      "printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap int",
-  },
-  {
-    title: 'Drafts',
-    content:
-      "printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap int",
-  },
-];
+import { onboardingTutorialsFAQ } from './onboardingContents.js';
 
 const TutorialOnboarding = () => {
   const [expanded, setExpanded] = useState(false);
@@ -52,7 +31,7 @@ const TutorialOnboarding = () => {
       <FAQSection>
         <Title>FAQ's</Title>
         <AccordionSection>
-          {accordionItems.map((item, index) => (
+          {onboardingTutorialsFAQ.map((item, index) => (
             <Accordion
               key={index}
               disableGutters

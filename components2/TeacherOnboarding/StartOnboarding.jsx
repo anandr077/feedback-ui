@@ -16,52 +16,36 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import LinkButton from '../LinkButton';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
-
-const pages = [
-  {
-    name: 'Task',
-    link: '/tasks',
-    icon: '/img/taskIcon.svg',
-  },
-  {
-    name: 'JeddAI Draft',
-    link: '/getFeedback',
-    icon: '/img/jedaiIcon.svg',
-  },
-  {
-    name: 'Marking Template',
-    link: '/settings',
-    icon: '/img/rubrics2.svg',
-  },
-  {
-    name: 'Comment Bank',
-    link: '/commentbanks',
-    icon: '/img/commentbankIcon.svg',
-  },
-];
-
-const tasks = [
-  {
-    name: 'Darrell(Instructor) from C programming mastery has sent you a peer-review request for data structures assignment. This is the task',
-  },
-  { name: 'This is the task' },
-  { name: 'This is the task' },
-  { name: 'This is the task' },
-  ,
-];
+import { useNotifications } from '../../components/state/hooks';
+import Loader from '../../components/Loader';
+import { welcomeOnboardingPages } from './onboardingContents';
 
 const StartOnboarding = ({ onCloseOnboarding }) => {
   const history = useHistory();
+  const { data: notifications, isLoadingdata: isLoading } = useNotifications(
+    (id = null),
+    (condition = true),
+    (time = 300000)
+  );
+
+  
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  const recentNotifications = notifications
+    .sort((a, b) => new Date(b.dueAt) - new Date(a.dueAt))
+    .slice(0, 4);
+
   return (
     <MainContainer>
       <Section>
         <Title>New</Title>
         <Pages>
-          {pages.map((page) => (
+          {welcomeOnboardingPages.map((page) => (
             <Page
               onClick={() => {
-                history.push(page.link), 
-                onCloseOnboarding();
+                history.push(page.link), onCloseOnboarding();
               }}
             >
               <PageIcon src={page.icon} />
@@ -73,17 +57,19 @@ const StartOnboarding = ({ onCloseOnboarding }) => {
       <RecentSection>
         <Title>Recent</Title>
         <RecentTasks>
-          {tasks.map((task) => {
+          {recentNotifications.map((notification) => {
             return (
               <TaskDetail>
-                <TaskTitle>{task.name}</TaskTitle>
-                <LinkButton
-                  link={'/tasks'}
-                  label="View details"
-                  arrowright={arrowRight}
-                  whiteArrowright={whiteArrowright}
-                  notification={true}
-                />
+                <TaskTitle>{notification.title}</TaskTitle>
+                <div onClick={onCloseOnboarding}>
+                  <LinkButton
+                    link={notification.link}
+                    label="View details"
+                    arrowright={arrowRight}
+                    whiteArrowright={whiteArrowright}
+                    notification={true}
+                  />
+                </div>
               </TaskDetail>
             );
           })}

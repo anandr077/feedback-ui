@@ -57,3 +57,50 @@ export const mainSectionContent = [
     link: '#/sharedresponses',
   },
 ];
+
+export const welcomeOnboardingPages = [
+  {
+    name: 'Task',
+    link: '/tasks',
+    icon: '/img/taskIcon.svg',
+  },
+  {
+    name: 'JeddAI Draft',
+    link: '/getFeedback',
+    icon: '/img/jedaiIcon.svg',
+  },
+  {
+    name: 'Marking Template',
+    link: '/settings',
+    icon: '/img/rubrics2.svg',
+  },
+  {
+    name: 'Comment Bank',
+    link: '/commentbanks',
+    icon: '/img/commentbankIcon.svg',
+  },
+];
+
+
+export const onboardingTutorialsFAQ = [
+  {
+    title: 'Feedback',
+    content:
+      "",
+  },
+  {
+    title: 'Tasks',
+    content:
+      "A 'task' is homework that you set for a class (or multiple classes). It will often require a student to write a response to a given question (or multiple questions) and/or to provide feedback to another student. Tasks will appear in 'bubbles' on the 'Tasks' page. For students, these tasks will appear in the 'Homework' tab.",
+  },
+  {
+    title: 'Portfolio',
+    content:
+      "",
+  },
+  {
+    title: 'Drafts',
+    content:
+      "Students can create a draft response even when a homework task has not been set by a teacher. They can then request feedback from a teacher, a fellow student or Jedd-AI.",
+  },
+];

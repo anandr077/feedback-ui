@@ -9,6 +9,7 @@ import {
 import CloseButton from '../Buttons/CloseButton/index.jsx';
 import StartOnboarding from './StartOnboarding.jsx';
 import TutorialOnboarding from './TutorialOnboarding.jsx';
+import { getUserName } from '../../userLocalDetails.js';
 
 const WelcomeOnboarding = ({ onCloseOnboarding }) => {
   const navItems = ['Start', 'Tutorials', 'What is JeddAI?'];
@@ -42,7 +43,7 @@ const WelcomeOnboarding = ({ onCloseOnboarding }) => {
       <DialogContent>
         <MainContainer>
           <CloseButton onclickFn={onCloseOnboarding} />
-          <WelcomeUser>Welcome, Username</WelcomeUser>
+          <WelcomeUser>Welcome, {getUserName()}</WelcomeUser>
           <Navbar>
             {navItems.map((item) => (
               <NavbarButton

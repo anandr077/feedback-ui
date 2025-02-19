@@ -56,7 +56,10 @@ export default function TheoryQuestionFrame(props) {
 
   const selectedMarkingCriteriaIndex = allMarkingCriterias?.findIndex(
     (item) => {
-      return item.title === questionDetails.markingCriteria?.title;
+      return (
+        item.title === questionDetails.markingCriteria?.title &&
+        item.type === questionDetails.markingCriteria?.type
+      );
     }
   );
   const selectedCommentBankIndex = allCommentBanks.findIndex((item) => {
@@ -121,10 +124,7 @@ export default function TheoryQuestionFrame(props) {
         <MarkingCriteriaSelectionContainer>
           <QuestionFieldSelection 
            label='Marking Template'
-           items={allMarkingCriterias.map((m) => ({
-              ...m,
-              title: `${m.title} ${m.type === "RUBRICS" ? '(R)' : '(S&T)'}`
-            }))}
+           items={appendFunction(allMarkingCriterias)}
            tooltipText = "Select a Rubric (R) or list of Strengths and Targets (S&T) to use as overall feedback for this task. After reading a student's response, click on the applicable performance level/s or strengths and targets"
           onItemSelected = {updateMarkingCriteria}
           setIsChanged ={setIsChanged}

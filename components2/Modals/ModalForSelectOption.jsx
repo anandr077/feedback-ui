@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import ArrowUp from '../../static/img/arrowup2.svg';
-import ArrowDown from '../../static/img/arrowdown2.svg';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -96,7 +94,7 @@ const StyledAccordionSummary = styled(AccordionSummary)`
   font-weight: 600;
   font-size: var(--font-size-s);
   line-height: 17px;
-  border-bottom: 1px solid rgba(201, 198, 204, 0.5);
+  border-bottom: 1px solid rgba(201, 198, 204, 0.5) !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -104,7 +102,6 @@ const StyledAccordionSummary = styled(AccordionSummary)`
 `;
 
 const StyledAccordion = styled(Accordion)`
-  border-bottom: 1px solid rgba(201, 198, 204, 0.5);
   font-family: var(--font-family-ibm_plex_sans);
   color: rgba(86, 81, 91, 1) !important;
   font-weight: 400;
@@ -118,12 +115,13 @@ const StyledAccordion = styled(Accordion)`
   }
 
   &:hover {
-    background-color: #f8f8f8;
+    background-color: #f8f8f8 !important;
   }
 `;
 
 const StyledAccordionDetails = styled(AccordionDetails)`
-  padding-left: 20px !important;
+  padding: 8px 16px 8px 20px !important;
+  border-bottom: 1px solid rgba(201, 198, 204, 0.5) !important;
 `;
 
 

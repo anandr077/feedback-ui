@@ -79,8 +79,18 @@ const ModalContent = styled.div`
 `;
 
 const StyledAccordionSummary = styled(AccordionSummary)`
-  background-color: rgba(242, 241, 243, 1);
-  margin: 0 !important;
+  && {
+    min-height: auto !important;
+  }
+  &&.Mui-expanded {
+    min-height: auto !important;
+  }
+  & .MuiAccordionSummary-content {
+    margin: 0 !important;
+  }
+
+  background-color: rgba(242, 241, 243, 1) !important;
+  padding: 6px 12px !important;
   font-family: var(--font-family-ibm_plex_sans);
   color: rgba(86, 81, 91, 1) !important;
   font-weight: 600;
@@ -99,6 +109,7 @@ const StyledAccordion = styled(Accordion)`
   color: rgba(86, 81, 91, 1) !important;
   font-weight: 400;
   font-size: var(--font-size-s);
+  margin: 0 !important;
   line-height: 17px;
   cursor: pointer;
 
@@ -112,7 +123,7 @@ const StyledAccordion = styled(Accordion)`
 `;
 
 const StyledAccordionDetails = styled(AccordionDetails)`
-  padding-left: 18px;
+  padding-left: 20px !important;
 `;
 
 

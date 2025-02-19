@@ -9,7 +9,6 @@ import ReactiveRender, {
   isTabletView,
 } from '../../ReactiveRender';
 import TeacherTasksDesktop from '../TeacherTasksDesktop';
-import { Dialog } from '@mui/material';
 import {
   taskHeaderProps,
 } from '../../../utils/headerProps.js';
@@ -28,7 +27,6 @@ import {
 
 import { FilterContainer, FilterLine } from '../../CompletedPage/style.js';
 import RoundedDropDown from '../../../components2/RoundedDropDown/index.jsx';
-import SortSquare from '../../../static/img/sort-square.svg';
 import FilterSquare from '../../../static/img/filter-square.svg';
 import TaskSelected from '../../../static/img/Columns-new.svg';
 import TaskNotSelected from '../../../static/img/Columns-new-gray.svg';
@@ -43,27 +41,12 @@ import {
   Filter,
   FilterImg,
   FilterText,
-  SortHeading,
-  SortImg,
-  SortText,
-  SortButton,
-  SortButtonText,
   TitleHeading,
 } from '../../FilterSort/style.js';
-import {
-  FeedbackButtonArrow,
-  Frame5086Img,
-  Frame5086PopUp,
-  Frame5086PopUpTitle,
-  Frame5086Text,
-  PopupContainer,
-  SortPopUpBody,
-  SortContainer,
-  Frame5086PopUpBody,
-} from '../../GiveFeedback/style.js';
 import MenuButton from '../../MenuButton/index.jsx';
 import { useClassData } from '../../state/hooks.js';
 import { duplicateAssignment } from '../../../utils/function.js';
+import SortItems from '../../../components2/SortItems/index.jsx';
 
 export default function TeacherTaskRoot() {
   const [assignments, setAssignments] = React.useState([]);
@@ -73,7 +56,7 @@ export default function TeacherTaskRoot() {
   const [selectedAssignment, setSelectedAssignment] = React.useState(null);
   const [showDateExtendPopup, setShowDateExtendPopup] = React.useState(false);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
-  const [sortData, setSortData] = React.useState(true);
+  const [sortItem, setSortItem] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [tasksSelected, setTasksSelected] = React.useState(true);
   const [isShowMenu, setShowMenu] = React.useState(false);
@@ -170,7 +153,7 @@ export default function TeacherTaskRoot() {
     const sortedTasks = tasks.sort((a, b) => {
       const dateA = new Date(a.dueAt).getTime();
       const dateB = new Date(b.dueAt).getTime();
-      return sortData ? dateB - dateA : dateA - dateB;
+      return sortItem ? dateB - dateA : dateA - dateB;
     });
 
     return sortedTasks;
@@ -339,34 +322,12 @@ export default function TeacherTaskRoot() {
           </FilterContainer>
           {!tabletView && <FilterLine />}
           {tasksSelected && (
-            <SortContainer>
-              <SortHeading>
-                <SortImg src={SortSquare} />
-                <SortText>Sort by :</SortText>
-              </SortHeading>
-
-              <>
-                <SortButton
-                  style={{
-                    backgroundColor: sortData ? '#51009F' : '',
-                    border: '1px solid #8E33E6',
-                  }}
-                  onClick={() => setSortData(true)}
-                >
-                  <SortButtonText style={{ color: sortData ? '#FFFFFF' : '' }}>
-                    New to Old
-                  </SortButtonText>
-                </SortButton>
-                <SortButton
-                  style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-                  onClick={() => setSortData(false)}
-                >
-                  <SortButtonText style={{ color: !sortData ? '#FFFFFF' : '' }}>
-                    Old to New
-                  </SortButtonText>
-                </SortButton>
-              </>
-            </SortContainer>
+            <SortItems
+              sortItem={sortItem}
+              setSortItem={setSortItem}
+              firstSortText={'New to Old'}
+              secondSortText={'Old to New'}
+            />
           )}
         </FilterAndSortContainer>
       </MainContainer>

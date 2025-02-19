@@ -162,7 +162,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
       title: `${
         role === 'STUDENT'
           ? `Help a Friend (${feedbackRequestsLength})`
-          : `Feedback From Me (${feedbackRequestsLength})`
+          : `Feedback Requests (${feedbackRequestsLength})`
       }`,
       link: '/giveFeedback',
       matchLink: '/giveFeedback',

@@ -139,15 +139,10 @@ export const isShowJeddAITab = (submissionType, pageMode, isTeacher, reviewedBy)
 export const isTeacher = getUserRole() === 'TEACHER';
 
 export const appendFunction = (markingCriterias) => {
-  return markingCriterias.map((item) => {
-    if (item.type === 'STRENGTHS_TARGETS' && !item.title.includes('(S&T)')) {
-      item.title = item.title + ' (S&T)';
-    }
-    if (item.type === 'RUBRICS' && !item.title.includes('(R)')) {
-      item.title = item.title + ' (R)';
-    }
-    return item;
-  });
+  return markingCriterias.map((m) => ({
+    ...m,
+    title: `${m.title} ${m.type === "RUBRICS" ? '(R)' : '(S&T)'}`
+  }));
 };
 
 

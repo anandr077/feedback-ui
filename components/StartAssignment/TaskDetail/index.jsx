@@ -1,6 +1,7 @@
 import { default as React } from 'react';
 import { useParams } from 'react-router-dom';
 import {
+  nextSubmission,
   startSubmission
 } from '../../../service';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
@@ -15,7 +16,15 @@ export default function TaskDetail() {
 
   const role = getUserRole();
   if (role === 'TEACHER') {
-    history.push(`/tasks/${assignmentId}`);
+    nextSubmission(assignmentId).then((res) => {
+      console.log("res " + res)
+      if (res !== undefined && res !== null)
+        history.push(`/submissions/${res}`);
+      else
+        history.push(`/tasks/${assignmentId}`);
+    }).catch((error) => {
+      console.log(error);
+    });
   } else {
     startSubmission({ assignmentId: assignmentId }).then((res) => {
       history.push(`/submissions/${res.id}`);

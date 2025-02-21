@@ -14,7 +14,8 @@ import {
   getStudentsForClass,
   getSmartAnnotations,
   getFeedbackBanks,
-  getAllSubmissions
+  getAllSubmissions,
+  nextSubmission
 } from '../../service';
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import _ from 'lodash';
@@ -90,6 +91,13 @@ export default function CreateAssignment(props) {
   );
   const [currentCommentBank, setCurrentCommentBank] = React.useState([]);
 
+  nextSubmission(assignmentId).then((res) => {
+    console.log("res " + res)
+    if (res !== undefined && res !== null)
+      history.push(`/submissions/${res}`);
+  }).catch((error) => {
+    console.log(error);
+  });
   const getAssignment = async (id) => {
     if (id === 'new') {
       return draft;

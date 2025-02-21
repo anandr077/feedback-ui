@@ -249,6 +249,9 @@ export const getDocumentReviews = async () =>
   await getApi(baseUrl + '/document-review-tasks');
 export const startSubmission = async (assignmentDetails) =>
   await postApi(baseUrl + '/submissions', assignmentDetails);
+export const nextSubmission = async (assignmentID) =>
+  await getApi(baseUrl + '/assignments/' + assignmentID + '/nextSubmission');
+
 export const getSubmissionById = async (submissionId) =>
   await getApi(baseUrl + '/submissions/' + submissionId);
 export const getSubmissionsByAssignmentId = async (assignmentId) =>

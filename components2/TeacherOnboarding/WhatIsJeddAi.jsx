@@ -7,7 +7,7 @@ import {
   FAQContent,
 } from './whatIsJeddAiStyle.js';
 import MaterialAccordion from '../MaterialAccordion/index.jsx';
-import { whatIsJeddAiFaq } from './onboardingContents.js';
+import { accordionItems } from './OnboardingAccordionItems.js';
 
 const WhatIsJeddAi = () => {
   return (
@@ -20,7 +20,7 @@ const WhatIsJeddAi = () => {
       <FAQSection>
         <FAQHeading>FAQ's</FAQHeading>
         <FAQContent>
-          <MaterialAccordion accordionList={whatIsJeddAiFaq} />
+          <MaterialAccordion accordionList={accordionItems} />
         </FAQContent>
       </FAQSection>
     </MainContainer>

@@ -9,6 +9,20 @@ import {
 } from './tutorialOnboardingStyle.js';
 import { MainContainer, Section, Title } from './startOnboardingStyle.js';
 import { onboardingTutorialsFAQ } from './onboardingContents.js';
+const videoLinks = [
+  {
+    image: '/img/howToClass.svg',
+    link: 'https://fast.wistia.net/embed/iframe/pxkf4ankwt',
+  },
+  {
+    image: '/img/howToClass.svg',
+    link: 'https://fast.wistia.net/embed/iframe/vj1ioj8188',
+  },
+  {
+    image: '/img/howToClass.svg',
+    link: 'https://fast.wistia.net/embed/iframe/5syf3fudi1',
+  },
+];
 
 const TutorialOnboarding = () => {
   const [expanded, setExpanded] = useState(false);
@@ -21,11 +35,16 @@ const TutorialOnboarding = () => {
       <Section>
         <Title>How-To Videos</Title>
         <VideoSection>
-          <img src="/img/onboardingThumbnail.svg" />
-          <img src="/img/onboardingThumbnail.svg" />
-          <img src="/img/onboardingThumbnail.svg" />
-          <img src="/img/onboardingThumbnail.svg" />
-          <img src="/img/onboardingThumbnail.svg" />
+          {videoLinks.map((video, index) => (
+            <a
+              key={video.id || index}
+              href={video.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={video.image} />
+            </a>
+          ))}
         </VideoSection>
       </Section>
       <FAQSection>

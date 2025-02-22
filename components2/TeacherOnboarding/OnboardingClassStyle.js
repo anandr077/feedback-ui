@@ -55,7 +55,24 @@ export const StudentName = styled.p`
   color: rgba(0, 0, 0, 1);
 `;
 
-export const AllStudents = styled.div``;
+export const AllStudents = styled.div`
+  height: 150px;
+  overflow-y: scroll;
+
+  scrollbar-width: thin;
+  scrollbar-color: lightgray transparent;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+    border-radius: 4px;
+  }
+`;
 
 export const CreateTaskButton = styled.div`
   width: 220px;
@@ -74,6 +91,7 @@ export const ClassName = styled.span`
   font-weight: ${(props) => (props.isSelected ? '600' : '400')};
   font-size: var(--font-size-m);
   line-height: 24px;
+  white-space: nowrap;
   cursor: pointer;
 `;
 
@@ -81,4 +99,25 @@ export const StudentImage = styled.img`
   height: 24px;
   width: 24px;
   border-radius: 50%;
+`;
+
+export const ClassContainer = styled.div`
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  overflow-x: scroll;
+
+  scrollbar-width: thin;
+  scrollbar-color: lightgray transparent;
+
+  &::-webkit-scrollbar {
+    height: 2px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+    border-radius: 4px;
+  }
 `;

@@ -24,10 +24,18 @@ export const FAQContent = styled.div`
   height: 365px;
   overflow-y: scroll;
 
-  -ms-overflow-style: none;
-  scrollbar-width: none; 
-  
+  -ms-overflow-style: auto;
+
+  scrollbar-width: thin;
+
   &::-webkit-scrollbar {
-    display: none;
+    width: 2px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 1px;
   }
 `;

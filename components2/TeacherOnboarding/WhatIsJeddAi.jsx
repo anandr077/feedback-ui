@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   MainContainer,
+  HowJeddAiWorksVideo,
   FAQSection,
   FAQHeading,
   FAQContent,
@@ -11,9 +12,11 @@ import { whatIsJeddAiFaq } from './onboardingContents.js';
 const WhatIsJeddAi = () => {
   return (
     <MainContainer>
-      <div>
-        <img src="/img/howjeddleworks.svg" />
-      </div>
+      <HowJeddAiWorksVideo
+        src="https://fast.wistia.net/embed/iframe/pas1z2rcol"
+        frameborder="0"
+        allowfullscreen
+      ></HowJeddAiWorksVideo>
       <FAQSection>
         <FAQHeading>FAQ's</FAQHeading>
         <FAQContent>

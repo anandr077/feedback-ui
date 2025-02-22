@@ -4,6 +4,10 @@ export const MainContainer = styled.div`
   display: flex;
   gap: 60px;
 `;
+export const HowJeddAiWorksVideo = styled.iframe`
+  width: 401px;
+  height: 263px;
+`;
 
 export const FAQSection = styled.div``;
 

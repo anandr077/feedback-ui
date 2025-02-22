@@ -10,6 +10,7 @@ import CloseButton from '../Buttons/CloseButton/index.jsx';
 import StartOnboarding from './StartOnboarding.jsx';
 import TutorialOnboarding from './TutorialOnboarding.jsx';
 import { getUserName } from '../../userLocalDetails.js';
+import WhatIsJeddAi from './WhatIsJeddAi.jsx';
 
 const WelcomeOnboarding = ({ onCloseOnboarding }) => {
   const navItems = ['Start', 'Tutorials', 'What is JeddAI?'];
@@ -19,7 +20,7 @@ const WelcomeOnboarding = ({ onCloseOnboarding }) => {
       case 'Tutorials':
         return <TutorialOnboarding />;
       case 'What is JeddAI?':
-        return <h1>Hello jeddai</h1>;
+        return <WhatIsJeddAi />;
       case 'Start':
       default:
         return <StartOnboarding onCloseOnboarding={onCloseOnboarding}/>;

@@ -104,3 +104,18 @@ export const onboardingTutorialsFAQ = [
       "Students can create a draft response even when a homework task has not been set by a teacher. They can then request feedback from a teacher, a fellow student or Jedd-AI.",
   },
 ];
+
+export const whatIsJeddAiFaq = [
+  {
+    title: 'Why am I here? ',
+    content: "Great news! Your school has partnered with Jeddle, which means that you and your students now have access to its curriculum-specific English text guides and writing modules, as well as its game-changing feedback and marking tools. Because you have just clicked on 'JeddAI', you are currently on the feedback..."
+  },
+  {
+    title: 'What is JeddAI and how will it help me and my students?  ',
+    content: "Great news! Your school has partnered with Jeddle, which means that you and your students now have access to its curriculum-specific English text guides and writing modules, as well as its game-changing feedback and marking tools. Because you have just clicked on 'JeddAI', you are currently on the feedback..."
+  },
+  {
+    title: 'How do I set up my classes?  ',
+    content: "Great news! Your school has partnered with Jeddle, which means that you and your students now have access to its curriculum-specific English text guides and writing modules, as well as its game-changing feedback and marking tools. Because you have just clicked on 'JeddAI', you are currently on the feedback...Great news! Your school has partnered with Jeddle, which means that you and your students now have access to its curriculum-specific English text guides and writing modules, as well as its game-changing feedback and marking tools. Because you have just clicked on 'JeddAI', you are currently on the feedback...Great news! Your school has partnered with Jeddle, which means that you and your students now have access to its curriculum-specific English text guides and writing modules, as well as its game-changing feedback and marking tools. Because you have just clicked on 'JeddAI', you are currently on the feedback..."
+  },
+]

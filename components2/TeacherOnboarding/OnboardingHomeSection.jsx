@@ -21,7 +21,7 @@ const OnboardingHomeSection = ({ onNext }) => {
   const handleGetStartedButtonClick = () => {
     if (noStateYear) {
       profileStateYear({
-        year: 2024,
+        year: 12,
         state: 'NSW',
       }).then(() => {
         onNext();

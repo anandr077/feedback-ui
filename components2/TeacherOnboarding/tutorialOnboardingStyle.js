@@ -11,7 +11,7 @@ export const FAQSection = styled.div`
 
 export const AccordionSection = styled.div`
  margin-top: 5px;
- height: 178px;
+ height: 175px;
  overflow-y: scroll;
 
  -ms-overflow-style: none;

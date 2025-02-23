@@ -47,7 +47,7 @@ export const PageIcon = styled.img`
 
 export const RecentTasks = styled.div`
   margin-top: 4px;
-  height: 242px;
+  height: 240px;
   overflow-y: scroll;
  
   -ms-overflow-style: none; 

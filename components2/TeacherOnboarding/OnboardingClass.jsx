@@ -6,7 +6,6 @@ import {
   Header,
   MainSection,
   UserSection,
-  Dot,
   Title,
   ClassSection,
   StudentSection,
@@ -15,7 +14,7 @@ import {
   AllStudents,
   CreateTaskButton,
   ClassName,
-  StudentImage,
+  Image,
   ClassContainer,
 } from './OnboardingClassStyle.js';
 import CloseButton from '../Buttons/CloseButton/index.jsx';
@@ -23,12 +22,13 @@ import { MainTitle, Subtitle } from './teacherOnboardingMainSectionStyle.js';
 import RectangularBigBtn from '../Buttons/RectangularbigBtn/index.jsx';
 import { useClassData } from '../../components/state/hooks.js';
 import Loader from '../../components/Loader/index.jsx';
+import { getUserName } from '../../userLocalDetails.js';
 
 const OnboardingClass = ({ closeOnboarding }) => {
   const history = useHistory();
   const [selectedClassIndex, setSelectedClassIndex] = useState(0);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
-  console.log('classData classData', classData);
+
   const handleCreateTaskClick = () => {
     history.push('/tasks/new');
     closeOnboarding();
@@ -49,8 +49,8 @@ const OnboardingClass = ({ closeOnboarding }) => {
         </Header>
         <MainSection>
           <UserSection>
-            <Dot></Dot>
-            <Title style={{marginBottom: '0px'}}>User Name</Title>
+            <Image src="/img/mask-group-1@2x.png" />
+            <Title style={{marginBottom: '0px'}}>{getUserName()}</Title>
           </UserSection>
           <ClassSection>
             <Title>Classes</Title>
@@ -71,7 +71,7 @@ const OnboardingClass = ({ closeOnboarding }) => {
             <AllStudents>
               {classData[selectedClassIndex]?.students?.map((student, i) => (
                 <Student key={student.id || i}>
-                  <StudentImage src="/img/mask-group-1@2x.png" />
+                  <Image src="/img/mask-group-1@2x.png" />
                   <StudentName>{student?.name}</StudentName>
                 </Student>
               ))}

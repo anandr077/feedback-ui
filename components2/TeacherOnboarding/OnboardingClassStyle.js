@@ -18,13 +18,6 @@ export const UserSection = styled.div`
   margin: 40px auto 20px;
 `;
 
-export const Dot = styled.div`
-  height: 24px;
-  width: 24px;
-  border-radius: 50%;
-  background-color: rgba(217, 217, 217, 1);
-`;
-
 export const Title = styled.h3`
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
@@ -95,7 +88,7 @@ export const ClassName = styled.span`
   cursor: pointer;
 `;
 
-export const StudentImage = styled.img`
+export const Image = styled.img`
   height: 24px;
   width: 24px;
   border-radius: 50%;

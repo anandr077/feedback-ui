@@ -1,89 +1,57 @@
-import React, { useState } from 'react';
-import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React from 'react';
 import {
   VideoSection,
   FAQSection,
   AccordionSection,
-  AccordionTitle,
+  LinkImage,
 } from './tutorialOnboardingStyle.js';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 import { MainContainer, Section, Title } from './startOnboardingStyle.js';
-import { onboardingTutorialsFAQ } from './onboardingContents.js';
-const videoLinks = [
-  {
-    image: '/img/howToClass.svg',
-    link: 'https://fast.wistia.net/embed/iframe/pxkf4ankwt',
-  },
-  {
-    image: '/img/howToClass.svg',
-    link: 'https://fast.wistia.net/embed/iframe/vj1ioj8188',
-  },
-  {
-    image: '/img/howToClass.svg',
-    link: 'https://fast.wistia.net/embed/iframe/5syf3fudi1',
-  },
-];
+import { userRole } from '../../roles.js';
+import helpData from '../../components2/HelpSidebar/helpdata.json';
+import FaqAccordion from '../../components2/Accordions/FaqAccordion.jsx';
+import { videoLinks } from './onboardingContents.js';
 
 const TutorialOnboarding = () => {
-  const [expanded, setExpanded] = useState(false);
+  const role = userRole();
+  const allFaqs = helpData[role];
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 5,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 4,
+    }
   };
+
   return (
     <MainContainer>
       <Section>
         <Title>How-To Videos</Title>
         <VideoSection>
-          {videoLinks.map((video, index) => (
-            <a
-              key={video.id || index}
-              href={video.link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={video.image} />
-            </a>
-          ))}
+          <Carousel responsive={responsive}>
+            {videoLinks.map((video, index) => (
+              <a
+                key={video.id || index}
+                href={video.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <LinkImage src={video.image} alt={`video-${index}`}/>
+              </a>
+            ))}
+          </Carousel>
         </VideoSection>
       </Section>
       <FAQSection>
         <Title>FAQ's</Title>
         <AccordionSection>
-          {onboardingTutorialsFAQ.map((item, index) => (
-            <Accordion
-              key={index}
-              disableGutters
-              expanded={expanded === index}
-              onChange={handleChange(index)}
-              sx={{
-                boxShadow: 'none',
-                borderBottom: '1px solid rgba(201, 198, 204, 0.5)',
-                '&:before': { display: 'none' },
-              }}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls={`panel${index}-content`}
-                id={`panel${index}-header`}
-                sx={{
-                  padding: 0,
-                }}
-              >
-                <AccordionTitle>{item.title}</AccordionTitle>
-              </AccordionSummary>
-              <AccordionDetails
-                sx={{
-                  padding: 0,
-                  fontFamily: 'IBM Plex Sans, sans-serif',
-                  '& *': {
-                    fontFamily: 'IBM Plex Sans, sans-serif !important',
-                  },
-                }}
-              >
-                {item.content}
-              </AccordionDetails>
-            </Accordion>
+          {allFaqs.map((item, index) => (
+            <FaqAccordion key={index} {...item} />
           ))}
         </AccordionSection>
       </FAQSection>

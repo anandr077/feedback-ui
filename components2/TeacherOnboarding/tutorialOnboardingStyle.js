@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 export const VideoSection = styled.div`
   margin: 20px 0;
-  display: flex;
-  gap: 20px;
+
 `;
 
 export const FAQSection = styled.div`
@@ -23,10 +22,7 @@ export const AccordionSection = styled.div`
   }
 `;
 
-export const AccordionTitle = styled.h3`
-  color: rgba(30, 37, 42, 1);
-  font-family: var(--font-family-ibm_plex_sans);
-  font-size: var(--font-size-l);
-  font-weight: 400;
-  line-height: 20px;
+export const LinkImage = styled.img`
+  width: 151px;
+  height: 90px;
 `;

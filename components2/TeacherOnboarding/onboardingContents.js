@@ -83,30 +83,6 @@ export const welcomeOnboardingPages = [
   },
 ];
 
-
-export const onboardingTutorialsFAQ = [
-  {
-    title: 'Feedback',
-    content:
-      "",
-  },
-  {
-    title: 'Tasks',
-    content:
-      "A 'task' is homework that you set for a class (or multiple classes). It will often require a student to write a response to a given question (or multiple questions) and/or to provide feedback to another student. Tasks will appear in 'bubbles' on the 'Tasks' page. For students, these tasks will appear in the 'Homework' tab.",
-  },
-  {
-    title: 'Portfolio',
-    content:
-      "",
-  },
-  {
-    title: 'Drafts',
-    content:
-      "Students can create a draft response even when a homework task has not been set by a teacher. They can then request feedback from a teacher, a fellow student or Jedd-AI.",
-  },
-];
-
 export const whatIsJeddAiFaq = [
   {
     title: 'Why am I here? ',
@@ -121,3 +97,39 @@ export const whatIsJeddAiFaq = [
     content: "Great news! Your school has partnered with Jeddle, which means that you and your students now have access to its curriculum-specific English text guides and writing modules, as well as its game-changing feedback and marking tools. Because you have just clicked on 'JeddAI', you are currently on the feedback...Great news! Your school has partnered with Jeddle, which means that you and your students now have access to its curriculum-specific English text guides and writing modules, as well as its game-changing feedback and marking tools. Because you have just clicked on 'JeddAI', you are currently on the feedback...Great news! Your school has partnered with Jeddle, which means that you and your students now have access to its curriculum-specific English text guides and writing modules, as well as its game-changing feedback and marking tools. Because you have just clicked on 'JeddAI', you are currently on the feedback..."
   },
 ]
+
+export const videoLinks = [
+  {
+    image: '/img/createTask.svg',
+    link: 'https://fast.wistia.net/embed/iframe/pxkf4ankwt',
+  },
+  {
+    image: '/img/howtoaddmarking.svg',
+    link: 'https://fast.wistia.net/embed/iframe/pxkf4ankwt',
+  },
+  {
+    image: '/img/howtoaddcommentbank.svg',
+    link: 'https://fast.wistia.net/embed/iframe/pxkf4ankwt',
+  },
+  {
+    image: '/img/selftassesment.svg',
+    link: 'https://fast.wistia.net/embed/iframe/pxkf4ankwt',
+  },
+  {
+    image: '/img/givefeedback.svg',
+    link: 'https://fast.wistia.net/embed/iframe/vj1ioj8188',
+  },
+  {
+    image: '/img/aiassistedmarking.svg',
+    link: 'https://fast.wistia.net/embed/iframe/vj1ioj8188',
+  },
+  {
+    image: '/img/shareexemplar.svg',
+    link: 'https://fast.wistia.net/embed/iframe/vj1ioj8188',
+  },
+
+  {
+    image: '/img/howToClass.svg',
+    link: 'https://fast.wistia.net/embed/iframe/5syf3fudi1',
+  },
+];

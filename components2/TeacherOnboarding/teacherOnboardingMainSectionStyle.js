@@ -9,7 +9,7 @@ export const OnboardingMainContainer = styled.div`
 export const Header = styled.div`
    text-align: center;
    max-width: 472px;
-   margin: 0 auto 27px;
+   margin: 0 auto 10px;
 `;
 
 export const MainTitle = styled.h1`
@@ -24,21 +24,15 @@ export const MainTitle = styled.h1`
 export const Subtitle = styled.p`
   font-family: var(--font-family-ibm_plex_sans);
   font-weight: 400;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 21px;
   color: rgba(86, 81, 91, 1);
-  height: ${props => props.fixedHeight ? '80px' : 'auto'};
+  height: ${props => props.fixedHeight ? '65px' : 'auto'};
 `;
 
-export const Image = styled.img`
-  height: 318px;
-  margin: 0 auto;
-`;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
+export const Video = styled.iframe`
+  width: 100%;
+  height: 347px;
 `;
 
 export const NextButtonContainer = styled.div`
@@ -48,6 +42,6 @@ export const NextButtonContainer = styled.div`
 `;
 
 export const ContentSection = styled.div`
-  margin: 0 auto;
+  margin: 0 auto 50px;
   text-align: center;
 `

@@ -11,7 +11,7 @@ import { profileStateYear } from '../../service';
 import { useProfile } from '../../components/state/hooks';
 import Loader from '../../components/Loader';
 
-const OnboardingHomeSection = ({ currentSlide }) => {
+const OnboardingHomeSection = ({ onNext }) => {
   const { data: profile, isLoadingdata: isLoadingProfile } = useProfile();
 
   const noStateYear =
@@ -21,13 +21,13 @@ const OnboardingHomeSection = ({ currentSlide }) => {
   const handleGetStartedButtonClick = () => {
     if (noStateYear) {
       profileStateYear({
-        year: 2024,
+        year: 12,
         state: 'NSW',
       }).then(() => {
-        currentSlide(false);
+        onNext();
       });
     } else {
-      currentSlide(false);
+      onNext();
     }
   };
 

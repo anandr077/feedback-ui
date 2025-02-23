@@ -37,7 +37,7 @@ function HeaderTitle({ breadcrumbs }) {
     },
     {
       link: '/tasks',
-      title: role === 'TEACHER' ? 'Completed Tasks' : 'Tasks',
+      title: role === 'TEACHER' ? 'Classwork' : 'Tasks',
       teacherTooltip:
         'View the status of every task that you have assigned to your classes',
       studentTooltip: 'View all of your current tasks from school',

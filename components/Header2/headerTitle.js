@@ -7,7 +7,7 @@ import {
   TitleConatiner,
   TitleMain,
 } from './HeaderStyle';
-import { isTeacher, isTeacherWithoutClass } from './rules';
+import { isTeacher, isTeacherWithoutClass, studentSubmissionTitleFunc } from './rules';
 import React from 'react';
 import arrowRightMini from '../../static/img/arrowRightMini.svg';
 import QuestionTooltip from '../../components2/QuestionTooltip';
@@ -27,6 +27,7 @@ function HeaderTitle({ breadcrumbs }) {
   
   const isExpert = isTeacherWithoutClass(role, classData);
   const homeTitle = isExpert ? 'Feedback From Me' : 'Classwork';
+  const studentSubmissionTitle = studentSubmissionTitleFunc(breadcrumbs)
 
   const headerTitleArray = [
     {
@@ -101,7 +102,7 @@ function HeaderTitle({ breadcrumbs }) {
     },
     {
       link: '/submissions',
-      title: role === 'TEACHER' ? 'Classwork' : 'Tasks',
+      title: role === 'TEACHER' ? 'Classwork' : studentSubmissionTitle,
       teacherTooltip: '',
       studentTooltip: 'View all of the tasks that you have marked as complete',
       homeLink: '/',

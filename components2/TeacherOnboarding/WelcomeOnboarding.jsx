@@ -12,7 +12,6 @@ import StartOnboarding from './StartOnboarding.jsx';
 import TutorialOnboarding from './TutorialOnboarding.jsx';
 import { getUserName } from '../../userLocalDetails.js';
 import WhatIsJeddAi from './WhatIsJeddAi.jsx';
-import Cookies from 'js-cookie';
 
 const WelcomeOnboarding = ({ onCloseOnboarding, onCloseOnboardingPermanently }) => {
   const navItems = ['Start', 'Tutorials', 'What is JeddAI?'];

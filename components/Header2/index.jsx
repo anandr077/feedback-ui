@@ -38,12 +38,10 @@ import Loader from '../Loader/index.jsx';
 
 const Header = ({ breadcrumbs }) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [slideNotificationBar, setSlideNotificationBar] = useState(false);
   const [isHelpBarOpen, setIsHelpBarOpen] = useState(false);
   const [dropDown, setDropDown] = React.useState(false);
   const [pageHeight, setPageHeight] = useState(0);
   const [sliderOpen, setsliderOpen] = useState(false);
-  const [fixedTop, setfixedTop] = useState(false);
   const notificationBarRef = useRef(null);
   const history = useHistory();
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
@@ -70,10 +68,8 @@ const Header = ({ breadcrumbs }) => {
   const handleNotificationClick = () => {
     if (!isNotificationOpen) {
       setIsNotificationOpen(true);
-      setSlideNotificationBar(true);
       setsliderOpen(true);
     } else {
-      setSlideNotificationBar(false);
       setsliderOpen(false);
       setTimeout(() => {
         setIsNotificationOpen(false);
@@ -183,9 +179,8 @@ const Header = ({ breadcrumbs }) => {
               isHelpBarOpen={sliderOpen}
               pageHeight={pageHeight}
               ref={notificationBarRef}
-              fixedTop={fixedTop}
             >
-              <HelpSidebar fixedTop={fixedTop} />
+              <HelpSidebar />
             </HelpbarContainer>
           </Screen>
         )}
@@ -194,19 +189,18 @@ const Header = ({ breadcrumbs }) => {
             onClick={handleNotificationClick}
             notifications={notifications}
             pageHeight={pageHeight}
+            bgColor={'rgba(0, 0, 0, 0.5)'}
           >
             <NavigationContainer
               slideNotificationBar={sliderOpen}
-              pageHeight={pageHeight}
+              pageHeight={document.documentElement.scrollHeight}
               onClick={(e) => e.stopPropagation()}
               ref={notificationBarRef}
-              fixedTop={fixedTop}
             >
               {' '}
               <NotificationsBar
                 notifications={notifications}
                 loadingNotifications={isLoading}
-                fixedTop={fixedTop}
               />{' '}
             </NavigationContainer>
           </Screen>

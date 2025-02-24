@@ -5,14 +5,16 @@ import {
   WelcomeUser,
   Navbar,
   NavbarButton,
+  StopShowButton
 } from './welcomeOnboardingStyle.js';
 import CloseButton from '../Buttons/CloseButton/index.jsx';
 import StartOnboarding from './StartOnboarding.jsx';
 import TutorialOnboarding from './TutorialOnboarding.jsx';
 import { getUserName } from '../../userLocalDetails.js';
 import WhatIsJeddAi from './WhatIsJeddAi.jsx';
+import Cookies from 'js-cookie';
 
-const WelcomeOnboarding = ({ onCloseOnboarding }) => {
+const WelcomeOnboarding = ({ onCloseOnboarding, onCloseOnboardingPermanently }) => {
   const navItems = ['Start', 'Tutorials', 'What is JeddAI?'];
   const [activeOnboarding, setActiveOnboarding] = useState('Start');
   const handleActiveOnboarding = () => {
@@ -57,6 +59,7 @@ const WelcomeOnboarding = ({ onCloseOnboarding }) => {
             ))}
           </Navbar>
           <div>{handleActiveOnboarding()}</div>
+          <StopShowButton onClick={onCloseOnboardingPermanently}>Stop show me this</StopShowButton>
         </MainContainer>
       </DialogContent>
     </Dialog>

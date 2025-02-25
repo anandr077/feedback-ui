@@ -32,8 +32,18 @@ export const HeadingImage = styled.img`
 export const NotificationHead = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
   width: 100%;
+`;
+
+export const CloseImage = styled.img`
+  cursor: pointer;
+`;
+
+export const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
   position: relative;
   img {
     height: 32px;

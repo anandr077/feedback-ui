@@ -186,13 +186,16 @@ const Header = ({ breadcrumbs }) => {
           </NotificationAccount>
         </RightSide>
         {isHelpBarOpen && (
-          <Screen onClick={handleHelpBarClick} pageHeight={pageHeight}>
+          <Screen
+            onClick={handleHelpBarClick}
+            pageHeight={pageHeight}
+            bgColor={'rgba(0, 0, 0, 0.5)'}
+          >
             <HelpbarContainer
               isHelpBarOpen={sliderOpen}
-              pageHeight={pageHeight}
               ref={notificationBarRef}
             >
-              <HelpSidebar />
+              <HelpSidebar onCloseFn={handleHelpBarClick}/>
             </HelpbarContainer>
           </Screen>
         )}
@@ -213,6 +216,7 @@ const Header = ({ breadcrumbs }) => {
               <NotificationsBar
                 notifications={notifications}
                 loadingNotifications={isLoading}
+                onCloseFn={handleNotificationClick}
               />{' '}
             </NavigationContainer>
           </Screen>

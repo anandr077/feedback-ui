@@ -167,6 +167,7 @@ function App() {
   }, [isAuthenticated]);
   const closeOnboarding = () => {
     setShowStudentOnboarding(false);
+    Cookies.set('showNotificationBar', 'true');
   };
 
   const closeTeacherOnboarding = () => {
@@ -276,6 +277,7 @@ function App() {
           value={{
             setShowStudentOnboarding,
             setShowTeacherOnboarding,
+            showWelcomeOnboarding
           }}
         >
           <Router>

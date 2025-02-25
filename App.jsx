@@ -56,6 +56,7 @@ import TeacherOnboarding from './components2/TeacherOnboarding';
 import { isShowWelcomeOnboarding, isStudentOnboarding, isTeacherOnboarding } from './rules';
 import { AppContext } from './app.context';
 import WelcomeOnboarding from './components2/TeacherOnboarding/WelcomeOnboarding';
+import Cookies from 'js-cookie';
 
 function App() {
   const exchangeInProgress = useRef(false);
@@ -133,7 +134,11 @@ function App() {
             if (defaultShowTeacherOnboarding) {
               setShowTeacherOnboarding(true);
             } else {
-              if (!localStorage.getItem('welcomeOnboardingShown')) {
+              const lastShown = Cookies.get('welcomeOnboardingShown');
+              const now = Date.now();
+              const oneWeek = 7 * 24 * 60 * 60 * 1000;
+
+              if (!lastShown || now - Number(lastShown) > oneWeek) {
                 setShowWelcomeOnboarding(true);
               }
             }
@@ -162,6 +167,7 @@ function App() {
   }, [isAuthenticated]);
   const closeOnboarding = () => {
     setShowStudentOnboarding(false);
+    Cookies.set('showNotificationBar', 'true');
   };
 
   const closeTeacherOnboarding = () => {
@@ -169,7 +175,13 @@ function App() {
   };
 
   const closeWelcomeOnboarding = () =>{
-    localStorage.setItem('welcomeOnboardingShown', true);
+    const now = Date.now();
+    Cookies.set('welcomeOnboardingShown', now, { expires: 7 });
+    setShowWelcomeOnboarding(false);
+  }
+
+  const handleStopWelcomeOnboardingPermanently = () =>{
+    Cookies.set('welcomeOnboardingShown', Date.now(), { expires: 3650 });
     setShowWelcomeOnboarding(false);
   }
   
@@ -265,6 +277,7 @@ function App() {
           value={{
             setShowStudentOnboarding,
             setShowTeacherOnboarding,
+            showWelcomeOnboarding
           }}
         >
           <Router>
@@ -273,8 +286,17 @@ function App() {
               {isTeacherOnboarding(showTeacherOnboarding, mobileView, role) && (
                 <TeacherOnboarding onCloseOnboarding={closeTeacherOnboarding} />
               )}
-              {isShowWelcomeOnboarding(showWelcomeOnboarding, mobileView, role) && (
-                <WelcomeOnboarding onCloseOnboarding={closeWelcomeOnboarding}/>
+              {isShowWelcomeOnboarding(
+                showWelcomeOnboarding,
+                mobileView,
+                role
+              ) && (
+                <WelcomeOnboarding
+                  onCloseOnboarding={closeWelcomeOnboarding}
+                  onCloseOnboardingPermanently={
+                    handleStopWelcomeOnboardingPermanently
+                  }
+                />
               )}
               {isStudentOnboarding(showStudentOnboarding) && (
                 <OnboardingScreen

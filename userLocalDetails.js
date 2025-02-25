@@ -54,4 +54,5 @@ export const deleteProfileCookies = () => {
   deleteLocalStorage('state');
   deleteLocalStorage('year');
   deleteLocalStorage('classes');
+  deleteCookie('showNotificationBar');
 };

@@ -417,11 +417,7 @@ function submitButton(methods, pageMode, submission, isTeacher) {
     );
   }
 
-  if (
-    pageMode === 'CLOSED' &&
-    submission?.status === 'SUBMITTED' &&
-    !isTeacher
-  ) {
+  if (pageMode === 'CLOSED') {
     return (
       <RoundedBorderSubmitBtn
         leftIcon={'/img/downloadPDF.svg'}

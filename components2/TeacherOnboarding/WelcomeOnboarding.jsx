@@ -58,7 +58,7 @@ const WelcomeOnboarding = ({ onCloseOnboarding, onCloseOnboardingPermanently }) 
             ))}
           </Navbar>
           <div>{handleActiveOnboarding()}</div>
-          <StopShowButton onClick={onCloseOnboardingPermanently}>Stop show me this</StopShowButton>
+          <StopShowButton onClick={onCloseOnboardingPermanently}>Stop showing me this</StopShowButton>
         </MainContainer>
       </DialogContent>
     </Dialog>

@@ -6,43 +6,43 @@ export const accordionItems = [
     content: (
       <>
         <Typography paragraph>
-          Great news! Your school has partnered with Jeddle, which means that
-          you and your students now have access to its curriculum-specific
-          English text guides and writing modules, as well as its game-changing
-          feedback and marking tools. Because you have just clicked on 'JeddAI',
-          you are currently on the feedback and marking section of the platform,
-          which is separate from the English text guides and writing modules.
+          Your school has partnered with Jeddle, giving you and your students
+          access to JeddAI - our game-changing feedback and marking tool.
         </Typography>
         <Typography paragraph>
-          While on the JeddAI portal, you can assign class work and provide
-          personalised feedback in a fraction of the time, helping students
-          improve their results while lightening your workload.
+          With JeddAI, you can quickly assign writing tasks and provide
+          personalised, rubric-aligned feedback in seconds (yes, seconds).
+          Students can also receive instant feedback based on your marking
+          preferences.
         </Typography>
         <Typography paragraph>
-          If you’re looking for Jeddle’s text guides and writing modules
-          instead, you’ll find them under the ‘My Courses’ tab at jeddle.com. If
-          no courses appear, check with your head of department to confirm
-          whether they subscribed exclusively to JeddAI.
+          👉{' '}
+          <Typography component="span" sx={{ fontWeight: 'bold' }}>
+            Note:
+          </Typography>{' '}
+          JeddAI is separate from Jeddle’s English content library. To access
+          text guides, video lessons, and quizzes, visit ‘My Courses’ on{' '}
+          <a
+            href="https://jeddle.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            jeddle.com
+          </a>
+          . If you don’t see any courses, check with your head of department.
         </Typography>
       </>
     ),
   },
   {
-    title: 'What is JeddAI and how will it help me and my students?',
+    title: 'What is JeddAI, and how does it help?',
     content: (
       <>
         <Typography paragraph>
-          With JeddAI, marking essay drafts and class work has never been
-          easier.
+          JeddAI is your AI-powered marking assistant, designed to make the
+          entire feedback process more efficient for both teachers and students.
         </Typography>
-        <Typography paragraph>
-          JeddAI is your personal marking assistant, combining specialised
-          feedback tools and optional AI suggestions to accelerate the feedback
-          process on formative writing tasks. JeddAI works with you to save
-          hours on marking while helping students improve their writing through
-          fast and reliable feedback.
-        </Typography>
-        <Typography>With JeddAI, you can:</Typography>
+        <Typography>By using the JeddAI platform, you can:</Typography>
         <ul
           style={{
             listStyleType: 'disc',
@@ -54,43 +54,41 @@ export const accordionItems = [
           <li>
             <Typography component="span">
               <Typography component="span" sx={{ fontWeight: 'bold' }}>
-                Set work for your class:
+                Assign writing tasks:
               </Typography>{' '}
-              Create formative writing tasks with options for self-assessment
-              and peer-to-peer feedback to encourage student reflection and
-              collaboration. Submissions can be typed or handwritten.
+              Include self-assessment and peer feedback options.
             </Typography>
           </li>
           <li>
             <Typography component="span">
               <Typography component="span" sx={{ fontWeight: 'bold' }}>
-                Accelerate your feedback:
+                Speed up marking:
               </Typography>{' '}
-              Customise rubrics and comment banks to provide detailed,
-              actionable feedback to students in just one click.
+              Use custom rubrics and one-click comment banks.
             </Typography>
           </li>
           <li>
             <Typography component="span">
               <Typography component="span" sx={{ fontWeight: 'bold' }}>
-                Use your personal AI-marking assistant:
+                Use AI-assisted feedback:
               </Typography>{' '}
-              Use our teacher-trained AI-marking assistant to generate feedback
-              suggestions on student work in less than 60 seconds (yes,
-              seconds). Specifically, JeddAI can provide a first draft of
-              personalised feedback on a student’s response (all of which is
-              tailored to your chosen rubric and comment bank for that task),
-              before allowing you to edit and share those suggestions with the
-              student. Talk about a headstart! This allows students to receive
-              feedback that is timely, relevant, and actionable.
+              Get instant, rubric-aligned feedback suggestions to edit and share
+              with students.
+            </Typography>
+          </li>
+          <li>
+            <Typography component="span">
+              <Typography component="span" sx={{ fontWeight: 'bold' }}>
+                Share exemplars:
+              </Typography>{' '}
+              Share student work (anonymously) so that others can learn by
+              example.
             </Typography>
           </li>
         </ul>
         <Typography paragraph>
-          Please note: JeddAI is not a chatbot and will not write a student’s
-          work for them. We believe in a world where AI empowers teaching rather
-          than undermining learning, and with almost every student now engaging
-          with AI, it’s vital they use tools that build skills, not shortcuts.
+          🔹 JeddAI is not a chatbot and will not write student responses for
+          them.
         </Typography>
       </>
     ),
@@ -100,10 +98,14 @@ export const accordionItems = [
     content: (
       <>
         <Typography paragraph>
-          If your school subscribed to Jeddle on your behalf, your classes have
-          already been registered using details provided by your school
-          administrator or head of department.
+          If you were registered as part of a school subscription, your classes
+          are{' '}
+          <Typography component="span" sx={{ fontWeight: 'bold' }}>
+            already set up
+          </Typography>
+          . You’ll see them at the end of this onboarding process.
         </Typography>
+        <Typography paragraph>You can also:</Typography>
         <ul
           style={{
             listStyleType: 'disc',
@@ -114,37 +116,40 @@ export const accordionItems = [
         >
           <li>
             <Typography component="span">
-              To view your classes, navigate to the ‘Class Insights’ tab. Class
-              codes will appear along the top of the page, and you can scroll
-              down to see a list of students.
+              View student lists and class codes on the{' '}
+              <Typography component="span" sx={{ fontWeight: 'bold' }}>
+                ‘Class Insights’
+              </Typography>{' '}
+              page, and
             </Typography>
           </li>
           <li>
             <Typography component="span">
-              To assign work to a class, click ‘New Task’ in the top menu.
+              Assign work to a class (or multiple classes) by clicking the{' '}
+              <Typography component="span" sx={{ fontWeight: 'bold' }}>
+                ‘New Task’
+              </Typography>{' '}
+              button.
             </Typography>
           </li>
         </ul>
         <Typography paragraph>
-          Students can log in to Jeddle using their school email address. Their
-          default password is the same as their school email address (lower
-          case).
+          Students should be instructed to log in to Jeddle using their{' '}
+          <Typography component="span" sx={{ fontWeight: 'bold' }}>
+            school email
+          </Typography>{' '}
+          (lowercase) as both their{' '}
+          <Typography component="span" sx={{ fontWeight: 'bold' }}>
+            username and password
+          </Typography>
+          .
         </Typography>
         <Typography>
+          For any class changes, email{' '}
           <Typography component="span" sx={{ fontWeight: 'bold' }}>
-            Username:
-          </Typography>{' '}
-          school email address (lower case)
-        </Typography>
-        <Typography paragraph>
-          <Typography component="span" sx={{ fontWeight: 'bold' }}>
-            Password:
-          </Typography>{' '}
-          school email address (lower case)
-        </Typography>
-        <Typography paragraph>
-          If you require any changes for your class lists, email us at
-          hello@jeddle.com.
+            hello@jeddle.com
+          </Typography>
+          .
         </Typography>
       </>
     ),
@@ -153,20 +158,20 @@ export const accordionItems = [
     title: 'Can students use JeddAI without me?',
     content: (
       <Typography paragraph>
-        Yes, but only if you have enabled JeddAI for your classes in the
-        ‘Marking Tools’ section of the portal. If enabled, students can
-        independently submit a draft response to a question and receive
-        rubric-aligned feedback in less than 60 seconds.
+        Yes - if JeddAI is switched ‘on’ in the{' '}
+        <Typography component="span" sx={{ fontWeight: 'bold' }}>
+          ‘Marking Tools’
+        </Typography>{' '}
+        section. When activated, students can submit drafts and receive
+        AI-generated feedback in seconds.
       </Typography>
     ),
   },
   {
-    title: 'What type of feedback does the AI provide?',
+    title: 'What type of feedback does JeddAI provide?',
     content: (
       <>
-        <Typography paragraph>
-          JeddAI uses your selected rubrics and comment banks to provide:
-        </Typography>
+        <Typography paragraph>JeddAI provides:</Typography>
         <ul
           style={{
             listStyleType: 'disc',
@@ -177,40 +182,53 @@ export const accordionItems = [
         >
           <li>
             <Typography component="span">
-              Specific in-text annotation (like comments on a Word Document or
-              Google Docs) with personalised suggestions.
+              <Typography component="span" sx={{ fontWeight: 'bold' }}>
+                In-text annotations:
+              </Typography>{' '}
+              Personalised feedback on specific sections of a student response,
+              including suggested improvements.
             </Typography>
           </li>
           <li>
             <Typography component="span">
-              Overall feedback based on strengths and target areas.
+              <Typography component="span" sx={{ fontWeight: 'bold' }}>
+                Overall feedback:
+              </Typography>{' '}
+              General feedback on strengths and target areas.
             </Typography>
           </li>
           <li>
             <Typography component="span">
-              Indicative grading based on the provided rubric (if enabled in
-              ‘Marking Tools’).
+              <Typography component="span" sx={{ fontWeight: 'bold' }}>
+                Indicative grading:
+              </Typography>{' '}
+              Based on your selected rubric (if enabled).
             </Typography>
           </li>
         </ul>
+        <Typography paragraph>
+          When using JeddAI as a marking assistant, you can review and edit all
+          AI-generated feedback before sharing it with students.
+        </Typography>
       </>
     ),
   },
   {
-    title: 'Can I disable the AI for my classes?',
+    title: 'Can I turn off the AI?',
     content: (
       <>
         <Typography paragraph>
-          Yes, JeddAI includes optional AI tools that you can turn on or off in
-          your ‘Marking Tools’ tab. When switched off, students will not be able
-          to receive independent feedback from JeddAI.
+          Yes! You turn the AI on or off in the{' '}
+          <Typography component="span" sx={{ fontWeight: 'bold' }}>
+            ‘Marking Tools’
+          </Typography>{' '}
+          section.
         </Typography>
         <Typography paragraph>
-          JeddAI is designed to empower teachers, not replace them, so you’ll be
-          in control every step of the way. Even when the AI is turned off,
-          JeddAI will drastically reduce your workload through its one-click
-          comment banks and rubrics, self-assessment and peer-review tools, and
-          virtual library of exemplars.
+          When switched off, students won’t be able to receive instant
+          AI-generated feedback, however you’ll still benefit from JeddAI’s
+          one-click comment banks, customisable rubrics, self-assessment tools
+          and peer-review options.
         </Typography>
       </>
     ),
@@ -220,31 +238,37 @@ export const accordionItems = [
     content: (
       <>
         <Typography paragraph>
-          This onboarding guide will show you exactly how to get started, with
-          step-by-step video tutorials for each feature.
+          This onboarding guide includes step-by-step tutorials.
         </Typography>
-        <Typography paragraph>If you need additional support:</Typography>
-        <ul>
+        <Typography paragraph>For extra help:</Typography>
+        <ul
+          style={{
+            listStyleType: 'disc',
+            paddingLeft: '1.5em',
+            marginTop: 0,
+            marginBottom: 10,
+          }}
+        >
           <li>
             <Typography component="span">
-              Click the help icon in the top right corner.
+              Click the help icon (top right)
             </Typography>
           </li>
           <li>
             <Typography component="span">
-              Email us at hello@jeddle.com or call us on <b>02 7908 3835</b>
+              Email hello@jeddle.com or call 02 7908 3835
             </Typography>
           </li>
           <li>
             <Typography component="span">
-              Schedule a personalised onboarding session using this{' '}
+              Book a virtual onboarding session:{' '}
               <Typography component="span" sx={{ fontWeight: 'bold' }}>
                 <a
-                  href="https://calendly.com/d/zhj-c6q-pkq/jeddle-demonstration"
+                  href="https://calendly.com/d/zhj-c6q-pkq/jeddle-demonstration?month=2025-02"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  link
+                  Schedule here
                 </a>
               </Typography>
               .

@@ -23,6 +23,7 @@ import RectangularBigBtn from '../Buttons/RectangularbigBtn/index.jsx';
 import { useClassData } from '../../components/state/hooks.js';
 import Loader from '../../components/Loader/index.jsx';
 import { getUserName } from '../../userLocalDetails.js';
+import { Avatar } from '@boringer-avatars/react';
 
 const OnboardingClass = ({ closeOnboarding }) => {
   const history = useHistory();
@@ -49,8 +50,14 @@ const OnboardingClass = ({ closeOnboarding }) => {
         </Header>
         <MainSection>
           <UserSection>
-            <Image src="/img/mask-group-1@2x.png" />
-            <Title style={{marginBottom: '0px'}}>{getUserName()}</Title>
+            <Avatar
+              title={false}
+              size={25}
+              variant="beam"
+              name={getUserName()}
+              square={false}
+            />
+            <Title style={{ marginBottom: '0px' }}>{getUserName()}</Title>
           </UserSection>
           <ClassSection>
             <Title>Classes</Title>
@@ -71,7 +78,13 @@ const OnboardingClass = ({ closeOnboarding }) => {
             <AllStudents>
               {classData[selectedClassIndex]?.students?.map((student, i) => (
                 <Student key={student.id || i}>
-                  <Image src="/img/mask-group-1@2x.png" />
+                  <Avatar
+                    title={false}
+                    size={25}
+                    variant="beam"
+                    name={student?.name}
+                    square={false}
+                  />
                   <StudentName>{student?.name}</StudentName>
                 </Student>
               ))}

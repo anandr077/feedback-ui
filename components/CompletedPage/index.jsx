@@ -24,7 +24,6 @@ import {
 } from './style.js';
 
 import TaskHistoryDataComponent from './TaskHistoryDataComponent.jsx';
-import { downloadSubmissionPdf } from '../Shared/helper/downloadPdf.js';
 import FilterSquare from '../../static/img/filter-square.svg';
 import RoundedDropDown from '../../components2/RoundedDropDown/index.jsx';
 import {
@@ -38,7 +37,6 @@ import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
 import { getUserRole } from '../../userLocalDetails.js';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 import { useAssignmentsAll, useClassData, useCompletedAll, useProfile } from '../state/hooks.js';
-import { duplicateAssignment } from '../../utils/function.js';
 import SortItems from '../../components2/SortItems/index.jsx';
 
 export default function CompletedPage() {
@@ -131,13 +129,6 @@ export default function CompletedPage() {
     return sortedTasks;
   };
 
-  const assignmentIdForDuplicate = (id) => {
-    duplicateAssignment(id, allAssignmentData)
-  };
-
-  const downloadPDF = (Id) => {
-    downloadSubmissionPdf(Id);
-  };
   if (isLoading || isLoadingclassData || isAllAssignmentDataLoading || isAllCompletedTasksDataLoading || isLoadingProfile) {
     return <Loader />;
   }
@@ -181,9 +172,7 @@ export default function CompletedPage() {
           </HeadingAndFilterCon>
           <LeftContentContainer>
             <TaskHistoryDataComponent
-              downloadPDF={downloadPDF}
               list={filterData(tasks)}
-              assignmentIdForDuplicate={assignmentIdForDuplicate}
             />
           </LeftContentContainer>
         </InnerContainer>

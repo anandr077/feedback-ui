@@ -101,7 +101,7 @@ function NotificationsBar(props) {
     setNotificationValue(value);
   };
 
-  const { notifications, type, onCloseFn, loadingNotifications, fixedTop } =
+  const { notifications, type, onCloseFn, loadingNotifications } =
     props;
   if (!notifications || notifications?.length === 0) {
     return (

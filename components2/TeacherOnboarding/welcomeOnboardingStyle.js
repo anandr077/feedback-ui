@@ -34,3 +34,13 @@ export const NavbarButton = styled.button`
   background-color: transparent;
   cursor: pointer;
 `;
+
+export const StopShowButton = styled.button`
+  font-family: var(--font-family-ibm_plex_sans);
+  font-size: var(--font-size-m);
+  color: rgba(123, 115, 130, 1);
+  background-color: transparent;
+  border: none;
+  margin-top: 12px;
+  cursor: pointer;
+`;

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const HelpSidebarContainer = styled.div`
   width: 380px;
-  height: ${(props) => (props.fixedTop ? '100vh' : '100%')};
+  height: 100%;
   padding: 20px;
   background-color: var(--white);
   box-shadow: 0px 4px 20px 0px rgba(48, 27, 114, 4%);

@@ -26,7 +26,7 @@ import { AppContext } from '../../app.context';
 import { getUserRole } from '../../userLocalDetails';
 
 
-const HelpSidebar = ({ onCloseFn, fixedTop }) => {
+const HelpSidebar = ({ onCloseFn }) => {
   const isSmallView = isSmallScreen();
   const role = userRole();
   const [data, setData] = useState(helpdata[role] || []);
@@ -66,7 +66,6 @@ const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   ) : (
     <HelpSidebarContainer
       onClick={(e) => e.stopPropagation()}
-      fixedTop={fixedTop}
     >
       {helpSidebarContent(data, handleSearch, handleOnboardingButtonClick)}
     </HelpSidebarContainer>

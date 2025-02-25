@@ -120,7 +120,7 @@ export const CloseNotification = styled.img`
 `;
 
 export const NotificationBody = styled.div`
-  height: calc(100vh - 160px);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;

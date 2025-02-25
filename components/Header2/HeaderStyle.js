@@ -160,7 +160,6 @@ export const NavigationContainer = styled.div`
   top: 0px;
   right: 0;
   z-index: 10000 !important;
-  border-radius: 8px 0 0 8px;
   background-color: white;
   align-self: stretch;
   overflow-y: scroll;

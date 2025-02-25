@@ -13,6 +13,8 @@ import {
   Frame15,
   Frame16,
   NotificationHead,
+  CloseImage,
+  HeaderLeft,
   EmptyBox,
   CloseNotification,
   NotificationBody,
@@ -159,7 +161,7 @@ function NotificationsBar(props) {
               <Heading>Notifications</Heading>
               <CloseNotification src="/img/close.png" onClick={onCloseFn} />
             </NotificationHead>
-            <Frame16 onClick={onCloseFn}>
+            <Frame16>
               {notificationFrames.length > 0 ? (
                 notificationFrames
               ) : (
@@ -169,10 +171,13 @@ function NotificationsBar(props) {
           </Frame1409>
         </NavbarDiv>
       ) : (
-        <Frame15 onClick={onCloseFn}>
+        <Frame15>
           <NotificationHead>
-            <HeadingImage src={notificationbing} />
-            <Heading>Notifications</Heading>
+            <HeaderLeft>
+              <HeadingImage src={notificationbing} />
+              <Heading>Notifications</Heading>
+            </HeaderLeft>
+            <CloseImage src="img/closecircle.svg" onClick={onCloseFn} />
           </NotificationHead>
           <NotificationBody>
             {notificationFrames.length > 0 ? (

@@ -42,6 +42,12 @@ export const CloseHelpBar = styled.img`
 export const Header = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+`;
+
+export const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
   gap: 8px;
   font-weight: 600;
   font-size: var(--font-size-xxl);
@@ -85,7 +91,7 @@ export const SearchIcon = styled.img`
 `;
 
 export const HelpOptionsContainer = styled.div`
-  height: calc(100vh - 205px);
+  height: calc(100vh - 100px);
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -115,5 +121,9 @@ export const Onboarding = styled.button`
 
 export const OnboardingIcon = styled.img`
   width: 25px;
+`;
+
+export const CloseImage = styled.img`
+  cursor: pointer;
 `;
 

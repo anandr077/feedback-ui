@@ -32,7 +32,7 @@ const Accordion = ({ title, subtopics, body, open = false }) => {
         <AccordionItemHeading>
           <AccordionTitle as={AccordionItemButton} feedback={body}>
             {title}
-            <StyledExpandMoreIcon feedback={body} />
+            <StyledExpandMoreIcon feedback={body} isActive={expanded.includes(title)} />
           </AccordionTitle>
         </AccordionItemHeading>
         <AccordionItemPanel>

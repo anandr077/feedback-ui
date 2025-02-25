@@ -12,6 +12,7 @@ export const AccordionTitle = styled.div`
   justify-content: space-between;
   padding: ${({ feedback }) => (feedback ? '' : '20px 0')};
   border-top: 1px solid #f1e6fc;
+  background-color: ${({ feedback }) => (feedback ? '#f2f1f3' : '')};
   cursor: pointer;
 `;
 

@@ -5,15 +5,16 @@ import {
   WelcomeUser,
   Navbar,
   NavbarButton,
-  StopShowButton
+  StopShowCheckBox
 } from './welcomeOnboardingStyle.js';
 import CloseButton from '../Buttons/CloseButton/index.jsx';
 import StartOnboarding from './StartOnboarding.jsx';
 import TutorialOnboarding from './TutorialOnboarding.jsx';
 import { getUserName } from '../../userLocalDetails.js';
 import WhatIsJeddAi from './WhatIsJeddAi.jsx';
+import Cookies from 'js-cookie';
 
-const WelcomeOnboarding = ({ onCloseOnboarding, onCloseOnboardingPermanently }) => {
+const WelcomeOnboarding = ({ onCloseOnboarding }) => {
   const navItems = ['Start', 'Tutorials', 'What is JeddAI?'];
   const [activeOnboarding, setActiveOnboarding] = useState('Start');
   const handleActiveOnboarding = () => {
@@ -27,6 +28,10 @@ const WelcomeOnboarding = ({ onCloseOnboarding, onCloseOnboardingPermanently }) 
         return <StartOnboarding onCloseOnboarding={onCloseOnboarding}/>;
     }
   };
+
+  const handleStopWelcomeOnboardingPermanently = () =>{
+    Cookies.set('welcomeOnboardingShown', Date.now(), { expires: 3650 });
+  }
 
   return (
     <Dialog
@@ -58,7 +63,17 @@ const WelcomeOnboarding = ({ onCloseOnboarding, onCloseOnboardingPermanently }) 
             ))}
           </Navbar>
           <div>{handleActiveOnboarding()}</div>
-          <StopShowButton onClick={onCloseOnboardingPermanently}>Stop showing me this</StopShowButton>
+          <StopShowCheckBox>
+            <input
+              type="checkbox"
+              onChange={(e) => {
+                if (e.target.checked) {
+                  handleStopWelcomeOnboardingPermanently();
+                }
+              }}
+            />
+            <span style={{ marginLeft: '8px' }}>Stop showing me this</span>
+          </StopShowCheckBox>
         </MainContainer>
       </DialogContent>
     </Dialog>

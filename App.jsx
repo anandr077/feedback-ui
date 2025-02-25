@@ -179,11 +179,6 @@ function App() {
     Cookies.set('welcomeOnboardingShown', now, { expires: 7 });
     setShowWelcomeOnboarding(false);
   }
-
-  const handleStopWelcomeOnboardingPermanently = () =>{
-    Cookies.set('welcomeOnboardingShown', Date.now(), { expires: 3650 });
-    setShowWelcomeOnboarding(false);
-  }
   
   const updateRedirectAt = () => {
     const url = new URL(window.location.href);
@@ -293,9 +288,6 @@ function App() {
               ) && (
                 <WelcomeOnboarding
                   onCloseOnboarding={closeWelcomeOnboarding}
-                  onCloseOnboardingPermanently={
-                    handleStopWelcomeOnboardingPermanently
-                  }
                 />
               )}
               {isStudentOnboarding(showStudentOnboarding) && (

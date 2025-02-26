@@ -173,12 +173,6 @@ function App() {
   const closeTeacherOnboarding = () => {
     setShowTeacherOnboarding(false);
   };
-
-  const closeWelcomeOnboarding = () =>{
-    const now = Date.now();
-    Cookies.set('welcomeOnboardingShown', now, { expires: 7 });
-    setShowWelcomeOnboarding(false);
-  }
   
   const updateRedirectAt = () => {
     const url = new URL(window.location.href);
@@ -272,7 +266,8 @@ function App() {
           value={{
             setShowStudentOnboarding,
             setShowTeacherOnboarding,
-            showWelcomeOnboarding
+            showWelcomeOnboarding,
+            setShowWelcomeOnboarding
           }}
         >
           <Router>
@@ -286,9 +281,7 @@ function App() {
                 mobileView,
                 role
               ) && (
-                <WelcomeOnboarding
-                  onCloseOnboarding={closeWelcomeOnboarding}
-                />
+                <WelcomeOnboarding />
               )}
               {isStudentOnboarding(showStudentOnboarding) && (
                 <OnboardingScreen

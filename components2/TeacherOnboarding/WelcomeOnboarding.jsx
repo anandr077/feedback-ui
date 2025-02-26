@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Dialog, DialogContent } from '@mui/material';
 import {
   MainContainer,
@@ -13,10 +13,19 @@ import TutorialOnboarding from './TutorialOnboarding.jsx';
 import { getUserName } from '../../userLocalDetails.js';
 import WhatIsJeddAi from './WhatIsJeddAi.jsx';
 import Cookies from 'js-cookie';
+import { AppContext } from '../../app.context.js';
 
-const WelcomeOnboarding = ({ onCloseOnboarding }) => {
+const WelcomeOnboarding = () => {
   const navItems = ['Start', 'Tutorials', 'What is JeddAI?'];
   const [activeOnboarding, setActiveOnboarding] = useState('Start');
+  const { setShowWelcomeOnboarding } = useContext(AppContext);
+
+  const closeWelcomeOnboarding = () =>{
+    const now = Date.now();
+    Cookies.set('welcomeOnboardingShown', now, { expires: 7 });
+    setShowWelcomeOnboarding(false);
+  }
+
   const handleActiveOnboarding = () => {
     switch (activeOnboarding) {
       case 'Tutorials':
@@ -25,7 +34,7 @@ const WelcomeOnboarding = ({ onCloseOnboarding }) => {
         return <WhatIsJeddAi />;
       case 'Start':
       default:
-        return <StartOnboarding onCloseOnboarding={onCloseOnboarding}/>;
+        return <StartOnboarding onCloseOnboarding={closeWelcomeOnboarding}/>;
     }
   };
 
@@ -49,7 +58,7 @@ const WelcomeOnboarding = ({ onCloseOnboarding }) => {
     >
       <DialogContent>
         <MainContainer>
-          <CloseButton onclickFn={onCloseOnboarding} />
+          <CloseButton onclickFn={closeWelcomeOnboarding} />
           <WelcomeUser>Welcome, {getUserName()}</WelcomeUser>
           <Navbar>
             {navItems.map((item) => (

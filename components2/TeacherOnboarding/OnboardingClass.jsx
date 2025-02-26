@@ -93,7 +93,13 @@ const OnboardingClass = ({ closeOnboarding }) => {
           </StudentSection>
         </MainSection>
         <CreateTaskButton>
-          <PurpleBorderNoBackgroundBtn text={"Request class change"}/>
+          <PurpleBorderNoBackgroundBtn
+            text={'Request class change'}
+            onclick={() => {
+              window.location.href =
+                'mailto:ai@jeddle.com?subject=Report%20an%20Issue%20with%20JeddAI&body=Please%20describe%20the%20issue%20you%20are%20reporting%20below,%20and%20include%20screenshots%20where%20possible:';
+            }}
+          />
           <RectangularBigBtn
             leftIcon={'/icons/pluswhite.svg'}
             text={'Create your first task'}

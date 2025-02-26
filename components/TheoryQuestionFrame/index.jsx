@@ -29,7 +29,6 @@ import {
   MarkingCriteriaList,
 } from './style';
 import QuestionTooltip from '../../components2/QuestionTooltip';
-import { useHistory } from 'react-router-dom';
 import QuestionFieldSelection from './QuestionFieldSelection';
 import { appendFunction } from '../FeedbacksComponents/FeedbacksRoot/rules';
 
@@ -54,11 +53,13 @@ export default function TheoryQuestionFrame(props) {
     allCommentBanks,
     setIsChanged,
   } = props;
-  const history = useHistory();
 
   const selectedMarkingCriteriaIndex = allMarkingCriterias?.findIndex(
     (item) => {
-      return item.title === questionDetails.markingCriteria?.title;
+      return (
+        item.title === questionDetails.markingCriteria?.title &&
+        item.type === questionDetails.markingCriteria?.type
+      );
     }
   );
   const selectedCommentBankIndex = allCommentBanks.findIndex((item) => {
@@ -123,7 +124,7 @@ export default function TheoryQuestionFrame(props) {
         <MarkingCriteriaSelectionContainer>
           <QuestionFieldSelection 
            label='Marking Template'
-           items = {allMarkingCriterias}
+           items={appendFunction(allMarkingCriterias)}
            tooltipText = "Select a Rubric (R) or list of Strengths and Targets (S&T) to use as overall feedback for this task. After reading a student's response, click on the applicable performance level/s or strengths and targets"
           onItemSelected = {updateMarkingCriteria}
           setIsChanged ={setIsChanged}
@@ -206,8 +207,8 @@ function createFocusAreaTags(allFocusAreas, presentFocusAreas) {
     const unitFocusArea = allFocusAreas.find((x) => x.id === focusArea);
     return (
       <Frame1321>
-        <Ellipse141 backgroundColor={unitFocusArea.color}></Ellipse141>
-        <Structure>{unitFocusArea.title}</Structure>
+        <Ellipse141 backgroundColor={unitFocusArea?.color}></Ellipse141>
+        <Structure>{unitFocusArea?.title}</Structure>
       </Frame1321>
     );
   });

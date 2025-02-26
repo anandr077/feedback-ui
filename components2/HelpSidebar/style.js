@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const HelpSidebarContainer = styled.div`
   width: 380px;
-  height: ${(props) => (props.fixedTop ? '100vh' : '100%')};
+  height: 100%;
   padding: 20px;
   background-color: var(--white);
   box-shadow: 0px 4px 20px 0px rgba(48, 27, 114, 4%);
@@ -40,6 +40,12 @@ export const CloseHelpBar = styled.img`
 `;
 
 export const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -85,7 +91,7 @@ export const SearchIcon = styled.img`
 `;
 
 export const HelpOptionsContainer = styled.div`
-  height: calc(100vh - 205px);
+  height: calc(100vh - 100px);
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -115,5 +121,9 @@ export const Onboarding = styled.button`
 
 export const OnboardingIcon = styled.img`
   width: 25px;
+`;
+
+export const CloseImage = styled.img`
+  cursor: pointer;
 `;
 

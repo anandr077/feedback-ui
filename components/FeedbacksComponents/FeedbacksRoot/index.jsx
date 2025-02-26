@@ -371,7 +371,7 @@ export default function FeedbacksRoot() {
       {}
     );
 
-    feedbackComments.forEach((comment) => {
+    feedbackComments?.forEach((comment) => {
       if (comment.type === 'FOCUS_AREA') {
         const { questionSerialNumber, focusAreaId } = comment;
         if (grouped[questionSerialNumber]) {

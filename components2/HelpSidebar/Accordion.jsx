@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import {
-  AccordionSection,
+  Accordion as ReactAccessibleAccordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion';
+import {
   AccordionTitle,
   SectionContent,
   StyledExpandMoreIcon,
@@ -8,43 +14,55 @@ import {
 import SubAccordion from './SubAccordion';
 import { SubAccordionLink } from './subAccordionStyle';
 
-const Accordion = ({ title, subtopics, body,open=false  }) => {
-  const [isActive, setIsActive] = useState(open);
+const Accordion = ({ title, subtopics, body, open = false }) => {
+  const [expanded, setExpanded] = useState(open ? [title] : []);
 
-  const toggleAccordion = () => {
-    setIsActive(!isActive);
+  const toggleAccordion = (uuids) => {
+    setExpanded(uuids);
   };
 
   return (
-    <AccordionSection>
-      <AccordionTitle onClick={toggleAccordion} feedback={body}>
-        {title} <StyledExpandMoreIcon isActive={isActive} feedback={body} />
-      </AccordionTitle>
-      <SectionContent isActive={isActive}>
-        {body
-          ? body
-          : subtopics.map((sub, index) => {
-              return sub.link ? (
-                <SubAccordionLink
-                  key={index}
-                  href={sub.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {sub.icon && <img src={sub.icon} alt={sub.title} />}
-                  {sub.title}
-                </SubAccordionLink>
-              ) : (
-                <SubAccordion
-                  key={index}
-                  title={sub.title}
-                  content={sub.content}
-                  video={sub.video}
-                />
-              );
-            })}
-      </SectionContent>
-    </AccordionSection>
+    <ReactAccessibleAccordion
+      allowMultipleExpanded={false}
+      allowZeroExpanded
+      preExpanded={expanded}
+      onChange={toggleAccordion}
+    >
+      <AccordionItem uuid={title}>
+        <AccordionItemHeading>
+          <AccordionTitle as={AccordionItemButton} feedback={body}>
+            {title}
+            <StyledExpandMoreIcon feedback={body} isActive={expanded.includes(title)} />
+          </AccordionTitle>
+        </AccordionItemHeading>
+        <AccordionItemPanel>
+          <SectionContent>
+            {body
+              ? body
+              : subtopics.map((sub, index) =>
+                  sub.link ? (
+                    <SubAccordionLink
+                      key={index}
+                      href={sub.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {sub.icon && <img src={sub.icon} alt={sub.title} />}
+                      {sub.title}
+                    </SubAccordionLink>
+                  ) : (
+                    <SubAccordion
+                      key={index}
+                      title={sub.title}
+                      content={sub.content}
+                      video={sub.video}
+                    />
+                  )
+                )}
+          </SectionContent>
+        </AccordionItemPanel>
+      </AccordionItem>
+    </ReactAccessibleAccordion>
   );
 };
 

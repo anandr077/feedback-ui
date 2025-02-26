@@ -249,6 +249,9 @@ export const getDocumentReviews = async () =>
   await getApi(baseUrl + '/document-review-tasks');
 export const startSubmission = async (assignmentDetails) =>
   await postApi(baseUrl + '/submissions', assignmentDetails);
+export const nextSubmission = async (assignmentID) =>
+  await getApi(baseUrl + '/assignments/' + assignmentID + '/nextSubmission');
+
 export const getSubmissionById = async (submissionId) =>
   await getApi(baseUrl + '/submissions/' + submissionId);
 export const getSubmissionsByAssignmentId = async (assignmentId) =>
@@ -364,6 +367,9 @@ export const getSmartAnnotations = async () =>
 
 export const getFeedbackBanks = async () =>
   await getApi(baseUrl + '/commentbanks?projection=commentBanksProjection');
+
+export const getAllSubmissions = async (id) => 
+  await getApi(baseUrl + '/assignments/' + id + '/allSubmissions')
 
 export const getCommentBank = async (id) => {
   const url = `${baseUrl}/commentbanks/${id}?projection=commentBanksProjection`;

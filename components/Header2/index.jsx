@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   useHistory,
 } from 'react-router-dom/cjs/react-router-dom.min';
@@ -25,7 +25,6 @@ import helpbarIcon from '../../static/img/helpgray24.svg';
 import addBtnIcon from '../../static/icons/gradient_add.svg';
 import notificationsIcon from '../../static/icons/Notifications.svg';
 import RoundedBorderLeftIconBtn from '../../components2/Buttons/RoundedBorderLeftIconBtn';
-import { useQuery } from '@tanstack/react-query';
 import NotificationsBar from '../NotificationsMenu/NotificationsBar/index.jsx';
 import ProfileDropdown from '../ProfileMenu/ProfileDropdown/index.jsx';
 import HeaderTitle from './headerTitle.js';
@@ -35,22 +34,32 @@ import { isTeacher, isTeacherWithClass } from './rules.js';
 import HeaderOnboardingMenu from '../../components2/Onboard/HeaderOnboardingMenu.jsx';
 import { useClassData, useNotifications } from '../state/hooks.js';
 import Loader from '../Loader/index.jsx';
+import Cookies from 'js-cookie';
+import { AppContext } from '../../app.context.js';
 
 const Header = ({ breadcrumbs }) => {
+  const { showWelcomeOnboarding } = useContext(AppContext);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [slideNotificationBar, setSlideNotificationBar] = useState(false);
   const [isHelpBarOpen, setIsHelpBarOpen] = useState(false);
   const [dropDown, setDropDown] = React.useState(false);
   const [pageHeight, setPageHeight] = useState(0);
-  const [sliderOpen, setsliderOpen] = useState(false);
-  const [fixedTop, setfixedTop] = useState(false);
+  const [sliderOpen, setSliderOpen] = useState(false);
   const notificationBarRef = useRef(null);
   const history = useHistory();
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const role = getUserRole();
   const name = getUserName();
 
-
+  useEffect(() => {
+    const notificationNotShown = !Cookies.get('showNotificationBar');
+    const showForStudent = role === 'STUDENT';
+    const showForTeacher = Cookies.get('welcomeOnboardingShown') && !showWelcomeOnboarding;
+  
+    if (notificationNotShown && (showForStudent || showForTeacher)) {
+      setIsNotificationOpen(true);
+      setSliderOpen(true); 
+    }
+  }, [role, showWelcomeOnboarding]);
 
 
   const {
@@ -70,14 +79,13 @@ const Header = ({ breadcrumbs }) => {
   const handleNotificationClick = () => {
     if (!isNotificationOpen) {
       setIsNotificationOpen(true);
-      setSlideNotificationBar(true);
-      setsliderOpen(true);
+      setSliderOpen(true);
     } else {
-      setSlideNotificationBar(false);
-      setsliderOpen(false);
+      setSliderOpen(false);
       setTimeout(() => {
         setIsNotificationOpen(false);
       }, 300);
+      Cookies.set('showNotificationBar', 'true');
     }
   };
 
@@ -85,11 +93,11 @@ const Header = ({ breadcrumbs }) => {
     setIsNotificationOpen(false);
     if (!isHelpBarOpen) {
       setIsHelpBarOpen(true);
-      setsliderOpen(true);
+      setSliderOpen(true);
       setIsNotificationOpen(false);
       setDropDown(false);
     } else {
-      setsliderOpen(false);
+      setSliderOpen(false);
       setTimeout(() => {
         setIsHelpBarOpen(false);
       }, 300);
@@ -178,14 +186,16 @@ const Header = ({ breadcrumbs }) => {
           </NotificationAccount>
         </RightSide>
         {isHelpBarOpen && (
-          <Screen onClick={handleHelpBarClick} pageHeight={pageHeight}>
+          <Screen
+            onClick={handleHelpBarClick}
+            pageHeight={pageHeight}
+            bgColor={'rgba(0, 0, 0, 0.5)'}
+          >
             <HelpbarContainer
               isHelpBarOpen={sliderOpen}
-              pageHeight={pageHeight}
               ref={notificationBarRef}
-              fixedTop={fixedTop}
             >
-              <HelpSidebar fixedTop={fixedTop} />
+              <HelpSidebar onCloseFn={handleHelpBarClick}/>
             </HelpbarContainer>
           </Screen>
         )}
@@ -194,19 +204,19 @@ const Header = ({ breadcrumbs }) => {
             onClick={handleNotificationClick}
             notifications={notifications}
             pageHeight={pageHeight}
+            bgColor={'rgba(0, 0, 0, 0.5)'}
           >
             <NavigationContainer
               slideNotificationBar={sliderOpen}
-              pageHeight={pageHeight}
+              pageHeight={document.documentElement.scrollHeight}
               onClick={(e) => e.stopPropagation()}
               ref={notificationBarRef}
-              fixedTop={fixedTop}
             >
               {' '}
               <NotificationsBar
                 notifications={notifications}
                 loadingNotifications={isLoading}
-                fixedTop={fixedTop}
+                onCloseFn={handleNotificationClick}
               />{' '}
             </NavigationContainer>
           </Screen>

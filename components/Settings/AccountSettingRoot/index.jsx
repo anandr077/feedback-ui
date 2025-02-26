@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactiveRender, { isMobileView } from '../../ReactiveRender';
 import AccountSettingsMarkingCriteriaDeskt from '../AccountSettingsMarkingCriteriaDeskt';
 
@@ -16,7 +16,9 @@ import { useMarkingCriterias } from '../../state/hooks.js';
 export default function AccountSettingsRoot(props) {
   const [openMarkingMethodologyDialog, setOpenMarkingMethodologyDialog] =
     React.useState(false);
-
+  const [sortMarkingCriteria, setSortMarkingCriteria] = useState(null);
+  const [isShowSystemMarkingCriteriasOnly, setIsShowSystemMarkingCriteriasOnly] = useState(false);
+  const [searchMarkingCriteria, setSearchMarkingCriteria] = useState('')
   const {
     data: markingCriterias,
     isLoadingdata: isLoadingMarkingCriterias,
@@ -76,23 +78,50 @@ export default function AccountSettingsRoot(props) {
       </>
     );
   }
-  const markingCriteriaList = markingCriterias?.map(
-    (markingCriteria, index) => (
-      <MarkingCriteriaCard
-        key={Math.random()}
-        markingCriteria={markingCriteria}
-        deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
-        cloneMarkingCriteria={() => createMarkingCriteria(markingCriteria)}
-      />
-    )
-  );
+  let filteredCriterias = markingCriterias?.filter((criteria) =>
+    isShowSystemMarkingCriteriasOnly ? criteria.isSystem : true
+  ) || [];
+
+  if (searchMarkingCriteria) {
+    filteredCriterias = filteredCriterias.filter((criteria) =>
+      criteria.title.toLowerCase().includes(searchMarkingCriteria.toLowerCase())
+    );
+  }
+  if (sortMarkingCriteria !== null) {
+    filteredCriterias.sort((a, b) => {
+      const titleA = a.title.toLowerCase();
+      const titleB = b.title.toLowerCase();
+      return sortMarkingCriteria
+        ? titleA.localeCompare(titleB)
+        : titleB.localeCompare(titleA);
+    });
+  }
+
+  const filteredAndSortedMarkingCriterias = filteredCriterias.map((criteria, index) => (
+    <MarkingCriteriaCard
+      key={criteria.id || index}
+      markingCriteria={criteria}
+      deleteMarkingCriteriaHandler={deleteMarkingCriteriaHandler}
+      cloneMarkingCriteria={() => createMarkingCriteria(criteria)}
+    />
+  ));
+
+  
+  const handleFilterSystemOnes = () => {
+    setIsShowSystemMarkingCriteriasOnly(!isShowSystemMarkingCriteriasOnly);
+  };
 
   return (
     <>
       <AccountSettingsMarkingCriteriaDeskt
         {...{
-          markingCriteriaList,
-          resetMarkingCriterias
+          filteredAndSortedMarkingCriterias,
+          resetMarkingCriterias,
+          sortMarkingCriteria, 
+          setSortMarkingCriteria,
+          handleFilterSystemOnes,
+          searchMarkingCriteria, 
+          setSearchMarkingCriteria
         }}
       />
       {openMarkingMethodologyDialog && (

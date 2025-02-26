@@ -16,6 +16,9 @@ export const MainContainer = styled.div`
   background-color: #fff;
   position: relative;
   width:100%;
+  opacity: ${({ notEditable }) => notEditable ? 0.5 : 1};
+  user-select: ${({ notEditable }) => notEditable ? 'none' : 'auto'};
+  pointer-events: ${({ notEditable }) => notEditable ? 'none' : 'auto'};
 `;
 export const TitleAndLinkContainer = styled.div`
   display: flex;

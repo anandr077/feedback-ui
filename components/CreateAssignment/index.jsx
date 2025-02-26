@@ -14,6 +14,8 @@ import {
   getStudentsForClass,
   getSmartAnnotations,
   getFeedbackBanks,
+  getAllSubmissions,
+  nextSubmission
 } from '../../service';
 import { assignmentsHeaderProps } from '../../utils/headerProps';
 import _ from 'lodash';
@@ -89,6 +91,13 @@ export default function CreateAssignment(props) {
   );
   const [currentCommentBank, setCurrentCommentBank] = React.useState([]);
 
+  nextSubmission(assignmentId).then((res) => {
+    console.log("res " + res)
+    if (res !== undefined && res !== null)
+      history.push(`/submissions/${res}`);
+  }).catch((error) => {
+    console.log(error);
+  });
   const getAssignment = async (id) => {
     if (id === 'new') {
       return draft;
@@ -105,6 +114,7 @@ export default function CreateAssignment(props) {
   const [allClassStudents, setAllClassStudents] = React.useState([]);
   const [classId, setClassId] = React.useState();
   const [updateDueDateTick, setUpdateDueDateTick] = React.useState(false);
+  const [submissions, setSubmissions] = React.useState([]);
   const mobileView = isMobileView();
   const [markingPlaceholder, setMarkingPlaceholder] = React.useState(
     mobileView ? 'Select' : 'Select Marking Template'
@@ -160,6 +170,7 @@ export default function CreateAssignment(props) {
       getAllColors(),
       getAllMarkingCriteria(),
       getFeedbackBanks(),
+      getAllSubmissions(assignmentId)
     ]).then(
       ([
         classesResult,
@@ -168,7 +179,9 @@ export default function CreateAssignment(props) {
         colors,
         markingCriteriasResult,
         commentBanks,
+        allSubmissions
       ]) => {
+        setSubmissions(allSubmissions)
         let userCommentBanks = commentBanks._embedded.commentbanks.filter(
           (commentBank) => commentBank.ownerId === UserId
         );
@@ -692,13 +705,15 @@ export default function CreateAssignment(props) {
         });
 
         toast(<Toast message={'Task updated'} />);
-        history.push('/#')
       } else {
         toast(<Toast message={'Could not update task'} />);
         return;
       }
 
-    })
+    }).catch((error) => {
+      console.error(error);
+      toast(<Toast message="Could not update assignment, please refresh the page and try again." />);
+    });
   }
 
   const deleteAssignmentHandler = () => {
@@ -922,6 +937,7 @@ export default function CreateAssignment(props) {
           setPendingLocation,
           isChanged,
           ...createAAssignmentLaptopData(classData),
+          submissions
         }}
       />
       {openFocusAreaDialog && (

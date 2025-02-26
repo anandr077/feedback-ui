@@ -11,15 +11,11 @@ import {
   Frame5086,
   Frame5086Img,
   Frame5086Text,
-  SortContainer,
-  SortButton,
-  SortButtonText,
 } from './style';
 import FeedbackDataComponent from './FeedbackDataComponent';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
 import Loader from '../Loader';
 import FilterSquare from '../../static/img/filter-square.svg';
-import SortSquare from '../../static/img/sort-square.svg';
 import {  isTabletView } from '../ReactiveRender';
 import RoundedDropDown from '../../components2/RoundedDropDown';
 
@@ -28,6 +24,7 @@ import MenuButton from '../MenuButton';
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar';
 import { getLocalStorage } from '../../utils/function';
 import { useCommunityTasks, useGiveFeedbackCompletedTasks, useStudentStats } from '../state/hooks';
+import SortItems from '../../components2/SortItems';
 
 function GiveFeedback() {
   const [selectedYear, setSelectedYear] = React.useState('');
@@ -39,7 +36,7 @@ function GiveFeedback() {
   const [giveFeedbackCompletedTasks, setGiveFeedbackCompletedTasks] =
     React.useState([]);
   const [studentStats, setStudentStats] = React.useState([]);
-  const [sortData, setSortData] = React.useState(true);
+  const [sortItem, setSortItem] = React.useState(true);
   const [isShowFilterPopUp, setShowFilterPopUp] = React.useState(false);
   const [isShowSortPopUp, setShowSortPopUp] = React.useState(false);
   const [isShowMenu, setShowMenu] = React.useState(false);
@@ -53,7 +50,7 @@ function GiveFeedback() {
     setSelectedSubject('');
     setSelectedState('');
     setSelectedDocumentType('');
-    setSortData(true);
+    setSortItem(true);
   }, [location.pathname]);
 
   const dropDownData = (type) => {
@@ -86,7 +83,7 @@ function GiveFeedback() {
     const sortedTasks = filteredTasks.sort((a, b) => {
       const dateA = new Date(a.requestedAt).getTime();
       const dateB = new Date(b.requestedAt).getTime();
-      return sortData ? dateB - dateA : dateA - dateB;
+      return sortItem ? dateB - dateA : dateA - dateB;
     });
 
     return sortedTasks;
@@ -218,42 +215,12 @@ function GiveFeedback() {
                   />
                 </>
               </FilterContainer>
-
-              <SortContainer>
-                <Frame5086>
-                  <Frame5086Img src={SortSquare} />
-                  <Frame5086Text>Sort by :</Frame5086Text>
-                </Frame5086>
-                <>
-                  <SortButton
-                    style={{
-                      backgroundColor: sortData ? '#51009F' : '',
-                      border: '1px solid #8E33E6',
-                      padding: '11.5px 20px',
-                    }}
-                    onClick={() => setSortData(true)}
-                  >
-                    <SortButtonText
-                      style={{ color: sortData ? '#FFFFFF' : '' }}
-                    >
-                      New to Old
-                    </SortButtonText>
-                  </SortButton>
-                  <SortButton
-                    style={{
-                      backgroundColor: !sortData ? '#51009F' : '',
-                      border: '1px solid #a6a6a6',
-                    }}
-                    onClick={() => setSortData(false)}
-                  >
-                    <SortButtonText
-                      style={{ color: !sortData ? '#FFFFFF' : '' }}
-                    >
-                      Old to New
-                    </SortButtonText>
-                  </SortButton>
-                </>
-              </SortContainer>
+              <SortItems 
+                sortItem={sortItem}
+                setSortItem={setSortItem}
+                firstSortText={"New to Old"}
+                secondSortText={"Old to New"}
+              />
             </FilterAndSortContainer>
           </HeadingAndFilterCon>
           <ContentContainer>

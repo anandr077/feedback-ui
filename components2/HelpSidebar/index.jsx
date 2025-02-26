@@ -3,6 +3,7 @@ import {
   HelpSidebarContainer,
   Header,
   IconImg,
+  HeaderLeft,
   SearchContainer,
   Input,
   SearchIcon,
@@ -11,6 +12,7 @@ import {
   HelpOptionsContainer,
   Onboarding,
   OnboardingIcon,
+  CloseImage
 } from './style';
 import Accordion from './Accordion';
 import { isSmallScreen } from '../../components/ReactiveRender';
@@ -26,7 +28,7 @@ import { AppContext } from '../../app.context';
 import { getUserRole } from '../../userLocalDetails';
 
 
-const HelpSidebar = ({ onCloseFn, fixedTop }) => {
+const HelpSidebar = ({ onCloseFn }) => {
   const isSmallView = isSmallScreen();
   const role = userRole();
   const [data, setData] = useState(helpdata[role] || []);
@@ -61,14 +63,13 @@ const HelpSidebar = ({ onCloseFn, fixedTop }) => {
   return isSmallView ? (
     <HelpSidebarSmallContainer>
       <CloseHelpBar src="/img/close.png" onClick={onCloseFn} />
-      {helpSidebarContent(data, handleSearch, handleOnboardingButtonClick)}
+      {helpSidebarContent(data, handleSearch, handleOnboardingButtonClick, onCloseFn)}
     </HelpSidebarSmallContainer>
   ) : (
     <HelpSidebarContainer
       onClick={(e) => e.stopPropagation()}
-      fixedTop={fixedTop}
     >
-      {helpSidebarContent(data, handleSearch, handleOnboardingButtonClick)}
+      {helpSidebarContent(data, handleSearch, handleOnboardingButtonClick, onCloseFn)}
     </HelpSidebarContainer>
   );
 };
@@ -76,12 +77,15 @@ const HelpSidebar = ({ onCloseFn, fixedTop }) => {
 export default HelpSidebar;
 
 
-function helpSidebarContent(data, handleSearch, handleOnboardingButtonClick) {
+function helpSidebarContent(data, handleSearch, handleOnboardingButtonClick, onCloseFn) {
   return (
     <>
       <Header>
-        <HeadingImage src={helpbing} />
-        <Heading>Help Centre</Heading>
+        <HeaderLeft>
+          <HeadingImage src={helpbing} />
+          <Heading>Help Centre</Heading>
+        </HeaderLeft>
+        <CloseImage src="img/closecircle.svg" onClick={onCloseFn} />
       </Header>
       <SearchContainer>
         <Input

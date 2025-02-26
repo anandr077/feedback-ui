@@ -42,8 +42,7 @@ import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSu
 import { v4 as uuidv4 } from 'uuid';
 import PdfIcon from '../../../static/img/pdf_logo.svg';
 import { isContinueButtonAccessible } from './rules';
-import { toast } from 'react-toastify';
-import Toast from '../../Toast';
+import { processFiles } from './processFilesToUpload';
 
 const DraggableImage = ({
   id,
@@ -149,22 +148,11 @@ function OrderPages({
     fileInputRef.current.click();
   };
 
-  const MAX_FILE_SIZE = 5 * 1024 * 1024;
-  const handleImageChange = (event) => {
+  const handleImageChange = async (event) => {
     event.preventDefault();
     const files = Array.from(event.target.files);
 
-    const validFiles = files.filter(file => {
-      if (file.size > MAX_FILE_SIZE) {
-        toast(
-          <Toast 
-            message={`${file.name} exceeds 5mb file size limit`}
-          />
-        )
-        return false;
-      }
-      return true;
-    });
+    const validFiles = await processFiles(files);
 
     const filesWithIds = validFiles.map((file) => ({
       id: uuidv4(),
@@ -179,7 +167,7 @@ function OrderPages({
         <AddButtonContainer>
           <StyledInput
             type="file"
-            accept="image/*,application/pdf"
+            accept=".heic, .HEIC, .heif, .HEIF, image/heic, image/heif, image/*, application/pdf"
             multiple
             ref={fileInputRef}
             name="file"

@@ -15,23 +15,35 @@ import {
 } from './style.js';
 
 import ImprovedSecondarySideBar from '../ImprovedSecondarySideBar/index.jsx';
+import UnderlinedGrayBtn from '../../components2/Buttons/UnderlinedGrayBtn/index.jsx';
+import { isShowAllAssignmentFunc, isShowAllButton, isShowAllDraftsFunc, isShowAllInReviewFunc } from './rules.js';
+import arrowDown from '../../static/img/arrowdown2.svg';
+import arrowUp from '../../static/img/arrowup2.svg';
 
 function TasksDesktop(props) {
   const {
-    menuItems,
-    filterTasks,
-    assignmedTasks,
+    visibleAssignedTasks,
+    visibleInProgressTasks,
+    visibleInReviewTasks,
+    visibleInProgressTaskCount, 
+    visibleAssignedTaskCount,  
+    visibleInReviewTaskCount,
     inProgressTasks,
+    assignedTasks,
     inReviewTasks,
     frame19Props,
-    headingFilter,
-    arrowright,
     FilterSortAndCal,
     tasksSelected,
     isShowMenu,
     setShowMenu,
     MyCalendarFile,
+    handleShowMoreTask,
   } = props;
+
+  const isShowAllAssignment = isShowAllAssignmentFunc(visibleAssignedTaskCount, assignedTasks);
+  const isShowAllDraft = isShowAllDraftsFunc(visibleInProgressTaskCount, inProgressTasks);
+  const isShowAllInReview = isShowAllInReviewFunc(visibleInReviewTaskCount, inReviewTasks);
+
   return (
     <TaskScreenMainContainer>
       <ImprovedSecondarySideBar
@@ -49,12 +61,24 @@ function TasksDesktop(props) {
                 <Frame1354>
                   <TaskFrame1353
                     outstanding="Assigned"
-                    number={assignmedTasks.length}
+                    number={assignedTasks.length}
                   />
                   <TaskCardContainer
-                    allTasks={assignmedTasks}
+                    allTasks={visibleAssignedTasks}
                     className={frame19Props.className}
                   />
+                  {isShowAllButton(assignedTasks) && (
+                    <UnderlinedGrayBtn
+                      text={isShowAllAssignment ? 'Show all' : 'Show less'}
+                      onclick={() =>
+                        handleShowMoreTask(
+                          'Assigned',
+                          isShowAllAssignment ? assignedTasks.length : 3
+                        )
+                      }
+                      rightIcon={isShowAllAssignment ? arrowDown : arrowUp}
+                    />
+                  )}
                 </Frame1354>
                 <Frame1354>
                   <TaskFrame1353
@@ -62,9 +86,21 @@ function TasksDesktop(props) {
                     number={inProgressTasks.length}
                   />
                   <TaskCardContainer
-                    allTasks={inProgressTasks}
+                    allTasks={visibleInProgressTasks}
                     className={frame19Props.className}
                   />
+                  {isShowAllButton(inProgressTasks) && (
+                    <UnderlinedGrayBtn
+                      text={isShowAllDraft ? 'Show all' : 'Show less'}
+                      onclick={() =>
+                        handleShowMoreTask(
+                          'inDraft',
+                          isShowAllDraft ? inProgressTasks.length : 3
+                        )
+                      }
+                      rightIcon={isShowAllDraft ? arrowDown : arrowUp}
+                    />
+                  )}
                 </Frame1354>
                 <Frame1358>
                   <TaskFrame1353
@@ -72,9 +108,21 @@ function TasksDesktop(props) {
                     number={inReviewTasks.length}
                   />
                   <TaskCardContainer
-                    allTasks={inReviewTasks}
+                    allTasks={visibleInReviewTasks}
                     className={frame19Props.className}
                   />
+                  {isShowAllButton(inReviewTasks) && (
+                    <UnderlinedGrayBtn
+                      text={isShowAllInReview ? 'Show all' : 'Show less'}
+                      onclick={() =>
+                        handleShowMoreTask(
+                          'inReview',
+                          isShowAllInReview ? inReviewTasks.length : 3
+                        )
+                      }
+                      rightIcon={isShowAllInReview ? arrowDown : arrowUp}
+                    />
+                  )}
                 </Frame1358>
               </Frame1359>
             </FixedWidthDiv>

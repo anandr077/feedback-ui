@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getTasks, getClasses } from '../../service';
 import ReactiveRender, { isTabletView } from '../ReactiveRender';
 import TasksDesktop from '../TasksDesktop';
@@ -14,7 +14,6 @@ import {
   TasksImgCal,
 } from './style.js';
 import RoundedDropDown from '../../components2/RoundedDropDown/index.jsx';
-import SortSquare from '../../static/img/sort-square.svg';
 import FilterSquare from '../../static/img/filter-square.svg';
 import TaskSelected from '../../static/img/Columns-new.svg';
 import TaskNotSelected from '../../static/img/Columns-new-gray.svg';
@@ -29,27 +28,24 @@ import {
   FilterText,
   FilterContainer,
   FilterLine,
-  SortButton,
-  SortButtonText,
-  SortContainer,
-  SortHeading,
-  SortImg,
-  SortText,
   TitleHeading,
 } from '../FilterSort/style.js';
 import MenuButton from '../MenuButton/index.jsx';
 import { useClassData } from '../state/hooks.js';
+import SortItems from '../../components2/SortItems/index.jsx';
 export default function StudentTaskRoot() {
   const [allTasks, setAllTasks] = React.useState([]);
   const [classes, setClasses] = React.useState([]);
   const [filteredTasks, setFilteredTasks] = React.useState([]);
-  const [sortData, setSortData] = React.useState(true);
+  const [sortItem, setSortItems] = React.useState(true);
   const [selectedClass, setSelectedClass] = React.useState('');
   const [tasksSelected, setTasksSelected] = React.useState(true);
-   const [isShowMenu, setShowMenu] = React.useState(false);
-   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
-
-   const tabletView = isTabletView();
+  const [isShowMenu, setShowMenu] = React.useState(false);
+  const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
+  const [visibleInProgressTaskCount, setVisibleInProgressTaskCount] = useState(3);
+  const [visibleAssignedTaskCount, setvisibleAssignedTaskCount] = useState(3);
+  const [visibleInReviewTaskCount, setvisibleInReviewTaskCount] = useState(3);
+  const tabletView = isTabletView();
 
   const tasksQuery = useQuery({
     queryKey: ['tasks'],
@@ -96,7 +92,7 @@ export default function StudentTaskRoot() {
     const sortedTasks = tasks.sort((a, b) => {
       const dateA = new Date(a.dueAt).getTime();
       const dateB = new Date(b.dueAt).getTime();
-      return sortData ? dateB - dateA : dateA - dateB;
+      return sortItem ? dateB - dateA : dateA - dateB;
     });
 
     return sortedTasks;
@@ -109,12 +105,16 @@ export default function StudentTaskRoot() {
       .filter((task) => task.progressStatus === progressStatus)
       .filter((task) => !selectedClass || task.classTitle === selectedClass);
 
-  const assignmedTasks = filterTasksByProgressAndClass(
+  const assignedTasks = filterTasksByProgressAndClass(
     filteredTasks,
     'ASSIGNED'
   );
   const inProgressTasks = filterTasksByProgressAndClass(filteredTasks, 'DRAFT');
   const inReviewTasks = filterTasksByProgressAndClass(filteredTasks, 'REVIEW');
+
+  const visibleInProgressTasks = inProgressTasks.slice(0, visibleInProgressTaskCount);
+  const visibleAssignedTasks = assignedTasks.slice(0, visibleAssignedTaskCount);
+  const visibleInReviewTasks = inReviewTasks.slice(0, visibleInReviewTaskCount);
 
   const classesItems = classes.map((clazz) => {
     return { value: clazz.id, label: clazz.title, category: 'CLASSES' };
@@ -163,6 +163,18 @@ export default function StudentTaskRoot() {
     setFilteredTasks(filteredClasses);
   };
 
+  const handleShowMoreTask = (type, numberOfTasks) =>{
+      if(type === "inDraft"){
+        setVisibleInProgressTaskCount(numberOfTasks)
+      }
+      if(type === 'Assigned'){
+        setvisibleAssignedTaskCount(numberOfTasks)
+      }
+      if(type === 'inReview'){
+        setvisibleInReviewTaskCount(numberOfTasks)
+      }
+  }
+
 
 
   const FilterSortAndCal = (
@@ -199,9 +211,7 @@ export default function StudentTaskRoot() {
         </CalenderContainer>
         <FilterAndSortContainer>
           <FilterContainer>
-            <Filter
-              
-            >
+            <Filter>
               <FilterImg src={FilterSquare} />
               <FilterText>Filter :</FilterText>
             </Filter>
@@ -222,42 +232,12 @@ export default function StudentTaskRoot() {
           </FilterContainer>
           {!isTabletView && <FilterLine />}
           {tasksSelected && (
-            <SortContainer>
-              <SortHeading
-                
-              >
-                <SortImg src={SortSquare} />
-                <SortText>Sort by :</SortText>
-              </SortHeading>
-              
-                <>
-                  <SortButton
-                    style={{
-                      backgroundColor: sortData ? '#51009F' : '',
-                      border: '1px solid #8E33E6',
-                    }}
-                    onClick={() => setSortData(true)}
-                  >
-                    <SortButtonText
-                      style={{ color: sortData ? '#FFFFFF' : '' }}
-                    >
-                      New to Old
-                    </SortButtonText>
-                  </SortButton>
-                  <SortButton
-                    style={{ backgroundColor: !sortData ? '#51009F' : '' }}
-                    onClick={() => setSortData(false)}
-                  >
-                    <SortButtonText
-                      style={{ color: !sortData ? '#FFFFFF' : '' }}
-                    >
-                      Old to New
-                    </SortButtonText>
-                  </SortButton>
-                </>
-              
-              
-            </SortContainer>
+            <SortItems
+              sortItem={sortItem}
+              setSortItem={setSortItems}
+              firstSortText={'New to Old'}
+              secondSortText={'Old to New'}
+            />
           )}
         </FilterAndSortContainer>
       </MainContainer>
@@ -275,17 +255,23 @@ export default function StudentTaskRoot() {
     }));
 
   const MyCalendarFile = <MyCalendar calenderEvents={calenderEvents} />;
+
   return (
     <TasksDesktop
       {...{
-        menuItems,
-        filterTasks,
-        assignmedTasks,
+        visibleAssignedTasks,
+        visibleInProgressTasks,
+        visibleInReviewTasks,
+        visibleInProgressTaskCount, 
+        visibleAssignedTaskCount,  
+        visibleInReviewTaskCount,
         inProgressTasks,
+        assignedTasks,
         inReviewTasks,
         FilterSortAndCal,
         tasksSelected,
         MyCalendarFile,
+        handleShowMoreTask,
         isShowMenu,
         setShowMenu,
         ...tasksDesktopData(classData),

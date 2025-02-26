@@ -75,15 +75,14 @@ export const NotificationAccount = styled.div`
 
 export const HelpbarContainer = styled.div`
   position: absolute;
-  top: 70px;
+  top: 0px;
   right: 0;
   z-index: 10000 !important;
-  border-radius: 8px;
   background-color: white;
   align-self: stretch;
   overflow-y: scroll;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
-  height: ${(props) => (props.pageHeight ? props.pageHeight + 'px' : '0')};
+  height: 100vh;
   animation: ${(props) => (props.isHelpBarOpen ? slideIn : slideOut)} 0.3s
     linear forwards;
   &::-webkit-scrollbar {
@@ -116,6 +115,7 @@ export const Screen = styled.div`
   top: 0;
   left: 0;
   z-index: 10;
+  background-color: ${({bgColor}) => bgColor ? bgColor : ''};
 `;
 
 const slideIn = keyframes`
@@ -156,10 +156,9 @@ const slideOut = keyframes`
 
 export const NavigationContainer = styled.div`
   position: absolute;
-  top: 70px;
+  top: 0px;
   right: 0;
   z-index: 10000 !important;
-  border-radius: 8px 0 0 8px;
   background-color: white;
   align-self: stretch;
   overflow-y: scroll;

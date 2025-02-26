@@ -28,6 +28,7 @@ import PurpleBorderNoBackgroundBtn from '../Buttons/PurpleBorderNoBackgroundBtn/
 
 const OnboardingClass = ({ closeOnboarding }) => {
   const history = useHistory();
+  const userName = getUserName();
   const [selectedClassIndex, setSelectedClassIndex] = useState(0);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
 
@@ -96,8 +97,8 @@ const OnboardingClass = ({ closeOnboarding }) => {
           <PurpleBorderNoBackgroundBtn
             text={'Request class change'}
             onclick={() => {
-              window.location.href =
-                'mailto:ai@jeddle.com?subject=Report%20an%20Issue%20with%20JeddAI&body=Please%20describe%20the%20issue%20you%20are%20reporting%20below,%20and%20include%20screenshots%20where%20possible:';
+              const mailtoLink = `mailto:contact@jeddle.com?subject=Class%20Changes&body=To%20make%20any%20class%20changes,%20please%20include%20the%20following%20details%20below:%0A%0ASchool%20name:%0A%0AYour%20full%20name:%20${userName}%0A%0AList%20of%20requested%20changes%20(inc.%20full%20student%20names%20AND%20class%20codes%20of%20old%20and%20new%20classes):`;
+              window.open(mailtoLink, '_blank');
             }}
           />
           <RectangularBigBtn

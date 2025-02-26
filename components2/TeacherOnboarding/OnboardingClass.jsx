@@ -24,6 +24,7 @@ import { useClassData } from '../../components/state/hooks.js';
 import Loader from '../../components/Loader/index.jsx';
 import { getUserName } from '../../userLocalDetails.js';
 import { Avatar } from '@boringer-avatars/react';
+import PurpleBorderNoBackgroundBtn from '../Buttons/PurpleBorderNoBackgroundBtn/index.jsx';
 
 const OnboardingClass = ({ closeOnboarding }) => {
   const history = useHistory();
@@ -92,6 +93,7 @@ const OnboardingClass = ({ closeOnboarding }) => {
           </StudentSection>
         </MainSection>
         <CreateTaskButton>
+          <PurpleBorderNoBackgroundBtn text={"Request class change"}/>
           <RectangularBigBtn
             leftIcon={'/icons/pluswhite.svg'}
             text={'Create your first task'}

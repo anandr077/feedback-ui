@@ -1,4 +1,14 @@
 import styled, { keyframes } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
+
+export const GlobalStyle = createGlobalStyle`
+  .guDwQT ,.AHYFX ,.jwrDtV {
+    padding: 0 !important;
+  }
+`;
+
+
+
 
 export const CompletedPageContainer = styled.div`
   display: flex;
@@ -680,4 +690,29 @@ export const Table = styled.table`
       visibility: visible;
     }
   }
+`;
+
+export const TableHeader = styled.thead``;
+
+export const TableRowHeader = styled.tr``;
+
+export const TableHeaderCell = styled.th`
+  text-align: left;
+  padding: 8px;
+`;
+
+export const TableRow = styled.tr`
+  background-color: ${(props) => (props.highlight ? 'rgba(242, 241, 243, 0.5)' : 'transparent')};
+  cursor: pointer;
+`;
+
+export const TableCell = styled.td`
+  vertical-align: top;
+  padding: 10px;
+  text-align: left;
+`;
+
+export const ButtonContainer = styled.div`
+  margin-top: 6px;
+  max-width: 65px;
 `;

@@ -14,9 +14,19 @@ import {
   TaskIconContainer,
   TaskIconsContainer,
   Table,
+  TableHeader,
+  TableRowHeader,
+  TableHeaderCell,
+  TableRow,
+  TableCell,
+  ButtonContainer,
+  GlobalStyle
 } from './style';
 
 import { dateOnly } from '../../dates';
+import StyledButton from '../../components2/StyledButton';
+import WhiteArrowRight from '../../static/img/Arrow-right-purple-24.svg';
+import arrowRight from '../../static/img/arrowright.svg';
 
 function TaskHistoryDataComponent({ list }) {
   const [clickHighLightRow, setClickHighlightRow] = useState(null);
@@ -25,38 +35,41 @@ function TaskHistoryDataComponent({ list }) {
     setClickHighlightRow(index);
   };
 
-  const handleDoubleClick = (url) => {
-    window.location.href = url;
-  };
-
   return (
     <>
+      <GlobalStyle />
       <Table>
-        <thead>
-          <tr>
-            <th class="first-column">Task Name</th>
-            <th class="second-column">Class</th>
-            <th className="completed-heading">Completed on</th>
-            <th></th>
-          </tr>
-        </thead>
+        <TableHeader>
+          <TableRowHeader>
+            <TableHeaderCell style={{ width: '40%' }}>Task Name</TableHeaderCell>
+            <TableHeaderCell style={{ width: '30%' }}>Class</TableHeaderCell>
+            <TableHeaderCell style={{ width: '30%' }}>Completed on</TableHeaderCell>
+          </TableRowHeader>
+        </TableHeader>
         <tbody>
           {list.map((task, index) => (
-            <tr
+            <TableRow
               key={index}
-              style={{
-                backgroundColor:
-                  clickHighLightRow === index
-                    ? 'rgba(242, 241, 243, 0.5)'
-                    : 'transparent',
-              }}
               onClick={() => handleClick(index)}
-              onDoubleClick={() => handleDoubleClick(task.link)}
+              highlight={clickHighLightRow === index}
             >
-              <td>{task.title}</td>
-              <td>{task.classTitle}</td>
-              <td>{dateOnly(task.completedAt)}</td>
-            </tr>
+              <TableCell>
+                <div>{task.title}</div>
+                {task.link && (
+                  <ButtonContainer>
+                    <StyledButton
+                      URL={task.link}
+                      Text="View"
+                      Icon={WhiteArrowRight}
+                      ColoredIcon={arrowRight}
+                      className="no-padding guDwQT"
+                    />
+                  </ButtonContainer>
+                )}
+              </TableCell>
+              <TableCell>{task.classTitle}</TableCell>
+              <TableCell>{dateOnly(task.completedAt)}</TableCell>
+            </TableRow>
           ))}
         </tbody>
       </Table>

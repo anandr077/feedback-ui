@@ -28,7 +28,7 @@ import StatusBubbleContainer from '../StatusBubblesContainer';
 import BorderedHeart from '../../static/img/Addtofav.svg';
 import RedBgHeart from '../../static/img/favTick.svg';
 import ProgressBar from '../ProgressBar';
-import { isShowProgressBar, isShowShareOption } from './rules';
+import { isShowChangeDueTime, isShowDeleteOption, isShowProgressBar, isShowShareOption } from './rules';
 import LinkButton from '../../components2/LinkButton';
 import arrowRight from '../../static/img/arrowright.svg';
 import whiteArrowright from '../../static/img/arrowright-White.svg';
@@ -278,7 +278,7 @@ function TaskCard(props) {
         <BubbleContainer>
           <StatusBubbleContainer tags={task?.tags ?? []} overdue={isOverDue} />
 
-          {role === 'TEACHER' && userId === task.teacherId && (
+          {role === 'TEACHER' && (
             <DeleteButtonContainer aria-describedby={id} onClick={handleClick}>
               <IconContainer src="/icons/three-dot.svg" alt="More" />
             </DeleteButtonContainer>
@@ -305,7 +305,7 @@ function TaskCard(props) {
 
     return (
       <>
-        {role === 'TEACHER' && userId === task.teacherId && showThreeDots && (
+        {role === 'TEACHER' && showThreeDots && (
           <DeleteButtonContainerOnly>
             <DeleteButtonContainer aria-describedby={id} onClick={handleClick}>
               <IconContainer src="/icons/three-dot.svg" alt="delete" />
@@ -355,14 +355,18 @@ function TaskCard(props) {
           <div>Share task</div>
         </StyledListItem>
       )}
-      <StyledListItem onClick={(event) => handleDateUpdate(event, task)}>
-        <IconContainer src="/icons/clock-purple.svg" />
-        <div>Change due time</div>
-      </StyledListItem>
-      <StyledListItem onClick={(event) => handleDelete(event, task)}>
-        <IconContainer src="/icons/delete-purple-icon.svg" />
-        <div>Delete</div>
-      </StyledListItem>
+      {isShowChangeDueTime(task.teacherId) && (
+        <StyledListItem onClick={(event) => handleDateUpdate(event, task)}>
+          <IconContainer src="/icons/clock-purple.svg" />
+          <div>Change due time</div>
+        </StyledListItem>
+      )}
+      {isShowDeleteOption(task.teacherId) && (
+        <StyledListItem onClick={(event) => handleDelete(event, task)}>
+          <IconContainer src="/icons/delete-purple-icon.svg" />
+          <div>Delete</div>
+        </StyledListItem>
+      )}
     </List>
   );
   return (

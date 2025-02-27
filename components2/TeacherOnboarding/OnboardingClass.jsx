@@ -24,9 +24,11 @@ import { useClassData } from '../../components/state/hooks.js';
 import Loader from '../../components/Loader/index.jsx';
 import { getUserName } from '../../userLocalDetails.js';
 import { Avatar } from '@boringer-avatars/react';
+import PurpleBorderNoBackgroundBtn from '../Buttons/PurpleBorderNoBackgroundBtn/index.jsx';
 
 const OnboardingClass = ({ closeOnboarding }) => {
   const history = useHistory();
+  const userName = getUserName();
   const [selectedClassIndex, setSelectedClassIndex] = useState(0);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
 
@@ -92,6 +94,13 @@ const OnboardingClass = ({ closeOnboarding }) => {
           </StudentSection>
         </MainSection>
         <CreateTaskButton>
+          <PurpleBorderNoBackgroundBtn
+            text={'Request class change'}
+            onclick={() => {
+              const mailtoLink = `mailto:contact@jeddle.com?subject=Class%20Changes&body=To%20make%20any%20class%20changes,%20please%20include%20the%20following%20details%20below:%0A%0ASchool%20name:%0A%0AYour%20full%20name:%20${userName}%0A%0AList%20of%20requested%20changes%20(inc.%20full%20student%20names%20AND%20class%20codes%20of%20old%20and%20new%20classes):`;
+              window.open(mailtoLink, '_blank');
+            }}
+          />
           <RectangularBigBtn
             leftIcon={'/icons/pluswhite.svg'}
             text={'Create your first task'}

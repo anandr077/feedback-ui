@@ -27,7 +27,6 @@ import { Redirect } from 'react-router-dom';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
 import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   getUserName,
   getUserRole,
@@ -57,15 +56,15 @@ import { isShowWelcomeOnboarding, isStudentOnboarding, isTeacherOnboarding } fro
 import { AppContext } from './app.context';
 import WelcomeOnboarding from './components2/TeacherOnboarding/WelcomeOnboarding';
 import Cookies from 'js-cookie';
+import { useProfile } from './components/state/hooks';
 
 function App() {
   const exchangeInProgress = useRef(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showStudentOnboarding, setShowStudentOnboarding] = useState(false);
   const [showTeacherOnboarding, setShowTeacherOnboarding] = useState(false);
-  const [loadingProfile, setLoadingProfile] = useState(false);
-  const [showWelcomeOnboarding, setShowWelcomeOnboarding] = useState(false);
-
+  const [showWelcomeOnboarding, setShowWelcomeOnboarding] = useState(true);
+  const {data: profile, isLoadingdata: isLoadingProfile} = useProfile();
   useEffect(() => {
     if (isLoggedOut) {
       return;
@@ -121,35 +120,24 @@ function App() {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      const fetchUserProfile = async () => {
-        setLoadingProfile(true);
-        try {
-          const userProfile = await getProfile();
+    if (isAuthenticated && !isLoadingProfile) {
+      console.log('profile ', profile);
+      const defaultShowTeacherOnboarding =
+        (profile?.state === null || profile?.state === undefined) &&
+        (profile?.year === null || profile?.year === undefined);
 
-          const defaultShowTeacherOnboarding =
-            (userProfile?.state === null || userProfile?.state === undefined) &&
-            (userProfile?.year === null || userProfile?.year === undefined);
+      if (defaultShowTeacherOnboarding) {
+        setShowTeacherOnboarding(true);
+      } else {
 
-            if (defaultShowTeacherOnboarding) {
-              setShowTeacherOnboarding(true);
-            } else {
-              const lastShown = Cookies.get('welcomeOnboardingShown');
-              const now = Date.now();
-              const oneWeek = 7 * 24 * 60 * 60 * 1000;
+        const sevenDaysAgoISO = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(); // Convert sevenDaysAgo to ISO-8601
+        const lastOnboardingTimeISO = profile?.lastOnboardingTime || "1970-01-01T00:00:00.000Z"; // Default to an old date
 
-              if (!lastShown || now - Number(lastShown) > oneWeek) {
-                setShowWelcomeOnboarding(true);
-              }
-            }
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setLoadingProfile(false);
+        if(!profile?.disableOnboarding && lastOnboardingTimeISO < sevenDaysAgoISO){
+          setShowWelcomeOnboarding(true);
         }
-      };
+      }
 
-      fetchUserProfile();
     }
   }, [isAuthenticated]);
 
@@ -212,7 +200,7 @@ function App() {
  
   const mobileView = isMobileView();
 
-  if (!isAuthenticated || loadingProfile) {
+  if (!isAuthenticated || isLoadingProfile) {
     return <Loader />;
   }
   const role = getUserRole();
@@ -240,28 +228,11 @@ function App() {
   const ProtectedCommentbanks = middleware(CommentBanks);
   const ProtectedJeddAI = middleware(JeddAI);
 
-  const client = new QueryClient({
-    // defaultOptions: {
-    //   queries: {
-    //     retry: (failureCount, error) => {
-    //       console.log('retry error', error);
-    //       return !(error.status === 401);  // Stop retries if status is 401
-    //     },
-    //     onError: (error) => {
-    //       console.log('error', error);
-    //       if (error.status === 401) {
-    //         handleRedirect();
-    //       }
-    //     },
-    //   },
-    // },
-  });
-
+ 
   ddRum();
 
   return (
     <>
-      <QueryClientProvider client={client}>
         <AppContext.Provider
           value={{
             setShowStudentOnboarding,
@@ -281,7 +252,7 @@ function App() {
                 mobileView,
                 role
               ) && (
-                <WelcomeOnboarding />
+                <WelcomeOnboarding profile={profile} />
               )}
               {isStudentOnboarding(showStudentOnboarding) && (
                 <OnboardingScreen
@@ -400,7 +371,7 @@ function App() {
           </Router>
         </AppContext.Provider>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-      </QueryClientProvider>
+     
     </>
   );
 }

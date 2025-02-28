@@ -12,7 +12,9 @@
     "serve:staging": "REACT_APP_ENV=staging REACT_APP_API_BASE_URL=https://feedbacks-backend-leso2wocda-ts.a.run.app REACT_APP_JEDDLE_BASE_URL=https://jeddle.com REACT_APP_SELF_BASE_URL=https://feedbackuianimaap-leso2wocda-ts.a.run.app SELF_BASE_URL=https://feedbackuianimaap-leso2wocda-ts.a.run.app REACT_APP_CLIENT_ID=KjdJNoiRHNrJIxDvvGRDsQwKImCQKBdF npm run serve",
     "serve:prod": "REACT_APP_ENV=prod REACT_APP_API_BASE_URL=https://feedbacks-backend-leso2wocda-ts.a.run.app REACT_APP_JEDDLE_BASE_URL=https://jeddle.duxdigital.net REACT_APP_SELF_BASE_URL=https://feedbackuianimaap-leso2wocda-ts.a.run.app SELF_BASE_URL=https://feedbackuianimaap-leso2wocda-ts.a.run.app REACT_APP_CLIENT_ID=glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr npm run serve",
     "prettier:check": "npx prettier --check .",
-    "prettier:format": "npx prettier --write ."
+    "prettier:format": "npx prettier --write .",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@boringer-avatars/react": "^0.2.1",
@@ -58,12 +60,24 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.4",
+    "@storybook/addon-essentials": "^8.5.2",
+    "@storybook/addon-interactions": "^8.5.2",
+    "@storybook/addon-onboarding": "^8.5.2",
+    "@storybook/addon-webpack5-compiler-swc": "^2.0.0",
+    "@storybook/blocks": "^8.5.2",
+    "@storybook/react": "^8.5.2",
+    "@storybook/react-webpack5": "^8.5.2",
+    "@storybook/test": "^8.5.2",
     "buffer": "^5.7.1",
+    "eslint-plugin-storybook": "^0.11.2",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "parcel-reporter-static-files-copy": "^1.5.3",
     "prettier": "^2.8.4",
-    "process": "^0.11.10"
+    "process": "^0.11.10",
+    "prop-types": "^15.8.1",
+    "storybook": "^8.5.2"
   },
   "husky": {
     "hooks": {

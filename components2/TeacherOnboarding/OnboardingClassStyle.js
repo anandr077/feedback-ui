@@ -8,7 +8,10 @@ export const Header = styled.header`
   text-align: center;
 `;
 
-export const MainSection = styled.main``;
+export const MainSection = styled.main`
+  width: 666px;
+  margin: 0 auto;
+`;
 
 export const UserSection = styled.div`
   display: flex;
@@ -68,8 +71,11 @@ export const AllStudents = styled.div`
 `;
 
 export const CreateTaskButton = styled.div`
-  width: 220px;
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 666px;
 `;
 
 export const ClassName = styled.span`

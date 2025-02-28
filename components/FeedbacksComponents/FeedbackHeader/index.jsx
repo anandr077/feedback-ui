@@ -3,7 +3,6 @@ import {
   FeedbackHeaderContainer,
   LeftSection,
   RightSection,
-  ReassignBtn,
   ToggleContainer,
   ToggleLavel,
   ToggleInput,
@@ -52,7 +51,8 @@ import ToggleSwitchWithOneOption from '../../../components2/ToggleSwitchWithOneO
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
-import { isShowJeddAiIcon, isShowReassignBtn } from './rules';
+import { isDisableButton, isShowJeddAiIcon, isShowReassignBtn } from './rules';
+import PurpleBorderNoBackgroundBtn from '../../../components2/Buttons/PurpleBorderNoBackgroundBtn';
 
 
 const FeedbackHeader = ({
@@ -203,14 +203,13 @@ const FeedbackHeader = ({
           />
         )}
         {isShowReassignBtn(isTeacher, pageMode, submission?.type) && (
-          <ReassignBtn
-            onClick={() =>
+          <PurpleBorderNoBackgroundBtn 
+            leftIcon={ResubmitBtn}
+            text={"Reassign Task"}
+            onclick={() =>
               methods.showSubmitPopuphandler('RequestResubmission')
             }
-          >
-            <img src={ResubmitBtn} />
-            Reassign Task
-          </ReassignBtn>
+          />
         )}
         {submission?.type === 'DOCUMENT'
           ? submitButtonOnDocument(
@@ -297,6 +296,7 @@ function submitButtonOnDocument(
                   setShowSelectType(true);
                 }
           }
+          isDisabled={isDisableButton(submission?.answers)}
         />
       </>
     );

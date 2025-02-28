@@ -1,21 +1,41 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Dialog, DialogContent } from '@mui/material';
 import {
   MainContainer,
   WelcomeUser,
   Navbar,
   NavbarButton,
-  StopShowButton
+  StopShowCheckBox
 } from './welcomeOnboardingStyle.js';
 import CloseButton from '../Buttons/CloseButton/index.jsx';
 import StartOnboarding from './StartOnboarding.jsx';
 import TutorialOnboarding from './TutorialOnboarding.jsx';
 import { getUserName } from '../../userLocalDetails.js';
 import WhatIsJeddAi from './WhatIsJeddAi.jsx';
+import Cookies from 'js-cookie';
+import { AppContext } from '../../app.context.js';
+import { updateOnboardingStatus } from '../../service.js';
 
-const WelcomeOnboarding = ({ onCloseOnboarding, onCloseOnboardingPermanently }) => {
+const WelcomeOnboarding = ({profile}) => {
   const navItems = ['Start', 'Tutorials', 'What is JeddAI?'];
   const [activeOnboarding, setActiveOnboarding] = useState('Start');
+  const { setShowWelcomeOnboarding } = useContext(AppContext);
+
+  const closeWelcomeOnboarding = async() =>{
+    const now = new Date().toISOString();
+   try {
+    await updateOnboardingStatus({
+      userId: profile.userId,
+      lastOnboardingTime: now,
+    })
+   } catch (error) {
+    console.error(error);
+   }finally{
+    setShowWelcomeOnboarding(false);
+   }
+   
+  }
+
   const handleActiveOnboarding = () => {
     switch (activeOnboarding) {
       case 'Tutorials':
@@ -24,9 +44,23 @@ const WelcomeOnboarding = ({ onCloseOnboarding, onCloseOnboardingPermanently }) 
         return <WhatIsJeddAi />;
       case 'Start':
       default:
-        return <StartOnboarding onCloseOnboarding={onCloseOnboarding}/>;
+        return <StartOnboarding onCloseOnboarding={closeWelcomeOnboarding}/>;
     }
   };
+
+  const handleStopWelcomeOnboardingPermanently = async() =>{
+    try {
+      await updateOnboardingStatus({
+        userId: profile.userId,
+        lastOnboardingTime: new Date().toISOString(),
+        disableOnboarding: true,
+      });
+    } catch (error) {
+      console.error(error);
+    }finally{
+      setShowWelcomeOnboarding(false);
+    }
+  }
 
   return (
     <Dialog
@@ -44,7 +78,7 @@ const WelcomeOnboarding = ({ onCloseOnboarding, onCloseOnboardingPermanently }) 
     >
       <DialogContent>
         <MainContainer>
-          <CloseButton onclickFn={onCloseOnboarding} />
+          <CloseButton onclickFn={closeWelcomeOnboarding} />
           <WelcomeUser>Welcome, {getUserName()}</WelcomeUser>
           <Navbar>
             {navItems.map((item) => (
@@ -58,7 +92,17 @@ const WelcomeOnboarding = ({ onCloseOnboarding, onCloseOnboardingPermanently }) 
             ))}
           </Navbar>
           <div>{handleActiveOnboarding()}</div>
-          <StopShowButton onClick={onCloseOnboardingPermanently}>Stop showing me this</StopShowButton>
+          <StopShowCheckBox>
+            <input
+              type="checkbox"
+              onChange={(e) => {
+                if (e.target.checked) {
+                  handleStopWelcomeOnboardingPermanently();
+                }
+              }}
+            />
+            <span style={{ marginLeft: '8px' }}>Stop showing me this</span>
+          </StopShowCheckBox>
         </MainContainer>
       </DialogContent>
     </Dialog>

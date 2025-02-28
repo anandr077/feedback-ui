@@ -21,7 +21,7 @@ export const FAQHeading = styled.p`
 `;
 
 export const FAQContent = styled.div`
-  height: 365px;
+  height: 364px;
   overflow-y: scroll;
 
   -ms-overflow-style: auto;

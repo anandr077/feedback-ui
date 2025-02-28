@@ -35,7 +35,9 @@ export const NavbarButton = styled.button`
   cursor: pointer;
 `;
 
-export const StopShowButton = styled.button`
+export const StopShowCheckBox = styled.label`
+  display: flex;
+  align-items: center;
   font-family: var(--font-family-ibm_plex_sans);
   font-size: var(--font-size-m);
   color: rgba(123, 115, 130, 1);

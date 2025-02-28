@@ -51,7 +51,7 @@ import ToggleSwitchWithOneOption from '../../../components2/ToggleSwitchWithOneO
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
-import { isShowJeddAiIcon, isShowReassignBtn } from './rules';
+import { isDisableButton, isShowJeddAiIcon, isShowReassignBtn } from './rules';
 import PurpleBorderNoBackgroundBtn from '../../../components2/Buttons/PurpleBorderNoBackgroundBtn';
 
 
@@ -296,6 +296,7 @@ function submitButtonOnDocument(
                   setShowSelectType(true);
                 }
           }
+          isDisabled={isDisableButton(submission?.answers)}
         />
       </>
     );

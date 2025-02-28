@@ -63,7 +63,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showStudentOnboarding, setShowStudentOnboarding] = useState(false);
   const [showTeacherOnboarding, setShowTeacherOnboarding] = useState(false);
-  const [showWelcomeOnboarding, setShowWelcomeOnboarding] = useState(true);
+  const [showWelcomeOnboarding, setShowWelcomeOnboarding] = useState(false);
   const {data: profile, isLoadingdata: isLoadingProfile} = useProfile();
   useEffect(() => {
     if (isLoggedOut) {
@@ -133,7 +133,7 @@ function App() {
         const sevenDaysAgoISO = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(); // Convert sevenDaysAgo to ISO-8601
         const lastOnboardingTimeISO = profile?.lastOnboardingTime || "1970-01-01T00:00:00.000Z"; // Default to an old date
 
-        if(!profile?.disableOnboarding && lastOnboardingTimeISO < sevenDaysAgoISO){
+        if(!profile?.disableOnboarding && (lastOnboardingTimeISO < sevenDaysAgoISO)){
           setShowWelcomeOnboarding(true);
         }
       }

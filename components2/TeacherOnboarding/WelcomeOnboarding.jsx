@@ -14,16 +14,26 @@ import { getUserName } from '../../userLocalDetails.js';
 import WhatIsJeddAi from './WhatIsJeddAi.jsx';
 import Cookies from 'js-cookie';
 import { AppContext } from '../../app.context.js';
+import { updateOnboardingStatus } from '../../service.js';
 
-const WelcomeOnboarding = () => {
+const WelcomeOnboarding = ({profile}) => {
   const navItems = ['Start', 'Tutorials', 'What is JeddAI?'];
   const [activeOnboarding, setActiveOnboarding] = useState('Start');
   const { setShowWelcomeOnboarding } = useContext(AppContext);
 
-  const closeWelcomeOnboarding = () =>{
-    const now = Date.now();
-    Cookies.set('welcomeOnboardingShown', now, { expires: 7 });
+  const closeWelcomeOnboarding = async() =>{
+    const now = new Date().toISOString();
+   try {
+    await updateOnboardingStatus({
+      userId: profile.userId,
+      lastOnboardingTime: now,
+    })
+   } catch (error) {
+    console.error(error);
+   }finally{
     setShowWelcomeOnboarding(false);
+   }
+   
   }
 
   const handleActiveOnboarding = () => {
@@ -38,8 +48,18 @@ const WelcomeOnboarding = () => {
     }
   };
 
-  const handleStopWelcomeOnboardingPermanently = () =>{
-    Cookies.set('welcomeOnboardingShown', Date.now(), { expires: 3650 });
+  const handleStopWelcomeOnboardingPermanently = async() =>{
+    try {
+      await updateOnboardingStatus({
+        userId: profile.userId,
+        lastOnboardingTime: new Date().toISOString(),
+        disableOnboarding: true,
+      });
+    } catch (error) {
+      console.error(error);
+    }finally{
+      setShowWelcomeOnboarding(false);
+    }
   }
 
   return (

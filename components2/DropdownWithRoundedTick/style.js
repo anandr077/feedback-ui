@@ -78,3 +78,13 @@ export const StyledSelect = styled(Select)`
   }
 `;
 
+export const OptionTitle = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  margin: 5px 0;
+  font-weight: 500;
+`;
+
+export const SecondOptionListItem = styled.p`
+  font-family: var(--font-family-ibm_plex_sans);
+  padding: 12px;
+`;

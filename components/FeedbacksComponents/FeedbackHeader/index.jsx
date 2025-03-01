@@ -86,7 +86,14 @@ const FeedbackHeader = ({
   const history = useHistory();
   const location = useLocation();
 
+  const allAssignedStudents = allClasses
+  ?.find(cls => submission?.classId === cls?.id)
+  ?.students ?? [];
   const studentsList = submission?.studentsSubmissions;
+  const studentsWithoutSubmission = allAssignedStudents.filter(
+    student => !studentsList?.some(submittedStudent => submittedStudent?.studentId === student?.id)
+  );
+
 
   useEffect(() => {
     const submissionId = location.pathname.split('/').pop();
@@ -138,7 +145,10 @@ const FeedbackHeader = ({
               <img src={ArrowLeft} alt="Left" />
             </ArrowBtn>
             <DropdownWithRoundedTick
-              options={studentsList}
+              firstOptionTitle="Submitted"
+              firstOptions={studentsList}
+              secondOptionTitle="Not Submitted"
+              secondOptions={studentsWithoutSubmission}
               selectedId={submission?.id}
               selectedIndex={selectedIndex}
               onChange={handleQuestionClick}

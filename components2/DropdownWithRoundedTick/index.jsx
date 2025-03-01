@@ -1,9 +1,24 @@
 import React from 'react';
 import { FormControl, Select } from '@mui/material';
 import studentTick from '../../static/img/student-tick.svg';
-import {StyledSelect, TickBox, StyledMenuItem, StyledMenuItemText} from './style';
+import {
+  StyledSelect,
+  TickBox,
+  StyledMenuItem,
+  StyledMenuItemText,
+  OptionTitle,
+  SecondOptionListItem,
+} from './style';
 
-const DropdownWithRoundedTick = ({options, selectedId, selectedIndex, onChange}) => {
+const DropdownWithRoundedTick = ({
+  firstOptionTitle,
+  firstOptions,
+  secondOptionTitle,
+  secondOptions,
+  selectedId,
+  selectedIndex,
+  onChange,
+}) => {
   return (
     <FormControl>
       <StyledSelect
@@ -28,14 +43,13 @@ const DropdownWithRoundedTick = ({options, selectedId, selectedIndex, onChange})
           onChange(newIndex);
         }}
       >
-        {options?.map((option, index) => (
+        <OptionTitle>{firstOptionTitle}</OptionTitle>
+        {firstOptions?.map((option, index) => (
           <StyledMenuItem
             key={index}
             value={index}
             studentStyle={selectedId === option.submissionId}
-            closed={
-                option.status === 'REVIEWED' || option.status === 'CLOSED'
-            }
+            closed={option.status === 'REVIEWED' || option.status === 'CLOSED'}
           >
             <StyledMenuItemText
               studentStyle={selectedId === option.submissionId}
@@ -46,6 +60,12 @@ const DropdownWithRoundedTick = ({options, selectedId, selectedIndex, onChange})
               <TickBox src={studentTick} />
             )}
           </StyledMenuItem>
+        ))}
+        {secondOptions.length > 0 && (
+          <OptionTitle>{secondOptionTitle}</OptionTitle>
+        )}
+        {secondOptions.map((option, index) => (
+          <SecondOptionListItem key={index}>{option.name}</SecondOptionListItem>
         ))}
       </StyledSelect>
     </FormControl>

@@ -9,7 +9,7 @@ import FooterLinks from '../FooterLinks';
 export default function Footer() {
   return (
     <FooterContainer>
-      <FooterText>© 2024 Jeddle. All rights reserved.</FooterText>
+      <FooterText>© 2025 Jeddle. All rights reserved.</FooterText>
       <FooterLinks />
     </FooterContainer>
   );

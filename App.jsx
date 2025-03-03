@@ -64,7 +64,8 @@ function App() {
   const [showStudentOnboarding, setShowStudentOnboarding] = useState(false);
   const [showTeacherOnboarding, setShowTeacherOnboarding] = useState(false);
   const [showWelcomeOnboarding, setShowWelcomeOnboarding] = useState(false);
-  const {data: profile, isLoadingdata: isLoadingProfile} = useProfile();
+  const { data: profile, isLoadingdata: isLoadingProfile } = useProfile(null, isAuthenticated);
+
   useEffect(() => {
     if (isLoggedOut) {
       return;
@@ -99,6 +100,7 @@ function App() {
       const authUrl = externalIDPUrl();
       window.location.href = authUrl;
     } else {
+      alert('Token already present');
       // Token already present
       console.log('Token already present');
       setIsAuthenticated(true);
@@ -139,7 +141,7 @@ function App() {
       }
 
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isLoadingProfile]);
 
    // **NEW: Redirect AFTER login is fully done**
    useEffect(() => {
@@ -200,7 +202,7 @@ function App() {
  
   const mobileView = isMobileView();
 
-  if (!isAuthenticated || isLoadingProfile) {
+  if (!isAuthenticated) {
     return <Loader />;
   }
   const role = getUserRole();

@@ -48,8 +48,6 @@ const WelcomeOnboarding = ({profile}) => {
       await disableOnboarding();
     } catch (error) {
       console.error(error);
-    }finally{
-      setShowWelcomeOnboarding(false);
     }
   }
 

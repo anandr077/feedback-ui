@@ -127,6 +127,13 @@ function NotificationsBar(props) {
               <div>Loading...</div>
             ) : (
               <Frame15>
+                <NotificationHead>
+                  <HeaderLeft>
+                    <HeadingImage src={notificationbing} />
+                    <Heading>Notifications</Heading>
+                  </HeaderLeft>
+                  <CloseImage src="img/closecircle.svg" onClick={onCloseFn} />
+                </NotificationHead>
                 <Cards emptyCard={true} />
               </Frame15>
             )}

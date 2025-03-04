@@ -100,7 +100,6 @@ function App() {
       const authUrl = externalIDPUrl();
       window.location.href = authUrl;
     } else {
-      alert('Token already present');
       // Token already present
       console.log('Token already present');
       setIsAuthenticated(true);

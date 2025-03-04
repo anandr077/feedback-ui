@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   OnboardingMainContainer,
   MainTitle,
@@ -12,6 +12,14 @@ import RoundedBorderSubmitBtn from '../Buttons/RoundedBorderSubmitBtn/index';
 import GrayBackgroundBtn from '../Buttons/GrayBackgroundBtn';
 
 const TeacherOnboardingMainSection = ({ content, lastItem, handleNextButtonClick }) => {
+  const [videoSrc, setVideoSrc] = useState(content.video);
+
+  useEffect(() => {
+    setVideoSrc("");
+    setTimeout(() => {
+      setVideoSrc(`${content.video}?autoplay=0&controlsVisibleOnLoad=true&wtime=0`);
+    }, 10); 
+  }, [content.id]);
 
   return (
     <OnboardingMainContainer>
@@ -21,7 +29,8 @@ const TeacherOnboardingMainSection = ({ content, lastItem, handleNextButtonClick
           <Subtitle fixedHeight={true}>{content.subTitle}</Subtitle>
         </Header>
         <Video
-          src={content.video}
+          key={content.tite}
+          src={videoSrc}
           frameborder="0"
           allowfullscreen
         ></Video>

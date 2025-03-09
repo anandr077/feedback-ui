@@ -2,11 +2,10 @@ import styled, { keyframes } from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
-  .guDwQT ,.AHYFX ,.jwrDtV {
-    padding: 0 !important;
+  .guDwQT, .AHYFX, .jwrDtV {
+    padding: 4px 12px !important;  
   }
 `;
-
 
 
 
@@ -658,7 +657,7 @@ export const Table = styled.table`
     line-height: 24px;
     color: rgba(75, 70, 79, 1);
     text-align: start;
-    padding: 8px 0px 8px 20px;
+    padding: 8px 20px 8px 20px;
     border-bottom: 1px solid rgba(201, 198, 204, 0.5);
     vertical-align: middle;
   }

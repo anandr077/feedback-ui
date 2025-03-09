@@ -15,8 +15,9 @@ import WhatIsJeddAi from './WhatIsJeddAi.jsx';
 import Cookies from 'js-cookie';
 import { AppContext } from '../../app.context.js';
 import { disableOnboarding, updateLastOnboardingTime } from '../../service.js';
+import CheckboxBordered from '../../components/CheckboxBordered/index.jsx';
 
-const WelcomeOnboarding = ({profile}) => {
+const WelcomeOnboarding = ({ profile }) => {
   const navItems = ['Start', 'Tutorials', 'What is JeddAI?'];
   const [activeOnboarding, setActiveOnboarding] = useState('Start');
   const { setShowWelcomeOnboarding } = useContext(AppContext);
@@ -49,7 +50,7 @@ const WelcomeOnboarding = ({profile}) => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
     <Dialog
@@ -82,7 +83,7 @@ const WelcomeOnboarding = ({profile}) => {
           </Navbar>
           <div>{handleActiveOnboarding()}</div>
           <StopShowCheckBox>
-            <input
+            <CheckboxBordered
               type="checkbox"
               onChange={(e) => {
                 if (e.target.checked) {

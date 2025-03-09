@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
 import Loader from '../Loader';
 import {
@@ -63,25 +63,31 @@ export default function CompletedPage() {
   } = useCompletedAll();
 
 
- 
-
-  const completedTaskFunc = (filteredTasks) =>{
+  const completedTaskFunc = (filteredTasks) => {
     if (!filteredTasks) {
       return [];
     }
-    const newCompletedTask = filteredTasks.flatMap(task => {
-      const classesCookies = classData || [];
-      const teacherClasses = isTeacher && classesCookies;
-      const titles = task.classIds.map(id => {
-        const clazz = teacherClasses.find(cls => cls.id === id);
+    console.log("all assignment tasks", allAssignmentData);
+    console.log("Processing tasks in completedTaskFunc:", filteredTasks);
+
+    return filteredTasks.flatMap((task) => {
+      const classes = classData || [];
+      const teacherClasses = isTeacher ? classes : [];
+      const titles = task.classIds?.map((id) => {
+        const clazz = teacherClasses.find((cls) => cls.id === id);
         return clazz ? clazz.title : null;
-      });
-      return titles.map(title => ({
+      }) || [];
+
+      return titles.map((title) => ({
         classTitle: title,
         id: task.id,
         link: task.link,
         title: task.title,
-        completedAt: task.dueAt
+        completedAt: task.dueAt,
+        submissionsStatus: task.submissionsStatus,
+        reviewCount: task.reviewCount,
+        submissionCount: task.submissionCount,
+        expectedSubmissions:task.expectedSubmissions
       }));
     })
     return newCompletedTask
@@ -132,7 +138,7 @@ export default function CompletedPage() {
   if (isLoading || isLoadingclassData || isAllAssignmentDataLoading || isAllCompletedTasksDataLoading || isLoadingProfile) {
     return <Loader />;
   }
-  console.log("Profile", profile)
+
   return (
     <CompletedPageContainer>
       <MainContainer>

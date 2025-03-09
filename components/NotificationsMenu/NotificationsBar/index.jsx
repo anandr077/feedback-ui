@@ -127,6 +127,13 @@ function NotificationsBar(props) {
               <div>Loading...</div>
             ) : (
               <Frame15>
+                <NotificationHead>
+                  <HeaderLeft>
+                    <HeadingImage src={notificationbing} />
+                    <Heading>Notifications</Heading>
+                  </HeaderLeft>
+                  <CloseImage src="img/closecircle.svg" onClick={onCloseFn} />
+                </NotificationHead>
                 <Cards emptyCard={true} />
               </Frame15>
             )}
@@ -142,13 +149,14 @@ function NotificationsBar(props) {
         <TaskCard
           task={notification}
           small={true}
+          showThreeDots={false}
           notification={true}
           onAccept={() => acceptMutation.mutate(notification.submissionId)}
           onDecline={() => declineMutation.mutate(notification.submissionId)}
         />
       );
     }
-    return <TaskCard task={notification} small={true} notification={true} />;
+    return <TaskCard task={notification} small={true} showThreeDots={false} notification={true} />;
   });
 
   return (

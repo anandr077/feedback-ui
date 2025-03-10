@@ -37,7 +37,6 @@
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "parcel": "2.8.1",
-    "pdfjs-dist": "^3.4.120",
     "query-string": "^9.1.1",
     "quill": "^2.0.2",
     "quill-delta-to-html": "^0.12.1",

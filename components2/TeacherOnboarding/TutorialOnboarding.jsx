@@ -5,8 +5,6 @@ import {
   AccordionSection,
   LinkImage,
 } from './tutorialOnboardingStyle.js';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
 import { MainContainer, Section, Title } from './startOnboardingStyle.js';
 import { userRole } from '../../roles.js';
 import helpData from '../../components2/HelpSidebar/helpdata.json';
@@ -25,27 +23,14 @@ const TutorialOnboarding = () => {
     tablet: {
       breakpoint: { max: 1024, min: 464 },
       items: 4,
-    }
+    },
   };
 
   return (
     <MainContainer>
       <Section>
         <Title>How-To Videos</Title>
-        <VideoSection>
-          <Carousel responsive={responsive}>
-            {videoLinks.map((video, index) => (
-              <a
-                key={video.id || index}
-                href={video.link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <LinkImage src={video.image} alt={`video-${index}`}/>
-              </a>
-            ))}
-          </Carousel>
-        </VideoSection>
+        <VideoSection></VideoSection>
       </Section>
       <FAQSection>
         <Title>FAQ's</Title>

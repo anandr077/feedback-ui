@@ -3,7 +3,7 @@
   "scripts": {
     "start": "parcel index.html",
     "build": "npm run build:app && cp _redirects dist/",
-    "build:app": "parcel build index.html --public-url ./ --no-scope-hoist",
+    "build:app": "NODE_OPTIONS='--max-old-space-size=8192' NODE_DISABLE_V8_COMPILE_CACHE=1 parcel build index.html --public-url ./ --no-scope-hoist",
     "build:staging": "REACT_APP_API_BASE_URL=https://feedbacks-backend-leso2wocda-ts.a.run.app REACT_APP_JEDDLE_BASE_URL=https://jeddle.duxdigital.net REACT_APP_SELF_BASE_URL=https://jazzy-nougat-56cd76.netlify.app SELF_BASE_URL=https://jazzy-nougat-56cd76.netlify.app REACT_APP_CLIENT_ID=glkjMYDxtVbCbGabAyuxfMLJkeqjqHyr npm run build:app && cp _redirects dist/",
     "build:staging-cr": "REACT_APP_API_BASE_URL=https://feedbacksbackend-cr-leso2wocda-ts.a.run.app REACT_APP_JEDDLE_BASE_URL=https://jeddle.com REACT_APP_SELF_BASE_URL=https://feedbackuianimaap-cr-leso2wocda-ts.a.run.app SELF_BASE_URL=https://feedbackuianimaap-cr-leso2wocda-ts.a.run.app REACT_APP_CLIENT_ID=KjdJNoiRHNrJIxDvvGRDsQwKImCQKBdF npm run build:app && cp _redirects dist/",
     "build:prod-cr": "REACT_APP_API_BASE_URL=https://feedbacksbackend-cr2-zbwgpqef5q-ts.a.run.app REACT_APP_JEDDLE_BASE_URL=https://jeddle.com REACT_APP_SELF_BASE_URL=https://feedbackuianimaap-cr-zbwgpqef5q-ts.a.run.app SELF_BASE_URL=https://feedbackuianimaap-cr-zbwgpqef5q-ts.a.run.app REACT_APP_CLIENT_ID=KjdJNoiRHNrJIxDvvGRDsQwKImCQKBdF npm run build:app && cp _redirects dist/",

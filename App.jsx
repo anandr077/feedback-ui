@@ -17,6 +17,7 @@ import CompletedPage from './components/CompletedPage';
 import CreateAssignment from './components/CreateAssignment';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
 import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ExemplarResponsesPage from './components/ExemplarResponsesPage';
 import FeedbacksRoot from './components/FeedbacksComponents/FeedbacksRoot';
 import PageNotFound from './components/PageNotFound';
@@ -52,11 +53,14 @@ import { getLocalStorage } from './utils/function';
 import OnboardingScreen from './components2/Onboard/OnboardingScreen';
 import Loader from './components/Loader';
 import TeacherOnboarding from './components2/TeacherOnboarding';
-import { isShowWelcomeOnboarding, isStudentOnboarding, isTeacherOnboarding } from './rules';
+import {
+  isShowWelcomeOnboarding,
+  isStudentOnboarding,
+  isTeacherOnboarding,
+} from './rules';
 import { AppContext } from './app.context';
 import WelcomeOnboarding from './components2/TeacherOnboarding/WelcomeOnboarding';
 import Cookies from 'js-cookie';
-import { useProfile } from './components/state/hooks';
 
 function App() {
   const exchangeInProgress = useRef(false);
@@ -64,7 +68,6 @@ function App() {
   const [showStudentOnboarding, setShowStudentOnboarding] = useState(false);
   const [showTeacherOnboarding, setShowTeacherOnboarding] = useState(false);
   const [showWelcomeOnboarding, setShowWelcomeOnboarding] = useState(false);
-  const { data: profile, isLoadingdata: isLoadingProfile } = useProfile(null, isAuthenticated);
 
   useEffect(() => {
     if (isLoggedOut) {
@@ -72,7 +75,7 @@ function App() {
     }
     const token = localStorage.getItem('jwtToken');
     const parsed = queryString.parse(window.location.search);
-    
+
     if (parsed.code) {
       if (exchangeInProgress.current) {
         console.log('Exchange already in progress');
@@ -120,32 +123,32 @@ function App() {
     }
   }, [isAuthenticated]);
 
+  // useEffect(() => {
+  //   if (isAuthenticated && !isLoadingProfile) {
+  //     console.log('profile ', profile);
+  //     const defaultShowTeacherOnboarding =
+  //       (profile?.state === null || profile?.state === undefined) &&
+  //       (profile?.year === null || profile?.year === undefined);
+
+  //     if (defaultShowTeacherOnboarding) {
+  //       setShowTeacherOnboarding(true);
+  //     } else {
+
+  //       const sevenDaysAgoISO = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(); // Convert sevenDaysAgo to ISO-8601
+  //       const lastOnboardingTimeISO = profile?.lastOnboardingTime || "1970-01-01T00:00:00.000Z"; // Default to an old date
+
+  //       if(!profile?.disableOnboarding && (lastOnboardingTimeISO < sevenDaysAgoISO)){
+  //         setShowWelcomeOnboarding(true);
+  //       }
+  //     }
+
+  //   }
+  // }, [isAuthenticated, isLoadingProfile]);
+
+  // **NEW: Redirect AFTER login is fully done**
   useEffect(() => {
-    if (isAuthenticated && !isLoadingProfile) {
-      console.log('profile ', profile);
-      const defaultShowTeacherOnboarding =
-        (profile?.state === null || profile?.state === undefined) &&
-        (profile?.year === null || profile?.year === undefined);
-
-      if (defaultShowTeacherOnboarding) {
-        setShowTeacherOnboarding(true);
-      } else {
-
-        const sevenDaysAgoISO = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(); // Convert sevenDaysAgo to ISO-8601
-        const lastOnboardingTimeISO = profile?.lastOnboardingTime || "1970-01-01T00:00:00.000Z"; // Default to an old date
-
-        if(!profile?.disableOnboarding && (lastOnboardingTimeISO < sevenDaysAgoISO)){
-          setShowWelcomeOnboarding(true);
-        }
-      }
-
-    }
-  }, [isAuthenticated, isLoadingProfile]);
-
-   // **NEW: Redirect AFTER login is fully done**
-   useEffect(() => {
     if (isAuthenticated) {
-      const redirectPath = localStorage.getItem('redirectPath') ;
+      const redirectPath = localStorage.getItem('redirectPath');
       if (redirectPath) {
         localStorage.removeItem('redirectPath');
 
@@ -162,24 +165,23 @@ function App() {
   const closeTeacherOnboarding = () => {
     setShowTeacherOnboarding(false);
   };
-  
+
   const updateRedirectAt = () => {
     const url = new URL(window.location.href);
     const hashFragment = window.location.hash.substring(1); // Remove `#`
 
     // If there's a hash path, move it to `redirect` query parameter
     if (hashFragment) {
-        url.hash = ''; // Remove hash from URL
-        url.searchParams.set('redirect', hashFragment); // Store hash path in query param
+      url.hash = ''; // Remove hash from URL
+      url.searchParams.set('redirect', hashFragment); // Store hash path in query param
     }
 
     // Add or update `redirect_at`
     url.searchParams.set('redirect_at', Date.now());
-    const res = url.toString()
-    
+    const res = url.toString();
+
     return res;
   };
-
 
   const externalIDPUrl = () => {
     const selfBaseUrl =
@@ -198,7 +200,7 @@ function App() {
       encodeURIComponent(updateRedirectAt())
     );
   };
- 
+
   const mobileView = isMobileView();
 
   if (!isAuthenticated) {
@@ -229,17 +231,34 @@ function App() {
   const ProtectedCommentbanks = middleware(CommentBanks);
   const ProtectedJeddAI = middleware(JeddAI);
 
- 
+  const client = new QueryClient({
+    // defaultOptions: {
+    //   queries: {
+    //     retry: (failureCount, error) => {
+    //       console.log('retry error', error);
+    //       return !(error.status === 401);  // Stop retries if status is 401
+    //     },
+    //     onError: (error) => {
+    //       console.log('error', error);
+    //       if (error.status === 401) {
+    //         handleRedirect();
+    //       }
+    //     },
+    //   },
+    // },
+  });
+
   ddRum();
 
   return (
     <>
+      <QueryClientProvider client={client}>
         <AppContext.Provider
           value={{
             setShowStudentOnboarding,
             setShowTeacherOnboarding,
             showWelcomeOnboarding,
-            setShowWelcomeOnboarding
+            setShowWelcomeOnboarding,
           }}
         >
           <Router>
@@ -252,9 +271,7 @@ function App() {
                 showWelcomeOnboarding,
                 mobileView,
                 role
-              ) && (
-                <WelcomeOnboarding profile={profile} />
-              )}
+              ) && <WelcomeOnboarding />}
               {isStudentOnboarding(showStudentOnboarding) && (
                 <OnboardingScreen
                   editStateYear={false}
@@ -372,7 +389,7 @@ function App() {
           </Router>
         </AppContext.Provider>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-     
+      </QueryClientProvider>
     </>
   );
 }

@@ -5,7 +5,7 @@ import {
   WelcomeUser,
   Navbar,
   NavbarButton,
-  StopShowCheckBox
+  StopShowCheckBox,
 } from './welcomeOnboardingStyle.js';
 import CloseButton from '../Buttons/CloseButton/index.jsx';
 import StartOnboarding from './StartOnboarding.jsx';
@@ -17,20 +17,20 @@ import { AppContext } from '../../app.context.js';
 import { disableOnboarding, updateLastOnboardingTime } from '../../service.js';
 import CheckboxBordered from '../../components/CheckboxBordered/index.jsx';
 
-const WelcomeOnboarding = ({ profile }) => {
+const WelcomeOnboarding = () => {
   const navItems = ['Start', 'Tutorials', 'What is JeddAI?'];
   const [activeOnboarding, setActiveOnboarding] = useState('Start');
   const { setShowWelcomeOnboarding } = useContext(AppContext);
 
-  const closeWelcomeOnboarding = async() =>{
-   try {
-    await updateLastOnboardingTime()
-   } catch (error) {
-    console.error(error);
-   } finally{
-    setShowWelcomeOnboarding(false);
-   }
-  }
+  const closeWelcomeOnboarding = async () => {
+    try {
+      await updateLastOnboardingTime();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setShowWelcomeOnboarding(false);
+    }
+  };
 
   const handleActiveOnboarding = () => {
     switch (activeOnboarding) {
@@ -40,11 +40,11 @@ const WelcomeOnboarding = ({ profile }) => {
         return <WhatIsJeddAi />;
       case 'Start':
       default:
-        return <StartOnboarding onCloseOnboarding={closeWelcomeOnboarding}/>;
+        return <StartOnboarding onCloseOnboarding={closeWelcomeOnboarding} />;
     }
   };
 
-  const handleStopWelcomeOnboardingPermanently = async() =>{
+  const handleStopWelcomeOnboardingPermanently = async () => {
     try {
       await disableOnboarding();
     } catch (error) {

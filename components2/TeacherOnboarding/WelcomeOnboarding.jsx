@@ -14,22 +14,16 @@ import { getUserName } from '../../userLocalDetails.js';
 import WhatIsJeddAi from './WhatIsJeddAi.jsx';
 import Cookies from 'js-cookie';
 import { AppContext } from '../../app.context.js';
-import { disableOnboarding, updateLastOnboardingTime } from '../../service.js';
-import CheckboxBordered from '../../components/CheckboxBordered/index.jsx';
 
-const WelcomeOnboarding = ({ profile }) => {
+const WelcomeOnboarding = () => {
   const navItems = ['Start', 'Tutorials', 'What is JeddAI?'];
   const [activeOnboarding, setActiveOnboarding] = useState('Start');
   const { setShowWelcomeOnboarding } = useContext(AppContext);
 
-  const closeWelcomeOnboarding = async() =>{
-   try {
-    await updateLastOnboardingTime()
-   } catch (error) {
-    console.error(error);
-   } finally{
+  const closeWelcomeOnboarding = () =>{
+    const now = Date.now();
+    Cookies.set('welcomeOnboardingShown', now, { expires: 7 });
     setShowWelcomeOnboarding(false);
-   }
   }
 
   const handleActiveOnboarding = () => {
@@ -44,13 +38,9 @@ const WelcomeOnboarding = ({ profile }) => {
     }
   };
 
-  const handleStopWelcomeOnboardingPermanently = async() =>{
-    try {
-      await disableOnboarding();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const handleStopWelcomeOnboardingPermanently = () =>{
+    Cookies.set('welcomeOnboardingShown', Date.now(), { expires: 3650 });
+  }
 
   return (
     <Dialog

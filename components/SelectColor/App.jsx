@@ -1,7 +1,7 @@
 import { css } from 'styled-components';
 import React from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import SelectColor from 'SelectColor';
+import SelectColor from './SelectColor';
 
 function App() {
   return (

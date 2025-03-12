@@ -32,7 +32,7 @@ const OnboardingHomeSection = ({ onNext }) => {
   };
 
   if (isLoadingProfile) {
-    <Loader />;
+    return <Loader />;
   }
 
   return (

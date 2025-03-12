@@ -53,7 +53,11 @@ import { getLocalStorage } from './utils/function';
 import OnboardingScreen from './components2/Onboard/OnboardingScreen';
 import Loader from './components/Loader';
 import TeacherOnboarding from './components2/TeacherOnboarding';
-import { isShowWelcomeOnboarding, isStudentOnboarding, isTeacherOnboarding } from './rules';
+import {
+  isShowWelcomeOnboarding,
+  isStudentOnboarding,
+  isTeacherOnboarding,
+} from './rules';
 import { AppContext } from './app.context';
 import WelcomeOnboarding from './components2/TeacherOnboarding/WelcomeOnboarding';
 import Cookies from 'js-cookie';
@@ -72,7 +76,7 @@ function App() {
     }
     const token = localStorage.getItem('jwtToken');
     const parsed = queryString.parse(window.location.search);
-    
+
     if (parsed.code) {
       if (exchangeInProgress.current) {
         console.log('Exchange already in progress');
@@ -131,17 +135,17 @@ function App() {
             (userProfile?.state === null || userProfile?.state === undefined) &&
             (userProfile?.year === null || userProfile?.year === undefined);
 
-            if (defaultShowTeacherOnboarding) {
-              setShowTeacherOnboarding(true);
-            } else {
-              const lastShown = Cookies.get('welcomeOnboardingShown');
-              const now = Date.now();
-              const oneWeek = 7 * 24 * 60 * 60 * 1000;
+          if (defaultShowTeacherOnboarding) {
+            setShowTeacherOnboarding(true);
+          } else {
+            const lastShown = Cookies.get('welcomeOnboardingShown');
+            const now = Date.now();
+            const oneWeek = 7 * 24 * 60 * 60 * 1000;
 
-              if (!lastShown || now - Number(lastShown) > oneWeek) {
-                setShowWelcomeOnboarding(true);
-              }
+            if (!lastShown || now - Number(lastShown) > oneWeek) {
+              setShowWelcomeOnboarding(true);
             }
+          }
         } catch (error) {
           console.error(error);
         } finally {
@@ -151,12 +155,12 @@ function App() {
 
       fetchUserProfile();
     }
-  }, [isAuthenticated, isLoadingProfile]);
+  }, [isAuthenticated]);
 
-   // **NEW: Redirect AFTER login is fully done**
-   useEffect(() => {
+  // **NEW: Redirect AFTER login is fully done**
+  useEffect(() => {
     if (isAuthenticated) {
-      const redirectPath = localStorage.getItem('redirectPath') ;
+      const redirectPath = localStorage.getItem('redirectPath');
       if (redirectPath) {
         localStorage.removeItem('redirectPath');
 
@@ -173,24 +177,23 @@ function App() {
   const closeTeacherOnboarding = () => {
     setShowTeacherOnboarding(false);
   };
-  
+
   const updateRedirectAt = () => {
     const url = new URL(window.location.href);
     const hashFragment = window.location.hash.substring(1); // Remove `#`
 
     // If there's a hash path, move it to `redirect` query parameter
     if (hashFragment) {
-        url.hash = ''; // Remove hash from URL
-        url.searchParams.set('redirect', hashFragment); // Store hash path in query param
+      url.hash = ''; // Remove hash from URL
+      url.searchParams.set('redirect', hashFragment); // Store hash path in query param
     }
 
     // Add or update `redirect_at`
     url.searchParams.set('redirect_at', Date.now());
-    const res = url.toString()
-    
+    const res = url.toString();
+
     return res;
   };
-
 
   const externalIDPUrl = () => {
     const selfBaseUrl =
@@ -209,7 +212,7 @@ function App() {
       encodeURIComponent(updateRedirectAt())
     );
   };
- 
+
   const mobileView = isMobileView();
 
   if (!isAuthenticated || loadingProfile) {
@@ -267,7 +270,7 @@ function App() {
             setShowStudentOnboarding,
             setShowTeacherOnboarding,
             showWelcomeOnboarding,
-            setShowWelcomeOnboarding
+            setShowWelcomeOnboarding,
           }}
         >
           <Router>
@@ -280,9 +283,7 @@ function App() {
                 showWelcomeOnboarding,
                 mobileView,
                 role
-              ) && (
-                <WelcomeOnboarding />
-              )}
+              ) && <WelcomeOnboarding />}
               {isStudentOnboarding(showStudentOnboarding) && (
                 <OnboardingScreen
                   editStateYear={false}

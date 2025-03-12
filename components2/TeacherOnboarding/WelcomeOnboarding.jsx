@@ -5,7 +5,7 @@ import {
   WelcomeUser,
   Navbar,
   NavbarButton,
-  StopShowCheckBox
+  StopShowCheckBox,
 } from './welcomeOnboardingStyle.js';
 import CloseButton from '../Buttons/CloseButton/index.jsx';
 import StartOnboarding from './StartOnboarding.jsx';
@@ -14,17 +14,18 @@ import { getUserName } from '../../userLocalDetails.js';
 import WhatIsJeddAi from './WhatIsJeddAi.jsx';
 import Cookies from 'js-cookie';
 import { AppContext } from '../../app.context.js';
+import CheckboxBordered from '../../components/CheckboxBordered/index.jsx';
 
 const WelcomeOnboarding = () => {
   const navItems = ['Start', 'Tutorials', 'What is JeddAI?'];
   const [activeOnboarding, setActiveOnboarding] = useState('Start');
   const { setShowWelcomeOnboarding } = useContext(AppContext);
 
-  const closeWelcomeOnboarding = () =>{
+  const closeWelcomeOnboarding = () => {
     const now = Date.now();
     Cookies.set('welcomeOnboardingShown', now, { expires: 7 });
     setShowWelcomeOnboarding(false);
-  }
+  };
 
   const handleActiveOnboarding = () => {
     switch (activeOnboarding) {
@@ -34,13 +35,13 @@ const WelcomeOnboarding = () => {
         return <WhatIsJeddAi />;
       case 'Start':
       default:
-        return <StartOnboarding onCloseOnboarding={closeWelcomeOnboarding}/>;
+        return <StartOnboarding onCloseOnboarding={closeWelcomeOnboarding} />;
     }
   };
 
-  const handleStopWelcomeOnboardingPermanently = () =>{
+  const handleStopWelcomeOnboardingPermanently = () => {
     Cookies.set('welcomeOnboardingShown', Date.now(), { expires: 3650 });
-  }
+  };
 
   return (
     <Dialog

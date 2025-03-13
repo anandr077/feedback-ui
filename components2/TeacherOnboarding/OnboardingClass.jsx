@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DialogContent } from '@mui/material';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import {
   MainContainer,
   Header,
@@ -27,13 +27,13 @@ import { Avatar } from '@boringer-avatars/react';
 import PurpleBorderNoBackgroundBtn from '../Buttons/PurpleBorderNoBackgroundBtn/index.jsx';
 
 const OnboardingClass = ({ closeOnboarding }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const userName = getUserName();
   const [selectedClassIndex, setSelectedClassIndex] = useState(0);
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
 
   const handleCreateTaskClick = () => {
-    history.push('/tasks/new');
+    navigate('/tasks/new');
     closeOnboarding();
   };
 

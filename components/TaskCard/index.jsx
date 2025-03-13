@@ -137,9 +137,9 @@ function TaskCard(props) {
       <StyledCard
         ref={refContainer}
         isSelected={isSelected}
-        overdue={isOverDue}
+        $overdue={isOverDue}
         exemplar={exemplar}
-        notification={notification}
+        $notification={notification}
       >
         {showAddToCard ? (
           <Header>
@@ -180,7 +180,7 @@ function TaskCard(props) {
           exemplar={exemplar}
           onAccept={onAccept}
           onDecline={onDecline}
-          notification={notification}
+          $notification={notification}
         />
         {notification && (
           <LinkButton
@@ -188,7 +188,7 @@ function TaskCard(props) {
             label="View details"
             arrowright={arrowRight}
             whiteArrowright={whiteArrowright}
-            notification={notification}
+            $notification={notification}
           />
         )}
         {/* {!exemplar && (

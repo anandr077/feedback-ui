@@ -7,11 +7,11 @@ import {
   useState,
 } from 'react';
 import {
-  Redirect,
+  BrowserRouter as Router,
+  Routes,
   Route,
-  HashRouter as Router,
-  Switch,
-} from 'react-router-dom';
+  Navigate,
+} from 'react-router';
 import TeacherClassesRoot from './components/Classes/TeacherClassesRoot';
 import CompletedPage from './components/CompletedPage';
 import CreateAssignment from './components/CreateAssignment';
@@ -23,7 +23,6 @@ import PageNotFound from './components/PageNotFound';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import TaskDetail from './components/StartAssignment/TaskDetail';
 import PageNotFound from './components/PageNotFound';
-import { Redirect } from 'react-router-dom';
 import AccountSettingsRoot from './components/Settings/AccountSettingRoot';
 import CreateNewMarkingCriteriaRoot from './components/CreateNewMarkingCriteria/CreateNewMarkingCriteriaRoot';
 import CreateNewStrengthAndTargets from './components/CreateNewMarkingCriteria/CreateNewStrengthAndTargets';
@@ -53,7 +52,11 @@ import { getLocalStorage } from './utils/function';
 import OnboardingScreen from './components2/Onboard/OnboardingScreen';
 import Loader from './components/Loader';
 import TeacherOnboarding from './components2/TeacherOnboarding';
-import { isShowWelcomeOnboarding, isStudentOnboarding, isTeacherOnboarding } from './rules';
+import {
+  isShowWelcomeOnboarding,
+  isStudentOnboarding,
+  isTeacherOnboarding,
+} from './rules';
 import { AppContext } from './app.context';
 import WelcomeOnboarding from './components2/TeacherOnboarding/WelcomeOnboarding';
 import Cookies from 'js-cookie';
@@ -72,7 +75,7 @@ function App() {
     }
     const token = localStorage.getItem('jwtToken');
     const parsed = queryString.parse(window.location.search);
-    
+
     if (parsed.code) {
       if (exchangeInProgress.current) {
         console.log('Exchange already in progress');
@@ -131,17 +134,17 @@ function App() {
             (userProfile?.state === null || userProfile?.state === undefined) &&
             (userProfile?.year === null || userProfile?.year === undefined);
 
-            if (defaultShowTeacherOnboarding) {
-              setShowTeacherOnboarding(true);
-            } else {
-              const lastShown = Cookies.get('welcomeOnboardingShown');
-              const now = Date.now();
-              const oneWeek = 7 * 24 * 60 * 60 * 1000;
+          if (defaultShowTeacherOnboarding) {
+            setShowTeacherOnboarding(true);
+          } else {
+            const lastShown = Cookies.get('welcomeOnboardingShown');
+            const now = Date.now();
+            const oneWeek = 7 * 24 * 60 * 60 * 1000;
 
-              if (!lastShown || now - Number(lastShown) > oneWeek) {
-                setShowWelcomeOnboarding(true);
-              }
+            if (!lastShown || now - Number(lastShown) > oneWeek) {
+              setShowWelcomeOnboarding(true);
             }
+          }
         } catch (error) {
           console.error(error);
         } finally {
@@ -151,12 +154,12 @@ function App() {
 
       fetchUserProfile();
     }
-  }, [isAuthenticated, isLoadingProfile]);
+  }, [isAuthenticated]);
 
-   // **NEW: Redirect AFTER login is fully done**
-   useEffect(() => {
+  // **NEW: Redirect AFTER login is fully done**
+  useEffect(() => {
     if (isAuthenticated) {
-      const redirectPath = localStorage.getItem('redirectPath') ;
+      const redirectPath = localStorage.getItem('redirectPath');
       if (redirectPath) {
         localStorage.removeItem('redirectPath');
 
@@ -173,24 +176,23 @@ function App() {
   const closeTeacherOnboarding = () => {
     setShowTeacherOnboarding(false);
   };
-  
+
   const updateRedirectAt = () => {
     const url = new URL(window.location.href);
     const hashFragment = window.location.hash.substring(1); // Remove `#`
 
     // If there's a hash path, move it to `redirect` query parameter
     if (hashFragment) {
-        url.hash = ''; // Remove hash from URL
-        url.searchParams.set('redirect', hashFragment); // Store hash path in query param
+      url.hash = ''; // Remove hash from URL
+      url.searchParams.set('redirect', hashFragment); // Store hash path in query param
     }
 
     // Add or update `redirect_at`
     url.searchParams.set('redirect_at', Date.now());
-    const res = url.toString()
-    
+    const res = url.toString();
+
     return res;
   };
-
 
   const externalIDPUrl = () => {
     const selfBaseUrl =
@@ -209,7 +211,7 @@ function App() {
       encodeURIComponent(updateRedirectAt())
     );
   };
- 
+
   const mobileView = isMobileView();
 
   if (!isAuthenticated || loadingProfile) {
@@ -267,7 +269,7 @@ function App() {
             setShowStudentOnboarding,
             setShowTeacherOnboarding,
             showWelcomeOnboarding,
-            setShowWelcomeOnboarding
+            setShowWelcomeOnboarding,
           }}
         >
           <Router>
@@ -280,9 +282,7 @@ function App() {
                 showWelcomeOnboarding,
                 mobileView,
                 role
-              ) && (
-                <WelcomeOnboarding />
-              )}
+              ) && <WelcomeOnboarding />}
               {isStudentOnboarding(showStudentOnboarding) && (
                 <OnboardingScreen
                   editStateYear={false}
@@ -293,95 +293,89 @@ function App() {
                 {mobileView ? (
                   <WelcomeOverlayMobile />
                 ) : (
-                  <Switch>
-                    <Route path="/docs">
-                      <ProtectedDocRoot />
-                    </Route>
-                    <Route path="/main">
-                      <MainPage />
-                    </Route>
-                    <Route path="/settings">
-                      <ProtectedSettings />
-                    </Route>
-                    <Route path="/markingTemplates/rubrics/:markingCriteriaId">
-                      <ProtectedMarkingCriteria />
-                    </Route>
-                    <Route path="/markingTemplates/strengths-and-targets/:markingMethodologyId">
-                      <ProtectedStrengthAndTarget />
-                    </Route>
-                    <Route path="/getFeedback">
-                      <ProtectedDocRoot />
-                    </Route>
-                    <Route path="/giveFeedback">
-                      <ProtectedGiveFeedback />
-                    </Route>
-                    <Route path="/completed">
-                      <ProtectedCompletedRoot />
-                    </Route>
-                    <Route path="/feedbackHistory">
-                      <ProtectedGiveFeedback />
-                    </Route>
-                    <Route path="/classes/:classIdFromUrl?">
-                      <ProtectedTeacherClassesRoot />
-                    </Route>
+                  <Routes>
+                    <Route path="/docs" element={<ProtectedDocRoot />} />
+                    <Route path="/main" element={<MainPage />} />
+                    <Route path="/settings" element={<ProtectedSettings />} />
                     <Route
-                      exact
+                      path="/markingTemplates/rubrics/:markingCriteriaId"
+                      element={<ProtectedMarkingCriteria />}
+                    />
+                    <Route
+                      path="/markingTemplates/strengths-and-targets/:markingMethodologyId"
+                      element={<ProtectedStrengthAndTarget />}
+                    />
+                    <Route path="/getFeedback" element={<ProtectedDocRoot />} />
+                    <Route
+                      path="/giveFeedback"
+                      element={<ProtectedGiveFeedback />}
+                    />
+                    <Route
+                      path="/completed"
+                      element={<ProtectedCompletedRoot />}
+                    />
+                    <Route
+                      path="/feedbackHistory"
+                      element={<ProtectedGiveFeedback />}
+                    />
+                    <Route
+                      path="/classes/:classIdFromUrl?"
+                      element={<ProtectedTeacherClassesRoot />}
+                    />
+                    <Route
                       path="/tasks/:assignmentId/start"
-                      render={(props) => {
-                        return isTeacher ? (
-                          <Redirect
-                            to={`/tasks/${props.match.params.assignmentId}`}
-                          />
+                      element={
+                        isTeacher ? (
+                          <Navigate to={`/tasks/:assignmentId`} replace />
                         ) : (
                           <ProtectedTaskDetail />
-                        );
-                      }}
+                        )
+                      }
                     />
                     <Route
-                      exact
                       path="/tasks/:assignmentId"
-                      render={(props) => {
-                        return isTeacher ? (
+                      element={
+                        isTeacher ? (
                           <ProtectedCreateAssignment />
                         ) : (
-                          <Redirect
-                            to={`/tasks/${props.match.params.assignmentId}/start`}
-                          />
-                        );
-                      }}
+                          <Navigate to={`/tasks/:assignmentId/start`} replace />
+                        )
+                      }
                     />
-                    <Route path="/tasks">
-                      <ProtectedTasks role={role} />
-                    </Route>
-                    <Route path="/sharedresponses">
-                      <ProtectedExemplarResponsesPage />
-                    </Route>
-                    <Route path="/submissions/:id">
-                      <ProtectedFeedbacksRoot isAssignmentPage={false} />
-                    </Route>
-                    <Route path="/docs">
-                      <ProtectedDocumentRoot />
-                    </Route>
-                    <Route path="/documents/:id">
-                      <ProtectedDocumentRoot />
-                    </Route>
-                    <Route path="/documentsReview/:id">
-                      <ProtectedDocumentRoot />
-                    </Route>
-                    <Route path="/commentbanks">
-                      <ProtectedCommentbanks />
-                    </Route>
-                    <Route path="/jeddai">
-                      <ProtectedJeddAI />
-                    </Route>
-                    <Route path="/404">
-                      <PageNotFound />
-                    </Route>
-                    <Route exact path="/">
-                      <ProtectedDashboard role={role} />
-                    </Route>
-                    <Redirect to="/404" />
-                  </Switch>
+                    <Route
+                      path="/tasks"
+                      element={<ProtectedTasks role={role} />}
+                    />
+                    <Route
+                      path="/sharedresponses"
+                      element={<ProtectedExemplarResponsesPage />}
+                    />
+                    <Route
+                      path="/submissions/:id"
+                      element={
+                        <ProtectedFeedbacksRoot isAssignmentPage={false} />
+                      }
+                    />
+                    <Route
+                      path="/documents/:id"
+                      element={<ProtectedDocumentRoot />}
+                    />
+                    <Route
+                      path="/documentsReview/:id"
+                      element={<ProtectedDocumentRoot />}
+                    />
+                    <Route
+                      path="/commentbanks"
+                      element={<ProtectedCommentbanks />}
+                    />
+                    <Route path="/jeddai" element={<ProtectedJeddAI />} />
+                    <Route path="/404" element={<PageNotFound />} />
+                    <Route
+                      path="/"
+                      element={<ProtectedDashboard role={role} />}
+                    />
+                    <Route path="*" element={<Navigate to="/404" replace />} />
+                  </Routes>
                 )}
               </VisibilityWrapper>
             </div>

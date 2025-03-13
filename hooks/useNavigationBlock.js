@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function useNavigationBlock() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const unblockRef = useRef(null);
 
   const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
   const [pendingLocation, setPendingLocation] = useState(null);
 
   useEffect(() => {
-    unblockRef.current = history.block((location) => {
+    unblockRef.current = navigate.block((location) => {
       if (isNavigationBlocked) {
         setPendingLocation(location);
         return false;
@@ -22,14 +22,14 @@ export default function useNavigationBlock() {
         unblockRef.current();
       }
     };
-  }, [history, isNavigationBlocked]);
+  }, [navigate, isNavigationBlocked]);
 
   const confirmNavigationChange = () => {
     if (unblockRef.current) {
       unblockRef.current();
     }
     if (pendingLocation) {
-      history.push(pendingLocation.pathname);
+      navigate(pendingLocation.pathname);
     }
   };
 

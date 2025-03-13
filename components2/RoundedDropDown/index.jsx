@@ -11,7 +11,7 @@ import {
   StyledInput,
   StyledSelect,
 } from './style';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom';
+import { useLocation } from 'react-router';
 
 export default function RoundedDropDown({
   menuItems,

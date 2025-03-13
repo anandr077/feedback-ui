@@ -13,7 +13,7 @@ import {
   Frame5086Text,
 } from './style';
 import FeedbackDataComponent from './FeedbackDataComponent';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom';
+import { useLocation } from 'react-router';
 import Loader from '../Loader';
 import FilterSquare from '../../static/img/filter-square.svg';
 import {  isTabletView } from '../ReactiveRender';

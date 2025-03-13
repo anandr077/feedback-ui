@@ -28,7 +28,7 @@ import DownlaodIcon from '../../../static/img/Download.svg';
 import AddNewHover from '../../../static/img/AddNewHover.svg';
 import Rubricsnew from '../../../static/img/Rubricsnew.svg';
 import Strengthsnew from '../../../static/img/Strengthsnew.svg';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar';
 import MenuButton from '../../MenuButton';
 import { isTabletView } from '../../ReactiveRender';
@@ -56,7 +56,7 @@ function AccountSettingsMarkingCriteriaDeskt({
   const [importedMarkingCriteria, setImportedMarkingCriteria] = useState({})
   const tabletView = isTabletView();
   const divRef = useRef(null);
-  const history = useHistory();
+  const navigate = useNavigate();
 
 
   const handleClickOutside = (event) => {
@@ -96,7 +96,7 @@ function AccountSettingsMarkingCriteriaDeskt({
         toast(
           <Toast message={'Strengths and targets created'}/>
         );
-        history.push(`/markingTemplates/strengths-and-targets/${response.id.value}`)
+        navigate(`/markingTemplates/strengths-and-targets/${response.id.value}`)
       });
     }else{
       if(!validateRubric(markingCriterias)){
@@ -110,7 +110,7 @@ function AccountSettingsMarkingCriteriaDeskt({
         toast(
           <Toast message={'New Marking Criteria created'} />
         );
-        history.push(`/markingTemplates/rubrics/${response.id.value}`)
+        navigate(`/markingTemplates/rubrics/${response.id.value}`)
       })}
     setIsShowExportMarkingCriteriaPopup(false)
   }
@@ -149,7 +149,7 @@ function AccountSettingsMarkingCriteriaDeskt({
                   <PopUpContainer ref={divRef}>
                     <PopUpCard
                       onClick={() =>
-                        history.push('/markingTemplates/rubrics/new')
+                        navigate('/markingTemplates/rubrics/new')
                       }
                       style={{ borderBottom: '1px solid  #C9C6CC80' }}
                     >
@@ -158,9 +158,7 @@ function AccountSettingsMarkingCriteriaDeskt({
                     </PopUpCard>
                     <PopUpCard
                       onClick={() =>
-                        history.push(
-                          '/markingTemplates/strengths-and-targets/new'
-                        )
+                        navigate('/markingTemplates/strengths-and-targets/new')
                       }
                     >
                       <PopUpCardImg src={Strengthsnew} />

@@ -13,9 +13,9 @@ import getfeedbackIcon from '../../static/img/getfeedback32gray.svg';
 import activeGetfeedbackIcon from '../../static/img/activeGetFeedback.svg';
 import ExitHub from '../../static/img/exithubgray26.svg';
 import {
-  useHistory,
+  useNavigate,
   useLocation,
-} from 'react-router-dom/cjs/react-router-dom.min';
+} from 'react-router';
 import {
   isNonSchoolStudent,
   isShowSetting,
@@ -28,7 +28,7 @@ import Loader from '../Loader';
 import { logout } from '../../service';
 
 const MainSidebar = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const role = getUserRole();
@@ -56,7 +56,7 @@ const MainSidebar = () => {
   ].filter(Boolean);
 
   const handlePageRoute = (navLink) => {
-    history.push(navLink);
+    navigate(navLink);
   };
 
   if(isLoadingclassData){

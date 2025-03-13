@@ -40,7 +40,7 @@ import TeacherSidebar from '../../TeacherSidebar';
 import IndepentdentUserSidebar from '../../IndependentUser/IndepentdentUserSidebar';
 import { FeedbackContext } from '../FeedbacksRoot/FeedbackContext';
 
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router';
 import FeedbackTypeDialog from '../../Shared/Dialogs/feedbackType';
 import { createRequestFeddbackType, deleteSubmissionById, updateAssignment } from '../../../service';
 import { isNullOrEmpty } from '../../../utils/arrays';
@@ -188,7 +188,7 @@ function FeedbackTeacherLaptop(props) {
     setGroupedAndSortedData(groupedData);
     setSelectedSubject(Object.keys(groupedData)[0]);
   }, [otherDrafts]);
-  const navigate = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const [showStudentPopUp, setShowStudentPopUp] = React.useState(false);

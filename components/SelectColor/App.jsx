@@ -1,16 +1,15 @@
 import { css } from 'styled-components';
 import React from 'react';
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router';
 import SelectColor from 'SelectColor';
 
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route path="/:path(|select-color)">
-          <SelectColor {...selectColorData} />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/select-color" element={<SelectColor {...selectColorData} />} />
+        <Route path="/" element={<SelectColor {...selectColorData} />} />
+      </Routes>
     </Router>
   );
 }

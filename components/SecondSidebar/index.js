@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
   useLocation,
-  useHistory,
-} from 'react-router-dom/cjs/react-router-dom.min';
+  useNavigate,
+} from 'react-router';
 import { MainContainer, Button, CloseImg } from './style';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -35,7 +35,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
   const [allStudentTasks, setAllStudentTasks] = useState(0);
   const [allTeacherTasks, setAllTeacherTasks] = useState(0);
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const role = getUserRole();
   const isTeacherNoClass = isTeacherWithoutClass(role, classData);
   const tabletView = isTabletView();
@@ -127,7 +127,7 @@ const SecondSidebar = ({ id, setShowMenu }) => {
     if (setShowMenu) {
       setShowMenu(false);
     }
-    history.push(link);
+    navigate(link);
   };
 
   const subLinks = [

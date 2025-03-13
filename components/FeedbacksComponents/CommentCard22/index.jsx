@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import ReviewsFrame132522 from '../ReviewsFrame132522';
 import styled from 'styled-components';
 import { IbmplexsansNormalBlack16px } from '../../../styledMixins';

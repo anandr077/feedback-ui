@@ -12,7 +12,7 @@ import {
 } from './style';
 import QuestionTooltip from '../../components2/QuestionTooltip';
 import DropdownMenu from '../DropdownMenu';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 function QuestionFieldSelection({
   label,
@@ -28,7 +28,7 @@ function QuestionFieldSelection({
   handlePreview,
   showHeading = true,
 }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <>
       {showHeading && (
@@ -62,7 +62,7 @@ function QuestionFieldSelection({
             />
           </Preview>
         </MarkingCriteriaFrame>
-        <MarkingCriteriaList onClick={() => history.push(link)}>
+        <MarkingCriteriaList onClick={() => navigate(link)}>
           {linkText}
         </MarkingCriteriaList>
       </MarkingCriteriaAndListFrame>

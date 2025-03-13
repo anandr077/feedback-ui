@@ -165,7 +165,7 @@ function HeaderTitle({ breadcrumbs }) {
   return (
     <TitleConatiner>
       <TitleMain
-        darkBackground={!(pageHeader?.title || pageMainHeader?.documentName)}
+        darkbackground={!(pageHeader?.title || pageMainHeader?.documentName)}
         to={pageMainHeader?.homeLink}
       >
         {pageMainHeader && pageMainHeader.title}
@@ -174,7 +174,7 @@ function HeaderTitle({ breadcrumbs }) {
 
       {pageHeader?.title && (
         <TitleMain
-          darkBackground={!pageHeader.homeLink}
+          $darkBackground={!pageHeader.homeLink}
           to={pageHeader?.homeLink}
         >
           {pageHeader.title}

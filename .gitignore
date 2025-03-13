@@ -41,3 +41,6 @@ packages/react-devtools-timeline/dist
 dist/
 dist/*
 *storybook.log
+
+# Local Netlify folder
+.netlify

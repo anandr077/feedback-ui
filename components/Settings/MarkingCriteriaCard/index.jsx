@@ -13,7 +13,7 @@ import {
 } from './style';
 import Rubricsnew from '../../../static/img/Rubricsnew.svg';
 import Strengthsnew from '../../../static/img/Strengthsnew.svg';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { exportJsonFile } from '../../../components2/markingCriteria';
 
 function MarkingCriteriaCard(props) {
@@ -24,10 +24,10 @@ function MarkingCriteriaCard(props) {
   } = props;
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   function navigateToMarkingCriteriaUrl(id, type) {
-    history.push(markingCriteriaUrl(id, type));
+    navigate(markingCriteriaUrl(id, type));
   }
   function markingCriteriaUrl(id, type) {
     return type == 'RUBRICS'

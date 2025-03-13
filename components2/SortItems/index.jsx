@@ -24,18 +24,18 @@ const SortItems = ({
 
       <>
         <SortButton
-          isClicked={sortItem}
+          $isClicked={sortItem}
           onClick={() => setSortItem(true)}
         >
-          <SortButtonText isClicked={sortItem}>
+          <SortButtonText $isClicked={sortItem}>
             {firstSortText}
           </SortButtonText>
         </SortButton>
         <SortButton
-          isClicked={sortItem === false}
+          $isClicked={sortItem === false}
           onClick={() => setSortItem(false)}
         >
-          <SortButtonText isClicked={sortItem === false}>
+          <SortButtonText $isClicked={sortItem === false}>
             {secondSortText}
           </SortButtonText>
         </SortButton>

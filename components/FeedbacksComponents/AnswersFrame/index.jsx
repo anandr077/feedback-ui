@@ -464,14 +464,14 @@ const answerFrames = (
                     <StyledTab
                       label={<TabText active={mainTab === '1'}>Typed</TabText>}
                       value="1"
-                      isDisabled={isUpdatingHandWrittenFiles}
+                      $isDisabled={isUpdatingHandWrittenFiles}
                     />
                     <StyledTab
                       label={
                         <TabText active={mainTab === '2'}>Handwritten</TabText>
                       }
                       value="2"
-                      isDisabled={isUpdatingHandWrittenFiles}
+                      $isDisabled={isUpdatingHandWrittenFiles}
                     />
                   </StyledMainTabList>
                   {isDeleteAndRestartButton(

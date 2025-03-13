@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
-  useHistory,
-} from 'react-router-dom/cjs/react-router-dom.min';
+  useNavigate,
+} from 'react-router';
 import { getUserName, getUserRole } from '../../userLocalDetails.js';
 import {
   MainContainer,
@@ -45,7 +45,7 @@ const Header = ({ breadcrumbs }) => {
   const [pageHeight, setPageHeight] = useState(0);
   const [sliderOpen, setSliderOpen] = useState(false);
   const notificationBarRef = useRef(null);
-  const history = useHistory();
+  const navigate = useNavigate();
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
   const role = getUserRole();
   const name = getUserName();
@@ -68,7 +68,7 @@ const Header = ({ breadcrumbs }) => {
   } = useNotifications(id = null, condition = true, time = 300000); 
 
   const handleNewTaskClick = () => {
-    history.push('/tasks/new');
+    navigate('/tasks/new');
   };
 
   const toggleDropDown = () => {

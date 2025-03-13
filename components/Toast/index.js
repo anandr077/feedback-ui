@@ -1,10 +1,10 @@
 import { Button } from '@mui/material';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { capitalizeFirstLetter } from '../../utils/strings';
 
 function Toast({ message, link }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -25,7 +25,7 @@ function Toast({ message, link }) {
           }}
           size="small"
           onClick={() => {
-            history.push(link.replace('#', ''));
+            navigate(link.replace('#', ''));
           }}
         >
           View

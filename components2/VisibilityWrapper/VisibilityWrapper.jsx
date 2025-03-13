@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { checkIsActive } from '../../components/MainSidebar/rules';
 import Header from '../../components/Header2';
 import ResponsiveFooter from '../../components/ResponsiveFooter';

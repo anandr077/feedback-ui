@@ -9,7 +9,7 @@ import {
 import CompletedRoot from '../Completed/CompletedRoot';
 import { groupBy } from 'lodash';
 import { dateOnly } from '../../dates.js';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import Loader from '../Loader';
 import { arrayFromArrayOfObject } from '../../utils/arrays.js';
 import Toast from '../Toast/index.js';

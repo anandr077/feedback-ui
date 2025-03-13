@@ -4,7 +4,7 @@ import styled from 'styled-components';
 function StatusBubbles(props) {
   const { tag, overdue } = props;
   return (
-    <StatusBubble name={tag.name} overdue={overdue}>
+    <StatusBubble name={tag.name} $overdue={overdue}>
       <StatusBubblesText>{tag.name}</StatusBubblesText>
     </StatusBubble>
   );
@@ -20,7 +20,7 @@ const StatusBubble = styled.article`
   background-color: ${props => props.name === "Community" ? 'var(--blue-chalk)' : '#FFFFFF'};
   border-radius: 11.5px;
   border: 1px solid;
-  border-color: ${props => props.name === 'Community' ? (props.overdue ? 'var(--royal-purple)' : 'var(--blue-chalk)') : '#DEC7FF'};
+  border-color: ${props => props.name === 'Community' ? (props.$overdue ? 'var(--royal-purple)' : 'var(--blue-chalk)') : '#DEC7FF'};
 `;
 
 const StatusBubblesText = styled.div`

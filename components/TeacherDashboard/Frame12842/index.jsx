@@ -4,14 +4,14 @@ import {
   IbmplexsansMediumTrendyPink14px,
   IbmplexsansMediumShark36px,
 } from '../styledMixins';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import { useNavigate } from 'react-router';
 
 function Frame12842(props) {
   const { title, count } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    history.push('tasks');
+    navigate('/tasks');
   };
   return (
     <TaskAnchor href="/#/tasks" onClick={handleClick}>

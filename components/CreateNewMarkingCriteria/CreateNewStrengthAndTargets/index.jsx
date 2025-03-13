@@ -69,7 +69,7 @@ import MenuButton from '../../MenuButton';
 import ImprovedSecondarySideBar from '../../ImprovedSecondarySideBar';
 import Header from '../../Header2';
 import { useMarkingCriterias } from '../../state/hooks';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { validateStrengthsTargets } from '../../../components2/markingCriteria';
 import useNavigationBlock from '../../../hooks/useNavigationBlock';
 import GeneralPopup from '../../GeneralPopup';
@@ -95,7 +95,7 @@ export default function CreateNewStrengthAndTargets() {
   const [isShowMenu, setShowMenu] = React.useState(false);
   const {setIsNavigationBlocked, isShowNavigationBlockPopup, confirmNavigationChange, cancelNavigationPopup } = useNavigationBlock();
   const tabletView = isTabletView();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
     useState(false);
 
@@ -237,7 +237,7 @@ export default function CreateNewStrengthAndTargets() {
           />
         );
 
-        history.push(`/markingTemplates/strengths-and-targets/:${response.id.value}`);
+        navigate(`/markingTemplates/strengths-and-targets/:${response.id.value}`);
       });
     } else {
       updateMarkingCriteria(markingMethodology, markingMethodologyId).then(
@@ -264,7 +264,7 @@ export default function CreateNewStrengthAndTargets() {
             }
           );
           setMarkingCriterias(updatedMarkingCriterias);
-          history.push(`/markingTemplates/strengths-and-targets/:${response.id.value}`);
+          navigate(`/markingTemplates/strengths-and-targets/:${response.id.value}`);
         }
       );
     }

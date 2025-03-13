@@ -1,7 +1,7 @@
 import { Divider, Drawer, MenuItem } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import {
   DrawerBody,
   Heading,
@@ -54,7 +54,7 @@ function IndepentdentUserSidebar({
   const [selectedQuestion, setSelectedQuestion] = useState();
   const [pageHeight, setPageHeight] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
   const [showMenuMap, setShowMenuMap] = useState({});
   const [questionTitle, setQuestionTitle] = useState(subjects);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
@@ -102,7 +102,7 @@ function IndepentdentUserSidebar({
 
   const handleSubjectClick = (subject) => {
     const newUrl = `/documents/${subject.id}`;
-    history.push(newUrl);
+    navigate(newUrl);
   };
 
   const downloadFunction = (id) => {

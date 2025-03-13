@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import {  useNavigate } from 'react-router';
 import { addDocumentToPortfolio, getDocuments } from '../../service';
 import Loader from '../Loader';
 import { useAllDocuments } from '../state/hooks';
@@ -7,7 +7,7 @@ import { useAllDocuments } from '../state/hooks';
 export default function NewDocPage() {
   const [allDocumentsData, setAllDocumentsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const history = useHistory();
+  const navigate = useNavigate();
   const didEffectRunRef = useRef(false);
   const {
    
@@ -35,11 +35,11 @@ export default function NewDocPage() {
   }
 
   if (allDocumentsData.length > 0) {
-    history.push(`/documents/${allDocumentsData[0].submissionId}`);
+    navigate(`/documents/${allDocumentsData[0].submissionId}`);
   } else {
     addDocumentToPortfolio(null, null, 'Untitled Question')
       .then((response) => {
-        history.push(`/documents/${response.id}`);
+        navigate(`/documents/${response.id}`);
         resetData();
       })
       .catch((err) => {

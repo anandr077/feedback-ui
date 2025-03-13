@@ -36,7 +36,7 @@ import { getUserRole } from '../../../userLocalDetails';
 import RoundedBorderSubmitBtn from '../../../components2/Buttons/RoundedBorderSubmitBtn';
 import SelectReviewType from './SelectReviewType';
 import { cancelFeedbackRequest } from '../../../service';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router';
 import { isShowCommentsAndFocusAreasTab } from '../FeedbacksRoot/rules';
 import {
   isShowCommentsAndFocusAreasTab,
@@ -83,7 +83,7 @@ const FeedbackHeader = ({
   const [isShowSelectType, setShowSelectType] = useState();
   const [openEditDialogue, setOpenEditDialogue] = useState();
   const { methods, isResetEditorTextSelection, isUpdatingHandWrittenFiles } = useContext(FeedbackContext);
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const allAssignedStudents = allClasses
@@ -127,7 +127,7 @@ const FeedbackHeader = ({
     isResetEditorTextSelection();
     setSelectedIndex(index);
     const newUrl = `/submissions/${studentsList[index]?.submissionId}`;
-    history.push(newUrl);
+    navigate(newUrl);
   };
 
   return (

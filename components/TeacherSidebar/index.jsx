@@ -1,6 +1,6 @@
 import { Divider, Drawer } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { styled, useTheme } from '@mui/material/styles';
 import {
   DrawerBody,
@@ -14,14 +14,14 @@ import {
   SidebarContainer,
   StudentContainer,
 } from '../IndependentUser/style';
-import {DrawerQuestion, OverflowShadow} from './style'
+import { DrawerQuestion } from './style';
 import { Avatar } from '@boringer-avatars/react';
 const drawerWidth = 219;
 
 function TeacherSidebar({ open, submission }) {
   const theme = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const studentsList = submission.studentsSubmissions;
 
@@ -37,14 +37,11 @@ function TeacherSidebar({ open, submission }) {
 
   const handleQuestionClick = (student) => {
     const newUrl = `/submissions/${student.submissionId}`;
-    history.push(newUrl);
+    navigate(newUrl);
   };
 
   return (
-    <SidebarContainer
-      drawerWidth={drawerWidth}
-      open={open}
-    >
+    <SidebarContainer drawerWidth={drawerWidth} open={open}>
       <DrawerBody>
         {!submission ? (
           <LoadingDiv>Loading...</LoadingDiv>
@@ -74,7 +71,7 @@ function TeacherSidebar({ open, submission }) {
                       {student.studentName.length >= 28 ? (
                         <>
                           {student.studentName}
-                          <OverflowShadow></OverflowShadow>
+                          {/* <OverflowShadow></OverflowShadow> */}
                           <span className="tooltip-text">
                             {student.studentName}
                           </span>
@@ -82,7 +79,8 @@ function TeacherSidebar({ open, submission }) {
                       ) : (
                         student.studentName
                       )}
-                      {(student.status === 'REVIEWED' || student.status === 'CLOSED') && (
+                      {(student.status === 'REVIEWED' ||
+                        student.status === 'CLOSED') && (
                         <TickBox>
                           <img src="img/tickCircle.png" />
                         </TickBox>
@@ -99,4 +97,3 @@ function TeacherSidebar({ open, submission }) {
 }
 
 export default TeacherSidebar;
-

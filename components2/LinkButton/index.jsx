@@ -17,17 +17,17 @@ function LinkButton({
 }) {
   return (
     <a href={link} style={{ textDecoration: 'none' }}>
-      <ButtonContainer notification={notification}>
+      <ButtonContainer $notification={notification}>
         {arrowleft ? <ButtonIcon src={arrowleft} /> : <></>}
         {whiteArrowleft ? <ButtonIconWhite src={whiteArrowleft} /> : <></>}
-        <ButtonText notification={notification}>{label}</ButtonText>
+        <ButtonText $notification={notification}>{label}</ButtonText>
         {arrowright ? (
-          <ButtonIcon notification={notification} src={arrowright} />
+          <ButtonIcon $notification={notification} src={arrowright} />
         ) : (
           <></>
         )}
         {whiteArrowright ? (
-          <ButtonIconWhite notification={notification} src={whiteArrowright} />
+          <ButtonIconWhite $notification={notification} src={whiteArrowright} />
         ) : (
           <></>
         )}

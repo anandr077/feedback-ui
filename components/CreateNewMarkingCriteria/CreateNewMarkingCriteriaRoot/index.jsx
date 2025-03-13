@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router';
 import CreateNewMarkingCriteriaDesktop from '../CreateNewMarkingCriteriaDesktop';
 import { isMobileView } from '../../ReactiveRender';
 import CriteriaContainer from '../CriteriaContainer';
@@ -12,7 +12,6 @@ import {
   getNewCriteria,
 } from '../../../service';
 import Loader from '../../Loader';
-import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Toast from '../../Toast';
 import { useMarkingCriterias } from '../../state/hooks';
@@ -26,7 +25,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isUpdating, setIsUpdating] = React.useState(false);
   const [markingCriteria, setMarkingCriteria] = useState(getDefaultCriteria);
-  const history = useHistory();
+  const navigate = useNavigate();
   const mobileView = isMobileView();
 
   const {
@@ -167,7 +166,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
             resetMarkingCriterias();
           }
           setIsNavigationBlocked(false);
-          history.push(`/markingTemplates/rubrics/:${response.id?.value}`)
+          navigate(`/markingTemplates/rubrics/:${response.id?.value}`)
 
           toast(
             <Toast
@@ -201,7 +200,7 @@ export default function CreateNewMarkingCriteriaRoot(props) {
       .then(() => {
         toast(<Toast message={'Marking criteria deleted'} />);
         window.localStorage.setItem('markingCriteria', 'true');
-        history.push('/settings');
+        navigate('/settings');
       })
       .catch((error) => {
         toast(

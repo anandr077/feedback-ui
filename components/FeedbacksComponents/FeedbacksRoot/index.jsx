@@ -4,7 +4,7 @@ import _, { flatMap, groupBy } from 'lodash';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router';
 import { formattedDate } from '../../../dates';
 import GeneralPopup from '../../GeneralPopup';
 import SubmitCommentFrameRoot from '../../SubmitCommentFrameRoot';
@@ -59,7 +59,6 @@ import {
 } from './style';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PopupWithoutCloseIcon from '../../../components2/PopupWithoutCloseIcon';
 import StyledDropDown from '../../../components2/StyledDropDown/index.jsx';
@@ -69,8 +68,24 @@ import Header from '../../Header2/index.jsx';
 import { downloadSubmissionPdf } from '../../Shared/helper/downloadPdf';
 import Toast from '../../Toast/index.js';
 import isJeddAIUser from './JeddAi.js';
-import { allCriteriaHaveSelectedLevels, bannerText, isShowBannerBox, isShowBannerButton } from './rules.js';
-import { useAllDocuments, useAllSubmisssionsById, useMarkingCriterias, useClassData, useCommentBanks, useCommentBanksById,  useCommentsById, useIsJeddAIEnabled, useOverAllCommentsById, useSubmissionById } from '../../state/hooks.js';
+import {
+  allCriteriaHaveSelectedLevels,
+  bannerText,
+  isShowBannerBox,
+  isShowBannerButton,
+} from './rules.js';
+import {
+  useAllDocuments,
+  useAllSubmisssionsById,
+  useMarkingCriterias,
+  useClassData,
+  useCommentBanks,
+  useCommentBanksById,
+  useCommentsById,
+  useIsJeddAIEnabled,
+  useOverAllCommentsById,
+  useSubmissionById,
+} from '../../state/hooks.js';
 import JeddAIFeedbackTypeSelection from '../JeddAIFeedbackTypeSelection/index.jsx';
 import PreviewDialog from '../../Shared/Dialogs/preview/previewCard.jsx';
 import CommentBankDialog from '../../Shared/Dialogs/commentBank/index.js';
@@ -80,10 +95,10 @@ const MARKING_METHODOLOGY_TYPE = {
   Rubrics: 'rubrics',
   Strengths_And_Targets: 'strengthsAndTargets',
 };
-const isTeacher = getUserRole() === 'TEACHER';
+export const isTeacher = getUserRole() === 'TEACHER';
 
 export default function FeedbacksRoot() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [pendingLocation, setPendingLocation] = useState(null);
   const queryClient = useQueryClient();
   const quillRefs = useRef([]);
@@ -120,15 +135,21 @@ export default function FeedbacksRoot() {
   const [showFeedbackBanksPopUp, setFeedbackBanksPopUp] = React.useState(false);
   const [openRightPanel, setOpenRightPanel] = React.useState();
   const [showLottie, setShowLottie] = React.useState(false);
-  const [showJeddAIFeedbackTypeSelectionPopUp, setShowJeddAIFeedbackTypeSelectionPopUp] = useState(false);
+  const [
+    showJeddAIFeedbackTypeSelectionPopUp,
+    setShowJeddAIFeedbackTypeSelectionPopUp,
+  ] = useState(false);
   const [openMarkingCriteriaPreviewDialog, setMarkingCriteriaPreviewDialog] =
-  React.useState(false);
+    React.useState(false);
   const [openCommentBankPreviewDialog, setCommentBankPreviewDialog] =
-  React.useState(false);
-  const [currentMarkingCriteria, setCurrentMarkingCriteria] = React.useState(null);
+    React.useState(false);
+  const [currentMarkingCriteria, setCurrentMarkingCriteria] =
+    React.useState(null);
   const [currentCommentBank, setCurrentCommentBank] = useState(null);
-  const [isUpdatingHandWrittenFiles, setIsUpdatingHandWrittenFiles] = useState(false);
-  const [openReviewApprovalBanner, setOpenReviewApprovalBanner] = useState(true);
+  const [isUpdatingHandWrittenFiles, setIsUpdatingHandWrittenFiles] =
+    useState(false);
+  const [openReviewApprovalBanner, setOpenReviewApprovalBanner] =
+    useState(true);
 
   const {
     data: submissionByIdData,
@@ -137,7 +158,6 @@ export default function FeedbacksRoot() {
     resetData: resetSubmissionByIdData,
   } = useSubmissionById(id);
 
-  
   const {
     data: commentsByIdData,
     isLoadingdata: isLoadingcommentsByIdData,
@@ -151,8 +171,6 @@ export default function FeedbacksRoot() {
     resetData: resetOverAllCommentsById,
   } = useOverAllCommentsById(id);
 
-
-  
   const {
     data: allDocumentsData,
     isLoadingdata: isLoadingDocumentsData,
@@ -160,15 +178,13 @@ export default function FeedbacksRoot() {
     resetData: resetAllDocuments,
   } = useAllDocuments();
 
-
   const { data: classData, isLoadingdata: isLoadingclassData } = useClassData();
-  const { data: isJeddAIEnabled, isLoadingdata: isLoadingJeddAIEnabled } = useIsJeddAIEnabled();
- 
+  const { data: isJeddAIEnabled, isLoadingdata: isLoadingJeddAIEnabled } =
+    useIsJeddAIEnabled();
 
   useEffect(() => {
     setIsLoading(true);
   }, [id]);
-
 
   const commentBankIds = submissionByIdData?.assignment?.questions
     .filter((q) => q.commentBankId !== undefined && q.commentBankId !== null)
@@ -186,14 +202,13 @@ export default function FeedbacksRoot() {
     resetData: resetCommentBanksData,
   } = useCommentBanksById(commentBankIds, isTeacher);
 
-
   const {
     data: feedbanksData,
-    isLoadingdata : isLoadingfeedbanks,
+    isLoadingdata: isLoadingfeedbanks,
     setData: setFeedbanksData,
     resetData,
   } = useCommentBanks();
-  
+
   const {
     data: markingCriterias,
     isLoadingdata: isLoadingMarkingCriterias,
@@ -207,11 +222,12 @@ export default function FeedbacksRoot() {
     isLoadingoverAllCommentsById ||
     isLoadingDocumentsData ||
     isLoadingclassData ||
-    isLoadingJeddAIEnabled||
+    isLoadingJeddAIEnabled ||
     (isTeacher &&
       (isLoadingallSubmissions ||
-         isLoadingcommentBanksData || isLoadingfeedbanks || isLoadingMarkingCriterias));
-
+        isLoadingcommentBanksData ||
+        isLoadingfeedbanks ||
+        isLoadingMarkingCriterias));
 
   const markingCriteriaFeedback = commentsByIdData?.filter(
     (c) => c.type === 'MARKING_CRITERIA'
@@ -220,10 +236,8 @@ export default function FeedbacksRoot() {
     (c) => c.type !== 'MARKING_CRITERIA'
   );
 
-
   const allTeachers = _.flatten(classData?.map((c) => c.teachers));
   const uniqueTeachers = _.uniqBy(allTeachers, 'id');
-
 
   const initialCheckedState = classData?.reduce((acc, classItem) => {
     acc[classItem.id] = {
@@ -237,9 +251,6 @@ export default function FeedbacksRoot() {
     return acc;
   }, {});
 
-  
-
-
   useEffect(() => {
     if (!isDataLoading) {
       setGroupedFocusAreaIds(
@@ -247,9 +258,7 @@ export default function FeedbacksRoot() {
       );
 
       if (classData && submissionByIdData) {
-        
         setCheckedState(initialCheckedState);
-        
       }
       if (!isTeacher) {
         setIsLoading(false);
@@ -261,8 +270,6 @@ export default function FeedbacksRoot() {
 
   useEffect(() => {
     if (!isDataLoading && allSubmissions) {
-   
-
       let currentSubmissionIndex = 0;
       const allExceptCurrent = allSubmissions?.filter((r, index) => {
         if (r.id !== submissionByIdData.id) {
@@ -297,7 +304,7 @@ export default function FeedbacksRoot() {
   }, [isDataLoading, id]);
 
   useEffect(() => {
-    unblockRef.current = history.block((location, action) => {
+    unblockRef.current = navigate.block((location, action) => {
       if (
         submissionByIdData?.status === 'REVIEWED' &&
         submissionByIdData?.type === 'DOCUMENT' &&
@@ -317,27 +324,24 @@ export default function FeedbacksRoot() {
         unblockRef.current();
       }
     };
-  }, [submissionByIdData, feedbackReviewPopup, history]);
+  }, [submissionByIdData, feedbackReviewPopup, navigate]);
 
-
-  useEffect(()=>{
-    const showBannerBox = allSubmissions?.some((submission) => submission?.id === submissionByIdData?.id)
-    setOpenReviewApprovalBanner(showBannerBox)
-  }, [submissionByIdData, allSubmissions])
-
-
+  useEffect(() => {
+    const showBannerBox = allSubmissions?.some(
+      (submission) => submission?.id === submissionByIdData?.id
+    );
+    setOpenReviewApprovalBanner(showBannerBox);
+  }, [submissionByIdData, allSubmissions]);
 
   const deleteDraftPage = (submissionId, pendingLocation) => {
     console.log('deleteDraftPage', submissionId, pendingLocation);
     deleteSubmissionById(submissionId).then(() => {
       if (pendingLocation) {
-        goToNewUrl(pendingLocation, history, unblockRef);
+        goToNewUrl(pendingLocation, navigate, unblockRef);
       }
       setPageLeavePopup(false);
     });
   };
-
-  
 
   const updateGroupedFocusAreaIds = (serialNumber, focusAreaId) => {
     const isPresent = groupedFocusAreaIds[serialNumber].includes(focusAreaId);
@@ -397,10 +401,9 @@ export default function FeedbacksRoot() {
       )
     );
 
-
   const saveDraftPage = () => {
     if (pendingLocation) {
-      goToNewUrl(pendingLocation, history, unblockRef);
+      goToNewUrl(pendingLocation, navigate, unblockRef);
     }
     setPageLeavePopup(false);
   };
@@ -413,12 +416,11 @@ export default function FeedbacksRoot() {
         });
         setFeedbackReviewPopup(false);
         if (pendingLocation !== undefined || pendingLocation !== null) {
-          history.replace(pendingLocation);
+          navigate.replace(pendingLocation);
         }
       }
     );
   };
-
 
   const pageMode = getPageMode(isTeacher, getUserId(), submissionByIdData);
 
@@ -459,7 +461,7 @@ export default function FeedbacksRoot() {
     });
   }
 
-  function handleLikeSelectedText(){
+  function handleLikeSelectedText() {
     addFeedback(submissionByIdData.id, {
       questionSerialNumber: newCommentSerialNumber,
       feedback: '',
@@ -470,8 +472,8 @@ export default function FeedbacksRoot() {
       replies: [],
       markingCriteria: [],
       sharedWithStudents: [],
-    }).then((response)=>{
-      if(response){
+    }).then((response) => {
+      if (response) {
         setCommentsByIdData([
           ...markingCriteriaFeedback,
           ...feedbackComments,
@@ -480,7 +482,7 @@ export default function FeedbacksRoot() {
         highlightByComment(response);
         setShowNewComment(false);
       }
-    })
+    });
   }
 
   function handleShortcutAddComment(commentText) {
@@ -729,7 +731,9 @@ export default function FeedbacksRoot() {
                             checkedState[classItem.id]?.students[student.id] ||
                             false
                           }
-                          disabled={submissionByIdData?.studentId === student.id}
+                          disabled={
+                            submissionByIdData?.studentId === student.id
+                          }
                           onChange={() =>
                             handleStudentCheck(classItem.id, student.id)
                           }
@@ -819,10 +823,7 @@ export default function FeedbacksRoot() {
       }
       return comment;
     });
-    setCommentsByIdData([
-      ...markingCriteriaFeedback,
-      ...updatedComments
-    ]);
+    setCommentsByIdData([...markingCriteriaFeedback, ...updatedComments]);
   }
 
   function handleReplyComment(
@@ -1068,8 +1069,6 @@ export default function FeedbacksRoot() {
     return valid;
   };
 
-
-
   function handleSubmissionReviewed() {
     setShowSubmitPopup(false);
     setMethodToCall(null);
@@ -1081,8 +1080,6 @@ export default function FeedbacksRoot() {
 
   function submitReview() {
     markSubmsissionReviewed(submissionByIdData.id).then((_) => {
-      
-
       toast(
         <Toast
           message={'Task reviewed...'}
@@ -1105,13 +1102,11 @@ export default function FeedbacksRoot() {
       resetAllDocuments();
       resetAllSubmissions();
       resetCommentBanksData();
-      console.log('teh teacher nextUrl', nextUrl)
+      console.log('teh teacher nextUrl', nextUrl);
 
-      history.push('/#');
+      navigate('/#');
     });
   }
-
-  
 
   function submitMarkingCriteriaFeedback(
     question,
@@ -1125,14 +1120,12 @@ export default function FeedbacksRoot() {
 
     const updateLocalFeedbackState = (response) => {
       setCommentsByIdData((prevComments) => {
-        
         const otherComments = prevComments.filter(
           (comment) => comment.type !== 'MARKING_CRITERIA'
         );
         const markingCriteriaComments = prevComments.filter(
           (comment) => comment.type === 'MARKING_CRITERIA'
         );
-
 
         const updatedMarkingCriteriaComments = markingCriteriaComments.map(
           (comment) => {
@@ -1143,13 +1136,11 @@ export default function FeedbacksRoot() {
           }
         );
 
-
         if (
           !markingCriteriaComments.find((comment) => comment.id === response.id)
         ) {
           updatedMarkingCriteriaComments.push(response);
         }
-
 
         return [...otherComments, ...updatedMarkingCriteriaComments];
       });
@@ -1178,14 +1169,12 @@ export default function FeedbacksRoot() {
     }
   }
 
-
   function handleRequestResubmission() {
     setShowSubmitPopup(false);
     setMethodToCall(null);
     setPopupText('');
     if (validateMarkingCriteria()) {
       markSubmissionRequestSubmission(submissionByIdData?.id).then((_) => {
-        
         toast(
           <Toast
             message={'Resubmission requested...'}
@@ -1205,8 +1194,8 @@ export default function FeedbacksRoot() {
         resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        
-        history.push('/#');
+
+        navigate('/#');
       });
     }
   }
@@ -1228,13 +1217,8 @@ export default function FeedbacksRoot() {
         }
       })
       .catch((err) => {
-        toast(
-          <Toast
-            message={`Error adding feedback: ${err.message}`}
-          />
-        );
-        
-      });;
+        toast(<Toast message={`Error adding feedback: ${err.message}`} />);
+      });
   };
 
   const updateOverAllFeedback = (feedbackId, feedbackText, audio) => {
@@ -1277,8 +1261,6 @@ export default function FeedbacksRoot() {
       const quill = quillRefs.current[0];
       // console.log("Get text", quill.getText());
       submitAssignment(submissionByIdData.id).then((_) => {
-        
-
         toast(
           <Toast
             message={'Task submitted...'}
@@ -1297,7 +1279,7 @@ export default function FeedbacksRoot() {
         resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        history.push('/tasks');
+        navigate('/tasks');
         setShowLoader(false);
       });
     }, 4000);
@@ -1321,8 +1303,6 @@ export default function FeedbacksRoot() {
     toast(<Toast message={'Submitting task...'} />);
     setTimeout(() => {
       markSubmsissionClosed(submissionByIdData?.id).then((_) => {
-        
-
         toast(
           <Toast
             message={'Task completed...'}
@@ -1341,7 +1321,7 @@ export default function FeedbacksRoot() {
         resetAllDocuments();
         resetAllSubmissions();
         resetCommentBanksData();
-        history.push('/#');
+        navigate('/#');
         setShowLoader(false);
       });
     }, 4000);
@@ -1589,7 +1569,6 @@ export default function FeedbacksRoot() {
     );
   }
 
-
   const hideSubmitPopup = () => {
     setShowSubmitPopup(false);
   };
@@ -1622,12 +1601,13 @@ export default function FeedbacksRoot() {
       const currentFocusAreas = question?.focusAreas || [];
       const selectedFocusAreas = groupedFocusAreaIds[index + 1] || [];
 
-      const allSelfAssessmentUsed = currentFocusAreas.every(fa => selectedFocusAreas.includes(fa.id))      
+      const allSelfAssessmentUsed = currentFocusAreas.every((fa) =>
+        selectedFocusAreas.includes(fa.id)
+      );
 
-      if (
-        !allSelfAssessmentUsed
-      ) {
-      errorMessage = 'Some self-assessment areas are not selected. Do you want to submit?';
+      if (!allSelfAssessmentUsed) {
+        errorMessage =
+          'Some self-assessment areas are not selected. Do you want to submit?';
         valid = false;
         break; // Stop iterating
       }
@@ -1650,7 +1630,6 @@ export default function FeedbacksRoot() {
     }
   };
 
-
   const proceedToSave = () => {
     showSubmitPopuphandler('SubmitForReview');
     setShowFocusArePopUpText('');
@@ -1662,7 +1641,6 @@ export default function FeedbacksRoot() {
     setShowFocusArePopUp(false);
   };
 
-  
   const jeddAI = (includeFeedbackMethods) => {
     const q = quillRefs.current[0];
     const args = [submissionByIdData?.id, q?.getText()];
@@ -1700,7 +1678,6 @@ export default function FeedbacksRoot() {
     });
   };
 
-  
   function updateMarkingCriteria(id, markingCriteria) {
     setCurrentMarkingCriteria(markingCriteria);
   }
@@ -1709,35 +1686,37 @@ export default function FeedbacksRoot() {
   }
 
   function handleMarkingCriteriaPreview(id) {
-    setMarkingCriteriaPreviewDialog(Object.keys(currentMarkingCriteria).length > 0);
+    setMarkingCriteriaPreviewDialog(
+      Object.keys(currentMarkingCriteria).length > 0
+    );
   }
   function handleCommentBankPreview() {
     setCommentBankPreviewDialog(currentCommentBank?.smartComments?.length > 0);
   }
 
-  function handleAcceptFeedbackRequest(submissionId){
+  function handleAcceptFeedbackRequest(submissionId) {
     acceptFeedbackRequest(submissionId)
-    .then((response)=>{
-      setSubmissionByIdData((prev)=>({
-        ...prev,
-        reviewerId: response.reviewerId,
-        reviewerName: response.reviewerName,
-        status: response.status,
-        feedbackRequestAcceptedAt: response.feedbackRequestAcceptedAt,
-        reviewerName: response.reviewerName
-      }));
-    })
-    .catch((error) => {
-      console.log('Error accepting feedback request:', error);
-      resetSubmissionByIdData();
-      toast(
-        <Toast
-          message={
-            'This feedback request has already been accepted by another teacher.'
-          }
-        />
-      );
-    });
+      .then((response) => {
+        setSubmissionByIdData((prev) => ({
+          ...prev,
+          reviewerId: response.reviewerId,
+          reviewerName: response.reviewerName,
+          status: response.status,
+          feedbackRequestAcceptedAt: response.feedbackRequestAcceptedAt,
+          reviewerName: response.reviewerName,
+        }));
+      })
+      .catch((error) => {
+        console.log('Error accepting feedback request:', error);
+        resetSubmissionByIdData();
+        toast(
+          <Toast
+            message={
+              'This feedback request has already been accepted by another teacher.'
+            }
+          />
+        );
+      });
   }
 
   const isResetEditorTextSelection = () => {
@@ -1747,7 +1726,6 @@ export default function FeedbacksRoot() {
     setSelectedText(null);
     setShowNewComment(false);
   };
-
 
   const methods = {
     comments: feedbackComments,

@@ -151,7 +151,7 @@ function HandWritten({
     return (
       <TabPart>
         <TabNumber>
-          <TabNumberText active={active}>{number}</TabNumberText>
+          <TabNumberText $active={active}>{number}</TabNumberText>
         </TabNumber>
         <TabText active={active}>{text}</TabText>
       </TabPart>
@@ -177,7 +177,7 @@ function HandWritten({
                 aria-label="lab API tabs example"
               >
                 <StyledTab
-                  isDisabled={isUploadTabDisabled(isUpdatingHandWrittenFiles)}
+                  $isDisabled={isUploadTabDisabled(isUpdatingHandWrittenFiles)}
                   label={
                     <LabelContainer
                       number="1"
@@ -188,7 +188,7 @@ function HandWritten({
                   value="1"
                 />
                 <StyledTab
-                  isDisabled={isOrderTabDisabled(files.length, isUpdatingHandWrittenFiles)}
+                  $isDisabled={isOrderTabDisabled(files.length, isUpdatingHandWrittenFiles)}
                   label={
                     <LabelContainer
                       number="2"
@@ -199,7 +199,7 @@ function HandWritten({
                   value="2"
                 />
                 <StyledTab
-                    isDisabled={isPreviewTabDisabled(files.length, isUpdatingHandWrittenFiles)}
+                    $isDisabled={isPreviewTabDisabled(files.length, isUpdatingHandWrittenFiles)}
                     label={
                       <LabelContainer
                         number="3"

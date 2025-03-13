@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import Radio from '@mui/material/Radio';
 import {
@@ -48,7 +48,6 @@ import { toast } from 'react-toastify';
 import Toast from '../Toast';
 import Header from '../Header2';
 import { goToNewUrl } from '../FeedbacksComponents/FeedbacksRoot/functions';
-import { useHistory } from 'react-router-dom';
 import { useClassData } from '../state/hooks';
 import CopyLinkDialog from '../../components2/CopyLinkDialog';
 
@@ -94,7 +93,7 @@ export default function CreateAssignment(props) {
   nextSubmission(assignmentId).then((res) => {
     console.log("res " + res)
     if (res !== undefined && res !== null)
-      history.push(`/submissions/${res}`);
+      navigate(`/submissions/${res}`);
   }).catch((error) => {
     console.log(error);
   });
@@ -123,7 +122,7 @@ export default function CreateAssignment(props) {
     mobileView ? 'Select' : 'Select Comment Bank'
   );
   const [pendingLocation, setPendingLocation] = React.useState(null);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const getStudentById = (id) => {
     return Object.values(allClassStudents)
@@ -147,7 +146,7 @@ export default function CreateAssignment(props) {
   
 
   React.useEffect(() => {
-    unblockRef.current = history.block((location, action) => {
+    unblockRef.current = navigate.block((location, action) => {
       if (assignment.status === 'DRAFT' && isChanged) {
         setPendingLocation(location);
         setSaveAsDraftPopup(true);
@@ -161,7 +160,7 @@ export default function CreateAssignment(props) {
         unblockRef.current();
       }
    };
-  }, [history, isChanged]);
+  }, [navigate, isChanged]);
   React.useEffect(() => {
     Promise.all([
       getClasses(),
@@ -493,7 +492,7 @@ export default function CreateAssignment(props) {
         });
 
         toast(<Toast message={'Task saved'} />);
-        if (pendingLocation)  goToNewUrl(pendingLocation, history, unblockRef);
+        if (pendingLocation)  goToNewUrl(pendingLocation, navigate, unblockRef);
         return;
       } else {
         toast(<Toast message={'Could not save task'} />);
@@ -721,7 +720,7 @@ export default function CreateAssignment(props) {
       deleteAssignment(assignment.id).then((res) => {
         if (res.status === 'DELETED') {
           toast(<Toast message={'Task deleted'} />);
-          history.push('/#')
+          navigate('/#')
         } else {
           toast(<Toast message={'Task deletion failed'} />);
           return;
@@ -853,7 +852,7 @@ export default function CreateAssignment(props) {
     setSaveAsDraftPopup(false);
   };
   const cancelSaveAsDraftPopup = () => {
-    if (pendingLocation) goToNewUrl(pendingLocation, history, unblockRef);
+    if (pendingLocation) goToNewUrl(pendingLocation, navigate, unblockRef);
     setSaveAsDraftPopup(false);
   };
   const showPublishPopuphandler = (assignmentId) => {

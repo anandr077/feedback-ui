@@ -1,10 +1,9 @@
 import { default as React } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router';
 import {
   nextSubmission,
   startSubmission
 } from '../../../service';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { getUserRole } from '../../../userLocalDetails';
 
 
@@ -12,22 +11,22 @@ import { getUserRole } from '../../../userLocalDetails';
 
 export default function TaskDetail() {
   const { assignmentId } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const role = getUserRole();
   if (role === 'TEACHER') {
     nextSubmission(assignmentId).then((res) => {
       console.log("res " + res)
       if (res !== undefined && res !== null)
-        history.push(`/submissions/${res}`);
+        navigate(`/submissions/${res}`);
       else
-        history.push(`/tasks/${assignmentId}`);
+        navigate(`/tasks/${assignmentId}`);
     }).catch((error) => {
       console.log(error);
     });
   } else {
     startSubmission({ assignmentId: assignmentId }).then((res) => {
-      history.push(`/submissions/${res.id}`);
+      navigate(`/submissions/${res.id}`);
     });
   }
   return <></>

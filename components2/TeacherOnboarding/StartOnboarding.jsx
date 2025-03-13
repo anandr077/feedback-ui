@@ -8,11 +8,11 @@ import {
   PageName,
   PageIcon,
 } from './startOnboardingStyle';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useNavigate } from 'react-router';
 import { welcomeOnboardingPages } from './onboardingContents';
 
 const StartOnboarding = ({ onCloseOnboarding }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <MainContainer>
@@ -22,7 +22,7 @@ const StartOnboarding = ({ onCloseOnboarding }) => {
           {welcomeOnboardingPages.map((page) => (
             <Page
               onClick={() => {
-                history.push(page.link), onCloseOnboarding();
+                navigate(page.link), onCloseOnboarding();
               }}
             >
               <PageIcon src={page.icon} />

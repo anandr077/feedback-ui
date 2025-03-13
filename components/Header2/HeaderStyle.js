@@ -1,6 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 export const MainContainer = styled.div`
   height: 68px;
@@ -50,13 +49,13 @@ export const TitleMain = styled(Link)`
   font-family: IBM Plex Sans;
   font-size: 19px;
   font-weight: 400;
-  font-weight: ${props => props.darkBackground ? '500' : '400'};
+  font-weight: ${props => props.$darkBackground ? '500' : '400'};
   line-height: 24.7px;
   letter-spacing: -0.01em;
   text-align: left;
   text-decoration: none;
-  color: ${props => props.darkBackground ? '#4b464f' : '#7b7382'};
-  cursor: ${props => props.darkBackground ? 'default' : 'pointer'};
+  color: ${props => props.$darkBackground ? '#4b464f' : '#7b7382'};
+  cursor: ${props => props.$darkBackground ? 'default' : 'pointer'};
 `;
 
 export const RightSide = styled.div`

@@ -3,7 +3,7 @@ import {
   assignmentsHeaderProps,
   taskHeaderProps,
 } from '../../../utils/headerProps.js';
-import { isTeacher } from '.';
+import { isTeacher } from './rules';
 
 export const ActionButtonsContainer = styled.div`
   display: flex;
@@ -234,7 +234,9 @@ const feedbacksFrame13172Data = {
 };
 export const feedbacksFeedbackTeacherLaptopData = (classData) => {
   return {
-    headerProps: isTeacher ? assignmentsHeaderProps(classData) : taskHeaderProps(classData),
+    headerProps: isTeacher
+      ? assignmentsHeaderProps(classData)
+      : taskHeaderProps(classData),
     physicsThermodyna: 'Physics - thermodynamics assignment questions',
     frame1284: '/img/frame-1284@2x.png',
     q1PoremIpsumDolo:
@@ -261,8 +263,5 @@ export const feedbacksFeedbackTeacherLaptopData = (classData) => {
     commentCard33Props: feedbacksCommentCard323Data,
     commentCard34Props: feedbacksCommentCard324Data,
     frame1317Props: feedbacksFrame13172Data,
-  }
+  };
 };
-
-
-

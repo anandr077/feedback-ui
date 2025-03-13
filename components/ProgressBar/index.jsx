@@ -32,8 +32,8 @@ export default function ProgressBar({
     <div className="progress-bar-container">
       {heading()}
       {isProgressBar && (
-        <div class="progress-container">
-          <div class="progress-bar" style={{ width: `${percentage}%` }}></div>
+        <div className="progress-container">
+          <div className="progress-bar" style={{ width: `${percentage}%` }}></div>
         </div>
       )}
     </div>

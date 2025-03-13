@@ -47,10 +47,10 @@ export const TabNumberText = styled.div`
   font-weight: 700;
   line-height: 14.52px;
   text-align: center;
-  background: ${(props) => (props.active ? '#7200e0' : '#ffffff')};
-  color: ${(props) => (props.active ? '#ffffff' : '#918B97')};
+  background: ${(props) => (props.$active ? '#7200e0' : '#ffffff')};
+  color: ${(props) => (props.$active ? '#ffffff' : '#918B97')};
   border: ${(props) =>
-    props.active ? '1.5px solid #7200e0' : '1.5px solid #918B97'};
+    props.$active ? '1.5px solid #7200e0' : '1.5px solid #918B97'};
   border-radius: 50%;
   width: 100%;
   height: 100%;
@@ -65,7 +65,7 @@ export const TabText = styled.div`
   font-weight: 500;
   line-height: 24px;
   text-align: left;
-  color: ${(props) => (props.active ? '#7200e0' : '#918B97')};
+  color: ${(props) => (props.$active ? '#7200e0' : '#918B97')};
 `;
 
 export const StyledTabPanel = styled(TabPanel)`
@@ -80,7 +80,7 @@ export const NoPreviewText = styled.h1`
   line-height: 24px;
   text-align: center;
   margin-top: 20px;
-  color: ${(props) => (props.active ? '#7200e0' : '#918B97')};
+  color: ${(props) => (props.$active ? '#7200e0' : '#918B97')};
 `;
 
 export const StyledMainTabList = styled(TabList)`
@@ -154,8 +154,8 @@ export const ConvertingText = styled.div`
 export const StyledTab = styled(Tab)`
   text-transform: none !important;
   font-family: IBM Plex Sans !important;
-  pointer-events: ${props => props.isDisabled ? 'none' : 'auto'};
-  opacity: ${props => props.isDisabled ? 0.4 : 1};
+  pointer-events: ${props => props.$isDisabled ? 'none' : 'auto'};
+  opacity: ${props => props.$isDisabled ? 0.4 : 1};
 `;
 
 export const UploadFilesContainer = styled.div`
